@@ -136,3 +136,18 @@ test("outdoor candidate width wording is not home-specific", () => {
   assert.ok(parameters.some((value) => value.includes("průchodnost v místě použití")));
   assert.ok(parameters.every((value) => !value.includes("průchodům doma")));
 });
+
+
+test("professional-check branch never returns products or acquisition prompts", () => {
+  const result = recommendMobility({
+    environment: "both",
+    supportNeed: "person_assist",
+    handBrakes: "yes",
+    duration: "short_term"
+  });
+
+  assert.equal(result.status, "professional_check");
+  assert.deepEqual(result.recommendations, []);
+  assert.deepEqual(result.acquisition, []);
+  assert.match(result.nextStep, /online poradce tady nemá vybírat konkrétní chodítko/i);
+});

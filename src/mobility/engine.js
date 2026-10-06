@@ -141,9 +141,14 @@ export function recommendMobility(input = {}) {
     "správná výška a možnost nastavení",
     "celková šířka vzhledem k průchodům doma",
     "nosnost výrobku",
-    "hmotnost a manipulace",
-    "stabilita a způsob brzdění podle konkrétního typu"
+    "hmotnost a manipulace"
   ];
+
+  if (environment === "outdoor" || environment === "both") {
+    parameters.push("stabilita a způsob bezpečného používání brzd");
+  } else {
+    parameters.push("stabilita a způsob posouvání chodítka při chůzi");
+  }
 
   if (seatNeeded) parameters.push("sedátko a bezpečné použití při odpočinku");
   if (transportNeed) parameters.push("skládání a rozměry pro převoz");

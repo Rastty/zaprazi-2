@@ -8,7 +8,7 @@ test("mobility catalog product ids are unique", () => {
   assert.equal(new Set(ids).size, ids.length);
 });
 
-test("every production candidate has evidence and no invented affiliate URL", () => {
+test("every catalog item has evidence and no invented affiliate URL", () => {
   for (const product of MOBILITY_PRODUCTS) {
     assert.ok(product.evidence.length > 0);
     for (const offer of product.offers) {
@@ -18,7 +18,7 @@ test("every production candidate has evidence and no invented affiliate URL", ()
   }
 });
 
-test("outdoor engine shortlist resolves to catalog products", () => {
+test("outdoor engine shortlist resolves to production-eligible rollator products", () => {
   const result = recommendMobility({
     environment: "outdoor",
     supportNeed: "steady",
@@ -30,6 +30,7 @@ test("outdoor engine shortlist resolves to catalog products", () => {
 
   assert.equal(products.length, ids.length);
   assert.ok(products.every((product) => product.solutionFamily === "rollator"));
+  assert.ok(products.every((product) => product.productionEligible === true));
 });
 
 test("indoor no-lift shortlist resolves only to two-wheel walker", () => {
@@ -43,4 +44,18 @@ test("indoor no-lift shortlist resolves only to two-wheel walker", () => {
   const products = getMobilityProducts(ids);
 
   assert.deepEqual(products.map((product) => product.id), ["besco-wa21"]);
+});
+
+test("identity-conflict products are excluded from runtime shortlist", () => {
+  const products = getMobilityProducts(["besco-wa78"]);
+  assert.deepEqual(products, []);
+});
+
+test("all runtime-resolvable catalog products are production eligible", () => {
+  const eligibleIds = MOBILITY_PRODUCTS
+    .filter((product) => product.productionEligible)
+    .map((product) => product.id);
+
+  const products = getMobilityProducts(eligibleIds);
+  assert.ok(products.every((product) => product.productionEligible === true));
 });

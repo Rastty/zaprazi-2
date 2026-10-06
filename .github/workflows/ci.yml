@@ -48,5 +48,6 @@ jobs:
           php -l footer.php
           php -l front-page.php
           php -l index.php
+          php -l archive.php
           php -l single.php
           php -l page.php

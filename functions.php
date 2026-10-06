@@ -166,9 +166,11 @@ function zaprazi_2_front_title( $title ) {
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
 
 function zaprazi_2_wpseo_title( $title ) {
-  return is_front_page()
-    ? 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi'
-    : $title;
+  if ( is_front_page() ) {
+    return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
+  }
+
+  return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
 }
 add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
 
@@ -223,3 +225,18 @@ function zaprazi_2_guard_legacy_loop_external_cta( $html, $product, $args ) {
   return '<span class="button zp-legacy-offer-unverified" aria-disabled="true">Původní nabídka se ověřuje</span>';
 }
 add_filter( 'woocommerce_loop_add_to_cart_link', 'zaprazi_2_guard_legacy_loop_external_cta', 20, 3 );
+
+
+function zaprazi_2_wpseo_schema_website( $data ) {
+  if ( is_array( $data ) ) {
+    $data['name'] = 'ZaPrazi.cz';
+    $data['description'] = 'Bezpečně a samostatně doma.';
+  }
+  return $data;
+}
+add_filter( 'wpseo_schema_website', 'zaprazi_2_wpseo_schema_website', 20 );
+
+function zaprazi_2_wpseo_og_site_name( $name ) {
+  return 'ZaPrazi.cz';
+}
+add_filter( 'wpseo_opengraph_site_name', 'zaprazi_2_wpseo_og_site_name', 20 );

@@ -67,3 +67,24 @@ Before considering analytics live:
 5. confirm page view,
 6. run Advisor and confirm only generic event names,
 7. inspect network payloads to ensure no questionnaire answers/IDs appear.
+
+
+## Public transparency page
+
+ZaPrazi exposes:
+`/ochrana-soukromi/`
+
+The page explains in Czech:
+- Advisor answers remain local to the page logic,
+- GA4 loads only after explicit opt-in,
+- the exact generic funnel event names that may be measured,
+- that product/merchant IDs and derived profiles are excluded,
+- that GA4 may use standard first-party identifiers and technical visit information after consent,
+- how to reopen measurement settings and revoke consent.
+
+Official Google references used for the general GA4 description:
+- https://support.google.com/analytics/answer/6004245?hl=cs
+- https://support.google.com/analytics/answer/11593727
+- https://support.google.com/analytics/answer/11397207?hl=cs
+
+The public page is a technical transparency explanation of the current ZaPrazi implementation, not a substitute for legal advice.

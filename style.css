@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.7.0
+Version: 0.7.1
 Text Domain: zaprazi-2
 */
 
@@ -174,3 +174,22 @@ a{color:inherit}
   .zp-post-nav{grid-template-columns:1fr}
   .zp-post-nav>div:last-child{text-align:left}
 }
+
+/* WooCommerce legacy compatibility */
+.zp-woocommerce-shell{padding:52px 0 72px}
+.zp-woocommerce-shell .woocommerce-products-header__title,
+.zp-woocommerce-shell .product_title{font-size:clamp(2rem,4vw,3.4rem);line-height:1.05}
+.zp-woocommerce-shell ul.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin:24px 0;padding:0}
+.zp-woocommerce-shell ul.products li.product{width:auto!important;float:none!important;margin:0!important;background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:16px;padding:14px}
+.zp-woocommerce-shell ul.products li.product img,
+.zp-woocommerce-shell .woocommerce-product-gallery img{max-width:100%;height:auto}
+.zp-woocommerce-shell .price{color:var(--zp-accent);font-weight:800}
+.zp-woocommerce-shell .button,
+.zp-woocommerce-shell button.button,
+.zp-woocommerce-shell input.button{border-radius:999px!important;background:var(--zp-accent)!important;color:#fff!important;min-height:44px;padding:.7rem 1rem!important}
+.zp-woocommerce-shell table.shop_table{display:block;max-width:100%;overflow-x:auto}
+.zp-woocommerce-shell .woocommerce-message,
+.zp-woocommerce-shell .woocommerce-info,
+.zp-woocommerce-shell .woocommerce-error{border-radius:12px;background:#fff}
+@media(max-width:900px){.zp-woocommerce-shell ul.products{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.zp-woocommerce-shell ul.products{grid-template-columns:1fr}}

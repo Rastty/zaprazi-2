@@ -5,6 +5,10 @@ function zaprazi_2_setup() {
   add_theme_support('title-tag');
   add_theme_support('post-thumbnails');
   add_theme_support('html5', array('search-form','gallery','caption','style','script'));
+  add_theme_support('woocommerce');
+  add_theme_support('wc-product-gallery-zoom');
+  add_theme_support('wc-product-gallery-lightbox');
+  add_theme_support('wc-product-gallery-slider');
   register_nav_menus(array(
     'primary' => __('Hlavní menu', 'zaprazi-2'),
   ));

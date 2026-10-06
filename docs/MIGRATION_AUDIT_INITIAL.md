@@ -83,3 +83,51 @@ Until the authenticated inventory exists **and** traffic evidence is available f
 - no repurpose unless the old and new intent are genuinely aligned.
 
 The new Mobility slice may launch without destructive migration because existing legacy URLs remain intact and readable.
+
+
+## Authenticated inventory findings — 2026-10-06
+
+WPVibe read-only database evidence now confirms:
+- **4,360 published posts**,
+- **4 published pages**,
+- permalink structure `/%postname%/`,
+- **1,134 published WooCommerce products**,
+- 0 legacy shop orders in the classic `shop_order` post type,
+- WooCommerce pages: Shop 178, Cart 179, Checkout 180, My Account 181.
+
+Largest post categories:
+- Tepelná čerpadla a fotovoltaika — 2,014,
+- zařízení — 962,
+- Čerpadla a domácí vodárny — 566,
+- Ventilátory — 508,
+- Podzemní nádrže — 93,
+- Nábytek pro zdravotnictví — 89,
+- Úklid — 59.
+
+### Mobility / home-independence overlap review
+
+A broad slug search across all published posts returned 36 keyword candidates, but most are false positives such as hospital-energy articles and electromobility.
+
+The 89-post `Nábytek pro zdravotnictví` category is overwhelmingly B2B content about clinics, dental practices and institutional furniture, not home independence.
+
+Sample content review:
+- ID 4181, bezbariérový zdravotnický nábytek — institutional/B2B intent; do not repurpose into a home-accessibility page.
+- ID 3620, bezpečný zdravotnický nábytek — institutional/B2B intent; do not repurpose as a home-safety page.
+- ID 3638, bezpečné stoly pro děti a seniory — closest semantic overlap, but mixed with legacy hotel/restaurant affiliate intent; **REPURPOSE_REVIEW only**, full rewrite required.
+- IDs 113 and 817, generic bed-buying articles — generic sleep/furniture intent, not adjustable-bed/home-care intent; **MERGE_REVIEW only** for a future bed slice if traffic/backlink evidence supports it.
+- bathroom articles IDs 3153/3175/3195 — cleaning/minimalism intent, not accessibility; do not repurpose as safe-bathroom pages.
+
+Conclusion:
+The new Mobility slice has no meaningful pre-existing content cluster that should block launch. Legacy overlap candidates remain protected until GSC/backlink evidence exists.
+
+### WooCommerce preservation guardrail
+
+The 1,134 published products are a separate legacy surface. Even with no recorded classic shop orders, their URLs may carry indexation or backlinks.
+
+Before theme activation:
+- product archive must render,
+- a sample product must render,
+- cart/account routes must not fatal,
+- no product URLs are deleted or redirected.
+
+ZaPrazi 2.0 RC therefore includes explicit WooCommerce theme support and a compatibility wrapper.

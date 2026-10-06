@@ -188,16 +188,22 @@ RC behavior:
 - keep conditional compatibility + broken-link guards ready if WooCommerce is intentionally reactivated later.
 
 ### ZP-014 Analytics transition
-Status: **READY_FOR_POST_LAUNCH_INTEGRATION**
+Status: **READY_DEPLOY_STRICT_OPT_IN**
 
 Evidence:
-- Prometheus has existing GA4 stream `G-WM86QVXVST`,
-- current live ZaPrazi page head contains no GA4/gtag,
-- activating the new theme therefore does not remove an active GA tag.
+- existing GA4 stream `G-WM86QVXVST` is reused,
+- no duplicate GA4 property is created,
+- GA4 script is not loaded before explicit user consent,
+- denial keeps analytics completely unloaded,
+- consent can be changed later from the footer,
+- only generic pageviews and whitelisted Advisor funnel event names are forwarded,
+- questionnaire answers, recommendation/product IDs, merchant IDs and derived profiles are excluded from the analytics adapter.
 
-Next:
-- do not create a duplicate GA4 property,
-- connect generic Advisor events only through a consent-aware implementation.
+Post-deploy:
+- smoke both consent choices,
+- verify no Google request before consent,
+- verify one page_view after consent,
+- verify generic Advisor events in GA4 DebugView/Realtime when account access is available.
 
 
 ### ZP-015 High-intent SEO acquisition pages

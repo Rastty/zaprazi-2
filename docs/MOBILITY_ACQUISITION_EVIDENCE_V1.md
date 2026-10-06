@@ -15,22 +15,29 @@ These are separate facts and must not be collapsed into one "buy" CTA.
 
 ## MEYRA Ideal Rollator 3061982
 
-Manufacturer current claim:
-- ZP code: **07-5005963**
-- manufacturer states full reimbursement,
-- manufacturer states no revision-doctor approval,
-- manufacturer lists eligible prescribing specialties.
+Current manufacturer claim:
+- ZP code: **07-5005963**,
+- full reimbursement,
+- no revision-doctor approval,
+- eligible prescribing specialties are listed,
+- current manufacturer page shows retail price **3 408 Kč**, reimbursement **3 408 Kč**, copay **0 Kč**.
 
 Source:
 https://www.meyra.cz/ctyrkolove-choditko-rollator.html
 
-Boundary:
-This is a current manufacturer claim, not an individual entitlement decision and not a substitute for the current monthly SÚKL record.
+### Verification boundary
 
-ZaPrazi therefore does **not** display an exact reimbursement amount as official until the exact current record is independently verified in the valid monthly SÚKL list.
+The SÚKL official list page confirms that the published Seznam ZP contains reimbursed devices, maximum prices and reimbursement conditions and is valid for the following calendar month.
 
 Official list landing page:
 https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/
+
+The current ISZP list is JavaScript-driven and the exact official monthly row for code 07-5005963 was not independently retrieved in this research pass.
+
+Therefore:
+- the 3 408 / 3 408 / 0 figures remain **manufacturer-current-claim data**,
+- ZaPrazi must not label them as an official current SÚKL amount,
+- exact official amount/coplay remains hidden in production until the current monthly row is verified directly.
 
 ## Rental example
 
@@ -47,7 +54,7 @@ This is shown as a **verified rental example with availability check**, not as n
 
 ## Code safety gate
 
-Any future exact reimbursement amount or copay in production data must include:
+Any future exact reimbursement amount or copay presented as official production data must include:
 1. source type `official_sukl_monthly`,
 2. exact official source URL,
 3. validity period,

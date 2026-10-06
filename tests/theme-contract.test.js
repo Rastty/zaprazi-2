@@ -253,3 +253,27 @@ test("GA4 loads only after explicit consent and receives only whitelisted generi
   assert.doesNotMatch(analytics, /handBrakes/);
   assert.doesNotMatch(advisor, /gtag\(/);
 });
+
+
+test("privacy page transparently documents strict opt-in analytics without Advisor answers", () => {
+  const functions = read("functions.php");
+  const footer = read("footer.php");
+  const privacy = read("page-ochrana-soukromi.php");
+
+  assert.match(functions, /zaprazi_resource_pages_v3/);
+  assert.match(functions, /'ochrana-soukromi' => array/);
+  assert.match(functions, /page-ochrana-soukromi\.php/);
+  assert.doesNotMatch(functions, /wp_update_post\(/);
+
+  assert.match(footer, /\/ochrana-soukromi\//);
+  assert.match(footer, /Podrobnosti/);
+
+  assert.match(privacy, /Google Analytics se nenačte, dokud ho nepovolíte/);
+  assert.match(privacy, /Odpovědi neposíláme do analytiky/);
+  assert.match(privacy, /builder_start/);
+  assert.match(privacy, /merchant_click/);
+  assert.match(privacy, /zaprazi_analytics_consent_v1/);
+  assert.match(privacy, /_ga/);
+  assert.match(privacy, /Google Signals/);
+  assert.match(privacy, /personalizaci reklam/);
+});

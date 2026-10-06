@@ -240,6 +240,8 @@ if (form && result && submitButton && errorBox) {
         section.querySelectorAll('input[type="radio"]').forEach((input) => {
           input.checked = false;
         });
+        section.classList.remove("is-error");
+        section.removeAttribute("aria-invalid");
       }
     });
   };

@@ -243,8 +243,8 @@ add_filter( 'wpseo_opengraph_site_name', 'zaprazi_2_wpseo_og_site_name', 20 );
 
 
 /**
- * Legacy posts were imported with whole HTML documents embedded inside post_content.
- * Clean only the invalid document wrapper at render time; never mutate stored content.
+ * Legacy posts were imported with generated whole HTML documents appended to
+ * otherwise useful post_content. Clean only at render time; never mutate storage.
  */
 function zaprazi_2_sanitize_legacy_document_markup( $content ) {
   if ( is_admin() || ! is_singular( 'post' ) ) {
@@ -261,6 +261,23 @@ function zaprazi_2_sanitize_legacy_document_markup( $content ) {
   }
 
   $original = $content;
+  $doctype_position = stripos( $content, '<!doctype html' );
+
+  if ( false !== $doctype_position && $doctype_position > 0 ) {
+    $prefix = substr( $content, 0, $doctype_position );
+    $tail = substr( $content, $doctype_position );
+
+    $looks_like_appended_document =
+      false !== stripos( $tail, '<html' ) &&
+      false !== stripos( $tail, '<head' ) &&
+      false !== stripos( $tail, '<body' );
+
+    $prefix_text = trim( wp_strip_all_tags( $prefix ) );
+
+    if ( $looks_like_appended_document && strlen( $prefix_text ) >= 40 ) {
+      return rtrim( $prefix );
+    }
+  }
 
   $content = preg_replace( '/<!doctype\b[^>]*>/i', '', $content );
   $content = preg_replace( '/<head\b[^>]*>.*?<\/head\s*>/is', '', $content );

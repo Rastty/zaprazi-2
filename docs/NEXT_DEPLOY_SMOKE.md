@@ -1,100 +1,116 @@
-# Next Deploy Smoke — ZaPrazi 2.0 RC
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.7
 
-Run this once after deploying the latest `dev` branch. Keep the theme **inactive** until every critical item passes.
+Run after deploying the latest `dev` branch. ZaPrazi is already active; this is a post-deploy smoke, not an activation gate.
 
-## 1. Professional-check branch
+## 1. Homepage + navigation
 
-In Live Preview:
-- choose any environment,
-- choose **Často pomáhá další osoba**,
-- run the Advisor.
+Open `/`.
 
 Expected:
-- no product,
-- no merchant CTA,
-- no rent/buy/reimbursement CTA,
-- message says the online Advisor should not choose a specific walker and recommends professional/specialist verification.
+- new ZaPrazi homepage loads,
+- header links: **Poradce · Pojišťovna · Půjčení · Jak vybírat**,
+- no horizontal page scroll on mobile,
+- core navigation may scroll horizontally on a narrow screen.
 
-## 2. Legacy post
+## 2. Insurance resource
 
 Open:
-`/stoly-bezpecne-pro-deti-a-seniory-jake-jsou-kriteria-vyberu/`
+`/choditko-na-pojistovnu/`
 
 Expected:
-- one visible page title,
-- readable original article prefix,
-- generated/fake appended HTML document chrome is not rendered,
-- images do not overflow,
-- no PHP error,
-- URL unchanged.
+- page exists as a normal WordPress page,
+- title covers ePoukaz / reimbursement / 2026,
+- VZP warning says a self-purchased walker cannot be reimbursed retroactively,
+- common-walker guidance mentions GP prescribing path and max. 1 piece / 5 years with caveats,
+- October SÚKL example shows **3 408 Kč** only while the verified October record is current,
+- after 2026-10-31 the amount is explicitly historical/stale, not presented as current.
 
-## 3. Legacy category/archive
+## 3. Rental resource
 
 Open:
-`/category/nabytek-pro-zdravotnictvi/`
+`/pujceni-choditka/`
 
 Expected:
-- one archive H1,
-- article cards use H2 titles,
-- pagination works,
-- no old URL is redirected.
+- RehaKomp examples: 12 Kč/day + 360 Kč/month for four-wheel outdoor walker; 10 Kč/day + 300 Kč/month for fixed four-point walker,
+- MEYRA example: 250 Kč/week + 600 Kč/month, 1 000 Kč refundable deposit,
+- page clearly says these are provider examples, not a national tariff,
+- after 2026-11-06 prices are labeled historical until refreshed.
 
-## 4. Legacy page
+## 4. Privacy page
 
 Open:
-`/obchod/`
+`/ochrana-soukromi/`
 
 Expected:
-- renders as the existing ordinary legacy page,
-- no WooCommerce grid is expected,
-- no fatal/error.
+- explains that Advisor answers remain local,
+- lists only the five generic funnel event names,
+- explains strict opt-in GA4 and how to change consent,
+- links to Google Analytics data-protection information.
 
-Important:
-WooCommerce is currently not installed/active and the historical product rows are dormant. **Do not reinstall WooCommerce for this launch smoke.**
+## 5. Analytics — deny path
 
-## 5. Mobile homepage
+Use a fresh/incognito browser.
 
-Use the Customizer mobile preview or a narrow browser width.
+Before clicking consent:
+- no request to `googletagmanager.com/gtag/js`,
+- no GA4 request should be sent.
 
-Expected:
-- no horizontal scroll,
-- Advisor choices remain tappable,
-- missing required answers produce a visible/announced error,
-- result/product cards stack to one column,
-- footer "Starší archiv" is readable.
-
-## 6. Outdoor SÚKL branch
-
-Choose:
-- mainly outdoor,
-- steady support,
-- hand brakes: yes.
+Choose **Bez měření** and reload.
 
 Expected:
-- MEYRA Ideal 3061982,
-- official SÚKL reimbursement amount **3 408 Kč**,
-- source links to the official October 2026 SÚKL record,
-- text explicitly says individual entitlement/final copay is not guaranteed.
+- consent banner stays hidden,
+- Google Analytics still does not load.
 
-## 7. Activation decision
+## 6. Analytics — allow path
 
-Activate ZaPrazi 2.0 only if steps 1–6 pass.
+Open **Nastavení měření** in the footer and choose **Povolit měření**.
 
-Immediately after activation repeat:
-1. homepage,
-2. indoor WA21 branch,
-3. outdoor MEYRA branch,
-4. one legacy post,
-5. one legacy category,
-6. one merchant outbound link.
+Expected:
+- GA4 script loads once using `G-WM86QVXVST`,
+- page view is sent,
+- Google Signals and ad-personalization signals remain disabled.
 
-Rollback if critical:
+Run the Advisor.
+
+Allowed analytics event names only:
+- `builder_start`
+- `builder_complete`
+- `recommendation_view`
+- `product_click`
+- `merchant_click`
+
+Network payload must not contain:
+- Advisor answers,
+- environment/support choices,
+- brake/lift answers,
+- recommended product ID,
+- merchant ID,
+- derived health/mobility profile.
+
+## 7. Existing Advisor regression
+
+Quick checks:
+- indoor + steady + cannot lift → BESCO WA21 only,
+- outdoor + steady + brakes yes → MEYRA Ideal,
+- frequent physical assistance → no product/commercial path.
+
+## 8. Legacy regression
+
+Open:
+- one old article,
+- one old category/archive.
+
+Expected:
+- readable content,
+- no PHP fatal,
+- old URL unchanged.
+
+## Remaining non-deploy blockers
+
+These remain separate:
+- exact VIV publisher deeplinks / joined-account confirmation,
+- ZaPrazi Search Console access,
+- full traffic/backlink-backed legacy migration inventory.
+
+Rollback for a critical theme issue:
 **Vzhled → Šablony → Flatsome → Aktivovat**.
-
-## Not launch blockers
-
-These may remain open after RC activation:
-- exact VIVnetworks publisher deeplinks,
-- ZaPrazi Search Console property access,
-- full KEEP/MERGE/REPURPOSE/REMOVE lifecycle decisions for legacy content,
-- broader historical product link-health / WooCommerce due diligence.

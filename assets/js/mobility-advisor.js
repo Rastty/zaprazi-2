@@ -252,7 +252,9 @@ if (form && result && submitButton) {
       track("recommendation_view");
     }
 
-    const acquisition = output.status === "candidate" && output.acquisition.length
+    const hasSpecificAcquisition = getReimbursementGuidance(ids).length > 0 || getRentalGuidance(ids).length > 0;
+
+    const acquisition = output.status === "candidate" && output.acquisition.length && !hasSpecificAcquisition
       ? `<section class="zp-acquisition-summary"><h3>Obecně k způsobu získání</h3>
          <div>${output.acquisition.map((item) => `
            <article>

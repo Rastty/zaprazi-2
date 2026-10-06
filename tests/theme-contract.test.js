@@ -52,8 +52,8 @@ test("legacy post rendering strips only invalid nested document wrappers", () =>
   assert.match(functions, /is_singular\( 'post' \)/);
   assert.match(functions, /<!doctype/);
   assert.match(functions, /<head/);
-  assert.match(functions, /<\\\/?html/);
-  assert.match(functions, /<\\\/?body/);
+  assert.ok(functions.includes("$content = preg_replace( '/<\\/?html"));
+  assert.ok(functions.includes("$content = preg_replace( '/<\\/?body"));
   assert.match(functions, /add_filter\( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 \)/);
   assert.doesNotMatch(functions, /wp_update_post\([^;]+zaprazi_2_sanitize_legacy_document_markup/s);
 });

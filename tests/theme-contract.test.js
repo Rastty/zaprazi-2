@@ -294,12 +294,12 @@ test("0.8.8 deployment integrity contract covers critical runtime files", () => 
     "style.css"
   ];
 
-  assert.match(functions, /ZAPRAZI_RELEASE.*0\\.8\\.8/s);
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.8' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
     assert.match(read(path), /ZP_RELEASE_0_8_8/);
   }
-  assert.match(read("style.css"), /Version: 0\\.8\\.8/);
+  assert.ok(read("style.css").includes("Version: 0.8.8"));
 });

@@ -99,3 +99,27 @@ test("output does not echo raw answer payload", () => {
   assert.equal("input" in result, false);
   assert.equal("answers" in result, false);
 });
+
+
+test("indoor candidate uses walking-movement wording instead of brake wording", () => {
+  const result = recommendMobility({
+    environment: "indoor",
+    supportNeed: "steady",
+    canLiftWalker: "no"
+  });
+
+  const parameters = result.recommendations[0].parameters;
+  assert.ok(parameters.some((value) => value.includes("posouvání chodítka")));
+  assert.ok(parameters.every((value) => !value.includes("brzd")));
+});
+
+test("outdoor candidate includes brake-use parameter", () => {
+  const result = recommendMobility({
+    environment: "outdoor",
+    supportNeed: "steady",
+    handBrakes: "yes"
+  });
+
+  const parameters = result.recommendations[0].parameters;
+  assert.ok(parameters.some((value) => value.includes("brzd")));
+});

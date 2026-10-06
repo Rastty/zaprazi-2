@@ -12,12 +12,16 @@ Status: **PARTIAL / BLOCKED_ON_FULL_INVENTORY_AND_GSC_ACCESS**
 
 Done:
 - public first pass,
-- legacy-safe WordPress templates,
-- WPVibe connection verified,
+- authenticated counts/category/product evidence,
+- 4,360 published posts + 4 pages confirmed,
+- 1,134 published WooCommerce products confirmed,
+- semantic overlap review completed for Mobility/health/bathroom/bed candidates,
+- legacy-safe post/archive/WooCommerce templates,
+- 359 proven-broken eHub placeholder CTAs fail-closed,
 - Prometheus GSC access discovery reviewed.
 
 Current blockers:
-- WPVibe rolling daily limit prevented the full authenticated URL inventory,
+- the complete row-by-row URL inventory is not yet persisted as an authoritative artifact,
 - ZaPrazi is absent from the stored Prometheus Search Console accessible-property list (2026-07-23).
 
 Guardrail: do not destructively change legacy URLs yet.
@@ -124,7 +128,9 @@ Still required before activation:
 - deploy latest RC,
 - professional-check branch,
 - one legacy post,
-- one legacy page/archive,
+- one legacy category/archive,
+- WooCommerce shop + product,
+- proven-broken eHub product fail-closed state,
 - mobile homepage,
 - rollback confirmation.
 
@@ -137,9 +143,10 @@ Only migrate URLs with a logical relationship to the new Mobility content.
 
 Current next steps after smoke:
 - exact VIV affiliate deeplinks,
-- confirm existing GA4 stream rather than creating a duplicate,
+- connect consent-aware analytics to the existing GA4 stream rather than creating a duplicate,
 - establish ZaPrazi Search Console access,
-- relevant legacy internal links and redirects only after inventory.
+- broader legacy product link-health review,
+- relevant legacy internal links and redirects only after traffic/backlink evidence.
 
 ## P2 — Expansion gate
 
@@ -154,3 +161,30 @@ Next slices:
 ## Primary current indicator
 
 **Can a real user complete problem → Advisor → recommendation → acquisition choice → real offer → outbound click without a dead end or unsafe claim?**
+
+
+### ZP-013 Legacy commerce preservation
+Status: **DONE_CODE / PENDING_PREVIEW_SMOKE**
+
+Authenticated evidence:
+- 1,134 published WooCommerce products,
+- 1,101 external/affiliate products,
+- 359 eHub destinations contain unresolved `nazev-webu-affilbox` placeholder.
+
+RC behavior:
+- explicit WooCommerce theme support,
+- shop/product compatibility template,
+- broken placeholder CTA fail-closed,
+- other legacy external links preserved pending link-health evidence.
+
+### ZP-014 Analytics transition
+Status: **READY_FOR_POST_LAUNCH_INTEGRATION**
+
+Evidence:
+- Prometheus has existing GA4 stream `G-WM86QVXVST`,
+- current live ZaPrazi page head contains no GA4/gtag,
+- activating the new theme therefore does not remove an active GA tag.
+
+Next:
+- do not create a duplicate GA4 property,
+- connect generic Advisor events only through a consent-aware implementation.

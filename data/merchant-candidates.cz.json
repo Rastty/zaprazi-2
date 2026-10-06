@@ -1,0 +1,33 @@
+{
+  "checked_at": "2026-10-06",
+  "market": "CZ",
+  "merchants": [
+    {
+      "id": "rehabilitacni-pomucky-cz",
+      "name": "RehabilitačníPomůcky.cz",
+      "public_inventory_status": "verified_relevant",
+      "mobility_examples": ["WA17", "WA21", "WA78"],
+      "reimbursement_checkout_status": "merchant_states_no_insurer_cooperation",
+      "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
+      "production_activation": "blocked_pending_affiliate_deeplink_and_identity_smoke"
+    },
+    {
+      "id": "lekarna-cz",
+      "name": "Lékárna.cz",
+      "public_inventory_status": "verified_relevant",
+      "mobility_examples": ["MEYRA Ideal rollator merchant product 473021"],
+      "reimbursement_checkout_status": "tested_product_page_states_full_payment_no_health_aid_voucher",
+      "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
+      "production_activation": "blocked_pending_affiliate_deeplink_and_product_identity_smoke"
+    },
+    {
+      "id": "mujzdrav-cz",
+      "name": "MůjZdrav.cz",
+      "public_inventory_status": "research_required",
+      "mobility_examples": [],
+      "reimbursement_checkout_status": "unknown",
+      "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
+      "production_activation": "blocked_pending_public_inventory_and_affiliate_verification"
+    }
+  ]
+}

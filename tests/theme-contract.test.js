@@ -182,7 +182,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v2/);
+  assert.match(functions, /zaprazi_resource_pages_v3/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);

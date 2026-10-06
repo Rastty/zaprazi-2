@@ -193,3 +193,20 @@ Evidence:
 Next:
 - do not create a duplicate GA4 property,
 - connect generic Advisor events only through a consent-aware implementation.
+
+
+### ZP-015 High-intent SEO acquisition pages
+Status: **IN_PROGRESS**
+
+First page:
+- `/choditko-na-pojistovnu/`
+- intent: reimbursement / ePoukaz / current SÚKL evidence,
+- Git-first template plus one-time non-destructive WordPress page creation,
+- internal link from the homepage acquisition section,
+- Yoast title/meta override,
+- expected automatic inclusion in the normal page sitemap after creation.
+
+Next candidates after first-page smoke/indexation:
+- půjčení chodítka / rollátoru,
+- rollátor na ven vs. chodítko domů,
+- BESCO WA21 / MEYRA Ideal evidence pages only if query/CTR data justify them.

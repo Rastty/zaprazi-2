@@ -19,14 +19,14 @@
       <p>Odpovězte na několik praktických otázek. Neptáme se na diagnózu a odpovědi se v této verzi nikam neukládají.</p>
 
       <div id="zp-mobility-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-advisor-privacy">
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-required-group="environment">
           <legend>Kde člověk potřebuje oporu při chůzi?</legend>
           <label class="zp-choice"><input type="radio" name="environment" value="indoor" required><span><strong>Hlavně doma</strong><small>Byt, dům, krátké přesuny mezi místnostmi.</small></span></label>
           <label class="zp-choice"><input type="radio" name="environment" value="outdoor"><span><strong>Hlavně venku</strong><small>Delší chůze, chodníky, nerovnosti.</small></span></label>
           <label class="zp-choice"><input type="radio" name="environment" value="both"><span><strong>Doma i venku</strong><small>Jedno řešení má pomoci v obou situacích.</small></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-required-group="supportNeed">
           <legend>Jak velkou oporu při chůzi potřebuje?</legend>
           <label class="zp-choice"><input type="radio" name="supportNeed" value="light" required><span><strong>Spíš lehkou oporu</strong><small>Člověk chodí sám, ale chce větší jistotu.</small></span></label>
           <label class="zp-choice"><input type="radio" name="supportNeed" value="steady"><span><strong>Stabilní oporu při většině kroků</strong><small>Bez opory je chůze nejistá.</small></span></label>
@@ -34,14 +34,14 @@
           <label class="zp-choice"><input type="radio" name="supportNeed" value="unknown"><span><strong>Nevím</strong><small>Potřebuji se nejdřív zorientovat.</small></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-conditional="indoor" hidden>
+        <fieldset class="zp-fieldset" data-zp-conditional="indoor" data-zp-required-group="canLiftWalker" hidden>
           <legend>Pokud řešíte chodítko domů: zvládne člověk při každém kroku lehce nadzvednout a posunout celé chodítko?</legend>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="yes"><span><strong>Ano</strong><small>Mírné nadzvednutí celé pomůcky není problém.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="no"><span><strong>Ne</strong><small>Potřebuje řešení, které se posouvá po předních kolečkách.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-conditional="outdoor" hidden>
+        <fieldset class="zp-fieldset" data-zp-conditional="outdoor" data-zp-required-group="handBrakes" hidden>
           <legend>Pokud řešíte pohyb venku: zvládne člověk bezpečně používat ruční brzdy?</legend>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="yes"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="no"><span><strong>Ne</strong></span></label>
@@ -62,6 +62,7 @@
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <div id="zp-advisor-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
         <button class="zp-btn zp-submit" type="button" id="zp-mobility-submit">Zjistit vhodný další krok</button>
         <p id="zp-advisor-privacy" class="zp-privacy-note">Odpovědi z poradce se neodesílají na server a nejsou součástí adresy stránky.</p>
       </div>

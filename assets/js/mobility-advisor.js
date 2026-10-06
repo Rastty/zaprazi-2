@@ -156,7 +156,7 @@ if (form && result && submitButton && errorBox) {
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
               ${renderSources(product.evidence)}
-              ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
+              ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
               ${renderOffers(product.offers)}
             </article>
           `).join("")}
@@ -183,15 +183,27 @@ if (form && result && submitButton && errorBox) {
           </article>
         `).join("");
 
-    const reimbursementCards = reimbursement.map((item) => `
-      <article class="zp-acquisition-card">
-        <p class="zp-acquisition-label">Prověřit úhradu</p>
-        <h4>Kód ZP ${escapeHtml(item.zpCode)}</h4>
-        <p class="${item.freshnessStatus === "fresh" ? "" : "zp-stale-evidence"}">${escapeHtml(item.displayMessage)}</p>
-        <p class="zp-source-state">Zdroj tvrzení: výrobce · ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}. Přesná aktuální částka není na ZaPrazi zobrazena, dokud ji nepotvrdíme v platném měsíčním seznamu SÚKL.</p>
-        <a class="zp-link-btn" href="${escapeHtml(item.officialVerification.sourceUrl)}" target="_blank" rel="noopener">Ověřit v oficiálním seznamu SÚKL</a>
-      </article>
-    `).join("");
+    const reimbursementCards = reimbursement.map((item) => {
+      const official = item.officialVerification;
+      const amount = item.displayAmountKc === null
+        ? null
+        : new Intl.NumberFormat("cs-CZ").format(item.displayAmountKc);
+
+      return `
+        <article class="zp-acquisition-card">
+          <p class="zp-acquisition-label">Úhrada podle SÚKL</p>
+          <h4>Kód ZP ${escapeHtml(item.zpCode)}</h4>
+          <p class="${item.freshnessStatus === "fresh" ? "" : "zp-stale-evidence"}">${escapeHtml(item.displayMessage)}</p>
+          ${amount ? `<p><strong>Úhrada v aktuálním oficiálním seznamu: ${escapeHtml(amount)} Kč.</strong></p>` : ""}
+          <p class="zp-source-state">
+            Oficiální Seznam ZP SÚKL · ${official.validFor ? `platný pro ${escapeHtml(official.validFor)}` : "ověřte aktuální měsíc"} ·
+            ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}.
+            Individuální nárok ani konečný doplatek tím nejsou potvrzeny.
+          </p>
+          <a class="zp-link-btn" href="${escapeHtml(official.sourceUrl)}" target="_blank" rel="noopener">Otevřít oficiální záznam SÚKL</a>
+        </article>
+      `;
+    }).join("");
 
     return `
       <section class="zp-acquisition-evidence">

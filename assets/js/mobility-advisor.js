@@ -24,6 +24,29 @@ if (form && result) {
     return facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("");
   };
 
+  const renderOffers = (offers = []) => {
+    if (!offers.length) return "";
+
+    return `
+      <div class="zp-offers">
+        ${offers.map((offer) => {
+          const isAffiliate = Boolean(offer.affiliateUrl);
+          const rel = isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow";
+          return `
+            <div class="zp-offer">
+              <strong>${escapeHtml(offer.merchantName)}</strong>
+              <p>${escapeHtml(offer.note)}</p>
+              <a class="zp-link-btn" href="${escapeHtml(offer.affiliateUrl || offer.url)}" target="_blank" rel="${rel}">
+                ${isAffiliate ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}
+              </a>
+              ${isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
+            </div>
+          `;
+        }).join("")}
+      </div>
+    `;
+  };
+
   const renderProducts = (products) => {
     if (!products.length) return "";
 
@@ -32,28 +55,19 @@ if (form && result) {
         <h3>Ověřené výrobky k porovnání</h3>
         <p class="zp-muted-copy">Nejde o potvrzení individuální zdravotní vhodnosti. Shortlist vychází z praktických odpovědí a ověřených technických údajů.</p>
         <div class="zp-product-grid">
-          ${products.map((product) => {
-            const offer = product.offers[0];
-            return `
-              <article class="zp-product-card">
-                <p class="zp-product-family">${escapeHtml(product.solutionFamily)}</p>
-                <h4>${escapeHtml(product.name)}</h4>
-                <ul class="zp-facts">${productFacts(product)}</ul>
-                <details>
-                  <summary>Co ještě ověřit</summary>
-                  <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
-                </details>
-                ${product.facts.suklCode ? `<p class="zp-sukl">SÚKL kód uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
-                ${offer ? `
-                  <div class="zp-offer">
-                    <strong>${escapeHtml(offer.merchantName)}</strong>
-                    <p>${escapeHtml(offer.note)}</p>
-                    <a class="zp-link-btn" href="${escapeHtml(offer.affiliateUrl || offer.url)}" target="_blank" rel="noopener nofollow">Zobrazit produkt u obchodníka</a>
-                  </div>
-                ` : ""}
-              </article>
-            `;
-          }).join("")}
+          ${products.map((product) => `
+            <article class="zp-product-card">
+              <p class="zp-product-family">${escapeHtml(product.solutionFamily)}</p>
+              <h4>${escapeHtml(product.name)}</h4>
+              <ul class="zp-facts">${productFacts(product)}</ul>
+              <details>
+                <summary>Co ještě ověřit</summary>
+                <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
+              </details>
+              ${product.facts.suklCode ? `<p class="zp-sukl">SÚKL kód uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
+              ${renderOffers(product.offers)}
+            </article>
+          `).join("")}
         </div>
       </section>
     `;

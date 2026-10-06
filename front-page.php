@@ -18,7 +18,7 @@
       <h2>Co potřebujete vyřešit při chůzi?</h2>
       <p>Odpovězte na několik praktických otázek. Neptáme se na diagnózu a odpovědi se v této verzi nikam neukládají.</p>
 
-      <form id="zp-mobility-advisor" class="zp-advisor-form">
+      <div id="zp-mobility-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-advisor-privacy">
         <fieldset class="zp-fieldset">
           <legend>Kde člověk potřebuje oporu při chůzi?</legend>
           <label class="zp-choice"><input type="radio" name="environment" value="indoor" required><span><strong>Hlavně doma</strong><small>Byt, dům, krátké přesuny mezi místnostmi.</small></span></label>
@@ -62,8 +62,10 @@
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <button class="zp-btn zp-submit" type="submit">Zjistit vhodný další krok</button>
-      </form>
+        <button class="zp-btn zp-submit" type="button" id="zp-mobility-submit">Zjistit vhodný další krok</button>
+        <p id="zp-advisor-privacy" class="zp-privacy-note">Odpovědi z poradce se neodesílají na server a nejsou součástí adresy stránky.</p>
+      </div>
+      <noscript><p class="zp-disclaimer">Pro spuštění Domácího poradce je potřeba JavaScript. Bez něj se žádné odpovědi neodesílají.</p></noscript>
 
       <section id="zp-mobility-result" class="zp-result" aria-live="polite" tabindex="-1" hidden></section>
     </div>

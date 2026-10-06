@@ -200,8 +200,9 @@ if (form && result && submitButton) {
 
       section.hidden = !show;
       if (!show) {
-        const fallback = section.querySelector('input[value="unknown"]');
-        if (fallback) fallback.checked = true;
+        section.querySelectorAll('input[type="radio"]').forEach((input) => {
+          input.checked = false;
+        });
       }
     });
   };

@@ -122,15 +122,17 @@ The new Mobility slice has no meaningful pre-existing content cluster that shoul
 
 ### WooCommerce preservation guardrail
 
-The 1,134 published products are a separate legacy surface. Even with no recorded classic shop orders, their URLs may carry indexation or backlinks.
+The database contains 1,134 historical product rows, but authenticated runtime checks on 2026-10-06 show:
+- WooCommerce is not currently installed/active,
+- the REST type registry does not expose `product`,
+- `/obchod/` is an ordinary published page rather than an active shop.
 
-Before theme activation:
-- product archive must render,
-- a sample product must render,
-- cart/account routes must not fatal,
-- no product URLs are deleted or redirected.
-
-ZaPrazi 2.0 RC therefore includes explicit WooCommerce theme support and a compatibility wrapper.
+Consequence:
+- the historical product table is dormant legacy data, not a current storefront,
+- do not reinstall WooCommerce solely for the ZaPrazi 2.0 launch,
+- preserve the rows for later index/backlink due diligence,
+- no product rows are deleted or redirected,
+- conditional WooCommerce compatibility remains in the theme for a future intentional reactivation.
 
 
 ### Legacy external-product routing
@@ -141,7 +143,7 @@ Of 1,134 published WooCommerce products:
 
 All **359 eHub** product URLs contain the unresolved placeholder `nazev-webu-affilbox`, so they are objectively invalid affiliate destinations.
 
-ZaPrazi 2.0 RC fail-closes only these proven-broken links. The remaining legacy product URLs are preserved until a broader link-health review is complete.
+If WooCommerce is intentionally reactivated later, ZaPrazi 2.0 RC fail-closes these proven-broken links. The remaining historical product data are preserved until a broader link-health/index review is complete.
 
 A public spot check also found at least one legacy Atan product page where the merchant states the product is no longer available, reinforcing the need for domain/product link-health review before treating the old catalog as active commerce.
 

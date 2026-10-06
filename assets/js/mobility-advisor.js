@@ -1,6 +1,7 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/acquisition.js";
+import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
 const form = document.querySelector("#zp-mobility-advisor");
 const result = document.querySelector("#zp-mobility-result");
@@ -66,10 +67,16 @@ if (form && result && submitButton && errorBox) {
       ? configuredAffiliateUrl
       : null;
 
+    const freshness = evidenceFreshness(
+      offer.checkedAt,
+      EVIDENCE_FRESHNESS_DAYS.merchantOffer
+    );
+
     return {
       ...offer,
       resolvedUrl: affiliateUrl || offer.url,
-      isAffiliate: Boolean(affiliateUrl)
+      isAffiliate: Boolean(affiliateUrl),
+      freshnessStatus: freshness.status
     };
   };
 
@@ -85,6 +92,7 @@ if (form && result && submitButton && errorBox) {
             <div class="zp-offer">
               <strong>${escapeHtml(offer.merchantName)}</strong>
               <p>${escapeHtml(offer.note)}</p>
+              ${offer.freshnessStatus === "fresh" ? "" : '<p class="zp-stale-evidence">Nabídka nebyla v posledních 30 dnech znovu ověřena. Před nákupem zkontrolujte aktuální cenu a dostupnost.</p>'}
               <a class="zp-link-btn" data-zp-merchant-link="1" href="${escapeHtml(offer.resolvedUrl)}" target="_blank" rel="${rel}">
                 ${offer.isAffiliate ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}
               </a>
@@ -104,6 +112,14 @@ if (form && result && submitButton && errorBox) {
     linked_instruction_manual_identity_conflict: "Připojený návod – konflikt identity"
   }[type] || "Zdroj");
 
+  const sourceFreshnessLabel = (source) => {
+    const freshness = evidenceFreshness(
+      source.checkedAt,
+      EVIDENCE_FRESHNESS_DAYS.productTechnical
+    );
+    return freshness.status === "fresh" ? "" : " · zdroj potřebuje nové ověření";
+  };
+
   const renderSources = (evidence = []) => {
     if (!evidence.length) return "";
 
@@ -114,7 +130,7 @@ if (form && result && submitButton && errorBox) {
           ${evidence.map((source) => `
             <li>
               <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>
-              <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}</small>
+              <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}${escapeHtml(sourceFreshnessLabel(source))}</small>
             </li>
           `).join("")}
         </ul>
@@ -161,7 +177,7 @@ if (form && result && submitButton && errorBox) {
           <article class="zp-acquisition-card">
             <p class="zp-acquisition-label">Půjčit</p>
             <h4>${escapeHtml(item.providerName)}</h4>
-            <p>Aktuálně uvádí pronájem tohoto typu chodítka za <strong>${escapeHtml(item.pricing.perDayKc)} Kč/den</strong> nebo <strong>${escapeHtml(item.pricing.perMonthKc)} Kč/měsíc</strong>.</p>
+            ${item.displayPricing ? `<p>Aktuálně uvádí pronájem tohoto typu chodítka za <strong>${escapeHtml(item.displayPricing.perDayKc)} Kč/den</strong> nebo <strong>${escapeHtml(item.displayPricing.perMonthKc)} Kč/měsíc</strong>.</p>` : '<p class="zp-stale-evidence">Cena a dostupnost nebyly v posledních 30 dnech znovu ověřeny. Aktuální podmínky zkontrolujte přímo u půjčovny.</p>'}
             <p class="zp-muted-copy">${escapeHtml(item.note)} Ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}.</p>
             <a class="zp-link-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener nofollow">Prověřit půjčení</a>
           </article>
@@ -171,7 +187,7 @@ if (form && result && submitButton && errorBox) {
       <article class="zp-acquisition-card">
         <p class="zp-acquisition-label">Prověřit úhradu</p>
         <h4>Kód ZP ${escapeHtml(item.zpCode)}</h4>
-        <p>${escapeHtml(item.userMessage)}</p>
+        <p class="${item.freshnessStatus === "fresh" ? "" : "zp-stale-evidence"}">${escapeHtml(item.displayMessage)}</p>
         <p class="zp-source-state">Zdroj tvrzení: výrobce · ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}. Přesná aktuální částka není na ZaPrazi zobrazena, dokud ji nepotvrdíme v platném měsíčním seznamu SÚKL.</p>
         <a class="zp-link-btn" href="${escapeHtml(item.officialVerification.sourceUrl)}" target="_blank" rel="noopener">Ověřit v oficiálním seznamu SÚKL</a>
       </article>

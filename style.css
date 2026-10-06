@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.7.2
+Version: 0.7.3
 Text Domain: zaprazi-2
 */
 
@@ -131,7 +131,7 @@ a{color:inherit}
 .zp-faq details{border-top:1px solid #c9c6bd;padding:16px 0}
 .zp-faq summary{cursor:pointer;font-weight:850;font-size:1.08rem}
 .zp-faq details p{max-width:70ch;color:#4e574f}
-.zp-footer-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:28px;align-items:start}
+.zp-footer-grid{display:grid;grid-template-columns:.9fr 1fr 1.5fr;gap:28px;align-items:start}
 .zp-footer-note{font-size:.9rem;line-height:1.5}
 @media(max-width:900px){
   .zp-decision-grid,.zp-acquire-grid,.zp-method-grid{grid-template-columns:1fr}
@@ -197,3 +197,8 @@ a{color:inherit}
 .zp-legacy-offer-unverified{cursor:not-allowed!important;opacity:.72}
 .zp-legacy-offer-warning{margin:18px 0;padding:16px;border:1px solid #d8caa2;border-radius:14px;background:#f8f1dc}
 .zp-legacy-offer-warning p{margin:.4rem 0 0;color:#5d5747}
+
+.zp-footer-legacy ul{list-style:none;margin:.55rem 0 0;padding:0}
+.zp-footer-legacy li{margin:.3rem 0}
+.zp-footer-legacy a{color:var(--zp-muted);text-underline-offset:3px}
+.zp-footer-legacy a:hover{color:var(--zp-ink)}

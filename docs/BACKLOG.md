@@ -61,9 +61,14 @@ Verified public inventory/routes:
 - RehaKomp rental example.
 
 Still open:
-- exact publisher-specific VIV deeplinks,
+- exact publisher-specific VIV deeplinks / joined-account confirmation,
 - MůjZdrav.cz public inventory / affiliate verification,
-- feed credentials/terms where applicable.
+- feed access credentials where applicable.
+
+Public program terms re-verified 2026-10-06:
+- RehabilitačníPomůcky.cz — 10 %, 30-day cookie, XML + S2S,
+- Lékárna.cz — up to 6 %, 30-day cookie, no XML/S2S,
+- MojeLékárna.cz — 3–15 %, 30-day cookie, XML + S2S, **watchlist only** until relevant inventory is verified.
 
 ### ZP-006 Curated Mobility product set v1
 Status: **DONE_V1**

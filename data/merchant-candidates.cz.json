@@ -6,19 +6,41 @@
       "id": "rehabilitacni-pomucky-cz",
       "name": "RehabilitačníPomůcky.cz",
       "public_inventory_status": "verified_relevant",
-      "mobility_examples": ["WA17", "WA21", "WA78"],
+      "mobility_examples": [
+        "WA17",
+        "WA21",
+        "WA78"
+      ],
       "reimbursement_checkout_status": "merchant_states_no_insurer_cooperation",
       "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
-      "production_activation": "blocked_pending_affiliate_deeplink_and_identity_smoke"
+      "production_activation": "blocked_pending_affiliate_deeplink_and_identity_smoke",
+      "public_affiliate_program": {
+        "network": "VIVnetworks",
+        "commission": "10%",
+        "cookie_days": 30,
+        "xml_feed": true,
+        "s2s": true,
+        "verified_at": "2026-10-06"
+      }
     },
     {
       "id": "lekarna-cz",
       "name": "Lékárna.cz",
       "public_inventory_status": "verified_relevant",
-      "mobility_examples": ["MEYRA Ideal rollator merchant product 473021"],
+      "mobility_examples": [
+        "MEYRA Ideal rollator merchant product 473021"
+      ],
       "reimbursement_checkout_status": "tested_product_page_states_full_payment_no_health_aid_voucher",
       "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
-      "production_activation": "blocked_pending_affiliate_deeplink_and_product_identity_smoke"
+      "production_activation": "blocked_pending_affiliate_deeplink_and_product_identity_smoke",
+      "public_affiliate_program": {
+        "network": "VIVnetworks",
+        "commission": "up_to_6%",
+        "cookie_days": 30,
+        "xml_feed": false,
+        "s2s": false,
+        "verified_at": "2026-10-06"
+      }
     },
     {
       "id": "mujzdrav-cz",
@@ -28,6 +50,23 @@
       "reimbursement_checkout_status": "unknown",
       "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
       "production_activation": "blocked_pending_directly_verifiable_inventory_or_account_feed_and_affiliate_verification"
+    },
+    {
+      "id": "mojelekarna-cz",
+      "name": "MojeLékárna.cz",
+      "public_inventory_status": "research_required_no_directly_verified_walker_product",
+      "mobility_examples": [],
+      "reimbursement_checkout_status": "site_exposes_epoukaz_but_current_shortlist_redemption_not_verified",
+      "affiliate_status": "public_viv_program_verified_account_join_status_unknown",
+      "public_affiliate_program": {
+        "network": "VIVnetworks",
+        "commission": "3-15%",
+        "cookie_days": 30,
+        "xml_feed": true,
+        "s2s": true,
+        "verified_at": "2026-10-06"
+      },
+      "production_activation": "watchlist_only_pending_relevant_inventory_and_account_verification"
     }
   ]
 }

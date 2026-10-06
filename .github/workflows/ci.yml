@@ -31,6 +31,16 @@ jobs:
             echo "Advisor must not depend on FormData/native form submission."
             exit 1
           fi
+      - name: Guard explicit safety answers
+        run: |
+          if grep -q 'name="handBrakes" value="unknown" checked' front-page.php; then
+            echo "Brake safety answer must not be preselected."
+            exit 1
+          fi
+          if grep -q 'name="canLiftWalker" value="unknown" checked' front-page.php; then
+            echo "Lift safety answer must not be preselected."
+            exit 1
+          fi
       - name: Lint WordPress PHP
         run: |
           php -l functions.php

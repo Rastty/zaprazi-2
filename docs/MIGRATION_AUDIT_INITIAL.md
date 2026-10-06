@@ -144,3 +144,16 @@ All **359 eHub** product URLs contain the unresolved placeholder `nazev-webu-aff
 ZaPrazi 2.0 RC fail-closes only these proven-broken links. The remaining legacy product URLs are preserved until a broader link-health review is complete.
 
 A public spot check also found at least one legacy Atan product page where the merchant states the product is no longer available, reinforcing the need for domain/product link-health review before treating the old catalog as active commerce.
+
+
+### Legacy HTML document-wrapper defect
+
+Authenticated counts show that whole-document markup is embedded inside the vast majority of published post bodies:
+- DOCTYPE: 3,994 posts,
+- HTML tag: 4,030,
+- HEAD tag: 4,079,
+- BODY tag: 4,037.
+
+Because this is a rendering defect across most of the legacy corpus, correcting thousands of database rows before launch would create unnecessary migration risk.
+
+The RC instead applies a narrow render-time sanitizer on singular legacy posts only. Stored content remains untouched for rollback and later controlled content migration.

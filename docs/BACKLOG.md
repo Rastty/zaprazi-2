@@ -130,8 +130,6 @@ Still required before activation:
 - professional-check branch,
 - one legacy post,
 - one legacy category/archive,
-- WooCommerce shop + product,
-- proven-broken eHub product fail-closed state,
 - mobile homepage,
 - rollback confirmation.
 
@@ -165,18 +163,20 @@ Next slices:
 
 
 ### ZP-013 Legacy commerce preservation
-Status: **DONE_CODE / PENDING_PREVIEW_SMOKE**
+Status: **DORMANT_LEGACY / NOT_LAUNCH_BLOCKER**
 
 Authenticated evidence:
-- 1,134 published WooCommerce products,
-- 1,101 external/affiliate products,
-- 359 eHub destinations contain unresolved `nazev-webu-affilbox` placeholder.
+- 1,134 historical WooCommerce product rows remain in the database,
+- 1,101 are external/affiliate rows,
+- 359 eHub destinations contain unresolved `nazev-webu-affilbox` placeholder,
+- WooCommerce is currently not installed/active,
+- WordPress does not currently register the `product` post type,
+- `/obchod/` is an ordinary legacy page, not an active shop.
 
 RC behavior:
-- explicit WooCommerce theme support,
-- shop/product compatibility template,
-- broken placeholder CTA fail-closed,
-- other legacy external links preserved pending link-health evidence.
+- do **not** reinstall WooCommerce for Slice 1 launch,
+- preserve all historical product data for later traffic/backlink due diligence,
+- keep conditional compatibility + broken-link guards ready if WooCommerce is intentionally reactivated later.
 
 ### ZP-014 Analytics transition
 Status: **READY_FOR_POST_LAUNCH_INTEGRATION**

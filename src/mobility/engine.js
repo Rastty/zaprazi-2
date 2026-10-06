@@ -95,10 +95,10 @@ export function recommendMobility(input = {}) {
     return {
       status: "professional_check",
       headline: "Samotný online výběr pomůcky tady nemusí být bezpečný.",
-      nextStep: "Pokud člověku při chůzi často fyzicky pomáhá další osoba, je vhodné nejprve ověřit typ a nastavení pomůcky se zdravotníkem nebo výdejnou zdravotnických prostředků.",
+      nextStep: "Pokud je při chůzi běžně potřeba fyzická pomoc druhé osoby, online poradce tady nemá vybírat konkrétní chodítko. Nejdřív ověřte bezpečný způsob pohybu a vhodný typ pomůcky se zdravotníkem nebo odbornou výdejnou zdravotnických prostředků.",
       missing: [],
       recommendations: [],
-      acquisition: acquisitionFor(duration)
+      acquisition: []
     };
   }
 

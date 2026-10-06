@@ -1,6 +1,47 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
+  define( 'ZAPRAZI_RELEASE', '0.8.8' );
+}
+
+function zaprazi_2_release_integrity_ok() {
+  $marker = 'ZP_RELEASE_0_8_8';
+  $files = array(
+    'header.php',
+    'footer.php',
+    'front-page.php',
+    'page-choditko-na-pojistovnu.php',
+    'page-pujceni-choditka.php',
+    'page-ochrana-soukromi.php',
+    'assets/js/analytics-consent.js',
+    'assets/js/mobility-advisor.js',
+    'assets/js/runtime-config.js',
+    'style.css',
+  );
+
+  foreach ( $files as $relative_path ) {
+    $path = get_template_directory() . '/' . $relative_path;
+    if ( ! is_readable( $path ) ) {
+      return false;
+    }
+
+    $contents = file_get_contents( $path );
+    if ( false === $contents || false === strpos( $contents, $marker ) ) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function zaprazi_2_release_meta() {
+  echo '<meta name="zaprazi-release" content="' . esc_attr( ZAPRAZI_RELEASE ) . '">' . "\n";
+  echo '<meta name="zaprazi-integrity" content="' . ( zaprazi_2_release_integrity_ok() ? 'ok' : 'partial' ) . '">' . "\n";
+}
+add_action( 'wp_head', 'zaprazi_2_release_meta', 1 );
+
+
 function zaprazi_2_setup() {
   add_theme_support('title-tag');
   add_theme_support('post-thumbnails');

@@ -123,7 +123,11 @@
       <div class="zp-acquire-grid">
         <article><h3>Koupit</h3><p>Dává smysl porovnat ověřené parametry a konkrétní nabídky. Obchodní nabídka ale nikdy neurčuje, jaký typ pomůcky poradce doporučí.</p></article>
         <article><h3>Půjčit</h3><p>U krátkodobé potřeby může být pronájem praktičtější. Proto poradce umí ukázat ověřený příklad půjčovny, pokud ho pro konkrétní výrobek máme.</p></article>
-        <article><h3>Prověřit úhradu</h3><p>U zdravotnických prostředků ověřujeme kód a zdroje, ale nepotvrzujeme individuální nárok. Před nákupem je potřeba zkontrolovat aktuální pravidla a správný preskripční postup.</p></article>
+        <article>
+          <h3>Prověřit úhradu</h3>
+          <p>U zdravotnických prostředků ověřujeme kód a zdroje, ale nepotvrzujeme individuální nárok. Před nákupem je potřeba zkontrolovat aktuální pravidla a správný preskripční postup.</p>
+          <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak funguje chodítko na pojišťovnu v roce 2026</a></p>
+        </article>
       </div>
     </div>
   </section>

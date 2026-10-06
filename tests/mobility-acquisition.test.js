@@ -41,3 +41,16 @@ test("unknown products do not invent acquisition evidence", () => {
   assert.deepEqual(getReimbursementGuidance(["unknown-product"]), []);
   assert.deepEqual(getRentalGuidance(["unknown-product"]), []);
 });
+
+
+test("manufacturer reimbursement figures stay separate from official verification", () => {
+  const guidance = getReimbursementGuidance(["meyra-ideal-3061982"])[0];
+
+  assert.equal(guidance.manufacturerClaim.retailPriceKc, 3408);
+  assert.equal(guidance.manufacturerClaim.reimbursementKc, 3408);
+  assert.equal(guidance.manufacturerClaim.copayKc, 0);
+
+  assert.equal(guidance.officialVerification.amountKc, null);
+  assert.equal(guidance.officialVerification.copayKc, null);
+  assert.equal(guidance.officialVerification.validFor, null);
+});

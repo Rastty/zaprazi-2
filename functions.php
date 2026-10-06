@@ -240,3 +240,33 @@ function zaprazi_2_wpseo_og_site_name( $name ) {
   return 'ZaPrazi.cz';
 }
 add_filter( 'wpseo_opengraph_site_name', 'zaprazi_2_wpseo_og_site_name', 20 );
+
+
+/**
+ * Legacy posts were imported with whole HTML documents embedded inside post_content.
+ * Clean only the invalid document wrapper at render time; never mutate stored content.
+ */
+function zaprazi_2_sanitize_legacy_document_markup( $content ) {
+  if ( is_admin() || ! is_singular( 'post' ) ) {
+    return $content;
+  }
+
+  if (
+    false === stripos( $content, '<!doctype' ) &&
+    false === stripos( $content, '<html' ) &&
+    false === stripos( $content, '<head' ) &&
+    false === stripos( $content, '<body' )
+  ) {
+    return $content;
+  }
+
+  $original = $content;
+
+  $content = preg_replace( '/<!doctype\b[^>]*>/i', '', $content );
+  $content = preg_replace( '/<head\b[^>]*>.*?<\/head\s*>/is', '', $content );
+  $content = preg_replace( '/<\/?html\b[^>]*>/i', '', $content );
+  $content = preg_replace( '/<\/?body\b[^>]*>/i', '', $content );
+
+  return null === $content ? $original : $content;
+}
+add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );

@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.2.0
+Version: 0.3.0
 Text Domain: zaprazi-2
 */
 
@@ -63,6 +63,23 @@ a{color:inherit}
 .zp-disclaimer{margin-top:22px;padding:14px;border-radius:12px;background:var(--zp-accent-2);font-size:.94rem}
 .zp-privacy-note{color:var(--zp-muted);font-size:.92rem}
 
+.zp-product-section{margin-top:28px;padding-top:22px;border-top:2px solid var(--zp-line)}
+.zp-product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.zp-product-card{border:1px solid var(--zp-line);border-radius:16px;padding:18px;background:var(--zp-paper)}
+.zp-product-card h4{font-size:1.15rem;margin:.2rem 0 .8rem}
+.zp-product-family{margin:0;color:var(--zp-muted);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.zp-facts{margin:.8rem 0;padding-left:1.2rem}
+.zp-product-card details{margin-top:12px}
+.zp-product-card summary{cursor:pointer;font-weight:800}
+.zp-sukl{padding:12px;border-radius:12px;background:#f4f1df;font-size:.92rem}
+.zp-offers{display:grid;gap:10px;margin-top:16px}
+.zp-offer{border-top:1px solid var(--zp-line);padding-top:12px}
+.zp-offer p{margin:.35rem 0 .7rem;color:var(--zp-muted);font-size:.92rem}
+.zp-link-btn{display:inline-flex;align-items:center;min-height:44px;padding:9px 14px;border:1px solid var(--zp-accent);border-radius:999px;text-decoration:none;font-weight:800}
+.zp-link-btn:hover{background:var(--zp-accent-2)}
+.zp-affiliate-label{display:block;margin-top:6px;color:var(--zp-muted)}
+.zp-muted-copy{color:var(--zp-muted)}
+
 :focus-visible{outline:4px solid var(--zp-warm);outline-offset:4px}
 @media(max-width:800px){
   .zp-tagline{display:none}
@@ -71,4 +88,5 @@ a{color:inherit}
   .zp-panel{padding:18px}
   .zp-fieldset{padding:14px}
   .zp-submit{width:100%}
+  .zp-product-grid{grid-template-columns:1fr}
 }

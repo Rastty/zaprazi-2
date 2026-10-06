@@ -49,5 +49,6 @@ jobs:
           php -l front-page.php
           php -l index.php
           php -l archive.php
+          php -l woocommerce.php
           php -l single.php
           php -l page.php

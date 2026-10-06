@@ -150,10 +150,12 @@ test("insurance-walker resource page is created once and never overwrites existi
   const front = read("front-page.php");
 
   assert.match(functions, /zaprazi_2_ensure_resource_pages/);
-  assert.match(functions, /get_page_by_path\( 'choditko-na-pojistovnu'/);
+  assert.match(functions, /'choditko-na-pojistovnu' => array/);
+  assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /wp_insert_post/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
-  assert.match(functions, /_wp_page_template.*page-choditko-na-pojistovnu\.php/s);
+  assert.match(functions, /'_wp_page_template' => \$page\['template'\]/);
+  assert.match(functions, /'template' => 'page-choditko-na-pojistovnu\.php'/);
   assert.match(functions, /Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup/);
   assert.match(page, /Kód SÚKL/);
   assert.match(page, /3 408 Kč/);
@@ -171,4 +173,32 @@ test("insurance resource page fails closed after the verified SÚKL month expire
   assert.match(page, /\$zp_sukl_is_current/);
   assert.match(page, /Říjnový záznam už není aktuální/);
   assert.match(page, /historický údaj z října 2026/i);
+});
+
+
+test("resource registry creates insurance and rental pages without overwriting content", () => {
+  const functions = read("functions.php");
+  const rental = read("page-pujceni-choditka.php");
+  const insurance = read("page-choditko-na-pojistovnu.php");
+  const front = read("front-page.php");
+
+  assert.match(functions, /zaprazi_resource_pages_v2/);
+  assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
+  assert.match(functions, /page-pujceni-choditka\.php/);
+  assert.match(functions, /page-choditko-na-pojistovnu\.php/);
+  assert.doesNotMatch(functions, /wp_update_post\(/);
+
+  assert.match(rental, /12 Kč \/ den/);
+  assert.match(rental, /360 Kč/);
+  assert.match(rental, /600 Kč/);
+  assert.match(rental, /1 000 Kč/);
+  assert.match(rental, /2026-11-06/);
+  assert.match(rental, /historick/i);
+
+  assert.match(insurance, /zpětně proplatit/i);
+  assert.match(insurance, /1 kus za 5 let/i);
+  assert.match(insurance, /praktický lékař/i);
+
+  assert.match(front, /\/pujceni-choditka\//);
+  assert.match(front, /\/choditko-na-pojistovnu\//);
 });

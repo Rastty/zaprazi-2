@@ -293,34 +293,54 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v1' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v2' ) ) {
     return;
   }
 
-  $existing = get_page_by_path( 'choditko-na-pojistovnu', OBJECT, 'page' );
-
-  if ( $existing ) {
-    update_option( 'zaprazi_resource_pages_v1', '1', false );
-    return;
-  }
-
-  $page_id = wp_insert_post(
-    array(
-      'post_type'    => 'page',
-      'post_status'  => 'publish',
-      'post_title'   => 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup',
-      'post_name'    => 'choditko-na-pojistovnu',
-      'post_content' => '',
-      'post_excerpt' => 'Jak v roce 2026 funguje ePoukaz na chodítko, co skutečně znamená úhrada a jak postupovat před nákupem.',
-      'meta_input'   => array(
-        '_wp_page_template' => 'page-choditko-na-pojistovnu.php',
-      ),
+  $pages = array(
+    'choditko-na-pojistovnu' => array(
+      'title'    => 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup',
+      'excerpt'  => 'Jak v roce 2026 funguje ePoukaz na chodítko, co skutečně znamená úhrada a jak postupovat před nákupem.',
+      'template' => 'page-choditko-na-pojistovnu.php',
     ),
-    true
+    'pujceni-choditka' => array(
+      'title'    => 'Půjčení chodítka a rollátoru 2026: ceny, kauce a kdy se vyplatí',
+      'excerpt'  => 'Aktuální příklady cen pronájmu chodítek, kauce, doprava a praktické rozhodnutí, kdy půjčit a kdy raději koupit.',
+      'template' => 'page-pujceni-choditka.php',
+    ),
   );
 
-  if ( ! is_wp_error( $page_id ) && $page_id ) {
-    update_option( 'zaprazi_resource_pages_v1', '1', false );
+  $all_ready = true;
+
+  foreach ( $pages as $slug => $page ) {
+    $existing = get_page_by_path( $slug, OBJECT, 'page' );
+
+    if ( $existing ) {
+      continue;
+    }
+
+    $page_id = wp_insert_post(
+      array(
+        'post_type'    => 'page',
+        'post_status'  => 'publish',
+        'post_title'   => $page['title'],
+        'post_name'    => $slug,
+        'post_content' => '',
+        'post_excerpt' => $page['excerpt'],
+        'meta_input'   => array(
+          '_wp_page_template' => $page['template'],
+        ),
+      ),
+      true
+    );
+
+    if ( is_wp_error( $page_id ) || ! $page_id ) {
+      $all_ready = false;
+    }
+  }
+
+  if ( $all_ready ) {
+    update_option( 'zaprazi_resource_pages_v2', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
@@ -329,10 +349,19 @@ function zaprazi_2_is_insurance_walker_page() {
   return is_page( 'choditko-na-pojistovnu' );
 }
 
+function zaprazi_2_is_rental_walker_page() {
+  return is_page( 'pujceni-choditka' );
+}
+
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
   }
+
+  if ( zaprazi_2_is_rental_walker_page() ) {
+    return 'Půjčení chodítka a rollátoru 2026: ceny a kdy se vyplatí | ZaPrazi';
+  }
+
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
@@ -342,6 +371,11 @@ function zaprazi_2_resource_description( $description ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a měsíčně ověřovaný příklad MEYRA Ideal podle SÚKL.';
   }
+
+  if ( zaprazi_2_is_rental_walker_page() ) {
+    return 'Půjčení chodítka nebo rollátoru: aktuální příklady cen, kauce a dopravy a praktický návod, kdy se vyplatí pronájem oproti koupi.';
+  }
+
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );

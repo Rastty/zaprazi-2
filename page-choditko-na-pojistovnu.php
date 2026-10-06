@@ -46,6 +46,28 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section">
+    <div class="zp-wrap zp-method-grid">
+      <div>
+        <p class="zp-kicker">Nejdražší chyba</p>
+        <h2 class="zp-section-title">Nekupujte chodítko předem s tím, že ho pojišťovna proplatí zpětně.</h2>
+        <p>VZP výslovně uvádí, že zdravotnický prostředek koupený z vlastních peněz nelze následně zpětně proplatit ani po dodatečném doporučení lékaře. Pokud má být pomůcka hrazena na poukaz, musí správný postup začít předpisem a výdejem přes oprávněného výdejce.</p>
+        <a class="zp-link-btn" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener">Ověřit u VZP</a>
+      </div>
+
+      <aside class="zp-resource-callout">
+        <h3>Běžné chodítko: co VZP uvádí</h3>
+        <ul>
+          <li>kolové nebo bodové chodítko může mimo jiné předepsat praktický lékař,</li>
+          <li>VZP uvádí úhradu maximálně 1 kus za 5 let,</li>
+          <li>výjimkou jsou některé složitější typy, například kolová chodítka s podpůrnými prvky, kde se režim může lišit.</li>
+        </ul>
+        <p class="zp-muted-copy">Tato obecná pravidla nenahrazují posouzení konkrétního prostředku a aktuálního úhradového záznamu.</p>
+        <a class="zp-link-btn" href="https://www.vzp.cz/o-nas/aktuality/jake-zdravotnicke-prostredky-pro-pacienty-s-poruchou-mobility-muze-od-1-1-2022-predepsat-prakticky-lekar" target="_blank" rel="noopener">Zdroj VZP</a>
+      </aside>
+    </div>
+  </section>
+
   <section id="postup" class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Postup krok za krokem</p>
@@ -184,6 +206,16 @@ get_header();
           <h3>SÚKL: pravidla předepisování a výdeje od roku 2026</h3>
           <p>Ověřeno 6. 10. 2026.</p>
           <a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predpisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/" target="_blank" rel="noopener">Otevřít pravidla SÚKL</a>
+        </article>
+        <article>
+          <h3>VZP: zpětné proplacení zakoupeného chodítka není možné</h3>
+          <p>Ověřeno 6. 10. 2026.</p>
+          <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener">Otevřít zdroj VZP</a>
+        </article>
+        <article>
+          <h3>VZP: preskripce běžných chodítek a frekvenční limit</h3>
+          <p>VZP uvádí mimo jiné praktického lékaře a maximálně 1 kus za 5 let u běžných kolových/bodových chodítek.</p>
+          <a href="https://www.vzp.cz/o-nas/aktuality/jake-zdravotnicke-prostredky-pro-pacienty-s-poruchou-mobility-muze-od-1-1-2022-predepsat-prakticky-lekar" target="_blank" rel="noopener">Otevřít zdroj VZP</a>
         </article>
         <article>
           <h3>SÚKL: seznam cen a úhrad ZP k 1. 10. 2026</h3>

@@ -57,3 +57,4 @@ jobs:
           php -l single.php
           php -l page.php
           php -l page-choditko-na-pojistovnu.php
+          php -l page-pujceni-choditka.php

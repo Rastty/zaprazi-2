@@ -69,3 +69,23 @@ After Search Console access exists, prioritize new pages by:
 3. monetizable acquisition path,
 4. evidence quality,
 5. low overlap with the 4,360-post legacy corpus.
+
+
+## Second high-intent page — rental
+
+Page:
+`/pujceni-choditka/`
+
+Current evidence checked 2026-10-06:
+- RehaKomp: four-wheel outdoor walker 12 Kč/day, 360 Kč/month,
+- RehaKomp: fixed four-point walker 10 Kč/day, 300 Kč/month,
+- MEYRA: walker category 250 Kč/week, 600 Kč/month, 1,000 Kč refundable deposit.
+
+Trust rules:
+- these are examples from specific providers, not a national tariff,
+- availability and delivery are dynamic,
+- displayed prices are treated as current only through 2026-11-06,
+- after that date they remain visible only as explicitly historical values until refreshed.
+
+Primary conversion:
+`rental research → choose correct solution type in Advisor → compare rental/buy/reimbursement path`.

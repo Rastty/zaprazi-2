@@ -2,6 +2,10 @@
 /*
 Template Name: ZaPrazi — Chodítko na pojišťovnu
 */
+$zp_sukl_valid_through = '2026-10-31';
+$zp_sukl_today = current_time( 'Y-m-d' );
+$zp_sukl_is_current = $zp_sukl_today <= $zp_sukl_valid_through;
+
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -26,8 +30,13 @@ get_header();
       </article>
       <article class="zp-card">
         <p class="zp-kicker">Ověřený příklad</p>
-        <h2>MEYRA Ideal: 3 408 Kč.</h2>
-        <p>Oficiální říjnový seznam SÚKL uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč. Tento záznam je platný pro říjen 2026.</p>
+        <?php if ( $zp_sukl_is_current ) : ?>
+          <h2>MEYRA Ideal: 3 408 Kč.</h2>
+          <p>Oficiální říjnový seznam SÚKL uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč. Tento záznam je platný pro říjen 2026.</p>
+        <?php else : ?>
+          <h2>Říjnový záznam už není aktuální.</h2>
+          <p>ZaPrazi má ověřený říjnový seznam SÚKL, ale po 31. 10. 2026 už jeho částku neprezentujeme jako současný stav. Ověřte nový měsíční seznam.</p>
+        <?php endif; ?>
       </article>
       <article class="zp-card">
         <p class="zp-kicker">Důležitá hranice</p>
@@ -87,12 +96,15 @@ get_header();
       <div>
         <p class="zp-kicker">Konkrétní příklad</p>
         <h2 class="zp-section-title">MEYRA Ideal Rollator 3061982.</h2>
-        <p>V aktuálním oficiálním seznamu SÚKL platném pro říjen 2026 jsme ověřili tento konkrétní prostředek.</p>
+        <p>V oficiálním seznamu SÚKL platném pro říjen 2026 jsme ověřili tento konkrétní prostředek.</p>
+        <?php if ( ! $zp_sukl_is_current ) : ?>
+          <p class="zp-stale-evidence"><strong>Pozor:</strong> tento měsíční záznam už není aktuální. Níže uvedená částka je historický údaj z října 2026 a před rozhodnutím je nutné ověřit nový seznam SÚKL.</p>
+        <?php endif; ?>
 
         <div class="zp-resource-facts">
           <div><span>Kód SÚKL</span><strong>5005963</strong></div>
           <div><span>Kód zobrazovaný výrobcem</span><strong>07-5005963</strong></div>
-          <div><span>Úhrada v seznamu</span><strong>3 408 Kč</strong></div>
+          <div><span><?php echo $zp_sukl_is_current ? 'Úhrada v aktuálním říjnovém seznamu' : 'Historická úhrada v říjnovém seznamu'; ?></span><strong>3 408 Kč</strong></div>
           <div><span>Úhradová skupina</span><strong>07.03.02.03</strong></div>
           <div><span>Interval v záznamu</span><strong>60 měsíců</strong></div>
           <div><span>Platnost ověřeného záznamu</span><strong>do 31. 10. 2026</strong></div>

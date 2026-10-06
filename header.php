@@ -7,6 +7,7 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+<a class="zp-skip-link" href="#main-content">Přeskočit na hlavní obsah</a>
 <header class="zp-header">
   <div class="zp-wrap zp-nav">
     <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">ZaPrazi.cz</a>

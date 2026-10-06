@@ -154,7 +154,8 @@ test("insurance-walker resource page is created once and never overwrites existi
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /wp_insert_post/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
-  assert.match(functions, /_wp_page_template.*page-choditko-na-pojistovnu\.php/s);
+  assert.match(functions, /'_wp_page_template' => \$page\['template'\]/);
+  assert.match(functions, /'template' => 'page-choditko-na-pojistovnu\.php'/);
   assert.match(functions, /Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup/);
   assert.match(page, /Kód SÚKL/);
   assert.match(page, /3 408 Kč/);

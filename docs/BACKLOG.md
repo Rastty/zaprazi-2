@@ -8,11 +8,19 @@ Status: **DONE**
 Source of truth, architecture, migration contract, CI, deployment path and tested rule engine are in the repository.
 
 ### ZP-002 Legacy URL inventory
-Status: **PARTIAL / BLOCKED_ON_AUTHENTICATED_INVENTORY**
+Status: **PARTIAL / BLOCKED_ON_FULL_INVENTORY_AND_GSC_ACCESS**
 
-Public first pass exists. Full authenticated WordPress inventory is still pending because WPVibe hit its daily limit and public REST/sitemap retrieval was not reliable enough to replace it.
+Done:
+- public first pass,
+- legacy-safe WordPress templates,
+- WPVibe connection verified,
+- Prometheus GSC access discovery reviewed.
 
-Do not change legacy URLs yet.
+Current blockers:
+- WPVibe rolling daily limit prevented the full authenticated URL inventory,
+- ZaPrazi is absent from the stored Prometheus Search Console accessible-property list (2026-07-23).
+
+Guardrail: do not destructively change legacy URLs yet.
 
 ### ZP-003 Mobility decision model
 Status: **DONE_V1**
@@ -63,17 +71,27 @@ Production-eligible shortlist:
 WA78 remains stored as an identity conflict and is excluded from runtime recommendations.
 
 ### ZP-007 Home Advisor accessible UI v1
-Status: **DONE_CODE / PENDING_PREVIEW_SMOKE**
+Status: **LIVE_PREVIEW_CORE_BRANCHES_PASSED**
 
-Czech mobile-first questionnaire/results experience exists with conditional questions, keyboard/focus behavior and no persistent answers.
+Verified in Live Preview:
+- indoor / cannot lift → only BESCO WA21,
+- outdoor / brakes yes → MEYRA Ideal,
+- privacy-safe non-submitting Advisor,
+- explicit safety answers,
+- product sources and checked dates.
+
+Still to preview after latest deploy:
+- professional-check branch,
+- mobile layout.
 
 ### ZP-008 Acquisition choice v1
-Status: **DONE_CODE / PENDING_PREVIEW_SMOKE**
+Status: **LIVE_PREVIEW_CORE_BRANCH_PASSED**
 
-Supported:
-- buy/direct merchant path,
-- verified rental example where available,
-- reimbursement verification path with explicit source state.
+Verified in outdoor preview:
+- direct merchant path,
+- RehaKomp rental evidence,
+- separate reimbursement-verification path,
+- no guaranteed individual reimbursement claim.
 
 ### ZP-009 Merchant routing + tracking v1
 Status: **DONE_CODE / BLOCKED_EXACT_VIV_LINKS**
@@ -88,24 +106,27 @@ Need exact VIV deeplinks to activate affiliate tracking.
 ### ZP-010 WordPress integration + staged page
 Status: **DONE_DEPLOYED_INACTIVE_THEME**
 
-ZaPrazi 2.0 RC theme is deployed through Deployer for Git from `dev`. It is intentionally not active yet.
+ZaPrazi 2.0 RC is deployed through Deployer for Git from `dev` and remains intentionally inactive.
 
 ### ZP-011 Slice 1 production smoke
-Status: **READY_FOR_LIVE_PREVIEW**
+Status: **PARTIAL_PASS**
 
-Verify before activation:
-- mobile,
-- keyboard,
-- no dead ends,
-- conditional questions,
-- answer privacy,
+Passed:
+- homepage routing,
+- indoor candidate branch,
+- outdoor candidate branch,
 - product source display,
-- outbound merchant links,
-- acquisition cards,
-- analytics payload,
-- title/meta/canonical,
-- legacy post/page rendering,
-- rollback path.
+- direct merchant links,
+- rental/reimbursement cards,
+- answer URL privacy.
+
+Still required before activation:
+- deploy latest RC,
+- professional-check branch,
+- one legacy post,
+- one legacy page/archive,
+- mobile homepage,
+- rollback confirmation.
 
 ### ZP-012 Slice-related migration
 Status: **BLOCKED_BY_ZP_002_ZP_011**
@@ -116,8 +137,8 @@ Only migrate URLs with a logical relationship to the new Mobility content.
 
 Current next steps after smoke:
 - exact VIV affiliate deeplinks,
-- one strong Mobility landing experience (homepage v1 now implemented),
-- Search Console measurement after activation,
+- confirm existing GA4 stream rather than creating a duplicate,
+- establish ZaPrazi Search Console access,
 - relevant legacy internal links and redirects only after inventory.
 
 ## P2 — Expansion gate

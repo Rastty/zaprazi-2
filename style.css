@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.3.0
+Version: 0.4.0
 Text Domain: zaprazi-2
 */
 
@@ -90,3 +90,12 @@ a{color:inherit}
   .zp-submit{width:100%}
   .zp-product-grid{grid-template-columns:1fr}
 }
+
+.zp-acquisition-evidence,.zp-acquisition-summary{margin-top:28px;padding-top:22px;border-top:2px solid var(--zp-line)}
+.zp-acquisition-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.zp-acquisition-card{border:1px solid var(--zp-line);border-radius:16px;padding:18px;background:#fff}
+.zp-acquisition-card h4{margin:.25rem 0 .65rem}
+.zp-acquisition-label{margin:0;color:var(--zp-accent);font-size:.78rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+.zp-source-state{padding:12px;border-radius:12px;background:#f5f2e8;color:#555d56;font-size:.9rem}
+.zp-acquisition-summary article{padding:10px 0;border-top:1px solid var(--zp-line)}
+@media(max-width:800px){.zp-acquisition-grid{grid-template-columns:1fr}}

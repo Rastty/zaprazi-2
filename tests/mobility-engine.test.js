@@ -66,7 +66,7 @@ test("returns rollator candidates for steady outdoor support with brake use conf
 
   assert.equal(result.status, "candidate");
   assert.equal(result.recommendations[0].id, "rollator_candidate");
-  assert.deepEqual(result.recommendations[0].productCandidateIds, ["besco-wa78", "meyra-ideal-3061982"]);
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["meyra-ideal-3061982"]);
   assert.ok(result.recommendations[0].parameters.some((x) => x.includes("sedátko")));
   assert.ok(result.acquisition.some((x) => x.id === "check_reimbursement"));
 });

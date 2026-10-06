@@ -43,3 +43,17 @@ test("Advisor cannot fall back to native answer submission", () => {
   assert.match(front, /id=["']zp-mobility-advisor["'][^>]+role=["']form/);
   assert.doesNotMatch(app, /new FormData/);
 });
+
+
+test("legacy post rendering strips only invalid nested document wrappers", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_sanitize_legacy_document_markup/);
+  assert.match(functions, /is_singular\( 'post' \)/);
+  assert.match(functions, /<!doctype/);
+  assert.match(functions, /<head/);
+  assert.match(functions, /<\\\/?html/);
+  assert.match(functions, /<\\\/?body/);
+  assert.match(functions, /add_filter\( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 \)/);
+  assert.doesNotMatch(functions, /wp_update_post\([^;]+zaprazi_2_sanitize_legacy_document_markup/s);
+});

@@ -123,3 +123,16 @@ test("outdoor candidate includes brake-use parameter", () => {
   const parameters = result.recommendations[0].parameters;
   assert.ok(parameters.some((value) => value.includes("brzd")));
 });
+
+
+test("outdoor candidate width wording is not home-specific", () => {
+  const result = recommendMobility({
+    environment: "outdoor",
+    supportNeed: "steady",
+    handBrakes: "yes"
+  });
+
+  const parameters = result.recommendations[0].parameters;
+  assert.ok(parameters.some((value) => value.includes("průchodnost v místě použití")));
+  assert.ok(parameters.every((value) => !value.includes("průchodům doma")));
+});

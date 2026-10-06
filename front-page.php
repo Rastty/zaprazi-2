@@ -52,7 +52,7 @@
           <legend>Co je pro vás prakticky důležité?</legend>
           <label class="zp-choice"><input type="checkbox" name="seatNeeded"><span><strong>Možnost si při chůzi odpočinout</strong></span></label>
           <label class="zp-choice"><input type="checkbox" name="transportNeed"><span><strong>Časté převážení autem</strong></span></label>
-          <label class="zp-choice"><input type="checkbox" name="tightSpace"><span><strong>Úzké průchody nebo málo prostoru doma</strong></span></label>
+          <label class="zp-choice"><input type="checkbox" name="tightSpace"><span><strong>Úzké průchody nebo málo prostoru při používání</strong></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset">

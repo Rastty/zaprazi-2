@@ -340,7 +340,7 @@ add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
-    return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a ověřený příklad MEYRA Ideal podle aktuálního seznamu SÚKL.';
+    return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a měsíčně ověřovaný příklad MEYRA Ideal podle SÚKL.';
   }
   return $description;
 }

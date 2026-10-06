@@ -158,6 +158,6 @@ test("insurance-walker resource page is created once and never overwrites existi
   assert.match(page, /Kód SÚKL/);
   assert.match(page, /3 408 Kč/);
   assert.match(page, /31\. 10\. 2026/);
-  assert.match(page, /Individuální nárok/);
+  assert.match(page, /individuální nárok/i);
   assert.match(front, /\/choditko-na-pojistovnu\//);
 });

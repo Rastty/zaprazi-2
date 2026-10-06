@@ -14,6 +14,13 @@ jobs:
         with:
           node-version: 20
       - run: npm test
+      - name: Check frontend JavaScript syntax
+        run: |
+          node --check assets/js/runtime-config.js
+          node --check assets/js/mobility-advisor.js
+          node --check src/mobility/engine.js
+          node --check src/mobility/catalog.js
+          node --check src/mobility/acquisition.js
       - name: Lint WordPress PHP
         run: |
           php -l functions.php

@@ -31,14 +31,14 @@
           <label class="zp-choice"><input type="radio" name="supportNeed" value="unknown"><span><strong>Nevím</strong><small>Potřebuji se nejdřív zorientovat.</small></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-conditional="indoor" hidden>
           <legend>Pokud řešíte chodítko domů: zvládne člověk při každém kroku lehce nadzvednout a posunout celé chodítko?</legend>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="yes"><span><strong>Ano</strong><small>Mírné nadzvednutí celé pomůcky není problém.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="no"><span><strong>Ne</strong><small>Potřebuje řešení, které se posouvá po předních kolečkách.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="unknown" checked><span><strong>Nevím / netýká se</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-conditional="outdoor" hidden>
           <legend>Pokud řešíte pohyb venku: zvládne člověk bezpečně používat ruční brzdy?</legend>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="yes"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="no"><span><strong>Ne</strong></span></label>

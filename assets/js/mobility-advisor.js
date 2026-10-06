@@ -76,6 +76,32 @@ if (form && result) {
     `;
   };
 
+  const evidenceLabel = (type) => ({
+    instruction_manual: "Návod k použití",
+    manufacturer_manual: "Návod výrobce",
+    manufacturer_product_page: "Stránka výrobce",
+    merchant_identity: "Stránka obchodníka",
+    linked_instruction_manual_identity_conflict: "Připojený návod – konflikt identity"
+  }[type] || "Zdroj");
+
+  const renderSources = (evidence = []) => {
+    if (!evidence.length) return "";
+
+    return `
+      <details class="zp-sources">
+        <summary>Zdroje a datum ověření</summary>
+        <ul>
+          ${evidence.map((source) => `
+            <li>
+              <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>
+              <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}</small>
+            </li>
+          `).join("")}
+        </ul>
+      </details>
+    `;
+  };
+
   const renderProducts = (products) => {
     if (!products.length) return "";
 
@@ -93,6 +119,7 @@ if (form && result) {
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
+              ${renderSources(product.evidence)}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
               ${renderOffers(product.offers)}
             </article>
@@ -141,7 +168,31 @@ if (form && result) {
     `;
   };
 
-  form.addEventListener("change", () => {
+  const updateConditionalQuestions = () => {
+    const environment = form.elements.environment?.value || "";
+    form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
+      const condition = section.dataset.zpConditional;
+      const show = condition === "indoor"
+        ? environment === "indoor"
+        : condition === "outdoor"
+          ? environment === "outdoor" || environment === "both"
+          : true;
+
+      section.hidden = !show;
+      if (!show) {
+        const fallback = section.querySelector('input[value="unknown"]');
+        if (fallback) fallback.checked = true;
+      }
+    });
+  };
+
+  updateConditionalQuestions();
+
+  form.addEventListener("change", (event) => {
+    if (event.target?.name === "environment") {
+      updateConditionalQuestions();
+    }
+
     if (!builderStarted) {
       builderStarted = true;
       track("builder_start");
@@ -150,7 +201,6 @@ if (form && result) {
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    track("builder_complete");
 
     const data = new FormData(form);
     const duration = data.get("duration") ?? "unknown";
@@ -177,6 +227,9 @@ if (form && result) {
     const ids = output.recommendations.flatMap((item) => item.productCandidateIds ?? []);
     const products = getMobilityProducts(ids);
 
+    if (!["needs_more_info", "invalid_input"].includes(output.status)) {
+      track("builder_complete");
+    }
     if (output.recommendations.length > 0) {
       track("recommendation_view");
     }

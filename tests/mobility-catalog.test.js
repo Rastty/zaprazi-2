@@ -80,3 +80,13 @@ test("only approved-program merchant candidates expose affiliate routing keys", 
     ["rehabilitacni-pomucky-cz", "lekarna-cz"].includes(offer.merchantId)
   ));
 });
+
+
+test("all product evidence uses HTTPS and has a checked date", () => {
+  for (const product of MOBILITY_PRODUCTS) {
+    for (const source of product.evidence) {
+      assert.match(source.url, /^https:\/\//);
+      assert.match(source.checkedAt, /^\d{4}-\d{2}-\d{2}$/);
+    }
+  }
+});

@@ -131,3 +131,14 @@ test("404 and search use dedicated user-facing templates", () => {
   assert.match(search, /have_posts/);
   assert.match(search, /Domácí poradce/);
 });
+
+
+test("legacy sanitizer prefers the original prefix over appended generated documents", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /doctype_position/);
+  assert.match(functions, /looks_like_appended_document/);
+  assert.match(functions, /wp_strip_all_tags/);
+  assert.match(functions, /strlen\( \$prefix_text \) >= 40/);
+  assert.match(functions, /return rtrim\( \$prefix \)/);
+});

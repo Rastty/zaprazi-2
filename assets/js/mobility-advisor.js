@@ -4,6 +4,7 @@ import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/
 
 const form = document.querySelector("#zp-mobility-advisor");
 const result = document.querySelector("#zp-mobility-result");
+const submitButton = document.querySelector("#zp-mobility-submit");
 const runtime = window.ZaPraziRuntime || { affiliateMap: {} };
 const affiliateMap = runtime.affiliateMap || {};
 let builderStarted = false;
@@ -15,7 +16,12 @@ const track = (eventName) => {
   }
 };
 
-if (form && result) {
+if (form && result && submitButton) {
+  const checkedValue = (name, fallback = null) =>
+    form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
+
+  const isChecked = (name) =>
+    Boolean(form.querySelector(`input[name="${name}"]:checked`));
   const escapeHtml = (value) => String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -169,7 +175,7 @@ if (form && result) {
   };
 
   const updateConditionalQuestions = () => {
-    const environment = form.elements.environment?.value || "";
+    const environment = checkedValue("environment", "");
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
       const condition = section.dataset.zpConditional;
       const show = condition === "indoor"
@@ -199,19 +205,16 @@ if (form && result) {
     }
   });
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const data = new FormData(form);
-    const duration = data.get("duration") ?? "unknown";
+  submitButton.addEventListener("click", () => {
+    const duration = checkedValue("duration", "unknown");
     const output = recommendMobility({
-      environment: data.get("environment"),
-      supportNeed: data.get("supportNeed"),
-      canLiftWalker: data.get("canLiftWalker") ?? "unknown",
-      handBrakes: data.get("handBrakes") ?? "unknown",
-      seatNeeded: data.has("seatNeeded"),
-      transportNeed: data.has("transportNeed"),
-      homeSpace: data.has("tightSpace") ? "tight" : "standard",
+      environment: checkedValue("environment"),
+      supportNeed: checkedValue("supportNeed"),
+      canLiftWalker: checkedValue("canLiftWalker", "unknown"),
+      handBrakes: checkedValue("handBrakes", "unknown"),
+      seatNeeded: isChecked("seatNeeded"),
+      transportNeed: isChecked("transportNeed"),
+      homeSpace: isChecked("tightSpace") ? "tight" : "standard",
       duration
     });
 
@@ -257,7 +260,10 @@ if (form && result) {
     `;
 
     result.querySelectorAll("[data-zp-merchant-link]").forEach((link) => {
-      link.addEventListener("click", () => track("merchant_click"), { once: true });
+      link.addEventListener("click", () => {
+        track("product_click");
+        track("merchant_click");
+      }, { once: true });
     });
 
     result.hidden = false;

@@ -59,3 +59,24 @@ test("all runtime-resolvable catalog products are production eligible", () => {
   const products = getMobilityProducts(eligibleIds);
   assert.ok(products.every((product) => product.productionEligible === true));
 });
+
+
+test("affiliate routing keys are unique and only attached to routable offers", () => {
+  const keys = MOBILITY_PRODUCTS
+    .flatMap((product) => product.offers)
+    .map((offer) => offer.affiliateKey)
+    .filter(Boolean);
+
+  assert.equal(new Set(keys).size, keys.length);
+  assert.ok(keys.every((key) => /^[a-z0-9-]+:[a-z0-9-]+$/.test(key)));
+});
+
+test("only approved-program merchant candidates expose affiliate routing keys", () => {
+  const offersWithKeys = MOBILITY_PRODUCTS
+    .flatMap((product) => product.offers)
+    .filter((offer) => offer.affiliateKey);
+
+  assert.ok(offersWithKeys.every((offer) =>
+    ["rehabilitacni-pomucky-cz", "lekarna-cz"].includes(offer.merchantId)
+  ));
+});

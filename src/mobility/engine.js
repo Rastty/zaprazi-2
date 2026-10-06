@@ -1,6 +1,7 @@
 const ENVIRONMENTS = new Set(["indoor", "outdoor", "both"]);
 const SUPPORT_NEEDS = new Set(["light", "steady", "person_assist", "unknown"]);
 const BRAKE_USE = new Set(["yes", "no", "unknown"]);
+const LIFT_WALKER = new Set(["yes", "no", "unknown"]);
 const SPACE = new Set(["tight", "standard", "unknown"]);
 const DURATION = new Set(["short_term", "long_term", "unknown"]);
 
@@ -57,7 +58,8 @@ function acquisitionFor(duration) {
 
 /**
  * Practical, non-diagnostic Mobility Slice v1 rules.
- * The engine returns candidate solution families, not medical suitability.
+ * Returns candidate solution families and evidence-backed product IDs,
+ * never individual medical suitability.
  */
 export function recommendMobility(input = {}) {
   const {
@@ -65,6 +67,7 @@ export function recommendMobility(input = {}) {
     supportNeed,
     seatNeeded = false,
     handBrakes = "unknown",
+    canLiftWalker = "unknown",
     homeSpace = "unknown",
     transportNeed = false,
     duration = "unknown"
@@ -73,6 +76,7 @@ export function recommendMobility(input = {}) {
   if (!ENVIRONMENTS.has(environment)) return invalid("environment");
   if (!SUPPORT_NEEDS.has(supportNeed)) return invalid("supportNeed");
   if (!BRAKE_USE.has(handBrakes)) return invalid("handBrakes");
+  if (!LIFT_WALKER.has(canLiftWalker)) return invalid("canLiftWalker");
   if (!SPACE.has(homeSpace)) return invalid("homeSpace");
   if (!DURATION.has(duration)) return invalid("duration");
 
@@ -122,6 +126,17 @@ export function recommendMobility(input = {}) {
     };
   }
 
+  if (environment === "indoor" && canLiftWalker === "unknown") {
+    return {
+      status: "needs_more_info",
+      headline: "Pro výběr chodítka domů potřebujeme ještě jednu praktickou informaci.",
+      nextStep: "Zjistěte, zda člověk při každém kroku zvládne lehce nadzvednout a posunout celé chodítko. Čtyřbodové chodítko s pevnými nohami tento pohyb vyžaduje.",
+      missing: ["canLiftWalker"],
+      recommendations: [],
+      acquisition: acquisitionFor(duration)
+    };
+  }
+
   const parameters = [
     "správná výška a možnost nastavení",
     "celková šířka vzhledem k průchodům doma",
@@ -134,31 +149,42 @@ export function recommendMobility(input = {}) {
   if (transportNeed) parameters.push("skládání a rozměry pro převoz");
   if (homeSpace === "tight") parameters.push("šířka v nejužším místě domácnosti");
 
-  const category = environment === "indoor" && homeSpace === "tight"
-    ? "indoor_compact_walker_candidate"
-    : environment === "indoor"
-      ? "indoor_walker_candidate"
-      : "rollator_candidate";
+  let id;
+  let label;
+  let reason;
+  let productCandidateIds;
 
-  const label = category === "rollator_candidate"
-    ? "Rollátor jako kandidátní typ řešení"
-    : category === "indoor_compact_walker_candidate"
-      ? "Kompaktní řešení pro oporu doma"
-      : "Chodítko pro použití doma jako kandidátní typ řešení";
+  if (environment === "indoor" && canLiftWalker === "no") {
+    id = "indoor_front_wheel_walker_candidate";
+    label = "Dvoukolové chodítko jako kandidátní typ řešení";
+    reason = "Zadaná situace vyžaduje stabilní oporu doma, ale bez nutnosti zvedat celé chodítko při každém kroku.";
+    productCandidateIds = ["besco-wa21"];
+  } else if (environment === "indoor") {
+    id = homeSpace === "tight"
+      ? "indoor_compact_walker_candidate"
+      : "indoor_walker_candidate";
+    label = "Chodítko pro použití doma jako kandidátní typ řešení";
+    reason = "Zadaná situace je zaměřená na stabilní oporu při pohybu doma a člověk zvládne chodítko při kroku lehce nadzvednout.";
+    productCandidateIds = ["besco-wa17", "besco-wa21"];
+  } else {
+    id = "rollator_candidate";
+    label = "Rollátor jako kandidátní typ řešení";
+    reason = "Zadaná situace zahrnuje stabilní oporu při pohybu venku nebo doma i venku a bezpečné používání ručních brzd je potvrzené.";
+    productCandidateIds = ["besco-wa78", "meyra-ideal-3061982"];
+  }
 
   return {
     status: "candidate",
     headline: "Má smysl porovnat několik konkrétních řešení podle prostředí a praktických parametrů.",
-    nextStep: "Nejdříve ověřte parametry a způsob používání, teprve potom vybírejte konkrétní výrobek.",
+    nextStep: "Níže jsou ověřené kandidátní výrobky. Před nákupem vždy zkontrolujte výšku, šířku, nosnost a způsob bezpečného používání.",
     missing: [],
     recommendations: [
       {
-        id: category,
+        id,
         label,
-        reason: environment === "indoor"
-          ? "Zadaná situace je zaměřená na stabilní oporu při pohybu doma."
-          : "Zadaná situace zahrnuje stabilní oporu při pohybu venku nebo doma i venku.",
-        parameters
+        reason,
+        parameters,
+        productCandidateIds
       }
     ],
     acquisition: acquisitionFor(duration),

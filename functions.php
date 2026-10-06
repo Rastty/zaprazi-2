@@ -312,7 +312,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v2' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v3' ) ) {
     return;
   }
 
@@ -326,6 +326,11 @@ function zaprazi_2_ensure_resource_pages() {
       'title'    => 'Půjčení chodítka a rollátoru 2026: ceny, kauce a kdy se vyplatí',
       'excerpt'  => 'Aktuální příklady cen pronájmu chodítek, kauce, doprava a praktické rozhodnutí, kdy půjčit a kdy raději koupit.',
       'template' => 'page-pujceni-choditka.php',
+    ),
+    'ochrana-soukromi' => array(
+      'title'    => 'Ochrana soukromí a měření návštěvnosti',
+      'excerpt'  => 'Jak ZaPrazi pracuje s odpověďmi z poradce, volitelným Google Analytics a nastavením souhlasu.',
+      'template' => 'page-ochrana-soukromi.php',
     ),
   );
 
@@ -359,7 +364,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v2', '1', false );
+    update_option( 'zaprazi_resource_pages_v3', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
@@ -372,6 +377,10 @@ function zaprazi_2_is_rental_walker_page() {
   return is_page( 'pujceni-choditka' );
 }
 
+function zaprazi_2_is_privacy_page() {
+  return is_page( 'ochrana-soukromi' );
+}
+
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
@@ -379,6 +388,10 @@ function zaprazi_2_resource_title( $title ) {
 
   if ( zaprazi_2_is_rental_walker_page() ) {
     return 'Půjčení chodítka a rollátoru 2026: ceny a kdy se vyplatí | ZaPrazi';
+  }
+
+  if ( zaprazi_2_is_privacy_page() ) {
+    return 'Ochrana soukromí a měření návštěvnosti | ZaPrazi';
   }
 
   return $title;
@@ -393,6 +406,10 @@ function zaprazi_2_resource_description( $description ) {
 
   if ( zaprazi_2_is_rental_walker_page() ) {
     return 'Půjčení chodítka nebo rollátoru: aktuální příklady cen, kauce a dopravy a praktický návod, kdy se vyplatí pronájem oproti koupi.';
+  }
+
+  if ( zaprazi_2_is_privacy_page() ) {
+    return 'Jak ZaPrazi chrání odpovědi z Domácího poradce a kdy se načítá volitelné Google Analytics. Souhlas s měřením lze kdykoli změnit.';
   }
 
   return $description;

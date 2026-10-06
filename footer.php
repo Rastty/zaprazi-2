@@ -33,7 +33,10 @@
     <div class="zp-footer-note">
       <p><strong>Transparentnost:</strong> ZaPrazi neposkytuje diagnózu ani individuální zdravotní posouzení. U proměnlivých pravidel a úhrad uvádíme zdroj a datum ověření, pokud je máme.</p>
       <p>Některé odkazy na obchodníky mohou být partnerské. Pokud přes ně nakoupíte, ZaPrazi může získat provizi. Provize nemění doporučený typ řešení ani pořadí podle vhodnosti.</p>
-      <p><button id="zp-analytics-settings" class="zp-footer-settings" type="button">Nastavení měření</button></p>
+      <p>
+        <a href="<?php echo esc_url( home_url( '/ochrana-soukromi/' ) ); ?>">Ochrana soukromí</a>
+        · <button id="zp-analytics-settings" class="zp-footer-settings" type="button">Nastavení měření</button>
+      </p>
     </div>
   </div>
 </footer>
@@ -42,7 +45,7 @@
   <div class="zp-consent-inner">
     <div>
       <strong id="zp-consent-title">Volitelné měření návštěvnosti</strong>
-      <p>Google Analytics načteme pouze po vašem souhlasu. Měříme návštěvy a několik obecných kroků poradce. <strong>Neodesíláme odpovědi z poradce, doporučený produkt ani odvozený zdravotní profil.</strong></p>
+      <p>Google Analytics načteme pouze po vašem souhlasu. Měříme návštěvy a několik obecných kroků poradce. <strong>Neodesíláme odpovědi z poradce, doporučený produkt ani odvozený zdravotní profil.</strong> <a href="<?php echo esc_url( home_url( '/ochrana-soukromi/' ) ); ?>">Podrobnosti</a></p>
     </div>
     <div class="zp-consent-actions">
       <button id="zp-analytics-allow" class="zp-consent-primary" type="button">Povolit měření</button>

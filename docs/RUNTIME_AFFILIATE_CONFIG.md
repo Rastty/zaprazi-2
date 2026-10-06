@@ -32,8 +32,9 @@ The Mobility Advisor emits only generic event names:
 - `builder_start`
 - `builder_complete`
 - `recommendation_view`
+- `product_click`
 - `merchant_click`
 
 No questionnaire answer, combination of answers, product ID, merchant ID or derived profile is attached to these events.
 
-The advisor does not install GA4 by itself. If an existing consent-aware `gtag` is present, the generic events are forwarded to it. It also emits a local browser `zaprazi:analytics` CustomEvent for later adapters.
+The Advisor does not install GA4 and does not call `gtag` directly. It emits only a local browser `zaprazi:analytics` CustomEvent. A future analytics adapter may forward these generic event names to the existing GA4 stream only after the site's consent layer permits analytics.

@@ -142,3 +142,22 @@ test("legacy sanitizer prefers the original prefix over appended generated docum
   assert.match(functions, /strlen\( \$prefix_text \) >= 40/);
   assert.match(functions, /return rtrim\( \$prefix \)/);
 });
+
+
+test("insurance-walker resource page is created once and never overwrites existing content", () => {
+  const functions = read("functions.php");
+  const page = read("page-choditko-na-pojistovnu.php");
+  const front = read("front-page.php");
+
+  assert.match(functions, /zaprazi_2_ensure_resource_pages/);
+  assert.match(functions, /get_page_by_path\( 'choditko-na-pojistovnu'/);
+  assert.match(functions, /wp_insert_post/);
+  assert.doesNotMatch(functions, /wp_update_post\(/);
+  assert.match(functions, /_wp_page_template.*page-choditko-na-pojistovnu\.php/s);
+  assert.match(functions, /Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup/);
+  assert.match(page, /Kód SÚKL/);
+  assert.match(page, /3 408 Kč/);
+  assert.match(page, /31\. 10\. 2026/);
+  assert.match(page, /Individuální nárok/);
+  assert.match(front, /\/choditko-na-pojistovnu\//);
+});

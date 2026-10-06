@@ -1,3 +1,5 @@
+import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../evidence/freshness.js";
+
 const OFFICIAL_SUKL_LISTS_URL = "https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/";
 
 export const MOBILITY_ACQUISITION = Object.freeze({
@@ -61,20 +63,44 @@ export function getAcquisitionEvidence(productIds = []) {
     .filter((item) => item.evidence);
 }
 
-export function getReimbursementGuidance(productIds = []) {
+export function getReimbursementGuidance(productIds = [], now = new Date()) {
   return getAcquisitionEvidence(productIds)
     .filter((item) => item.evidence.reimbursement)
-    .map((item) => ({
-      productId: item.productId,
-      ...item.evidence.reimbursement
-    }));
+    .map((item) => {
+      const reimbursement = item.evidence.reimbursement;
+      const freshness = evidenceFreshness(
+        reimbursement.checkedAt,
+        EVIDENCE_FRESHNESS_DAYS.reimbursementClaim,
+        now
+      );
+
+      return {
+        productId: item.productId,
+        ...reimbursement,
+        freshnessStatus: freshness.status,
+        displayMessage: freshness.status === "fresh"
+          ? reimbursement.userMessage
+          : "Poslední tvrzení výrobce o úhradě je starší než 31 dní, proto ho ZaPrazi už neprezentuje jako aktuální. Ověřte současný stav v oficiálním seznamu SÚKL."
+      };
+    });
 }
 
-export function getRentalGuidance(productIds = []) {
+export function getRentalGuidance(productIds = [], now = new Date()) {
   return getAcquisitionEvidence(productIds)
     .filter((item) => item.evidence.rental)
-    .map((item) => ({
-      productId: item.productId,
-      ...item.evidence.rental
-    }));
+    .map((item) => {
+      const rental = item.evidence.rental;
+      const freshness = evidenceFreshness(
+        rental.checkedAt,
+        EVIDENCE_FRESHNESS_DAYS.rental,
+        now
+      );
+
+      return {
+        productId: item.productId,
+        ...rental,
+        freshnessStatus: freshness.status,
+        displayPricing: freshness.status === "fresh" ? rental.pricing : null
+      };
+    });
 }

@@ -227,3 +227,15 @@ Insurance page v2:
 Next candidate after deploy/indexation:
 - rollátor na ven vs. chodítko domů,
 - BESCO WA21 / MEYRA Ideal evidence pages only if query/CTR data justify them.
+
+
+### ZP-016 Core navigation
+Status: **READY_DEPLOY**
+
+Header now links the core user journeys on every page:
+- Advisor,
+- walker reimbursement / ePoukaz,
+- walker rental,
+- selection guidance.
+
+Implementation is JavaScript-free, keyboard-accessible and horizontally scrollable on small screens.

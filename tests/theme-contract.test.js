@@ -202,3 +202,19 @@ test("resource registry creates insurance and rental pages without overwriting c
   assert.match(front, /\/pujceni-choditka\//);
   assert.match(front, /\/choditko-na-pojistovnu\//);
 });
+
+
+test("core navigation links Advisor, reimbursement, rental and selection guidance", () => {
+  const header = read("header.php");
+  const style = read("style.css");
+
+  assert.match(header, /aria-label=["']Hlavní navigace["']/);
+  assert.match(header, /\/#poradce/);
+  assert.match(header, /\/choditko-na-pojistovnu\//);
+  assert.match(header, /\/pujceni-choditka\//);
+  assert.match(header, /\/#jak-vybrat/);
+
+  assert.match(style, /\.zp-core-nav/);
+  assert.match(style, /overflow-x:auto/);
+  assert.match(style, /min-height:44px/);
+});

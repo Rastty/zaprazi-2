@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.4
+Version: 0.8.5
 Text Domain: zaprazi-2
 */
 
@@ -25,9 +25,12 @@ body{margin:0;background:var(--zp-bg);color:var(--zp-ink);font-family:Inter,syst
 a{color:inherit}
 .zp-wrap{width:min(1120px,calc(100% - 36px));margin:auto}
 .zp-header{background:rgba(246,243,237,.94);border-bottom:1px solid var(--zp-line);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
-.zp-nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.zp-brand{text-decoration:none;font-weight:800;font-size:1.15rem}
-.zp-tagline{color:var(--zp-muted);font-size:.9rem}
+.zp-nav{min-height:70px;display:flex;align-items:center;gap:24px}
+.zp-brand{text-decoration:none;font-weight:800;font-size:1.15rem;flex:0 0 auto}
+.zp-core-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
+.zp-core-nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 11px;border-radius:10px;text-decoration:none;font-size:.92rem;font-weight:750;white-space:nowrap}
+.zp-core-nav a:hover{background:var(--zp-accent-2)}
+.zp-tagline{color:var(--zp-muted);font-size:.86rem;white-space:nowrap}
 .zp-hero{padding:76px 0 64px}
 .zp-kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:800;color:var(--zp-accent)}
 .zp-hero h1{font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.05em;max-width:10ch;margin:.25em 0}
@@ -249,3 +252,13 @@ a{color:inherit}
 .zp-rental-card dt{color:var(--zp-muted)}
 .zp-rental-card dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:900px){.zp-rental-grid{grid-template-columns:1fr}}
+
+@media(max-width:980px){
+  .zp-tagline{display:none}
+}
+@media(max-width:700px){
+  .zp-nav{min-height:auto;padding-top:10px;padding-bottom:8px;display:grid;grid-template-columns:1fr}
+  .zp-brand{padding:4px 0}
+  .zp-core-nav{width:100%;margin:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;padding-bottom:2px}
+  .zp-core-nav a{min-height:42px}
+}

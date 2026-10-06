@@ -85,3 +85,23 @@ test("Advisor has explicit accessible validation for required visible groups", (
   assert.match(app, /firstMissing\.focus\(\)/);
   assert.match(app, /if \(!validateRequiredGroups\(\)\)/);
 });
+
+
+test("all primary theme surfaces expose the global skip-link target", () => {
+  const header = read("header.php");
+  assert.match(header, /href=["']#main-content["']/);
+  assert.match(header, /Přeskočit na hlavní obsah/);
+
+  for (const path of [
+    "front-page.php",
+    "single.php",
+    "page.php",
+    "index.php",
+    "archive.php",
+    "woocommerce.php"
+  ]) {
+    const template = read(path);
+    assert.match(template, /<main[^>]+id=["']main-content["']/);
+    assert.match(template, /tabindex=["']-1["']/);
+  }
+});

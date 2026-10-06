@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<main class="zp-content zp-legacy-content">
+<main id="main-content" class="zp-content zp-legacy-content" tabindex="-1">
   <?php while ( have_posts() ) : the_post(); ?>
     <article <?php post_class('zp-legacy-article'); ?>>
       <header class="zp-legacy-header">

@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<main class="zp-wrap zp-archive">
+<main id="main-content" class="zp-wrap zp-archive" tabindex="-1">
   <header class="zp-archive-header">
     <p class="zp-kicker">Archiv</p>
     <h1><?php the_archive_title(); ?></h1>

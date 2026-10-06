@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-<main>
+<main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">ZaPrazi.cz · Mobilita</p>

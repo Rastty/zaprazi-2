@@ -41,11 +41,14 @@ Sources:
 
 ## MůjZdrav.cz
 
-Public product inventory was **not sufficiently verified in the current research pass**.
-
 Status: `RESEARCH_REQUIRED`.
 
-Do not fabricate inventory, feed or deeplink support from the fact that an affiliate program may be approved.
+A fresh public-web check on 2026-10-06 did not surface indexed Mobility inventory for MůjZdrav.cz and the site itself was not reachable through the current public verification layer.
+
+Consequence:
+- do not use MůjZdrav.cz in production recommendations yet,
+- do not infer inventory, feed, deeplink or checkout behavior from affiliate-program approval,
+- next acceptable evidence is a live account/feed record or a directly verifiable product page.
 
 ## Product identity conflict — MEYRA Ideal
 

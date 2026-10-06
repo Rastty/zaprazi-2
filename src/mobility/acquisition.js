@@ -10,6 +10,9 @@ export const MOBILITY_ACQUISITION = Object.freeze({
       checkedAt: "2026-10-06",
       manufacturerClaim: {
         coverage: "full",
+        retailPriceKc: 3408,
+        reimbursementKc: 3408,
+        copayKc: 0,
         revisionDoctorApproval: false,
         prescribers: [
           "praktický lékař",

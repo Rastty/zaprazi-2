@@ -3,6 +3,8 @@ export const MOBILITY_PRODUCTS = Object.freeze([
     id: "besco-wa17",
     name: "BESCO WA17 – čtyřbodové skládací chodítko",
     solutionFamily: "fixed_walker",
+    productionEligible: true,
+    identityStatus: "verified",
     facts: {
       heightCm: "80–98",
       widthCm: 59,
@@ -41,6 +43,8 @@ export const MOBILITY_PRODUCTS = Object.freeze([
     id: "besco-wa21",
     name: "BESCO WA21 – dvoukolové skládací chodítko",
     solutionFamily: "front_wheel_walker",
+    productionEligible: true,
+    identityStatus: "verified",
     facts: {
       heightCm: "81–99",
       widthCm: 60,
@@ -77,8 +81,11 @@ export const MOBILITY_PRODUCTS = Object.freeze([
   },
   {
     id: "besco-wa78",
-    name: "BESCO WA78 – čtyřkolové odlehčené chodítko",
+    name: "WA78 – čtyřkolové chodítko (identity conflict)",
     solutionFamily: "rollator",
+    productionEligible: false,
+    identityStatus: "conflict",
+    identityNote: "Merchant listing calls the product BESCO WA78, while the linked instruction manual is branded REHABIQ. Keep out of production recommendations until exact OEM/variant identity is reconciled.",
     facts: {
       heightCm: "79–92",
       widthCm: 61,
@@ -92,14 +99,13 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       brakes: "two_locking_hand_brakes"
     },
     selectionNotes: [
-      "sedátko a zádová opěrka",
-      "dvě ruční brzdy s možností aretace",
-      "návod vyžaduje zajištění brzd při vstávání, opírání nebo usedání",
-      "není určeno k transportu sedícího uživatele"
+      "linked manual states two locking hand brakes",
+      "linked manual requires brakes to be locked when standing up, leaning on or sitting down",
+      "linked manual states the walker is not intended to transport a seated user"
     ],
     evidence: [
       {
-        type: "instruction_manual",
+        type: "linked_instruction_manual_identity_conflict",
         url: "https://www.rehabilitacnipomucky.cz/user/documents/upload/Navody/Rehabiq_choditko_ctyrkolove_s_brasnou_wa78.pdf",
         checkedAt: "2026-10-06"
       },
@@ -109,39 +115,27 @@ export const MOBILITY_PRODUCTS = Object.freeze([
         checkedAt: "2026-10-06"
       }
     ],
-    offers: [
-      {
-        merchantId: "rehabilitacni-pomucky-cz",
-        merchantName: "RehabilitačníPomůcky.cz",
-        url: "https://www.rehabilitacnipomucky.cz/besco-ctyrkolove-choditko-odlehcene-skladaci/",
-        affiliateUrl: null,
-        acquisitionMode: "direct_pay",
-        note: "Obchod uvádí, že nespolupracuje se zdravotními pojišťovnami a nákup je plně hrazen zákazníkem.",
-        checkedAt: "2026-10-06"
-      }
-    ]
+    offers: []
   },
   {
     id: "meyra-ideal-3061982",
     name: "MEYRA Ideal Rollator 3061982",
     solutionFamily: "rollator",
+    productionEligible: true,
+    identityStatus: "verified",
     facts: {
       heightCm: "79–97",
       widthCm: 61.5,
-      depthCm: 70,
-      seatHeightCm: 61,
-      seatCm: "16.5 × 38",
-      weightKg: 10,
       maxUserWeightKg: 130,
       wheelCm: "19 × 5",
-      brakes: "locking_push_brakes",
       suklCode: "07-5005963"
     },
     selectionNotes: [
       "výrobce uvádí použití v interiéru i exteriéru",
       "nastavitelná výška madel",
       "sedátko, podnos a košík",
-      "uvedení SÚKL kódu neznamená automaticky potvrzený individuální nárok na úhradu"
+      "uvedení SÚKL kódu neznamená automaticky potvrzený individuální nárok na úhradu",
+      "u rozměrů, které se mezi oficiálním návodem a produktovou stránkou liší, ZaPrazi zatím přesnou hodnotu nezobrazuje"
     ],
     evidence: [
       {
@@ -156,6 +150,15 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       }
     ],
     offers: [
+      {
+        merchantId: "lekarna-cz",
+        merchantName: "Lékárna.cz",
+        url: "https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/",
+        affiliateUrl: null,
+        acquisitionMode: "direct_pay",
+        note: "Lékárna.cz uvádí, že u tohoto nákupu nelze uplatnit poukaz na zdravotnické pomůcky a produkt je za plnou úhradu.",
+        checkedAt: "2026-10-06"
+      },
       {
         merchantId: "meyra-cz",
         merchantName: "MEYRA e-shop",
@@ -172,5 +175,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
 const PRODUCT_INDEX = new Map(MOBILITY_PRODUCTS.map((product) => [product.id, product]));
 
 export function getMobilityProducts(ids = []) {
-  return ids.map((id) => PRODUCT_INDEX.get(id)).filter(Boolean);
+  return ids
+    .map((id) => PRODUCT_INDEX.get(id))
+    .filter((product) => product && product.productionEligible);
 }

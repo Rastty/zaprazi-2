@@ -1,4 +1,4 @@
-(() => {
+// ZP_RELEASE_0_8_8\n(() => {
   "use strict";
 
   const config = window.ZaPraziAnalyticsConfig || {};

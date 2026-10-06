@@ -98,6 +98,8 @@ test("all primary theme surfaces expose the global skip-link target", () => {
     "page.php",
     "index.php",
     "archive.php",
+    "search.php",
+    "404.php",
     "woocommerce.php"
   ]) {
     const template = read(path);
@@ -116,4 +118,16 @@ test("Advisor renders freshness-aware evidence states", () => {
   assert.match(app, /displayPricing/);
   assert.match(app, /displayMessage/);
   assert.match(acquisition, /freshnessStatus/);
+});
+
+
+test("404 and search use dedicated user-facing templates", () => {
+  const notFound = read("404.php");
+  const search = read("search.php");
+
+  assert.match(notFound, /Tahle stránka tu není/);
+  assert.match(notFound, /#poradce/);
+  assert.match(search, /get_search_query/);
+  assert.match(search, /have_posts/);
+  assert.match(search, /Domácí poradce/);
 });

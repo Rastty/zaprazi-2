@@ -27,11 +27,27 @@ export function evidenceAgeDays(checkedAt, now = new Date()) {
   return Math.floor(diff / DAY_MS);
 }
 
-export function evidenceFreshness(checkedAt, maxAgeDays, now = new Date()) {
+export function evidenceFreshness(checkedAt, maxAgeDays, now = new Date(), validThrough = null) {
   const ageDays = evidenceAgeDays(checkedAt, now);
+  const reference = now instanceof Date ? now : new Date(now);
 
-  if (ageDays === null || !Number.isFinite(maxAgeDays) || maxAgeDays < 0) {
+  if (ageDays === null || !Number.isFinite(maxAgeDays) || maxAgeDays < 0 || Number.isNaN(reference.getTime())) {
     return { status: "unknown", ageDays: null };
+  }
+
+  if (validThrough !== null) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(validThrough))) {
+      return { status: "unknown", ageDays };
+    }
+
+    const expiresAt = new Date(`${validThrough}T23:59:59.999Z`);
+    if (Number.isNaN(expiresAt.getTime())) {
+      return { status: "unknown", ageDays };
+    }
+
+    if (reference.getTime() > expiresAt.getTime()) {
+      return { status: "stale", ageDays };
+    }
   }
 
   return {

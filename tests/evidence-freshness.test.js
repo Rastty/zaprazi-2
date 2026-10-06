@@ -34,3 +34,34 @@ test("technical product evidence has a longer freshness window than commerce evi
   assert.ok(EVIDENCE_FRESHNESS_DAYS.productTechnical > EVIDENCE_FRESHNESS_DAYS.merchantOffer);
   assert.ok(EVIDENCE_FRESHNESS_DAYS.productTechnical > EVIDENCE_FRESHNESS_DAYS.reimbursementClaim);
 });
+
+
+test("explicit monthly validity keeps evidence fresh through the valid-through date", () => {
+  const result = evidenceFreshness(
+    "2026-10-06",
+    31,
+    new Date("2026-10-31T12:00:00Z"),
+    "2026-10-31"
+  );
+  assert.equal(result.status, "fresh");
+});
+
+test("explicit monthly validity expires evidence immediately after valid-through date", () => {
+  const result = evidenceFreshness(
+    "2026-10-06",
+    31,
+    new Date("2026-11-01T00:00:00Z"),
+    "2026-10-31"
+  );
+  assert.equal(result.status, "stale");
+});
+
+test("malformed explicit validity fails closed as unknown", () => {
+  const result = evidenceFreshness(
+    "2026-10-06",
+    31,
+    new Date("2026-10-20T12:00:00Z"),
+    "October 2026"
+  );
+  assert.equal(result.status, "unknown");
+});

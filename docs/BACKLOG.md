@@ -37,18 +37,19 @@ Status: **DONE_V1**
 - unit tests.
 
 ### ZP-004 Mobility reference/evidence pack
-Status: **IN_PROGRESS**
+Status: **DONE_V1**
 
 Done:
 - product/manual evidence for current v1 shortlist,
 - source/date display contract,
 - ePoukaz/reimbursement verification boundary,
 - rental example evidence,
+- exact October 2026 SÚKL record for MEYRA Ideal 3061982,
+- monthly validity/fail-closed expiry through 2026-10-31,
 - official SÚKL monthly-source requirement in tests.
 
-Still open:
-- exact current monthly SÚKL record for the active reimbursement example,
-- broader evidence for future products/categories.
+Future-slice work:
+- broader evidence for products/categories beyond the current Mobility v1 shortlist.
 
 ### ZP-005 Initial merchant verification
 Status: **PARTIAL**

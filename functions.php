@@ -287,3 +287,61 @@ function zaprazi_2_sanitize_legacy_document_markup( $content ) {
   return null === $content ? $original : $content;
 }
 add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
+
+
+/**
+ * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
+ */
+function zaprazi_2_ensure_resource_pages() {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v1' ) ) {
+    return;
+  }
+
+  $existing = get_page_by_path( 'choditko-na-pojistovnu', OBJECT, 'page' );
+
+  if ( $existing ) {
+    update_option( 'zaprazi_resource_pages_v1', '1', false );
+    return;
+  }
+
+  $page_id = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup',
+      'post_name'    => 'choditko-na-pojistovnu',
+      'post_content' => '',
+      'post_excerpt' => 'Jak v roce 2026 funguje ePoukaz na chodítko, co skutečně znamená úhrada a jak postupovat před nákupem.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-choditko-na-pojistovnu.php',
+      ),
+    ),
+    true
+  );
+
+  if ( ! is_wp_error( $page_id ) && $page_id ) {
+    update_option( 'zaprazi_resource_pages_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
+
+function zaprazi_2_is_insurance_walker_page() {
+  return is_page( 'choditko-na-pojistovnu' );
+}
+
+function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_insurance_walker_page() ) {
+    return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
+  }
+  return $title;
+}
+add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
+add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
+
+function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_insurance_walker_page() ) {
+    return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a ověřený příklad MEYRA Ideal podle aktuálního seznamu SÚKL.';
+  }
+  return $description;
+}
+add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );

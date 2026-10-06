@@ -199,6 +199,11 @@ Evidence:
 - only generic pageviews and whitelisted Advisor funnel event names are forwarded,
 - questionnaire answers, recommendation/product IDs, merchant IDs and derived profiles are excluded from the analytics adapter.
 
+Transparency layer:
+- dedicated `/ochrana-soukromi/` page explains the strict opt-in model,
+- consent banner and footer link to the detailed explanation,
+- the page documents allowed generic events and prohibited Advisor data.
+
 Post-deploy:
 - smoke both consent choices,
 - verify no Google request before consent,

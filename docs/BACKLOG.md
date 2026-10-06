@@ -76,7 +76,7 @@ Production-eligible shortlist:
 WA78 remains stored as an identity conflict and is excluded from runtime recommendations.
 
 ### ZP-007 Home Advisor accessible UI v1
-Status: **LIVE_PREVIEW_CORE_BRANCHES_PASSED**
+Status: **LIVE_PRODUCTION**
 
 Verified in Live Preview:
 - indoor / cannot lift → only BESCO WA21,
@@ -90,7 +90,7 @@ Still to preview after latest deploy:
 - mobile layout.
 
 ### ZP-008 Acquisition choice v1
-Status: **LIVE_PREVIEW_CORE_BRANCH_PASSED**
+Status: **LIVE_PRODUCTION**
 
 Verified in outdoor preview:
 - direct merchant path,
@@ -109,12 +109,12 @@ Status: **DONE_CODE / BLOCKED_EXACT_VIV_LINKS**
 Need exact VIV deeplinks to activate affiliate tracking.
 
 ### ZP-010 WordPress integration + staged page
-Status: **DONE_DEPLOYED_INACTIVE_THEME**
+Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 RC is deployed through Deployer for Git from `dev` and remains intentionally inactive.
+ZaPrazi 2.0 RC 0.8.1 is active on production. Deployment remains Git-first through Deployer for Git from `dev`.
 
 ### ZP-011 Slice 1 production smoke
-Status: **PARTIAL_PASS**
+Status: **PASS_CORE_PRODUCTION**
 
 Passed:
 - homepage routing,
@@ -125,13 +125,17 @@ Passed:
 - rental/reimbursement cards,
 - answer URL privacy.
 
-Still required before activation:
-- deploy latest RC,
-- professional-check branch,
-- one legacy post,
-- one legacy category/archive,
-- mobile homepage,
-- rollback confirmation.
+Post-launch verified:
+- public homepage serves the new ZaPrazi Mobility experience,
+- legacy category archive renders under the new theme with one H1 and H2 article cards,
+- legacy single post renders under the new theme,
+- production title/brand are updated,
+- Flatsome remains installed as rollback.
+
+Still open after launch:
+- manual mobile visual pass,
+- Search Console access,
+- exact VIV publisher deeplinks.
 
 ### ZP-012 Slice-related migration
 Status: **BLOCKED_BY_ZP_002_ZP_011**

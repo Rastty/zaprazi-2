@@ -23,11 +23,11 @@
     {
       "id": "mujzdrav-cz",
       "name": "MůjZdrav.cz",
-      "public_inventory_status": "research_required",
+      "public_inventory_status": "research_required_public_check_inconclusive",
       "mobility_examples": [],
       "reimbursement_checkout_status": "unknown",
       "affiliate_status": "project_brief_states_approved_pending_live_account_verification",
-      "production_activation": "blocked_pending_public_inventory_and_affiliate_verification"
+      "production_activation": "blocked_pending_directly_verifiable_inventory_or_account_feed_and_affiliate_verification"
     }
   ]
 }

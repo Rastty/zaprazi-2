@@ -50,6 +50,54 @@ Consequence:
 - do not infer inventory, feed, deeplink or checkout behavior from affiliate-program approval,
 - next acceptable evidence is a live account/feed record or a directly verifiable product page.
 
+## Public affiliate-program verification
+
+Checked again: **2026-10-06**.
+
+### RehabilitačníPomůcky.cz — VIVnetworks
+- commission: **10 %**,
+- cookie: **30 days**,
+- XML feed: **yes**,
+- S2S tracking: **yes**,
+- brand SEM: prohibited.
+
+Public source:
+https://www.vivnetworks.com/affiliate-katalog/rehabilitacnipomucky-cz/
+
+### Lékárna.cz — VIVnetworks
+- commission: **up to 6 %**,
+- new customer: public program description states 6 %,
+- repeat/customer within the advertiser's defined window: public description states 2 %,
+- cookie: **30 days**,
+- XML feed: **no**,
+- S2S tracking: **no**,
+- brand SEM: prohibited.
+
+Public source:
+https://www.vivnetworks.com/en/affiliate-katalog/lekarnacz/
+
+These public terms verify the program shape only. They do **not** supply ZaPrazi's publisher-specific deeplink or prove that the user's account is currently joined.
+
+## Watchlist — MojeLékárna.cz
+
+Public VIV evidence:
+- advertised commission range: **3–15 %**,
+- cookie: **30 days**,
+- XML feed: **yes**,
+- S2S tracking: **yes**.
+
+Public source:
+https://www.vivnetworks.com/affiliate-katalog/mojelekarna-cz/
+
+Current inventory finding:
+- the public site clearly exposes healthcare, medical-device and ePoukaz surfaces,
+- a fresh public search did **not** provide a directly verifiable walker/rollator product page suitable for the current shortlist.
+
+Decision:
+- keep as `WATCHLIST_RESEARCH_REQUIRED`,
+- do not route production recommendations there merely because commission is higher,
+- promote only after exact relevant inventory/product identity is verified.
+
 ## Product identity conflict — MEYRA Ideal
 
 The Lékárna.cz page describes a MEYRA Ideal rollator but some dimensions differ from current official MEYRA model 3061982 pages/documentation.

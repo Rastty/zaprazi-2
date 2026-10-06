@@ -105,3 +105,15 @@ test("all primary theme surfaces expose the global skip-link target", () => {
     assert.match(template, /tabindex=["']-1["']/);
   }
 });
+
+
+test("Advisor renders freshness-aware evidence states", () => {
+  const app = read("assets/js/mobility-advisor.js");
+  const acquisition = read("src/mobility/acquisition.js");
+
+  assert.match(app, /EVIDENCE_FRESHNESS_DAYS/);
+  assert.match(app, /zp-stale-evidence/);
+  assert.match(app, /displayPricing/);
+  assert.match(app, /displayMessage/);
+  assert.match(acquisition, /freshnessStatus/);
+});

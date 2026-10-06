@@ -21,6 +21,7 @@ jobs:
           node --check src/mobility/engine.js
           node --check src/mobility/catalog.js
           node --check src/mobility/acquisition.js
+          node --check src/evidence/freshness.js
       - name: Guard advisor privacy fallback
         run: |
           if grep -q '<form id="zp-mobility-advisor"' front-page.php; then

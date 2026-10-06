@@ -54,3 +54,35 @@ test("manufacturer reimbursement figures stay separate from official verificatio
   assert.equal(guidance.officialVerification.copayKc, null);
   assert.equal(guidance.officialVerification.validFor, null);
 });
+
+
+test("stale rental evidence hides exact pricing from display guidance", () => {
+  const rentals = getRentalGuidance(
+    ["meyra-ideal-3061982"],
+    new Date("2026-11-06T12:00:00Z")
+  );
+
+  assert.equal(rentals[0].freshnessStatus, "stale");
+  assert.equal(rentals[0].displayPricing, null);
+});
+
+test("fresh rental evidence keeps exact pricing available", () => {
+  const rentals = getRentalGuidance(
+    ["meyra-ideal-3061982"],
+    new Date("2026-11-05T12:00:00Z")
+  );
+
+  assert.equal(rentals[0].freshnessStatus, "fresh");
+  assert.equal(rentals[0].displayPricing.perMonthKc, 360);
+});
+
+test("stale reimbursement claim replaces current-sounding manufacturer message", () => {
+  const guidance = getReimbursementGuidance(
+    ["meyra-ideal-3061982"],
+    new Date("2026-11-07T12:00:00Z")
+  );
+
+  assert.equal(guidance[0].freshnessStatus, "stale");
+  assert.match(guidance[0].displayMessage, /starší než 31 dní/i);
+  assert.doesNotMatch(guidance[0].displayMessage, /aktuálně uvádí plnou úhradu/i);
+});

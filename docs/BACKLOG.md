@@ -196,7 +196,7 @@ Next:
 
 
 ### ZP-015 High-intent SEO acquisition pages
-Status: **IN_PROGRESS**
+Status: **READY_DEPLOY_V1**
 
 First page:
 - `/choditko-na-pojistovnu/`
@@ -204,7 +204,8 @@ First page:
 - Git-first template plus one-time non-destructive WordPress page creation,
 - internal link from the homepage acquisition section,
 - Yoast title/meta override,
-- expected automatic inclusion in the normal page sitemap after creation.
+- expected automatic inclusion in the normal page sitemap after creation,
+- monthly reimbursement amount fails closed after 2026-10-31 until refreshed.
 
 Next candidates after first-page smoke/indexation:
 - půjčení chodítka / rollátoru,

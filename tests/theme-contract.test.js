@@ -161,3 +161,14 @@ test("insurance-walker resource page is created once and never overwrites existi
   assert.match(page, /individuální nárok/i);
   assert.match(front, /\/choditko-na-pojistovnu\//);
 });
+
+
+test("insurance resource page fails closed after the verified SÚKL month expires", () => {
+  const page = read("page-choditko-na-pojistovnu.php");
+
+  assert.match(page, /\$zp_sukl_valid_through = '2026-10-31'/);
+  assert.match(page, /current_time\( 'Y-m-d' \)/);
+  assert.match(page, /\$zp_sukl_is_current/);
+  assert.match(page, /Říjnový záznam už není aktuální/);
+  assert.match(page, /historický údaj z října 2026/i);
+});

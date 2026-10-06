@@ -124,6 +124,25 @@ function zaprazi_2_assets() {
     file_exists($dir . '/style.css') ? filemtime($dir . '/style.css') : null
   );
 
+  wp_enqueue_script(
+    'zaprazi-analytics-consent',
+    $uri . '/assets/js/analytics-consent.js',
+    array(),
+    file_exists($dir . '/assets/js/analytics-consent.js') ? filemtime($dir . '/assets/js/analytics-consent.js') : null,
+    false
+  );
+
+  wp_add_inline_script(
+    'zaprazi-analytics-consent',
+    'window.ZaPraziAnalyticsConfig=' . wp_json_encode(
+      array(
+        'measurementId' => 'G-WM86QVXVST',
+        'storageKey'    => 'zaprazi_analytics_consent_v1',
+      )
+    ) . ';',
+    'before'
+  );
+
   if ( is_front_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',

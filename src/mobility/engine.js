@@ -170,7 +170,7 @@ export function recommendMobility(input = {}) {
     id = "rollator_candidate";
     label = "Rollátor jako kandidátní typ řešení";
     reason = "Zadaná situace zahrnuje stabilní oporu při pohybu venku nebo doma i venku a bezpečné používání ručních brzd je potvrzené.";
-    productCandidateIds = ["besco-wa78", "meyra-ideal-3061982"];
+    productCandidateIds = ["meyra-ideal-3061982"];
   }
 
   return {

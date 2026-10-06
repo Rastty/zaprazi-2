@@ -218,3 +218,38 @@ test("core navigation links Advisor, reimbursement, rental and selection guidanc
   assert.match(style, /overflow-x:auto/);
   assert.match(style, /min-height:44px/);
 });
+
+
+test("GA4 loads only after explicit consent and receives only whitelisted generic events", () => {
+  const functions = read("functions.php");
+  const footer = read("footer.php");
+  const analytics = read("assets/js/analytics-consent.js");
+  const advisor = read("assets/js/mobility-advisor.js");
+
+  assert.match(functions, /G-WM86QVXVST/);
+  assert.match(functions, /assets\/js\/analytics-consent\.js/);
+
+  assert.match(footer, /id=["']zp-analytics-allow["']/);
+  assert.match(footer, /id=["']zp-analytics-deny["']/);
+  assert.match(footer, /id=["']zp-analytics-settings["']/);
+  assert.match(footer, /Neodesíláme odpovědi z poradce/);
+
+  assert.match(analytics, /state !== "granted"/);
+  assert.match(analytics, /state === "granted"/);
+  assert.match(analytics, /googletagmanager\.com\/gtag\/js/);
+  assert.match(analytics, /builder_start/);
+  assert.match(analytics, /builder_complete/);
+  assert.match(analytics, /recommendation_view/);
+  assert.match(analytics, /product_click/);
+  assert.match(analytics, /merchant_click/);
+  assert.match(analytics, /allowedEvents\.has/);
+  assert.match(analytics, /allow_google_signals: false/);
+  assert.match(analytics, /allow_ad_personalization_signals: false/);
+  assert.match(analytics, /clearGaCookies/);
+
+  assert.doesNotMatch(analytics, /supportNeed/);
+  assert.doesNotMatch(analytics, /environment/);
+  assert.doesNotMatch(analytics, /canLiftWalker/);
+  assert.doesNotMatch(analytics, /handBrakes/);
+  assert.doesNotMatch(advisor, /gtag\(/);
+});

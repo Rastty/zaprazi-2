@@ -5,6 +5,7 @@ import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/
 const form = document.querySelector("#zp-mobility-advisor");
 const result = document.querySelector("#zp-mobility-result");
 const submitButton = document.querySelector("#zp-mobility-submit");
+const errorBox = document.querySelector("#zp-advisor-errors");
 const runtime = window.ZaPraziRuntime || { affiliateMap: {} };
 const affiliateMap = runtime.affiliateMap || {};
 let builderStarted = false;
@@ -15,7 +16,7 @@ const track = (eventName) => {
   }));
 };
 
-if (form && result && submitButton) {
+if (form && result && submitButton && errorBox) {
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
@@ -187,6 +188,43 @@ if (form && result && submitButton) {
     `;
   };
 
+  const validateRequiredGroups = () => {
+    const visibleRequiredGroups = [...form.querySelectorAll("[data-zp-required-group]")]
+      .filter((fieldset) => !fieldset.hidden);
+
+    const missing = visibleRequiredGroups.filter((fieldset) => {
+      const name = fieldset.dataset.zpRequiredGroup;
+      return !checkedValue(name);
+    });
+
+    visibleRequiredGroups.forEach((fieldset) => {
+      const name = fieldset.dataset.zpRequiredGroup;
+      const invalid = !checkedValue(name);
+      fieldset.classList.toggle("is-error", invalid);
+      if (invalid) {
+        fieldset.setAttribute("aria-invalid", "true");
+      } else {
+        fieldset.removeAttribute("aria-invalid");
+      }
+    });
+
+    if (!missing.length) {
+      errorBox.hidden = true;
+      errorBox.textContent = "";
+      return true;
+    }
+
+    errorBox.textContent = missing.length === 1
+      ? "Doplňte prosím zvýrazněnou otázku."
+      : `Doplňte prosím ${missing.length} zvýrazněné otázky.`;
+    errorBox.hidden = false;
+
+    const firstMissing = missing[0];
+    firstMissing.setAttribute("tabindex", "-1");
+    firstMissing.focus();
+    return false;
+  };
+
   const updateConditionalQuestions = () => {
     const environment = checkedValue("environment", "");
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
@@ -202,6 +240,8 @@ if (form && result && submitButton) {
         section.querySelectorAll('input[type="radio"]').forEach((input) => {
           input.checked = false;
         });
+        section.classList.remove("is-error");
+        section.removeAttribute("aria-invalid");
       }
     });
   };
@@ -213,6 +253,19 @@ if (form && result && submitButton) {
       updateConditionalQuestions();
     }
 
+    const changedGroup = event.target?.closest?.("[data-zp-required-group]");
+    if (changedGroup) {
+      const name = changedGroup.dataset.zpRequiredGroup;
+      if (checkedValue(name)) {
+        changedGroup.classList.remove("is-error");
+        changedGroup.removeAttribute("aria-invalid");
+      }
+      if (!form.querySelector(".zp-fieldset.is-error")) {
+        errorBox.hidden = true;
+        errorBox.textContent = "";
+      }
+    }
+
     if (!builderStarted) {
       builderStarted = true;
       track("builder_start");
@@ -220,6 +273,10 @@ if (form && result && submitButton) {
   });
 
   submitButton.addEventListener("click", () => {
+    if (!validateRequiredGroups()) {
+      return;
+    }
+
     const duration = checkedValue("duration", "unknown");
     const output = recommendMobility({
       environment: checkedValue("environment"),

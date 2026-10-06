@@ -67,3 +67,21 @@ test("Advisor analytics remain local until a consent-aware adapter is installed"
   assert.doesNotMatch(app, /window\.gtag/);
   assert.doesNotMatch(app, /gtag\(/);
 });
+
+
+test("Advisor has explicit accessible validation for required visible groups", () => {
+  const front = read("front-page.php");
+  const app = read("assets/js/mobility-advisor.js");
+
+  assert.match(front, /id=["']zp-advisor-errors["']/);
+  assert.match(front, /role=["']alert["']/);
+  assert.match(front, /data-zp-required-group=["']environment["']/);
+  assert.match(front, /data-zp-required-group=["']supportNeed["']/);
+  assert.match(front, /data-zp-required-group=["']canLiftWalker["']/);
+  assert.match(front, /data-zp-required-group=["']handBrakes["']/);
+
+  assert.match(app, /validateRequiredGroups/);
+  assert.match(app, /aria-invalid/);
+  assert.match(app, /firstMissing\.focus\(\)/);
+  assert.match(app, /if \(!validateRequiredGroups\(\)\)/);
+});

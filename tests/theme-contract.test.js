@@ -277,3 +277,29 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   assert.match(privacy, /Google Signals/);
   assert.match(privacy, /personalizaci reklam/);
 });
+
+
+test("0.8.8 deployment integrity contract covers critical runtime files", () => {
+  const functions = read("functions.php");
+  const critical = [
+    "header.php",
+    "footer.php",
+    "front-page.php",
+    "page-choditko-na-pojistovnu.php",
+    "page-pujceni-choditka.php",
+    "page-ochrana-soukromi.php",
+    "assets/js/analytics-consent.js",
+    "assets/js/mobility-advisor.js",
+    "assets/js/runtime-config.js",
+    "style.css"
+  ];
+
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.8' );"));
+  assert.match(functions, /zaprazi_2_release_integrity_ok/);
+  assert.match(functions, /zaprazi-integrity/);
+  for (const path of critical) {
+    assert.ok(functions.includes(path), `integrity list missing ${path}`);
+    assert.match(read(path), /ZP_RELEASE_0_8_8/);
+  }
+  assert.ok(read("style.css").includes("Version: 0.8.8"));
+});

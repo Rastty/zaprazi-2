@@ -139,7 +139,7 @@ export function recommendMobility(input = {}) {
 
   const parameters = [
     "správná výška a možnost nastavení",
-    "celková šířka vzhledem k průchodům doma",
+    "celková šířka a průchodnost v místě použití",
     "nosnost výrobku",
     "hmotnost a manipulace"
   ];

@@ -50,5 +50,6 @@ jobs:
           php -l index.php
           php -l archive.php
           php -l woocommerce.php
+          php -l woocommerce/single-product/add-to-cart/external.php
           php -l single.php
           php -l page.php

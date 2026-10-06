@@ -131,3 +131,16 @@ Before theme activation:
 - no product URLs are deleted or redirected.
 
 ZaPrazi 2.0 RC therefore includes explicit WooCommerce theme support and a compatibility wrapper.
+
+
+### Legacy external-product routing
+
+Of 1,134 published WooCommerce products:
+- 1,101 are external/affiliate products,
+- destination distribution currently includes eHub 359, Marimex 304, NejlevnějšíPodlahy 223, Nextwood 131, Atan 84.
+
+All **359 eHub** product URLs contain the unresolved placeholder `nazev-webu-affilbox`, so they are objectively invalid affiliate destinations.
+
+ZaPrazi 2.0 RC fail-closes only these proven-broken links. The remaining legacy product URLs are preserved until a broader link-health review is complete.
+
+A public spot check also found at least one legacy Atan product page where the merchant states the product is no longer available, reinforcing the need for domain/product link-health review before treating the old catalog as active commerce.

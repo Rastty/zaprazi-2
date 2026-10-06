@@ -203,3 +203,23 @@ function zaprazi_2_front_meta_fallback() {
   echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'zaprazi_2_front_meta_fallback', 5 );
+
+
+function zaprazi_2_is_broken_legacy_external_url( $url ) {
+  $decoded = html_entity_decode( (string) $url, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+  $decoded = rawurldecode( $decoded );
+  return false !== stripos( $decoded, 'nazev-webu-affilbox' );
+}
+
+function zaprazi_2_guard_legacy_loop_external_cta( $html, $product, $args ) {
+  if ( ! is_a( $product, 'WC_Product_External' ) ) {
+    return $html;
+  }
+
+  if ( ! zaprazi_2_is_broken_legacy_external_url( $product->get_product_url() ) ) {
+    return $html;
+  }
+
+  return '<span class="button zp-legacy-offer-unverified" aria-disabled="true">Původní nabídka se ověřuje</span>';
+}
+add_filter( 'woocommerce_loop_add_to_cart_link', 'zaprazi_2_guard_legacy_loop_external_cta', 20, 3 );

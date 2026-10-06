@@ -14,3 +14,12 @@ jobs:
         with:
           node-version: 20
       - run: npm test
+      - name: Lint WordPress PHP
+        run: |
+          php -l functions.php
+          php -l header.php
+          php -l footer.php
+          php -l front-page.php
+          php -l index.php
+          php -l single.php
+          php -l page.php

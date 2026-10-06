@@ -10,10 +10,9 @@ const affiliateMap = runtime.affiliateMap || {};
 let builderStarted = false;
 
 const track = (eventName) => {
-  window.dispatchEvent(new CustomEvent("zaprazi:analytics", { detail: { event: eventName } }));
-  if (typeof window.gtag === "function") {
-    window.gtag("event", eventName);
-  }
+  window.dispatchEvent(new CustomEvent("zaprazi:analytics", {
+    detail: { event: eventName }
+  }));
 };
 
 if (form && result && submitButton) {

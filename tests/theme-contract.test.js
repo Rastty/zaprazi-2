@@ -57,3 +57,13 @@ test("legacy post rendering strips only invalid nested document wrappers", () =>
   assert.match(functions, /add_filter\( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 \)/);
   assert.doesNotMatch(functions, /wp_update_post\([^;]+zaprazi_2_sanitize_legacy_document_markup/s);
 });
+
+
+test("Advisor analytics remain local until a consent-aware adapter is installed", () => {
+  const app = read("assets/js/mobility-advisor.js");
+
+  assert.match(app, /zaprazi:analytics/);
+  assert.match(app, /CustomEvent/);
+  assert.doesNotMatch(app, /window\.gtag/);
+  assert.doesNotMatch(app, /gtag\(/);
+});

@@ -201,7 +201,7 @@ Next:
 
 
 ### ZP-015 High-intent SEO acquisition pages
-Status: **READY_DEPLOY_V1**
+Status: **READY_DEPLOY_V2**
 
 First page:
 - `/choditko-na-pojistovnu/`
@@ -212,7 +212,18 @@ First page:
 - expected automatic inclusion in the normal page sitemap after creation,
 - monthly reimbursement amount fails closed after 2026-10-31 until refreshed.
 
-Next candidates after first-page smoke/indexation:
-- půjčení chodítka / rollátoru,
+Second page:
+- `/pujceni-choditka/`
+- intent: short-term need / rental price / deposit / delivery,
+- current examples from RehaKomp and MEYRA,
+- prices become explicitly historical after 2026-11-06,
+- linked from the homepage acquisition section.
+
+Insurance page v2:
+- adds official VZP warning that retroactive reimbursement after self-purchase is not available,
+- adds VZP guidance for common walkers: practical-doctor prescriber path and max. 1 piece / 5 years,
+- keeps exceptions and product-specific conditions explicit.
+
+Next candidate after deploy/indexation:
 - rollátor na ven vs. chodítko domů,
 - BESCO WA21 / MEYRA Ideal evidence pages only if query/CTR data justify them.

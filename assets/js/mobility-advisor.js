@@ -1,5 +1,6 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
+import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/acquisition.js";
 
 const form = document.querySelector("#zp-mobility-advisor");
 const result = document.querySelector("#zp-mobility-result");
@@ -21,6 +22,11 @@ if (form && result) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+
+  const formatCheckedAt = (value) => {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
+    return match ? `${Number(match[3])}. ${Number(match[2])}. ${match[1]}` : value;
+  };
 
   const productFacts = (product) => {
     const facts = [
@@ -87,10 +93,49 @@ if (form && result) {
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
-              ${product.facts.suklCode ? `<p class="zp-sukl">SÚKL kód uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
+              ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP uvedený výrobcem: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální úhradu je nutné prověřit před nákupem.</p>` : ""}
               ${renderOffers(product.offers)}
             </article>
           `).join("")}
+        </div>
+      </section>
+    `;
+  };
+
+  const renderAcquisitionEvidence = (productIds, duration) => {
+    const reimbursement = getReimbursementGuidance(productIds);
+    const rentals = getRentalGuidance(productIds);
+
+    if (!reimbursement.length && !rentals.length) return "";
+
+    const rentCards = duration === "long_term"
+      ? ""
+      : rentals.map((item) => `
+          <article class="zp-acquisition-card">
+            <p class="zp-acquisition-label">Půjčit</p>
+            <h4>${escapeHtml(item.providerName)}</h4>
+            <p>Aktuálně uvádí pronájem tohoto typu chodítka za <strong>${escapeHtml(item.pricing.perDayKc)} Kč/den</strong> nebo <strong>${escapeHtml(item.pricing.perMonthKc)} Kč/měsíc</strong>.</p>
+            <p class="zp-muted-copy">${escapeHtml(item.note)} Ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}.</p>
+            <a class="zp-link-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener nofollow">Prověřit půjčení</a>
+          </article>
+        `).join("");
+
+    const reimbursementCards = reimbursement.map((item) => `
+      <article class="zp-acquisition-card">
+        <p class="zp-acquisition-label">Prověřit úhradu</p>
+        <h4>Kód ZP ${escapeHtml(item.zpCode)}</h4>
+        <p>${escapeHtml(item.userMessage)}</p>
+        <p class="zp-source-state">Zdroj tvrzení: výrobce · ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}. Přesná aktuální částka není na ZaPrazi zobrazena, dokud ji nepotvrdíme v platném měsíčním seznamu SÚKL.</p>
+        <a class="zp-link-btn" href="${escapeHtml(item.officialVerification.sourceUrl)}" target="_blank" rel="noopener">Ověřit v oficiálním seznamu SÚKL</a>
+      </article>
+    `).join("");
+
+    return `
+      <section class="zp-acquisition-evidence">
+        <h3>Koupit, půjčit, nebo prověřit úhradu?</h3>
+        <div class="zp-acquisition-grid">
+          ${rentCards}
+          ${reimbursementCards}
         </div>
       </section>
     `;
@@ -101,13 +146,14 @@ if (form && result) {
       builderStarted = true;
       track("builder_start");
     }
-  }, { once: false });
+  });
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     track("builder_complete");
 
     const data = new FormData(form);
+    const duration = data.get("duration") ?? "unknown";
     const output = recommendMobility({
       environment: data.get("environment"),
       supportNeed: data.get("supportNeed"),
@@ -116,7 +162,7 @@ if (form && result) {
       seatNeeded: data.has("seatNeeded"),
       transportNeed: data.has("transportNeed"),
       homeSpace: data.has("tightSpace") ? "tight" : "standard",
-      duration: data.get("duration") ?? "unknown"
+      duration
     });
 
     const recommendations = output.recommendations.map((item) => `
@@ -136,13 +182,13 @@ if (form && result) {
     }
 
     const acquisition = output.acquisition.length
-      ? `<h3>Jak řešení získat</h3>
+      ? `<section class="zp-acquisition-summary"><h3>Obecně k způsobu získání</h3>
          <div>${output.acquisition.map((item) => `
            <article>
              <h4>${escapeHtml(item.label)}</h4>
              <p>${escapeHtml(item.reason)}</p>
            </article>
-         `).join("")}</div>`
+         `).join("")}</div></section>`
       : "";
 
     result.innerHTML = `
@@ -151,6 +197,7 @@ if (form && result) {
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
       ${renderProducts(products)}
+      ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
       <p class="zp-privacy-note">Odpovědi z tohoto formuláře zůstávají pouze v této otevřené stránce a nejsou tímto poradcem odesílány na server.</p>

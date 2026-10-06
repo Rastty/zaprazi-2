@@ -17,6 +17,7 @@ jobs:
       - name: Check frontend JavaScript syntax
         run: |
           node --check assets/js/runtime-config.js
+          node --check assets/js/analytics-consent.js
           node --check assets/js/mobility-advisor.js
           node --check src/mobility/engine.js
           node --check src/mobility/catalog.js

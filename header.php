@@ -1,4 +1,4 @@
-<!doctype html>
+<!doctype html>\n<?php /* ZP_RELEASE_0_8_8 */ ?>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">

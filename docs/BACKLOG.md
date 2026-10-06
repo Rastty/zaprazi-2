@@ -116,7 +116,7 @@ Need exact VIV deeplinks to activate affiliate tracking.
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 RC 0.8.1 is active on production. Deployment remains Git-first through Deployer for Git from `dev`.
+ZaPrazi 2.0 is active on production. Latest repository release is **0.8.7**, ready for a single Git-first Deployer update from `dev`.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -188,7 +188,7 @@ RC behavior:
 - keep conditional compatibility + broken-link guards ready if WooCommerce is intentionally reactivated later.
 
 ### ZP-014 Analytics transition
-Status: **READY_DEPLOY_STRICT_OPT_IN**
+Status: **READY_DEPLOY_0_8_7**
 
 Evidence:
 - existing GA4 stream `G-WM86QVXVST` is reused,
@@ -212,7 +212,7 @@ Post-deploy:
 
 
 ### ZP-015 High-intent SEO acquisition pages
-Status: **READY_DEPLOY_V2**
+Status: **READY_DEPLOY_0_8_7**
 
 First page:
 - `/choditko-na-pojistovnu/`
@@ -241,7 +241,7 @@ Next candidate after deploy/indexation:
 
 
 ### ZP-016 Core navigation
-Status: **READY_DEPLOY**
+Status: **READY_DEPLOY_0_8_7**
 
 Header now links the core user journeys on every page:
 - Advisor,

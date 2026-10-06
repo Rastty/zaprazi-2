@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZaPrazi 2.0 — Domácí poradce / Mobilita</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="shell">
+    <p class="eyebrow">ZaPrazi.cz</p>
+    <h1>Co doma potřebujete vyřešit?</h1>
+    <p class="lead">První prototyp Domácího poradce pomáhá zorientovat se při výběru opory pro chůzi. Nejde o diagnózu ani individuální zdravotní posouzení.</p>
+
+    <form id="advisor">
+      <fieldset>
+        <legend>Kde člověk potřebuje oporu při chůzi?</legend>
+        <label><input type="radio" name="environment" value="indoor" required> Hlavně doma</label>
+        <label><input type="radio" name="environment" value="outdoor"> Hlavně venku</label>
+        <label><input type="radio" name="environment" value="both"> Doma i venku</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Jak velkou oporu při chůzi potřebuje?</legend>
+        <label><input type="radio" name="supportNeed" value="light" required> Spíš lehkou oporu</label>
+        <label><input type="radio" name="supportNeed" value="steady"> Stabilní oporu při většině kroků</label>
+        <label><input type="radio" name="supportNeed" value="person_assist"> Často mu fyzicky pomáhá další osoba</label>
+        <label><input type="radio" name="supportNeed" value="unknown"> Nevím</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pokud řešíte pohyb venku: zvládne člověk bezpečně používat ruční brzdy?</legend>
+        <label><input type="radio" name="handBrakes" value="yes"> Ano</label>
+        <label><input type="radio" name="handBrakes" value="no"> Ne</label>
+        <label><input type="radio" name="handBrakes" value="unknown" checked> Nevím / netýká se</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Praktické požadavky</legend>
+        <label><input type="checkbox" name="seatNeeded"> Potřebuje možnost si při chůzi odpočinout</label>
+        <label><input type="checkbox" name="transportNeed"> Budeme pomůcku často převážet autem</label>
+        <label><input type="checkbox" name="tightSpace"> Doma jsou úzké průchody nebo málo prostoru</label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
+        <label><input type="radio" name="duration" value="short_term"> Spíš dočasně</label>
+        <label><input type="radio" name="duration" value="long_term"> Spíš dlouhodobě</label>
+        <label><input type="radio" name="duration" value="unknown" checked> Nevím</label>
+      </fieldset>
+
+      <button type="submit">Zjistit vhodný další krok</button>
+    </form>
+
+    <section id="result" class="result" aria-live="polite" tabindex="-1" hidden></section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

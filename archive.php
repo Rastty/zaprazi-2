@@ -1,9 +1,9 @@
 <?php get_header(); ?>
 <main class="zp-wrap zp-archive">
   <header class="zp-archive-header">
-    <p class="zp-kicker">ZaPrazi.cz</p>
-    <h1>Starší články</h1>
-    <p>Tento archiv zatím zachováváme beze změn URL. Nové ZaPrazi se postupně soustředí na praktická rozhodnutí pro bezpečný a samostatný život doma.</p>
+    <p class="zp-kicker">Archiv</p>
+    <h1><?php the_archive_title(); ?></h1>
+    <?php the_archive_description('<div class="zp-archive-description">', '</div>'); ?>
   </header>
 
   <?php if ( have_posts() ) : ?>

@@ -151,3 +151,51 @@ function zaprazi_2_assets() {
   }
 }
 add_action('wp_enqueue_scripts', 'zaprazi_2_assets');
+
+
+function zaprazi_2_front_title( $title ) {
+  if ( is_front_page() ) {
+    return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
+  }
+  return $title;
+}
+add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
+
+function zaprazi_2_wpseo_title( $title ) {
+  return is_front_page()
+    ? 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi'
+    : $title;
+}
+add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
+
+function zaprazi_2_wpseo_description( $description ) {
+  return is_front_page()
+    ? 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.'
+    : $description;
+}
+add_filter( 'wpseo_metadesc', 'zaprazi_2_wpseo_description', 20 );
+
+function zaprazi_2_front_meta_fallback() {
+  if ( ! is_front_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+
+  $description = 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.';
+  echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
+
+  $schema = array(
+    '@context' => 'https://schema.org',
+    '@type' => 'WebPage',
+    'name' => 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu',
+    'description' => $description,
+    'url' => home_url( '/' ),
+    'isPartOf' => array(
+      '@type' => 'WebSite',
+      'name' => 'ZaPrazi.cz',
+      'url' => home_url( '/' ),
+    ),
+  );
+
+  echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'zaprazi_2_front_meta_fallback', 5 );

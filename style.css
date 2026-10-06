@@ -1,0 +1,49 @@
+/*
+Theme Name: ZaPrazi 2.0 RC
+Theme URI: https://zaprazi.cz/
+Author: ZaPrazi
+Description: Decision engine pro bezpečný a samostatný život doma.
+Version: 0.1.0
+Text Domain: zaprazi-2
+*/
+
+:root{
+  --zp-bg:#f6f3ed;
+  --zp-paper:#fffdf8;
+  --zp-ink:#20251f;
+  --zp-muted:#687169;
+  --zp-line:#d9ddd6;
+  --zp-accent:#355d4b;
+  --zp-accent-2:#e8efe9;
+  --zp-warm:#b96537;
+  --zp-radius:22px;
+  --zp-shadow:0 18px 50px rgba(32,37,31,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--zp-bg);color:var(--zp-ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.6}
+a{color:inherit}
+.zp-wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+.zp-header{background:rgba(246,243,237,.94);border-bottom:1px solid var(--zp-line);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+.zp-nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.zp-brand{text-decoration:none;font-weight:800;font-size:1.15rem}
+.zp-tagline{color:var(--zp-muted);font-size:.9rem}
+.zp-hero{padding:76px 0 64px}
+.zp-kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:800;color:var(--zp-accent)}
+.zp-hero h1{font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.05em;max-width:10ch;margin:.25em 0}
+.zp-lead{max-width:700px;font-size:1.18rem;color:#485149}
+.zp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 20px;border-radius:999px;background:var(--zp-accent);color:#fff;text-decoration:none;font-weight:800;margin-top:18px}
+.zp-panel{background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:var(--zp-radius);box-shadow:var(--zp-shadow);padding:24px}
+.zp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:18px 0 64px}
+.zp-card{background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:18px;padding:20px}
+.zp-content{width:min(820px,calc(100% - 36px));margin:auto;padding:52px 0}
+.zp-content h1{font-size:clamp(2.2rem,5vw,4.3rem);line-height:1.02}
+.zp-content p,.zp-content li{font-size:1.06rem}
+.zp-footer{border-top:1px solid var(--zp-line);margin-top:60px}
+.zp-footer-inner{padding:34px 0;color:var(--zp-muted)}
+:focus-visible{outline:4px solid var(--zp-warm);outline-offset:4px}
+@media(max-width:800px){
+  .zp-tagline{display:none}
+  .zp-grid{grid-template-columns:1fr}
+  .zp-hero{padding-top:48px}
+}

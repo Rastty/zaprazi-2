@@ -157,3 +157,24 @@ Authenticated counts show that whole-document markup is embedded inside the vast
 Because this is a rendering defect across most of the legacy corpus, correcting thousands of database rows before launch would create unnecessary migration risk.
 
 The RC instead applies a narrow render-time sanitizer on singular legacy posts only. Stored content remains untouched for rollback and later controlled content migration.
+
+
+### Generated document tails inside legacy posts
+
+A second authenticated pass checked whether stripping only `html/head/body` wrappers would expose fake page chrome.
+
+Observed across published posts:
+- `<header>`: 1,777,
+- `<nav>`: 406,
+- placeholder `href="#"`: 361,
+- `<footer>`: 1,524.
+
+Sample records showed appended generated documents containing:
+- fake Domů/O nás/Kontakt navigation,
+- example.com placeholder links,
+- generated copyright/site footers,
+- duplicate article headings/content.
+
+First-DOCTYPE position analysis across all 3,994 affected posts found zero cases in the first 100 characters and an average first position around 1,499 characters. This supports the safer render-time rule: keep the meaningful original prefix and suppress the later full generated document when its `html/head/body` signature is present.
+
+This remains a reversible presentation rule; stored post content is untouched.

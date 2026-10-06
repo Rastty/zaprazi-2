@@ -3,6 +3,16 @@ import { getMobilityProducts } from "../../src/mobility/catalog.js";
 
 const form = document.querySelector("#zp-mobility-advisor");
 const result = document.querySelector("#zp-mobility-result");
+const runtime = window.ZaPraziRuntime || { affiliateMap: {} };
+const affiliateMap = runtime.affiliateMap || {};
+let builderStarted = false;
+
+const track = (eventName) => {
+  window.dispatchEvent(new CustomEvent("zaprazi:analytics", { detail: { event: eventName } }));
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName);
+  }
+};
 
 if (form && result) {
   const escapeHtml = (value) => String(value)
@@ -24,22 +34,35 @@ if (form && result) {
     return facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("");
   };
 
+  const resolveOffer = (offer) => {
+    const configuredAffiliateUrl = offer.affiliateKey ? affiliateMap[offer.affiliateKey] : null;
+    const affiliateUrl = typeof configuredAffiliateUrl === "string" && configuredAffiliateUrl.startsWith("https://")
+      ? configuredAffiliateUrl
+      : null;
+
+    return {
+      ...offer,
+      resolvedUrl: affiliateUrl || offer.url,
+      isAffiliate: Boolean(affiliateUrl)
+    };
+  };
+
   const renderOffers = (offers = []) => {
     if (!offers.length) return "";
 
     return `
       <div class="zp-offers">
-        ${offers.map((offer) => {
-          const isAffiliate = Boolean(offer.affiliateUrl);
-          const rel = isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow";
+        ${offers.map((rawOffer) => {
+          const offer = resolveOffer(rawOffer);
+          const rel = offer.isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow";
           return `
             <div class="zp-offer">
               <strong>${escapeHtml(offer.merchantName)}</strong>
               <p>${escapeHtml(offer.note)}</p>
-              <a class="zp-link-btn" href="${escapeHtml(offer.affiliateUrl || offer.url)}" target="_blank" rel="${rel}">
-                ${isAffiliate ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}
+              <a class="zp-link-btn" data-zp-merchant-link="1" href="${escapeHtml(offer.resolvedUrl)}" target="_blank" rel="${rel}">
+                ${offer.isAffiliate ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}
               </a>
-              ${isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
+              ${offer.isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
             </div>
           `;
         }).join("")}
@@ -73,8 +96,16 @@ if (form && result) {
     `;
   };
 
+  form.addEventListener("change", () => {
+    if (!builderStarted) {
+      builderStarted = true;
+      track("builder_start");
+    }
+  }, { once: false });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
+    track("builder_complete");
 
     const data = new FormData(form);
     const output = recommendMobility({
@@ -100,6 +131,10 @@ if (form && result) {
     const ids = output.recommendations.flatMap((item) => item.productCandidateIds ?? []);
     const products = getMobilityProducts(ids);
 
+    if (output.recommendations.length > 0) {
+      track("recommendation_view");
+    }
+
     const acquisition = output.acquisition.length
       ? `<h3>Jak řešení získat</h3>
          <div>${output.acquisition.map((item) => `
@@ -120,6 +155,10 @@ if (form && result) {
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
       <p class="zp-privacy-note">Odpovědi z tohoto formuláře zůstávají pouze v této otevřené stránce a nejsou tímto poradcem odesílány na server.</p>
     `;
+
+    result.querySelectorAll("[data-zp-merchant-link]").forEach((link) => {
+      link.addEventListener("click", () => track("merchant_click"), { once: true });
+    });
 
     result.hidden = false;
     result.focus();

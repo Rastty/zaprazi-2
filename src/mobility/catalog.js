@@ -31,6 +31,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       {
         merchantId: "rehabilitacni-pomucky-cz",
         merchantName: "RehabilitačníPomůcky.cz",
+        affiliateKey: "rehabilitacni-pomucky-cz:besco-wa17",
         url: "https://www.rehabilitacnipomucky.cz/besco-ctyrbodove-choditko-skladaci/",
         affiliateUrl: null,
         acquisitionMode: "direct_pay",
@@ -71,6 +72,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       {
         merchantId: "rehabilitacni-pomucky-cz",
         merchantName: "RehabilitačníPomůcky.cz",
+        affiliateKey: "rehabilitacni-pomucky-cz:besco-wa21",
         url: "https://www.rehabilitacnipomucky.cz/besco-dvoukolove-choditko-skladaci/",
         affiliateUrl: null,
         acquisitionMode: "direct_pay",
@@ -153,6 +155,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       {
         merchantId: "lekarna-cz",
         merchantName: "Lékárna.cz",
+        affiliateKey: "lekarna-cz:meyra-ideal-3061982",
         url: "https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/",
         affiliateUrl: null,
         acquisitionMode: "direct_pay",

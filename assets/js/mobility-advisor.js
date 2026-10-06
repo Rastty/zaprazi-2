@@ -29,6 +29,14 @@ if (form && result && submitButton) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
+  const statusLabel = (status) => ({
+    candidate: "Vhodný směr k porovnání",
+    needs_more_info: "Ještě potřebujeme jednu informaci",
+    professional_check: "Nejdřív ověřit s odborníkem",
+    outside_current_slice: "Tady zatím nechceme hádat",
+    invalid_input: "Zkontrolujte odpovědi"
+  }[status] || "");
+
   const formatCheckedAt = (value) => {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
     return match ? `${Number(match[3])}. ${Number(match[2])}. ${match[1]}` : value;
@@ -237,7 +245,7 @@ if (form && result && submitButton) {
       track("recommendation_view");
     }
 
-    const acquisition = output.acquisition.length
+    const acquisition = output.status === "candidate" && output.acquisition.length
       ? `<section class="zp-acquisition-summary"><h3>Obecně k způsobu získání</h3>
          <div>${output.acquisition.map((item) => `
            <article>
@@ -248,7 +256,7 @@ if (form && result && submitButton) {
       : "";
 
     result.innerHTML = `
-      <p class="zp-result-status">${escapeHtml(output.status)}</p>
+      ${statusLabel(output.status) ? `<p class="zp-result-status">${escapeHtml(statusLabel(output.status))}</p>` : ""}
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
@@ -256,7 +264,6 @@ if (form && result && submitButton) {
       ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
-      <p class="zp-privacy-note">Odpovědi z tohoto formuláře zůstávají pouze v této otevřené stránce a nejsou tímto poradcem odesílány na server.</p>
     `;
 
     result.querySelectorAll("[data-zp-merchant-link]").forEach((link) => {

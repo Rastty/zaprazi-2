@@ -29,6 +29,12 @@ if (form && result && submitButton) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 
+  const familyLabel = (family) => ({
+    fixed_walker: "Čtyřbodové chodítko",
+    front_wheel_walker: "Dvoukolové chodítko",
+    rollator: "Čtyřkolový rollátor"
+  }[family] || family);
+
   const statusLabel = (status) => ({
     candidate: "Vhodný směr k porovnání",
     needs_more_info: "Ještě potřebujeme jednu informaci",
@@ -126,7 +132,7 @@ if (form && result && submitButton) {
         <div class="zp-product-grid">
           ${products.map((product) => `
             <article class="zp-product-card">
-              <p class="zp-product-family">${escapeHtml(product.solutionFamily)}</p>
+              <p class="zp-product-family">${escapeHtml(familyLabel(product.solutionFamily))}</p>
               <h4>${escapeHtml(product.name)}</h4>
               <ul class="zp-facts">${productFacts(product)}</ul>
               <details>

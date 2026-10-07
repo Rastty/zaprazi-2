@@ -108,7 +108,7 @@ get_header();
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Bezpečný přesun</h3><p>Pokud je běžně potřeba fyzická pomoc druhé osoby, poradce nepředstírá jistotu a nepřeskočí rovnou k produktu.</p></article>
         <article class="zp-decision-card"><h3>Fit a montáž</h3><p>U nástavce řešíme kompatibilitu s WC a oporu chodidel. U madla zase bezpečné kotvení do skutečné konstrukce stěny.</p></article>
-        <article class="zp-decision-card"><h3>Způsob pořízení</h3><p>Koupě, místní půjčovna a hrazená alternativa jsou tři různé cesty. Konkrétní maloobchodní produkt automaticky neoznačujeme za hrazený.</p></article>
+        <article class="zp-decision-card"><h3>Způsob pořízení</h3><p>Koupě, místní půjčovna a hrazená alternativa jsou tři různé cesty. Konkrétní maloobchodní produkt automaticky neoznačujeme za hrazený.</p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje úhrada pomůcek do koupelny</a></article>
       </div>
     </div>
   </section>

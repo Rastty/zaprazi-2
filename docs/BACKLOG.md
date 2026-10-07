@@ -421,3 +421,24 @@ Research-only P2085 is intentionally excluded from affiliate routing.
 RehaVita.cz:
 - advertiser approval confirmed by user,
 - currently classified for later ADL / return-from-hospital research rather than Bathroom/WC v1.
+
+
+### ZP-026 Bathroom/WC reimbursement resource
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds high-intent resource page:
+- `/pomucky-do-koupelny-na-pojistovnu/`
+
+Purpose:
+- explain which Bathroom/WC compensatory-aid groups VZP currently describes,
+- explain prior insurer approval and prescription flow,
+- explain that SÚKL reimbursement data are monthly and product-specific,
+- explicitly keep current UNIZDRAV retail candidates separate from reimbursement claims unless exact identity is proven,
+- route Advisor reimbursement interest through a ZaPrazi explanation before official VZP/SÚKL sources.
+
+Current official evidence checked 2026-10-07:
+- VZP page processed 2026-09-29 describes shower/bath seats, shower chairs, shower wheelchairs, toilet chairs, toilet wheelchairs and combined toilet/shower chairs in the relevant compensation group,
+- VZP states prior insurer approval and a 1-piece / 10-year frequency for that group,
+- SÚKL publishes the official reimbursed-device list monthly for the following month and may issue corrective lists.
+
+No exact UNIZDRAV product is labelled reimbursed.

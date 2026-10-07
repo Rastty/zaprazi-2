@@ -486,6 +486,25 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ano, půjčení může sloužit jako dočasná cesta. Podmínky konkrétní půjčovny a případný vztah půjčovného k následnému nákupu nebo výdeji se ale liší.',
       ),
     );
+  } elseif ( zaprazi_2_is_bathroom_insurance_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Hradí pojišťovna sprchovací nebo toaletní židli?',
+        'answer'   => 'Některé zdravotnické prostředky tohoto typu mohou být hrazené při splnění indikačních a úhradových podmínek. VZP tuto skupinu aktuálně popisuje, ale konkrétní výrobek musí být ověřen v aktuálním seznamu SÚKL a předpis podléhá schválení pojišťovny.',
+      ),
+      array(
+        'question' => 'Mohu si koupit pomůcku a potom požádat pojišťovnu o proplacení?',
+        'answer'   => 'Na takový postup se nespoléhejte. Hrazená cesta začíná správným předpisem, případným schválením a výdejem přes oprávněného výdejce; běžný maloobchodní nákup je jiná cesta.',
+      ),
+      array(
+        'question' => 'Může pomůcku do koupelny předepsat praktický lékař?',
+        'answer'   => 'U skupiny kompenzačních prostředků popsané VZP je praktický lékař mezi uvedenými odbornostmi. Přesto musí být splněny konkrétní podmínky a u této skupiny je vyžadováno schválení zdravotní pojišťovny.',
+      ),
+      array(
+        'question' => 'Je nástavec na WC automaticky hrazený?',
+        'answer'   => 'Ne. ZaPrazi neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+      ),
+    );
   }
 
   if ( ! $faq ) {
@@ -603,7 +622,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v4' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v5' ) ) {
     return;
   }
 
@@ -627,6 +646,11 @@ function zaprazi_2_ensure_resource_pages() {
       'title'    => 'Koupelna a WC: bezpečnější řešení doma',
       'excerpt'  => 'Praktický poradce pro zvýšení WC, opory, toaletní a sprchovací židle a bezpečné rozhodnutí mezi koupí, půjčením a hrazenou alternativou.',
       'template' => 'page-koupelna-a-wc.php',
+    ),
+    'pomucky-do-koupelny-na-pojistovnu' => array(
+      'title'    => 'Pomůcky do koupelny a na WC na pojišťovnu 2026',
+      'excerpt'  => 'Které koupelnové a toaletní pomůcky mohou být hrazené, kdy je potřeba schválení pojišťovny a jak ověřit aktuální seznam SÚKL.',
+      'template' => 'page-pomucky-do-koupelny-na-pojistovnu.php',
     ),
   );
 
@@ -660,7 +684,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v4', '1', false );
+    update_option( 'zaprazi_resource_pages_v5', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
@@ -677,6 +701,10 @@ function zaprazi_2_is_privacy_page() {
   return is_page( 'ochrana-soukromi' );
 }
 
+function zaprazi_2_is_bathroom_insurance_page() {
+  return is_page( 'pomucky-do-koupelny-na-pojistovnu' );
+}
+
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
@@ -688,6 +716,10 @@ function zaprazi_2_resource_title( $title ) {
 
   if ( zaprazi_2_is_privacy_page() ) {
     return 'Ochrana soukromí a měření návštěvnosti | ZaPrazi';
+  }
+
+  if ( zaprazi_2_is_bathroom_insurance_page() ) {
+    return 'Pomůcky do koupelny a na WC na pojišťovnu 2026 | ZaPrazi';
   }
 
   return $title;
@@ -706,6 +738,10 @@ function zaprazi_2_resource_description( $description ) {
 
   if ( zaprazi_2_is_privacy_page() ) {
     return 'Jak ZaPrazi chrání odpovědi z Domácího poradce a kdy se načítá volitelné Google Analytics. Souhlas s měřením lze kdykoli změnit.';
+  }
+
+  if ( zaprazi_2_is_bathroom_insurance_page() ) {
+    return 'Pomůcky do koupelny a na WC na pojišťovnu v roce 2026: které skupiny VZP uvádí, kdy je potřeba schválení a jak ověřit aktuální seznam SÚKL.';
   }
 
   return $description;

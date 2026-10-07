@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_22
+// ZP_RELEASE_0_8_23
 import { recommendWheelchair } from "../../src/wheelchair/engine.js";
 import { getWheelchairProducts } from "../../src/wheelchair/catalog.js";
 

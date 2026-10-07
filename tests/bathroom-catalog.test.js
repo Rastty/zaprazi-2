@@ -73,3 +73,16 @@ test("DMA EH-CMDA has exact retail identity and guarded reimbursement evidence",
   assert.equal(product.reimbursementEvidence.payerCode, "5019427");
   assert.equal(product.reimbursementEvidence.monthlySuklListVerified, false);
 });
+
+
+test("bath transfer bench has exact dimensions and runtime affiliate key", () => {
+  const product = BATHROOM_PRODUCTS.find((item) => item.id === "unizdrav-p2203");
+  assert.ok(product);
+  assert.equal(product.productionEligible, true);
+  assert.equal(product.solutionFamily, "bath_transfer_bench");
+  assert.equal(product.facts.totalWidthCm, 81);
+  assert.equal(product.facts.totalDepthCm, 61);
+  assert.equal(product.facts.maxUserWeightKg, 110);
+  assert.equal(product.offers[0].affiliateKey, "unizdrav-cz:p2203");
+  assert.ok(product.selectionNotes.some((note) => /jedna strana konstrukce stojí ve vaně/i.test(note)));
+});

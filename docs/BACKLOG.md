@@ -1702,7 +1702,7 @@ Commercial routing and affiliate ranking are unchanged.
 
 
 ### ZP-080 Release 0.8.38 — Navigation cleanup + Wheelchair SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / PRODUCTION_SMOKE_PASS**
 
 Release 0.8.38 supersedes 0.8.37.
 
@@ -1716,3 +1716,24 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`; older 0.8.35–0.8.37 packages are superseded.
+
+
+### ZP-081 Adjustable bed SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens the existing `/polohovaci-postel/` journey for the broad high-intent query cluster around **polohovací postel pro seniory** without creating another suitability engine.
+
+Adds:
+- H1 and SEO metadata centered on **polohovací postel pro seniory**,
+- clearer decision framing around purpose, transfer, load and room/transport fit,
+- five visible FAQs mirrored exactly in FAQPage schema,
+- stronger internal links to acquisition/insurance, safe-home audit and return-home journey,
+- regression coverage that keeps the existing Bed Advisor as the single decision engine.
+
+Safety boundary stays unchanged:
+- no diagnosis-based routing,
+- no raw body-weight input,
+- no exact product when load or space fit is unverified,
+- complex in-bed care remains a separate guarded scenario.
+
+Commercial routing and affiliate ranking are unchanged.

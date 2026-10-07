@@ -558,7 +558,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
-    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
+    return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
@@ -614,7 +614,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
-    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
+    return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
@@ -671,7 +671,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Praktický poradce pro bezpečnější WC a koupelnu: zvýšení WC, opory, toaletní a sprchovací židle, koupě, půjčení a prověření hrazené alternativy.';
   }
   if ( zaprazi_2_is_bed_page() ) {
-    return 'Praktický poradce pro polohovací postel: vhodný typ, rozměry a nosnost, půjčení, koupě a prověření úhrady nebo cirkulace přes pojišťovnu.';
+    return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Jak vybrat invalidní vozík pro seniora podle pohonu, šířky sedu, průchodů a nosnosti. Mechanický vs. elektrický, půjčení, koupě a pojišťovna.';
@@ -850,6 +850,29 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Je nástavec na WC automaticky hrazený?',
         'answer'   => 'Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_bed_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vybrat polohovací postel pro seniora?',
+        'answer'   => 'Začněte tím, co má postel doma prakticky vyřešit: běžné elektrické polohování, snazší přístup pečující osoby, vyšší nosnost nebo náročnější péči na lůžku. Potom ověřte způsob přesunu, nosnost, prostor a teprve nakonec způsob pořízení.',
+      ),
+      array(
+        'question' => 'Je vždy potřeba elektrická polohovací postel?',
+        'answer'   => 'Ne. Pokud jde jen o pohodlnější vstávání, nemusí být specializované elektrické lůžko automaticky nejlepší řešení. Elektrická polohovací postel dává smysl tehdy, když je potřeba měnit výšku lůžka, polohu zad nebo nohou či usnadnit každodenní péči.',
+      ),
+      array(
+        'question' => 'Jaké rozměry změřit před koupí polohovací postele?',
+        'answer'   => 'Změřte místo v pokoji, nejužší dveře a chodby na trase dopravy i prostor kolem postele pro bezpečný přístup. Nestačí znát jen rozměr matrace; rozhoduje celkový půdorys konkrétního lůžka a reálná cesta pro montáž.',
+      ),
+      array(
+        'question' => 'Jak ověřit nosnost polohovací postele?',
+        'answer'   => 'Porovnejte technickou nosnost konkrétního modelu s reálnou potřebou a ponechte bezpečnou rezervu podle údajů výrobce. Přesnou hmotnost člověka do poradce Zápraží zadávat nemusíte.',
+      ),
+      array(
+        'question' => 'Je lepší polohovací postel půjčit, koupit, nebo řešit přes pojišťovnu?',
+        'answer'   => 'U dočasné nebo nejisté potřeby bývá rozumné nejdřív prověřit půjčení. U dlouhodobé potřeby má smysl před nákupem prověřit také pojišťovnu. Přímý nákup, půjčovna a hrazená cesta jsou tři odlišné způsoby pořízení.',
       ),
     );
   } elseif ( zaprazi_2_is_bed_acquisition_page() ) {

@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Polohovací postel</p>
-      <h1>Polohovací postel: koupit, půjčit, nebo nejdřív řešit pojišťovnu?</h1>
+      <h1>Polohovací postel pro seniory: jak vybrat elektrickou postel a jak ji získat?</h1>
       <p class="zp-lead">Začínáme tím, co má postel doma prakticky vyřešit. Neptáme se na diagnózu ani přesnou hmotnost člověka. Poradce oddělí standardní domácí postel, robustnější variantu a náročnější péči na lůžku — a až potom způsob pořízení.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-postel">Spustit poradce</a>
@@ -81,7 +81,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Jak rozhodujeme</p>
-      <h2 class="zp-section-title">U postele je důležitější prostor, výška a způsob péče než samotná cena.</h2>
+      <h2 class="zp-section-title">Jak vybrat polohovací postel pro seniora: nejdřív účel, prostor a bezpečné používání.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Standardní domácí postel</h3><p>Pro běžné elektrické nastavení výšky, zad a nohou a jednodušší domácí péči.</p></article>
         <article class="zp-decision-card"><h3>Robustnější varianta</h3><p>Když standardní nosnost nestačí, potřebujeme jinou konstrukci — ne jen „stejnou postel ve větší velikosti“.</p></article>
@@ -101,6 +101,40 @@ get_header();
         <article><h3>Půjčit</h3><p>U dočasné potřeby mohou lokální půjčovny elektrickou postel nabídnout za stovky korun měsíčně. Dostupnost, doprava a montáž se liší podle místa.</p></article>
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje předpis, schválení pojišťovnou a také režim cirkulace, kdy může být lůžko pojištěnci zapůjčeno.</p></article>
         <article><h3>Koupit</h3><p>Dává smysl hlavně tam, kde je potřeba dlouhodobá a konkrétní model odpovídá prostoru, nosnosti i praktické péči.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap zp-faq">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Co ověřit před výběrem polohovací postele.</h2>
+
+      <details>
+        <summary>Jak vybrat polohovací postel pro seniora?</summary>
+        <p>Začněte tím, co má postel doma prakticky vyřešit: běžné elektrické polohování, snazší přístup pečující osoby, vyšší nosnost nebo náročnější péči na lůžku. Potom ověřte způsob přesunu, nosnost, prostor a teprve nakonec způsob pořízení.</p>
+      </details>
+      <details>
+        <summary>Je vždy potřeba elektrická polohovací postel?</summary>
+        <p>Ne. Pokud jde jen o pohodlnější vstávání, nemusí být specializované elektrické lůžko automaticky nejlepší řešení. Elektrická polohovací postel dává smysl tehdy, když je potřeba měnit výšku lůžka, polohu zad nebo nohou či usnadnit každodenní péči.</p>
+      </details>
+      <details>
+        <summary>Jaké rozměry změřit před koupí polohovací postele?</summary>
+        <p>Změřte místo v pokoji, nejužší dveře a chodby na trase dopravy i prostor kolem postele pro bezpečný přístup. Nestačí znát jen rozměr matrace; rozhoduje celkový půdorys konkrétního lůžka a reálná cesta pro montáž.</p>
+      </details>
+      <details>
+        <summary>Jak ověřit nosnost polohovací postele?</summary>
+        <p>Porovnejte technickou nosnost konkrétního modelu s reálnou potřebou a ponechte bezpečnou rezervu podle údajů výrobce. Přesnou hmotnost člověka do poradce Zápraží zadávat nemusíte.</p>
+      </details>
+      <details>
+        <summary>Je lepší polohovací postel půjčit, koupit, nebo řešit přes pojišťovnu?</summary>
+        <p>U dočasné nebo nejisté potřeby bývá rozumné nejdřív prověřit půjčení. U dlouhodobé potřeby má smysl před nákupem prověřit také pojišťovnu. Přímý nákup, půjčovna a hrazená cesta jsou tři odlišné způsoby pořízení.</p>
+      </details>
+
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">Pojišťovna, půjčení a nákup</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Zkontrolovat prostor a bezpečný byt</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a>
       </div>
     </div>
   </section>

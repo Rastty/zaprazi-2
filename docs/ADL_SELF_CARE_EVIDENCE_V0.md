@@ -148,16 +148,18 @@ The UI can now expose isolated affiliate slots. Until a publisher-specific deepl
 ## Affiliate generation path
 
 Approved network context:
-- network: **VIVnetworks / CJ**,
+- network: **eHUB**,
 - advertiser: **RehaVita.cz**,
-- advertiser ID: **18119967**.
+- campaign ID: **18119967**.
 
-For each of the three products:
+For each of the four products:
 1. open the exact canonical RehaVita product URL,
-2. generate the publisher-specific tracking link with the CJ Deep Link Generator / current Chrome extension,
+2. generate the publisher-specific deeplink in the approved eHUB account,
 3. paste the generated URL into the matching WordPress affiliate slot,
-4. do not manually construct PID/AID/tracking parameters,
+4. do not manually construct tracking parameters,
 5. keep canonical fallback active until the exact generated link is available.
+
+Public eHUB program information also advertises domain tracking, but Zápraží treats that only as a supplementary measurement path, not as a replacement for the exact publisher deeplink.
 
 The four slots remain:
 - `rehavita-cz:upcup-15-050101`,
@@ -167,4 +169,4 @@ The four slots remain:
 
 ## Next step
 
-Deploy and smoke the ADL Advisor UI, then fill the four slots with exact generated VIV/CJ links when available.
+Fill the four slots with exact generated eHUB deeplinks when available.

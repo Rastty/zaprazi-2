@@ -561,7 +561,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
-    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | Zápraží';
+    return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
@@ -617,7 +617,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
-    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | Zápraží';
+    return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
@@ -674,7 +674,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Praktický poradce pro polohovací postel: vhodný typ, rozměry a nosnost, půjčení, koupě a prověření úhrady nebo cirkulace přes pojišťovnu.';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
-    return 'Praktický poradce pro invalidní vozík: doprovod, samostatný ruční nebo elektrický pohon, správný sed, průchody, nosnost, půjčení a pojišťovna.';
+    return 'Jak vybrat invalidní vozík pro seniora podle pohonu, šířky sedu, průchodů a nosnosti. Mechanický vs. elektrický, půjčení, koupě a pojišťovna.';
   }
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Praktický plán návratu z nemocnice: vstup domů, přesuny, chůze, WC, postel, koupelna a návazná domácí péče pro první noc doma.';
@@ -873,6 +873,29 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Dostanu od pojišťovny novou postel?',
         'answer'   => 'Ne nutně. VZP popisuje možnost cirkulace, kdy postel zůstává ve vlastnictví pojišťovny a pojištěnci je zapůjčena; může proto jít i o repasované lůžko.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_wheelchair_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vybrat invalidní vozík pro seniora?',
+        'answer'   => 'Začněte tím, kdo bude vozík běžně pohánět. Potom ověřte šířku sedu, celkovou šířku v nejužších průchodech a technickou nosnost; u elektrického vozíku navíc bezpečné ovládání joysticku a místo pro nabíjení.',
+      ),
+      array(
+        'question' => 'Je lepší mechanický, nebo elektrický invalidní vozík?',
+        'answer'   => 'Mechanický vozík dává smysl, když ho bezpečně zvládne uživatel rukama nebo doprovod. Elektrický vozík je kandidát až po potvrzení bezpečného ovládání joysticku, prostoru pro manévrování a pravidelného nabíjení.',
+      ),
+      array(
+        'question' => 'Jak poznat správnou šířku sedu a vozíku?',
+        'answer'   => 'Šířka sedu musí vyhovovat konkrétnímu člověku a celková šířka vozíku musí projít nejužšími dveřmi a umožnit otočení v běžné trase doma. Rozměry proto změřte před objednávkou.',
+      ),
+      array(
+        'question' => 'Je lepší invalidní vozík půjčit, koupit, nebo řešit přes pojišťovnu?',
+        'answer'   => 'U krátkodobé potřeby často dává smysl nejdřív půjčovna. U dlouhodobé potřeby je vhodné prověřit pojišťovnu před přímým nákupem. Retail nákup a hrazená cesta jsou oddělené procesy.',
+      ),
+      array(
+        'question' => 'Kdy Zápraží nedoporučí konkrétní vozík?',
+        'answer'   => 'Konkrétní produkt neukazujeme, pokud není potvrzená šířka sedu, průchod nebo nosnost, při běžně fyzicky asistovaném přesunu a u elektrického vozíku také tehdy, když není potvrzené bezpečné ovládání nebo nabíjení.',
       ),
     );
   } elseif ( zaprazi_2_is_wheelchair_acquisition_page() ) {
@@ -1238,7 +1261,7 @@ function zaprazi_2_ensure_resource_pages() {
       'template' => 'page-polohovaci-postel-na-pojistovnu.php',
     ),
     'invalidni-vozik' => array(
-      'title'    => 'Invalidní vozík: jak vybrat vhodný typ',
+      'title'    => 'Invalidní vozík pro seniory: jak vybrat vhodný typ',
       'excerpt'  => 'Praktický poradce pro mechanický nebo elektrický invalidní vozík podle způsobu pohonu, rozměrů, nosnosti a způsobu pořízení.',
       'template' => 'page-invalidni-vozik.php',
     ),

@@ -1677,3 +1677,25 @@ New header behavior:
 - **Přehled pomůcek** → `/kompenzacni-pomucky-pro-seniory/`
 
 Adds a regression test that extracts all core-navigation `home_url()` targets and requires them to be unique.
+
+
+### ZP-079 Wheelchair SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens the existing `/invalidni-vozik/` journey for the broad high-intent query cluster around invalid wheelchairs for seniors without creating a second decision engine.
+
+Adds:
+- H1 and SEO metadata centered on **invalidní vozík pro seniory**,
+- visible decision guidance for mechanical vs. electric vs. companion propulsion,
+- five user-facing FAQs mirrored exactly in FAQPage schema,
+- stronger internal links to insurer/rental guidance, safe-home audit and the compensatory-aids hub,
+- regression coverage that keeps the existing Wheelchair Advisor as the single suitability engine.
+
+Safety boundary stays unchanged:
+- no diagnosis-based routing,
+- no raw body-weight input,
+- no exact product when seat, route or load fit is unverified,
+- person-assisted transfer remains professional-check,
+- powered wheelchair still requires safe joystick control and charging readiness.
+
+Commercial routing and affiliate ranking are unchanged.

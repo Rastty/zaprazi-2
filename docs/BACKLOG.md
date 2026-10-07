@@ -2013,3 +2013,19 @@ Safety:
 - no product ranking based on reimbursement,
 - ePoukaz remains separated from actual entitlement/approval,
 - exact current rules stay on category-specific pages.
+
+
+### ZP-096 Release 0.8.46 — Insurance hub routing
+Status: **READY_DEPLOY**
+
+Release 0.8.46 supersedes deployed 0.8.45.
+
+Packages:
+- everything from 0.8.45,
+- central **pomůcky na pojišťovnu** routing inside `/kompenzacni-pomucky-pro-seniory/`,
+- four category-specific insurance routes,
+- reciprocal detail → hub links,
+- unchanged reimbursement safety boundaries and product ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.45
+# Next Deploy Smoke — Zápraží 2.0 v0.8.46
 
-This release supersedes 0.8.44. Deploy only 0.8.45 from `dev`.
+This release supersedes 0.8.45. Deploy only 0.8.46 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -468,4 +468,23 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.45`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 31. Insurance hub routing
+Open `/kompenzacni-pomucky-pro-seniory/#pojistovna`.
+
+Expected:
+- hero contains **Pomůcky na pojišťovnu** jump link,
+- section H2 is **Kompenzační pomůcky na pojišťovnu: začněte konkrétní kategorií**,
+- direct routes exist for:
+  - `/choditko-na-pojistovnu/`,
+  - `/pomucky-do-koupelny-na-pojistovnu/`,
+  - `/polohovaci-postel-na-pojistovnu/`,
+  - `/invalidni-vozik-na-pojistovnu/`,
+- each detail page links back to `/kompenzacni-pomucky-pro-seniory/#pojistovna`,
+- no individual entitlement promise is introduced.
+
+Release integrity:
+- `zaprazi-release` = `0.8.46`,
 - `zaprazi-integrity` = `ok`.

@@ -26,12 +26,12 @@ test("theme preserves low-prominence legacy crawl paths", () => {
   assert.match(footer, /Starší katalog produktů/);
 });
 
-test("public SEO brand is ZaPrazi while database mutation stays unnecessary", () => {
+test("public SEO brand is Zápraží while database mutation stays unnecessary", () => {
   const functions = read("functions.php");
 
   assert.match(functions, /wpseo_schema_website/);
   assert.match(functions, /wpseo_opengraph_site_name/);
-  assert.match(functions, /ZaPrazi\.cz/);
+  assert.match(functions, /Zápraží/);
   assert.doesNotMatch(functions, /update_option\(\s*['"]blogname/);
 });
 
@@ -1064,4 +1064,30 @@ test("Return-home and self-care journeys cross-link without mixing decision logi
 
   // Cross-links are navigational only; return-home orchestration must remain product-free.
   assert.doesNotMatch(returnEngine, /rehavita|upcup|beat it|theomatik/i);
+});
+
+
+test("homepage is a six-scenario hub while keeping Mobility Advisor intact", () => {
+  const front = read("front-page.php");
+  const header = read("header.php");
+  const functions = read("functions.php");
+
+  assert.match(front, /id=["']co-resite["']/);
+  for (const label of [
+    "Chůze a opora",
+    "Koupelna a WC",
+    "Polohovací postel",
+    "Invalidní vozík",
+    "Návrat z nemocnice",
+    "Každodenní soběstačnost"
+  ]) {
+    assert.ok(front.includes(label), `homepage scenario missing: ${label}`);
+  }
+
+  assert.match(front, /id=["']zp-mobility-advisor["']/);
+  assert.match(front, /Začněte situací, ne názvem pomůcky/);
+  assert.match(header, />Zápraží<\/a>/);
+  assert.match(header, /Cesta k lepšímu životu/);
+  assert.match(functions, /Zápraží: domácí poradce pro bezpečný a samostatný život doma/);
+  assert.match(functions, /Praktický domácí poradce pro chůzi, koupelnu a WC/);
 });

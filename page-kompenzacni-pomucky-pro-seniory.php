@@ -27,7 +27,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Chůze a opora</h3>
           <p>Čtyřbodové nebo dvoukolové chodítko a venkovní rollátor se liší způsobem používání. Rozhoduje prostředí, potřebná opora, schopnost pomůcku posouvat a bezpečné ovládání brzd.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Poradce pro chůzi a chodítko</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Chodítko do bytu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Rollátor</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Přehled chodítek pro seniory</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit poradce</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Chodítko do bytu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Rollátor</a></p>
         </article>
 
         <article class="zp-decision-card">

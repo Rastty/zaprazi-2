@@ -4,6 +4,7 @@ const PRIMARY_NEEDS = new Set([
   "toilet_nearby",
   "shower_seated",
   "bath_transfer",
+  "multifunction_toilet_shower",
   "combined_shower_toilet",
   "unknown"
 ]);
@@ -160,6 +161,44 @@ export function recommendBathroom(input = {}) {
       "Současný shortlist nemá potvrzenou dostatečnou nosnost.",
       "Nevybírejte slabší výrobek jen podle ceny. Potřebujeme najít variantu s odpovídající nosností a rozměry."
     );
+  }
+
+  if (primaryNeed === "multifunction_toilet_shower") {
+    if (floorStable !== "yes") {
+      return needsMoreInfo(
+        "floorStable",
+        "Multifunkční židle potřebuje rovný a stabilní podklad.",
+        floorStable === "no"
+          ? "Na nestabilním nebo nerovném podkladu tento kandidát nepoužívejte."
+          : "Ověřte rovný a stabilní podklad v místě použití u WC i ve sprše."
+      );
+    }
+
+    if (spaceFit !== "yes") {
+      return needsMoreInfo(
+        "spaceFit",
+        "Jedna pomůcka pro WC i sprchu musí bezpečně projít a vejít se do obou míst.",
+        spaceFit === "no"
+          ? "Tento kandidát se do prostoru nevejde; potřebujeme menší nebo oddělené řešení."
+          : "Ověřte alespoň celkovou šířku 51 cm, hloubku 40 cm a prostor pro bezpečné přesednutí."
+      );
+    }
+
+    return {
+      status: "candidate",
+      headline: "Jedna stabilní židle pro WC i sprchu může být kandidátní řešení.",
+      nextStep: "Ověřte rozměry obou míst, výšku sedu, stabilní podklad, způsob použití nad WC a bezpečný přesun bez fyzického zvedání druhou osobou.",
+      missing: [],
+      recommendations: [{
+        id: "multifunction_toilet_shower_candidate",
+        label: "Multifunkční toaletní/sprchovací židle 4v1 jako kandidátní řešení",
+        reason: "Jedna pomůcka má řešit toaletu i sprchování a přesun nevyžaduje fyzické zvedání druhou osobou.",
+        parameters: ["celková šířka 51 cm", "hloubka 40 cm", "výška sedu 39–54 cm", "nosnost 150 kg", "stabilní podklad", "prostor pro přesednutí", "správné použití podle návodu"],
+        productCandidateIds: ["dma-eh-cmda"]
+      }],
+      acquisition: acquisitionFor(duration),
+      disclaimer: "Výrobce DMA u tohoto modelu uvádí kód pojišťovny 5019427, ale ZaPrazi před konkrétním tvrzením o aktuální úhradě vyžaduje kontrolu účinného měsíčního seznamu SÚKL."
+    };
   }
 
   if (primaryNeed === "bath_transfer") {

@@ -500,7 +500,8 @@ test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots",
     "unizdrav-cz:p2807",
     "unizdrav-cz:p2062",
     "unizdrav-cz:p2131",
-    "rehabilitacni-pomucky-cz:besco-bs008"
+    "rehabilitacni-pomucky-cz:besco-bs008",
+    "rehabilitacni-pomucky-cz:besco-bs15"
   ]) {
     assert.ok(catalog.includes(key), `catalog missing ${key}`);
     assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
@@ -577,4 +578,20 @@ test("Bathroom bath-transfer UI asks only practical safety and fit questions", (
   assert.match(app, /bathFit/);
   assert.match(app, /bath_transfer_seat/);
   assert.doesNotMatch(page, /diagn[oó]za[^<]{0,120}vana/i);
+});
+
+
+test("Bathroom raised-WC steadying branch has exact BS15 runtime routing", () => {
+  const functions = read("functions.php");
+  const catalog = read("src/bathroom/catalog.js");
+  const engine = read("src/bathroom/engine.js");
+  const app = read("assets/js/bathroom-advisor.js");
+
+  assert.match(functions, /rehabilitacni-pomucky-cz:besco-bs15/);
+  assert.match(functions, /besco-nastavec-na-wc-s-odnimatelnymi-madly/);
+  assert.match(catalog, /raised_toilet_seat_with_arms/);
+  assert.match(catalog, /besco-bs15/);
+  assert.match(engine, /needsArmSupport/);
+  assert.match(engine, /besco-bs15/);
+  assert.match(app, /Nástavec na WC s madly/);
 });

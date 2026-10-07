@@ -47,3 +47,15 @@ test("bath transfer seat is production-eligible only with explicit fit notes", (
   assert.ok(seat.selectionNotes.some((note) => /bez fyzického zvedání/i.test(note)));
   assert.equal(seat.offers[0].affiliateKey, "rehabilitacni-pomucky-cz:besco-bs008");
 });
+
+
+test("raised WC seat with arms has verified retail evidence and direct-pay route", () => {
+  const product = BATHROOM_PRODUCTS.find((item) => item.id === "besco-bs15");
+  assert.ok(product);
+  assert.equal(product.productionEligible, true);
+  assert.equal(product.solutionFamily, "raised_toilet_seat_with_arms");
+  assert.equal(product.facts.heightIncreaseCm, 11.5);
+  assert.equal(product.facts.maxUserWeightKg, 100);
+  assert.equal(product.offers[0].affiliateKey, "rehabilitacni-pomucky-cz:besco-bs15");
+  assert.ok(product.selectionNotes.some((note) => /stabilní oporu rukama/i.test(note)));
+});

@@ -78,6 +78,27 @@ Source:
 
 Status: **PRODUCTION_CANDIDATE_AFTER_FIT_GATES**
 
+### BESCO BES-BS15 — raised toilet seat with removable arms
+
+Verified:
+- raises the toilet by 11.5 cm,
+- max load 100 kg,
+- removable arm supports,
+- tool-free assembly,
+- merchant describes an improved locking mechanism and compatibility with most standard toilet bowls,
+- merchant explicitly sells this product as direct-pay rather than through health insurance.
+
+Source:
+- https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/
+
+Status: **PRODUCTION_CANDIDATE_FOR_STEADYING_TRANSFER_AFTER_WC_FIT_AND_FEET_SUPPORT_GATES**
+
+Model consequence:
+- independent transfer continues to use the simpler raised-seat candidate,
+- steadying transfer may use BS15 when stable hand support is needed but no physical lifting by another person is required,
+- person-assisted transfer remains professional-check only,
+- toilet compatibility, secure fixation, load fit and safe foot support after raising remain mandatory.
+
 ### UNIZDRAV P2015 — toilet support frame
 
 Verified:

@@ -222,16 +222,6 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "raise_toilet") {
-    if (transferAbility !== "independent") {
-      return {
-        status: "needs_more_info",
-        headline: "Samotné zvýšení WC nemusí být dostatečná opora.",
-        nextStep: "Pokud je při sedání nebo vstávání potřeba opora, nejdřív porovnejte řešení s madlem nebo toaletním rámem; samotný nástavec zatím nedoporučujeme.",
-        missing: [],
-        recommendations: [],
-        acquisition: acquisitionFor(duration)
-      };
-    }
     if (toiletFit !== "yes") {
       return needsMoreInfo(
         "toiletFit",
@@ -241,6 +231,7 @@ export function recommendBathroom(input = {}) {
           : "Ověřte rozměry mísy a způsob upevnění konkrétního nástavce."
       );
     }
+
     if (feetFlatAtRaisedHeight !== "yes") {
       return needsMoreInfo(
         "feetFlatAtRaisedHeight",
@@ -251,17 +242,29 @@ export function recommendBathroom(input = {}) {
       );
     }
 
+    const needsArmSupport = transferAbility === "steadying";
+
     return {
       status: "candidate",
-      headline: "Zvýšení stávajícího WC může být kandidátní řešení.",
-      nextStep: "Porovnejte výšku zvýšení, kompatibilitu s WC, způsob upevnění a nosnost.",
+      headline: needsArmSupport
+        ? "Zvýšené WC s vlastními madly může být kandidátní řešení."
+        : "Zvýšení stávajícího WC může být kandidátní řešení.",
+      nextStep: needsArmSupport
+        ? "Porovnejte výšku zvýšení, kompatibilitu s WC, pevné uchycení a to, zda madla poskytují potřebnou stabilní oporu bez fyzické pomoci další osoby."
+        : "Porovnejte výšku zvýšení, kompatibilitu s WC, způsob upevnění a nosnost.",
       missing: [],
       recommendations: [{
-        id: "raised_toilet_seat_candidate",
-        label: "Nástavec na WC jako kandidátní řešení",
-        reason: "Hlavním problémem je nízký sed a samostatný přesun je potvrzený.",
-        parameters: ["výška zvýšení", "kompatibilita s WC", "pevnost uchycení", "nosnost", "opora chodidel po zvýšení"],
-        productCandidateIds: ["unizdrav-p2868"]
+        id: needsArmSupport ? "raised_toilet_seat_with_arms_candidate" : "raised_toilet_seat_candidate",
+        label: needsArmSupport
+          ? "Nástavec na WC s odnímatelnými madly jako kandidátní řešení"
+          : "Nástavec na WC jako kandidátní řešení",
+        reason: needsArmSupport
+          ? "Hlavním problémem je nízký sed a člověk potřebuje stabilní oporu rukama, ale ne fyzické zvedání druhou osobou."
+          : "Hlavním problémem je nízký sed a samostatný přesun je potvrzený.",
+        parameters: needsArmSupport
+          ? ["výška zvýšení", "kompatibilita s WC", "pevnost uchycení", "nosnost", "stabilita madel", "opora chodidel po zvýšení"]
+          : ["výška zvýšení", "kompatibilita s WC", "pevnost uchycení", "nosnost", "opora chodidel po zvýšení"],
+        productCandidateIds: needsArmSupport ? ["besco-bs15"] : ["unizdrav-p2868"]
       }],
       acquisition: acquisitionFor(duration),
       disclaimer: "Výsledek není diagnóza ani potvrzení individuální zdravotní vhodnosti."

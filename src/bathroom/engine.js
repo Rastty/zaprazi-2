@@ -103,6 +103,7 @@ export function recommendBathroom(input = {}) {
     wallFixing = "unknown",
     bathTransferIndependent = "unknown",
     bathFit = "unknown",
+    bathBenchFit = "unknown",
     duration = "unknown"
   } = input;
 
@@ -116,6 +117,7 @@ export function recommendBathroom(input = {}) {
   if (!WALL_FIXING.has(wallFixing)) return invalid("wallFixing");
   if (!FIT.has(bathTransferIndependent)) return invalid("bathTransferIndependent");
   if (!FIT.has(bathFit)) return invalid("bathFit");
+  if (!FIT.has(bathBenchFit)) return invalid("bathBenchFit");
   if (!DURATION.has(duration)) return invalid("duration");
 
   if (primaryNeed === "unknown") {
@@ -224,23 +226,40 @@ export function recommendBathroom(input = {}) {
       );
     }
 
-    if (bathFit !== "yes") {
-      if (bathFit === "no") {
-        return {
-          status: "needs_more_info",
-          headline: "Ověřený kandidát nepasuje na tuto vanu.",
-          nextStep: "Tento model je určen pro vnitřní šířku okrajů vany 41–65 cm a musí jít pevně zajistit. Potřebujeme jiný rozměr nebo jiný typ řešení.",
-          missing: [],
-          recommendations: [],
-          acquisition: []
-        };
-      }
-
+    if (bathFit === "unknown") {
       return needsMoreInfo(
         "bathFit",
         "Sedačka přes vanu musí přesně pasovat a jít pevně zajistit.",
-        "Změřte vnitřní šířku okrajů vany a ověřte, že je v rozsahu 41–65 cm a že čtyři rozpěrné nožičky lze podle návodu bezpečně upevnit bez posunu."
+        "Změřte vnitřní šířku okrajů vany a ověřte, zda je v rozsahu 41–65 cm a zda lze sedačku podle návodu bezpečně upevnit bez posunu."
       );
+    }
+
+    if (bathFit === "no") {
+      if (bathBenchFit !== "yes") {
+        return needsMoreInfo(
+          "bathBenchFit",
+          "Klasická sedačka na okraj vany nepasuje. Můžeme ještě prověřit transferovou židli přes vanu.",
+          bathBenchFit === "no"
+            ? "Současný shortlist nemá bezpečně ověřený kandidát pro tuto vanu a prostor. Potřebujeme jiný typ řešení nebo odborné posouzení."
+            : "Ověřte, zda je možné bezpečně umístit konstrukci 81 × 61 cm tak, aby jedna část stála ve vaně a druhá na rovné stabilní podlaze mimo vanu."
+        );
+      }
+
+      return {
+        status: "candidate",
+        headline: "Transferová židle přes vanu může být kandidátní řešení, když sedačka na okraj vany nepasuje.",
+        nextStep: "Před nákupem ověřte půdorys 81 × 61 cm, stabilní opření konstrukce ve vaně i na podlaze, nosnost 110 kg a bezpečný samostatný přesun.",
+        missing: [],
+        recommendations: [{
+          id: "bath_transfer_bench_candidate",
+          label: "Transferová židle přes vanu jako kandidátní řešení",
+          reason: "Klasická sedačka na okraj vany nepasuje, ale je potvrzený prostor a stabilní umístění transferové konstrukce přes vanu.",
+          parameters: ["půdorys 81 × 61 cm", "sedák 68 × 41 cm", "výška sedu 45,5–56 cm", "nosnost 110 kg", "stabilní opření ve vaně i na podlaze", "samostatný přesun"],
+          productCandidateIds: ["unizdrav-p2203"]
+        }],
+        acquisition: acquisitionFor(duration),
+        disclaimer: "Tato větev platí jen pro jednoduchý samostatný přesun. Pokud je potřeba fyzická pomoc, zvedání nebo je stabilita konstrukce nejistá, konkrétní výrobek online nevybíráme."
+      };
     }
 
     return {

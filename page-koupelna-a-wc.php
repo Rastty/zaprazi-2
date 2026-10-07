@@ -99,6 +99,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="bathFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte vnitřní šířku okrajů vany.</small></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-bath-conditional="bath_bench" data-zp-bath-required="bathBenchFit" hidden>
+          <legend>Když sedačka na okraj vany nepasuje: vejde se bezpečně transferová židle 81 × 61 cm tak, aby jedna část stála ve vaně a druhá na rovné stabilní podlaze mimo vanu?</legend>
+          <label class="zp-choice"><input type="radio" name="bathBenchFit" value="yes"><span><strong>Ano, prostor a stabilní opření jsou ověřené</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="bathBenchFit" value="no"><span><strong>Ne</strong><small>Prostor nebo stabilní umístění nevychází.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="bathBenchFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte prostor a zkontrolujte rovný stabilní podklad mimo vanu.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset">
           <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="duration" value="short_term"><span><strong>Spíš dočasně</strong></span></label>

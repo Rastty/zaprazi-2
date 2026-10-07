@@ -35,6 +35,7 @@ if (form && result && submitButton && errorBox) {
     shower_chair: "Sprchovací židle",
     fixed_grab_rail: "Pevné madlo",
     bath_transfer_seat: "Sedačka na vanu",
+    bath_transfer_bench: "Transferová židle přes vanu",
     multifunction_toilet_shower_chair: "Toaletní / sprchovací židle 4v1"
   }[family] || family);
 
@@ -215,6 +216,9 @@ if (form && result && submitButton && errorBox) {
     if (condition === "floor_space") {
       return ["toilet_nearby", "shower_seated", "multifunction_toilet_shower"].includes(need);
     }
+    if (condition === "bath_bench") {
+      return need === "bath_transfer" && checkedValue("bathFit", "unknown") === "no";
+    }
     return condition === need;
   };
 
@@ -237,7 +241,7 @@ if (form && result && submitButton && errorBox) {
   updateConditionalQuestions();
 
   form.addEventListener("change", (event) => {
-    if (event.target?.name === "primaryNeed") {
+    if (["primaryNeed", "bathFit"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 
@@ -270,6 +274,7 @@ if (form && result && submitButton && errorBox) {
       wallFixing: checkedValue("wallFixing", "unknown"),
       bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
       bathFit: checkedValue("bathFit", "unknown"),
+      bathBenchFit: checkedValue("bathBenchFit", "unknown"),
       duration: checkedValue("duration", "unknown")
     });
 

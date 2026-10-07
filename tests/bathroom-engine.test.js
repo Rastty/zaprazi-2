@@ -145,13 +145,41 @@ test("bath transfer fails closed when physical help is needed", () => {
   assert.deepEqual(result.recommendations, []);
 });
 
-test("bath transfer refuses a non-fitting bath", () => {
+test("bath transfer asks for transfer-bench fit when rim seat does not fit", () => {
   const result = recommendBathroom({
     primaryNeed: "bath_transfer",
     transferAbility: "independent",
     loadFit: "yes",
     bathTransferIndependent: "yes",
-    bathFit: "no"
+    bathFit: "no",
+    bathBenchFit: "unknown"
+  });
+  assert.equal(result.status, "needs_more_info");
+  assert.ok(result.missing.includes("bathBenchFit"));
+  assert.deepEqual(result.recommendations, []);
+});
+
+test("bath transfer returns transfer bench when rim seat does not fit but bench placement does", () => {
+  const result = recommendBathroom({
+    primaryNeed: "bath_transfer",
+    transferAbility: "independent",
+    loadFit: "yes",
+    bathTransferIndependent: "yes",
+    bathFit: "no",
+    bathBenchFit: "yes"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p2203"]);
+});
+
+test("bath transfer returns no product when neither rim seat nor transfer bench fits", () => {
+  const result = recommendBathroom({
+    primaryNeed: "bath_transfer",
+    transferAbility: "independent",
+    loadFit: "yes",
+    bathTransferIndependent: "yes",
+    bathFit: "no",
+    bathBenchFit: "no"
   });
   assert.equal(result.status, "needs_more_info");
   assert.deepEqual(result.recommendations, []);

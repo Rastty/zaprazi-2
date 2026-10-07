@@ -502,7 +502,8 @@ test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots",
     "unizdrav-cz:p2131",
     "rehabilitacni-pomucky-cz:besco-bs008",
     "rehabilitacni-pomucky-cz:besco-bs15",
-    "drmax-cz:dma-eh-cmda"
+    "drmax-cz:dma-eh-cmda",
+    "unizdrav-cz:p2203"
   ]) {
     assert.ok(catalog.includes(key), `catalog missing ${key}`);
     assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
@@ -619,4 +620,29 @@ test("Bathroom multifunction WC/shower branch is wired to DrMax without overclai
 
   assert.doesNotMatch(page, /5019427[^\n]{0,120}aktuálně hrazen/i);
   assert.doesNotMatch(app, /5019427[^\n]{0,120}aktuálně hrazen/i);
+});
+
+
+test("Bathroom bath-transfer fallback shows bench question only after rim-seat mismatch", () => {
+  const page = read("page-koupelna-a-wc.php");
+  const app = read("assets/js/bathroom-advisor.js");
+  const engine = read("src/bathroom/engine.js");
+  const catalog = read("src/bathroom/catalog.js");
+  const functions = read("functions.php");
+
+  assert.match(page, /data-zp-bath-conditional=["']bath_bench["']/);
+  assert.match(page, /name=["']bathBenchFit["']/);
+  assert.match(page, /81 × 61 cm/);
+
+  assert.match(app, /condition === "bath_bench"/);
+  assert.match(app, /checkedValue\("bathFit", "unknown"\) === "no"/);
+  assert.match(app, /bathBenchFit/);
+  assert.match(app, /bath_transfer_bench/);
+
+  assert.match(engine, /bathBenchFit/);
+  assert.match(engine, /unizdrav-p2203/);
+  assert.match(catalog, /unizdrav-p2203/);
+  assert.match(catalog, /bath_transfer_bench/);
+  assert.match(functions, /unizdrav-cz:p2203/);
+  assert.match(functions, /sprchovaci-zidle-do-vany/);
 });

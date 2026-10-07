@@ -7,7 +7,8 @@
       <h1>Bezpečně a samostatně doma.</h1>
       <p class="zp-lead">Praktický poradce pro výběr chodítka nebo rollátoru. Nezačínáme názvem produktu, ale tím, kde a jak člověk skutečně chodí, co zvládne ovládat a zda dává větší smysl koupě, půjčení nebo nejdřív prověření úhrady.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#poradce">Spustit poradce</a>
+        <a class="zp-btn" href="#poradce">Spustit poradce pro chůzi</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řeším koupelnu nebo WC</a>
         <a class="zp-text-link" href="#jak-vybrat">Nejdřív si přečíst, jak vybírat</a>
       </div>
     </div>

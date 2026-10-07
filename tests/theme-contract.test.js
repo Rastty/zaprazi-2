@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -768,7 +768,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -893,7 +893,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1219,7 +1219,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   assert.match(functions, /'kompenzacni-pomucky-pro-seniory' => array/);
   assert.match(functions, /page-kompenzacni-pomucky-pro-seniory\.php/);
   assert.match(functions, /Kompenzační pomůcky pro seniory: jak vybrat \| Zápraží/);
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
 
   assert.match(front, /\/kompenzacni-pomucky-pro-seniory\//);
   assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\//);
@@ -1276,7 +1276,7 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
   assert.match(functions, /zaprazi_2_is_safe_home_page/);
   assert.match(functions, /'bezpecny-byt-pro-seniora' => array/);
   assert.match(functions, /page-bezpecny-byt-pro-seniora\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
   assert.match(compensatory, /\/bezpecny-byt-pro-seniora\//);
   assert.match(returnHome, /\/bezpecny-byt-pro-seniora\//);
   assert.match(footer, /\/bezpecny-byt-pro-seniora\//);
@@ -1334,7 +1334,7 @@ test("easy-footwear Advisor is privacy-safe, fit-gated and merchant-separated", 
   assert.match(functions, /'obuv-pro-seniory' => array/);
   assert.match(functions, /page-obuv-pro-seniory\.php/);
   assert.match(functions, /'footwear' => array/);
-  assert.match(functions, /zaprazi_resource_pages_v14/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
 
   assert.match(footer, /\/obuv-pro-seniory\//);
   assert.match(safeHome, /\/obuv-pro-seniory\//);
@@ -1348,4 +1348,60 @@ test("footwear shortlist never routes by diagnosis and requires measurement befo
   assert.match(engine, /measuredFeet !== "yes"/);
   assert.match(engine, /needs_fit_check/);
   assert.match(page, /Náhlá změna chodidla nepatří jen do nákupního filtru/);
+});
+
+
+test("toilet-riser micro-Advisor reuses Bathroom engine and exact verified candidates", () => {
+  const page = read("page-nastavec-na-wc-pro-seniory.php");
+  const app = read("assets/js/toilet-riser-advisor.js");
+  const catalog = read("src/bathroom/catalog.js");
+  const functions = read("functions.php");
+  const bathroom = read("page-koupelna-a-wc.php");
+  const insurer = read("page-pomucky-do-koupelny-na-pojistovnu.php");
+  const compensatory = read("page-kompenzacni-pomucky-pro-seniory.php");
+
+  assert.match(page, /Nástavec na WC pro seniory: jak vybrat správnou výšku a madla/);
+  assert.match(page, /data-zp-toilet-required=["']transferAbility["']/);
+  assert.match(page, /data-zp-toilet-required=["']toiletFit["']/);
+  assert.match(page, /data-zp-toilet-required=["']feetFlatAtRaisedHeight["']/);
+  assert.match(page, /data-zp-toilet-required=["']loadFit["']/);
+
+  assert.match(app, /recommendBathroom/);
+  assert.match(app, /primaryNeed:\s*"raise_toilet"/);
+  assert.match(app, /getBathroomProducts/);
+  assert.match(app, /affiliateMap/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.doesNotMatch(app, /new FormData/);
+
+  assert.match(catalog, /id: "unizdrav-p2868"/);
+  assert.match(catalog, /id: "besco-bs15"/);
+  assert.match(catalog, /heightIncreaseCm: 15/);
+  assert.match(catalog, /heightIncreaseCm: 11\.5/);
+
+  assert.match(functions, /zaprazi_2_is_toilet_riser_page/);
+  assert.match(functions, /assets\/js\/toilet-riser-advisor\.js/);
+  assert.match(functions, /'nastavec-na-wc-pro-seniory' => array/);
+  assert.match(functions, /page-nastavec-na-wc-pro-seniory\.php/);
+  assert.match(functions, /zaprazi_resource_pages_v15/);
+
+  assert.match(bathroom, /\/nastavec-na-wc-pro-seniory\//);
+  assert.match(insurer, /\/nastavec-na-wc-pro-seniory\//);
+  assert.match(compensatory, /\/nastavec-na-wc-pro-seniory\//);
+});
+
+test("toilet-riser visible FAQ mirrors FAQPage schema", () => {
+  const page = read("page-nastavec-na-wc-pro-seniory.php");
+  const functions = read("functions.php");
+
+  const questions = [
+    "Jak vysoký nástavec na WC vybrat?",
+    "Kdy má smysl nástavec s madly?",
+    "Pasuje nástavec na každý záchod?",
+    "Hradí nástavec na WC zdravotní pojišťovna?"
+  ];
+
+  for (const question of questions) {
+    assert.ok(page.includes(question), `visible toilet-riser FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `toilet-riser FAQ schema missing: ${question}`);
+  }
 });

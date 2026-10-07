@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.23' );
+  define( 'ZAPRAZI_RELEASE', '0.8.24' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_23';
+  $marker = 'ZP_RELEASE_0_8_24';
   $files = array(
     'header.php',
     'footer.php',
@@ -21,12 +21,14 @@ function zaprazi_2_release_integrity_ok() {
     'page-invalidni-vozik.php',
     'page-invalidni-vozik-na-pojistovnu.php',
     'page-navrat-z-nemocnice.php',
+    'page-sobestacnost.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',
     'assets/js/bed-advisor.js',
     'assets/js/wheelchair-advisor.js',
     'assets/js/return-home-advisor.js',
+    'assets/js/adl-advisor.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

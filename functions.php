@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.21' );
+  define( 'ZAPRAZI_RELEASE', '0.8.22' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_21';
+  $marker = 'ZP_RELEASE_0_8_22';
   $files = array(
     'header.php',
     'footer.php',
@@ -19,6 +19,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-polohovaci-postel.php',
     'page-polohovaci-postel-na-pojistovnu.php',
     'page-invalidni-vozik.php',
+    'page-invalidni-vozik-na-pojistovnu.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',

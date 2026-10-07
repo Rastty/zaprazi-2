@@ -830,7 +830,7 @@ No retail wheelchair is labelled reimbursed without exact current SÚKL identity
 
 
 ### ZP-042 Slice 5 Return home after hospital foundation
-Status: **READY_CODE / PRE_UI**
+Status: **DONE_CODE / UI_WIRED**
 
 New orchestration layer:
 - question: what must be solved before the first night at home after hospital discharge,
@@ -868,3 +868,32 @@ First-night priority:
 The engine never decides medical fitness for discharge and never converts a shopping problem into a medical recommendation.
 
 See `docs/RETURN_HOME_EVIDENCE_V0.md`.
+
+
+### ZP-043 Return-home Advisor UI v1
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds:
+- dedicated `/navrat-z-nemocnice/` orchestration page,
+- nine practical questions only,
+- client-side first-night readiness plan,
+- hard-blocker presentation for unsafe entrance and physical person-assisted transfer,
+- links into existing Mobility, Bathroom/WC, Adjustable Bed and Wheelchair Advisors,
+- official NZIP explanation that hospital physician can indicate home health care for 14 days after hospitalization,
+- SÚKL 2026 ePoukaz boundary,
+- homepage and core-navigation entry points,
+- non-destructive resource registry v10.
+
+Commercial behavior:
+- no products rendered directly,
+- no affiliate links,
+- no merchant ranking,
+- blocked cases show the safety/discharge action before any category routing.
+
+Privacy:
+- no diagnosis,
+- no operation type,
+- no wound details,
+- no medication list,
+- no exact body weight,
+- only generic analytics events.

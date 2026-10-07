@@ -1,0 +1,238 @@
+const PROPULSION = new Set([
+  "companion",
+  "self_manual",
+  "mixed_manual",
+  "powered",
+  "unknown"
+]);
+
+const TRANSFER = new Set([
+  "independent",
+  "steadying",
+  "person_assist",
+  "unknown"
+]);
+
+const FIT = new Set(["yes", "no", "unknown"]);
+const DURATION = new Set(["short_term", "long_term", "unknown"]);
+
+function invalid(field) {
+  return {
+    status: "invalid_input",
+    headline: "Zkontrolujte odpovědi.",
+    nextStep: `Neplatná hodnota pole: ${field}`,
+    missing: [field],
+    recommendations: [],
+    acquisition: []
+  };
+}
+
+function needsMoreInfo(field, headline, nextStep) {
+  return {
+    status: "needs_more_info",
+    headline,
+    nextStep,
+    missing: [field],
+    recommendations: [],
+    acquisition: []
+  };
+}
+
+function professionalCheck(headline, nextStep) {
+  return {
+    status: "professional_check",
+    headline,
+    nextStep,
+    missing: [],
+    recommendations: [],
+    acquisition: [{
+      id: "check_insurer_or_specialist",
+      label: "Prověřit odborný výběr a pojišťovnu",
+      reason: "U složitějšího přesunu nebo elektrického vozíku je vhodné řešit současně vhodnost, nastavení, případné příslušenství a úhradovou cestu."
+    }]
+  };
+}
+
+function acquisitionFor(duration, powered = false) {
+  const insurer = {
+    id: "check_insurer",
+    label: "Prověřit zdravotní pojišťovnu",
+    reason: powered
+      ? "Elektrický vozík má přísnější podmínky a žádost vyžaduje další podklady; nezačínejte nákupem."
+      : "Mechanické vozíky mohou být při splnění podmínek hrazené. VZP zároveň uvádí, že většina vozíků zůstává majetkem pojišťovny a pacientovi se půjčuje."
+  };
+
+  if (duration === "short_term") {
+    return [
+      {
+        id: "rent_first",
+        label: "Nejdřív porovnat půjčení",
+        reason: "U dočasné potřeby může být místní půjčovna rychlejší než nákup nebo schvalování."
+      },
+      insurer
+    ];
+  }
+
+  if (duration === "long_term") {
+    return [
+      insurer,
+      {
+        id: "compare_purchase",
+        label: "Porovnat přímý nákup",
+        reason: "Pokud úhradová nebo půjčovní cesta nevyhovuje, porovnejte přesný rozměr, ovládání, servis a dopravu konkrétního vozíku."
+      }
+    ];
+  }
+
+  return [
+    insurer,
+    {
+      id: "compare_rental_and_purchase",
+      label: "Porovnat půjčení a nákup",
+      reason: "Bez jisté délky používání zatím neupřednostňujeme jednu komerční cestu."
+    }
+  ];
+}
+
+export function recommendWheelchair(input = {}) {
+  const {
+    propulsion = "unknown",
+    transferAbility = "unknown",
+    seatFit = "unknown",
+    widthFit = "unknown",
+    loadFit = "unknown",
+    joystickSafe = "unknown",
+    chargingReady = "unknown",
+    duration = "unknown"
+  } = input;
+
+  if (!PROPULSION.has(propulsion)) return invalid("propulsion");
+  if (!TRANSFER.has(transferAbility)) return invalid("transferAbility");
+  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, joystickSafe, chargingReady })) {
+    if (!FIT.has(value)) return invalid(name);
+  }
+  if (!DURATION.has(duration)) return invalid("duration");
+
+  if (propulsion === "unknown") {
+    return needsMoreInfo(
+      "propulsion",
+      "Nejdřív potřebujeme vědět, kdo má vozík běžně pohánět.",
+      "Rozlište doprovodnou osobu, samostatný ruční pohon, kombinaci obou nebo elektrický pohon."
+    );
+  }
+
+  if (transferAbility === "person_assist") {
+    return professionalCheck(
+      "Při fyzicky asistovaném přesunu nevybíráme vozík jen podle šířky a ceny.",
+      "Nejdřív je potřeba ověřit způsob přesunu na vozík, bočnice, stupačky, případný přesunový/zvedací prostředek a práci pečující osoby."
+    );
+  }
+
+  if (loadFit !== "yes") {
+    return needsMoreInfo(
+      "loadFit",
+      "Nosnost konkrétního kandidáta musí být potvrzená před doporučením.",
+      loadFit === "no"
+        ? "Tento kandidát nepoužívejte; potřebujeme vozík s vyšší nosností."
+        : "Ověřte technický limit kandidáta. Přesnou hmotnost člověka do poradce zadávat nemusíte."
+    );
+  }
+
+  if (seatFit !== "yes") {
+    return needsMoreInfo(
+      "seatFit",
+      "Šířka sedu je zásadní pro bezpečné a dlouhodobě použitelné sezení.",
+      seatFit === "no"
+        ? "Tento kandidát nemá vhodnou šířku sedu; zvolte jinou velikost nebo model."
+        : "Ověřte potřebnou šířku sedu a porovnejte ji s konkrétním kandidátem."
+    );
+  }
+
+  if (widthFit !== "yes") {
+    return needsMoreInfo(
+      "widthFit",
+      "Celková šířka vozíku musí projít dveřmi a zvládnout domácí prostor.",
+      widthFit === "no"
+        ? "Tento kandidát se do potřebných průchodů nevejde; potřebujeme užší model nebo upravit trasu."
+        : "Změřte nejužší dveře, chodbu a místo pro otáčení."
+    );
+  }
+
+  if (propulsion === "powered") {
+    if (joystickSafe !== "yes") {
+      if (joystickSafe === "no") {
+        return professionalCheck(
+          "Elektrický vozík není bezpečný automatický kandidát, pokud člověk nedokáže spolehlivě ovládat joystick a zastavit.",
+          "Prověřte jiný způsob mobility nebo odborně nastavené ovládání."
+        );
+      }
+      return needsMoreInfo(
+        "joystickSafe",
+        "Před elektrickým vozíkem potřebujeme ověřit praktické ovládání.",
+        "Ověřte, zda člověk zvládne joystickem spolehlivě rozjet, zatočit, zpomalit a zastavit v běžném prostředí."
+      );
+    }
+
+    if (chargingReady !== "yes") {
+      return needsMoreInfo(
+        "chargingReady",
+        "Elektrický vozík potřebuje bezpečné místo pro parkování a nabíjení.",
+        chargingReady === "no"
+          ? "Bez vhodného místa pro pravidelné nabíjení tento kandidát nedoporučujeme."
+          : "Ověřte přístup k zásuvce, bezpečné parkování a také způsob převozu 62kg vozíku, pokud ho potřebujete vozit autem."
+      );
+    }
+
+    return {
+      status: "candidate",
+      headline: "Elektrický vozík s joystickem může být kandidátní řešení.",
+      nextStep: "Ověřte trasu, poloměr otáčení, průchody, sklon, nabíjení a případný převoz vozíku.",
+      missing: [],
+      recommendations: [{
+        id: "powered_wheelchair_candidate",
+        label: "Elektrický invalidní vozík s joystickem",
+        reason: "Požadovaný je elektrický pohon a základní bezpečnostní, prostorové a ovládací gate jsou potvrzené.",
+        parameters: ["sed 46 cm", "celková šířka 63 cm", "nosnost 135 kg", "hmotnost s baterií 62 kg", "rychlost max. 6 km/h", "poloměr otáčení 86,5 cm", "bezpečný sklon 6°", "nabíjení"],
+        productCandidateIds: ["unizdrav-p2961"]
+      }],
+      acquisition: acquisitionFor(duration, true),
+      disclaimer: "Elektrický vozík vyžaduje bezpečné ovládání a vhodnou trasu. ZaPrazi nepotvrzuje individuální zdravotní vhodnost ani nárok na úhradu."
+    };
+  }
+
+  if (propulsion === "companion") {
+    return {
+      status: "candidate",
+      headline: "Základní skládací mechanický vozík pro doprovod může být kandidátní řešení.",
+      nextStep: "Ověřte sed 48 cm, celkovou šířku 65 cm, nosnost 100 kg a skutečný způsob nakládání do auta.",
+      missing: [],
+      recommendations: [{
+        id: "companion_manual_candidate",
+        label: "Mechanický vozík pro přesuny s doprovodem",
+        reason: "Vozík má běžně pohánět doprovodná osoba a není požadován elektrický pohon.",
+        parameters: ["sed 48 cm", "celková šířka 65 cm", "nosnost 100 kg", "hmotnost 18,4 kg", "skládací rám"],
+        productCandidateIds: ["unizdrav-p4384"]
+      }],
+      acquisition: acquisitionFor(duration, false),
+      disclaimer: "Vozík sám o sobě neřeší bezpečný přesun člověka na sedák a zpět."
+    };
+  }
+
+  return {
+    status: "candidate",
+    headline: "Odlehčený mechanický vozík pro samostatný pohon i doprovod může být kandidátní řešení.",
+    nextStep: "Vyberte správnou šířku sedu a variantu kol, ověřte nosnost a celkovou šířku v domácích průchodech.",
+    missing: [],
+    recommendations: [{
+      id: "manual_self_or_companion_candidate",
+      label: "Odlehčený mechanický vozík s hnacími obručemi a brzdami pro doprovod",
+      reason: propulsion === "self_manual"
+        ? "Uživatel má vozík pohánět rukama a zadní kola mají hnací obruče pro samostatný pohyb."
+        : "Využití se má střídat mezi samostatným pohonem a doprovodem.",
+      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", "nosnost 125 nebo 136 kg podle kol", "hmotnost 17–17,5 kg", "hnací obruče", "brzdy pro doprovod"],
+      productCandidateIds: ["unizdrav-p3641"]
+    }],
+    acquisition: acquisitionFor(duration, false),
+    disclaimer: "Před dlouhodobým používáním je potřeba správně nastavit šířku sedu, stupačky a posed."
+  };
+}

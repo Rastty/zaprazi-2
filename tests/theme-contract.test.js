@@ -281,7 +281,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
-test("0.8.18 deployment integrity contract covers critical runtime files", () => {
+test("0.8.19 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -292,21 +292,23 @@ test("0.8.18 deployment integrity contract covers critical runtime files", () =>
     "page-ochrana-soukromi.php",
     "page-koupelna-a-wc.php",
     "page-pomucky-do-koupelny-na-pojistovnu.php",
+    "page-polohovaci-postel.php",
     "assets/js/analytics-consent.js",
     "assets/js/mobility-advisor.js",
     "assets/js/bathroom-advisor.js",
+    "assets/js/bed-advisor.js",
     "assets/js/runtime-config.js",
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.18' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.19' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_18/);
+    assert.match(read(path), /ZP_RELEASE_0_8_19/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.18"));
+  assert.ok(read("style.css").includes("Version: 0.8.19"));
 });
 
 
@@ -314,10 +316,12 @@ test("affiliate admin shows slice readiness without changing recommendation logi
   const functions = read("functions.php");
   const mobilityAdvisor = read("assets/js/mobility-advisor.js");
   const bathroomAdvisor = read("assets/js/bathroom-advisor.js");
+  const bedAdvisor = read("assets/js/bed-advisor.js");
 
   assert.match(functions, /zaprazi_2_affiliate_groups/);
   assert.match(functions, /'label' => 'Mobility'/);
   assert.match(functions, /'label' => 'Koupelna a WC'/);
+  assert.match(functions, /'label' => 'Polohovací postel'/);
   assert.match(functions, /\$readiness/);
   assert.match(functions, /Partnerský odkaz aktivní/);
   assert.match(functions, /Otestovat deeplink/);
@@ -328,6 +332,8 @@ test("affiliate admin shows slice readiness without changing recommendation logi
   assert.doesNotMatch(mobilityAdvisor, /affiliate.*sort/i);
   assert.doesNotMatch(bathroomAdvisor, /commission/i);
   assert.doesNotMatch(bathroomAdvisor, /affiliate.*sort/i);
+  assert.doesNotMatch(bedAdvisor, /commission/i);
+  assert.doesNotMatch(bedAdvisor, /affiliate.*sort/i);
 });
 
 

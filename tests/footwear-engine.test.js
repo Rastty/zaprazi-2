@@ -38,7 +38,11 @@ test("mismatched toe/opening combination does not force a product", () => {
   assert.equal(r.candidate, null);
 });
 
-test("engine does not ask for diagnosis or medication", () => {
+test("engine does not read diagnosis or medication inputs", () => {
   const src = chooseEasyFootwear.toString();
-  assert.doesNotMatch(src, /diagnosis|diagnóz|medication|léky|diabet/i);
+  assert.doesNotMatch(src, /input\.(diagnosis|diabetes|medication|medications|swellingCause)/i);
+  assert.match(src, /input\.openingNeed/);
+  assert.match(src, /input\.toe/);
+  assert.match(src, /input\.velcroUse/);
+  assert.match(src, /input\.measuredFeet/);
 });

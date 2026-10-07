@@ -1136,3 +1136,33 @@ Post-deploy:
 - upload approved graphical logo via WordPress custom-logo control,
 - set square Site Icon,
 - smoke core scenarios and brand copy.
+
+
+### ZP-055 ADL Open-It extension
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds one additional narrow self-care problem instead of broadening the catalog:
+- task: opening normal household packaging / closures,
+- practical blocker: insufficient grip, twisting or pulling,
+- exact candidate: **MVS Open-It 5 v 1**, SKU **15-050105**,
+- RehaVita.cz canonical URL verified 2026-10-07,
+- current merchant state at verification: in stock, 495 Kč,
+- product weight 60 g.
+
+Supported production use:
+- screw-cap bottles,
+- can pull-tabs,
+- zipper pulls,
+- normal packaging.
+
+Explicit safety boundary:
+- merchant documentation mentions medication blisters, but Zápraží does not use medication/blister handling as a recommendation trigger,
+- no medication choice, identification, dosage or safety advice is generated.
+
+Affiliate:
+- new isolated slot `rehavita-cz:open-it-15-050105`,
+- VIV/CJ advertiser remains 18119967,
+- empty slot falls back to the exact canonical RehaVita URL,
+- recommendation order remains independent of affiliate readiness.
+
+This changes Soběstačnost from 3 to 4 exact commercial slots without adding diagnosis or health-data collection.

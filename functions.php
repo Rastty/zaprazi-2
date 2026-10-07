@@ -108,6 +108,7 @@ function zaprazi_2_affiliate_fields() {
     'rehavita-cz:upcup-15-050101' => 'RehaVita.cz (VIV 18119967) — UpCup 15-050101',
     'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz (VIV 18119967) — Beat It 15-050102',
     'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz (VIV 18119967) — Theomatik 15-050103',
+    'rehavita-cz:open-it-15-050105' => 'RehaVita.cz (VIV 18119967) — MVS Open-It 15-050105',
   );
 }
 
@@ -134,6 +135,7 @@ function zaprazi_2_affiliate_targets() {
     'rehavita-cz:upcup-15-050101' => 'https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/',
     'rehavita-cz:beat-it-15-050102' => 'https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/',
     'rehavita-cz:theomatik-15-050103' => 'https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/',
+    'rehavita-cz:open-it-15-050105' => 'https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/',
   );
 }
 
@@ -183,6 +185,7 @@ function zaprazi_2_affiliate_groups() {
         'rehavita-cz:upcup-15-050101',
         'rehavita-cz:beat-it-15-050102',
         'rehavita-cz:theomatik-15-050103',
+        'rehavita-cz:open-it-15-050105',
       ),
     ),
   );
@@ -273,7 +276,7 @@ function zaprazi_2_render_settings_page() {
     </div>
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
-      <p><strong>RehaVita.cz:</strong> schválený program je vedený přes VIVnetworks/CJ jako advertiser <strong>18119967</strong>. Pro UpCup, Beat It a Theomatik otevřete níže uvedenou přesnou produktovou URL a použijte CJ Deep Link Generator / jeho Chrome rozšíření. Vygenerovaný odkaz patří vždy jen do odpovídajícího slotu.</p>
+      <p><strong>RehaVita.cz:</strong> schválený program je vedený přes VIVnetworks/CJ jako advertiser <strong>18119967</strong>. Pro UpCup, Beat It, Theomatik a Open-It otevřete níže uvedenou přesnou produktovou URL a použijte CJ Deep Link Generator / jeho Chrome rozšíření. Vygenerovaný odkaz patří vždy jen do odpovídajícího slotu.</p>
     </div>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">

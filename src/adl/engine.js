@@ -1,5 +1,5 @@
-const TASKS = new Set(["drink", "stabilize_container", "one_hand_meal", "other", "unknown"]);
-const PROBLEMS = new Set(["grip_or_spill", "container_moves", "one_hand_setup", "swallowing_or_medical", "other", "unknown"]);
+const TASKS = new Set(["drink", "stabilize_container", "one_hand_meal", "open_packaging", "other", "unknown"]);
+const PROBLEMS = new Set(["grip_or_spill", "container_moves", "one_hand_setup", "grip_or_twist", "swallowing_or_medical", "other", "unknown"]);
 const YES_NO_UNKNOWN = new Set(["yes", "no", "unknown"]);
 
 const CANDIDATES = Object.freeze({
@@ -32,6 +32,16 @@ const CANDIDATES = Object.freeze({
     sourceUrl: "https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/",
     checkedAt: "2026-10-07",
     facts: ["rozměry 36,5 × 18,8 × 3 cm", "hmotnost 900 g", "skládací provedení", "vhodné do myčky podle prodejce"]
+  },
+  openIt: {
+    id: "rehavita-open-it-15-050105",
+    product: "MVS Open-It - multifunkční otevírací pomůcka 5 v 1",
+    sku: "15-050105",
+    merchant: "RehaVita.cz",
+    affiliateKey: "rehavita-cz:open-it-15-050105",
+    sourceUrl: "https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/",
+    checkedAt: "2026-10-07",
+    facts: ["5 funkcí v jedné pomůcce", "šroubovací uzávěry, jazýčky plechovek, zipy a obaly", "hmotnost 60 g"]
   }
 });
 
@@ -109,6 +119,17 @@ export function chooseAdlSelfCareAid(input = {}) {
       "Před nákupem ověřte, že používaná nádoba a pracovní plocha odpovídají způsobu upevnění.",
       CANDIDATES.beatIt,
       ["rozměr a tvar nádoby", "bezpečné upevnění na stabilní ploše"]
+    );
+  }
+
+  if (task === "open_packaging" && mainProblem === "grip_or_twist") {
+    return result(
+      "candidate",
+      "Pro běžné otevírání lahví, plechovek, zipů a obalů dává smysl ověřit MVS Open-It.",
+      "Ověřte, že problém je opravdu v úchopu, otočení nebo zatažení při otevírání běžného obalu. Tato větev neslouží k rozhodování o lécích ani dávkování.",
+      CANDIDATES.openIt,
+      ["ověřit konkrétní typ uzávěru nebo obalu", "nepoužívat poradce k rozhodování o lécích"],
+      "Zápraží hodnotí pouze praktický úkon otevírání; neřeší výběr, dávkování ani bezpečnost léků."
     );
   }
 

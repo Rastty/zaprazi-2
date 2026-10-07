@@ -95,3 +95,31 @@ test("engine has no diagnosis or raw body-weight inputs", () => {
   const source = chooseAdlSelfCareAid.toString();
   assert.doesNotMatch(source, /diagnos|weightKg|bodyWeight|operation|medication|wound/i);
 });
+
+
+test("Open-It is selected only for practical packaging grip/twist problems", () => {
+  const result = chooseAdlSelfCareAid({
+    task: "open_packaging",
+    mainProblem: "grip_or_twist",
+    stableSurface: "unknown",
+    oneHandUse: "unknown"
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.equal(result.candidate?.sku, "15-050105");
+  assert.equal(result.candidate?.affiliateKey, "rehavita-cz:open-it-15-050105");
+  assert.match(result.nextStep, /běžného obalu/i);
+  assert.match(result.safetyNote, /neřeší výběr, dávkování ani bezpečnost léků/i);
+});
+
+test("Open-It is not forced for unrelated self-care problems", () => {
+  const result = chooseAdlSelfCareAid({
+    task: "open_packaging",
+    mainProblem: "other",
+    stableSurface: "unknown",
+    oneHandUse: "unknown"
+  });
+
+  assert.equal(result.status, "no_match");
+  assert.equal(result.candidate, null);
+});

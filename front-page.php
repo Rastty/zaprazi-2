@@ -18,7 +18,7 @@
       <p class="zp-kicker">Co potřebujete vyřešit?</p>
       <h2 class="zp-section-title">Začněte situací, ne názvem pomůcky.</h2>
       <div class="zp-decision-grid">
-        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor podle prostředí, potřebné opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="#poradce">Spustit poradce pro chůzi</a></p></article>
+        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor podle prostředí, potřebné opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Vybrat chodítko nebo rollátor</a> · <a class="zp-text-link" href="#poradce">Spustit poradce</a></p></article>
         <article class="zp-decision-card"><h3>Koupelna a WC</h3><p>Zvýšení WC, opory, sprchovací nebo toaletní řešení podle přesunu a prostoru.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu a WC</a></p></article>
         <article class="zp-decision-card"><h3>Polohovací postel</h3><p>Výběr vhodného typu, prostor, nosnost a rozhodnutí mezi půjčením, koupí a pojišťovnou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řešit polohovací postel</a></p></article>
         <article class="zp-decision-card"><h3>Invalidní vozík</h3><p>Mechanický nebo elektrický vozík podle pohonu, sedu, průchodů a způsobu pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řešit invalidní vozík</a></p></article>

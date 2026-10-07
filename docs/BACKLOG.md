@@ -1272,3 +1272,33 @@ Packages:
 - release integrity now covers the new page.
 
 No broad product catalog, diagnosis-first routing or merchant ranking is introduced.
+
+
+### ZP-061 Safe-home senior audit
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/bezpecny-byt-pro-seniora/` for the distinct intent **jak upravit byt pro seniora**.
+
+The page is not a generic product list. It audits:
+- entrance,
+- bed → WC route,
+- toilet,
+- bathroom,
+- walking paths,
+- bed surroundings.
+
+Official NZIP evidence covers:
+- removable trip hazards,
+- night lighting,
+- anti-slip bathroom measures,
+- appropriate walking aids,
+- fall-risk prevention in older adults.
+
+The page routes to all six existing Advisors and is linked from:
+- compensatory aids hub,
+- return-home journey,
+- global footer.
+
+Resource registry advances to v13.
+
+See `docs/SAFE_HOME_SENIOR_EVIDENCE_V0.md`.

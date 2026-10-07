@@ -115,6 +115,25 @@ RehaVita is an approved advertiser, but this foundation intentionally contains:
 
 The UI can now expose isolated affiliate slots. Until a publisher-specific deeplink is supplied, each slot must fall back to the verified canonical RehaVita product URL.
 
+## Affiliate generation path
+
+Approved network context:
+- network: **VIVnetworks / CJ**,
+- advertiser: **RehaVita.cz**,
+- advertiser ID: **18119967**.
+
+For each of the three products:
+1. open the exact canonical RehaVita product URL,
+2. generate the publisher-specific tracking link with the CJ Deep Link Generator / current Chrome extension,
+3. paste the generated URL into the matching WordPress affiliate slot,
+4. do not manually construct PID/AID/tracking parameters,
+5. keep canonical fallback active until the exact generated link is available.
+
+The three slots remain:
+- `rehavita-cz:upcup-15-050101`,
+- `rehavita-cz:beat-it-15-050102`,
+- `rehavita-cz:theomatik-15-050103`.
+
 ## Next step
 
-Deploy and smoke the ADL Advisor UI, then fill the three affiliate slots only with exact publisher-specific deeplinks.
+Deploy and smoke the ADL Advisor UI, then fill the three slots with exact generated VIV/CJ links when available.

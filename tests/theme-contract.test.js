@@ -1111,3 +1111,18 @@ test("global footer exposes all six core advisor journeys", () => {
   assert.match(footer, />Zápraží<\/strong>/);
   assert.match(style, /zp-footer-core/);
 });
+
+
+test("RehaVita affiliate helper identifies VIV advertiser without fabricating tracking URLs", () => {
+  const functions = read("functions.php");
+  const evidence = read("docs/ADL_SELF_CARE_EVIDENCE_V0.md");
+
+  assert.match(functions, /RehaVita\.cz \(VIV 18119967\)/);
+  assert.match(functions, /advertiser <strong>18119967<\/strong>/);
+  assert.match(functions, /CJ Deep Link Generator/);
+  assert.match(evidence, /VIVnetworks \/ CJ/);
+  assert.match(evidence, /advertiser ID: \*\*18119967\*\*/);
+  assert.match(evidence, /do not manually construct PID\/AID\/tracking parameters/);
+  assert.doesNotMatch(functions, /jdoqocy\.com\/click-[0-9]/i);
+  assert.doesNotMatch(functions, /anrdoezrs\.net\/links\/[0-9]/i);
+});

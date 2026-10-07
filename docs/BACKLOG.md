@@ -1055,3 +1055,20 @@ Adds all six core ZaPrazi decision journeys to the global footer:
 This makes the new decision architecture reachable from legacy posts, archives and other non-core pages without replacing the low-prominence legacy crawl paths.
 
 Footer brand text is aligned to **Zápraží**. The legacy archive links remain preserved.
+
+
+### ZP-051 RehaVita VIV deeplink readiness
+Status: **READY_FOR_PUBLISHER_LINKS**
+
+Confirmed account context:
+- RehaVita.cz is approved through VIVnetworks/CJ,
+- advertiser ID **18119967**,
+- three exact ADL target URLs are already mapped.
+
+Admin now shows the VIV advertiser identity next to each RehaVita slot and explains the safe generation path:
+- open the exact product,
+- use CJ Deep Link Generator / current Chrome extension,
+- paste only the generated publisher-specific link,
+- never manually compose tracking parameters.
+
+No affiliate URL has been fabricated. Canonical RehaVita fallbacks remain active until the exact links are supplied.

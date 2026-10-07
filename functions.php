@@ -573,7 +573,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_safe_home_page() ) {
-    return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
+    return 'Jak upravit byt pro seniora a předcházet pádům | Zápraží';
   }
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Obuv pro seniory: široké boty na suchý zip | Zápraží';
@@ -629,7 +629,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_safe_home_page() ) {
-    return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
+    return 'Jak upravit byt pro seniora a předcházet pádům | Zápraží';
   }
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Obuv pro seniory: široké boty na suchý zip | Zápraží';
@@ -686,7 +686,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Praktický průvodce kompenzačními pomůckami pro seniory: chůze, koupelna a WC, postel, vozík, soběstačnost a rozdíl mezi koupí, půjčením a pojišťovnou.';
   }
   if ( zaprazi_2_is_safe_home_page() ) {
-    return 'Jak upravit byt pro seniora: praktický audit vstupu, trasy postel–WC, koupelny, osvětlení, překážek a návazných kompenzačních pomůcek.';
+    return 'Jak upravit byt pro seniora a předcházet pádům doma: audit vstupu, trasy postel–WC, koupelny, osvětlení, překážek a vhodných pomůcek.';
   }
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Jak vybrat obuv pro seniory: široké boty na suchý zip podle otevření, šířky, špičky a aktuální velikosti obou chodidel.';
@@ -1183,7 +1183,7 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Začněte trasami, které používá denně: vstup, postel k WC a koupelna. Odstraňte překážky na zemi, ověřte osvětlení a sledujte, kde se člověk přidržuje nábytku nebo potřebuje pomoc.',
       ),
       array(
-        'question' => 'Jak snížit riziko pádu doma?',
+        'question' => 'Jak předcházet pádům seniorů doma?',
         'answer'   => 'NZIP doporučuje mimo jiné odstranit překážky a volné kabely, použít protiskluzové prvky v koupelně, zajistit dostatečné osvětlení a podle potřeby používat vhodnou pomůcku při chůzi.',
       ),
       array(

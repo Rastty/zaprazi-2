@@ -29,6 +29,7 @@ get_header();
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="toilet_nearby"><span><strong>Je těžké dojít až na WC</strong><small>Dává smysl prověřit samostatnou toaletní židli blíž místu pobytu.</small></span></label>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="shower_seated"><span><strong>Je těžké stát při sprchování</strong><small>Člověk se do sprchy dostane, ale potřebuje při hygieně sedět.</small></span></label>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="bath_transfer"><span><strong>Je problém dostat se přes okraj vany</strong><small>Tato větev vyžaduje opatrnější posouzení přesunu.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="primaryNeed" value="multifunction_toilet_shower"><span><strong>Jedna stabilní židle pro WC i sprchu</strong><small>Jedna pomůcka má sloužit jako toaletní židle, sprchovací sedačka nebo nástavec nad WC.</small></span></label>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="combined_shower_toilet"><span><strong>Je potřeba sprchovací/toaletní vozík</strong><small>Vyšší míra podpory a složitější přesun.</small></span></label>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="unknown"><span><strong>Nevím</strong><small>Nejdřív se potřebuji zorientovat.</small></span></label>
         </fieldset>

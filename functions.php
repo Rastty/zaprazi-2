@@ -41,6 +41,16 @@ function zaprazi_2_release_meta() {
 }
 add_action( 'wp_head', 'zaprazi_2_release_meta', 1 );
 
+function zaprazi_2_release_integrity_admin_notice() {
+  if ( ! current_user_can( 'manage_options' ) || zaprazi_2_release_integrity_ok() ) {
+    return;
+  }
+
+  echo '<div class="notice notice-error"><p><strong>ZaPrazi deployment partial.</strong> Některý kritický runtime soubor neodpovídá release ' . esc_html( ZAPRAZI_RELEASE ) . '. Nespouštějte další změny, dokud se neprovede úplný Deploy z větve dev.</p></div>';
+}
+add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
+
+
 
 function zaprazi_2_setup() {
   add_theme_support('title-tag');

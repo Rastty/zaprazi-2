@@ -83,7 +83,7 @@ Separate:
 
 Product order comes from suitability and evidenced parameters, not commission.
 
-Initial merchant candidates from the project brief are RehabilitačníPomůcky.cz, Lékárna.cz and MůjZdrav.cz. Their current partnership, relevant inventory, data-use conditions and affiliate links must be verified before activation.
+Current approved merchant portfolio includes RehabilitačníPomůcky.cz, Lékárna.cz, Dr.Max, UNIZDRAV and Zdravá Obuv Štěpánková & C. Mobility v1 has active exact affiliate routes for BESCO WA17, BESCO WA21 and MEYRA Ideal. UNIZDRAV is the highest-priority expansion merchant because its current public catalog spans Bathroom/WC, beds, lifts and wheelchairs. Merchant availability and commission never change recommendation ranking; every new route still requires product-level evidence and exact deeplink verification.
 
 ## Trust
 

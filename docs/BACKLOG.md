@@ -1897,3 +1897,20 @@ Scope:
 - Footwear.
 
 No suitability logic, merchant ranking, product order or affiliate destination is changed.
+
+
+### ZP-090 Release 0.8.43 — Commercial CTA standard
+Status: **READY_DEPLOY**
+
+Release 0.8.43 supersedes deployed 0.8.42.
+
+Packages:
+- everything from 0.8.42,
+- standardized commercial CTAs across all 13 product-recommending Advisors,
+- visible commission-independence note on every offer,
+- unchanged `nofollow sponsored` affiliate handling,
+- consistent `product_click` + `merchant_click` tracking for indoor walker and rollator,
+- unchanged decision engines, safety gates, product order and merchant destinations,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

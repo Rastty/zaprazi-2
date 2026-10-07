@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.29' );
+  define( 'ZAPRAZI_RELEASE', '0.8.30' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_29';
+  $marker = 'ZP_RELEASE_0_8_30';
   $files = array(
     'header.php',
     'footer.php',
@@ -23,6 +23,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-navrat-z-nemocnice.php',
     'page-sobestacnost.php',
     'page-kompenzacni-pomucky-pro-seniory.php',
+    'page-bezpecny-byt-pro-seniora.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',

@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -766,7 +766,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -891,7 +891,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1217,7 +1217,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   assert.match(functions, /'kompenzacni-pomucky-pro-seniory' => array/);
   assert.match(functions, /page-kompenzacni-pomucky-pro-seniory\.php/);
   assert.match(functions, /Kompenzační pomůcky pro seniory: jak vybrat \| Zápraží/);
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
 
   assert.match(front, /\/kompenzacni-pomucky-pro-seniory\//);
   assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\//);
@@ -1274,7 +1274,7 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
   assert.match(functions, /zaprazi_2_is_safe_home_page/);
   assert.match(functions, /'bezpecny-byt-pro-seniora' => array/);
   assert.match(functions, /page-bezpecny-byt-pro-seniora\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
   assert.match(compensatory, /\/bezpecny-byt-pro-seniora\//);
   assert.match(returnHome, /\/bezpecny-byt-pro-seniora\//);
   assert.match(footer, /\/bezpecny-byt-pro-seniora\//);
@@ -1296,4 +1296,54 @@ test("safe-home visible FAQ mirrors FAQPage schema", () => {
     assert.ok(page.includes(question), `visible safe-home FAQ missing: ${question}`);
     assert.ok(functions.includes(question), `safe-home FAQ schema missing: ${question}`);
   }
+});
+
+
+test("easy-footwear Advisor is privacy-safe, fit-gated and merchant-separated", () => {
+  const page = read("page-obuv-pro-seniory.php");
+  const app = read("assets/js/footwear-advisor.js");
+  const engine = read("src/footwear/engine.js");
+  const functions = read("functions.php");
+  const footer = read("footer.php");
+  const safeHome = read("page-bezpecny-byt-pro-seniora.php");
+
+  assert.match(page, /id=["']zp-footwear-advisor["'][^>]+role=["']form/);
+  assert.doesNotMatch(page, /<form[^>]+id=["']zp-footwear-advisor/);
+  assert.match(page, /Nezadávejte diagnózu, příčinu otoku, léky/i);
+
+  for (const field of ["openingNeed", "toe", "velcroUse", "measuredFeet"]) {
+    assert.ok(page.includes(`data-zp-footwear-required="${field}"`) || page.includes(`name="${field}"`), `missing footwear field ${field}`);
+  }
+
+  assert.match(app, /chooseEasyFootwear/);
+  assert.match(app, /affiliateMap/);
+  assert.doesNotMatch(app, /new FormData/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.match(app, /output\.status === "candidate"/);
+
+  assert.match(engine, /zdrava-obuv-cz:arsene/);
+  assert.match(engine, /zdrava-obuv-cz:xavier/);
+  assert.match(engine, /zdrava-obuv-cz:altitude/);
+  assert.match(engine, /measuredFeet/);
+  assert.match(engine, /velcroUse/);
+
+  assert.match(functions, /zaprazi_2_is_footwear_page/);
+  assert.match(functions, /assets\/js\/footwear-advisor\.js/);
+  assert.match(functions, /'obuv-pro-seniory' => array/);
+  assert.match(functions, /page-obuv-pro-seniory\.php/);
+  assert.match(functions, /'footwear' => array/);
+  assert.match(functions, /zaprazi_resource_pages_v14/);
+
+  assert.match(footer, /\/obuv-pro-seniory\//);
+  assert.match(safeHome, /\/obuv-pro-seniory\//);
+});
+
+test("footwear shortlist never routes by diagnosis and requires measurement before merchant CTA", () => {
+  const engine = read("src/footwear/engine.js");
+  const page = read("page-obuv-pro-seniory.php");
+
+  assert.doesNotMatch(engine, /input\.(diagnosis|diabetes|medication|swellingCause)/i);
+  assert.match(engine, /measuredFeet !== "yes"/);
+  assert.match(engine, /needs_fit_check/);
+  assert.match(page, /Náhlá změna chodidla nepatří jen do nákupního filtru/);
 });

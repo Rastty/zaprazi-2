@@ -183,7 +183,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v4/);
+  assert.match(functions, /zaprazi_resource_pages_v5/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -261,7 +261,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v4/);
+  assert.match(functions, /zaprazi_resource_pages_v5/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -500,4 +500,60 @@ test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots",
   }
 
   assert.doesNotMatch(functions, /unizdrav-cz:p2085/);
+});
+
+
+test("Bathroom reimbursement resource is created non-destructively and linked from the Advisor", () => {
+  const functions = read("functions.php");
+  const page = read("page-pomucky-do-koupelny-na-pojistovnu.php");
+  const bathroom = read("page-koupelna-a-wc.php");
+  const app = read("assets/js/bathroom-advisor.js");
+
+  assert.match(functions, /'pomucky-do-koupelny-na-pojistovnu' => array/);
+  assert.match(functions, /page-pomucky-do-koupelny-na-pojistovnu\.php/);
+  assert.match(functions, /zaprazi_2_is_bathroom_insurance_page/);
+  assert.doesNotMatch(functions, /wp_update_post\(/);
+
+  assert.match(page, /Pomůcky do koupelny a na WC na pojišťovnu v roce 2026/);
+  assert.match(page, /Zpracováno 29\. 9\. 2026/);
+  assert.match(page, /1 kus za 10 let/);
+  assert.match(page, /praktický lékař/);
+  assert.match(page, /Affiliate produkt není automaticky hrazený produkt/);
+  assert.match(page, /UNIZDRAV P2868/);
+  assert.match(page, /UNIZDRAV P2131/);
+
+  assert.match(bathroom, /\/pomucky-do-koupelny-na-pojistovnu\//);
+  assert.match(app, /\/pomucky-do-koupelny-na-pojistovnu\//);
+  assert.match(app, /Jak funguje úhrada koupelnových pomůcek/);
+});
+
+test("Bathroom reimbursement FAQ schema mirrors the visible FAQ", () => {
+  const functions = read("functions.php");
+  const page = read("page-pomucky-do-koupelny-na-pojistovnu.php");
+
+  const questions = [
+    "Hradí pojišťovna sprchovací nebo toaletní židli?",
+    "Mohu si koupit pomůcku a potom požádat pojišťovnu o proplacení?",
+    "Může pomůcku do koupelny předepsat praktický lékař?",
+    "Je nástavec na WC automaticky hrazený?"
+  ];
+
+  for (const question of questions) {
+    assert.ok(functions.includes(question), `FAQ schema missing ${question}`);
+    assert.ok(page.includes(question), `visible FAQ missing ${question}`);
+  }
+
+  assert.match(functions, /zaprazi_2_is_bathroom_insurance_page/);
+  assert.match(functions, /data-zaprazi-schema="resource-faq"/);
+});
+
+test("Bathroom reimbursement copy does not claim current retail candidates are reimbursed", () => {
+  const page = read("page-pomucky-do-koupelny-na-pojistovnu.php");
+  const catalog = read("src/bathroom/catalog.js");
+
+  assert.match(page, /vedeme zatím jen jako přímý nákup/);
+  assert.match(page, /přesná identita prostředku/);
+  assert.doesNotMatch(page, /P2868[^\n]{0,120}hrazen[ýá]/i);
+  assert.doesNotMatch(page, /P2131[^\n]{0,120}hrazen[ýá]/i);
+  assert.match(catalog, /affiliateKey: "unizdrav-cz:p2868"/);
 });

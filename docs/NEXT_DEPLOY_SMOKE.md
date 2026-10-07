@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.36
+# Next Deploy Smoke — Zápraží 2.0 v0.8.37
 
-This release supersedes 0.8.35. Deploy only 0.8.36 from `dev`.
+This release supersedes 0.8.36. Deploy only 0.8.37 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.36`
+- `zaprazi-release` = `0.8.37`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -307,3 +307,25 @@ Regression:
 - no second Mobility eligibility engine exists
 - Advisor asset loader stays free of FAQ payload
 - release integrity covers both new pages and JS modules.
+
+
+## 22. Mobility SEO hub
+Open `/choditka-pro-seniory/`.
+
+Expected:
+- H1 contains **Chodítka pro seniory**
+- page routes to:
+  - `/choditko-do-bytu-pro-seniory/`
+  - `/rollator-pro-seniory/`
+  - `/pujceni-choditka/`
+  - `/choditko-na-pojistovnu/`
+- page contains no standalone recommendation engine or product-routing JS
+- header/footer Mobility links point to the hub
+- homepage still keeps the full Mobility Advisor
+- insurer and rental pages link back to the hub
+- FAQ schema mirrors the visible five-question FAQ.
+
+Regression:
+- resource registry = v21
+- release integrity covers `page-choditka-pro-seniory.php`
+- no duplicate Mobility suitability engine is introduced.

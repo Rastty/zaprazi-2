@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_47 */
+/* ZP_RELEASE_0_8_48 */
 /*
 Template Name: Zápraží — Rollátor pro seniory
 */

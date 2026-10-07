@@ -2081,3 +2081,20 @@ Privacy / security:
 - response is read-only and marked `Cache-Control: no-store, max-age=0`.
 
 This is operational visibility only; recommendation logic, product order and merchant ranking remain unchanged.
+
+
+### ZP-100 Release 0.8.48 — Affiliate readiness diagnostics
+Status: **READY_DEPLOY**
+
+Release 0.8.48 supersedes deployed 0.8.47.
+
+Packages:
+- everything from 0.8.47,
+- public read-only `/wp-json/zaprazi/v1/affiliate-readiness` diagnostics,
+- configured / total affiliate coverage by slice,
+- missing canonical targets without exposing publisher tracking URLs,
+- no Advisor or user data exposure,
+- unchanged suitability, product order and merchant ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

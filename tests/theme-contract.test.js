@@ -280,7 +280,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
-test("0.8.12 deployment integrity contract covers critical runtime files", () => {
+test("0.8.13 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -290,6 +290,7 @@ test("0.8.12 deployment integrity contract covers critical runtime files", () =>
     "page-pujceni-choditka.php",
     "page-ochrana-soukromi.php",
     "page-koupelna-a-wc.php",
+    "page-pomucky-do-koupelny-na-pojistovnu.php",
     "assets/js/analytics-consent.js",
     "assets/js/mobility-advisor.js",
     "assets/js/bathroom-advisor.js",
@@ -297,14 +298,14 @@ test("0.8.12 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.12' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.13' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_12/);
+    assert.match(read(path), /ZP_RELEASE_0_8_13/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.12"));
+  assert.ok(read("style.css").includes("Version: 0.8.13"));
 });
 
 

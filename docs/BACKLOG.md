@@ -501,7 +501,7 @@ No new personal/health question was needed; existing practical answers are suffi
 
 
 ### ZP-029 One aid for WC + shower
-Status: **PACKAGED_IN_0_8_17**
+Status: **PACKAGED_IN_0_8_18**
 
 New scenario:
 - user wants one stable aid to cover both toilet and shower use,
@@ -535,7 +535,7 @@ Fail-closed:
 
 
 ### ZP-030 Bath transfer bench fallback
-Status: **READY_DEPLOY_0_8_17**
+Status: **PACKAGED_IN_0_8_18**
 
 Improves the bath-transfer branch when BESCO BS008 cannot be safely fitted to the bath rim.
 
@@ -562,7 +562,7 @@ No diagnosis or raw health data added.
 
 
 ### ZP-031 Guarded product-level reimbursement evidence UI
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_18**
 
 Adds a product-card reimbursement evidence block for products that have an exact payer identity candidate.
 

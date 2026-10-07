@@ -1412,6 +1412,26 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
     assert.ok(page.includes(path), `compensatory aids route missing: ${path}`);
   }
 
+  assert.match(page, /Kompenzační pomůcky na pojišťovnu: začněte konkrétní kategorií/);
+
+  for (const path of [
+    "/choditko-na-pojistovnu/",
+    "/pomucky-do-koupelny-na-pojistovnu/",
+    "/polohovaci-postel-na-pojistovnu/",
+    "/invalidni-vozik-na-pojistovnu/"
+  ]) {
+    assert.ok(page.includes(path), `insurance route missing from compensatory hub: ${path}`);
+  }
+
+  for (const detailPath of [
+    "page-choditko-na-pojistovnu.php",
+    "page-pomucky-do-koupelny-na-pojistovnu.php",
+    "page-polohovaci-postel-na-pojistovnu.php",
+    "page-invalidni-vozik-na-pojistovnu.php"
+  ]) {
+    assert.match(read(detailPath), /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
+  }
+
   assert.match(page, /ePoukaz/);
   assert.match(page, /nemění ceny ani úhrady/i);
   assert.match(page, /sukl\.gov\.cz/);

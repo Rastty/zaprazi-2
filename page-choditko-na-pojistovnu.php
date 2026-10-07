@@ -18,6 +18,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
     </div>
   </section>

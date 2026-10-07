@@ -1976,7 +1976,7 @@ The page remains a routing/audit layer only:
 
 
 ### ZP-094 Release 0.8.45 — Safe-home fall-prevention authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.45 supersedes deployed 0.8.44.
 
@@ -1990,3 +1990,26 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-095 Insurance hub routing
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Turns `/kompenzacni-pomucky-pro-seniory/` into the central acquisition and navigation hub for the broad **pomůcky na pojišťovnu** intent.
+
+Adds:
+- hero jump link to the insurance section,
+- H2 **Kompenzační pomůcky na pojišťovnu: začněte konkrétní kategorií**,
+- four direct routes:
+  - chodítko na pojišťovnu,
+  - koupelna/WC na pojišťovnu,
+  - polohovací postel na pojišťovnu,
+  - invalidní vozík na pojišťovnu,
+- reciprocal backlink from all four insurance detail pages to the hub,
+- regression coverage for the hub → detail → hub architecture.
+
+Safety:
+- no individual reimbursement eligibility inference,
+- no product ranking based on reimbursement,
+- ePoukaz remains separated from actual entitlement/approval,
+- exact current rules stay on category-specific pages.

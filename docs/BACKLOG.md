@@ -1810,3 +1810,19 @@ Safety boundary stays unchanged:
 - sudden size/shape change, wound, marked pain or fast swelling stays outside shopping-only advice.
 
 Commercial routing remains limited to the verified Zdravá Obuv candidates and affiliate ranking is unchanged.
+
+
+### ZP-086 Release 0.8.41 — Footwear SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.41 supersedes 0.8.40.
+
+Packages:
+- everything from deployed 0.8.40,
+- `/obuv-pro-seniory/` authority layer for broader **obuv pro seniory** intent,
+- five visible FAQ items with exact FAQPage schema parity,
+- stronger links to safe-home and compensatory-aids journeys,
+- unchanged Footwear Advisor decision logic, safety boundaries and affiliate ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

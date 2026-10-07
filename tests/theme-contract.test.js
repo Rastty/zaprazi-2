@@ -1034,7 +1034,9 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.match(engine, /rehavita-cz:upcup-15-050101/);
   assert.match(engine, /rehavita-cz:beat-it-15-050102/);
   assert.match(engine, /rehavita-cz:theomatik-15-050103/);
+  assert.match(engine, /rehavita-cz:open-it-15-050105/);
   assert.match(engine, /36,5 × 18,8 × 3 cm/);
+  assert.match(engine, /hmotnost 60 g/);
 
   assert.match(functions, /zaprazi_2_is_adl_page/);
   assert.match(functions, /assets\/js\/adl-advisor\.js/);
@@ -1043,6 +1045,8 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.match(functions, /rehavita-cz:upcup-15-050101/);
   assert.match(functions, /rehavita-cz:beat-it-15-050102/);
   assert.match(functions, /rehavita-cz:theomatik-15-050103/);
+  assert.match(functions, /rehavita-cz:open-it-15-050105/);
+  assert.match(functions, /mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/);
 
   assert.match(header, /\/sobestacnost\//);
   assert.match(front, /\/sobestacnost\//);
@@ -1063,7 +1067,7 @@ test("Return-home and self-care journeys cross-link without mixing decision logi
   assert.match(adl, /\/navrat-z-nemocnice\//);
 
   // Cross-links are navigational only; return-home orchestration must remain product-free.
-  assert.doesNotMatch(returnEngine, /rehavita|upcup|beat it|theomatik/i);
+  assert.doesNotMatch(returnEngine, /rehavita|upcup|beat it|theomatik|open-it/i);
 });
 
 
@@ -1139,4 +1143,19 @@ test("theme supports production custom logo with accessible text fallback", () =
   assert.match(header, />Zápraží<\/a>/);
   assert.match(style, /zp-brand-wrap \.custom-logo/);
   assert.match(style, /max-height:54px/);
+});
+
+
+test("ADL packaging branch stays narrow and does not become medication advice", () => {
+  const page = read("page-sobestacnost.php");
+  const engine = read("src/adl/engine.js");
+  const functions = read("functions.php");
+
+  assert.match(page, /value=["']open_packaging["']/);
+  assert.match(page, /value=["']grip_or_twist["']/);
+  assert.match(page, /Otevřít běžný obal nebo uzávěr/);
+  assert.match(page, /ne rozhodování o lécích/i);
+  assert.match(engine, /MVS Open-It/);
+  assert.match(engine, /neřeší výběr, dávkování ani bezpečnost léků/i);
+  assert.match(functions, /RehaVita\.cz \(VIV 18119967\) — MVS Open-It 15-050105/);
 });

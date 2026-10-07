@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.40' );
+  define( 'ZAPRAZI_RELEASE', '0.8.41' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_40';
+  $marker = 'ZP_RELEASE_0_8_41';
   $files = array(
     'header.php',
     'footer.php',

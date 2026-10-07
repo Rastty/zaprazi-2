@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.47
+# Next Deploy Smoke — Zápraží 2.0 v0.8.48
 
-This release supersedes 0.8.46. Deploy only 0.8.47 from `dev`.
+This release supersedes 0.8.47. Deploy only 0.8.48 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -503,4 +503,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.47`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 33. Affiliate readiness API
+Open `/wp-json/zaprazi/v1/affiliate-readiness`.
+
+Expected:
+- JSON contains `release: "0.8.48"`,
+- `integrity` is `ok`,
+- overall `configured_total` and `slot_total` are present,
+- every affiliate group contains `configured`, `total` and `missing`,
+- missing rows contain only public slot key, label and canonical merchant target,
+- configured publisher tracking URLs are never returned,
+- response is read-only and intended to use `Cache-Control: no-store, max-age=0`.
+
+Release integrity:
+- `zaprazi-release` = `0.8.48`,
 - `zaprazi-integrity` = `ok`.

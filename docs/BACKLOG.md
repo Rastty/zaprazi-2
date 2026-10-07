@@ -1567,7 +1567,7 @@ SEO / UX:
 
 
 ### ZP-073 Release 0.8.35 — Bathroom high-intent expansion
-Status: **SUPERSEDED_BY_NEXT**
+Status: **SUPERSEDED_BY_0_8_36**
 
 Release 0.8.35 supersedes deployed 0.8.34.
 
@@ -1609,3 +1609,22 @@ SEO / UX:
 - visible FAQs + resource FAQ schema,
 - links from homepage, compensatory hub, insurer guide and footer,
 - resource registry v20.
+
+
+### ZP-075 Release 0.8.36 — Mobility high-intent expansion
+Status: **READY_DEPLOY**
+
+Release 0.8.36 supersedes 0.8.35.
+
+Packages:
+- everything from 0.8.35,
+- `/choditko-do-bytu-pro-seniory/`,
+- `/rollator-pro-seniory/`,
+- existing Mobility engine/catalog reused,
+- WA17 vs WA21 indoor routing,
+- MEYRA Ideal rollator routing behind hand-brake safety gate,
+- resource registry v20,
+- internal links from homepage, compensatory hub, insurer guide and footer,
+- release integrity includes both new pages and both new JS modules.
+
+No duplicate suitability engine or affiliate mapping is introduced.

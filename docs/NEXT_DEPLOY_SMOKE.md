@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.35
+# Next Deploy Smoke — Zápraží 2.0 v0.8.36
 
-This release supersedes 0.8.34. Deploy only 0.8.35 from `dev`.
+This release supersedes 0.8.35. Deploy only 0.8.36 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.35`
+- `zaprazi-release` = `0.8.36`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -277,3 +277,33 @@ Expected:
 - non-independent / person-assist transfer gives no automatic product recommendation
 - existing affiliate slots `rehabilitacni-pomucky-cz:besco-bs008` and `unizdrav-cz:p2203` are reused
 - no merchant CTA on needs-more-info / professional-check states.
+
+
+## 20. Indoor-walker micro-Advisor
+Open `/choditko-do-bytu-pro-seniory/`.
+
+Expected:
+- H1 contains **Chodítko do bytu pro seniory**
+- stable support + can lift whole walker = WA17 + WA21 comparison
+- stable support + cannot lift whole walker = WA21 only
+- person-assist = no automatic product recommendation
+- visible product facts include width, height, weight and load
+- existing affiliate slots for WA17/WA21 are reused.
+
+## 21. Rollator micro-Advisor
+Open `/rollator-pro-seniory/`.
+
+Expected:
+- H1 contains **Rollátor pro seniory**
+- stable support + safe hand-brake use = MEYRA Ideal 3061982 candidate
+- hand brakes = no or unknown prevents shopping-first rollator recommendation
+- person-assist = no automatic product recommendation
+- visible facts include 79–97 cm handle height, 61.5 cm width and 130 kg max load
+- page links to the insurer route without claiming individual reimbursement entitlement
+- existing `lekarna-cz:meyra-ideal-3061982` slot is reused.
+
+Regression:
+- both pages use `recommendMobility`
+- no second Mobility eligibility engine exists
+- Advisor asset loader stays free of FAQ payload
+- release integrity covers both new pages and JS modules.

@@ -44,7 +44,7 @@ jobs:
           retention-days: 14
       - name: Commit authoritative inventory snapshot
         run: |
-          if git diff --quiet -- data/legacy-url-inventory.csv data/legacy-url-inventory.summary.json; then
+          if [ -z "$(git status --porcelain -- data/legacy-url-inventory.csv data/legacy-url-inventory.summary.json)" ]; then
             echo "Inventory unchanged."
             exit 0
           fi

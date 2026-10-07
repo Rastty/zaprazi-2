@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Soběstačnost
+Template Name: Zápraží — Soběstačnost
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Každodenní soběstačnost</p>
+      <p class="zp-kicker">Zápraží · Každodenní soběstačnost</p>
       <h1>Malé pomůcky, které mohou vrátit kus samostatnosti.</h1>
       <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu nebo připravit jednoduché jídlo jednou rukou. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
       <div class="zp-hero-actions">

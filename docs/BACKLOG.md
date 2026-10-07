@@ -399,7 +399,7 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **LIVE_PRODUCTION_0_8_14 / BATHROOM_0_OF_8_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_14 / BATHROOM_0_OF_9_DEEPLINKS**
 
 Adds exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
@@ -532,3 +532,30 @@ Fail-closed:
 - unstable floor -> no product,
 - insufficient/unknown space -> no product,
 - insufficient/unknown load fit -> no product.
+
+
+### ZP-030 Bath transfer bench fallback
+Status: **READY_CODE / PRE_RELEASE**
+
+Improves the bath-transfer branch when BESCO BS008 cannot be safely fitted to the bath rim.
+
+New fallback:
+- UNIZDRAV P2203,
+- total footprint 81 × 61 cm,
+- seat 68 × 41 cm,
+- seat height 45.5–56 cm,
+- max load 110 kg,
+- one side stands inside the bath and the other on the stable floor outside.
+
+Decision behavior:
+- BS008 fits -> BS008,
+- BS008 does not fit -> ask one additional placement-fit question,
+- P2203 placement fits -> P2203,
+- neither solution fits -> no exact product,
+- physical-assistance transfer remains professional-check only.
+
+Affiliate:
+- runtime slot `unizdrav-cz:p2203`,
+- canonical UNIZDRAV fallback until an exact publisher deeplink is supplied.
+
+No diagnosis or raw health data added.

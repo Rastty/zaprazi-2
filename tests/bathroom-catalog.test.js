@@ -59,3 +59,17 @@ test("raised WC seat with arms has verified retail evidence and direct-pay route
   assert.equal(product.offers[0].affiliateKey, "rehabilitacni-pomucky-cz:besco-bs15");
   assert.ok(product.selectionNotes.some((note) => /stabilní oporu rukama/i.test(note)));
 });
+
+
+test("DMA EH-CMDA has exact retail identity and guarded reimbursement evidence", () => {
+  const product = BATHROOM_PRODUCTS.find((item) => item.id === "dma-eh-cmda");
+  assert.ok(product);
+  assert.equal(product.productionEligible, true);
+  assert.equal(product.solutionFamily, "multifunction_toilet_shower_chair");
+  assert.equal(product.facts.totalWidthCm, 51);
+  assert.equal(product.facts.totalDepthCm, 40);
+  assert.equal(product.facts.maxUserWeightKg, 150);
+  assert.equal(product.offers[0].affiliateKey, "drmax-cz:dma-eh-cmda");
+  assert.equal(product.reimbursementEvidence.payerCode, "5019427");
+  assert.equal(product.reimbursementEvidence.monthlySuklListVerified, false);
+});

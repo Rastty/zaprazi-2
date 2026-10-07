@@ -559,3 +559,28 @@ Affiliate:
 - canonical UNIZDRAV fallback until an exact publisher deeplink is supplied.
 
 No diagnosis or raw health data added.
+
+
+### ZP-031 Guarded product-level reimbursement evidence UI
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds a product-card reimbursement evidence block for products that have an exact payer identity candidate.
+
+Current exact candidate:
+- DMA EH-CMDA,
+- manufacturer-stated code 5019427,
+- manufacturer-stated reimbursement group 07.04.03.01,
+- manufacturer states insurer approval and 10-year service life.
+
+Production guardrail:
+- current effective monthly SÚKL list remains unverified,
+- UI must say **Aktuální seznam SÚKL: zatím neověřeno**,
+- code/group information is shown as identity evidence, not as confirmation of current reimbursement or individual entitlement,
+- direct link to the official SÚKL list is provided.
+
+Verification attempt 2026-10-07:
+- official SÚKL confirms that the public reimbursed-device list is the authoritative monthly source,
+- ISZP public search exposes code filtering but its JS-dependent result table could not be safely retrieved by the available crawler,
+- therefore `monthlySuklListVerified` remains false.
+
+This converts an opaque internal evidence object into a useful user-facing next step without relaxing trust rules.

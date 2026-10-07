@@ -284,4 +284,13 @@ a{color:inherit}
   .zp-consent-primary,.zp-consent-secondary{flex:1 1 160px}
 }
 
+.zp-reimbursement-evidence{margin:16px 0;padding:16px;border:1px solid #d8caa2;border-radius:14px;background:#fbf7e9}
+.zp-reimbursement-evidence .zp-kicker{margin:0 0 6px}
+.zp-reimbursement-evidence>p{margin:.35rem 0}
+.zp-reimbursement-evidence dl{margin:12px 0;display:grid;gap:7px}
+.zp-reimbursement-evidence dl>div{display:flex;justify-content:space-between;gap:16px;padding-top:7px;border-top:1px solid rgba(105,95,62,.18)}
+.zp-reimbursement-evidence dt{color:var(--zp-muted)}
+.zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
+@media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
+
 /* ZP_RELEASE_0_8_17 */

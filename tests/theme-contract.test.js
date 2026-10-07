@@ -354,3 +354,18 @@ test("homepage FAQ structured data mirrors visible Mobility FAQs", () => {
   assert.doesNotMatch(functions, /FAQPage[\s\S]*provize/i);
 });
 
+test("affiliate admin exposes exact canonical targets for VIV/CJ deep-link generation", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_affiliate_targets/);
+  assert.match(functions, /Deep Link Generator/);
+  assert.match(functions, /Tracking URL ručně neskládejte/);
+  assert.match(functions, /Cílová URL pro Deep Link Generator/);
+  assert.match(functions, /besco-ctyrbodove-choditko-skladaci/);
+  assert.match(functions, /besco-dvoukolove-choditko-skladaci/);
+  assert.match(functions, /meyra-ideal-rollator-ctyrkolove-choditko/);
+  assert.match(functions, /Otevřít produkt/);
+  assert.doesNotMatch(functions, /pid=\d+/i);
+  assert.doesNotMatch(functions, /aid=\d+/i);
+});
+

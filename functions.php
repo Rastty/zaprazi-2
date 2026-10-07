@@ -576,7 +576,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
   }
   if ( zaprazi_2_is_footwear_page() ) {
-    return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
+    return 'Obuv pro seniory: široké boty na suchý zip | Zápraží';
   }
   if ( zaprazi_2_is_toilet_riser_page() ) {
     return 'Nástavec na WC pro seniory: jak vybrat výšku a madla | Zápraží';
@@ -632,7 +632,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
   }
   if ( zaprazi_2_is_footwear_page() ) {
-    return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
+    return 'Obuv pro seniory: široké boty na suchý zip | Zápraží';
   }
   if ( zaprazi_2_is_toilet_riser_page() ) {
     return 'Nástavec na WC pro seniory: jak vybrat výšku a madla | Zápraží';
@@ -689,7 +689,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Jak upravit byt pro seniora: praktický audit vstupu, trasy postel–WC, koupelny, osvětlení, překážek a návazných kompenzačních pomůcek.';
   }
   if ( zaprazi_2_is_footwear_page() ) {
-    return 'Praktický poradce pro boty pro seniory na suchý zip: širší otevření, extra široká obuv, plná nebo otevřená špička a kontrola velikosti před nákupem.';
+    return 'Jak vybrat obuv pro seniory: široké boty na suchý zip podle otevření, šířky, špičky a aktuální velikosti obou chodidel.';
   }
   if ( zaprazi_2_is_toilet_riser_page() ) {
     return 'Jak vybrat nástavec na WC pro seniora: výška zvýšení, madla, kompatibilita s WC, nosnost a bezpečná opora chodidel po zvýšení.';
@@ -850,6 +850,29 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Je nástavec na WC automaticky hrazený?',
         'answer'   => 'Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_footwear_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vybrat obuv pro seniora?',
+        'answer'   => 'Začněte tím, jak snadno se musí bota otevřít a nazout. Potom řešte potřebnou šířku, otevřenou nebo uzavřenou špičku, ovladatelnost suchého zipu a velikost podle aktuálního změření obou chodidel.',
+      ),
+      array(
+        'question' => 'Jsou boty na suchý zip pro seniory vždy nejlepší?',
+        'answer'   => 'Ne vždy, ale často usnadní obouvání a dovolí upravit objem boty. Smysl dávají jen tehdy, když člověk zvládne pásek bezpečně otevřít a zapnout a konkrétní model odpovídá šířkou i velikostí.',
+      ),
+      array(
+        'question' => 'Jak vybrat boty pro širokou nebo objemnější nohu?',
+        'answer'   => 'Nespoléhejte jen na běžnou konfekční velikost. Sledujte šířku konkrétního modelu, velikost vstupního otvoru a možnost regulace přes nárt. Obě chodidla změřte a porovnejte s tabulkou výrobce.',
+      ),
+      array(
+        'question' => 'Je lepší otevřená, nebo uzavřená špička?',
+        'answer'   => 'Otevřená špička může usnadnit nazutí a nabídnout více prostoru. Uzavřená špička dává větší ochranu prstům. Volba proto závisí na praktickém používání, ne jen na vzhledu.',
+      ),
+      array(
+        'question' => 'Kdy nestačí jen koupit širší botu?',
+        'answer'   => 'Pokud se tvar nebo velikost chodidla rychle změnil, je přítomná rána, výrazná bolest nebo rychle vzniklý otok, Zápraží situaci nepovažuje jen za problém výběru obuvi a nedoporučuje řešit ji pouze nákupem širšího modelu.',
       ),
     );
   } elseif ( zaprazi_2_is_bathroom_page() ) {

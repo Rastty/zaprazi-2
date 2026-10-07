@@ -282,6 +282,31 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
+test("footwear main page builds SEO authority without a second decision engine", () => {
+  const functions = read("functions.php");
+  const page = read("page-obuv-pro-seniory.php");
+
+  assert.match(page, /Obuv pro seniory/);
+  assert.ok(functions.includes("Obuv pro seniory: široké boty na suchý zip | Zápraží"));
+
+  for (const question of [
+    "Jak vybrat obuv pro seniora?",
+    "Jsou boty na suchý zip pro seniory vždy nejlepší?",
+    "Jak vybrat boty pro širokou nebo objemnější nohu?",
+    "Je lepší otevřená, nebo uzavřená špička?",
+    "Kdy nestačí jen koupit širší botu?"
+  ]) {
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+  }
+
+  assert.equal((page.match(/id=["']zp-footwear-advisor["']/g) || []).length, 1);
+  assert.match(functions, /assets\/js\/footwear-advisor\.js/);
+  assert.match(page, /\/bezpecny-byt-pro-seniora\//);
+  assert.match(page, /\/kompenzacni-pomucky-pro-seniory\//);
+});
+
+
 test("bathroom main page builds SEO authority without a second decision engine", () => {
   const functions = read("functions.php");
   const page = read("page-koupelna-a-wc.php");

@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Snadné obouvání</p>
-      <h1>Boty pro seniory na suchý zip: vybírejte podle otevření, šířky a špičky.</h1>
+      <h1>Obuv pro seniory: široké boty na suchý zip podle otevření, šířky a špičky.</h1>
       <p class="zp-lead">Neřešíme diagnózu. Poradce se ptá jen na to, jak velký otvor pro nazutí je potřeba, zda musí být špička uzavřená, jestli je suchý zip prakticky ovladatelný a zda jsou obě chodidla změřená.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-obuv">Spustit poradce</a>
@@ -65,7 +65,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Jak vybírat</p>
-      <h2 class="zp-section-title">Šířka boty sama nestačí.</h2>
+      <h2 class="zp-section-title">Jak vybrat obuv pro seniora: šířka sama nestačí.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Otevření boty</h3><p>Někomu stačí širší vstup a dva pásky na suchý zip. Jindy je potřeba bota, která se otevře téměř celá.</p></article>
         <article class="zp-decision-card"><h3>Otevřená nebo plná špička</h3><p>Otevřená špička může usnadnit nazutí, ale není vhodná pro každou situaci. Pokud je požadována ochrana prstů, držíme se uzavřených modelů.</p></article>
@@ -88,6 +88,39 @@ get_header();
       <p class="zp-kicker">Kdy výběr bot nestačí</p>
       <h2 class="zp-section-title">Náhlá změna chodidla nepatří jen do nákupního filtru.</h2>
       <p>Pokud se velikost nebo tvar chodidla rychle změnil, je přítomná rána, výrazná bolest nebo rychle vzniklý otok, neřešte situaci jen výběrem širší boty. Zápraží nevyhodnocuje příčinu těchto změn.</p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap zp-faq">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Co ověřit před nákupem obuvi pro seniora.</h2>
+
+      <details>
+        <summary>Jak vybrat obuv pro seniora?</summary>
+        <p>Začněte tím, jak snadno se musí bota otevřít a nazout. Potom řešte potřebnou šířku, otevřenou nebo uzavřenou špičku, ovladatelnost suchého zipu a velikost podle aktuálního změření obou chodidel.</p>
+      </details>
+      <details>
+        <summary>Jsou boty na suchý zip pro seniory vždy nejlepší?</summary>
+        <p>Ne vždy, ale často usnadní obouvání a dovolí upravit objem boty. Smysl dávají jen tehdy, když člověk zvládne pásek bezpečně otevřít a zapnout a konkrétní model odpovídá šířkou i velikostí.</p>
+      </details>
+      <details>
+        <summary>Jak vybrat boty pro širokou nebo objemnější nohu?</summary>
+        <p>Nespoléhejte jen na běžnou konfekční velikost. Sledujte šířku konkrétního modelu, velikost vstupního otvoru a možnost regulace přes nárt. Obě chodidla změřte a porovnejte s tabulkou výrobce.</p>
+      </details>
+      <details>
+        <summary>Je lepší otevřená, nebo uzavřená špička?</summary>
+        <p>Otevřená špička může usnadnit nazutí a nabídnout více prostoru. Uzavřená špička dává větší ochranu prstům. Volba proto závisí na praktickém používání, ne jen na vzhledu.</p>
+      </details>
+      <details>
+        <summary>Kdy nestačí jen koupit širší botu?</summary>
+        <p>Pokud se tvar nebo velikost chodidla rychle změnil, je přítomná rána, výrazná bolest nebo rychle vzniklý otok, Zápraží situaci nepovažuje jen za problém výběru obuvi a nedoporučuje řešit ji pouze nákupem širšího modelu.</p>
+      </details>
+
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Bezpečný byt pro seniora</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled pomůcek pro seniory</a>
+      </div>
     </div>
   </section>
 </main>

@@ -1777,7 +1777,7 @@ Commercial routing and affiliate ranking are unchanged.
 
 
 ### ZP-084 Release 0.8.40 — Bathroom SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.40 supersedes 0.8.39.
 
@@ -1790,3 +1790,23 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-085 Footwear SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens the existing `/obuv-pro-seniory/` commercial journey for the broader query cluster around **obuv pro seniory** while preserving the existing Footwear Advisor as the only suitability engine.
+
+Adds:
+- H1 and SEO metadata centered on **obuv pro seniory** and wide Velcro shoes,
+- five visible FAQs mirrored exactly in FAQPage schema,
+- stronger internal links to safe-home and compensatory-aids journeys,
+- regression coverage that preserves one Footwear Advisor.
+
+Safety boundary stays unchanged:
+- no diagnosis-based routing,
+- no cause-of-swelling or medication inputs,
+- both feet must be measured before shopping-first output,
+- sudden size/shape change, wound, marked pain or fast swelling stays outside shopping-only advice.
+
+Commercial routing remains limited to the verified Zdravá Obuv candidates and affiliate ranking is unchanged.

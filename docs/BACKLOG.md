@@ -1369,3 +1369,30 @@ Packages:
 - release integrity includes `page-obuv-pro-seniory.php` and `assets/js/footwear-advisor.js`.
 
 No diagnosis-first routing, treatment claims or commission-based recommendation order is introduced.
+
+
+### ZP-065 Toilet-riser high-intent micro-Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/nastavec-na-wc-pro-seniory/` for the high-intent query cluster around WC risers.
+
+Architecture:
+- reuses the existing Bathroom/WC decision engine with `primaryNeed = raise_toilet`,
+- does not create parallel suitability logic,
+- asks only transfer ability, WC fit, feet-on-floor after raising, load fit and optional duration.
+
+Exact outcomes:
+- independent transfer → UNIZDRAV P2868 candidate after fit/safety gates,
+- stable arm support needed → BESCO BS15 candidate after the same gates,
+- physical person-assist → no automatic product recommendation.
+
+SEO / UX:
+- dedicated title/meta,
+- four visible FAQs + matching FAQPage schema,
+- links from Bathroom/WC Advisor, insurer guide and compensatory-aids hub,
+- resource registry v15.
+
+Commercial:
+- reuses existing affiliate slots `unizdrav-cz:p2868` and `rehabilitacni-pomucky-cz:besco-bs15`,
+- no new affiliate mapping or merchant ranking,
+- canonical fallbacks stay intact.

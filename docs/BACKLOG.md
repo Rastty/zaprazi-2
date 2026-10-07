@@ -399,7 +399,7 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **LIVE_PRODUCTION_0_8_14 / BATHROOM_0_OF_7_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_14 / BATHROOM_0_OF_8_DEEPLINKS**
 
 Adds exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
@@ -498,3 +498,37 @@ Decision behavior:
 - unknown/failed toilet fit, load fit or foot support -> no exact product.
 
 No new personal/health question was needed; existing practical answers are sufficient.
+
+
+### ZP-029 One aid for WC + shower
+Status: **READY_CODE / PRE_RELEASE**
+
+New scenario:
+- user wants one stable aid to cover both toilet and shower use,
+- no physical lifting by another person,
+- stable floor and sufficient space confirmed,
+- product load limit confirmed.
+
+Verified product:
+- DMA EH-CMDA 4v1,
+- direct retail route via approved advertiser Dr.Max,
+- 51 cm total width, 40 cm depth,
+- seat height 39–54 cm,
+- max load 150 kg,
+- one product can act as toilet chair, shower seat or WC-over-chair.
+
+Exact reimbursement identity candidate:
+- DMA states payer code 5019427,
+- group 07.04.03.01,
+- full reimbursement / insurer approval / 10-year service life on the manufacturer page,
+- current effective monthly SÚKL list is not yet directly verified, so production does not claim current reimbursement.
+
+Affiliate:
+- runtime slot `drmax-cz:dma-eh-cmda`,
+- canonical Dr.Max fallback until an exact publisher deeplink is supplied.
+
+Fail-closed:
+- physical assistance -> professional check,
+- unstable floor -> no product,
+- insufficient/unknown space -> no product,
+- insufficient/unknown load fit -> no product.

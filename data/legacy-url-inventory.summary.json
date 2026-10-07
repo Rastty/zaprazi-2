@@ -1,0 +1,12 @@
+{
+  "source": "https://zaprazi.cz",
+  "generated_at_utc": "2026-10-07T05:08:50.982Z",
+  "scope": "Public WordPress REST rows with status=publish",
+  "counts": {
+    "posts": 4360,
+    "pages": 7,
+    "total": 4367
+  },
+  "unique_urls": 4367,
+  "artifact": "data/legacy-url-inventory.csv"
+}

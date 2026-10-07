@@ -1612,7 +1612,7 @@ SEO / UX:
 
 
 ### ZP-075 Release 0.8.36 — Mobility high-intent expansion
-Status: **SUPERSEDED_BY_NEXT**
+Status: **SUPERSEDED_BY_0_8_37**
 
 Release 0.8.36 supersedes 0.8.35.
 
@@ -1647,3 +1647,21 @@ Architecture:
 - main navigation and footer now route Mobility through the hub,
 - homepage retains the existing full Mobility Advisor,
 - resource registry advances to v21.
+
+
+### ZP-077 Release 0.8.37 — Mobility hub
+Status: **READY_DEPLOY**
+
+Release 0.8.37 supersedes 0.8.36.
+
+Packages:
+- everything from 0.8.36,
+- new `/choditka-pro-seniory/` head-term mobility hub,
+- routes fixed walker / two-wheel / rollator intent to existing narrow Advisors,
+- connects purchase, rental and insurer paths without a duplicate decision engine,
+- main navigation and footer route Mobility through the hub,
+- homepage keeps the full Mobility Advisor,
+- resource registry v21,
+- release integrity includes `page-choditka-pro-seniory.php`.
+
+No new suitability logic or affiliate ranking is introduced.

@@ -11,7 +11,13 @@
 <a class="zp-skip-link" href="#main-content">Přeskočit na hlavní obsah</a>
 <header class="zp-header">
   <div class="zp-wrap zp-nav">
-    <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">Zápraží</a>
+    <div class="zp-brand-wrap">
+      <?php if ( has_custom_logo() ) : ?>
+        <?php the_custom_logo(); ?>
+      <?php else : ?>
+        <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">Zápraží</a>
+      <?php endif; ?>
+    </div>
 
     <nav class="zp-core-nav" aria-label="Hlavní navigace">
       <a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Mobilita</a>

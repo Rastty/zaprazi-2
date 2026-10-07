@@ -1126,3 +1126,17 @@ test("RehaVita affiliate helper identifies VIV advertiser without fabricating tr
   assert.doesNotMatch(functions, /jdoqocy\.com\/click-[0-9]/i);
   assert.doesNotMatch(functions, /anrdoezrs\.net\/links\/[0-9]/i);
 });
+
+
+test("theme supports production custom logo with accessible text fallback", () => {
+  const functions = read("functions.php");
+  const header = read("header.php");
+  const style = read("style.css");
+
+  assert.match(functions, /add_theme_support\('custom-logo'/);
+  assert.match(header, /has_custom_logo\(\)/);
+  assert.match(header, /the_custom_logo\(\)/);
+  assert.match(header, />Zápraží<\/a>/);
+  assert.match(style, /zp-brand-wrap \.custom-logo/);
+  assert.match(style, /max-height:54px/);
+});

@@ -34,7 +34,8 @@ if (form && result && submitButton && errorBox) {
     static_commode: "Toaletní židle",
     shower_chair: "Sprchovací židle",
     fixed_grab_rail: "Pevné madlo",
-    bath_transfer_seat: "Sedačka na vanu"
+    bath_transfer_seat: "Sedačka na vanu",
+    multifunction_toilet_shower_chair: "Toaletní / sprchovací židle 4v1"
   }[family] || family);
 
   const statusLabel = (status) => ({
@@ -209,10 +210,10 @@ if (form && result && submitButton && errorBox) {
 
   const shouldShow = (condition, need) => {
     if (condition === "simple") {
-      return ["raise_toilet", "toilet_support", "toilet_nearby", "shower_seated", "bath_transfer"].includes(need);
+      return ["raise_toilet", "toilet_support", "toilet_nearby", "shower_seated", "bath_transfer", "multifunction_toilet_shower"].includes(need);
     }
     if (condition === "floor_space") {
-      return ["toilet_nearby", "shower_seated"].includes(need);
+      return ["toilet_nearby", "shower_seated", "multifunction_toilet_shower"].includes(need);
     }
     return condition === need;
   };

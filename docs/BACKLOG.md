@@ -1184,3 +1184,26 @@ Packages:
 
 Expected Soběstačnost affiliate readiness:
 - 0/4 until exact publisher deeplinks are supplied.
+
+
+### ZP-057 Self-care SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens `/sobestacnost/` as the search landing page instead of creating a duplicate article.
+
+Adds:
+- SEO title focused on **pomůcky pro soběstačnost seniorů**,
+- meta description covering the four current practical jobs,
+- explicit selection method: task first, diagnosis/age never as the primary selector,
+- visible FAQ section,
+- matching FAQPage schema from the same four questions,
+- official NZIP link for the dysphagia / swallowing safety boundary.
+
+SEO intent:
+- compete with catalog-heavy results by combining educational intent + decision tool + exact fit/safety logic,
+- avoid a separate duplicate `/pomucky-pro-sobestacnost/` page that would cannibalize the Advisor.
+
+Commercial boundary:
+- no extra product is added by the SEO layer,
+- affiliate ranking remains separate from suitability,
+- swallowing difficulty remains professional-check only.

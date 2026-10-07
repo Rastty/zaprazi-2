@@ -1159,3 +1159,27 @@ test("ADL packaging branch stays narrow and does not become medication advice", 
   assert.match(engine, /neřeší výběr, dávkování ani bezpečnost léků/i);
   assert.match(functions, /RehaVita\.cz \(VIV 18119967\) — MVS Open-It 15-050105/);
 });
+
+
+test("self-care page has SEO authority layer with matching visible FAQ and schema", () => {
+  const page = read("page-sobestacnost.php");
+  const functions = read("functions.php");
+
+  assert.match(functions, /Pomůcky pro soběstačnost seniorů: jak vybrat \| Zápraží/);
+  assert.match(functions, /Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu/);
+  assert.match(page, /Pomůcky pro soběstačnost seniorů/);
+  assert.match(page, /Vybírejte podle konkrétní činnosti, ne podle věku nebo názvu diagnózy/);
+
+  for (const question of [
+    "Jak vybrat pomůcku pro soběstačnost seniora?",
+    "Co může pomoci při jídle jednou rukou?",
+    "Co dělat, když se člověk při pití zakuckává nebo má problém polykat?",
+    "Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?"
+  ]) {
+    assert.ok(page.includes(question), `visible self-care FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `self-care FAQ schema missing: ${question}`);
+  }
+
+  assert.match(page, /nzip\.cz\/rejstrikovy-pojem\/1949/);
+  assert.match(functions, /zaprazi_2_is_adl_page\(\)/);
+});

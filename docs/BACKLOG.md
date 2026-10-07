@@ -116,7 +116,7 @@ Need exact VIV deeplinks to activate affiliate tracking.
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 is active on production. Latest repository release is **0.8.7**, ready for a single Git-first Deployer update from `dev`.
+ZaPrazi 2.0 is active on production. Latest production release is **0.8.8** and the final Git-first Deployer sync has been visually confirmed in production.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -188,7 +188,7 @@ RC behavior:
 - keep conditional compatibility + broken-link guards ready if WooCommerce is intentionally reactivated later.
 
 ### ZP-014 Analytics transition
-Status: **READY_DEPLOY_0_8_7**
+Status: **LIVE_PRODUCTION**
 
 Evidence:
 - existing GA4 stream `G-WM86QVXVST` is reused,
@@ -212,7 +212,7 @@ Post-deploy:
 
 
 ### ZP-015 High-intent SEO acquisition pages
-Status: **READY_DEPLOY_0_8_7**
+Status: **LIVE_PRODUCTION**
 
 First page:
 - `/choditko-na-pojistovnu/`
@@ -241,7 +241,7 @@ Next candidate after deploy/indexation:
 
 
 ### ZP-016 Core navigation
-Status: **READY_DEPLOY_0_8_7**
+Status: **LIVE_PRODUCTION**
 
 Header now links the core user journeys on every page:
 - Advisor,
@@ -250,3 +250,17 @@ Header now links the core user journeys on every page:
 - selection guidance.
 
 Implementation is JavaScript-free, keyboard-accessible and horizontally scrollable on small screens.
+
+
+### ZP-017 Deployment integrity
+Status: **LIVE_PRODUCTION**
+
+Release 0.8.8 introduced a deploy-integrity contract after a partial Deployer sync was detected.
+
+Production confirmation:
+- header core navigation is visible,
+- privacy/footer controls are visible,
+- critical runtime files were forced into one squash release commit,
+- public release/integrity markers are part of the runtime contract.
+
+Future deploys should treat a version bump without matching runtime markers as a failed/partial deployment.

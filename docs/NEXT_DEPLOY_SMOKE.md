@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.30
+# Next Deploy Smoke — Zápraží 2.0 v0.8.31
 
-This release supersedes 0.8.29. Deploy only 0.8.30 from `dev`.
+This release supersedes 0.8.30. Deploy only 0.8.31 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.30`
+- `zaprazi-release` = `0.8.31`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -161,3 +161,29 @@ Expected:
 - FAQPage schema contains the same five questions,
 - compensatory-aids hub, return-home page and global footer link here,
 - no product catalog or diagnosis-first advice appears on the page.
+
+
+## 14. Easy-footwear Advisor
+Open `/obuv-pro-seniory/`.
+
+Expected:
+- H1 contains **Boty pro seniory na suchý zip**
+- Advisor asks only:
+  - opening size,
+  - open vs closed toe,
+  - Velcro handling,
+  - confirmation that both feet were measured
+- no diagnosis / diabetes / medication / swelling-cause input exists
+- ARSENE is candidate only for wide easy-opening + open-toe path
+- XAVIER is candidate only for extra-wide low + closed-toe path
+- ALTITUDE is candidate only for full-opening + closed-toe path
+- no shopping-first merchant CTA until both feet are measured and Velcro handling is confirmed
+- sudden foot-size/shape change, wound, strong pain or rapid swelling is explicitly outside the shopping flow.
+
+Affiliate admin expected:
+- group **Obuv pro seniory**
+- 3 slots:
+  - `zdrava-obuv-cz:arsene`
+  - `zdrava-obuv-cz:xavier`
+  - `zdrava-obuv-cz:altitude`
+- empty slots use exact canonical Zdravá Obuv product URLs.

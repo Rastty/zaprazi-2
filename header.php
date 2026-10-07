@@ -1,5 +1,5 @@
 <!doctype html>
-<?php /* ZP_RELEASE_0_8_37 */ ?>
+<?php /* ZP_RELEASE_0_8_38 */ ?>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">

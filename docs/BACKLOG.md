@@ -1650,7 +1650,7 @@ Architecture:
 
 
 ### ZP-077 Release 0.8.37 — Mobility hub
-Status: **SUPERSEDED_BY_NEXT**
+Status: **SUPERSEDED_BY_0_8_38**
 
 Release 0.8.37 supersedes 0.8.36.
 
@@ -1699,3 +1699,20 @@ Safety boundary stays unchanged:
 - powered wheelchair still requires safe joystick control and charging readiness.
 
 Commercial routing and affiliate ranking are unchanged.
+
+
+### ZP-080 Release 0.8.38 — Navigation cleanup + Wheelchair SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.38 supersedes 0.8.37.
+
+Packages:
+- everything from 0.8.37,
+- unique core-navigation targets after the Mobility hub rollout,
+- `/invalidni-vozik/` authority layer for the **invalidní vozík pro seniory** head-term,
+- visible wheelchair FAQs with exact FAQPage schema parity,
+- stronger links to acquisition, safe-home and compensatory-aids journeys,
+- unchanged Wheelchair decision engine, safety gates and affiliate ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`; older 0.8.35–0.8.37 packages are superseded.

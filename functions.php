@@ -309,6 +309,54 @@ function zaprazi_2_front_meta_fallback() {
 }
 add_action( 'wp_head', 'zaprazi_2_front_meta_fallback', 5 );
 
+function zaprazi_2_front_faq_schema() {
+  if ( ! is_front_page() ) {
+    return;
+  }
+
+  $faq = array(
+    array(
+      'question' => 'Jaké chodítko pro seniora do bytu?',
+      'answer'   => 'Nejdřív je potřeba řešit, kolik opory člověk potřebuje, zda zvládne chodítko lehce nadzvednout a jak široké jsou průchody doma. ZaPrazi proto nerozhoduje jen podle věku nebo označení „pro seniora“.',
+    ),
+    array(
+      'question' => 'Jaké chodítko nebo rollátor na ven?',
+      'answer'   => 'U venkovní větve je zásadní ovládání brzd a praktické parametry konkrétního rollátoru. Pokud člověk ruční brzdy bezpečně nezvládá, poradce brzděný rollátor automaticky nedoporučí.',
+    ),
+    array(
+      'question' => 'Je lepší chodítko půjčit, nebo koupit?',
+      'answer'   => 'Záleží hlavně na očekávané délce používání, ceně, dostupnosti půjčovny a servisu. U dočasné potřeby proto ZaPrazi porovnává půjčení s koupí místo automatického nákupu.',
+    ),
+    array(
+      'question' => 'Hradí chodítko zdravotní pojišťovna?',
+      'answer'   => 'Některé zdravotnické prostředky mohou mít úhradu při splnění podmínek a správném postupu. ZaPrazi ukazuje ověřovací cestu a zdroje, ale nepotvrzuje individuální nárok konkrétního člověka.',
+    ),
+  );
+
+  $schema = array(
+    '@context'   => 'https://schema.org',
+    '@type'      => 'FAQPage',
+    'mainEntity' => array_map(
+      static function ( $item ) {
+        return array(
+          '@type'          => 'Question',
+          'name'           => $item['question'],
+          'acceptedAnswer' => array(
+            '@type' => 'Answer',
+            'text'  => $item['answer'],
+          ),
+        );
+      },
+      $faq
+    ),
+  );
+
+  echo '<script type="application/ld+json" data-zaprazi-schema="faq">' .
+    wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) .
+    '</script>' . "\n";
+}
+add_action( 'wp_head', 'zaprazi_2_front_faq_schema', 6 );
+
 
 function zaprazi_2_is_broken_legacy_external_url( $url ) {
   $decoded = html_entity_decode( (string) $url, ENT_QUOTES | ENT_HTML5, 'UTF-8' );

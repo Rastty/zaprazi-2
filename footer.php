@@ -15,6 +15,7 @@
         <li><a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></li>
         <li><a href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a></li>
         <li><a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Každodenní soběstačnost</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek</a></li>
       </ul>
     </nav>
 

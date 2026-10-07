@@ -1226,3 +1226,30 @@ Packages:
 - release-integrity contract and smoke checklist bumped to 0.8.28.
 
 No duplicate SEO landing page is created; `/sobestacnost/` remains the single canonical decision surface.
+
+
+### ZP-059 Kompenzační pomůcky SEO hub
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds a broad acquisition surface at `/kompenzacni-pomucky-pro-seniory/` without turning Zápraží into a generic catalog.
+
+Purpose:
+- target the broad search intent **kompenzační pomůcky pro seniory**,
+- route visitors into the six existing decision journeys,
+- separate buy / rent / insurer paths,
+- explain the 2026 ePoukaz boundary with official SÚKL sources,
+- explain that some compensatory medical devices can be reimbursed only under concrete conditions.
+
+Official evidence checked 2026-10-07:
+- SÚKL: ePoukaz is standard from 1 Jan 2026,
+- SÚKL: ePoukaz itself does not change prices or reimbursement,
+- VZP page processed 29 Sep 2026 describes selected compensatory aids and approval/prescription conditions.
+
+SEO architecture:
+- exact-intent title and H1,
+- five visible FAQs + matching FAQPage schema,
+- links from homepage and global footer,
+- resource registry v12,
+- no product catalog or merchant ranking on the broad page.
+
+See `docs/COMPENSATORY_AIDS_EVIDENCE_V0.md`.

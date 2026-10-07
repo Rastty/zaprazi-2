@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.37
+# Next Deploy Smoke — Zápraží 2.0 v0.8.38
 
-This release supersedes 0.8.36. Deploy only 0.8.37 from `dev`.
+This release supersedes 0.8.37. Deploy only 0.8.38 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -329,3 +329,25 @@ Regression:
 - resource registry = v21
 - release integrity covers `page-choditka-pro-seniory.php`
 - no duplicate Mobility suitability engine is introduced.
+
+
+## 23. Wheelchair SEO authority + unique navigation
+Open `/invalidni-vozik/`.
+
+Expected:
+- H1 contains **Invalidní vozík pro seniory**,
+- document title is **Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží**,
+- meta description mentions propulsion, seat width, passages and load fit,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing Wheelchair Advisor remains the only suitability engine,
+- companion/manual/powered routing and all safety gates remain unchanged,
+- links to wheelchair acquisition, safe-home audit and compensatory-aids hub are visible.
+
+Header regression:
+- **Mobilita** → `/choditka-pro-seniory/`,
+- **Přehled pomůcek** → `/kompenzacni-pomucky-pro-seniory/`,
+- all core-navigation targets are unique.
+
+Release integrity:
+- `zaprazi-release` = `0.8.38`,
+- `zaprazi-integrity` = `ok`.

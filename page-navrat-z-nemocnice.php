@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Návrat z nemocnice</p>
-      <h1>Návrat z nemocnice domů: co musí fungovat první noc?</h1>
+      <h1>Návrat z nemocnice domů: co zařídit před propuštěním a pro první noc?</h1>
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
@@ -135,6 +135,42 @@ get_header();
       <p>Od 1. ledna 2026 je standardem elektronický ePoukaz na zdravotnické prostředky. To ale neznamená, že každý retail produkt lze automaticky vydat nebo proplatit přes pojišťovnu.</p>
       <p>Zápraží proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/media/tiskove-zpravy/poukaz-na-zdravotnicke-prostredky-od-1-ledna-2026-uz-jen-elektronicky/" target="_blank" rel="noopener">Ověřit pravidla ePoukazu u SÚKL</a>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap zp-faq">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Co zařídit před propuštěním z nemocnice domů.</h2>
+
+      <details>
+        <summary>Co je potřeba zařídit před návratem z nemocnice domů?</summary>
+        <p>Nejdřív ověřte bezpečný vstup do bytu nebo domu, přesun mezi postelí, židlí a WC, krátké domácí přesuny, použitelné WC a postel. Teprve potom řešte méně akutní vybavení a pohodlí.</p>
+      </details>
+      <details>
+        <summary>Jaké pomůcky mohou být potřeba po propuštění z nemocnice?</summary>
+        <p>Záleží na skutečné situaci doma. Může jít například o chodítko nebo rollátor, pomůcku k WC, sprchovací židli, polohovací postel nebo invalidní vozík. Každá z těchto kategorií má vlastní bezpečnostní a rozměrové podmínky.</p>
+      </details>
+      <details>
+        <summary>Co musí fungovat první noc doma?</summary>
+        <p>Člověk se musí bezpečně dostat dovnitř, zvládnout potřebné přesuny, použít WC a uložit se do postele. Pokud je některý z těchto kroků nevyřešený, má přednost před méně urgentními nákupy.</p>
+      </details>
+      <details>
+        <summary>Kdy řešit domácí zdravotní péči?</summary>
+        <p>Potřebu domácí zdravotní péče je vhodné projednat už během plánování propuštění. Národní zdravotnický informační portál uvádí, že nemocniční lékař ji může po hospitalizaci indikovat na 14 dní.</p>
+      </details>
+      <details>
+        <summary>Je lepší pomůcku půjčit, koupit, nebo řešit přes pojišťovnu?</summary>
+        <p>Záleží na délce používání, dostupnosti a konkrétním prostředku. Půjčovna, přímý nákup a cesta přes pojišťovnu jsou tři odlišné možnosti a Zápraží je neoznačuje automaticky za zaměnitelné.</p>
+      </details>
+
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Chodítka a rollátory</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled pomůcek</a>
+      </div>
     </div>
   </section>
 </main>

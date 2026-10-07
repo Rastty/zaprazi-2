@@ -1813,7 +1813,7 @@ Commercial routing remains limited to the verified Zdravá Obuv candidates and a
 
 
 ### ZP-086 Release 0.8.41 — Footwear SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / PRODUCTION_SMOKE_PASS**
 
 Release 0.8.41 supersedes 0.8.40.
 
@@ -1826,3 +1826,27 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-087 Return-home SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens `/navrat-z-nemocnice/` as a high-pressure acquisition and routing page for families preparing a return home after hospitalization.
+
+Adds:
+- H1/title/meta centered on **návrat z nemocnice domů** and **co zařídit po propuštění**,
+- five visible FAQs mirrored exactly in FAQPage schema,
+- direct routing into the existing Mobility, Bathroom, Bed and Wheelchair decision journeys,
+- link to the broad compensatory-aids hub,
+- regression coverage that preserves the existing Return-home Advisor as the only planning engine.
+
+Safety boundary:
+- no diagnosis, surgery type, medication list or exact body weight inputs,
+- unresolved transfer or home-care readiness remains fail-closed,
+- downstream product suitability stays in the dedicated category engines.
+
+Official evidence:
+- NZIP recommends discussing home health/nursing care during discharge planning,
+- hospital physician may indicate it for 14 days after hospitalization.
+
+Commercial value comes from routing urgent needs into already-monetized category journeys, not from adding product ranking to the return-home page itself.

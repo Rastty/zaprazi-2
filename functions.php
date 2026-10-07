@@ -564,7 +564,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
-    return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
+    return 'Návrat z nemocnice domů: co zařídit po propuštění | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
     return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
@@ -620,7 +620,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
-    return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
+    return 'Návrat z nemocnice domů: co zařídit po propuštění | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
     return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
@@ -677,7 +677,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Jak vybrat invalidní vozík pro seniora podle pohonu, šířky sedu, průchodů a nosnosti. Mechanický vs. elektrický, půjčení, koupě a pojišťovna.';
   }
   if ( zaprazi_2_is_return_home_page() ) {
-    return 'Praktický plán návratu z nemocnice: vstup domů, přesuny, chůze, WC, postel, koupelna a návazná domácí péče pro první noc doma.';
+    return 'Co zařídit před návratem z nemocnice domů: bezpečný vstup, přesuny, chůze, WC, postel, koupelna, pomůcky a návazná domácí péče.';
   }
   if ( zaprazi_2_is_adl_page() ) {
     return 'Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu: pití, stabilizace nádoby, jídlo jednou rukou a otevírání běžných obalů.';
@@ -850,6 +850,29 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Je nástavec na WC automaticky hrazený?',
         'answer'   => 'Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_return_home_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Co je potřeba zařídit před návratem z nemocnice domů?',
+        'answer'   => 'Nejdřív ověřte bezpečný vstup do bytu nebo domu, přesun mezi postelí, židlí a WC, krátké domácí přesuny, použitelné WC a postel. Teprve potom řešte méně akutní vybavení a pohodlí.',
+      ),
+      array(
+        'question' => 'Jaké pomůcky mohou být potřeba po propuštění z nemocnice?',
+        'answer'   => 'Záleží na skutečné situaci doma. Může jít například o chodítko nebo rollátor, pomůcku k WC, sprchovací židli, polohovací postel nebo invalidní vozík. Každá z těchto kategorií má vlastní bezpečnostní a rozměrové podmínky.',
+      ),
+      array(
+        'question' => 'Co musí fungovat první noc doma?',
+        'answer'   => 'Člověk se musí bezpečně dostat dovnitř, zvládnout potřebné přesuny, použít WC a uložit se do postele. Pokud je některý z těchto kroků nevyřešený, má přednost před méně urgentními nákupy.',
+      ),
+      array(
+        'question' => 'Kdy řešit domácí zdravotní péči?',
+        'answer'   => 'Potřebu domácí zdravotní péče je vhodné projednat už během plánování propuštění. Národní zdravotnický informační portál uvádí, že nemocniční lékař ji může po hospitalizaci indikovat na 14 dní.',
+      ),
+      array(
+        'question' => 'Je lepší pomůcku půjčit, koupit, nebo řešit přes pojišťovnu?',
+        'answer'   => 'Záleží na délce používání, dostupnosti a konkrétním prostředku. Půjčovna, přímý nákup a cesta přes pojišťovnu jsou tři odlišné možnosti a Zápraží je neoznačuje automaticky za zaměnitelné.',
       ),
     );
   } elseif ( zaprazi_2_is_footwear_page() ) {

@@ -282,6 +282,39 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
+test("return-home page builds SEO authority without duplicating downstream decision engines", () => {
+  const functions = read("functions.php");
+  const page = read("page-navrat-z-nemocnice.php");
+
+  assert.match(page, /Návrat z nemocnice domů/);
+  assert.ok(functions.includes("Návrat z nemocnice domů: co zařídit po propuštění | Zápraží"));
+
+  for (const question of [
+    "Co je potřeba zařídit před návratem z nemocnice domů?",
+    "Jaké pomůcky mohou být potřeba po propuštění z nemocnice?",
+    "Co musí fungovat první noc doma?",
+    "Kdy řešit domácí zdravotní péči?",
+    "Je lepší pomůcku půjčit, koupit, nebo řešit přes pojišťovnu?"
+  ]) {
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+  }
+
+  assert.equal((page.match(/id=["']zp-return-home-advisor["']/g) || []).length, 1);
+  assert.match(functions, /assets\/js\/return-home-advisor\.js/);
+
+  for (const path of [
+    "/choditka-pro-seniory/",
+    "/koupelna-a-wc/",
+    "/polohovaci-postel/",
+    "/invalidni-vozik/",
+    "/kompenzacni-pomucky-pro-seniory/"
+  ]) {
+    assert.ok(page.includes(path), `return-home routing link missing: ${path}`);
+  }
+});
+
+
 test("footwear main page builds SEO authority without a second decision engine", () => {
   const functions = read("functions.php");
   const page = read("page-obuv-pro-seniory.php");

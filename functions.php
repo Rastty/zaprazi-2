@@ -507,7 +507,10 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | Zápraží';
+    return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
+  }
+  if ( zaprazi_2_is_compensatory_aids_page() ) {
+    return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );

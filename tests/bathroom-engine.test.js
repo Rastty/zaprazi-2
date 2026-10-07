@@ -239,3 +239,44 @@ test("professional-check branches do not offer acquisition shortcuts", () => {
   assert.equal(result.status, "professional_check");
   assert.deepEqual(result.acquisition, []);
 });
+
+
+test("steadying low-WC transfer returns raised seat with arms after fit gates pass", () => {
+  const result = recommendBathroom({
+    primaryNeed: "raise_toilet",
+    transferAbility: "steadying",
+    loadFit: "yes",
+    toiletFit: "yes",
+    feetFlatAtRaisedHeight: "yes"
+  });
+
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["besco-bs15"]);
+  assert.match(result.recommendations[0].label, /madly/i);
+});
+
+test("steadying low-WC transfer still fails closed on unknown toilet fit", () => {
+  const result = recommendBathroom({
+    primaryNeed: "raise_toilet",
+    transferAbility: "steadying",
+    loadFit: "yes",
+    toiletFit: "unknown",
+    feetFlatAtRaisedHeight: "yes"
+  });
+
+  assert.equal(result.status, "needs_more_info");
+  assert.deepEqual(result.recommendations, []);
+});
+
+test("physical-assistance low-WC transfer remains professional-check only", () => {
+  const result = recommendBathroom({
+    primaryNeed: "raise_toilet",
+    transferAbility: "person_assist",
+    loadFit: "yes",
+    toiletFit: "yes",
+    feetFlatAtRaisedHeight: "yes"
+  });
+
+  assert.equal(result.status, "professional_check");
+  assert.deepEqual(result.recommendations, []);
+});

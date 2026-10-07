@@ -1452,7 +1452,7 @@ SEO / UX:
 
 
 ### ZP-068 Release 0.8.33 — Shower-chair high-intent micro-Advisor
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_34**
 
 Release 0.8.33 supersedes 0.8.32.
 
@@ -1494,3 +1494,24 @@ Regression fix bundled with this slice:
 - added structural tests that forbid FAQ payload inside the asset loader.
 
 Resource registry advances to v17.
+
+
+### ZP-070 Release 0.8.34 — Toilet-chair Advisor + asset-loader hotfix
+Status: **READY_DEPLOY**
+
+Release 0.8.34 supersedes 0.8.33.
+
+Packages:
+- everything from 0.8.33,
+- new `/toaletni-zidle-pro-seniory/` high-intent micro-Advisor,
+- static P2807 vs multifunction DMA EH-CMDA routing,
+- transfer / floor / space / load gates,
+- FAQ + schema + internal links,
+- resource registry v17,
+- release integrity includes the new toilet-chair page and JS,
+- structural repair of `zaprazi_2_assets()`,
+- restored explicit enqueue branches for ADL, footwear, toilet-riser and shower-chair,
+- bathroom micro-page FAQs moved to `zaprazi_2_resource_faq_schema()`,
+- regression tests preventing FAQ payload from re-entering the asset loader.
+
+This release is a functional hotfix as well as a new acquisition slice and should replace production 0.8.33 as soon as practical.

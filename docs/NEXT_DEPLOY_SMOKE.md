@@ -1,166 +1,85 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.19
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.20
 
-This release supersedes 0.8.18. Deploy only 0.8.19 from `dev`.
+This release supersedes 0.8.19. Deploy only 0.8.20 from `dev`.
 
 ## 1. Release integrity
-
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.19`
+- `zaprazi-release` = `0.8.20`
 - `zaprazi-integrity` = `ok`
-- header contains **Mobilita**, **Koupelna a WC** and **Polohovací postel**
+- header contains **Polohovací postel**
 
-## 2. New Slice 3 page
-
+## 2. Slice 3 Advisor
 Open:
 `/polohovaci-postel/`
 
 Expected:
-- dedicated ZaPrazi page loads,
-- H1: **Polohovací postel: koupit, půjčit, nebo nejdřív řešit pojišťovnu?**
-- no diagnosis request,
-- no exact body-weight input,
-- answers stay client-side.
+- Advisor loads,
+- CLASSIC / Hospital / Multibed branches still work,
+- new link **Podrobně: pojišťovna, půjčení a kdy koupit** is visible.
 
-## 3. Standard home bed
-
-Choose:
-- main need: **Běžné elektrické polohování doma**
-- transfer: samostatně
-- load fit: ano
-- space fit: ano
-- duration: dlouhodobě
-
-Expected:
-- **UNIZDRAV P2777 CLASSIC**
-- sleeping surface 90 × 200 cm
-- outer dimensions 102.5 × 212 cm
-- height 38.6–80.6 cm
-- max patient weight 178 kg
-- mattress not included
-- canonical UNIZDRAV link while affiliate slot is empty
-- acquisition includes reimbursement/circulation check and purchase comparison.
-
-## 4. Caregiver-access branch
-
-Choose:
-- **Usnadnit každodenní péči u lůžka**
-- transfer: physical assistance by another person
-- load fit: ano
-- space fit: ano
-
-Expected:
-- P2777 CLASSIC may still be the bed candidate,
-- visible warning that the bed itself does not solve safe physical transfer/lifting.
-
-## 5. Robust branch
-
-Choose:
-- **Potřebujeme robustnější postel s vyšší nosností**
-- load fit: ano
-- space fit: ano
-
-Expected:
-- **UNIZDRAV P4707 Hospital**
-- outer dimensions 105 × 214 cm
-- height 40–70 cm
-- load 250 kg
-- central brake
-- mattress not included.
-
-## 6. Advanced in-bed care
-
-Choose:
-- **Náročnější péče přímo na lůžku**
-- mostly in bed
-- load fit: ano
-- space fit: ano
-
-Expected:
-- **UNIZDRAV P4044 Multibed**
-- outer dimensions 96 × 212 cm
-- height 50–70 cm
-- load 260 kg
-- lateral turning up to 45°
-- mattress included
-- caution that advanced functions require correct use / caregiver training.
-
-## 7. Fail-closed fit checks
-
-Any branch with:
-- load fit = ne / nevím, or
-- space fit = ne / nevím
-
-Expected:
-- no exact product until missing fit is resolved.
-
-Standard branch with load fit = ne:
-
-Expected:
-- no CLASSIC product,
-- guidance toward robust/high-load branch,
-- no raw kg question.
-
-## 8. Short-term acquisition
-
-Choose a valid bed branch with:
-- duration = **Spíš dočasně**
-
-Expected:
-1. rental comparison first,
-2. reimbursement / insurer-circulation check,
-3. no claim that one local rental service is nationwide.
-
-## 9. Affiliate admin
-
+## 3. New acquisition page
 Open:
-**Nastavení → ZaPrazi affiliate**
+`/polohovaci-postel-na-pojistovnu/`
 
-Expected:
-- Mobility **3 / 3**
-- Koupelna a WC **0 / 9**
-- Polohovací postel **0 / 3**
+Expected H1:
+**Polohovací postel na pojišťovnu 2026: půjčit, koupit, nebo řešit úhradu?**
 
-Bed slots:
-- UNIZDRAV P2777 CLASSIC
-- UNIZDRAV P4707 Hospital
-- UNIZDRAV P4044 Multibed
+Expected sections:
+- insurer / circulation,
+- local rental examples,
+- purchase decision,
+- SÚKL monthly-list boundary,
+- FAQ,
+- CTA back to the bed Advisor.
 
-All empty slots must use exact canonical merchant URLs.
+## 4. VZP guardrails
+Expected visible:
+- practical doctor among listed specialties,
+- prior insurer approval,
+- max. 1x per 10 years,
+- circulation / loan possibility,
+- 30-day voucher statement from VZP source,
+- delivery home not automatically reimbursed.
 
-## 10. Privacy / analytics
+Must NOT say:
+- every user qualifies,
+- every adjustable bed is reimbursed,
+- the three UNIZDRAV retail beds are currently reimbursed.
 
-Before analytics consent:
-- no GA4 load.
+## 5. Rental evidence
+Expected examples:
+- Studénka: 750 Kč/month; 2,000 Kč deposit,
+- Charita sv. Martina: 900 Kč/month; 500 Kč bed transport incl. assembly,
+- Třebíč: 40 Kč/day + 130 Kč one-time; assembly 600 Kč; transport 19 Kč/km.
 
-After consent:
-- only generic events:
-  `builder_start`, `builder_complete`, `recommendation_view`, `product_click`, `merchant_click`.
+Must say these are local/time-sensitive examples.
 
-Must not send:
-- primaryNeed,
-- transferAbility,
-- loadFit,
-- spaceFit,
-- product ID,
-- merchant ID,
-- derived health profile.
+## 6. FAQ schema
+Visible questions and structured FAQ must include:
+- Hradí pojišťovna polohovací postel?
+- Může polohovací postel předepsat praktický lékař?
+- Kolik stojí půjčení elektrické polohovací postele?
+- Je lepší postel půjčit, nebo koupit?
+- Dostanu od pojišťovny novou postel?
 
-## 11. Bathroom regression from 0.8.18
-
+## 7. Affiliate readiness
 Expected unchanged:
-- DMA EH-CMDA 4v1 branch works,
-- guarded reimbursement card says **Aktuální seznam SÚKL: zatím neověřeno**,
-- code 5019427 and group 07.04.03.01 are identity evidence only,
-- BESCO BS008 primary bath-transfer route works,
-- UNIZDRAV P2203 fallback works after rim-seat mismatch,
-- assisted transfer remains fail-closed.
+- Mobility 3/3
+- Bathroom/WC 0/9
+- Polohovací postel 0/3
+
+No new tracking URLs are created by this release.
+
+## 8. Bathroom regression
+Expected unchanged:
+- DMA EH-CMDA 4v1,
+- guarded reimbursement identity,
+- BESCO BS008,
+- UNIZDRAV P2203 fallback.
 
 ## After smoke
-
-Next Slice 3 work:
-1. high-intent reference page for **polohovací postel na pojišťovnu / půjčení vs koupě**,
-2. exact product-level reimbursement mapping only where current SÚKL identity can be proven,
-3. exact publisher deeplinks for the 3 bed slots only when generated from the approved affiliate account,
-4. switch to Search Console track 2 immediately once connector/query data become available.
+1. add exact bed deeplinks only from approved affiliate tooling,
+2. pursue exact product-level SÚKL mapping,
+3. switch immediately to Search Console track 2 once query/page data becomes accessible.

@@ -1900,7 +1900,7 @@ No suitability logic, merchant ranking, product order or affiliate destination i
 
 
 ### ZP-090 Release 0.8.43 — Commercial CTA standard
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.43 supersedes deployed 0.8.42.
 
@@ -1914,3 +1914,27 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-091 Self-care SEO authority
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens `/sobestacnost/` for the broader Czech query cluster around **pomůcky pro sebeobsluhu seniorů** while preserving the existing ADL Advisor as the only selection engine.
+
+Adds:
+- H1 combining **sebeobsluha** and **soběstačnost seniorů**,
+- SEO title centered on **pomůcky pro sebeobsluhu seniorů**,
+- meta description for pití, stabilizaci nádoby, jídlo jednou rukou a otevírání obalů,
+- fifth visible FAQ mirrored exactly in FAQPage schema,
+- stronger links to the compensatory-aids hub and footwear journey,
+- regression coverage preserving one ADL Advisor.
+
+Commercial:
+- existing RehaVita shortlist and affiliate slots stay unchanged,
+- product order and merchant routing stay unchanged,
+- commercial CTA standard from 0.8.43 remains intact.
+
+Safety:
+- swallowing/choking remains professional-check,
+- no diagnosis-first routing,
+- no medication-selection advice.

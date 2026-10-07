@@ -1368,22 +1368,26 @@ test("self-care page has SEO authority layer with matching visible FAQ and schem
   const page = read("page-sobestacnost.php");
   const functions = read("functions.php");
 
-  assert.match(functions, /Pomůcky pro soběstačnost seniorů: jak vybrat \| Zápraží/);
-  assert.match(functions, /Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu/);
-  assert.match(page, /Pomůcky pro soběstačnost seniorů/);
-  assert.match(page, /Vybírejte podle konkrétní činnosti, ne podle věku nebo názvu diagnózy/);
+  assert.match(functions, /Pomůcky pro sebeobsluhu seniorů: jak vybrat \| Zápraží/);
+  assert.match(functions, /Jak vybrat pomůcky pro sebeobsluhu seniorů podle konkrétního úkonu/);
+  assert.match(page, /Pomůcky pro sebeobsluhu a soběstačnost seniorů/);
+  assert.match(page, /Jak vybrat pomůcky pro sebeobsluhu seniora/);
 
   for (const question of [
     "Jak vybrat pomůcku pro soběstačnost seniora?",
     "Co může pomoci při jídle jednou rukou?",
     "Co dělat, když se člověk při pití zakuckává nebo má problém polykat?",
-    "Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?"
+    "Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?",
+    "Jaké pomůcky pro sebeobsluhu seniorů existují?"
   ]) {
     assert.ok(page.includes(question), `visible self-care FAQ missing: ${question}`);
     assert.ok(functions.includes(question), `self-care FAQ schema missing: ${question}`);
   }
 
   assert.match(page, /nzip\.cz\/rejstrikovy-pojem\/1949/);
+  assert.match(page, /\/kompenzacni-pomucky-pro-seniory\//);
+  assert.match(page, /\/obuv-pro-seniory\//);
+  assert.equal((page.match(/id=["']zp-adl-advisor["']/g) || []).length, 1);
   assert.match(functions, /zaprazi_2_is_adl_page\(\)/);
 });
 

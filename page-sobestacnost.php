@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Každodenní soběstačnost</p>
-      <h1>Malé pomůcky, které mohou vrátit kus samostatnosti.</h1>
+      <h1>Pomůcky pro sebeobsluhu a soběstačnost seniorů: co pomůže s pitím, jídlem a otevíráním?</h1>
       <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu, připravit jednoduché jídlo jednou rukou nebo otevřít běžný obal. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-sobestacnost">Spustit poradce</a>
@@ -71,7 +71,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Pomůcky pro soběstačnost seniorů</p>
-      <h2 class="zp-section-title">Vybírejte podle konkrétní činnosti, ne podle věku nebo názvu diagnózy.</h2>
+      <h2 class="zp-section-title">Jak vybrat pomůcky pro sebeobsluhu seniora: podle konkrétní činnosti, ne podle věku.</h2>
       <p>Nejprve pojmenujte úkon, který člověka doma skutečně omezuje. U pití může být problém v úchopu nebo rozlévání, u jídla ve stabilizaci nebo obsluze jednou rukou a u běžných obalů v nedostatečném úchopu, otočení či zatažení. Každá z těchto situací potřebuje jiný typ pomůcky.</p>
       <p>Proto Zápraží neukazuje obecný seznam „pomůcek pro seniory“. Nejprve projde praktické podmínky použití a až potom nabídne přesný kandidát. Pokud je problém zdravotní — například samotné polykání — výběr retail produktu zastaví.</p>
       <h3>Čtyři úzké problémy místo katalogu stovek pomůcek.</h3>
@@ -94,6 +94,7 @@ get_header();
         <article class="zp-decision-card"><h3>Postel nebo vozík</h3><p>Pro polohovací postel a invalidní vozík používáme samostatné poradce s technickými fit kontrolami.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></p></article>
       </div>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Pokud řešíte návrat z nemocnice, začněte plánem první noci doma.</a></p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled dalších kompenzačních pomůcek pro seniory</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/obuv-pro-seniory/' ) ); ?>">Snadno obouvatelná obuv pro seniory</a></p>
     </div>
   </section>
 
@@ -119,6 +120,10 @@ get_header();
         <details>
           <summary>Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?</summary>
           <p>Ano, existují multifunkční pomůcky pro běžné uzávěry, jazýčky plechovek, zipy a obaly. Tuto větev používáme pouze pro praktický úkon otevírání a neposkytujeme rady k výběru, dávkování ani bezpečnosti léků.</p>
+        </details>
+        <details>
+          <summary>Jaké pomůcky pro sebeobsluhu seniorů existují?</summary>
+          <p>Patří sem například pomůcky pro pití, stabilizaci nádob, přípravu jídla jednou rukou, otevírání běžných obalů, oblékání, obouvání nebo podávání předmětů. Zápraží v této stránce řeší jen úzkou část kolem pití, jídla a otevírání a ostatní potřeby směruje do samostatných cest.</p>
         </details>
       </div>
     </div>

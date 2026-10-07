@@ -26,7 +26,10 @@ a{color:inherit}
 .zp-wrap{width:min(1120px,calc(100% - 36px));margin:auto}
 .zp-header{background:rgba(246,243,237,.94);border-bottom:1px solid var(--zp-line);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
 .zp-nav{min-height:70px;display:flex;align-items:center;gap:24px}
-.zp-brand{text-decoration:none;font-weight:800;font-size:1.15rem;flex:0 0 auto}
+.zp-brand-wrap{display:flex;align-items:center;flex:0 0 auto;min-width:118px}
+.zp-brand{text-decoration:none;font-weight:800;font-size:1.15rem}
+.zp-brand-wrap .custom-logo-link{display:flex;align-items:center;text-decoration:none}
+.zp-brand-wrap .custom-logo{display:block;width:auto;max-width:220px;max-height:54px}
 .zp-core-nav{display:flex;align-items:center;gap:4px;margin-left:auto}
 .zp-core-nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 11px;border-radius:10px;text-decoration:none;font-size:.92rem;font-weight:750;white-space:nowrap}
 .zp-core-nav a:hover{background:var(--zp-accent-2)}
@@ -258,7 +261,7 @@ a{color:inherit}
 }
 @media(max-width:700px){
   .zp-nav{min-height:auto;padding-top:10px;padding-bottom:8px;display:grid;grid-template-columns:1fr}
-  .zp-brand{padding:4px 0}
+  .zp-brand-wrap{padding:4px 0}.zp-brand-wrap .custom-logo{max-width:200px;max-height:48px}.zp-brand{padding:4px 0}
   .zp-core-nav{width:100%;margin:0;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;padding-bottom:2px}
   .zp-core-nav a{min-height:42px}
 }

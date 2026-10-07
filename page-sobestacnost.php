@@ -80,6 +80,19 @@ get_header();
 
   <section class="zp-section">
     <div class="zp-wrap">
+      <p class="zp-kicker">Když problém není jen u jídla a pití</p>
+      <h2 class="zp-section-title">Přejděte rovnou na situaci, kterou opravdu řešíte.</h2>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor vybíráme podle prostředí, opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Poradce pro mobilitu</a></p></article>
+        <article class="zp-decision-card"><h3>Koupelna a WC</h3><p>Zvýšení WC, opory, sprchovací nebo toaletní řešení mají vlastní fit a bezpečnostní pravidla.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a></p></article>
+        <article class="zp-decision-card"><h3>Postel nebo vozík</h3><p>Pro polohovací postel a invalidní vozík používáme samostatné poradce s technickými fit kontrolami.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></p></article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Pokud řešíte návrat z nemocnice, začněte plánem první noci doma.</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section">
+    <div class="zp-wrap">
       <p class="zp-kicker">Ověřené zdroje</p>
       <h2 class="zp-section-title">Produkt zobrazíme až po ověření konkrétní identity.</h2>
       <p>První shortlist používá tři přesně identifikované produkty RehaVita.cz: UpCup 15-050101, Beat It 15-050102 a Theomatik 15-050103. U Theomatiku jsme ověřili i rozměry 36,5 × 18,8 × 3 cm.</p>

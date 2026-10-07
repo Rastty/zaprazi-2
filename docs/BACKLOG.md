@@ -116,7 +116,7 @@ Need exact VIV deeplinks to activate affiliate tracking.
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 is active on production. Latest production release is **0.8.8** and the final Git-first Deployer sync has been visually confirmed in production.
+ZaPrazi 2.0 is active on production. Latest production release is **0.8.9**. The 0.8.9 Git-first Deployer sync was user-confirmed on 2026-10-07; the public Mobility homepage remains reachable after deploy.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -267,7 +267,7 @@ Future deploys should treat a version bump without matching runtime markers as a
 
 
 ### ZP-018 Affiliate readiness + deploy operations
-Status: **READY_DEPLOY_0_8_9**
+Status: **LIVE_PRODUCTION**
 
 Adds:
 - affiliate readiness count for the 3 supported Mobility deeplink slots,
@@ -276,3 +276,8 @@ Adds:
 - admin warning when the deployment-integrity contract detects a partial runtime sync.
 
 This remains operational visibility only; recommendation ranking is unchanged.
+
+Deployment note 2026-10-07:
+- user confirmed the Deployer sync after 0.8.9 was merged to `dev`/`main`,
+- public homepage remained reachable in post-deploy crawl,
+- exact affiliate deeplinks are still intentionally empty until publisher-specific URLs are supplied.

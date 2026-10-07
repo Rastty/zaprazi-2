@@ -3,17 +3,27 @@
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Mobilita</p>
+      <p class="zp-kicker">Zápraží · Cesta k lepšímu životu</p>
       <h1>Bezpečně a samostatně doma.</h1>
-      <p class="zp-lead">Praktický poradce pro výběr chodítka nebo rollátoru. Nezačínáme názvem produktu, ale tím, kde a jak člověk skutečně chodí, co zvládne ovládat a zda dává větší smysl koupě, půjčení nebo nejdřív prověření úhrady.</p>
+      <p class="zp-lead">Praktický domácí poradce pro chvíle, kdy potřebujete rychle vyřešit konkrétní problém: chůzi, koupelnu a WC, postel, invalidní vozík, návrat z nemocnice nebo běžnou soběstačnost. Nezačínáme katalogem produktů, ale situací člověka doma.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#poradce">Spustit poradce pro chůzi</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řeším koupelnu nebo WC</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řeším polohovací postel</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řeším invalidní vozík</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Vracíme se z nemocnice domů</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řeším pití nebo jídlo jednou rukou</a>
-        <a class="zp-text-link" href="#jak-vybrat">Nejdřív si přečíst, jak vybírat</a>
+        <a class="zp-btn" href="#co-resite">Vybrat, co právě řeším</a>
+        <a class="zp-text-link" href="#poradce">Rovnou poradce pro chůzi</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="co-resite" class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Co potřebujete vyřešit?</p>
+      <h2 class="zp-section-title">Začněte situací, ne názvem pomůcky.</h2>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor podle prostředí, potřebné opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="#poradce">Spustit poradce pro chůzi</a></p></article>
+        <article class="zp-decision-card"><h3>Koupelna a WC</h3><p>Zvýšení WC, opory, sprchovací nebo toaletní řešení podle přesunu a prostoru.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu a WC</a></p></article>
+        <article class="zp-decision-card"><h3>Polohovací postel</h3><p>Výběr vhodného typu, prostor, nosnost a rozhodnutí mezi půjčením, koupí a pojišťovnou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řešit polohovací postel</a></p></article>
+        <article class="zp-decision-card"><h3>Invalidní vozík</h3><p>Mechanický nebo elektrický vozík podle pohonu, sedu, průchodů a způsobu pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řešit invalidní vozík</a></p></article>
+        <article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>Co musí fungovat první noc doma: vstup, přesuny, WC, postel a návazná péče.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a></p></article>
+        <article class="zp-decision-card"><h3>Každodenní soběstačnost</h3><p>Samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řešit soběstačnost</a></p></article>
       </div>
     </div>
   </section>

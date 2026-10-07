@@ -101,7 +101,35 @@ Strategic use:
 - treat partner-supplied marketplace stock carefully,
 - use as complementary merchant rather than the core decision engine merchant.
 
-### 5. Zdravá Obuv Štěpánková & C. — LATER NICHE
+### 5. RehaVita.cz — LATER ADL / RETURN-FROM-HOSPITAL SUPPORT
+
+Approval:
+- user-confirmed approved advertiser on 2026-10-07.
+
+Role:
+- not a Bathroom/WC anchor,
+- promising merchant for daily-living/self-care aids and later return-from-hospital support.
+
+Current public inventory evidence:
+- dedicated "Pomůcky pro soběstačnost" category currently exposes 6 products focused on eating, drinking, opening and one-hand use,
+- current examples include UpCup, Beat It, Theomatik and Open-It,
+- antidecubitus category currently exposes one seating cushion,
+- no verified toilet/shower product depth that would justify displacing UNIZDRAV in Slice 2.
+
+Public direct-affiliate page:
+- advertises commission up to 3%,
+- says orders within 1 month of click are eligible,
+- monthly payout after reaching CZK 300.
+
+Caveat:
+- these are public direct-program terms and must not be assumed to be identical to the user's approved network campaign unless the advertiser dashboard confirms them.
+
+Strategic use:
+- keep out of Bathroom/WC v1 recommendation ranking,
+- research first for a later ADL / return-from-hospital micro-slice,
+- good candidates are one-hand eating/drinking/opening aids where product suitability can be defined with practical, non-diagnostic questions.
+
+### 6. Zdravá Obuv Štěpánková & C. — LATER NICHE
 
 Role:
 - possible later decision vertical around easier footwear, swollen/wide feet, fastening and practical daily mobility.
@@ -128,7 +156,8 @@ Decision:
 | Bathroom + WC | UNIZDRAV | RehabilitačníPomůcky.cz, Dr.Max |
 | Adjustable beds | UNIZDRAV | additional rental/specialist providers to research |
 | Wheelchairs | UNIZDRAV | RehabilitačníPomůcky.cz / specialist merchants after verification |
-| Return from hospital | multi-merchant | UNIZDRAV, Dr.Max, RehabilitačníPomůcky.cz, Lékárna.cz |
+| Return from hospital | multi-merchant | UNIZDRAV, Dr.Max, RehaVita.cz, RehabilitačníPomůcky.cz, Lékárna.cz |
+| ADL / daily self-care | RehaVita.cz candidate | other merchants after evidence review |
 | Easy/specialist footwear | Zdravá Obuv | later research |
 
 ## Next merchant work
@@ -142,7 +171,8 @@ Decision:
    - merchant route,
    - affiliate deeplink only after the product qualifies.
 4. Then repeat for adjustable beds.
-5. Do not expose new merchants in production until the recommendation/evidence layer is ready.
+5. Keep RehaVita out of Bathroom/WC v1 unless exact relevant stock changes; research it later for ADL / return-from-hospital.
+6. Do not expose new merchants in production until the recommendation/evidence layer is ready.
 
 ## Current production monetization
 

@@ -119,7 +119,7 @@ All 3 supported Mobility v1 slots now contain exact publisher-specific CJ/VIV de
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 is active on production. Latest production release is **0.8.10**. The 0.8.10 Git-first Deployer sync was user-confirmed on 2026-10-07.
+ZaPrazi 2.0 is active on production. Latest production release is **0.8.11**. The 0.8.11 Git-first Deployer sync was user-confirmed on 2026-10-07.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -310,13 +310,15 @@ Approved advertiser portfolio supplied 2026-10-07:
 - Lékárna.cz,
 - Dr.Max,
 - UNIZDRAV,
+- RehaVita.cz,
 - Zdravá Obuv Štěpánková & C.
 
 Priority:
 1. RehabilitačníPomůcky.cz remains the Mobility anchor.
-2. UNIZDRAV becomes the primary expansion merchant for Bathroom/WC, adjustable beds and wheelchairs.
+2. UNIZDRAV remains the primary merchant for Bathroom/WC, adjustable beds and wheelchairs.
 3. Dr.Max is a supporting retail/trust merchant for selected exact products.
-4. Zdravá Obuv stays a later niche until a dedicated decision slice is justified.
+4. RehaVita is reserved for later ADL / return-from-hospital research; its currently verified inventory is not deep enough for Bathroom/WC v1.
+5. Zdravá Obuv stays a later niche until a dedicated decision slice is justified.
 
 See `docs/MERCHANT_PORTFOLIO_STRATEGY_2026-10-07.md`.
 
@@ -378,7 +380,7 @@ See `docs/BATHROOM_WC_ACQUISITION_V0.md`.
 
 
 ### ZP-024 Bathroom + WC Advisor UI + release 0.8.11
-Status: **READY_DEPLOY_0_8_11**
+Status: **LIVE_PRODUCTION / CORE_SMOKE_PASS**
 
 Adds:
 - dedicated `/koupelna-a-wc/` Home Advisor page,
@@ -390,4 +392,32 @@ Adds:
 - WordPress non-destructive resource-page registry v4,
 - 0.8.11 deployment-integrity markers covering the new Bathroom/WC page and frontend JS.
 
-No UNIZDRAV affiliate deeplinks are required for the first production smoke; canonical merchant URLs remain the safe fallback.
+Production smoke 2026-10-07:
+- WordPress page `/koupelna-a-wc/` exists with the dedicated template,
+- public mobile Lighthouse: Accessibility 100 / Best Practices 100 / SEO 100,
+- canonical UNIZDRAV product URLs remain the safe fallback until exact affiliate deeplinks are supplied.
+
+
+### ZP-025 Bathroom + WC affiliate readiness
+Status: **READY_CODE / 0_OF_5_DEEPLINKS**
+
+Adds five exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
+- UNIZDRAV P2868,
+- UNIZDRAV P2015,
+- UNIZDRAV P2807,
+- UNIZDRAV P2062,
+- UNIZDRAV P2131.
+
+Admin readiness is split by slice so Mobility stays visible as 3/3 while Bathroom/WC starts at 0/5.
+
+Each slot:
+- exposes the exact canonical product target,
+- accepts only HTTPS partner URLs,
+- falls back safely to the canonical merchant URL,
+- does not affect recommendation ranking.
+
+Research-only P2085 is intentionally excluded from affiliate routing.
+
+RehaVita.cz:
+- advertiser approval confirmed by user,
+- currently classified for later ADL / return-from-hospital research rather than Bathroom/WC v1.

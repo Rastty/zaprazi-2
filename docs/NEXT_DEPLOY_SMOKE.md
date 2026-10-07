@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.27
+# Next Deploy Smoke — Zápraží 2.0 v0.8.28
 
-This release supersedes 0.8.26. Deploy only 0.8.27 from `dev`.
+This release supersedes 0.8.27. Deploy only 0.8.28 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.27`
+- `zaprazi-release` = `0.8.28`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -118,3 +118,15 @@ Affiliate admin expected:
 - Soběstačnost readiness total = **4**
 - fourth slot = `rehavita-cz:open-it-15-050105`
 - VIV/CJ advertiser remains **18119967**.
+
+
+## 11. Self-care SEO authority
+Open `/sobestacnost/`.
+
+Expected:
+- document title contains **Pomůcky pro soběstačnost seniorů: jak vybrat**
+- meta description mentions pití, stabilizaci nádoby, jídlo jednou rukou and otevírání běžných obalů
+- visible section says **Vybírejte podle konkrétní činnosti**
+- four visible FAQs are present
+- FAQPage schema contains the same four questions
+- swallowing FAQ links to NZIP and still results in no retail product recommendation.

@@ -1169,7 +1169,7 @@ This changes Soběstačnost from 3 to 4 exact commercial slots without adding di
 
 
 ### ZP-056 Release 0.8.27 — Brand consistency + Open-It
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_28**
 
 Release 0.8.27 supersedes 0.8.26 and is the next deployment target after production 0.8.25.
 
@@ -1207,3 +1207,22 @@ Commercial boundary:
 - no extra product is added by the SEO layer,
 - affiliate ranking remains separate from suitability,
 - swallowing difficulty remains professional-check only.
+
+
+### ZP-058 Release 0.8.28 — Self-care SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.28 supersedes 0.8.27 and is the next deployment target after production 0.8.25.
+
+Packages:
+- everything from 0.8.27,
+- public brand consistency,
+- Open-It ADL packaging branch,
+- self-care SEO title/meta targeting `pomůcky pro soběstačnost seniorů`,
+- task-first explanatory content,
+- four visible FAQ items,
+- matching FAQPage schema,
+- official NZIP dysphagia safety source,
+- release-integrity contract and smoke checklist bumped to 0.8.28.
+
+No duplicate SEO landing page is created; `/sobestacnost/` remains the single canonical decision surface.

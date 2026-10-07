@@ -1256,7 +1256,7 @@ See `docs/COMPENSATORY_AIDS_EVIDENCE_V0.md`.
 
 
 ### ZP-060 Release 0.8.29 — Compensatory aids SEO hub
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_30**
 
 Release 0.8.29 supersedes 0.8.28.
 
@@ -1302,3 +1302,22 @@ The page routes to all six existing Advisors and is linked from:
 Resource registry advances to v13.
 
 See `docs/SAFE_HOME_SENIOR_EVIDENCE_V0.md`.
+
+
+### ZP-062 Release 0.8.30 — Safe-home senior audit
+Status: **READY_DEPLOY**
+
+Release 0.8.30 supersedes 0.8.29.
+
+Packages:
+- everything from 0.8.29,
+- new `/bezpecny-byt-pro-seniora/` audit,
+- NZIP fall-prevention evidence,
+- route-first audit of entrance, bed → WC, bathroom and walking paths,
+- links into all six existing decision Advisors,
+- visible FAQ + matching FAQPage schema,
+- internal links from compensatory hub, return-home and global footer,
+- resource registry v13,
+- release integrity includes the new template.
+
+No product catalog, diagnosis-first routing or merchant ranking is introduced.

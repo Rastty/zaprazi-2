@@ -536,6 +536,29 @@ test("commercial Advisor CTAs are clear, trustworthy and consistently tracked", 
 });
 
 
+test("affiliate deeplink workbench is network-aware and keeps RehaVita on eHUB", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_affiliate_merchant_networks/);
+  assert.match(functions, /zaprazi_2_affiliate_network_for_key/);
+  assert.match(functions, /'unizdrav-cz' => array/);
+  assert.match(functions, /CJ program 5654758/);
+  assert.match(functions, /'rehavita-cz' => array/);
+  assert.match(functions, /eHUB kampaň 18119967/);
+  assert.doesNotMatch(functions, /RehaVita\.cz \(VIV 18119967\)/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\)/);
+
+  assert.match(functions, /Deeplink workbench/);
+  assert.match(functions, /Kopírovat URL/);
+  assert.match(functions, /zp-copy-affiliate-target/);
+  assert.match(functions, /data-zp-copy-target/);
+  assert.match(functions, /navigator\.clipboard/);
+
+  assert.match(functions, /'network' => \$network\['network'\]/);
+  assert.match(functions, /'program' => \$network\['program'\]/);
+});
+
+
 test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");
   const mobilityAdvisor = read("assets/js/mobility-advisor.js");
@@ -585,6 +608,8 @@ test("public affiliate readiness API exposes counts and missing canonical target
   assert.match(payloadCode, /zaprazi_2_affiliate_targets/);
   assert.match(payloadCode, /zaprazi_2_affiliate_fields/);
   assert.match(payloadCode, /zaprazi_2_affiliate_groups/);
+  assert.match(payloadCode, /'network'/);
+  assert.match(payloadCode, /'program'/);
 });
 
 

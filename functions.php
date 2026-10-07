@@ -82,6 +82,7 @@ function zaprazi_2_affiliate_fields() {
     'rehabilitacni-pomucky-cz:besco-bs008' => 'RehabilitačníPomůcky.cz — BESCO BS008 sedačka na vanu s madlem',
     'rehabilitacni-pomucky-cz:besco-bs15' => 'RehabilitačníPomůcky.cz — BESCO BS15 nástavec na WC s madly',
     'drmax-cz:dma-eh-cmda' => 'Dr.Max — DMA EH-CMDA toaletní židle 4v1',
+    'unizdrav-cz:p2203' => 'UNIZDRAV — P2203 transferová židle přes vanu',
   );
 }
 
@@ -98,6 +99,7 @@ function zaprazi_2_affiliate_targets() {
     'rehabilitacni-pomucky-cz:besco-bs008' => 'https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/',
     'rehabilitacni-pomucky-cz:besco-bs15' => 'https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/',
     'drmax-cz:dma-eh-cmda' => 'https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1',
+    'unizdrav-cz:p2203' => 'https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany',
   );
 }
 
@@ -122,6 +124,7 @@ function zaprazi_2_affiliate_groups() {
         'rehabilitacni-pomucky-cz:besco-bs008',
         'rehabilitacni-pomucky-cz:besco-bs15',
         'drmax-cz:dma-eh-cmda',
+        'unizdrav-cz:p2203',
       ),
     ),
   );

@@ -224,6 +224,73 @@ function zaprazi_2_affiliate_groups() {
   );
 }
 
+function zaprazi_2_affiliate_readiness_payload() {
+  $values = get_option( 'zaprazi_affiliate_map', array() );
+  if ( ! is_array( $values ) ) {
+    $values = array();
+  }
+
+  $fields = zaprazi_2_affiliate_fields();
+  $targets = zaprazi_2_affiliate_targets();
+  $groups = zaprazi_2_affiliate_groups();
+
+  $configured_total = 0;
+  $slot_total = 0;
+  $payload_groups = array();
+
+  foreach ( $groups as $group_id => $group ) {
+    $configured = 0;
+    $missing = array();
+
+    foreach ( $group['keys'] as $key ) {
+      $slot_total++;
+      if ( ! empty( $values[ $key ] ) ) {
+        $configured++;
+        $configured_total++;
+        continue;
+      }
+
+      $missing[] = array(
+        'key'    => $key,
+        'label'  => isset( $fields[ $key ] ) ? $fields[ $key ] : $key,
+        'target' => isset( $targets[ $key ] ) ? $targets[ $key ] : '',
+      );
+    }
+
+    $payload_groups[ $group_id ] = array(
+      'label'      => $group['label'],
+      'configured' => $configured,
+      'total'      => count( $group['keys'] ),
+      'missing'    => $missing,
+    );
+  }
+
+  return array(
+    'release'          => ZAPRAZI_RELEASE,
+    'integrity'        => zaprazi_2_release_integrity_ok() ? 'ok' : 'partial',
+    'configured_total' => $configured_total,
+    'slot_total'       => $slot_total,
+    'groups'           => $payload_groups,
+  );
+}
+
+function zaprazi_2_register_affiliate_readiness_route() {
+  register_rest_route(
+    'zaprazi/v1',
+    '/affiliate-readiness',
+    array(
+      'methods'             => WP_REST_Server::READABLE,
+      'callback'            => static function () {
+        $response = rest_ensure_response( zaprazi_2_affiliate_readiness_payload() );
+        $response->header( 'Cache-Control', 'no-store, max-age=0' );
+        return $response;
+      },
+      'permission_callback' => '__return_true',
+    )
+  );
+}
+add_action( 'rest_api_init', 'zaprazi_2_register_affiliate_readiness_route' );
+
 function zaprazi_2_sanitize_affiliate_map( $value ) {
   $allowed = zaprazi_2_affiliate_fields();
   $clean = array();

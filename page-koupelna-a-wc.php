@@ -6,7 +6,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Koupelna a WC</p>
-      <h1>Bezpečnější koupelna a WC podle skutečné situace.</h1>
+      <h1>Pomůcky do koupelny pro seniory: co pomůže u WC, ve sprše a u vany?</h1>
       <p class="zp-lead">Poradce pomůže rozlišit, zda dává smysl zvýšit WC, přidat oporu, použít toaletní židli nebo sedět při sprchování. Neptá se na diagnózu a při nejasném přesunu raději konkrétní výrobek nevybere.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-koupelna">Spustit poradce</a>
@@ -126,7 +126,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Jak rozhodujeme</p>
-      <h2 class="zp-section-title">Nejdřív bezpečnost a rozměry, až potom produkt.</h2>
+      <h2 class="zp-section-title">Jak vybrat pomůcky do koupelny pro seniora: nejdřív přesun, prostor a stabilita.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Bezpečný přesun</h3><p>Pokud je běžně potřeba fyzická pomoc druhé osoby, poradce nepředstírá jistotu a nepřeskočí rovnou k produktu.</p></article>
         <article class="zp-decision-card"><h3>Fit a montáž</h3><p>U nástavce řešíme kompatibilitu s WC a oporu chodidel. U sprchovací židle prostor a stabilní podklad. U madla zase bezpečné kotvení do skutečné konstrukce stěny.</p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nástavec na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Sprchovací židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Madlo / opora k WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/' ) ); ?>">Sedátko do vany</a></article>
@@ -140,6 +140,43 @@ get_header();
       <p class="zp-kicker">Důležitá hranice</p>
       <h2 class="zp-section-title">Jednoduchý samostatný přesun přes vanu už umíme odlišit od složitější situace.</h2>
       <p>Pokud člověk zvládne přesun bez fyzické pomoci a vana přesně odpovídá rozměrům bezpečně upevnitelné sedačky, poradce může ukázat kandidátní řešení. Jakmile je potřeba zvedání, jištění druhou osobou nebo je fit vany nejasný, Zápraží zůstane u odborného ověření. Kombinované sprchovací/toaletní vozíky zůstávají mimo automatický produktový výběr.</p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap zp-faq">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Jak vybrat pomůcku do koupelny podle konkrétní situace.</h2>
+
+      <details>
+        <summary>Jaké pomůcky do koupelny pro seniory dávají nejčastěji smysl?</summary>
+        <p>Záleží na konkrétním problému. Nízké WC může řešit nástavec, chybějící oporu madlo nebo rám, delší stání ve sprše sprchovací židle, obtížnou cestu na WC toaletní židle a bezpečný přesun přes okraj vany sedačka nebo transferová lavice.</p>
+      </details>
+      <details>
+        <summary>Jak vybrat pomůcku k WC pro seniora?</summary>
+        <p>Nejdřív rozlište, zda je problém hlavně nízký sed, chybějící opora, nebo samotná cesta na toaletu. Potom ověřte přesun, rozměry, nosnost a podle typu pomůcky také bezpečné kotvení nebo stabilní podklad.</p>
+      </details>
+      <details>
+        <summary>Je lepší sprchovací židle, nebo toaletní židle 4v1?</summary>
+        <p>Sprchovací židle dává smysl, když je hlavní problém delší stání při hygieně. Multifunkční židle 4v1 může být praktičtější, když má jedna pomůcka sloužit i nad WC. Rozhodují rozměry, stabilní podklad, bezpečný přesun a nosnost.</p>
+      </details>
+      <details>
+        <summary>Je do koupelny vždy lepší nástěnné madlo?</summary>
+        <p>Ne. Pevné madlo má smysl jen tehdy, když lze bezpečně ověřit vhodný podklad a kotvení. Když to možné není, je potřeba zvažovat jiný typ opory, například stabilní toaletní rám.</p>
+      </details>
+      <details>
+        <summary>Může být pomůcka do koupelny hrazená pojišťovnou?</summary>
+        <p>Některé zdravotnické prostředky mohou mít hrazenou cestu, ale neplatí to automaticky pro každý maloobchodní výrobek. Je potřeba ověřit konkrétní prostředek, aktuální úhradové podmínky a způsob výdeje.</p>
+      </details>
+
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nástavec na WC</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Sprchovací židle</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Madlo a opora k WC</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/' ) ); ?>">Sedátko do vany</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Pomůcky a pojišťovna</a>
+      </div>
     </div>
   </section>
 </main>

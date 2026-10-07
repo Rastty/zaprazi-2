@@ -478,7 +478,7 @@ No diagnosis question and no raw health data were added.
 
 
 ### ZP-028 Raised WC with arm support
-Status: **READY_DEPLOY_0_8_15**
+Status: **LIVE_PRODUCTION_0_8_15**
 
 Unlocks the previously incomplete low-WC scenario where the person:
 - does not need physical lifting by another person,
@@ -501,7 +501,7 @@ No new personal/health question was needed; existing practical answers are suffi
 
 
 ### ZP-029 One aid for WC + shower
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_16**
 
 New scenario:
 - user wants one stable aid to cover both toilet and shower use,

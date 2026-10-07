@@ -555,7 +555,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
-    return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
+    return 'Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
@@ -611,7 +611,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
-    return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
+    return 'Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
@@ -668,7 +668,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Praktický domácí poradce pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
-    return 'Praktický poradce pro bezpečnější WC a koupelnu: zvýšení WC, opory, toaletní a sprchovací židle, koupě, půjčení a prověření hrazené alternativy.';
+    return 'Jak vybrat pomůcky do koupelny pro seniory: nástavec na WC, madlo, sprchovací či toaletní židli a sedátko do vany podle přesunu, prostoru a stability.';
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
@@ -850,6 +850,29 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Je nástavec na WC automaticky hrazený?',
         'answer'   => 'Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_bathroom_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jaké pomůcky do koupelny pro seniory dávají nejčastěji smysl?',
+        'answer'   => 'Záleží na konkrétním problému. Nízké WC může řešit nástavec, chybějící oporu madlo nebo rám, delší stání ve sprše sprchovací židle, obtížnou cestu na WC toaletní židle a bezpečný přesun přes okraj vany sedačka nebo transferová lavice.',
+      ),
+      array(
+        'question' => 'Jak vybrat pomůcku k WC pro seniora?',
+        'answer'   => 'Nejdřív rozlište, zda je problém hlavně nízký sed, chybějící opora, nebo samotná cesta na toaletu. Potom ověřte přesun, rozměry, nosnost a podle typu pomůcky také bezpečné kotvení nebo stabilní podklad.',
+      ),
+      array(
+        'question' => 'Je lepší sprchovací židle, nebo toaletní židle 4v1?',
+        'answer'   => 'Sprchovací židle dává smysl, když je hlavní problém delší stání při hygieně. Multifunkční židle 4v1 může být praktičtější, když má jedna pomůcka sloužit i nad WC. Rozhodují rozměry, stabilní podklad, bezpečný přesun a nosnost.',
+      ),
+      array(
+        'question' => 'Je do koupelny vždy lepší nástěnné madlo?',
+        'answer'   => 'Ne. Pevné madlo má smysl jen tehdy, když lze bezpečně ověřit vhodný podklad a kotvení. Když to možné není, je potřeba zvažovat jiný typ opory, například stabilní toaletní rám.',
+      ),
+      array(
+        'question' => 'Může být pomůcka do koupelny hrazená pojišťovnou?',
+        'answer'   => 'Některé zdravotnické prostředky mohou mít hrazenou cestu, ale neplatí to automaticky pro každý maloobchodní výrobek. Je potřeba ověřit konkrétní prostředek, aktuální úhradové podmínky a způsob výdeje.',
       ),
     );
   } elseif ( zaprazi_2_is_bed_page() ) {

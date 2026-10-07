@@ -1740,7 +1740,7 @@ Commercial routing and affiliate ranking are unchanged.
 
 
 ### ZP-082 Release 0.8.39 — Adjustable bed SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE CACHE VERIFY_PENDING**
 
 Release 0.8.39 supersedes 0.8.38.
 
@@ -1753,3 +1753,24 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-083 Bathroom SEO authority layer
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Strengthens the existing `/koupelna-a-wc/` journey for the broad high-intent query cluster around **pomůcky do koupelny pro seniory** without creating another suitability engine.
+
+Adds:
+- H1 and SEO metadata centered on **pomůcky do koupelny pro seniory**,
+- clearer decision framing around transfer, dimensions, load, stability and wall fixing,
+- five visible FAQs mirrored exactly in FAQPage schema,
+- stronger internal links to the five existing Bathroom micro-Advisors and the insurer/acquisition guide,
+- regression coverage that keeps the existing Bathroom Advisor as the single suitability engine.
+
+Safety boundary stays unchanged:
+- no diagnosis-based routing,
+- no raw body-weight input,
+- no automatic product when transfer, fit, load or fixing is unverified,
+- complex shower/toilet wheelchair situations remain outside automatic product selection.
+
+Commercial routing and affiliate ranking are unchanged.

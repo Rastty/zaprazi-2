@@ -420,6 +420,14 @@ function zaprazi_2_is_bath_transfer_page() {
   return is_page( 'sedatko-do-vany-pro-seniory' );
 }
 
+function zaprazi_2_is_indoor_walker_page() {
+  return is_page( 'choditko-do-bytu-pro-seniory' );
+}
+
+function zaprazi_2_is_rollator_page() {
+  return is_page( 'rollator-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -462,7 +470,9 @@ function zaprazi_2_assets() {
     zaprazi_2_is_shower_chair_page() ||
     zaprazi_2_is_toilet_chair_page() ||
     zaprazi_2_is_toilet_support_page() ||
-    zaprazi_2_is_bath_transfer_page()
+    zaprazi_2_is_bath_transfer_page() ||
+    zaprazi_2_is_indoor_walker_page() ||
+    zaprazi_2_is_rollator_page()
   ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
@@ -510,6 +520,10 @@ function zaprazi_2_assets() {
         $module = array( 'zaprazi-toilet-support-advisor', 'assets/js/toilet-support-advisor.js' );
       } elseif ( zaprazi_2_is_bath_transfer_page() ) {
         $module = array( 'zaprazi-bath-transfer-advisor', 'assets/js/bath-transfer-advisor.js' );
+      } elseif ( zaprazi_2_is_indoor_walker_page() ) {
+        $module = array( 'zaprazi-indoor-walker-advisor', 'assets/js/indoor-walker-advisor.js' );
+      } elseif ( zaprazi_2_is_rollator_page() ) {
+        $module = array( 'zaprazi-rollator-advisor', 'assets/js/rollator-advisor.js' );
       }
 
       if ( $module ) {
@@ -570,6 +584,12 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bath_transfer_page() ) {
     return 'Sedátko do vany pro seniory: sedačka, nebo transferová lavice? | Zápraží';
   }
+  if ( zaprazi_2_is_indoor_walker_page() ) {
+    return 'Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové? | Zápraží';
+  }
+  if ( zaprazi_2_is_rollator_page() ) {
+    return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -616,6 +636,12 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bath_transfer_page() ) {
     return 'Sedátko do vany pro seniory: sedačka, nebo transferová lavice? | Zápraží';
+  }
+  if ( zaprazi_2_is_indoor_walker_page() ) {
+    return 'Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové? | Zápraží';
+  }
+  if ( zaprazi_2_is_rollator_page() ) {
+    return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -664,6 +690,12 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bath_transfer_page() ) {
     return 'Jak vybrat sedátko do vany pro seniora: sedačka přes okraj nebo transferová lavice podle samostatnosti přesunu, šířky vany, prostoru a nosnosti.';
+  }
+  if ( zaprazi_2_is_indoor_walker_page() ) {
+    return 'Jak vybrat chodítko do bytu pro seniora: čtyřbodové nebo dvoukolové podle potřebné opory, schopnosti chodítko nadzvednout, šířky průchodů a hmotnosti.';
+  }
+  if ( zaprazi_2_is_rollator_page() ) {
+    return 'Jak vybrat rollátor pro seniora: ruční brzdy, výška madel, šířka, sedátko, skládání, nosnost a možnost úhrady konkrétního modelu.';
   }
   return $description;
 }
@@ -943,6 +975,20 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Některé konkrétní koupelnové zdravotnické prostředky hrazené být mohou, ale retail produkt není automaticky hrazený. Úhrada se musí ověřit podle přesného prostředku a aktuálních podmínek.',
       ),
     );
+  } elseif ( zaprazi_2_is_indoor_walker_page() ) {
+    $faq = array(
+      array('question'=>'Jaké chodítko je vhodnější do bytu?','answer'=>'Záleží hlavně na tom, zda člověk potřebuje stabilní oporu a zvládne chodítko při kroku lehce nadzvednout. Pokud ne, může být praktičtější dvoukolové provedení.'),
+      array('question'=>'Kolik místa chodítko potřebuje?','answer'=>'WA17 má celkovou šířku 59 cm a WA21 60 cm. Před nákupem proto změřte nejužší dveře a průchody v místě použití.'),
+      array('question'=>'Je lehčí chodítko automaticky lepší?','answer'=>'Ne. Nižší hmotnost usnadňuje manipulaci, ale typ chodítka musí odpovídat způsobu chůze a potřebné opoře.'),
+      array('question'=>'Kdy online poradce konkrétní chodítko nedoporučí?','answer'=>'Pokud člověk při chůzi běžně potřebuje fyzickou pomoc druhé osoby nebo není jasné, jak velkou oporu skutečně potřebuje.'),
+    );
+  } elseif ( zaprazi_2_is_rollator_page() ) {
+    $faq = array(
+      array('question'=>'Jak poznat, že je rollátor vhodnější než chodítko bez brzd?','answer'=>'Rollátor je určený pro plynulejší pohyb po kolečkách a typicky pro použití venku nebo doma i venku. Podmínkou je bezpečné ovládání ručních brzd.'),
+      array('question'=>'Musí mít rollátor sedátko?','answer'=>'Nemusí, ale sedátko je praktické pro člověka, který při delší chůzi potřebuje odpočívat. Při usedání musí být brzdy podle návodu bezpečně zajištěné.'),
+      array('question'=>'Hradí rollátor zdravotní pojišťovna?','answer'=>'Některé konkrétní modely ano. MEYRA aktuálně uvádí u modelu Ideal Rollator kód ZP 07-5005963 a plnou úhradu. Individuální nárok a správný postup je ale potřeba ověřit před nákupem.'),
+      array('question'=>'Kdy online poradce rollátor nedoporučí?','answer'=>'Pokud člověk nezvládá ruční brzdy nebo při chůzi běžně potřebuje fyzickou pomoc druhé osoby.'),
+    );
   } elseif ( zaprazi_2_is_adl_page() ) {
     $faq = array(
       array(
@@ -1125,7 +1171,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v19' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v20' ) ) {
     return;
   }
 
@@ -1225,6 +1271,16 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce podle samostatnosti přesunu, šířky vany, prostoru pro transferovou konstrukci a nosnosti.',
       'template' => 'page-sedatko-do-vany-pro-seniory.php',
     ),
+    'choditko-do-bytu-pro-seniory' => array(
+      'title'    => 'Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové?',
+      'excerpt'  => 'Praktický poradce podle potřebné opory, schopnosti chodítko nadzvednout, šířky průchodů a manipulace.',
+      'template' => 'page-choditko-do-bytu-pro-seniory.php',
+    ),
+    'rollator-pro-seniory' => array(
+      'title'    => 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko',
+      'excerpt'  => 'Praktický poradce podle bezpečného ovládání brzd, výšky, šířky, nosnosti, sedátka a převozu.',
+      'template' => 'page-rollator-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1257,7 +1313,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v19', '1', false );
+    update_option( 'zaprazi_resource_pages_v20', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

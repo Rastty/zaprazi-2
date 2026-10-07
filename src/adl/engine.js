@@ -8,21 +8,30 @@ const CANDIDATES = Object.freeze({
     product: "UpCup - pomůcka pro snadné pití MoVeS",
     sku: "15-050101",
     merchant: "RehaVita.cz",
-    sourceUrl: "https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/"
+    affiliateKey: "rehavita-cz:upcup-15-050101",
+    sourceUrl: "https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/",
+    checkedAt: "2026-10-07",
+    facts: ["široká stabilní základna", "madla pro jistější úchop", "vhodnost konkrétního nápoje je potřeba ověřit"]
   },
   beatIt: {
     id: "rehavita-beat-it-15-050102",
     product: "Beat It - držák pro stabilizaci nádob MoVeS",
     sku: "15-050102",
     merchant: "RehaVita.cz",
-    sourceUrl: "https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/"
+    affiliateKey: "rehavita-cz:beat-it-15-050102",
+    sourceUrl: "https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/",
+    checkedAt: "2026-10-07",
+    facts: ["rozměry 22 × 11,5 × 7 cm bez držáku na stůl", "posuvný mechanismus pro stabilizaci předmětu", "vyžaduje vhodnou stabilní pracovní plochu"]
   },
   theomatik: {
     id: "rehavita-theomatik-15-050103",
     product: "Theomatik - multifunkční jídelní podnos pro obsluhu jednou rukou MoVeS",
     sku: "15-050103",
     merchant: "RehaVita.cz",
-    sourceUrl: "https://www.rehavita.cz/pomucky-pro-sobestacnost/"
+    affiliateKey: "rehavita-cz:theomatik-15-050103",
+    sourceUrl: "https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/",
+    checkedAt: "2026-10-07",
+    facts: ["rozměry 36,5 × 18,8 × 3 cm", "hmotnost 900 g", "skládací provedení", "vhodné do myčky podle prodejce"]
   }
 });
 

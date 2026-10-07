@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v10/);
+  assert.match(functions, /zaprazi_resource_pages_v11/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v10/);
+  assert.match(functions, /zaprazi_resource_pages_v11/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -762,7 +762,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v10/);
+  assert.match(functions, /zaprazi_resource_pages_v11/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -887,7 +887,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v10/);
+  assert.match(functions, /zaprazi_resource_pages_v11/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1000,4 +1000,48 @@ test("Return-home surface is reachable from homepage and core navigation", () =>
   assert.match(front, /Vracíme se z nemocnice domů/);
   assert.match(header, /\/navrat-z-nemocnice\//);
   assert.match(header, /Návrat domů/);
+});
+
+
+test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
+  const page = read("page-sobestacnost.php");
+  const app = read("assets/js/adl-advisor.js");
+  const functions = read("functions.php");
+  const engine = read("src/adl/engine.js");
+  const header = read("header.php");
+  const front = read("front-page.php");
+
+  assert.match(page, /id=["']zp-adl-advisor["'][^>]+role=["']form/);
+  assert.doesNotMatch(page, /<form[^>]+id=["']zp-adl-advisor/);
+  assert.match(page, /Nezadávejte jméno, diagnózu, typ operace/i);
+  assert.match(page, /polykání, zakuckávání/i);
+
+  for (const field of ["task", "mainProblem", "stableSurface", "oneHandUse"]) {
+    assert.ok(page.includes(`data-zp-adl-required="${field}"`) || page.includes(`name="${field}"`), `missing ADL field ${field}`);
+  }
+
+  assert.match(app, /chooseAdlSelfCareAid/);
+  assert.match(app, /zaprazi:analytics/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.doesNotMatch(app, /new FormData/);
+  assert.match(app, /affiliateMap/);
+  assert.match(app, /output\.status === "candidate"/);
+
+  assert.match(engine, /swallowing_or_medical/);
+  assert.match(engine, /professional_check/);
+  assert.match(engine, /rehavita-cz:upcup-15-050101/);
+  assert.match(engine, /rehavita-cz:beat-it-15-050102/);
+  assert.match(engine, /rehavita-cz:theomatik-15-050103/);
+  assert.match(engine, /36,5 × 18,8 × 3 cm/);
+
+  assert.match(functions, /zaprazi_2_is_adl_page/);
+  assert.match(functions, /assets\/js\/adl-advisor\.js/);
+  assert.match(functions, /'sobestacnost' => array/);
+  assert.match(functions, /'adl' => array/);
+  assert.match(functions, /rehavita-cz:upcup-15-050101/);
+  assert.match(functions, /rehavita-cz:beat-it-15-050102/);
+  assert.match(functions, /rehavita-cz:theomatik-15-050103/);
+
+  assert.match(header, /\/sobestacnost\//);
+  assert.match(front, /\/sobestacnost\//);
 });

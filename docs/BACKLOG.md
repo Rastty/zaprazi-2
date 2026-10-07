@@ -938,7 +938,7 @@ First RehaVita-backed ADL foundation:
 Current evidence checked 2026-10-07:
 - RehaVita self-care category exposes all three candidates as in stock,
 - exact UpCup and Beat It product pages verified,
-- Theomatik exact SKU and category listing verified; exact product-detail route/spec refresh remains a pre-UI task.
+- Theomatik exact product page re-verified; dimensions 36.5 × 18.8 × 3 cm, weight 900 g, foldable design and dishwasher suitability recorded.
 
 Commercial state:
 - no affiliate deeplink yet,
@@ -952,3 +952,32 @@ Next:
 - capture exact Theomatik product detail/specs,
 - build ADL Advisor UI v1,
 - add three isolated affiliate runtime slots with canonical fallbacks after the UI path is ready.
+
+
+### ZP-046 ADL self-care Advisor UI v1
+Status: **READY_DEPLOY_NEXT_RELEASE**
+
+Adds:
+- dedicated `/sobestacnost/` Advisor page,
+- four practical inputs only: task, main obstacle, stable work surface when relevant, one-hand use when relevant,
+- exact RehaVita candidates:
+  - UpCup 15-050101,
+  - Beat It 15-050102,
+  - Theomatik 15-050103,
+- exact canonical merchant fallbacks,
+- three isolated affiliate runtime slots,
+- no affiliate ranking influence,
+- no diagnosis / operation / medication / exact-weight collection,
+- swallowing or choking concern fails closed with no product and a professional-check message,
+- fit-check states do not expose the merchant CTA as the next action,
+- homepage and core-navigation entry points,
+- non-destructive resource registry v11.
+
+Verified 2026-10-07:
+- RehaVita lists all three products in stock,
+- exact Theomatik product page is live,
+- Theomatik dimensions are 36.5 × 18.8 × 3 cm and weight 900 g according to RehaVita.
+
+Affiliate readiness after deploy:
+- Soběstačnost starts at 0/3 unless exact publisher deeplinks are entered in WordPress admin.
+- Empty slots use verified canonical RehaVita product URLs.

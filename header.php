@@ -19,6 +19,7 @@
       <a href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a>
       <a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a>
       <a href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat domů</a>
+      <a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Soběstačnost</a>
       <a href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Pojišťovna</a>
       <a href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení</a>
       <a href="<?php echo esc_url( home_url( '/#jak-vybrat' ) ); ?>">Jak vybírat</a>

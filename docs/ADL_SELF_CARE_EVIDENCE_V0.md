@@ -73,15 +73,15 @@ Unknown work-surface fit returns **needs_fit_check**. An unsuitable surface retu
 - Merchant: RehaVita.cz
 - Availability at check: **Skladem**
 - Listed price at check: **1 599 Kč**
-- Current evidence source: https://www.rehavita.cz/pomucky-pro-sobestacnost/
+- Source: https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/
 
-The category description and product listing explicitly position Theomatik for meal handling with one hand.
+Exact product page re-verified 2026-10-07. RehaVita lists dimensions 36.5 × 18.8 × 3 cm, weight 900 g, foldable design and dishwasher suitability.
 
 ### Guardrail
 
 Automatic candidate status requires that the practical problem is genuinely one-hand meal setup/use. If that is unknown, return **needs_fit_check** rather than guessing.
 
-Before product routing reaches production, capture the exact product-detail URL and re-check physical dimensions / table-space requirements.
+Before purchase, verify that a 36.5 × 18.8 cm tray fits the intended working surface.
 
 ## Explicit exclusions from v0
 
@@ -113,8 +113,8 @@ RehaVita is an approved advertiser, but this foundation intentionally contains:
 - no fabricated product URL,
 - no claim of reimbursement.
 
-The affiliate route is added only after the product and UI path are production-ready.
+The UI can now expose isolated affiliate slots. Until a publisher-specific deeplink is supplied, each slot must fall back to the verified canonical RehaVita product URL.
 
 ## Next step
 
-Build the ADL Advisor UI around the three narrow branches, capture the exact Theomatik product URL/specs, then add three separate affiliate runtime slots with canonical fallbacks.
+Deploy and smoke the ADL Advisor UI, then fill the three affiliate slots only with exact publisher-specific deeplinks.

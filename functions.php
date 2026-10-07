@@ -59,7 +59,7 @@ function zaprazi_2_release_integrity_admin_notice() {
     return;
   }
 
-  echo '<div class="notice notice-error"><p><strong>ZaPrazi deployment partial.</strong> Některý kritický runtime soubor neodpovídá release ' . esc_html( ZAPRAZI_RELEASE ) . '. Nespouštějte další změny, dokud se neprovede úplný Deploy z větve dev.</p></div>';
+  echo '<div class="notice notice-error"><p><strong>Zápraží deployment partial.</strong> Některý kritický runtime soubor neodpovídá release ' . esc_html( ZAPRAZI_RELEASE ) . '. Nespouštějte další změny, dokud se neprovede úplný Deploy z větve dev.</p></div>';
 }
 add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
 
@@ -225,8 +225,8 @@ add_action('admin_init', 'zaprazi_2_register_settings');
 
 function zaprazi_2_add_settings_page() {
   add_options_page(
-    'ZaPrazi affiliate routing',
-    'ZaPrazi affiliate',
+    'Zápraží affiliate routing',
+    'Zápraží affiliate',
     'manage_options',
     'zaprazi-affiliate',
     'zaprazi_2_render_settings_page'
@@ -265,7 +265,7 @@ function zaprazi_2_render_settings_page() {
   }
   ?>
   <div class="wrap">
-    <h1>ZaPrazi affiliate routing</h1>
+    <h1>Zápraží affiliate routing</h1>
     <p>Vkládejte pouze přesné, ověřené partnerské deeplinky vygenerované schváleným affiliate účtem. Prázdné pole znamená bezpečný fallback na běžný produktový odkaz.</p>
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
@@ -462,19 +462,19 @@ function zaprazi_2_front_title( $title ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
-    return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
+    return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
-    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
+    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
-    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
+    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
-    return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
+    return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | ZaPrazi';
+    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | Zápraží';
   }
   return $title;
 }
@@ -485,22 +485,22 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
-    return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
+    return 'Koupelna a WC: bezpečnější řešení doma | Zápraží';
   }
   if ( zaprazi_2_is_bed_page() ) {
-    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
+    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
-    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
+    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | Zápraží';
   }
   if ( zaprazi_2_is_return_home_page() ) {
-    return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
+    return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | ZaPrazi';
+    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | Zápraží';
   }
 
-  return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
+  return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
 }
 add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
 
@@ -560,7 +560,7 @@ function zaprazi_2_front_faq_schema() {
   $faq = array(
     array(
       'question' => 'Jaké chodítko pro seniora do bytu?',
-      'answer'   => 'Nejdřív je potřeba řešit, kolik opory člověk potřebuje, zda zvládne chodítko lehce nadzvednout a jak široké jsou průchody doma. ZaPrazi proto nerozhoduje jen podle věku nebo označení „pro seniora“.',
+      'answer'   => 'Nejdřív je potřeba řešit, kolik opory člověk potřebuje, zda zvládne chodítko lehce nadzvednout a jak široké jsou průchody doma. Zápraží proto nerozhoduje jen podle věku nebo označení „pro seniora“.',
     ),
     array(
       'question' => 'Jaké chodítko nebo rollátor na ven?',
@@ -568,11 +568,11 @@ function zaprazi_2_front_faq_schema() {
     ),
     array(
       'question' => 'Je lepší chodítko půjčit, nebo koupit?',
-      'answer'   => 'Záleží hlavně na očekávané délce používání, ceně, dostupnosti půjčovny a servisu. U dočasné potřeby proto ZaPrazi porovnává půjčení s koupí místo automatického nákupu.',
+      'answer'   => 'Záleží hlavně na očekávané délce používání, ceně, dostupnosti půjčovny a servisu. U dočasné potřeby proto Zápraží porovnává půjčení s koupí místo automatického nákupu.',
     ),
     array(
       'question' => 'Hradí chodítko zdravotní pojišťovna?',
-      'answer'   => 'Některé zdravotnické prostředky mohou mít úhradu při splnění podmínek a správném postupu. ZaPrazi ukazuje ověřovací cestu a zdroje, ale nepotvrzuje individuální nárok konkrétního člověka.',
+      'answer'   => 'Některé zdravotnické prostředky mohou mít úhradu při splnění podmínek a správném postupu. Zápraží ukazuje ověřovací cestu a zdroje, ale nepotvrzuje individuální nárok konkrétního člověka.',
     ),
   );
 
@@ -619,7 +619,7 @@ function zaprazi_2_resource_faq_schema() {
       ),
       array(
         'question' => 'Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?',
-        'answer'   => 'Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu ZaPrazi tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.',
+        'answer'   => 'Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu Zápraží tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.',
       ),
     );
   } elseif ( zaprazi_2_is_rental_walker_page() ) {
@@ -657,14 +657,14 @@ function zaprazi_2_resource_faq_schema() {
       ),
       array(
         'question' => 'Je nástavec na WC automaticky hrazený?',
-        'answer'   => 'Ne. ZaPrazi neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
+        'answer'   => 'Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
       ),
     );
   } elseif ( zaprazi_2_is_bed_acquisition_page() ) {
     $faq = array(
       array(
         'question' => 'Hradí pojišťovna polohovací postel?',
-        'answer'   => 'Může, pokud jsou splněny podmínky pro konkrétního člověka a konkrétní zdravotnický prostředek. VZP popisuje předpis lékařem a předchozí schválení pojišťovnou. ZaPrazi individuální nárok nepotvrzuje.',
+        'answer'   => 'Může, pokud jsou splněny podmínky pro konkrétního člověka a konkrétní zdravotnický prostředek. VZP popisuje předpis lékařem a předchozí schválení pojišťovnou. Zápraží individuální nárok nepotvrzuje.',
       ),
       array(
         'question' => 'Může polohovací postel předepsat praktický lékař?',
@@ -687,7 +687,7 @@ function zaprazi_2_resource_faq_schema() {
     $faq = array(
       array(
         'question' => 'Hradí pojišťovna mechanický invalidní vozík?',
-        'answer'   => 'Může, pokud jsou splněny zákonné indikační podmínky a schvalovací postup. VZP uvádí, že žádost často řeší praktický lékař nebo příslušný specialista. ZaPrazi individuální nárok nepotvrzuje.',
+        'answer'   => 'Může, pokud jsou splněny zákonné indikační podmínky a schvalovací postup. VZP uvádí, že žádost často řeší praktický lékař nebo příslušný specialista. Zápraží individuální nárok nepotvrzuje.',
       ),
       array(
         'question' => 'Dostanu hrazený vozík do vlastnictví?',
@@ -820,7 +820,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
 
 
 /**
- * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
+ * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
   if ( '1' === get_option( 'zaprazi_resource_pages_v11' ) ) {
@@ -840,7 +840,7 @@ function zaprazi_2_ensure_resource_pages() {
     ),
     'ochrana-soukromi' => array(
       'title'    => 'Ochrana soukromí a měření návštěvnosti',
-      'excerpt'  => 'Jak ZaPrazi pracuje s odpověďmi z poradce, volitelným Google Analytics a nastavením souhlasu.',
+      'excerpt'  => 'Jak Zápraží pracuje s odpověďmi z poradce, volitelným Google Analytics a nastavením souhlasu.',
       'template' => 'page-ochrana-soukromi.php',
     ),
     'koupelna-a-wc' => array(
@@ -946,27 +946,27 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
-    return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
+    return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | Zápraží';
   }
 
   if ( zaprazi_2_is_rental_walker_page() ) {
-    return 'Půjčení chodítka a rollátoru 2026: ceny a kdy se vyplatí | ZaPrazi';
+    return 'Půjčení chodítka a rollátoru 2026: ceny a kdy se vyplatí | Zápraží';
   }
 
   if ( zaprazi_2_is_privacy_page() ) {
-    return 'Ochrana soukromí a měření návštěvnosti | ZaPrazi';
+    return 'Ochrana soukromí a měření návštěvnosti | Zápraží';
   }
 
   if ( zaprazi_2_is_bathroom_insurance_page() ) {
-    return 'Pomůcky do koupelny a na WC na pojišťovnu 2026 | ZaPrazi';
+    return 'Pomůcky do koupelny a na WC na pojišťovnu 2026 | Zápraží';
   }
 
   if ( zaprazi_2_is_bed_acquisition_page() ) {
-    return 'Polohovací postel na pojišťovnu 2026: půjčit nebo koupit | ZaPrazi';
+    return 'Polohovací postel na pojišťovnu 2026: půjčit nebo koupit | Zápraží';
   }
 
   if ( zaprazi_2_is_wheelchair_acquisition_page() ) {
-    return 'Invalidní vozík na pojišťovnu 2026: půjčit nebo koupit | ZaPrazi';
+    return 'Invalidní vozík na pojišťovnu 2026: půjčit nebo koupit | Zápraží';
   }
 
   return $title;
@@ -984,7 +984,7 @@ function zaprazi_2_resource_description( $description ) {
   }
 
   if ( zaprazi_2_is_privacy_page() ) {
-    return 'Jak ZaPrazi chrání odpovědi z Domácího poradce a kdy se načítá volitelné Google Analytics. Souhlas s měřením lze kdykoli změnit.';
+    return 'Jak Zápraží chrání odpovědi z Domácího poradce a kdy se načítá volitelné Google Analytics. Souhlas s měřením lze kdykoli změnit.';
   }
 
   if ( zaprazi_2_is_bathroom_insurance_page() ) {

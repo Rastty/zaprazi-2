@@ -308,18 +308,24 @@ test("0.8.11 deployment integrity contract covers critical runtime files", () =>
 });
 
 
-test("affiliate admin shows readiness without changing recommendation logic", () => {
+test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");
-  const advisor = read("assets/js/mobility-advisor.js");
+  const mobilityAdvisor = read("assets/js/mobility-advisor.js");
+  const bathroomAdvisor = read("assets/js/bathroom-advisor.js");
 
-  assert.match(functions, /Affiliate readiness/);
+  assert.match(functions, /zaprazi_2_affiliate_groups/);
+  assert.match(functions, /'label' => 'Mobility'/);
+  assert.match(functions, /'label' => 'Koupelna a WC'/);
+  assert.match(functions, /\$readiness/);
   assert.match(functions, /Partnerský odkaz aktivní/);
   assert.match(functions, /Otestovat deeplink/);
   assert.match(functions, /Fallback/);
-  assert.match(functions, /\$configured/);
+  assert.match(functions, /Affiliate readiness nemění doporučení/);
 
-  assert.doesNotMatch(advisor, /commission/i);
-  assert.doesNotMatch(advisor, /affiliate.*sort/i);
+  assert.doesNotMatch(mobilityAdvisor, /commission/i);
+  assert.doesNotMatch(mobilityAdvisor, /affiliate.*sort/i);
+  assert.doesNotMatch(bathroomAdvisor, /commission/i);
+  assert.doesNotMatch(bathroomAdvisor, /affiliate.*sort/i);
 });
 
 
@@ -367,6 +373,11 @@ test("affiliate admin exposes exact canonical targets for VIV/CJ deep-link gener
   assert.match(functions, /besco-ctyrbodove-choditko-skladaci/);
   assert.match(functions, /besco-dvoukolove-choditko-skladaci/);
   assert.match(functions, /meyra-ideal-rollator-ctyrkolove-choditko/);
+  assert.match(functions, /zvysovac-wc-s-priklopem-unizdrav-15-cm/);
+  assert.match(functions, /toaletni-opora/);
+  assert.match(functions, /toaletni-zidle-vyskove-nastavitelna-unizdrav/);
+  assert.match(functions, /sprchovaci-zidle-s-ruckami/);
+  assert.match(functions, /protiskluzove-madlo-do-koupelny-a-toalety/);
   assert.match(functions, /Otevřít produkt/);
   assert.doesNotMatch(functions, /pid=\d+/i);
   assert.doesNotMatch(functions, /aid=\d+/i);
@@ -470,4 +481,23 @@ test("Bathroom WC acquisition UI separates direct retail from reimbursement evid
   assert.match(app, /Vysvětlení VZP/);
   assert.match(app, /sponsored/);
   assert.doesNotMatch(app, /hradí tento produkt/i);
+});
+
+
+test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots", () => {
+  const functions = read("functions.php");
+  const catalog = read("src/bathroom/catalog.js");
+
+  for (const key of [
+    "unizdrav-cz:p2868",
+    "unizdrav-cz:p2015",
+    "unizdrav-cz:p2807",
+    "unizdrav-cz:p2062",
+    "unizdrav-cz:p2131"
+  ]) {
+    assert.ok(catalog.includes(key), `catalog missing ${key}`);
+    assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
+  }
+
+  assert.doesNotMatch(functions, /unizdrav-cz:p2085/);
 });

@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.26
+# Next Deploy Smoke — Zápraží 2.0 v0.8.27
 
-This release supersedes 0.8.25. Deploy only 0.8.26 from `dev`.
+This release supersedes 0.8.26. Deploy only 0.8.27 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.26`
+- `zaprazi-release` = `0.8.27`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -97,3 +97,24 @@ Expected unchanged:
 2. generate the 3 RehaVita VIV/CJ product deeplinks,
 3. verify mobile visual layout of homepage and `/sobestacnost/`,
 4. review Search Console query/page evidence before broadening the ADL catalog.
+
+
+## 10. Open-It packaging branch
+Open `/sobestacnost/`.
+
+Choose:
+- task = **Otevřít běžný obal nebo uzávěr**
+- obstacle = **Chybí jistý úchop, otočení nebo zatažení při otevírání**
+
+Expected:
+- candidate **MVS Open-It 5 v 1**
+- SKU **15-050105**
+- RehaVita canonical fallback when affiliate slot is empty
+- visible 60 g fact
+- explicit message that Zápraží does not provide medication choice, dosage or safety advice
+- no recommendation when the packaging task is paired with an unrelated problem.
+
+Affiliate admin expected:
+- Soběstačnost readiness total = **4**
+- fourth slot = `rehavita-cz:open-it-15-050105`
+- VIV/CJ advertiser remains **18119967**.

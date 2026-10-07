@@ -410,7 +410,7 @@ Adds exact runtime affiliate slots matching production-eligible Bathroom/WC cata
 - BESCO BES-BS008 bath transfer seat,
 - BESCO BES-BS15 raised toilet seat with removable arms.
 
-Admin readiness is split by slice so Mobility stays visible as 3/3 while Bathroom/WC starts at 0/7.
+Admin readiness is split by slice so Mobility stays visible as 3/3 while Bathroom/WC starts at 0/9.
 
 Each slot:
 - exposes the exact canonical product target,
@@ -501,7 +501,7 @@ No new personal/health question was needed; existing practical answers are suffi
 
 
 ### ZP-029 One aid for WC + shower
-Status: **READY_DEPLOY_0_8_16**
+Status: **PACKAGED_IN_0_8_17**
 
 New scenario:
 - user wants one stable aid to cover both toilet and shower use,
@@ -535,7 +535,7 @@ Fail-closed:
 
 
 ### ZP-030 Bath transfer bench fallback
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_17**
 
 Improves the bath-transfer branch when BESCO BS008 cannot be safely fitted to the bath rim.
 

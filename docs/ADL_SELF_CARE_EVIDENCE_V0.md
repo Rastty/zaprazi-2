@@ -18,7 +18,8 @@ RehaVita.cz má samostatnou kategorii **Pomůcky pro soběstačnost**. Při kont
 
 1. samostatné pití,
 2. stabilizace nádoby,
-3. jídlo / příprava jednou rukou.
+3. jídlo / příprava jednou rukou,
+4. otevírání běžných obalů a uzávěrů.
 
 Source:
 - https://www.rehavita.cz/pomucky-pro-sobestacnost/
@@ -83,6 +84,35 @@ Automatic candidate status requires that the practical problem is genuinely one-
 
 Before purchase, verify that a 36.5 × 18.8 cm tray fits the intended working surface.
 
+## Candidate 4 — MVS Open-It 5 v 1
+
+- Product: MVS Open-It - multifunkční otevírací pomůcka 5 v 1
+- SKU: **15-050105**
+- Merchant: RehaVita.cz
+- Availability at check: **Skladem**
+- Listed price at check: **495 Kč**
+- Source: https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/
+
+Exact product page checked 2026-10-07. RehaVita lists:
+- screw-cap bottle opening,
+- lifting can pull-tabs,
+- zipper-pull assistance,
+- opening packaging,
+- weight 60 g.
+
+The merchant also mentions tablet blisters, but Zápraží intentionally does **not** use medication/blister handling as a decision trigger.
+
+### Guardrail
+
+Automatic candidate status requires a practical packaging/closure problem: insufficient grip, twisting or pulling for a normal household package, bottle cap, can tab or zipper.
+
+The branch must not:
+- choose medication,
+- identify medication,
+- advise dosage,
+- infer medication safety,
+- turn medicine packaging difficulty into medical advice.
+
 ## Explicit exclusions from v0
 
 Do not add to the first ADL engine:
@@ -129,11 +159,12 @@ For each of the three products:
 4. do not manually construct PID/AID/tracking parameters,
 5. keep canonical fallback active until the exact generated link is available.
 
-The three slots remain:
+The four slots remain:
 - `rehavita-cz:upcup-15-050101`,
 - `rehavita-cz:beat-it-15-050102`,
-- `rehavita-cz:theomatik-15-050103`.
+- `rehavita-cz:theomatik-15-050103`,
+- `rehavita-cz:open-it-15-050105`.
 
 ## Next step
 
-Deploy and smoke the ADL Advisor UI, then fill the three slots with exact generated VIV/CJ links when available.
+Deploy and smoke the ADL Advisor UI, then fill the four slots with exact generated VIV/CJ links when available.

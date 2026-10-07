@@ -116,6 +116,15 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Až jsou kritické věci vyřešené</p>
+      <h2 class="zp-section-title">Další krok může být každodenní soběstačnost.</h2>
+      <p>Po vstupu domů, přesunech, WC, posteli a potřebné péči často přijde na řadu obyčejný den: napít se, udržet nádobu nebo připravit jednoduché jídlo jednou rukou. Tyto situace řeší samostatný poradce a nejsou podmínkou bezpečného propuštění.</p>
+      <a class="zp-link-btn" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Poradce pro každodenní soběstačnost</a>
+    </div>
+  </section>
+
   <section class="zp-section zp-section-dark">
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Pomůcky po propuštění</p>

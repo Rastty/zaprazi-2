@@ -1,88 +1,95 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.14
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.15
 
-Run after deploying release 0.8.14 from `dev`.
+Run after deploying release 0.8.15 from `dev`.
 
 ## 1. Release integrity
 
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.14`,
+- `zaprazi-release` = `0.8.15`,
 - `zaprazi-integrity` = `ok`,
-- homepage, `/koupelna-a-wc/` and `/pomucky-do-koupelny-na-pojistovnu/` load without errors.
+- homepage and `/koupelna-a-wc/` load without errors.
 
-## 2. Bathroom/WC — new bath-transfer branch
-
-Open:
-`/koupelna-a-wc/`
+## 2. Raised WC — independent transfer
 
 Choose:
-- problem: **Je problém dostat se přes okraj vany**
-- general transfer: **Samostatně**
+- problem: **WC je příliš nízké**
+- transfer: **Samostatně**
 - load fit: **Ano**
-- can sit and move both legs over the bath rim without physical assistance: **Ano**
-- bath inner rim width 41–65 cm and secure fixing possible: **Ano**
+- toilet fit: **Ano**
+- feet safely reach floor after raising: **Ano**
 
 Expected:
-- candidate result,
-- exact product: **BESCO BES-BS008 — sedačka na vanu s madlem**,
-- merchant: RehabilitačníPomůcky.cz,
-- canonical merchant link while affiliate slot is empty,
-- separate reimbursement-alternative explanation remains visible.
+- exact candidate: **UNIZDRAV P2868**
+- simple raised-seat path,
+- canonical merchant URL while Bathroom affiliate slot is empty.
 
-## 3. Bath-transfer fail-closed checks
-
-Repeat with any one of:
-- regular physical assistance,
-- bath-specific transfer = **Ne**,
-- bath-specific transfer = **Nevím**,
-- bath fit = **Ne**,
-- bath fit = **Nevím**,
-- load fit = **Ne/Nevím**.
-
-Expected:
-- no exact bath product where critical safety/fit information is missing or unsafe,
-- physical help routes to professional check.
-
-## 4. Higher-support regression
+## 3. Raised WC — needs steady hand support
 
 Choose:
-- combined shower/toilet wheelchair.
+- problem: **WC je příliš nízké**
+- transfer: **S oporou, ale bez zvedání druhou osobou**
+- load fit: **Ano**
+- toilet fit: **Ano**
+- feet safely reach floor after raising: **Ano**
 
 Expected:
-- professional-check result,
+- exact candidate: **BESCO BES-BS15 — nástavec na WC s odnímatelnými madly**
+- height increase 11.5 cm,
+- max load 100 kg,
+- merchant: RehabilitačníPomůcky.cz,
+- canonical merchant URL while affiliate slot is empty.
+
+## 4. Raised WC fail-closed
+
+Repeat either raised-WC path with:
+- load fit = **Ne/Nevím**, or
+- toilet fit = **Ne/Nevím**, or
+- feet safely reach floor = **Ne/Nevím**.
+
+Expected:
+- no exact product.
+
+Choose:
+- transfer = **Běžně pomáhá druhá osoba**
+
+Expected:
+- professional-check only,
 - no exact product,
 - no commercial shortcut.
 
-## 5. Affiliate admin
+## 5. Bath-transfer regression
+
+Safe independent bath-transfer case must still return:
+- **BESCO BES-BS008**
+
+Any assisted/unknown transfer or failed bath fit must return no exact product.
+
+## 6. Affiliate admin
 
 Open:
 **Nastavení → ZaPrazi affiliate**
 
 Expected:
 - Mobility: **3 / 3**
-- Koupelna a WC: **0 / 6** until Bathroom deeplinks are supplied,
-- new slot: **RehabilitačníPomůcky.cz — BESCO BS008 sedačka na vanu s madlem**,
-- exact target: `https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/`,
-- empty slot uses canonical fallback.
-
-## 6. Existing Bathroom regression
-
-Expected:
-- raised WC safe-fit → P2868,
-- toilet support with unverified wall fixing → P2015 only,
-- shower seated safe-fit → P2062,
-- toilet nearby safe-fit → P2807.
+- Koupelna a WC: **0 / 7** until exact Bathroom deeplinks are supplied,
+- BS008 slot present,
+- new BS15 slot present,
+- BS15 exact target:
+  `https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/`,
+- empty slots use canonical fallbacks.
 
 ## 7. Reimbursement separation
 
 Expected:
-- direct retail BESCO BS008 is not labelled as reimbursed,
-- reimbursement route still points to the explanatory page and official VZP/SÚKL sources.
+- BS15 is presented as a direct-pay retail candidate,
+- no claim that BS15 is reimbursed,
+- reimbursement alternative remains separate.
 
 ## After smoke
 
-Next:
-1. exact publisher deeplink for BESCO BS008 plus the five UNIZDRAV Bathroom slots,
-2. then expand only where a new decision scenario is unlocked,
+Next Slice 2 work:
+1. exact publisher deeplinks for the seven Bathroom/WC runtime slots,
+2. expand only where a new scenario is unlocked,
 3. switch to Search Console track 2 as soon as query/page data become accessible.

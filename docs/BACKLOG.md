@@ -399,16 +399,18 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_7_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_14 / BATHROOM_0_OF_7_DEEPLINKS**
 
 Adds exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
 - UNIZDRAV P2015,
 - UNIZDRAV P2807,
 - UNIZDRAV P2062,
-- UNIZDRAV P2131.
+- UNIZDRAV P2131,
+- BESCO BES-BS008 bath transfer seat,
+- BESCO BES-BS15 raised toilet seat with removable arms.
 
-Admin readiness is split by slice so Mobility stays visible as 3/3 while Bathroom/WC starts at 0/5.
+Admin readiness is split by slice so Mobility stays visible as 3/3 while Bathroom/WC starts at 0/7.
 
 Each slot:
 - exposes the exact canonical product target,
@@ -445,7 +447,7 @@ No exact UNIZDRAV product is labelled reimbursed.
 
 
 ### ZP-027 Safe bath-transfer branch
-Status: **READY_DEPLOY_0_8_14**
+Status: **LIVE_PRODUCTION_0_8_14**
 
 Unlocks one narrow bathtub branch that was previously professional-check only.
 
@@ -476,7 +478,7 @@ No diagnosis question and no raw health data were added.
 
 
 ### ZP-028 Raised WC with arm support
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_15**
 
 Unlocks the previously incomplete low-WC scenario where the person:
 - does not need physical lifting by another person,

@@ -8,21 +8,21 @@ Status: **DONE**
 Source of truth, architecture, migration contract, CI, deployment path and tested rule engine are in the repository.
 
 ### ZP-002 Legacy URL inventory
-Status: **PARTIAL / BLOCKED_ON_FULL_INVENTORY_AND_GSC_ACCESS**
+Status: **ROW_INVENTORY_DONE / BLOCKED_ON_GSC_EVIDENCE_FOR_DESTRUCTIVE_MIGRATION**
 
 Done:
 - public first pass,
 - authenticated counts/category/product evidence,
-- 4,360 published posts + 4 pages confirmed,
+- authoritative public row inventory persisted: **4,360 published posts + 7 published pages = 4,367 unique URLs** (2026-10-07),
+- machine-readable snapshot: `data/legacy-url-inventory.csv` + summary JSON,
 - 1,134 published WooCommerce products confirmed,
 - semantic overlap review completed for Mobility/health/bathroom/bed candidates,
 - legacy-safe post/archive/WooCommerce templates,
 - 359 proven-broken eHub placeholder CTAs fail-closed,
 - Prometheus GSC access discovery reviewed.
 
-Current blockers:
-- the complete row-by-row URL inventory is not yet persisted as an authoritative artifact,
-- ZaPrazi is absent from the stored Prometheus Search Console accessible-property list (2026-07-23).
+Current blocker for destructive migration decisions:
+- ZaPrazi is absent from the stored Prometheus Search Console accessible-property list (2026-07-23), so per-URL clicks/impressions and traffic-backed KEEP/MERGE/REPURPOSE/REMOVE decisions are still unavailable.
 
 Guardrail: do not destructively change legacy URLs yet.
 

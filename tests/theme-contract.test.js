@@ -436,6 +436,8 @@ test("Bathroom WC Advisor is a privacy-safe separate decision surface", () => {
   assert.match(page, /data-zp-bath-required=["']primaryNeed["']/);
   assert.match(page, /data-zp-bath-required=["']transferAbility["']/);
   assert.match(page, /data-zp-bath-required=["']loadFit["']/);
+  assert.match(page, /data-zp-bath-required=["']bathTransferIndependent["']/);
+  assert.match(page, /data-zp-bath-required=["']bathFit["']/);
 
   assert.match(app, /recommendBathroom/);
   assert.match(app, /getBathroomProducts/);
@@ -450,16 +452,19 @@ test("Bathroom WC Advisor is a privacy-safe separate decision surface", () => {
   assert.match(functions, /page-koupelna-a-wc\.php/);
 });
 
-test("Bathroom WC high-support branches visibly fail closed", () => {
+test("Bathroom WC keeps high-support branches closed while allowing only gated independent bath transfer", () => {
   const page = read("page-koupelna-a-wc.php");
   const engine = read("src/bathroom/engine.js");
 
   assert.match(page, /běžně pomáhá druhá osoba/i);
-  assert.match(page, /Vana a vyšší míra podpory zůstávají zatím mimo automatický výběr/i);
+  assert.match(page, /Jednoduchý samostatný přesun přes vanu/i);
+  assert.match(page, /bez fyzické pomoci druhé osoby/i);
+  assert.match(page, /41–65 cm/);
   assert.match(engine, /combined_shower_toilet/);
-  assert.match(engine, /bath_transfer/);
+  assert.match(engine, /bathTransferIndependent/);
+  assert.match(engine, /bathFit/);
+  assert.match(engine, /besco-bs008/);
   assert.match(engine, /professional_check/);
-  assert.match(engine, /recommendations: \[\]/);
 });
 
 test("Bathroom WC navigation is reachable from homepage and core navigation", () => {
@@ -494,7 +499,8 @@ test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots",
     "unizdrav-cz:p2015",
     "unizdrav-cz:p2807",
     "unizdrav-cz:p2062",
-    "unizdrav-cz:p2131"
+    "unizdrav-cz:p2131",
+    "rehabilitacni-pomucky-cz:besco-bs008"
   ]) {
     assert.ok(catalog.includes(key), `catalog missing ${key}`);
     assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
@@ -557,4 +563,18 @@ test("Bathroom reimbursement copy does not claim current retail candidates are r
   assert.doesNotMatch(page, /P2868[^\n]{0,120}hrazen[ýá]/i);
   assert.doesNotMatch(page, /P2131[^\n]{0,120}hrazen[ýá]/i);
   assert.match(catalog, /affiliateKey: "unizdrav-cz:p2868"/);
+});
+
+
+test("Bathroom bath-transfer UI asks only practical safety and fit questions", () => {
+  const page = read("page-koupelna-a-wc.php");
+  const app = read("assets/js/bathroom-advisor.js");
+
+  assert.match(page, /name=["']bathTransferIndependent["']/);
+  assert.match(page, /name=["']bathFit["']/);
+  assert.match(page, /41–65 cm/);
+  assert.match(app, /bathTransferIndependent/);
+  assert.match(app, /bathFit/);
+  assert.match(app, /bath_transfer_seat/);
+  assert.doesNotMatch(page, /diagn[oó]za[^<]{0,120}vana/i);
 });

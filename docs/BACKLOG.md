@@ -1115,3 +1115,24 @@ Commercial rules remain unchanged:
 Post-deploy manual asset step:
 - upload the approved horizontal logo as WordPress custom logo,
 - upload the prepared square icon as Site Icon.
+
+
+### ZP-054 Release 0.8.26 — Public brand consistency
+Status: **READY_DEPLOY**
+
+Release 0.8.26 supersedes 0.8.25.
+
+Adds:
+- all public-facing ZaPrazi / ZaPrazi.cz copy normalized to **Zápraží**,
+- SEO titles, FAQ/schema answers, disclosure text and admin labels aligned,
+- WordPress database blog name already changed to **Zápraží**,
+- WordPress tagline already changed to **Cesta k lepšímu životu**.
+
+Compatibility boundary:
+- internal JS identifiers `ZaPraziAnalyticsConfig` and `ZaPraziRuntime` intentionally remain unchanged,
+- no decision logic, affiliate routing or analytics payload structure changes.
+
+Post-deploy:
+- upload approved graphical logo via WordPress custom-logo control,
+- set square Site Icon,
+- smoke core scenarios and brand copy.

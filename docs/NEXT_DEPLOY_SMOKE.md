@@ -1,14 +1,14 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.25
+# Next Deploy Smoke — Zápraží 2.0 v0.8.26
 
-This release supersedes 0.8.24. Deploy only 0.8.25 from `dev`.
+This release supersedes 0.8.25. Deploy only 0.8.26 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.25`
+- `zaprazi-release` = `0.8.26`
 - `zaprazi-integrity` = `ok`
-- public brand text is **Zápraží**
+- public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
 
 ## 2. Homepage scenario hub

@@ -1466,7 +1466,7 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
   assert.match(page, /nzip\.cz\/clanek\/441-vseobecne-preventivni-prohlidky-dospelych/);
 
   for (const path of [
-    "/#poradce",
+    "/choditka-pro-seniory/",
     "/koupelna-a-wc/",
     "/polohovaci-postel/",
     "/invalidni-vozik/",

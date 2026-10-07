@@ -1399,7 +1399,7 @@ Commercial:
 
 
 ### ZP-066 Release 0.8.32 — Toilet-riser high-intent micro-Advisor
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_33**
 
 Release 0.8.32 supersedes 0.8.31.
 
@@ -1449,3 +1449,21 @@ SEO / UX:
 - four visible FAQs + matching FAQPage schema,
 - links from Bathroom/WC, insurer guide and compensatory-aids hub,
 - resource registry v16.
+
+
+### ZP-068 Release 0.8.33 — Shower-chair high-intent micro-Advisor
+Status: **READY_DEPLOY**
+
+Release 0.8.33 supersedes 0.8.32.
+
+Packages:
+- everything from 0.8.32,
+- new `/sprchovaci-zidle-pro-seniory/` high-intent micro-Advisor,
+- reuse of existing Bathroom decision engine and product catalog,
+- exact UNIZDRAV P2062 candidate,
+- transfer / floor / space / load gates,
+- FAQ + schema + internal links,
+- resource registry v16,
+- release integrity includes `page-sprchovaci-zidle-pro-seniory.php` and `assets/js/shower-chair-advisor.js`.
+
+No second suitability engine, duplicate affiliate slot or reimbursement shortcut is introduced.

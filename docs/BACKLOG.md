@@ -1853,7 +1853,7 @@ Commercial value comes from routing urgent needs into already-monetized category
 
 
 ### ZP-088 Release 0.8.42 — Return-home SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.42 supersedes 0.8.41.
 
@@ -1867,3 +1867,33 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-089 Commercial CTA standard
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Standardizes outbound commercial CTAs across all 13 product-recommending Advisors.
+
+Changes:
+- affiliate CTA becomes **Zobrazit cenu a dostupnost**,
+- canonical fallback CTA becomes **Zobrazit produkt a dostupnost**,
+- every product offer visibly states **Výběr produktu se neřídí výší provize.**,
+- existing `nofollow sponsored` handling remains unchanged,
+- indoor-walker and rollator Advisors now emit the same `product_click` and `merchant_click` analytics events as the rest of the commercial funnel.
+
+Scope:
+- Mobility,
+- indoor walker,
+- rollator,
+- Bathroom,
+- toilet-riser,
+- shower-chair,
+- toilet-chair,
+- toilet-support,
+- bath-transfer,
+- Adjustable bed,
+- Wheelchair,
+- ADL / soběstačnost,
+- Footwear.
+
+No suitability logic, merchant ranking, product order or affiliate destination is changed.

@@ -71,9 +71,9 @@ if (form && result && submitButton && errorBox) {
             <p><a href="${escapeHtml(candidate.sourceUrl)}" target="_blank" rel="noopener">Ověřit produkt u zdroje</a> · ověřeno ${escapeHtml(candidate.checkedAt)}</p>
           </details>
           ${allowOffer ? `
-            <div class="zp-offer">
+            <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
               <strong>${escapeHtml(candidate.merchant)}</strong>
-              <a class="zp-link-btn" data-zp-footwear-merchant-link="1" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="${affiliateUrl ? "noopener nofollow sponsored" : "noopener nofollow"}">${affiliateUrl ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}</a>
+              <a class="zp-link-btn" data-zp-footwear-merchant-link="1" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="${affiliateUrl ? "noopener nofollow sponsored" : "noopener nofollow"}">${affiliateUrl ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}</a>
               ${affiliateUrl ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
             </div>
           ` : '<p class="zp-disclaimer">Nejdřív dokončete měření a praktickou kontrolu. Obchodní odkaz zatím nezobrazujeme jako další krok.</p>'}

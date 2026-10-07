@@ -1402,7 +1402,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   assert.match(page, /Šest různých situací potřebuje šest různých rozhodovacích cest/);
 
   for (const path of [
-    "/#poradce",
+    "/choditka-pro-seniory/",
     "/koupelna-a-wc/",
     "/polohovaci-postel/",
     "/invalidni-vozik/",
@@ -1457,7 +1457,7 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
   const returnHome = read("page-navrat-z-nemocnice.php");
   const compensatory = read("page-kompenzacni-pomucky-pro-seniory.php");
 
-  assert.match(page, /Jak upravit byt pro seniora: projděte nejdřív skutečné rizikové trasy/);
+  assert.match(page, /Jak upravit byt pro seniora a předcházet pádům doma/);
   assert.match(page, /Postel → WC/);
   assert.match(page, /Volné koberce a kabely/);
   assert.match(page, /Noční osvětlení/);
@@ -1476,6 +1476,9 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
     assert.ok(page.includes(path), `safe-home route missing: ${path}`);
   }
 
+  assert.ok(functions.includes("Jak upravit byt pro seniora a předcházet pádům | Zápraží"));
+  assert.ok(functions.includes("Jak upravit byt pro seniora a předcházet pádům doma: audit vstupu"));
+  assert.match(page, /Prevence pádů seniorů doma/);
   assert.match(functions, /zaprazi_2_is_safe_home_page/);
   assert.match(functions, /'bezpecny-byt-pro-seniora' => array/);
   assert.match(functions, /page-bezpecny-byt-pro-seniora\.php/);
@@ -1491,7 +1494,7 @@ test("safe-home visible FAQ mirrors FAQPage schema", () => {
 
   const questions = [
     "Co upravit v bytě pro seniora jako první?",
-    "Jak snížit riziko pádu doma?",
+    "Jak předcházet pádům seniorů doma?",
     "Je lepší přidat madla, nebo koupit chodítko?",
     "Kdy má smysl polohovací postel?",
     "Co řešit před návratem seniora z nemocnice?"

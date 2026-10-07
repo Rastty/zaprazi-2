@@ -83,6 +83,9 @@ function zaprazi_2_affiliate_fields() {
     'rehabilitacni-pomucky-cz:besco-bs15' => 'RehabilitačníPomůcky.cz — BESCO BS15 nástavec na WC s madly',
     'drmax-cz:dma-eh-cmda' => 'Dr.Max — DMA EH-CMDA toaletní židle 4v1',
     'unizdrav-cz:p2203' => 'UNIZDRAV — P2203 transferová židle přes vanu',
+    'unizdrav-cz:p2777' => 'UNIZDRAV — P2777 polohovací postel CLASSIC',
+    'unizdrav-cz:p4707' => 'UNIZDRAV — P4707 polohovací postel Hospital',
+    'unizdrav-cz:p4044' => 'UNIZDRAV — P4044 polohovací postel Multibed',
   );
 }
 
@@ -100,6 +103,9 @@ function zaprazi_2_affiliate_targets() {
     'rehabilitacni-pomucky-cz:besco-bs15' => 'https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/',
     'drmax-cz:dma-eh-cmda' => 'https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1',
     'unizdrav-cz:p2203' => 'https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany',
+    'unizdrav-cz:p2777' => 'https://unizdrav.cz/zbozi/2777/elektricka-polohovaci-postel-classic',
+    'unizdrav-cz:p4707' => 'https://unizdrav.cz/zbozi/4707/elektricka-polohovaci-postel-hospital',
+    'unizdrav-cz:p4044' => 'https://unizdrav.cz/zbozi/4044/elektricka-polohovaci-postel-s-matraci-multibed',
   );
 }
 
@@ -125,6 +131,14 @@ function zaprazi_2_affiliate_groups() {
         'rehabilitacni-pomucky-cz:besco-bs15',
         'drmax-cz:dma-eh-cmda',
         'unizdrav-cz:p2203',
+      ),
+    ),
+    'bed' => array(
+      'label' => 'Polohovací postel',
+      'keys' => array(
+        'unizdrav-cz:p2777',
+        'unizdrav-cz:p4707',
+        'unizdrav-cz:p4044',
       ),
     ),
   );
@@ -279,6 +293,10 @@ function zaprazi_2_is_bathroom_page() {
   return is_page( 'koupelna-a-wc' );
 }
 
+function zaprazi_2_is_bed_page() {
+  return is_page( 'polohovaci-postel' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -309,7 +327,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -344,6 +362,13 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/bathroom-advisor.js') ? filemtime($dir . '/assets/js/bathroom-advisor.js') : null
         );
+      } elseif ( zaprazi_2_is_bed_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-bed-advisor',
+          $uri . '/assets/js/bed-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/bed-advisor.js') ? filemtime($dir . '/assets/js/bed-advisor.js') : null
+        );
       }
     }
   }
@@ -358,6 +383,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
   }
+  if ( zaprazi_2_is_bed_page() ) {
+    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -368,6 +396,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
+  }
+  if ( zaprazi_2_is_bed_page() ) {
+    return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
@@ -380,6 +411,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Praktický poradce pro bezpečnější WC a koupelnu: zvýšení WC, opory, toaletní a sprchovací židle, koupě, půjčení a prověření hrazené alternativy.';
+  }
+  if ( zaprazi_2_is_bed_page() ) {
+    return 'Praktický poradce pro polohovací postel: vhodný typ, rozměry a nosnost, půjčení, koupě a prověření úhrady nebo cirkulace přes pojišťovnu.';
   }
   return $description;
 }
@@ -635,7 +669,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v5' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v6' ) ) {
     return;
   }
 
@@ -664,6 +698,11 @@ function zaprazi_2_ensure_resource_pages() {
       'title'    => 'Pomůcky do koupelny a na WC na pojišťovnu 2026',
       'excerpt'  => 'Které koupelnové a toaletní pomůcky mohou být hrazené, kdy je potřeba schválení pojišťovny a jak ověřit aktuální seznam SÚKL.',
       'template' => 'page-pomucky-do-koupelny-na-pojistovnu.php',
+    ),
+    'polohovaci-postel' => array(
+      'title'    => 'Polohovací postel: koupit, půjčit nebo řešit pojišťovnu',
+      'excerpt'  => 'Praktický poradce pro výběr elektrické polohovací postele a rozhodnutí mezi koupí, půjčením a prověřením úhrady.',
+      'template' => 'page-polohovaci-postel.php',
     ),
   );
 
@@ -697,7 +736,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v5', '1', false );
+    update_option( 'zaprazi_resource_pages_v6', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

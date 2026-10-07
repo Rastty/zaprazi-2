@@ -917,3 +917,38 @@ It packages:
 
 Commercial rule:
 - the return-home page contains no product cards, merchant links or affiliate ranking.
+
+
+### ZP-045 ADL / daily self-care micro-slice foundation
+Status: **DONE_CODE / UI_NEXT**
+
+First RehaVita-backed ADL foundation:
+- narrow practical scope only: drinking, stabilizing a container and one-hand meal setup,
+- exact RehaVita candidates:
+  - UpCup 15-050101,
+  - Beat It 15-050102,
+  - Theomatik 15-050103,
+- no diagnosis-based routing,
+- no operation / wound / medication / exact-body-weight collection,
+- swallowing/medical concern fails closed to professional check with no product,
+- Beat It requires a stable work surface,
+- Theomatik requires one-hand use to be confirmed before automatic candidate status,
+- affiliate approval never forces a recommendation.
+
+Current evidence checked 2026-10-07:
+- RehaVita self-care category exposes all three candidates as in stock,
+- exact UpCup and Beat It product pages verified,
+- Theomatik exact SKU and category listing verified; exact product-detail route/spec refresh remains a pre-UI task.
+
+Commercial state:
+- no affiliate deeplink yet,
+- no commission-based ranking,
+- no reimbursement claim,
+- canonical/product routing is added only after UI and exact product evidence are complete.
+
+See `docs/ADL_SELF_CARE_EVIDENCE_V0.md`.
+
+Next:
+- capture exact Theomatik product detail/specs,
+- build ADL Advisor UI v1,
+- add three isolated affiliate runtime slots with canonical fallbacks after the UI path is ready.

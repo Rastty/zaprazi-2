@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#situace">Vybrat podle situace</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Chci projít bezpečnost bytu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Řeším návrat z nemocnice</a>
+        <a class="zp-text-link" href="#pojistovna">Pomůcky na pojišťovnu</a>
       </div>
     </div>
   </section>
@@ -116,10 +117,36 @@ get_header();
     </div>
   </section>
 
-  <section class="zp-section zp-section-soft">
+  <section id="pojistovna" class="zp-section zp-section-soft">
     <div class="zp-wrap">
-      <p class="zp-kicker">Pojišťovna</p>
-      <h2 class="zp-section-title">Úhrada se vždy posuzuje u konkrétního prostředku a konkrétní situace.</h2>
+      <p class="zp-kicker">Pomůcky na pojišťovnu</p>
+      <h2 class="zp-section-title">Kompenzační pomůcky na pojišťovnu: začněte konkrétní kategorií.</h2>
+      <p>Pravidla se liší podle typu zdravotnického prostředku. Zápraží proto neslibuje obecný nárok, ale vede na samostatné, aktuálně ověřované cesty podle kategorie.</p>
+
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Chodítko na pojišťovnu</h3>
+          <p>ePoukaz, předepisující odbornost, frekvence úhrady a konkrétní příklad rollátoru v aktuálním seznamu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak získat chodítko na pojišťovnu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Pomůcky do koupelny a na WC</h3>
+          <p>Sprchovací a toaletní pomůcky mají vlastní podmínky; některé skupiny vyžadují předchozí schválení pojišťovny.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Koupelna a WC na pojišťovnu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Polohovací postel na pojišťovnu</h3>
+          <p>Oddělujeme dlouhodobou úhradovou cestu od krátkodobého půjčení a běžného maloobchodního nákupu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">Polohovací postel na pojišťovnu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Invalidní vozík na pojišťovnu</h3>
+          <p>Mechanický a elektrický vozík mají rozdílné podmínky. Nejdřív je nutné vyřešit vhodný typ, potom úhradovou cestu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Invalidní vozík na pojišťovnu</a></p>
+        </article>
+      </div>
+
+      <h3>Úhrada se vždy posuzuje u konkrétního prostředku a konkrétní situace.</h3>
       <p>VZP například u některých kompenzačních prostředků pro těžce imobilní osoby popisuje cestu přes lékařský předpis a předchozí schválení pojišťovny. Z toho ale nelze odvodit, že je hrazená každá sprchovací židle, postel nebo vozík prodávaný v e-shopu.</p>
       <p>Zápraží proto drží retail nabídku a hrazenou cestu odděleně. Pokud u konkrétního výrobku nemáme ověřený aktuální úhradový záznam, neoznačujeme ho jako „hrazený“.</p>
       <p><a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener">VZP: zdravotnické pomůcky pro imobilní pacienty</a></p>

@@ -126,7 +126,7 @@ get_header();
       <aside class="zp-resource-callout">
         <h3>Co s nástavcem na WC nebo pevným madlem?</h3>
         <p>ZaPrazi je automaticky nezařazuje do stejné hrazené skupiny jen proto, že pomáhají v koupelně nebo na WC. U takových produktů musí být ověřen konkrétní prostředek a jeho aktuální SÚKL záznam.</p>
-        <p>Proto například náš maloobchodní UNIZDRAV P2868 nebo P2131 vedeme zatím jen jako přímý nákup, ne jako „produkt na pojišťovnu“.</p>
+        <p>Proto například náš maloobchodní UNIZDRAV P2868 nebo UNIZDRAV P2131 vedeme zatím jen jako přímý nákup, ne jako „produkt na pojišťovnu“.</p>
       </aside>
     </div>
   </section>

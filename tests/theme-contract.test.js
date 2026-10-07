@@ -1392,7 +1392,7 @@ test("RehaVita affiliate helper identifies eHUB campaign without fabricating tra
   assert.match(functions, /CJ Deep Link Generator/);
   assert.match(evidence, /VIVnetworks \/ CJ/);
   assert.match(evidence, /advertiser ID: \*\*18119967\*\*/);
-  assert.match(evidence, /do not manually construct PID\/AID\/tracking parameters/);
+  assert.match(evidence, /do not manually construct tracking parameters/);
   assert.doesNotMatch(functions, /jdoqocy\.com\/click-[0-9]/i);
   assert.doesNotMatch(functions, /anrdoezrs\.net\/links\/[0-9]/i);
 });

@@ -352,7 +352,7 @@ test("WordPress admins are warned when release integrity is partial", () => {
 
   assert.match(functions, /zaprazi_2_release_integrity_admin_notice/);
   assert.match(functions, /admin_notices/);
-  assert.match(functions, /ZaPrazi deployment partial/);
+  assert.match(functions, /Zápraží deployment partial/);
   assert.match(functions, /zaprazi_2_release_integrity_ok\(\)/);
   assert.match(functions, /current_user_can\( 'manage_options' \)/);
 });
@@ -981,7 +981,7 @@ test("Return-home Advisor is a privacy-safe orchestration surface", () => {
   assert.match(functions, /page-navrat-z-nemocnice\.php/);
 });
 
-test("Return-home Advisor routes only into existing ZaPrazi decision surfaces", () => {
+test("Return-home Advisor routes only into existing Zápraží decision surfaces", () => {
   const engine = read("src/return-home/engine.js");
 
   assert.match(engine, /\/#poradce/);

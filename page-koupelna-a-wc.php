@@ -5,7 +5,7 @@ get_header();
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Koupelna a WC</p>
+      <p class="zp-kicker">Zápraží · Koupelna a WC</p>
       <h1>Bezpečnější koupelna a WC podle skutečné situace.</h1>
       <p class="zp-lead">Poradce pomůže rozlišit, zda dává smysl zvýšit WC, přidat oporu, použít toaletní židli nebo sedět při sprchování. Neptá se na diagnózu a při nejasném přesunu raději konkrétní výrobek nevybere.</p>
       <div class="zp-hero-actions">
@@ -139,7 +139,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Důležitá hranice</p>
       <h2 class="zp-section-title">Jednoduchý samostatný přesun přes vanu už umíme odlišit od složitější situace.</h2>
-      <p>Pokud člověk zvládne přesun bez fyzické pomoci a vana přesně odpovídá rozměrům bezpečně upevnitelné sedačky, poradce může ukázat kandidátní řešení. Jakmile je potřeba zvedání, jištění druhou osobou nebo je fit vany nejasný, ZaPrazi zůstane u odborného ověření. Kombinované sprchovací/toaletní vozíky zůstávají mimo automatický produktový výběr.</p>
+      <p>Pokud člověk zvládne přesun bez fyzické pomoci a vana přesně odpovídá rozměrům bezpečně upevnitelné sedačky, poradce může ukázat kandidátní řešení. Jakmile je potřeba zvedání, jištění druhou osobou nebo je fit vany nejasný, Zápraží zůstane u odborného ověření. Kombinované sprchovací/toaletní vozíky zůstávají mimo automatický produktový výběr.</p>
     </div>
   </section>
 </main>

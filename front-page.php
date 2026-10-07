@@ -157,7 +157,7 @@
       <div>
         <p class="zp-kicker">Jak pracujeme</p>
         <h2 class="zp-section-title">Doporučení oddělujeme od prodeje.</h2>
-        <p>ZaPrazi nejdřív rozhoduje podle praktické situace a ověřitelných parametrů. Teprve potom ukazuje konkrétní výrobky a obchodní nabídky.</p>
+        <p>Zápraží nejdřív rozhoduje podle praktické situace a ověřitelných parametrů. Teprve potom ukazuje konkrétní výrobky a obchodní nabídky.</p>
         <p>Pokud se zdroje rozcházejí nebo chybí kritický údaj, produkt raději nezobrazíme jako ověřený. To je důvod, proč může být shortlist krátký.</p>
       </div>
       <div class="zp-trust-list">
@@ -176,7 +176,7 @@
 
       <details>
         <summary>Jaké chodítko pro seniora do bytu?</summary>
-        <p>Nejdřív je potřeba řešit, kolik opory člověk potřebuje, zda zvládne chodítko lehce nadzvednout a jak široké jsou průchody doma. ZaPrazi proto nerozhoduje jen podle věku nebo označení „pro seniora“.</p>
+        <p>Nejdřív je potřeba řešit, kolik opory člověk potřebuje, zda zvládne chodítko lehce nadzvednout a jak široké jsou průchody doma. Zápraží proto nerozhoduje jen podle věku nebo označení „pro seniora“.</p>
       </details>
       <details>
         <summary>Jaké chodítko nebo rollátor na ven?</summary>
@@ -184,11 +184,11 @@
       </details>
       <details>
         <summary>Je lepší chodítko půjčit, nebo koupit?</summary>
-        <p>Záleží hlavně na očekávané délce používání, ceně, dostupnosti půjčovny a servisu. U dočasné potřeby proto ZaPrazi porovnává půjčení s koupí místo automatického nákupu.</p>
+        <p>Záleží hlavně na očekávané délce používání, ceně, dostupnosti půjčovny a servisu. U dočasné potřeby proto Zápraží porovnává půjčení s koupí místo automatického nákupu.</p>
       </details>
       <details>
         <summary>Hradí chodítko zdravotní pojišťovna?</summary>
-        <p>Některé zdravotnické prostředky mohou mít úhradu při splnění podmínek a správném postupu. ZaPrazi ukazuje ověřovací cestu a zdroje, ale nepotvrzuje individuální nárok konkrétního člověka.</p>
+        <p>Některé zdravotnické prostředky mohou mít úhradu při splnění podmínek a správném postupu. Zápraží ukazuje ověřovací cestu a zdroje, ale nepotvrzuje individuální nárok konkrétního člověka.</p>
       </details>
     </div>
   </section>

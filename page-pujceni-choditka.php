@@ -1,7 +1,7 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Půjčení chodítka
+Template Name: Zápraží — Půjčení chodítka
 */
 $zp_rental_checked_at = '2026-10-06';
 $zp_rental_fresh_through = '2026-11-06';
@@ -13,7 +13,7 @@ get_header();
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Půjčení pomůcky</p>
+      <p class="zp-kicker">Zápraží · Půjčení pomůcky</p>
       <h1>Půjčení chodítka nebo rollátoru.</h1>
       <p class="zp-lead">Kdy dává pronájem smysl, kolik stojí konkrétní příklady v roce 2026 a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
       <div class="zp-hero-actions">
@@ -169,7 +169,7 @@ get_header();
           <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Otevřít ceník MEYRA</a>
         </article>
       </div>
-      <p class="zp-disclaimer"><strong>Hranice ZaPrazi:</strong> ceny jsou příklady z konkrétních půjčoven a nejsou celostátním ceníkem. Dostupnost, dopravu a aktuální cenu ověřte přímo u poskytovatele.</p>
+      <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> ceny jsou příklady z konkrétních půjčoven a nejsou celostátním ceníkem. Dostupnost, dopravu a aktuální cenu ověřte přímo u poskytovatele.</p>
     </div>
   </section>
 </main>

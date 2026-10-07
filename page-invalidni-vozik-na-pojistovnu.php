@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Invalidní vozík na pojišťovnu
+Template Name: Zápraží — Invalidní vozík na pojišťovnu
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Invalidní vozík · Jak ho získat</p>
+      <p class="zp-kicker">Zápraží · Invalidní vozík · Jak ho získat</p>
       <h1>Invalidní vozík na pojišťovnu 2026: půjčit, koupit, nebo řešit úhradu?</h1>
       <p class="zp-lead">U invalidního vozíku jsou tři různé cesty: zdravotní pojišťovna, místní půjčovna a přímý nákup. Nejdřív ale musí sedět typ vozíku, šířka sedu, průchody a způsob pohonu.</p>
       <div class="zp-hero-actions">
@@ -53,7 +53,7 @@ get_header();
           <div><span>Předání pacientovi</span><strong>často zapůjčení / cirkulace</strong></div>
         </div>
 
-        <p class="zp-muted-copy">ZaPrazi nevyhodnocuje zdravotní indikaci a nepotvrzuje individuální nárok. Smyslem stránky je ukázat správnou cestu a zabránit tomu, aby rodina nejdřív koupila náhodný retail vozík a až potom řešila pojišťovnu.</p>
+        <p class="zp-muted-copy">Zápraží nevyhodnocuje zdravotní indikaci a nepotvrzuje individuální nárok. Smyslem stránky je ukázat správnou cestu a zabránit tomu, aby rodina nejdřív koupila náhodný retail vozík a až potom řešila pojišťovnu.</p>
         <a class="zp-link-btn" href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/ziskani-invalidniho-voziku-a-mozne-chyby-pri-zpracovani-zadosti-o-nej" target="_blank" rel="noopener">Ověřit postup u VZP</a>
       </div>
 
@@ -86,7 +86,7 @@ get_header();
         </article>
       </div>
 
-      <p class="zp-disclaimer">Pokud člověk elektrický vozík bezpečně neovládá nebo potřebuje složitější nastavení, ZaPrazi nedává automatické produktové doporučení a směřuje k odbornému výběru.</p>
+      <p class="zp-disclaimer">Pokud člověk elektrický vozík bezpečně neovládá nebo potřebuje složitější nastavení, Zápraží nedává automatické produktové doporučení a směřuje k odbornému výběru.</p>
       <a class="zp-text-link" href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/nejcastejsi-nedostatky-zadosti-o-uhradu-zdravotnickych-prostredku-pro-zajisteni-pohybu-pacienta" target="_blank" rel="noopener">VZP: časté chyby žádostí včetně elektrických vozíků</a>
     </div>
   </section>
@@ -129,7 +129,7 @@ get_header();
       <p class="zp-kicker zp-kicker-light">SÚKL</p>
       <h2 class="zp-section-title">Konkrétní úhrada se musí ověřovat podle aktuálního měsíčního seznamu.</h2>
       <p>SÚKL zveřejňuje Seznam zdravotnických prostředků hrazených na základě předepsání na poukaz. Obsahuje konkrétní prostředky, maximální ceny výrobce, výši a podmínky úhrady a platí vždy pro konkrétní kalendářní měsíc.</p>
-      <p>ZaPrazi proto nebude žádný retail vozík označovat jako „hrazený“, dokud není jeho přesná identita ověřena v účinném seznamu SÚKL.</p>
+      <p>Zápraží proto nebude žádný retail vozík označovat jako „hrazený“, dokud není jeho přesná identita ověřena v účinném seznamu SÚKL.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Otevřít aktuální seznamy SÚKL</a>
     </div>
   </section>
@@ -158,7 +158,7 @@ get_header();
 
       <details>
         <summary>Hradí pojišťovna mechanický invalidní vozík?</summary>
-        <p>Může, pokud jsou splněny zákonné indikační podmínky a schvalovací postup. VZP uvádí, že žádost často řeší praktický lékař nebo příslušný specialista. ZaPrazi individuální nárok nepotvrzuje.</p>
+        <p>Může, pokud jsou splněny zákonné indikační podmínky a schvalovací postup. VZP uvádí, že žádost často řeší praktický lékař nebo příslušný specialista. Zápraží individuální nárok nepotvrzuje.</p>
       </details>
       <details>
         <summary>Dostanu hrazený vozík do vlastnictví?</summary>
@@ -190,7 +190,7 @@ get_header();
         <article><h3>Charita sv. Martina</h3><p>Veřejný ceník půjčovny: mechanický invalidní vozík 300 Kč/měsíc.</p><a href="https://www.svmartin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-a-zdravotnickych-pomucek/" target="_blank" rel="noopener">Otevřít ceník</a></article>
         <article><h3>Charita Odry</h3><p>Veřejný ceník půjčovny: mechanický invalidní vozík 360 Kč.</p><a href="https://odry.charita.cz/pujcovna-pomucek-2/" target="_blank" rel="noopener">Otevřít ceník</a></article>
       </div>
-      <p class="zp-disclaimer"><strong>Hranice ZaPrazi:</strong> tato stránka nevydává lékařské doporučení a nepotvrzuje individuální nárok na úhradu. Pomáhá oddělit správný typ vozíku a správnou cestu pořízení.</p>
+      <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka nevydává lékařské doporučení a nepotvrzuje individuální nárok na úhradu. Pomáhá oddělit správný typ vozíku a správnou cestu pořízení.</p>
     </div>
   </section>
 </main>

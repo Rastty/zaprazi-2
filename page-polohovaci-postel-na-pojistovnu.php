@@ -1,16 +1,16 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Polohovací postel na pojišťovnu
+Template Name: Zápraží — Polohovací postel na pojišťovnu
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Polohovací postel · Jak ji získat</p>
+      <p class="zp-kicker">Zápraží · Polohovací postel · Jak ji získat</p>
       <h1>Polohovací postel na pojišťovnu 2026: půjčit, koupit, nebo řešit úhradu?</h1>
-      <p class="zp-lead">Nejdřív oddělte tři různé cesty. Zdravotní pojišťovna má vlastní předpis a schvalování, půjčovna má lokální ceník a dostupnost a běžný e-shop je přímý nákup. ZaPrazi je neslévá do jednoho „nejlevnějšího“ výsledku.</p>
+      <p class="zp-lead">Nejdřív oddělte tři různé cesty. Zdravotní pojišťovna má vlastní předpis a schvalování, půjčovna má lokální ceník a dostupnost a běžný e-shop je přímý nákup. Zápraží je neslévá do jednoho „nejlevnějšího“ výsledku.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Nejdřív vybrat vhodný typ postele</a>
         <a class="zp-text-link" href="#rychle-rozhodnuti">Půjčit vs. pojišťovna vs. koupit</a>
@@ -43,7 +43,7 @@ get_header();
       <div>
         <p class="zp-kicker">Pojišťovna</p>
         <h2 class="zp-section-title">Co aktuálně popisuje VZP.</h2>
-        <p>VZP uvádí polohovací lůžko pro domácí ošetřování jako zdravotnický prostředek, který může být při splnění podmínek předepsán a hrazen. O tom, zda podmínky splňuje konkrétní člověk, rozhoduje zdravotnický proces — ne ZaPrazi.</p>
+        <p>VZP uvádí polohovací lůžko pro domácí ošetřování jako zdravotnický prostředek, který může být při splnění podmínek předepsán a hrazen. O tom, zda podmínky splňuje konkrétní člověk, rozhoduje zdravotnický proces — ne Zápraží.</p>
         <div class="zp-resource-facts">
           <div><span>Předepisující odbornost</span><strong>mj. praktický lékař</strong></div>
           <div><span>Schválení</span><strong>předem zdravotní pojišťovnou</strong></div>
@@ -118,7 +118,7 @@ get_header();
           <span>3</span>
           <div>
             <h3>Pokud je potřeba dlouhodobá, prověřte pojišťovnu.</h3>
-            <p>VZP popisuje cestu přes lékaře a předchozí schválení. ZaPrazi nevyhodnocuje zdravotní indikaci ani individuální nárok.</p>
+            <p>VZP popisuje cestu přes lékaře a předchozí schválení. Zápraží nevyhodnocuje zdravotní indikaci ani individuální nárok.</p>
           </div>
         </article>
         <article>
@@ -140,7 +140,7 @@ get_header();
       <p class="zp-kicker zp-kicker-light">SÚKL</p>
       <h2 class="zp-section-title">Úhrada je vždy produktově konkrétní a časově proměnlivá.</h2>
       <p>SÚKL zveřejňuje Seznam zdravotnických prostředků hrazených na poukaz. Seznam obsahuje konkrétní prostředky, ceny, výši a podmínky úhrady a je vydáván pro následující kalendářní měsíc.</p>
-      <p>ZaPrazi proto nebude označovat retail postel jako „hrazenou“, dokud není ověřena její přesná identita v účinném seznamu SÚKL.</p>
+      <p>Zápraží proto nebude označovat retail postel jako „hrazenou“, dokud není ověřena její přesná identita v účinném seznamu SÚKL.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Otevřít aktuální seznamy SÚKL</a>
     </div>
   </section>
@@ -152,7 +152,7 @@ get_header();
 
       <details>
         <summary>Hradí pojišťovna polohovací postel?</summary>
-        <p>Může, pokud jsou splněny podmínky pro konkrétního člověka a konkrétní zdravotnický prostředek. VZP popisuje předpis lékařem a předchozí schválení pojišťovnou. ZaPrazi individuální nárok nepotvrzuje.</p>
+        <p>Může, pokud jsou splněny podmínky pro konkrétního člověka a konkrétní zdravotnický prostředek. VZP popisuje předpis lékařem a předchozí schválení pojišťovnou. Zápraží individuální nárok nepotvrzuje.</p>
       </details>
       <details>
         <summary>Může polohovací postel předepsat praktický lékař?</summary>
@@ -180,7 +180,7 @@ get_header();
       <div class="zp-resource-sources">
         <article>
           <h3>VZP — podmínky polohovacího lůžka</h3>
-          <p>Stránka uvádí poslední aktualizaci 10. 1. 2024; ověřeno ZaPrazi 7. 10. 2026.</p>
+          <p>Stránka uvádí poslední aktualizaci 10. 1. 2024; ověřeno Zápraží 7. 10. 2026.</p>
           <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/jake-jsou-podminky-predepsani-a-uhrady-polohovaciho-luzka" target="_blank" rel="noopener">Otevřít zdroj VZP</a>
         </article>
         <article>
@@ -204,7 +204,7 @@ get_header();
           <a href="https://trebic.charita.cz/nase-sluzby/domaci-zdravotni-pece-trebic/pujcovani-pomucek/" target="_blank" rel="noopener">Otevřít zdroj</a>
         </article>
       </div>
-      <p class="zp-disclaimer"><strong>Hranice ZaPrazi:</strong> tato stránka nevydává lékařské doporučení a nepotvrzuje individuální nárok na úhradu. Pomáhá oddělit cesty pořízení a ukazuje, co ověřit před dalším krokem.</p>
+      <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka nevydává lékařské doporučení a nepotvrzuje individuální nárok na úhradu. Pomáhá oddělit cesty pořízení a ukazuje, co ověřit před dalším krokem.</p>
     </div>
   </section>
 </main>

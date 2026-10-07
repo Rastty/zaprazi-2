@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Invalidní vozík
+Template Name: Zápraží — Invalidní vozík
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Invalidní vozík</p>
+      <p class="zp-kicker">Zápraží · Invalidní vozík</p>
       <h1>Invalidní vozík: kdo ho bude pohánět a co musí opravdu sedět?</h1>
       <p class="zp-lead">Nezačínáme diagnózou ani značkou. Nejdřív rozlišíme doprovod, samostatný ruční pohon nebo elektrický pohon. Teprve potom ověřujeme sed, průchody, nosnost a způsob pořízení.</p>
       <div class="zp-hero-actions">

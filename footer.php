@@ -18,7 +18,7 @@
       </ul>
     </nav>
 
-    <nav class="zp-footer-legacy" aria-label="Starší obsah ZaPrazi">
+    <nav class="zp-footer-legacy" aria-label="Starší obsah Zápraží">
       <strong>Starší archiv</strong>
       <ul>
         <?php
@@ -44,8 +44,8 @@
     </nav>
 
     <div class="zp-footer-note">
-      <p><strong>Transparentnost:</strong> ZaPrazi neposkytuje diagnózu ani individuální zdravotní posouzení. U proměnlivých pravidel a úhrad uvádíme zdroj a datum ověření, pokud je máme.</p>
-      <p>Některé odkazy na obchodníky mohou být partnerské. Pokud přes ně nakoupíte, ZaPrazi může získat provizi. Provize nemění doporučený typ řešení ani pořadí podle vhodnosti.</p>
+      <p><strong>Transparentnost:</strong> Zápraží neposkytuje diagnózu ani individuální zdravotní posouzení. U proměnlivých pravidel a úhrad uvádíme zdroj a datum ověření, pokud je máme.</p>
+      <p>Některé odkazy na obchodníky mohou být partnerské. Pokud přes ně nakoupíte, Zápraží může získat provizi. Provize nemění doporučený typ řešení ani pořadí podle vhodnosti.</p>
       <p>
         <a href="<?php echo esc_url( home_url( '/ochrana-soukromi/' ) ); ?>">Ochrana soukromí</a>
         · <button id="zp-analytics-settings" class="zp-footer-settings" type="button">Nastavení měření</button>

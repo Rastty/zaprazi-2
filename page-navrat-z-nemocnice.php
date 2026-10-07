@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Návrat z nemocnice
+Template Name: Zápraží — Návrat z nemocnice
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Návrat z nemocnice</p>
+      <p class="zp-kicker">Zápraží · Návrat z nemocnice</p>
       <h1>Návrat z nemocnice domů: co musí fungovat první noc?</h1>
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
       <div class="zp-hero-actions">
@@ -130,7 +130,7 @@ get_header();
       <p class="zp-kicker zp-kicker-light">Pomůcky po propuštění</p>
       <h2 class="zp-section-title">Půjčovna, ePoukaz a běžný nákup jsou tři odlišné cesty.</h2>
       <p>Od 1. ledna 2026 je standardem elektronický ePoukaz na zdravotnické prostředky. To ale neznamená, že každý retail produkt lze automaticky vydat nebo proplatit přes pojišťovnu.</p>
-      <p>ZaPrazi proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>
+      <p>Zápraží proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/media/tiskove-zpravy/poukaz-na-zdravotnicke-prostredky-od-1-ledna-2026-uz-jen-elektronicky/" target="_blank" rel="noopener">Ověřit pravidla ePoukazu u SÚKL</a>
     </div>
   </section>

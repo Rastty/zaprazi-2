@@ -104,6 +104,7 @@
           <h3>Čtyřbodové chodítko</h3>
           <p>Má čtyři pevné opěrné body. Při kroku se celé chodítko lehce nadzvedne a posune dopředu. Proto je důležité ověřit, zda člověk tento pohyb zvládne opakovaně a bezpečně.</p>
           <p><strong>Prakticky:</strong> řešte hlavně výšku, celkovou šířku, hmotnost a prostor mezi nábytkem a dveřmi.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Porovnat chodítko do bytu</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Dvoukolové chodítko</h3>
@@ -114,6 +115,7 @@
           <h3>Čtyřkolový rollátor</h3>
           <p>Je určený pro plynulejší pohyb po kolečkách a typicky používá ruční brzdy. U venkovní větve proto poradce nejdřív ověřuje, zda člověk brzdy bezpečně zvládne.</p>
           <p><strong>Prakticky:</strong> vedle rozměrů řešte brzdy, skládání, převoz a případně sedátko pro odpočinek.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Porovnat rollátor pro seniory</a></p>
         </article>
       </div>
     </div>

@@ -34,3 +34,16 @@ test("grab rail records installation caveat", () => {
   const rail = BATHROOM_PRODUCTS.find((item) => item.id === "unizdrav-p2131");
   assert.ok(rail.selectionNotes.some((note) => /ukotven/i.test(note)));
 });
+
+
+test("bath transfer seat is production-eligible only with explicit fit notes", () => {
+  const seat = BATHROOM_PRODUCTS.find((item) => item.id === "besco-bs008");
+  assert.ok(seat);
+  assert.equal(seat.productionEligible, true);
+  assert.equal(seat.solutionFamily, "bath_transfer_seat");
+  assert.equal(seat.facts.bathInnerWidthCm, "41–65");
+  assert.equal(seat.facts.maxUserWeightKg, 100);
+  assert.ok(seat.selectionNotes.some((note) => /41–65 cm/.test(note)));
+  assert.ok(seat.selectionNotes.some((note) => /bez fyzického zvedání/i.test(note)));
+  assert.equal(seat.offers[0].affiliateKey, "rehabilitacni-pomucky-cz:besco-bs008");
+});

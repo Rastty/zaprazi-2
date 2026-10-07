@@ -97,6 +97,9 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p4384' => 'UNIZDRAV — P4384 invalidní vozík Basic',
     'unizdrav-cz:p3641' => 'UNIZDRAV — P3641 odlehčený mechanický vozík',
     'unizdrav-cz:p2961' => 'UNIZDRAV — P2961 elektrický invalidní vozík 46 cm',
+    'rehavita-cz:upcup-15-050101' => 'RehaVita.cz — UpCup 15-050101',
+    'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz — Beat It 15-050102',
+    'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz — Theomatik 15-050103',
   );
 }
 
@@ -120,6 +123,9 @@ function zaprazi_2_affiliate_targets() {
     'unizdrav-cz:p4384' => 'https://unizdrav.cz/zbozi/4384/invalidni-vozik-unizdrav-basic',
     'unizdrav-cz:p3641' => 'https://unizdrav.cz/zbozi/3641/invalidni-vozik-odlehceny-s-brzdami-pro-doprovod',
     'unizdrav-cz:p2961' => 'https://unizdrav.cz/zbozi/2961/elektricky-invalidni-vozik-46-cm',
+    'rehavita-cz:upcup-15-050101' => 'https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/',
+    'rehavita-cz:beat-it-15-050102' => 'https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/',
+    'rehavita-cz:theomatik-15-050103' => 'https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/',
   );
 }
 
@@ -161,6 +167,14 @@ function zaprazi_2_affiliate_groups() {
         'unizdrav-cz:p4384',
         'unizdrav-cz:p3641',
         'unizdrav-cz:p2961',
+      ),
+    ),
+    'adl' => array(
+      'label' => 'Soběstačnost',
+      'keys' => array(
+        'rehavita-cz:upcup-15-050101',
+        'rehavita-cz:beat-it-15-050102',
+        'rehavita-cz:theomatik-15-050103',
       ),
     ),
   );
@@ -327,6 +341,10 @@ function zaprazi_2_is_return_home_page() {
   return is_page( 'navrat-z-nemocnice' );
 }
 
+function zaprazi_2_is_adl_page() {
+  return is_page( 'sobestacnost' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -357,7 +375,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -413,6 +431,13 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/return-home-advisor.js') ? filemtime($dir . '/assets/js/return-home-advisor.js') : null
         );
+      } elseif ( zaprazi_2_is_adl_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-adl-advisor',
+          $uri . '/assets/js/adl-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/adl-advisor.js') ? filemtime($dir . '/assets/js/adl-advisor.js') : null
+        );
       }
     }
   }
@@ -436,6 +461,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
   }
+  if ( zaprazi_2_is_adl_page() ) {
+    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | ZaPrazi';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -455,6 +483,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
+  }
+  if ( zaprazi_2_is_adl_page() ) {
+    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | ZaPrazi';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
@@ -476,6 +507,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_return_home_page() ) {
     return 'Praktický plán návratu z nemocnice: vstup domů, přesuny, chůze, WC, postel, koupelna a návazná domácí péče pro první noc doma.';
+  }
+  if ( zaprazi_2_is_adl_page() ) {
+    return 'Praktický poradce pro každodenní soběstačnost: samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou bez diagnóz a zbytečného katalogu.';
   }
   return $description;
 }
@@ -777,7 +811,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v10' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v11' ) ) {
     return;
   }
 
@@ -832,6 +866,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický plán bezpečného návratu domů: vstup, přesuny, chůze, WC, postel, koupelna a návazná domácí péče.',
       'template' => 'page-navrat-z-nemocnice.php',
     ),
+    'sobestacnost' => array(
+      'title'    => 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou',
+      'excerpt'  => 'Praktický poradce pro samostatné pití, stabilizaci nádoby a přípravu jednoduchého jídla jednou rukou.',
+      'template' => 'page-sobestacnost.php',
+    ),
   );
 
   $all_ready = true;
@@ -864,7 +903,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v10', '1', false );
+    update_option( 'zaprazi_resource_pages_v11', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

@@ -21,6 +21,8 @@
         <li><a href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle pro seniory</a></li>
         <li><a href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Madlo a opora k WC</a></li>
         <li><a href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/' ) ); ?>">Sedátko do vany</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Chodítko do bytu</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Rollátor pro seniory</a></li>
       </ul>
     </nav>
 

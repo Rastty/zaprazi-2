@@ -289,3 +289,14 @@ Deployment note 2026-10-07:
 - user confirmed the Deployer sync after 0.8.9 was merged to `dev`/`main`,
 - public homepage remained reachable in post-deploy crawl,
 - exact affiliate deeplinks are still intentionally empty until publisher-specific URLs are supplied.
+
+
+### ZP-019 Resource FAQ schema + release integrity 0.8.10
+Status: **READY_DEPLOY_0_8_10**
+
+Adds:
+- FAQPage structured data for the two visible high-intent Mobility resource pages,
+- exact copy parity between visible FAQ content and JSON-LD,
+- full 0.8.10 release-marker bump across critical PHP/JS/CSS runtime files.
+
+No recommendation logic, health-suitability rules or affiliate ranking changed.

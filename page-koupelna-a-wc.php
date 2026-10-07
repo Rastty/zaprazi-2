@@ -84,6 +84,20 @@ get_header();
           <label class="zp-choice"><input type="radio" name="spaceFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-bath-conditional="bath_transfer" data-zp-bath-required="bathTransferIndependent" hidden>
+          <legend>Zvládne člověk bezpečně usednout na stabilní sedačku přes vanu a přenést obě nohy přes okraj bez fyzické pomoci druhé osoby?</legend>
+          <label class="zp-choice"><input type="radio" name="bathTransferIndependent" value="yes"><span><strong>Ano</strong><small>Přesun zvládne samostatně, bez zvedání nebo fyzického jištění druhou osobou.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="bathTransferIndependent" value="no"><span><strong>Ne</strong><small>Je potřeba fyzická pomoc, zvedání nebo je přesun nejistý.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="bathTransferIndependent" value="unknown"><span><strong>Nevím</strong></span></label>
+        </fieldset>
+
+        <fieldset class="zp-fieldset" data-zp-bath-conditional="bath_transfer" data-zp-bath-required="bathFit" hidden>
+          <legend>Má vana vnitřní šířku okrajů 41–65 cm a lze na ní sedačku pevně zajistit bez posunu?</legend>
+          <label class="zp-choice"><input type="radio" name="bathFit" value="yes"><span><strong>Ano, změřeno a ověřeno</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="bathFit" value="no"><span><strong>Ne</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="bathFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte vnitřní šířku okrajů vany.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset">
           <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="duration" value="short_term"><span><strong>Spíš dočasně</strong></span></label>
@@ -116,8 +130,8 @@ get_header();
   <section class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Důležitá hranice</p>
-      <h2 class="zp-section-title">Vana a vyšší míra podpory zůstávají zatím mimo automatický výběr.</h2>
-      <p>Přesun přes okraj vany a kombinované sprchovací/toaletní vozíky mohou vyžadovat přesné posouzení přesunu, prostoru a práce pečující osoby. V těchto větvích ZaPrazi raději doporučí další ověření než konkrétní komerční výrobek.</p>
+      <h2 class="zp-section-title">Jednoduchý samostatný přesun přes vanu už umíme odlišit od složitější situace.</h2>
+      <p>Pokud člověk zvládne přesun bez fyzické pomoci a vana přesně odpovídá rozměrům bezpečně upevnitelné sedačky, poradce může ukázat kandidátní řešení. Jakmile je potřeba zvedání, jištění druhou osobou nebo je fit vany nejasný, ZaPrazi zůstane u odborného ověření. Kombinované sprchovací/toaletní vozíky zůstávají mimo automatický produktový výběr.</p>
     </div>
   </section>
 </main>

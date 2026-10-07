@@ -127,7 +127,7 @@ get_header();
         <h3>Co s nástavcem na WC nebo pevným madlem?</h3>
         <p>Zápraží je automaticky nezařazuje do stejné hrazené skupiny jen proto, že pomáhají v koupelně nebo na WC. U takových produktů musí být ověřen konkrétní prostředek a jeho aktuální SÚKL záznam.</p>
         <p>Proto například náš maloobchodní UNIZDRAV P2868 nebo UNIZDRAV P2131 vedeme zatím jen jako přímý nákup, ne jako „produkt na pojišťovnu“.</p>
-        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nejdřív vybrat správný typ nástavce na WC</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nejdřív vybrat správný typ nástavce na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Vybrat madlo nebo oporu k WC</a></p>
       </aside>
     </div>
   </section>

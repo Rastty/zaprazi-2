@@ -1938,3 +1938,20 @@ Safety:
 - swallowing/choking remains professional-check,
 - no diagnosis-first routing,
 - no medication-selection advice.
+
+
+### ZP-092 Release 0.8.44 — Self-care SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.44 supersedes deployed 0.8.43.
+
+Packages:
+- everything from 0.8.43,
+- `/sobestacnost/` authority layer for **pomůcky pro sebeobsluhu seniorů**,
+- revised H1/title/meta,
+- fifth visible FAQ with exact FAQPage schema parity,
+- stronger links to compensatory-aids and footwear journeys,
+- unchanged ADL engine, RehaVita product shortlist, safety gates and commercial CTA standard,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

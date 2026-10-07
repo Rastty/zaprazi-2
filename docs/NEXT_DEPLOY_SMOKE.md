@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.43
+# Next Deploy Smoke — Zápraží 2.0 v0.8.44
 
-This release supersedes 0.8.42. Deploy only 0.8.43 from `dev`.
+This release supersedes 0.8.43. Deploy only 0.8.44 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -434,4 +434,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.43`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 29. Self-care SEO authority
+Open `/sobestacnost/`.
+
+Expected:
+- H1 contains **Pomůcky pro sebeobsluhu a soběstačnost seniorů**,
+- document title is **Pomůcky pro sebeobsluhu seniorů: jak vybrat | Zápraží**,
+- meta description covers pití, stabilizaci nádoby, jídlo jednou rukou and otevírání obalů,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing ADL Advisor remains the only selection engine,
+- links to the compensatory-aids hub and footwear journey are visible,
+- RehaVita shortlist, safety gates and commercial CTA standard are unchanged.
+
+Release integrity:
+- `zaprazi-release` = `0.8.44`,
 - `zaprazi-integrity` = `ok`.

@@ -477,7 +477,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Návrat z nemocnice domů: co připravit první noc | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost: pití a jídlo jednou rukou | Zápraží';
+    return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
   }
   return $title;
 }
@@ -524,7 +524,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Praktický plán návratu z nemocnice: vstup domů, přesuny, chůze, WC, postel, koupelna a návazná domácí péče pro první noc doma.';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Praktický poradce pro každodenní soběstačnost: samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou bez diagnóz a zbytečného katalogu.';
+    return 'Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu: pití, stabilizace nádoby, jídlo jednou rukou a otevírání běžných obalů.';
   }
   return $description;
 }
@@ -707,6 +707,25 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Mohu si nejdřív koupit vozík a potom chtít proplacení?',
         'answer'   => 'Na takový postup se nespoléhejte. Retail nákup a hrazená cesta přes předpis, schválení a výdej zdravotnického prostředku jsou odlišné procesy.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_adl_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vybrat pomůcku pro soběstačnost seniora?',
+        'answer'   => 'Začněte konkrétní činností, která je obtížná: pití, stabilizace nádoby, jídlo jednou rukou nebo otevírání běžného obalu. Zápraží nevybírá podle věku nebo diagnózy, ale podle praktického úkonu a ověřitelných podmínek použití.',
+      ),
+      array(
+        'question' => 'Co může pomoci při jídle jednou rukou?',
+        'answer'   => 'Pokud je hlavní problém opravdu obsluha jídla jednou rukou, může dávat smysl stabilní multifunkční podnos. Před nákupem je potřeba ověřit pracovní plochu a zda pomůcka řeší konkrétní činnost, která doma omezuje samostatnost.',
+      ),
+      array(
+        'question' => 'Co dělat, když se člověk při pití zakuckává nebo má problém polykat?',
+        'answer'   => 'To už není běžný problém s úchopem nádoby. Zápraží v této větvi konkrétní produkt nedoporučí. Poruchu polykání je potřeba odborně posoudit; NZIP uvádí, že příčiny dysfagie má objasnit lékař.',
+      ),
+      array(
+        'question' => 'Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?',
+        'answer'   => 'Ano, existují multifunkční otevírací pomůcky pro běžné uzávěry, jazýčky plechovek, zipy a obaly. Zápraží tuto větev používá pouze pro praktický úkon otevírání a neposkytuje rady k výběru, dávkování ani bezpečnosti léků.',
       ),
     );
   }

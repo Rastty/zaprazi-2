@@ -697,3 +697,38 @@ Release 0.8.20 supersedes 0.8.19 and adds:
 - deployment-integrity coverage for the new resource page.
 
 No retail bed is labelled reimbursed without exact current SÚKL identity.
+
+
+### ZP-037 Slice 4 Wheelchair evidence + decision engine v0
+Status: **READY_CODE / PRE_UI**
+
+New Slice 4 foundation:
+- practical first split by who normally propels the wheelchair:
+  - companion,
+  - self-propelled manual,
+  - mixed self + companion,
+  - powered joystick,
+- no diagnosis-based routing,
+- mandatory seat-fit, route-width and load-fit gates,
+- powered branch additionally requires safe joystick use and charging/parking readiness,
+- person-assisted transfer remains professional-check only because wheelchair choice alone does not solve transfer safety.
+
+Verified production candidates:
+- UNIZDRAV P4384 Basic — companion / simple transport,
+- UNIZDRAV P3641 lightweight manual with self-propulsion rims + companion brakes,
+- UNIZDRAV P2961 powered wheelchair, seat 46 cm.
+
+Acquisition:
+- short-term -> rental comparison first,
+- long-term -> insurer route first,
+- VZP evidence records that most wheelchairs remain insurer property and are loaned to the insured person,
+- electric-wheelchair reimbursement remains a higher-complexity insurer/professional path.
+
+Planned affiliate slots after UI exists:
+- `unizdrav-cz:p4384`
+- `unizdrav-cz:p3641`
+- `unizdrav-cz:p2961`
+
+No deeplinks fabricated; canonical merchant URLs remain the safe fallback.
+
+See `docs/WHEELCHAIR_EVIDENCE_V0.md`.

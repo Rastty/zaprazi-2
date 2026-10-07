@@ -351,7 +351,27 @@ Implemented:
 
 Still open before UI:
 - bathtub-transfer evidence,
-- Czech buy/rent/reimbursement research for the Slice 2 categories,
+- exact product-level SÚKL mapping where identity can be proven,
 - exact affiliate deeplinks only after evidence review.
 
+Acquisition research v0 is complete:
+- direct purchase, local rental and reimbursement-alternative paths are separated,
+- current official SÚKL/VZP rules are documented,
+- current UNIZDRAV products remain direct-pay candidates until exact reimbursement identity is proven.
+
 See docs/BATHROOM_WC_EVIDENCE_V1.md.
+
+
+### ZP-023 Bathroom + WC acquisition evidence v0
+Status: **DONE_RESEARCH / PRE_UI**
+
+Implemented:
+- separate buy / rental / reimbursement-alternative paths,
+- current SÚKL monthly-list contract documented,
+- current VZP reimbursement route documented without claiming individual eligibility,
+- local rental evidence documented as an example rather than nationwide availability,
+- candidate outputs now include `check_reimbursement_alternative`,
+- exact affiliate products are never labelled reimbursed without exact SÚKL identity,
+- professional-check branches expose no acquisition shortcut.
+
+See `docs/BATHROOM_WC_ACQUISITION_V0.md`.

@@ -1,6 +1,6 @@
-# Post-Deploy Smoke — ZaPrazi 2.0 v0.8.8
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.10
 
-Release 0.8.8 is deployed. Use this checklist only for regression spot-checks after future changes.
+Run after deploying release 0.8.10 from `dev`. This release adds resource FAQ structured data and refreshes the deployment-integrity marker.
 
 ## 1. Homepage + navigation
 

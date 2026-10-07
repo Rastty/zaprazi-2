@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v12/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v12/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -765,7 +765,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v12/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -890,7 +890,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v12/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1216,7 +1216,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   assert.match(functions, /'kompenzacni-pomucky-pro-seniory' => array/);
   assert.match(functions, /page-kompenzacni-pomucky-pro-seniory\.php/);
   assert.match(functions, /Kompenzační pomůcky pro seniory: jak vybrat \| Zápraží/);
-  assert.match(functions, /zaprazi_resource_pages_v12/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
 
   assert.match(front, /\/kompenzacni-pomucky-pro-seniory\//);
   assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\//);
@@ -1241,4 +1241,58 @@ test("compensatory aids visible FAQ matches FAQPage schema", () => {
 
   assert.match(functions, /zaprazi_2_is_compensatory_aids_page\(\)/);
   assert.match(functions, /data-zaprazi-schema="resource-faq"/);
+});
+
+
+test("safe-home senior audit is task-first and routes into existing advisors", () => {
+  const page = read("page-bezpecny-byt-pro-seniora.php");
+  const functions = read("functions.php");
+  const footer = read("footer.php");
+  const returnHome = read("page-navrat-z-nemocnice.php");
+  const compensatory = read("page-kompenzacni-pomucky-pro-seniory.php");
+
+  assert.match(page, /Jak upravit byt pro seniora: projděte nejdřív skutečné rizikové trasy/);
+  assert.match(page, /Postel → WC/);
+  assert.match(page, /Volné koberce a kabely/);
+  assert.match(page, /Noční osvětlení/);
+  assert.match(page, /Protiskluz v koupelně/);
+  assert.match(page, /nzip\.cz\/clanek\/1242-zlomenina-krcku-stehenni-kosti/);
+  assert.match(page, /nzip\.cz\/clanek\/441-vseobecne-preventivni-prohlidky-dospelych/);
+
+  for (const path of [
+    "/#poradce",
+    "/koupelna-a-wc/",
+    "/polohovaci-postel/",
+    "/invalidni-vozik/",
+    "/navrat-z-nemocnice/",
+    "/sobestacnost/"
+  ]) {
+    assert.ok(page.includes(path), `safe-home route missing: ${path}`);
+  }
+
+  assert.match(functions, /zaprazi_2_is_safe_home_page/);
+  assert.match(functions, /'bezpecny-byt-pro-seniora' => array/);
+  assert.match(functions, /page-bezpecny-byt-pro-seniora\.php/);
+  assert.match(functions, /zaprazi_resource_pages_v13/);
+  assert.match(compensatory, /\/bezpecny-byt-pro-seniora\//);
+  assert.match(returnHome, /\/bezpecny-byt-pro-seniora\//);
+  assert.match(footer, /\/bezpecny-byt-pro-seniora\//);
+});
+
+test("safe-home visible FAQ mirrors FAQPage schema", () => {
+  const page = read("page-bezpecny-byt-pro-seniora.php");
+  const functions = read("functions.php");
+
+  const questions = [
+    "Co upravit v bytě pro seniora jako první?",
+    "Jak snížit riziko pádu doma?",
+    "Je lepší přidat madla, nebo koupit chodítko?",
+    "Kdy má smysl polohovací postel?",
+    "Co řešit před návratem seniora z nemocnice?"
+  ];
+
+  for (const question of questions) {
+    assert.ok(page.includes(question), `visible safe-home FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `safe-home FAQ schema missing: ${question}`);
+  }
 });

@@ -95,6 +95,7 @@ test("all primary theme surfaces expose the global skip-link target", () => {
   for (const path of [
     "front-page.php",
     "page-koupelna-a-wc.php",
+    "page-polohovaci-postel.php",
     "single.php",
     "page.php",
     "index.php",
@@ -183,7 +184,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v5/);
+  assert.match(functions, /zaprazi_resource_pages_v6/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -261,7 +262,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v5/);
+  assert.match(functions, /zaprazi_resource_pages_v6/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -665,4 +666,78 @@ test("Bathroom product cards expose guarded reimbursement identity without curre
 
   assert.doesNotMatch(app, /5019427[^\n]{0,160}aktuálně hrazen/i);
   assert.doesNotMatch(app, /plně hrazeno/i);
+});
+
+
+test("Adjustable bed Advisor is a separate privacy-safe Slice 3 surface", () => {
+  const page = read("page-polohovaci-postel.php");
+  const app = read("assets/js/bed-advisor.js");
+  const functions = read("functions.php");
+  const engine = read("src/bed/engine.js");
+
+  assert.doesNotMatch(page, /<form[^>]+id=["']zp-bed-advisor/);
+  assert.match(page, /id=["']zp-bed-advisor["'][^>]+role=["']form/);
+  assert.match(page, /Nepotřebujeme jméno, diagnózu ani přesnou hmotnost/i);
+  assert.match(page, /affiliate systém nedostává kombinaci odpovědí/i);
+  assert.match(page, /data-zp-bed-required=["']primaryNeed["']/);
+  assert.match(page, /data-zp-bed-required=["']transferAbility["']/);
+  assert.match(page, /data-zp-bed-required=["']loadFit["']/);
+  assert.match(page, /data-zp-bed-required=["']spaceFit["']/);
+
+  assert.match(app, /recommendAdjustableBed/);
+  assert.match(app, /getAdjustableBedProducts/);
+  assert.match(app, /zaprazi:analytics/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.doesNotMatch(app, /new FormData/);
+  assert.doesNotMatch(app, /commission/i);
+
+  assert.match(engine, /rent_first/);
+  assert.match(engine, /check_reimbursement_or_circulation/);
+  assert.match(functions, /zaprazi_2_is_bed_page/);
+  assert.match(functions, /assets\/js\/bed-advisor\.js/);
+  assert.match(functions, /'polohovaci-postel' => array/);
+  assert.match(functions, /page-polohovaci-postel\.php/);
+});
+
+test("Adjustable bed UI exposes exact branch fit facts without raw body-weight collection", () => {
+  const page = read("page-polohovaci-postel.php");
+  const app = read("assets/js/bed-advisor.js");
+
+  assert.match(app, /178 kg/);
+  assert.match(app, /250 kg/);
+  assert.match(app, /260 kg/);
+  assert.match(app, /102,5 × 212 cm/);
+  assert.match(app, /105 × 214 cm/);
+  assert.match(app, /96 × 212 cm/);
+  assert.match(page, /Přesnou hmotnost člověka do poradce nezadávejte/i);
+  assert.doesNotMatch(page, /name=["']weight/i);
+});
+
+test("Adjustable bed affiliate runtime slots match all production candidates", () => {
+  const functions = read("functions.php");
+  const catalog = read("src/bed/catalog.js");
+
+  for (const key of [
+    "unizdrav-cz:p2777",
+    "unizdrav-cz:p4707",
+    "unizdrav-cz:p4044"
+  ]) {
+    assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
+    assert.ok(catalog.includes(key), `bed catalog missing ${key}`);
+  }
+
+  assert.match(functions, /'label' => 'Polohovací postel'/);
+  assert.match(functions, /elektricka-polohovaci-postel-classic/);
+  assert.match(functions, /elektricka-polohovaci-postel-hospital/);
+  assert.match(functions, /elektricka-polohovaci-postel-s-matraci-multibed/);
+});
+
+test("Adjustable bed is reachable from homepage and core navigation", () => {
+  const front = read("front-page.php");
+  const header = read("header.php");
+
+  assert.match(front, /\/polohovaci-postel\//);
+  assert.match(front, /Řeším polohovací postel/);
+  assert.match(header, /\/polohovaci-postel\//);
+  assert.match(header, /Polohovací postel/);
 });

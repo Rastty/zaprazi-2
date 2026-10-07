@@ -611,3 +611,28 @@ Pre-UI affiliate slots planned:
 Canonical merchant URLs remain the safe fallback; no deeplinks are fabricated.
 
 See `docs/ADJUSTABLE_BED_EVIDENCE_V0.md`.
+
+
+### ZP-033 Adjustable bed Advisor UI v1
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds:
+- dedicated `/polohovaci-postel/` Home Advisor page,
+- client-side adjustable-bed decision flow,
+- practical branches for standard home positioning, caregiver access, robust/high-load and advanced in-bed care,
+- exact fit guidance for load and room dimensions without collecting raw body weight,
+- exact canonical product candidates:
+  - UNIZDRAV P2777 CLASSIC,
+  - UNIZDRAV P4707 Hospital,
+  - UNIZDRAV P4044 Multibed,
+- buy / rent / reimbursement-or-circulation acquisition paths,
+- homepage and core-navigation entry points,
+- non-destructive resource registry v6,
+- separate affiliate readiness group for three bed slots.
+
+Planned affiliate readiness after deploy:
+- Mobility 3/3,
+- Bathroom/WC 0/9,
+- Polohovací postel 0/3.
+
+No bed deeplinks are fabricated; canonical UNIZDRAV product URLs remain the safe fallback.

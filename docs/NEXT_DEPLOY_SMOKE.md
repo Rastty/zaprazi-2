@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.33
+# Next Deploy Smoke — Zápraží 2.0 v0.8.34
 
-This release supersedes 0.8.32. Deploy only 0.8.33 from `dev`.
+This release supersedes 0.8.33. Deploy only 0.8.34 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.33`
+- `zaprazi-release` = `0.8.34`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -233,3 +233,24 @@ Regression:
 - Bathroom/WC Advisor still uses the same `recommendBathroom` engine
 - existing affiliate slot `unizdrav-cz:p2062` is reused
 - no duplicate shower-chair affiliate slot is created.
+
+
+## 17. Toilet-chair micro-Advisor + asset-loader hotfix
+Open `/toaletni-zidle-pro-seniory/`.
+
+Expected:
+- H1 contains **Toaletní židle pro seniory**
+- Advisor distinguishes:
+  - static nearby toilet chair,
+  - multifunction toilet + shower 4v1
+- static path + all safety gates = UNIZDRAV P2807 candidate
+- 4v1 path + all safety gates = DMA EH-CMDA candidate
+- person-assist transfer = no automatic product candidate
+- unstable floor, insufficient space or unverified load fit = no shopping-first merchant CTA
+- insurer path remains separate.
+
+Regression checks:
+- `zaprazi_2_assets()` contains no `$faq` assignment or FAQ question payload
+- ADL, footwear, toilet-riser, shower-chair and toilet-chair JS modules all have explicit enqueue branches
+- toilet-riser, shower-chair and toilet-chair FAQ data lives only inside `zaprazi_2_resource_faq_schema()`
+- release integrity includes `page-toaletni-zidle-pro-seniory.php` and `assets/js/toilet-chair-advisor.js`.

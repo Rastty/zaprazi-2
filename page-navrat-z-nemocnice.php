@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_33 */
+/* ZP_RELEASE_0_8_34 */
 /*
 Template Name: Zápraží — Návrat z nemocnice
 */

@@ -111,6 +111,9 @@ function zaprazi_2_affiliate_fields() {
     'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz (VIV 18119967) — Beat It 15-050102',
     'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz (VIV 18119967) — Theomatik 15-050103',
     'rehavita-cz:open-it-15-050105' => 'RehaVita.cz (VIV 18119967) — MVS Open-It 15-050105',
+    'zdrava-obuv-cz:arsene' => 'Zdravá Obuv — PodoWell ARSENE',
+    'zdrava-obuv-cz:xavier' => 'Zdravá Obuv — PodoWell XAVIER',
+    'zdrava-obuv-cz:altitude' => 'Zdravá Obuv — PodoWell ALTITUDE',
   );
 }
 
@@ -138,6 +141,9 @@ function zaprazi_2_affiliate_targets() {
     'rehavita-cz:beat-it-15-050102' => 'https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/',
     'rehavita-cz:theomatik-15-050103' => 'https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/',
     'rehavita-cz:open-it-15-050105' => 'https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/',
+    'zdrava-obuv-cz:arsene' => 'https://www.zdrava-obuv-eshop.cz/arsene-zdravotni-sandalek-unisex-modra-podowell/',
+    'zdrava-obuv-cz:xavier' => 'https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/',
+    'zdrava-obuv-cz:altitude' => 'https://www.zdrava-obuv-eshop.cz/altitude-zdravotni-obuv-pro-extremne-otekle-nohy-unisex-cerna-podowell/',
   );
 }
 
@@ -188,6 +194,14 @@ function zaprazi_2_affiliate_groups() {
         'rehavita-cz:beat-it-15-050102',
         'rehavita-cz:theomatik-15-050103',
         'rehavita-cz:open-it-15-050105',
+      ),
+    ),
+    'footwear' => array(
+      'label' => 'Obuv pro seniory',
+      'keys' => array(
+        'zdrava-obuv-cz:arsene',
+        'zdrava-obuv-cz:xavier',
+        'zdrava-obuv-cz:altitude',
       ),
     ),
   );
@@ -370,6 +384,10 @@ function zaprazi_2_is_safe_home_page() {
   return is_page( 'bezpecny-byt-pro-seniora' );
 }
 
+function zaprazi_2_is_footwear_page() {
+  return is_page( 'obuv-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -400,7 +418,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() || zaprazi_2_is_footwear_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -463,6 +481,13 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/adl-advisor.js') ? filemtime($dir . '/assets/js/adl-advisor.js') : null
         );
+      } elseif ( zaprazi_2_is_footwear_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-footwear-advisor',
+          $uri . '/assets/js/footwear-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/footwear-advisor.js') ? filemtime($dir . '/assets/js/footwear-advisor.js') : null
+        );
       }
     }
   }
@@ -495,6 +520,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_safe_home_page() ) {
     return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
   }
+  if ( zaprazi_2_is_footwear_page() ) {
+    return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -523,6 +551,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_safe_home_page() ) {
     return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
+  }
+  if ( zaprazi_2_is_footwear_page() ) {
+    return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -553,6 +584,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_safe_home_page() ) {
     return 'Jak upravit byt pro seniora: praktický audit vstupu, trasy postel–WC, koupelny, osvětlení, překážek a návazných kompenzačních pomůcek.';
+  }
+  if ( zaprazi_2_is_footwear_page() ) {
+    return 'Praktický poradce pro boty pro seniory na suchý zip: širší otevření, extra široká obuv, plná nebo otevřená špička a kontrola velikosti před nákupem.';
   }
   return $description;
 }
@@ -919,7 +953,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v13' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v14' ) ) {
     return;
   }
 
@@ -989,6 +1023,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický audit vstupu, cesty z postele na WC, koupelny, osvětlení, překážek a návazných pomůcek.',
       'template' => 'page-bezpecny-byt-pro-seniora.php',
     ),
+    'obuv-pro-seniory' => array(
+      'title'    => 'Boty pro seniory na suchý zip: jak vybrat širší a snadno obouvatelnou obuv',
+      'excerpt'  => 'Praktický poradce podle otevření boty, šířky, špičky, ovládání suchého zipu a změřené velikosti.',
+      'template' => 'page-obuv-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1021,7 +1060,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v13', '1', false );
+    update_option( 'zaprazi_resource_pages_v14', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

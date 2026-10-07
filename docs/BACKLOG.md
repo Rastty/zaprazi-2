@@ -1118,7 +1118,7 @@ Post-deploy manual asset step:
 
 
 ### ZP-054 Release 0.8.26 — Public brand consistency
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_27**
 
 Release 0.8.26 supersedes 0.8.25.
 
@@ -1166,3 +1166,21 @@ Affiliate:
 - recommendation order remains independent of affiliate readiness.
 
 This changes Soběstačnost from 3 to 4 exact commercial slots without adding diagnosis or health-data collection.
+
+
+### ZP-056 Release 0.8.27 — Brand consistency + Open-It
+Status: **READY_DEPLOY**
+
+Release 0.8.27 supersedes 0.8.26 and is the next deployment target after production 0.8.25.
+
+Packages:
+- full public brand normalization to **Zápraží**,
+- WordPress blog name/tagline already set to Zápraží / Cesta k lepšímu životu,
+- ADL Open-It branch for normal household packaging and closures,
+- exact candidate MVS Open-It 15-050105,
+- fourth RehaVita VIV/CJ affiliate runtime slot,
+- medication advice explicitly excluded,
+- deployment-integrity contract and smoke checklist bumped to 0.8.27.
+
+Expected Soběstačnost affiliate readiness:
+- 0/4 until exact publisher deeplinks are supplied.

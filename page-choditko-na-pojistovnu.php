@@ -1,7 +1,7 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Chodítko na pojišťovnu
+Template Name: Zápraží — Chodítko na pojišťovnu
 */
 $zp_sukl_valid_through = '2026-10-31';
 $zp_sukl_today = current_time( 'Y-m-d' );
@@ -12,7 +12,7 @@ get_header();
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Úhrada zdravotnické pomůcky</p>
+      <p class="zp-kicker">Zápraží · Úhrada zdravotnické pomůcky</p>
       <h1>Chodítko na pojišťovnu v roce 2026.</h1>
       <p class="zp-lead">Prakticky a bez slibů: jak funguje ePoukaz, co znamená úhrada v seznamu SÚKL a co si ověřit dřív, než chodítko koupíte nebo objednáte.</p>
       <div class="zp-hero-actions">
@@ -36,7 +36,7 @@ get_header();
           <p>Oficiální říjnový seznam SÚKL uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč. Tento záznam je platný pro říjen 2026.</p>
         <?php else : ?>
           <h2>Říjnový záznam už není aktuální.</h2>
-          <p>ZaPrazi má ověřený říjnový seznam SÚKL, ale po 31. 10. 2026 už jeho částku neprezentujeme jako současný stav. Ověřte nový měsíční seznam.</p>
+          <p>Zápraží má ověřený říjnový seznam SÚKL, ale po 31. 10. 2026 už jeho částku neprezentujeme jako současný stav. Ověřte nový měsíční seznam.</p>
         <?php endif; ?>
       </article>
       <article class="zp-card">
@@ -86,7 +86,7 @@ get_header();
           <span>2</span>
           <div>
             <h3>Lékař vystaví ePoukaz, pokud jsou splněné podmínky.</h3>
-            <p>Od 1. ledna 2026 je elektronický poukaz standardní formou předpisu zdravotnického prostředku. ZaPrazi neposuzuje, zda konkrétní člověk podmínky splňuje.</p>
+            <p>Od 1. ledna 2026 je elektronický poukaz standardní formou předpisu zdravotnického prostředku. Zápraží neposuzuje, zda konkrétní člověk podmínky splňuje.</p>
           </div>
         </article>
         <article>
@@ -107,7 +107,7 @@ get_header();
           <span>5</span>
           <div>
             <h3>Před výdejem znovu ověřte aktuální záznam a podmínky.</h3>
-            <p>Seznam SÚKL se mění. ZaPrazi proto zobrazuje datum ověření a měsíčně platný údaj po skončení jeho platnosti přestane prezentovat jako aktuální.</p>
+            <p>Seznam SÚKL se mění. Zápraží proto zobrazuje datum ověření a měsíčně platný údaj po skončení jeho platnosti přestane prezentovat jako aktuální.</p>
           </div>
         </article>
       </div>
@@ -187,7 +187,7 @@ get_header();
       </details>
       <details>
         <summary>Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?</summary>
-        <p>Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu ZaPrazi tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.</p>
+        <p>Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu Zápraží tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.</p>
       </details>
     </div>
   </section>
@@ -225,7 +225,7 @@ get_header();
         </article>
       </div>
 
-      <p class="zp-disclaimer"><strong>Hranice ZaPrazi:</strong> tato stránka vysvětluje postup a ověřené veřejné údaje. Nejde o diagnózu, preskripci ani potvrzení individuálního nároku na úhradu.</p>
+      <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka vysvětluje postup a ověřené veřejné údaje. Nejde o diagnózu, preskripci ani potvrzení individuálního nároku na úhradu.</p>
     </div>
   </section>
 </main>

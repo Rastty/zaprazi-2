@@ -20,6 +20,27 @@ export const BATHROOM_PRODUCTS = Object.freeze([
     ]
   },
   {
+    id: "besco-bs15",
+    name: "BESCO BES-BS15 – nástavec na WC s odnímatelnými madly",
+    solutionFamily: "raised_toilet_seat_with_arms",
+    productionEligible: true,
+    identityStatus: "verified",
+    facts: { heightIncreaseCm: 11.5, maxUserWeightKg: 100, weightKg: 3.26 },
+    selectionNotes: [
+      "určený pro člověka, který potřebuje při sedání nebo vstávání stabilní oporu rukama, ale ne fyzické zvedání druhou osobou",
+      "před nákupem je potřeba ověřit kompatibilitu s konkrétní WC mísou a pevné uchycení",
+      "po zvýšení sedu musí být možné bezpečně sedět s chodidly opřenými o podlahu",
+      "odnímatelná madla nenahrazují odborné posouzení, pokud je přesun nejistý nebo vyžaduje fyzickou pomoc"
+    ],
+    evidence: [
+      { type: "merchant_product_page", url: "https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/", checkedAt: "2026-10-07" },
+      { type: "independent_setup_guidance", url: "https://www.kingstonandrichmond.nhs.uk/patients-and-families/patient-leaflets/raised-toilet-seat", checkedAt: "2026-10-07" }
+    ],
+    offers: [
+      { merchantId: "rehabilitacni-pomucky-cz", merchantName: "RehabilitačníPomůcky.cz", affiliateKey: "rehabilitacni-pomucky-cz:besco-bs15", url: "https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/", affiliateUrl: null, acquisitionMode: "direct_pay", checkedAt: "2026-10-07" }
+    ]
+  },
+  {
     id: "unizdrav-p2015",
     name: "UNIZDRAV P2015 – toaletní opora",
     solutionFamily: "toilet_support_frame",

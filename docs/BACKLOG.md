@@ -1,4 +1,4 @@
-# ZaPrazi 2.0 backlog
+# Zápraží 2.0 backlog
 
 ## P0 — Slice 1 Mobility
 
@@ -119,7 +119,7 @@ All 3 supported Mobility v1 slots now contain exact publisher-specific CJ/VIV de
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 is active on production. Latest production release is **0.8.11**. The 0.8.11 Git-first Deployer sync was user-confirmed on 2026-10-07.
+Zápraží 2.0 is active on production. Latest production release is **0.8.11**. The 0.8.11 Git-first Deployer sync was user-confirmed on 2026-10-07.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -134,7 +134,7 @@ Passed:
 - answer URL privacy.
 
 Post-launch verified:
-- public homepage serves the new ZaPrazi Mobility experience,
+- public homepage serves the new Zápraží Mobility experience,
 - legacy category archive renders under the new theme with one H1 and H2 article cards,
 - legacy single post renders under the new theme,
 - production title/brand are updated,
@@ -436,7 +436,7 @@ Purpose:
 - explain prior insurer approval and prescription flow,
 - explain that SÚKL reimbursement data are monthly and product-specific,
 - explicitly keep current UNIZDRAV retail candidates separate from reimbursement claims unless exact identity is proven,
-- route Advisor reimbursement interest through a ZaPrazi explanation before official VZP/SÚKL sources.
+- route Advisor reimbursement interest through a Zápraží explanation before official VZP/SÚKL sources.
 
 Current official evidence checked 2026-10-07:
 - VZP page processed 2026-09-29 describes shower/bath seats, shower chairs, shower wheelchairs, toilet chairs, toilet wheelchairs and combined toilet/shower chairs in the relevant compensation group,
@@ -1023,7 +1023,7 @@ No new affiliate ranking or health-data collection is introduced.
 ### ZP-049 Homepage core-scenario hub
 Status: **DONE_CODE**
 
-Repositions the homepage from a Mobility-only entry point into the six-scenario ZaPrazi hub:
+Repositions the homepage from a Mobility-only entry point into the six-scenario Zápraží hub:
 - Chůze a opora,
 - Koupelna a WC,
 - Polohovací postel,
@@ -1044,7 +1044,7 @@ The graphical logo asset remains a separate brand-only implementation step.
 ### ZP-050 Global core-advisor footer navigation
 Status: **DONE_CODE**
 
-Adds all six core ZaPrazi decision journeys to the global footer:
+Adds all six core Zápraží decision journeys to the global footer:
 - Mobility,
 - Bathroom/WC,
 - Adjustable Bed,

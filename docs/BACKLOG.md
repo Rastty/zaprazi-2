@@ -1567,7 +1567,7 @@ SEO / UX:
 
 
 ### ZP-073 Release 0.8.35 — Bathroom high-intent expansion
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_NEXT**
 
 Release 0.8.35 supersedes deployed 0.8.34.
 
@@ -1582,3 +1582,30 @@ Packages:
 - hardened deterministic Advisor module routing retained.
 
 No duplicate eligibility engine or affiliate mapping is introduced.
+
+
+### ZP-074 Mobility high-intent Advisors
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds:
+- `/choditko-do-bytu-pro-seniory/`
+- `/rollator-pro-seniory/`
+
+Both reuse the existing Mobility engine and catalog.
+
+Indoor walker:
+- steady support + can lift walker → WA17 + WA21 comparison,
+- steady support + cannot lift walker → WA21 only,
+- person-assist still fails closed,
+- WA17 current public listing checked 2026-10-07: 1,890 Kč and in stock.
+
+Rollator:
+- outdoor/both + steady support + hand brakes confirmed → MEYRA Ideal 3061982,
+- brakes not safely usable → no automatic rollator candidate,
+- manufacturer currently states code 07-5005963, price 3,408 Kč, reimbursement 3,408 Kč, 0 Kč copay.
+
+SEO / UX:
+- dedicated titles/meta,
+- visible FAQs + resource FAQ schema,
+- links from homepage, compensatory hub, insurer guide and footer,
+- resource registry v20.

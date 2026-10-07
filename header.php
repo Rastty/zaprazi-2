@@ -20,7 +20,7 @@
     </div>
 
     <nav class="zp-core-nav" aria-label="Hlavní navigace">
-      <a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Mobilita</a>
+      <a href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Mobilita</a>
       <a href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a>
       <a href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a>
       <a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a>
@@ -28,7 +28,7 @@
       <a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Soběstačnost</a>
       <a href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Pojišťovna</a>
       <a href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení</a>
-      <a href="<?php echo esc_url( home_url( '/#jak-vybrat' ) ); ?>">Jak vybírat</a>
+      <a href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Jak vybírat</a>
     </nav>
 
     <span class="zp-tagline">Cesta k lepšímu životu.</span>

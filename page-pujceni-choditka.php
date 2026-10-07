@@ -17,7 +17,7 @@ get_header();
       <h1>Půjčení chodítka nebo rollátoru.</h1>
       <p class="zp-lead">Kdy dává pronájem smysl, kolik stojí konkrétní příklady v roce 2026 a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nejdřív vybrat vhodný typ</a>
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Aktuální příklady cen</a>
       </div>
     </div>

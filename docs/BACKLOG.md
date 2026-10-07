@@ -1612,7 +1612,7 @@ SEO / UX:
 
 
 ### ZP-075 Release 0.8.36 — Mobility high-intent expansion
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_NEXT**
 
 Release 0.8.36 supersedes 0.8.35.
 
@@ -1628,3 +1628,22 @@ Packages:
 - release integrity includes both new pages and both new JS modules.
 
 No duplicate suitability engine or affiliate mapping is introduced.
+
+
+### ZP-076 Mobility SEO hub
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/choditka-pro-seniory/` as the broad mobility head-term hub.
+
+Purpose:
+- consolidate fixed walker, two-wheel walker and rollator intent,
+- route to existing narrow Advisors instead of duplicating decision logic,
+- connect retail, rental and insurer acquisition paths,
+- strengthen topical authority and internal linking around mobility.
+
+Architecture:
+- no new JS Advisor or suitability engine,
+- links to `/choditko-do-bytu-pro-seniory/`, `/rollator-pro-seniory/`, `/pujceni-choditka/`, `/choditko-na-pojistovnu/`,
+- main navigation and footer now route Mobility through the hub,
+- homepage retains the existing full Mobility Advisor,
+- resource registry advances to v21.

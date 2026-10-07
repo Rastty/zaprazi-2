@@ -432,6 +432,10 @@ function zaprazi_2_is_rollator_page() {
   return is_page( 'rollator-pro-seniory' );
 }
 
+function zaprazi_2_is_mobility_hub_page() {
+  return is_page( 'choditka-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -594,6 +598,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_rollator_page() ) {
     return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
   }
+  if ( zaprazi_2_is_mobility_hub_page() ) {
+    return 'Chodítka pro seniory: jak vybrat správný typ | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -646,6 +653,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_rollator_page() ) {
     return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
+  }
+  if ( zaprazi_2_is_mobility_hub_page() ) {
+    return 'Chodítka pro seniory: jak vybrat správný typ | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -700,6 +710,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_rollator_page() ) {
     return 'Jak vybrat rollátor pro seniora: ruční brzdy, výška madel, šířka, sedátko, skládání, nosnost a možnost úhrady konkrétního modelu.';
+  }
+  if ( zaprazi_2_is_mobility_hub_page() ) {
+    return 'Průvodce chodítky pro seniory: rozdíl mezi čtyřbodovým, dvoukolovým chodítkem a rollátorem, parametry před nákupem, půjčení a pojišťovna.';
   }
   return $description;
 }
@@ -979,6 +992,14 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Některé konkrétní koupelnové zdravotnické prostředky hrazené být mohou, ale retail produkt není automaticky hrazený. Úhrada se musí ověřit podle přesného prostředku a aktuálních podmínek.',
       ),
     );
+  } elseif ( zaprazi_2_is_mobility_hub_page() ) {
+    $faq = array(
+      array('question'=>'Jaký je rozdíl mezi chodítkem a rollátorem?','answer'=>'Pevné nebo dvoukolové chodítko dává větší smysl hlavně doma a pro stabilnější oporu. Rollátor má čtyři kola a ruční brzdy a je určený pro plynulejší chůzi, často i venku.'),
+      array('question'=>'Jaké chodítko je nejlepší do bytu?','answer'=>'Neexistuje jeden univerzální model. Rozhoduje potřebná opora, schopnost rám nadzvednout nebo posouvat a šířka dveří a průchodů.'),
+      array('question'=>'Kdy dává smysl rollátor se sedátkem?','answer'=>'Pokud člověk zvládá ruční brzdy a při delší chůzi potřebuje odpočívat. Při usedání musí být brzdy podle návodu bezpečně zajištěné.'),
+      array('question'=>'Hradí chodítko zdravotní pojišťovna?','answer'=>'Některé konkrétní prostředky mohou být hrazené při splnění podmínek. Nestačí ale jen název kategorie; je potřeba řešit konkrétní prostředek, předpis a správnou cestu výdeje.'),
+      array('question'=>'Je lepší chodítko půjčit, nebo koupit?','answer'=>'U krátkodobé nebo nejisté potřeby může být výhodnější půjčení. U dlouhodobé potřeby je rozumné před nákupem prověřit také pojišťovnu.'),
+    );
   } elseif ( zaprazi_2_is_indoor_walker_page() ) {
     $faq = array(
       array('question'=>'Jaké chodítko je vhodnější do bytu?','answer'=>'Záleží hlavně na tom, zda člověk potřebuje stabilní oporu a zvládne chodítko při kroku lehce nadzvednout. Pokud ne, může být praktičtější dvoukolové provedení.'),
@@ -1175,7 +1196,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v20' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v21' ) ) {
     return;
   }
 
@@ -1285,6 +1306,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce podle bezpečného ovládání brzd, výšky, šířky, nosnosti, sedátka a převozu.',
       'template' => 'page-rollator-pro-seniory.php',
     ),
+    'choditka-pro-seniory' => array(
+      'title'    => 'Chodítka pro seniory: jak vybrat správný typ doma i venku',
+      'excerpt'  => 'Průvodce čtyřbodovým, dvoukolovým chodítkem a rollátorem včetně parametrů, půjčení a pojišťovny.',
+      'template' => 'page-choditka-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1317,7 +1343,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v20', '1', false );
+    update_option( 'zaprazi_resource_pages_v21', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

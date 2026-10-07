@@ -9,7 +9,7 @@
     <nav class="zp-footer-core" aria-label="Hlavní poradci Zápraží">
       <strong>Hlavní poradci</strong>
       <ul>
-        <li><a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Chůze a opora</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Chůze a opora</a></li>
         <li><a href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a></li>
         <li><a href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a></li>
         <li><a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></li>

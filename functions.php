@@ -68,6 +68,12 @@ add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
 function zaprazi_2_setup() {
   add_theme_support('title-tag');
   add_theme_support('post-thumbnails');
+  add_theme_support('custom-logo', array(
+    'height'      => 92,
+    'width'       => 248,
+    'flex-height' => true,
+    'flex-width'  => true,
+  ));
   add_theme_support('html5', array('search-form','gallery','caption','style','script'));
   add_theme_support('woocommerce');
   add_theme_support('wc-product-gallery-zoom');

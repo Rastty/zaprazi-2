@@ -787,7 +787,7 @@ No wheelchair deeplinks are generated in code. Empty slots use exact canonical U
 
 
 ### ZP-040 Wheelchair high-intent acquisition page
-Status: **READY_DEPLOY_0_8_22**
+Status: **PACKAGED_IN_0_8_23**
 
 Adds:
 - `/invalidni-vozik-na-pojistovnu/`,
@@ -811,7 +811,7 @@ Trust boundary:
 
 
 ### ZP-041 Release 0.8.22 — Slice 4 acquisition SEO path
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_23**
 
 Release 0.8.22 supersedes 0.8.21.
 
@@ -871,7 +871,7 @@ See `docs/RETURN_HOME_EVIDENCE_V0.md`.
 
 
 ### ZP-043 Return-home Advisor UI v1
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_23**
 
 Adds:
 - dedicated `/navrat-z-nemocnice/` orchestration page,
@@ -897,3 +897,23 @@ Privacy:
 - no medication list,
 - no exact body weight,
 - only generic analytics events.
+
+
+### ZP-044 Release 0.8.23 — Return-home orchestration
+Status: **READY_DEPLOY**
+
+Release 0.8.23 supersedes 0.8.22.
+
+It packages:
+- all Slice 4 Advisor + acquisition content,
+- Slice 5 return-home evidence and engine,
+- live `/navrat-z-nemocnice/` first-night orchestration UI,
+- hard blockers for unsafe entrance and unresolved physical person-assisted transfer,
+- routing into Mobility, Bathroom/WC, Adjustable Bed and Wheelchair Advisors,
+- NZIP 14-day post-discharge home-health-care guidance,
+- 2026 ePoukaz acquisition boundary,
+- homepage/core-navigation entry points,
+- deployment-integrity coverage for `page-navrat-z-nemocnice.php` and `assets/js/return-home-advisor.js`.
+
+Commercial rule:
+- the return-home page contains no product cards, merchant links or affiliate ranking.

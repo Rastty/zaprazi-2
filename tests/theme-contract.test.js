@@ -1091,3 +1091,23 @@ test("homepage is a six-scenario hub while keeping Mobility Advisor intact", () 
   assert.match(functions, /Zápraží: domácí poradce pro bezpečný a samostatný život doma/);
   assert.match(functions, /Praktický domácí poradce pro chůzi, koupelnu a WC/);
 });
+
+
+test("global footer exposes all six core advisor journeys", () => {
+  const footer = read("footer.php");
+  const style = read("style.css");
+
+  assert.match(footer, /Hlavní poradci/);
+  for (const path of [
+    "/#poradce",
+    "/koupelna-a-wc/",
+    "/polohovaci-postel/",
+    "/invalidni-vozik/",
+    "/navrat-z-nemocnice/",
+    "/sobestacnost/"
+  ]) {
+    assert.ok(footer.includes(path), `footer core route missing: ${path}`);
+  }
+  assert.match(footer, />Zápraží<\/strong>/);
+  assert.match(style, /zp-footer-core/);
+});

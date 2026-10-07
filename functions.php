@@ -390,6 +390,10 @@ function zaprazi_2_is_footwear_page() {
   return is_page( 'obuv-pro-seniory' );
 }
 
+function zaprazi_2_is_toilet_riser_page() {
+  return is_page( 'nastavec-na-wc-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -420,7 +424,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() || zaprazi_2_is_footwear_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() || zaprazi_2_is_footwear_page() || zaprazi_2_is_toilet_riser_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -476,7 +480,26 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/return-home-advisor.js') ? filemtime($dir . '/assets/js/return-home-advisor.js') : null
         );
-      } elseif ( zaprazi_2_is_adl_page() ) {
+      } elseif ( zaprazi_2_is_toilet_riser_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vysoký nástavec na WC vybrat?',
+        'answer'   => 'Ne podle toho, který je nejvyšší. Výsledná výška musí umožnit bezpečné sednutí a vstávání a po zvýšení musí zůstat stabilní opora chodidel o podlahu.',
+      ),
+      array(
+        'question' => 'Kdy má smysl nástavec s madly?',
+        'answer'   => 'Když člověk přesedá bez fyzické pomoci druhé osoby, ale při sedání nebo vstávání potřebuje stabilní oporu rukama. Pokud je běžně potřeba zvedání nebo výrazné jištění druhou osobou, online poradce konkrétní nástavec nevybírá.',
+      ),
+      array(
+        'question' => 'Pasuje nástavec na každý záchod?',
+        'answer'   => 'Ne. Je potřeba ověřit tvar a rozměry konkrétní WC mísy i způsob upevnění. Nástavec musí po instalaci zůstat pevný a bez posunu.',
+      ),
+      array(
+        'question' => 'Hradí nástavec na WC zdravotní pojišťovna?',
+        'answer'   => 'Některé konkrétní zdravotnické prostředky hrazené být mohou, ale nelze to určit jen podle názvu kategorie. Před tvrzením o úhradě je potřeba ověřit přesný prostředek a aktuální záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_adl_page() ) {
         wp_enqueue_script_module(
           'zaprazi-adl-advisor',
           $uri . '/assets/js/adl-advisor.js',
@@ -489,6 +512,13 @@ function zaprazi_2_assets() {
           $uri . '/assets/js/footwear-advisor.js',
           array(),
           file_exists($dir . '/assets/js/footwear-advisor.js') ? filemtime($dir . '/assets/js/footwear-advisor.js') : null
+        );
+      } elseif ( zaprazi_2_is_toilet_riser_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-toilet-riser-advisor',
+          $uri . '/assets/js/toilet-riser-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/toilet-riser-advisor.js') ? filemtime($dir . '/assets/js/toilet-riser-advisor.js') : null
         );
       }
     }
@@ -525,6 +555,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
   }
+  if ( zaprazi_2_is_toilet_riser_page() ) {
+    return 'Nástavec na WC pro seniory: jak vybrat výšku a madla | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -556,6 +589,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Boty pro seniory na suchý zip: široká a snadno obouvatelná obuv | Zápraží';
+  }
+  if ( zaprazi_2_is_toilet_riser_page() ) {
+    return 'Nástavec na WC pro seniory: jak vybrat výšku a madla | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -589,6 +625,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_footwear_page() ) {
     return 'Praktický poradce pro boty pro seniory na suchý zip: širší otevření, extra široká obuv, plná nebo otevřená špička a kontrola velikosti před nákupem.';
+  }
+  if ( zaprazi_2_is_toilet_riser_page() ) {
+    return 'Jak vybrat nástavec na WC pro seniora: výška zvýšení, madla, kompatibilita s WC, nosnost a bezpečná opora chodidel po zvýšení.';
   }
   return $description;
 }
@@ -955,7 +994,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v14' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v15' ) ) {
     return;
   }
 
@@ -1030,6 +1069,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce podle otevření boty, šířky, špičky, ovládání suchého zipu a změřené velikosti.',
       'template' => 'page-obuv-pro-seniory.php',
     ),
+    'nastavec-na-wc-pro-seniory' => array(
+      'title'    => 'Nástavec na WC pro seniory: jak vybrat výšku a madla',
+      'excerpt'  => 'Praktický poradce pro výběr nástavce podle přesunu, kompatibility WC, výsledné výšky, nosnosti a potřeby madel.',
+      'template' => 'page-nastavec-na-wc-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1062,7 +1106,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v14', '1', false );
+    update_option( 'zaprazi_resource_pages_v15', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

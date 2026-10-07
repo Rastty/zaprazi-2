@@ -140,6 +140,44 @@ export const BATHROOM_PRODUCTS = Object.freeze([
     ]
   },
   {
+    id: "unizdrav-p2203",
+    name: "UNIZDRAV P2203 – sprchovací židle do vany",
+    solutionFamily: "bath_transfer_bench",
+    productionEligible: true,
+    identityStatus: "verified",
+    facts: {
+      totalWidthCm: 81,
+      totalDepthCm: 61,
+      totalHeightCm: "81.5–91.5",
+      seatWidthCm: 68,
+      seatDepthCm: 41,
+      seatHeightCm: "45.5–56",
+      maxUserWeightKg: 110,
+      weightKg: 4.4
+    },
+    selectionNotes: [
+      "jedna strana konstrukce stojí ve vaně a druhá na podlaze mimo vanu",
+      "před použitím je potřeba ověřit dostatek prostoru pro celkový půdorys 81 × 61 cm",
+      "vnitřek vany i podlaha mimo vanu musí umožnit stabilní opření všech nohou konstrukce",
+      "použití je určené jen pro samostatný přesun bez fyzického zvedání druhou osobou"
+    ],
+    evidence: [
+      { type: "merchant_product_page", url: "https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany", checkedAt: "2026-10-07" },
+      { type: "independent_bathing_guidance", url: "https://www.uhcw.nhs.uk/download/clientfiles/files/Patient%20Information%20Leaflets/Clinical%20Support%20Services/Therapies/Occupational%20Therapy/Bathing%20and%20showering%20advice%20and%20information.pdf", checkedAt: "2026-10-07" }
+    ],
+    offers: [
+      {
+        merchantId: "unizdrav-cz",
+        merchantName: "UNIZDRAV",
+        affiliateKey: "unizdrav-cz:p2203",
+        url: "https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany",
+        affiliateUrl: null,
+        acquisitionMode: "direct_pay",
+        checkedAt: "2026-10-07"
+      }
+    ]
+  },
+  {
     id: "dma-eh-cmda",
     name: "DMA EH-CMDA – toaletní židle 4v1",
     solutionFamily: "multifunction_toilet_shower_chair",

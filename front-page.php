@@ -10,6 +10,7 @@
         <a class="zp-btn" href="#poradce">Spustit poradce pro chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řeším koupelnu nebo WC</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řeším polohovací postel</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řeším invalidní vozík</a>
         <a class="zp-text-link" href="#jak-vybrat">Nejdřív si přečíst, jak vybírat</a>
       </div>
     </div>

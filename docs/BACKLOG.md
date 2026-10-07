@@ -614,7 +614,7 @@ See `docs/ADJUSTABLE_BED_EVIDENCE_V0.md`.
 
 
 ### ZP-033 Adjustable bed Advisor UI v1
-Status: **READY_DEPLOY_0_8_19**
+Status: **PACKAGED_IN_0_8_20**
 
 Adds:
 - dedicated `/polohovaci-postel/` Home Advisor page,
@@ -639,7 +639,7 @@ No bed deeplinks are fabricated; canonical UNIZDRAV product URLs remain the safe
 
 
 ### ZP-034 Release 0.8.19 — Slice 3 first end-to-end high-ticket journey
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_20**
 
 Release 0.8.19 supersedes 0.8.18.
 
@@ -662,7 +662,7 @@ No new affiliate deeplinks are generated in code. Empty bed slots use exact cano
 
 
 ### ZP-035 Adjustable bed high-intent acquisition page
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_20**
 
 Adds:
 - `/polohovaci-postel-na-pojistovnu/`,
@@ -682,3 +682,18 @@ Trust boundary:
 - does not confirm individual reimbursement entitlement,
 - does not claim any current retail UNIZDRAV candidate is reimbursed until exact current SÚKL identity is proven,
 - rental examples are explicitly local and time-sensitive.
+
+
+### ZP-036 Release 0.8.20 — Slice 3 acquisition SEO path
+Status: **READY_DEPLOY**
+
+Release 0.8.20 supersedes 0.8.19 and adds:
+- `/polohovaci-postel-na-pojistovnu/`,
+- combined insurer / circulation / rental / purchase decision page,
+- current rental examples with explicit locality and date boundaries,
+- VZP/SÚKL source routing,
+- FAQPage schema matching visible FAQs,
+- direct internal link from the adjustable-bed Advisor,
+- deployment-integrity coverage for the new resource page.
+
+No retail bed is labelled reimbursed without exact current SÚKL identity.

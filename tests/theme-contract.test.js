@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v11/);
+  assert.match(functions, /zaprazi_resource_pages_v12/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v11/);
+  assert.match(functions, /zaprazi_resource_pages_v12/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -764,7 +764,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v11/);
+  assert.match(functions, /zaprazi_resource_pages_v12/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -889,7 +889,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v11/);
+  assert.match(functions, /zaprazi_resource_pages_v12/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1182,4 +1182,62 @@ test("self-care page has SEO authority layer with matching visible FAQ and schem
 
   assert.match(page, /nzip\.cz\/rejstrikovy-pojem\/1949/);
   assert.match(functions, /zaprazi_2_is_adl_page\(\)/);
+});
+
+
+test("compensatory aids SEO hub routes to all six decision journeys", () => {
+  const page = read("page-kompenzacni-pomucky-pro-seniory.php");
+  const functions = read("functions.php");
+  const front = read("front-page.php");
+  const footer = read("footer.php");
+
+  assert.match(page, /Kompenzační pomůcky pro seniory: začněte problémem, ne katalogem/);
+  assert.match(page, /Šest různých situací potřebuje šest různých rozhodovacích cest/);
+
+  for (const path of [
+    "/#poradce",
+    "/koupelna-a-wc/",
+    "/polohovaci-postel/",
+    "/invalidni-vozik/",
+    "/navrat-z-nemocnice/",
+    "/sobestacnost/"
+  ]) {
+    assert.ok(page.includes(path), `compensatory aids route missing: ${path}`);
+  }
+
+  assert.match(page, /ePoukaz/);
+  assert.match(page, /nemění ceny ani úhrady/i);
+  assert.match(page, /sukl\.gov\.cz/);
+  assert.match(page, /vzp\.cz/);
+  assert.match(page, /nevyhodnocuje diagnózu ani individuální nárok/i);
+
+  assert.match(functions, /zaprazi_2_is_compensatory_aids_page/);
+  assert.match(functions, /'kompenzacni-pomucky-pro-seniory' => array/);
+  assert.match(functions, /page-kompenzacni-pomucky-pro-seniory\.php/);
+  assert.match(functions, /Kompenzační pomůcky pro seniory: jak vybrat \| Zápraží/);
+  assert.match(functions, /zaprazi_resource_pages_v12/);
+
+  assert.match(front, /\/kompenzacni-pomucky-pro-seniory\//);
+  assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\//);
+});
+
+test("compensatory aids visible FAQ matches FAQPage schema", () => {
+  const page = read("page-kompenzacni-pomucky-pro-seniory.php");
+  const functions = read("functions.php");
+
+  const questions = [
+    "Co jsou kompenzační pomůcky pro seniory?",
+    "Jak vybrat správnou kompenzační pomůcku?",
+    "Hradí kompenzační pomůcky zdravotní pojišťovna?",
+    "Znamená ePoukaz automaticky, že pomůcku pojišťovna zaplatí?",
+    "Je lepší pomůcku půjčit, nebo koupit?"
+  ];
+
+  for (const question of questions) {
+    assert.ok(page.includes(question), `visible compensatory FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `compensatory FAQ schema missing: ${question}`);
+  }
+
+  assert.match(functions, /zaprazi_2_is_compensatory_aids_page\(\)/);
+  assert.match(functions, /data-zaprazi-schema="resource-faq"/);
 });

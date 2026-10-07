@@ -1353,7 +1353,7 @@ Resource registry advances to v14.
 
 
 ### ZP-064 Release 0.8.31 — Easy-footwear Advisor
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_32**
 
 Release 0.8.31 supersedes 0.8.30.
 
@@ -1396,3 +1396,21 @@ Commercial:
 - reuses existing affiliate slots `unizdrav-cz:p2868` and `rehabilitacni-pomucky-cz:besco-bs15`,
 - no new affiliate mapping or merchant ranking,
 - canonical fallbacks stay intact.
+
+
+### ZP-066 Release 0.8.32 — Toilet-riser high-intent micro-Advisor
+Status: **READY_DEPLOY**
+
+Release 0.8.32 supersedes 0.8.31.
+
+Packages:
+- everything from 0.8.31,
+- new `/nastavec-na-wc-pro-seniory/` high-intent micro-Advisor,
+- reuse of existing Bathroom decision engine and product catalog,
+- UNIZDRAV P2868 vs BESCO BS15 routing,
+- fit / feet-on-floor / load / transfer gates,
+- FAQ + schema + internal links,
+- resource registry v15,
+- release integrity includes `page-nastavec-na-wc-pro-seniory.php` and `assets/js/toilet-riser-advisor.js`.
+
+No second suitability engine, duplicate affiliate slots or reimbursement shortcut is introduced.

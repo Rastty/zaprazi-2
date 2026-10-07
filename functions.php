@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.31' );
+  define( 'ZAPRAZI_RELEASE', '0.8.32' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_31';
+  $marker = 'ZP_RELEASE_0_8_32';
   $files = array(
     'header.php',
     'footer.php',
@@ -25,6 +25,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-kompenzacni-pomucky-pro-seniory.php',
     'page-bezpecny-byt-pro-seniora.php',
     'page-obuv-pro-seniory.php',
+    'page-nastavec-na-wc-pro-seniory.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',
@@ -33,6 +34,7 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/return-home-advisor.js',
     'assets/js/adl-advisor.js',
     'assets/js/footwear-advisor.js',
+    'assets/js/toilet-riser-advisor.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

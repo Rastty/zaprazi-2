@@ -74,6 +74,14 @@ function zaprazi_2_affiliate_fields() {
   );
 }
 
+function zaprazi_2_affiliate_targets() {
+  return array(
+    'rehabilitacni-pomucky-cz:besco-wa17' => 'https://www.rehabilitacnipomucky.cz/besco-ctyrbodove-choditko-skladaci/',
+    'rehabilitacni-pomucky-cz:besco-wa21' => 'https://www.rehabilitacnipomucky.cz/besco-dvoukolove-choditko-skladaci/',
+    'lekarna-cz:meyra-ideal-3061982' => 'https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/',
+  );
+}
+
 function zaprazi_2_sanitize_affiliate_map( $value ) {
   $allowed = zaprazi_2_affiliate_fields();
   $clean = array();
@@ -131,6 +139,7 @@ function zaprazi_2_render_settings_page() {
   }
 
   $fields = zaprazi_2_affiliate_fields();
+  $targets = zaprazi_2_affiliate_targets();
   $configured = 0;
   foreach ( $fields as $key => $label ) {
     if ( ! empty( $values[ $key ] ) ) {
@@ -141,6 +150,10 @@ function zaprazi_2_render_settings_page() {
   <div class="wrap">
     <h1>ZaPrazi affiliate routing</h1>
     <p>Vkládejte pouze přesné, ověřené partnerské deeplinky vygenerované schváleným affiliate účtem. Prázdné pole znamená bezpečný fallback na běžný produktový odkaz.</p>
+
+    <div class="notice notice-info inline" style="margin:16px 0 18px">
+      <p><strong>Jak získat přesný VIV/CJ deeplink:</strong> otevřete v publisher účtu nástroj Deep Link Generator, vyberte správného inzerenta, vložte níže uvedenou cílovou produktovou URL a vygenerovaný partnerský odkaz vložte do příslušného pole. Tracking URL ručně neskládejte.</p>
+    </div>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">
       <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:180px">
@@ -167,7 +180,10 @@ function zaprazi_2_render_settings_page() {
           <tr>
             <th scope="row"><label for="<?php echo esc_attr( 'zp-aff-' . md5( $key ) ); ?>"><?php echo esc_html( $label ); ?></label></th>
             <td>
-              <?php $current_url = isset( $values[ $key ] ) ? $values[ $key ] : ''; ?>
+              <?php
+              $current_url = isset( $values[ $key ] ) ? $values[ $key ] : '';
+              $target_url = isset( $targets[ $key ] ) ? $targets[ $key ] : '';
+              ?>
               <input
                 type="url"
                 class="regular-text code"
@@ -178,6 +194,13 @@ function zaprazi_2_render_settings_page() {
                 inputmode="url"
                 autocomplete="off"
               />
+              <?php if ( $target_url ) : ?>
+                <p style="margin:6px 0 0">
+                  <strong>Cílová URL pro Deep Link Generator:</strong><br>
+                  <code style="word-break:break-all"><?php echo esc_html( $target_url ); ?></code>
+                  · <a href="<?php echo esc_url( $target_url ); ?>" target="_blank" rel="noopener noreferrer">Otevřít produkt ↗</a>
+                </p>
+              <?php endif; ?>
               <p style="margin:6px 0 0">
                 <?php if ( $current_url ) : ?>
                   <strong style="color:#008a20">Partnerský odkaz aktivní</strong>

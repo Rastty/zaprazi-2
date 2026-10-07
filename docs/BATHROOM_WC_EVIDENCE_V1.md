@@ -174,6 +174,42 @@ Important:
 - RehabilitačníPomůcky.cz explicitly states that it does not process health-insurance reimbursement; this offer is a direct-pay route only,
 - the existence of a reimbursed bath-seat category does not make this exact retail product reimbursed.
 
+### DMA EH-CMDA — multifunction toilet/shower chair 4v1
+
+Verified functional identity:
+- manufacturer: K DESIGN / Czech supplier DMA Praha,
+- approved retail merchant: Dr.Max,
+- can be used as a toilet chair, shower seat or raised seat over the WC,
+- total dimensions: 51 × 40 cm footprint, 59–77 cm total height,
+- seat: 50 × 40 cm,
+- seat height: 39–54 cm,
+- max load: 150 kg,
+- weight: 3 kg,
+- removable arm supports.
+
+Sources:
+- manufacturer product page: https://www.dmapraha.cz/eh-cmda_z35658/
+- manufacturer IFU: https://www.dmapraha.cz/data/files/manual/KD_IFU_EH-CMDA_ToaletniZidle_cs.pdf
+- approved merchant: https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1
+
+Status: **PRODUCTION_CANDIDATE_FOR_ONE_AID_ACROSS_WC_AND_SHOWER**
+
+Decision consequence:
+- use only when the user explicitly wants one stable aid for both toilet and shower,
+- stable floor and sufficient space are mandatory,
+- independent or steadying transfer may qualify,
+- person-assisted transfer remains professional-check only.
+
+Reimbursement identity evidence:
+- DMA currently states payer code **5019427**,
+- reimbursement group **07.04.03.01**,
+- manufacturer page states full reimbursement, insurer approval required and 10-year service life.
+
+Guardrail:
+- the exact identity is strong enough to track as an exact reimbursement candidate,
+- but `monthlySuklListVerified` remains **false** until the effective monthly SÚKL list is directly checked,
+- therefore production copy must not claim current reimbursement merely from the manufacturer page.
+
 ### UNIZDRAV P2085 — combined shower/toilet wheelchair
 
 Verified merchant facts:

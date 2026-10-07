@@ -280,3 +280,55 @@ test("physical-assistance low-WC transfer remains professional-check only", () =
   assert.equal(result.status, "professional_check");
   assert.deepEqual(result.recommendations, []);
 });
+
+
+test("multifunction WC/shower branch requires stable floor", () => {
+  const result = recommendBathroom({
+    primaryNeed: "multifunction_toilet_shower",
+    transferAbility: "independent",
+    loadFit: "yes",
+    floorStable: "unknown",
+    spaceFit: "yes"
+  });
+  assert.equal(result.status, "needs_more_info");
+  assert.ok(result.missing.includes("floorStable"));
+});
+
+test("multifunction WC/shower branch requires enough space", () => {
+  const result = recommendBathroom({
+    primaryNeed: "multifunction_toilet_shower",
+    transferAbility: "steadying",
+    loadFit: "yes",
+    floorStable: "yes",
+    spaceFit: "unknown"
+  });
+  assert.equal(result.status, "needs_more_info");
+  assert.ok(result.missing.includes("spaceFit"));
+});
+
+test("multifunction WC/shower branch returns DMA EH-CMDA after safety gates pass", () => {
+  const result = recommendBathroom({
+    primaryNeed: "multifunction_toilet_shower",
+    transferAbility: "steadying",
+    loadFit: "yes",
+    floorStable: "yes",
+    spaceFit: "yes",
+    duration: "long_term"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["dma-eh-cmda"]);
+  assert.ok(result.acquisition.some((item) => item.id === "check_reimbursement_alternative"));
+  assert.match(result.disclaimer, /5019427/);
+});
+
+test("multifunction WC/shower branch stays closed for physical assistance", () => {
+  const result = recommendBathroom({
+    primaryNeed: "multifunction_toilet_shower",
+    transferAbility: "person_assist",
+    loadFit: "yes",
+    floorStable: "yes",
+    spaceFit: "yes"
+  });
+  assert.equal(result.status, "professional_check");
+  assert.deepEqual(result.recommendations, []);
+});

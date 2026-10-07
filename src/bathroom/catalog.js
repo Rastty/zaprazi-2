@@ -98,6 +98,27 @@ export const BATHROOM_PRODUCTS = Object.freeze([
     ]
   },
   {
+    id: "besco-bs008",
+    name: "BESCO BES-BS008 – sedačka na vanu s madlem",
+    solutionFamily: "bath_transfer_seat",
+    productionEligible: true,
+    identityStatus: "verified",
+    facts: { seatWidthCm: 69, seatDepthCm: 31, bathInnerWidthCm: "41–65", maxUserWeightKg: 100 },
+    selectionNotes: [
+      "před nákupem změřit vnitřní šířku okrajů vany; tento model je určen pro 41–65 cm",
+      "upevnění čtyřmi nastavitelnými rozpěrnými nožičkami musí být před použitím pevné a bez posunu",
+      "automatický výběr je určen jen pro člověka, který zvládne bezpečně usednout na sedačku a přesunout nohy přes okraj vany bez fyzického zvedání druhou osobou"
+    ],
+    evidence: [
+      { type: "merchant_product_page", url: "https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/", checkedAt: "2026-10-07" },
+      { type: "independent_bathing_guidance", url: "https://www.guysandstthomas.nhs.uk/health-information/daily-tasks-using-1-hand", checkedAt: "2026-10-07" },
+      { type: "independent_transfer_guidance", url: "https://www.northerncarealliance.nhs.uk/patient-information/patient-leaflets/orthopaedic-surgery-therapy-information-following-hip-surgery", checkedAt: "2026-10-07" }
+    ],
+    offers: [
+      { merchantId: "rehabilitacni-pomucky-cz", merchantName: "RehabilitačníPomůcky.cz", affiliateKey: "rehabilitacni-pomucky-cz:besco-bs008", url: "https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/", affiliateUrl: null, acquisitionMode: "direct_pay", checkedAt: "2026-10-07" }
+    ]
+  },
+  {
     id: "unizdrav-p2085",
     name: "UNIZDRAV P2085 – toaletní sprchovací vozík",
     solutionFamily: "combined_shower_toilet_wheelchair",

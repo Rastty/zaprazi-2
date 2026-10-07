@@ -1018,3 +1018,24 @@ Adds navigational cross-links without mixing decision logic:
 - The goal is to reduce dead ends and strengthen topical relationships between the six core user scenarios.
 
 No new affiliate ranking or health-data collection is introduced.
+
+
+### ZP-049 Homepage core-scenario hub
+Status: **DONE_CODE**
+
+Repositions the homepage from a Mobility-only entry point into the six-scenario ZaPrazi hub:
+- Chůze a opora,
+- Koupelna a WC,
+- Polohovací postel,
+- Invalidní vozík,
+- Návrat z nemocnice,
+- Každodenní soběstačnost.
+
+The existing Mobility Advisor remains fully on the homepage below the hub, preserving the original end-to-end walking-aid journey and content.
+
+Brand text is aligned with the approved direction:
+- public wordmark text: **Zápraží**,
+- claim: **Cesta k lepšímu životu**,
+- homepage SEO now describes the broader decision platform instead of only chodítka/rollátory.
+
+The graphical logo asset remains a separate brand-only implementation step.

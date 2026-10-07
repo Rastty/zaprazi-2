@@ -26,12 +26,12 @@ test("theme preserves low-prominence legacy crawl paths", () => {
   assert.match(footer, /Starší katalog produktů/);
 });
 
-test("public SEO brand is ZaPrazi while database mutation stays unnecessary", () => {
+test("public SEO brand is Zápraží while database mutation stays unnecessary", () => {
   const functions = read("functions.php");
 
   assert.match(functions, /wpseo_schema_website/);
   assert.match(functions, /wpseo_opengraph_site_name/);
-  assert.match(functions, /ZaPrazi\.cz/);
+  assert.match(functions, /Zápraží/);
   assert.doesNotMatch(functions, /update_option\(\s*['"]blogname/);
 });
 
@@ -489,7 +489,7 @@ test("Bathroom WC navigation is reachable from homepage and core navigation", ()
   const header = read("header.php");
 
   assert.match(front, /\/koupelna-a-wc\//);
-  assert.match(front, /Řeším koupelnu nebo WC/);
+  assert.match(front, /Řešit koupelnu a WC/);
   assert.match(header, /\/koupelna-a-wc\//);
   assert.match(header, /Koupelna a WC/);
 });
@@ -753,7 +753,7 @@ test("Adjustable bed is reachable from homepage and core navigation", () => {
   const header = read("header.php");
 
   assert.match(front, /\/polohovaci-postel\//);
-  assert.match(front, /Řeším polohovací postel/);
+  assert.match(front, /Řešit polohovací postel/);
   assert.match(header, /\/polohovaci-postel\//);
   assert.match(header, /Polohovací postel/);
 });
@@ -878,7 +878,7 @@ test("Wheelchair is reachable from homepage and core navigation", () => {
   const header = read("header.php");
 
   assert.match(front, /\/invalidni-vozik\//);
-  assert.match(front, /Řeším invalidní vozík/);
+  assert.match(front, /Řešit invalidní vozík/);
   assert.match(header, /\/invalidni-vozik\//);
   assert.match(header, /Invalidní vozík/);
 });
@@ -999,7 +999,7 @@ test("Return-home surface is reachable from homepage and core navigation", () =>
   const header = read("header.php");
 
   assert.match(front, /\/navrat-z-nemocnice\//);
-  assert.match(front, /Vracíme se z nemocnice domů/);
+  assert.match(front, /Připravit návrat domů/);
   assert.match(header, /\/navrat-z-nemocnice\//);
   assert.match(header, /Návrat domů/);
 });
@@ -1064,4 +1064,30 @@ test("Return-home and self-care journeys cross-link without mixing decision logi
 
   // Cross-links are navigational only; return-home orchestration must remain product-free.
   assert.doesNotMatch(returnEngine, /rehavita|upcup|beat it|theomatik/i);
+});
+
+
+test("homepage is a six-scenario hub while keeping Mobility Advisor intact", () => {
+  const front = read("front-page.php");
+  const header = read("header.php");
+  const functions = read("functions.php");
+
+  assert.match(front, /id=["']co-resite["']/);
+  for (const label of [
+    "Chůze a opora",
+    "Koupelna a WC",
+    "Polohovací postel",
+    "Invalidní vozík",
+    "Návrat z nemocnice",
+    "Každodenní soběstačnost"
+  ]) {
+    assert.ok(front.includes(label), `homepage scenario missing: ${label}`);
+  }
+
+  assert.match(front, /id=["']zp-mobility-advisor["']/);
+  assert.match(front, /Začněte situací, ne názvem pomůcky/);
+  assert.match(header, />Zápraží<\/a>/);
+  assert.match(header, /Cesta k lepšímu životu/);
+  assert.match(functions, /Zápraží: domácí poradce pro bezpečný a samostatný život doma/);
+  assert.match(functions, /Praktický domácí poradce pro chůzi, koupelnu a WC/);
 });

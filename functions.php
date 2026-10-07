@@ -449,7 +449,7 @@ add_action('wp_enqueue_scripts', 'zaprazi_2_assets');
 
 function zaprazi_2_front_title( $title ) {
   if ( is_front_page() ) {
-    return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
+    return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
@@ -472,7 +472,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
 
 function zaprazi_2_wpseo_title( $title ) {
   if ( is_front_page() ) {
-    return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
+    return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
@@ -496,7 +496,7 @@ add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
 
 function zaprazi_2_wpseo_description( $description ) {
   if ( is_front_page() ) {
-    return 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.';
+    return 'Praktický domácí poradce pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Praktický poradce pro bezpečnější WC a koupelnu: zvýšení WC, opory, toaletní a sprchovací židle, koupě, půjčení a prověření hrazené alternativy.';
@@ -522,18 +522,18 @@ function zaprazi_2_front_meta_fallback() {
     return;
   }
 
-  $description = 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.';
+  $description = 'Praktický domácí poradce pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.';
   echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
 
   $schema = array(
     '@context' => 'https://schema.org',
     '@type' => 'WebPage',
-    'name' => 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu',
+    'name' => 'Zápraží: domácí poradce pro bezpečný a samostatný život doma',
     'description' => $description,
     'url' => home_url( '/' ),
     'isPartOf' => array(
       '@type' => 'WebSite',
-      'name' => 'ZaPrazi.cz',
+      'name' => 'Zápraží',
       'url' => home_url( '/' ),
     ),
   );
@@ -749,7 +749,7 @@ add_filter( 'woocommerce_loop_add_to_cart_link', 'zaprazi_2_guard_legacy_loop_ex
 
 function zaprazi_2_wpseo_schema_website( $data ) {
   if ( is_array( $data ) ) {
-    $data['name'] = 'ZaPrazi.cz';
+    $data['name'] = 'Zápraží';
     $data['description'] = 'Bezpečně a samostatně doma.';
   }
   return $data;
@@ -757,7 +757,7 @@ function zaprazi_2_wpseo_schema_website( $data ) {
 add_filter( 'wpseo_schema_website', 'zaprazi_2_wpseo_schema_website', 20 );
 
 function zaprazi_2_wpseo_og_site_name( $name ) {
-  return 'ZaPrazi.cz';
+  return 'Zápraží';
 }
 add_filter( 'wpseo_opengraph_site_name', 'zaprazi_2_wpseo_og_site_name', 20 );
 

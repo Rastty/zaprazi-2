@@ -11,7 +11,7 @@
 <a class="zp-skip-link" href="#main-content">Přeskočit na hlavní obsah</a>
 <header class="zp-header">
   <div class="zp-wrap zp-nav">
-    <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">ZaPrazi.cz</a>
+    <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">Zápraží</a>
 
     <nav class="zp-core-nav" aria-label="Hlavní navigace">
       <a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Mobilita</a>
@@ -25,6 +25,6 @@
       <a href="<?php echo esc_url( home_url( '/#jak-vybrat' ) ); ?>">Jak vybírat</a>
     </nav>
 
-    <span class="zp-tagline">Bezpečně a samostatně doma.</span>
+    <span class="zp-tagline">Cesta k lepšímu životu.</span>
   </div>
 </header>

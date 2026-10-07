@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Nejdřív vybrat vhodný typ postele</a>
         <a class="zp-text-link" href="#rychle-rozhodnuti">Půjčit vs. pojišťovna vs. koupit</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
     </div>
   </section>

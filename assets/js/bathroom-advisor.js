@@ -153,9 +153,12 @@ if (form && result && submitButton && errorBox) {
               <p>${escapeHtml(item.reason)}</p>
               ${item.id === "check_reimbursement_alternative" ? `
                 <p>
+                  <a class="zp-link-btn" href="/pomucky-do-koupelny-na-pojistovnu/">Jak funguje úhrada koupelnových pomůcek</a>
+                </p>
+                <p>
                   <a class="zp-text-link" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Aktuální seznam SÚKL</a>
                   ·
-                  <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener">Vysvětlení VZP</a>
+                  <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener">Zdroj VZP</a>
                 </p>
               ` : ""}
             </article>

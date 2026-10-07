@@ -662,7 +662,7 @@ No new affiliate deeplinks are generated in code. Empty bed slots use exact cano
 
 
 ### ZP-035 Adjustable bed high-intent acquisition page
-Status: **READY_DEPLOY_0_8_20**
+Status: **PACKAGED_IN_0_8_21**
 
 Adds:
 - `/polohovaci-postel-na-pojistovnu/`,
@@ -685,7 +685,7 @@ Trust boundary:
 
 
 ### ZP-036 Release 0.8.20 — Slice 3 acquisition SEO path
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_21**
 
 Release 0.8.20 supersedes 0.8.19 and adds:
 - `/polohovaci-postel-na-pojistovnu/`,
@@ -700,7 +700,7 @@ No retail bed is labelled reimbursed without exact current SÚKL identity.
 
 
 ### ZP-037 Slice 4 Wheelchair evidence + decision engine v0
-Status: **READY_CODE / PRE_UI**
+Status: **DONE_CODE / UI_WIRED**
 
 New Slice 4 foundation:
 - practical first split by who normally propels the wheelchair:
@@ -735,7 +735,7 @@ See `docs/WHEELCHAIR_EVIDENCE_V0.md`.
 
 
 ### ZP-038 Wheelchair Advisor UI v1
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_21**
 
 Adds:
 - dedicated `/invalidni-vozik/` Home Advisor page,
@@ -759,3 +759,28 @@ Planned affiliate readiness after deploy:
 - Invalidní vozík 0/3.
 
 No wheelchair deeplinks are fabricated; canonical UNIZDRAV URLs remain the safe fallback.
+
+
+### ZP-039 Release 0.8.21 — Slice 4 first end-to-end wheelchair journey
+Status: **READY_DEPLOY**
+
+Release 0.8.21 supersedes 0.8.20.
+
+It packages:
+- all 0.8.20 Slice 3 acquisition content,
+- Slice 4 wheelchair evidence and engine,
+- live `/invalidni-vozik/` Advisor UI,
+- three exact UNIZDRAV wheelchair candidates,
+- companion / self-manual / mixed-manual / powered routing,
+- powered-only joystick and charging gates,
+- insurer / rental / purchase acquisition logic,
+- separate affiliate readiness group for wheelchairs,
+- deployment-integrity coverage for `page-invalidni-vozik.php` and `assets/js/wheelchair-advisor.js`.
+
+Expected affiliate readiness after deployment:
+- Mobility 3/3,
+- Bathroom/WC 0/9,
+- Polohovací postel 0/3,
+- Invalidní vozík 0/3.
+
+No wheelchair deeplinks are generated in code. Empty slots use exact canonical UNIZDRAV fallbacks.

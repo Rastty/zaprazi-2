@@ -412,6 +412,10 @@ function zaprazi_2_is_toilet_support_page() {
   return is_page( 'madlo-k-wc-pro-seniory' );
 }
 
+function zaprazi_2_is_bath_transfer_page() {
+  return is_page( 'sedatko-do-vany-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -453,7 +457,8 @@ function zaprazi_2_assets() {
     zaprazi_2_is_toilet_riser_page() ||
     zaprazi_2_is_shower_chair_page() ||
     zaprazi_2_is_toilet_chair_page() ||
-    zaprazi_2_is_toilet_support_page()
+    zaprazi_2_is_toilet_support_page() ||
+    zaprazi_2_is_bath_transfer_page()
   ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
@@ -499,6 +504,8 @@ function zaprazi_2_assets() {
         $module = array( 'zaprazi-toilet-chair-advisor', 'assets/js/toilet-chair-advisor.js' );
       } elseif ( zaprazi_2_is_toilet_support_page() ) {
         $module = array( 'zaprazi-toilet-support-advisor', 'assets/js/toilet-support-advisor.js' );
+      } elseif ( zaprazi_2_is_bath_transfer_page() ) {
+        $module = array( 'zaprazi-bath-transfer-advisor', 'assets/js/bath-transfer-advisor.js' );
       }
 
       if ( $module ) {
@@ -556,6 +563,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_toilet_support_page() ) {
     return 'Madlo k WC pro seniory: do zdi, nebo toaletní opora? | Zápraží';
   }
+  if ( zaprazi_2_is_bath_transfer_page() ) {
+    return 'Sedátko do vany pro seniory: sedačka, nebo transferová lavice? | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -599,6 +609,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_toilet_support_page() ) {
     return 'Madlo k WC pro seniory: do zdi, nebo toaletní opora? | Zápraží';
+  }
+  if ( zaprazi_2_is_bath_transfer_page() ) {
+    return 'Sedátko do vany pro seniory: sedačka, nebo transferová lavice? | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -644,6 +657,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_toilet_support_page() ) {
     return 'Jak vybrat oporu k WC pro seniora: pevné madlo do zdi nebo toaletní rám podle kotvení, prostoru, nosnosti a způsobu vstávání.';
+  }
+  if ( zaprazi_2_is_bath_transfer_page() ) {
+    return 'Jak vybrat sedátko do vany pro seniora: sedačka přes okraj nebo transferová lavice podle samostatnosti přesunu, šířky vany, prostoru a nosnosti.';
   }
   return $description;
 }
@@ -904,6 +920,25 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Pokud je při přesunu běžně potřeba fyzické zvedání druhou osobou nebo není ověřená potřebná nosnost. V takové situaci je nejdřív potřeba bezpečný postup přesunu a vhodný typ pomůcky.',
       ),
     );
+  } elseif ( zaprazi_2_is_bath_transfer_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak změřit vanu pro sedátko?',
+        'answer'   => 'U sedačky přes okraj vany změřte vnitřní vzdálenost mezi okraji vany a ověřte rozsah výrobku. U BESCO BS008 je ověřený rozsah 41–65 cm.',
+      ),
+      array(
+        'question' => 'Kdy dává smysl transferová lavice přes vanu?',
+        'answer'   => 'Když klasická sedačka na okraj vany rozměrově nepasuje, ale je dostatek prostoru pro konstrukci, která stojí částečně ve vaně a částečně na podlaze mimo vanu.',
+      ),
+      array(
+        'question' => 'Kdy online poradce konkrétní sedátko nedoporučí?',
+        'answer'   => 'Pokud člověk nezvládne bezpečně samostatný přesun přes okraj vany nebo je běžně potřeba fyzické zvedání druhou osobou. V takové situaci je nejdřív potřeba bezpečný postup přesunu.',
+      ),
+      array(
+        'question' => 'Hradí sedátko do vany zdravotní pojišťovna?',
+        'answer'   => 'Některé konkrétní koupelnové zdravotnické prostředky hrazené být mohou, ale retail produkt není automaticky hrazený. Úhrada se musí ověřit podle přesného prostředku a aktuálních podmínek.',
+      ),
+    );
   } elseif ( zaprazi_2_is_adl_page() ) {
     $faq = array(
       array(
@@ -1086,7 +1121,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v18' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v19' ) ) {
     return;
   }
 
@@ -1181,6 +1216,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce podle bezpečného kotvení, prostoru, způsobu úchopu a nosnosti konkrétní pomůcky.',
       'template' => 'page-madlo-k-wc-pro-seniory.php',
     ),
+    'sedatko-do-vany-pro-seniory' => array(
+      'title'    => 'Sedátko do vany pro seniory: sedačka, nebo transferová lavice?',
+      'excerpt'  => 'Praktický poradce podle samostatnosti přesunu, šířky vany, prostoru pro transferovou konstrukci a nosnosti.',
+      'template' => 'page-sedatko-do-vany-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1213,7 +1253,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v18', '1', false );
+    update_option( 'zaprazi_resource_pages_v19', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

@@ -10,7 +10,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Každodenní soběstačnost</p>
       <h1>Malé pomůcky, které mohou vrátit kus samostatnosti.</h1>
-      <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu nebo připravit jednoduché jídlo jednou rukou. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
+      <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu, připravit jednoduché jídlo jednou rukou nebo otevřít běžný obal. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-sobestacnost">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Řeším celý návrat domů</a>
@@ -30,6 +30,7 @@ get_header();
           <label class="zp-choice"><input type="radio" name="task" value="drink" required><span><strong>Samostatné pití</strong><small>Problém je hlavně uchopit, naklonit nebo nerozlít nápoj.</small></span></label>
           <label class="zp-choice"><input type="radio" name="task" value="stabilize_container"><span><strong>Udržet nádobu na místě</strong><small>Sklenice, miska nebo jiný předmět při práci ujíždí.</small></span></label>
           <label class="zp-choice"><input type="radio" name="task" value="one_hand_meal"><span><strong>Připravit jednoduché jídlo jednou rukou</strong><small>Například namazat pečivo bez přidržování druhou rukou.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="task" value="open_packaging"><span><strong>Otevřít běžný obal nebo uzávěr</strong><small>Láhev, plechovka, zip nebo obal je problém kvůli úchopu, otočení nebo zatažení.</small></span></label>
           <label class="zp-choice"><input type="radio" name="task" value="other"><span><strong>Něco jiného</strong></span></label>
         </fieldset>
 
@@ -38,6 +39,7 @@ get_header();
           <label class="zp-choice"><input type="radio" name="mainProblem" value="grip_or_spill" required><span><strong>Držení, naklánění nebo rozlévání při pití</strong></span></label>
           <label class="zp-choice"><input type="radio" name="mainProblem" value="container_moves"><span><strong>Nádoba nebo předmět se při práci posouvá</strong></span></label>
           <label class="zp-choice"><input type="radio" name="mainProblem" value="one_hand_setup"><span><strong>Činnost potřebuji zvládnout jednou rukou</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="mainProblem" value="grip_or_twist"><span><strong>Chybí jistý úchop, otočení nebo zatažení při otevírání</strong><small>Řešíme běžné obaly, uzávěry, jazýčky plechovek a zipy — ne rozhodování o lécích.</small></span></label>
           <label class="zp-choice"><input type="radio" name="mainProblem" value="swallowing_or_medical"><span><strong>Problém je samotné polykání, zakuckávání nebo jiná zdravotní obtíž</strong><small>Tady poradce konkrétní produkt nedoporučí.</small></span></label>
           <label class="zp-choice"><input type="radio" name="mainProblem" value="other"><span><strong>Jiný problém</strong></span></label>
         </fieldset>
@@ -69,11 +71,12 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Jak vybíráme</p>
-      <h2 class="zp-section-title">Tři úzké problémy místo katalogu stovek pomůcek.</h2>
+      <h2 class="zp-section-title">Čtyři úzké problémy místo katalogu stovek pomůcek.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Pití</h3><p>Řešíme držení, naklánění a rozlévání. Pokud je problém v polykání nebo zakuckávání, výběr produktu zastavíme.</p></article>
         <article class="zp-decision-card"><h3>Stabilizace nádoby</h3><p>Držák doporučujeme jen tehdy, když je potvrzená stabilní pracovní plocha a lze bezpečně ověřit rozměr předmětu.</p></article>
         <article class="zp-decision-card"><h3>Jídlo jednou rukou</h3><p>Podnos dává smysl jen pro konkrétní činnost jednou rukou a po ověření, že se vejde na pracovní plochu.</p></article>
+        <article class="zp-decision-card"><h3>Otevírání obalů</h3><p>Pomůcku ukážeme jen tehdy, když jde o praktický problém s úchopem, otočením nebo zatažením u běžného obalu. Léky a dávkování touto větví neřešíme.</p></article>
       </div>
     </div>
   </section>
@@ -95,7 +98,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Ověřené zdroje</p>
       <h2 class="zp-section-title">Produkt zobrazíme až po ověření konkrétní identity.</h2>
-      <p>První shortlist používá tři přesně identifikované produkty RehaVita.cz: UpCup 15-050101, Beat It 15-050102 a Theomatik 15-050103. U Theomatiku jsme ověřili i rozměry 36,5 × 18,8 × 3 cm.</p>
+      <p>Shortlist používá čtyři přesně identifikované produkty RehaVita.cz: UpCup 15-050101, Beat It 15-050102, Theomatik 15-050103 a MVS Open-It 15-050105. U Theomatiku jsme ověřili rozměry 36,5 × 18,8 × 3 cm; Open-It váží 60 g a je určen pro běžné otevírání uzávěrů, jazýčků, zipů a obalů.</p>
       <p class="zp-muted-copy">Stav a parametry byly ověřeny 7. 10. 2026. Dostupnost obchodu se může změnit.</p>
     </div>
   </section>

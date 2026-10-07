@@ -646,3 +646,23 @@ test("Bathroom bath-transfer fallback shows bench question only after rim-seat m
   assert.match(functions, /unizdrav-cz:p2203/);
   assert.match(functions, /sprchovaci-zidle-do-vany/);
 });
+
+
+test("Bathroom product cards expose guarded reimbursement identity without current-month overclaim", () => {
+  const app = read("assets/js/bathroom-advisor.js");
+  const catalog = read("src/bathroom/catalog.js");
+
+  assert.match(app, /renderReimbursementEvidence/);
+  assert.match(app, /Úhradová identita/);
+  assert.match(app, /Aktuální seznam SÚKL: zatím neověřeno/);
+  assert.match(app, /Kód prostředku/);
+  assert.match(app, /Ověřit aktuální seznam SÚKL/);
+  assert.match(app, /Neberte tuto kartu jako potvrzení nároku ani aktuální úhrady/);
+
+  assert.match(catalog, /payerCode: "5019427"/);
+  assert.match(catalog, /reimbursementGroup: "07\.04\.03\.01"/);
+  assert.match(catalog, /monthlySuklListVerified: false/);
+
+  assert.doesNotMatch(app, /5019427[^\n]{0,160}aktuálně hrazen/i);
+  assert.doesNotMatch(app, /plně hrazeno/i);
+});

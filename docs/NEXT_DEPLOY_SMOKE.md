@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.39
+# Next Deploy Smoke — Zápraží 2.0 v0.8.40
 
-This release supersedes 0.8.38. Deploy only 0.8.39 from `dev`.
+This release supersedes 0.8.39. Deploy only 0.8.40 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -367,4 +367,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.39`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 25. Bathroom SEO authority
+Open `/koupelna-a-wc/`.
+
+Expected:
+- H1 contains **Pomůcky do koupelny pro seniory**,
+- document title is **Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží**,
+- meta description mentions WC riser, grab rail, shower/toilet chair and bath seat,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing Bathroom Advisor remains the only suitability engine,
+- transfer / fit / load / floor / wall-fixing safety gates remain unchanged,
+- links to all five Bathroom micro-Advisors and the insurer guide are visible.
+
+Release integrity:
+- `zaprazi-release` = `0.8.40`,
 - `zaprazi-integrity` = `ok`.

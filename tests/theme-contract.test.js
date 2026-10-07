@@ -478,7 +478,7 @@ test("Bathroom WC acquisition UI separates direct retail from reimbursement evid
   assert.match(engine, /check_reimbursement_alternative/);
   assert.match(engine, /není automaticky hrazený/);
   assert.match(app, /Aktuální seznam SÚKL/);
-  assert.match(app, /Vysvětlení VZP/);
+  assert.match(app, /Zdroj VZP/);
   assert.match(app, /sponsored/);
   assert.doesNotMatch(app, /hradí tento produkt/i);
 });

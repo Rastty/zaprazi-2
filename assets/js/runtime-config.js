@@ -1,2 +1,2 @@
-// ZP_RELEASE_0_8_24
+// ZP_RELEASE_0_8_25
 window.ZaPraziRuntime = window.ZaPraziRuntime || { affiliateMap: {} };

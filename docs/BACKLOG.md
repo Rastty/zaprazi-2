@@ -1850,3 +1850,20 @@ Official evidence:
 - hospital physician may indicate it for 14 days after hospitalization.
 
 Commercial value comes from routing urgent needs into already-monetized category journeys, not from adding product ranking to the return-home page itself.
+
+
+### ZP-088 Release 0.8.42 — Return-home SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.42 supersedes 0.8.41.
+
+Packages:
+- everything from deployed 0.8.41,
+- `/navrat-z-nemocnice/` authority layer for **návrat z nemocnice domů** and **co zařídit po propuštění**,
+- five visible FAQ items with exact FAQPage schema parity,
+- direct routing into Mobility, Bathroom, Bed and Wheelchair decision journeys,
+- link to the compensatory-aids hub,
+- unchanged Return-home planning logic and downstream safety boundaries,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

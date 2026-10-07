@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.41
+# Next Deploy Smoke — Zápraží 2.0 v0.8.42
 
-This release supersedes 0.8.40. Deploy only 0.8.41 from `dev`.
+This release supersedes 0.8.41. Deploy only 0.8.42 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -401,4 +401,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.41`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 27. Return-home SEO authority
+Open `/navrat-z-nemocnice/`.
+
+Expected:
+- H1 contains **Návrat z nemocnice domů** and preparation before discharge,
+- document title is **Návrat z nemocnice domů: co zařídit po propuštění | Zápraží**,
+- meta description covers entrance, transfers, walking, WC, bed, bathroom, aids and home care,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing Return-home Advisor remains the only planning engine,
+- links to Mobility, Bathroom, Bed, Wheelchair and compensatory-aids journeys are visible,
+- downstream product suitability remains in the category-specific engines.
+
+Release integrity:
+- `zaprazi-release` = `0.8.42`,
 - `zaprazi-integrity` = `ok`.

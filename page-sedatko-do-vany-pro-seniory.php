@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_41 */
+/* ZP_RELEASE_0_8_42 */
 /*
 Template Name: Zápraží — Sedátko do vany pro seniory
 */

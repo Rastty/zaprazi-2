@@ -319,3 +319,20 @@ Priority:
 4. Zdravá Obuv stays a later niche until a dedicated decision slice is justified.
 
 See `docs/MERCHANT_PORTFOLIO_STRATEGY_2026-10-07.md`.
+
+
+### ZP-021 Slice 2 Bathroom + WC candidate pack
+Status: **EVIDENCE_RESEARCH_READY**
+
+Initial decision set is intentionally limited to five branches:
+1. raise existing WC,
+2. static toilet chair,
+3. grab bar / toilet support,
+4. shower / bath seating,
+5. combined shower/toilet wheelchair.
+
+UNIZDRAV is the primary evidence merchant; RehabilitačníPomůcky.cz and Dr.Max are supporting routes.
+
+No new affiliate deeplinks should be generated until exact product parameters and safety gates are verified.
+
+See `docs/BATHROOM_WC_CANDIDATE_PACK_V0.md`.

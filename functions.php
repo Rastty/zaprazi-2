@@ -475,101 +475,39 @@ function zaprazi_2_assets() {
     );
 
     if ( function_exists( 'wp_enqueue_script_module' ) ) {
+      $module = null;
+
       if ( is_front_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-mobility-advisor',
-          $uri . '/assets/js/mobility-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/mobility-advisor.js') ? filemtime($dir . '/assets/js/mobility-advisor.js') : null
-        );
+        $module = array( 'zaprazi-mobility-advisor', 'assets/js/mobility-advisor.js' );
       } elseif ( zaprazi_2_is_bathroom_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-bathroom-advisor',
-          $uri . '/assets/js/bathroom-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/bathroom-advisor.js') ? filemtime($dir . '/assets/js/bathroom-advisor.js') : null
-        );
+        $module = array( 'zaprazi-bathroom-advisor', 'assets/js/bathroom-advisor.js' );
       } elseif ( zaprazi_2_is_bed_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-bed-advisor',
-          $uri . '/assets/js/bed-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/bed-advisor.js') ? filemtime($dir . '/assets/js/bed-advisor.js') : null
-        );
+        $module = array( 'zaprazi-bed-advisor', 'assets/js/bed-advisor.js' );
       } elseif ( zaprazi_2_is_wheelchair_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-wheelchair-advisor',
-          $uri . '/assets/js/wheelchair-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/wheelchair-advisor.js') ? filemtime($dir . '/assets/js/wheelchair-advisor.js') : null
-        );
+        $module = array( 'zaprazi-wheelchair-advisor', 'assets/js/wheelchair-advisor.js' );
       } elseif ( zaprazi_2_is_return_home_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-return-home-advisor',
-          $uri . '/assets/js/return-home-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/return-home-advisor.js') ? filemtime($dir . '/assets/js/return-home-advisor.js') : null
-        );
-      } elseif ( zaprazi_2_is_toilet_support_page() ) {
-    $faq = array(
-      array(
-        'question' => 'Je lepší madlo do zdi, nebo toaletní opora?',
-        'answer'   => 'Záleží hlavně na prostoru a bezpečném kotvení. Pokud je nosný podklad spolehlivě ověřený, může být pevné madlo jednoduché řešení. Pokud kotvení jisté není, dává větší smysl porovnat samostatnou toaletní oporu.',
-      ),
-      array(
-        'question' => 'Jak vysoko umístit madlo k WC?',
-        'answer'   => 'Výška a poloha musí odpovídat konkrétnímu úchopu při sedání a vstávání. Univerzální výška neexistuje; důležitější je bezpečný dosah a správné kotvení.',
-      ),
-      array(
-        'question' => 'Stačí znát nosnost madla?',
-        'answer'   => 'Ne. Deklarovaná nosnost výrobku neznamená automaticky stejnou nosnost montáže ve zdi. Je potřeba ověřit materiál podkladu, spojovací materiál a způsob instalace.',
-      ),
-      array(
-        'question' => 'Kdy online poradce konkrétní oporu nedoporučí?',
-        'answer'   => 'Pokud je při přesunu běžně potřeba fyzické zvedání druhou osobou nebo není ověřená potřebná nosnost. V takové situaci je nejdřív potřeba bezpečný postup přesunu a vhodný typ pomůcky.',
-      ),
-    );
-  } elseif ( zaprazi_2_is_adl_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-adl-advisor',
-          $uri . '/assets/js/adl-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/adl-advisor.js') ? filemtime($dir . '/assets/js/adl-advisor.js') : null
-        );
+        $module = array( 'zaprazi-return-home-advisor', 'assets/js/return-home-advisor.js' );
+      } elseif ( zaprazi_2_is_adl_page() ) {
+        $module = array( 'zaprazi-adl-advisor', 'assets/js/adl-advisor.js' );
       } elseif ( zaprazi_2_is_footwear_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-footwear-advisor',
-          $uri . '/assets/js/footwear-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/footwear-advisor.js') ? filemtime($dir . '/assets/js/footwear-advisor.js') : null
-        );
+        $module = array( 'zaprazi-footwear-advisor', 'assets/js/footwear-advisor.js' );
       } elseif ( zaprazi_2_is_toilet_riser_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-toilet-riser-advisor',
-          $uri . '/assets/js/toilet-riser-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/toilet-riser-advisor.js') ? filemtime($dir . '/assets/js/toilet-riser-advisor.js') : null
-        );
+        $module = array( 'zaprazi-toilet-riser-advisor', 'assets/js/toilet-riser-advisor.js' );
       } elseif ( zaprazi_2_is_shower_chair_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-shower-chair-advisor',
-          $uri . '/assets/js/shower-chair-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/shower-chair-advisor.js') ? filemtime($dir . '/assets/js/shower-chair-advisor.js') : null
-        );
+        $module = array( 'zaprazi-shower-chair-advisor', 'assets/js/shower-chair-advisor.js' );
       } elseif ( zaprazi_2_is_toilet_chair_page() ) {
-        wp_enqueue_script_module(
-          'zaprazi-toilet-chair-advisor',
-          $uri . '/assets/js/toilet-chair-advisor.js',
-          array(),
-          file_exists($dir . '/assets/js/toilet-chair-advisor.js') ? filemtime($dir . '/assets/js/toilet-chair-advisor.js') : null
-        );
+        $module = array( 'zaprazi-toilet-chair-advisor', 'assets/js/toilet-chair-advisor.js' );
       } elseif ( zaprazi_2_is_toilet_support_page() ) {
+        $module = array( 'zaprazi-toilet-support-advisor', 'assets/js/toilet-support-advisor.js' );
+      }
+
+      if ( $module ) {
+        $module_path = $module[1];
         wp_enqueue_script_module(
-          'zaprazi-toilet-support-advisor',
-          $uri . '/assets/js/toilet-support-advisor.js',
+          $module[0],
+          $uri . '/' . $module_path,
           array(),
-          file_exists($dir . '/assets/js/toilet-support-advisor.js') ? filemtime($dir . '/assets/js/toilet-support-advisor.js') : null
+          file_exists( $dir . '/' . $module_path ) ? filemtime( $dir . '/' . $module_path ) : null
         );
       }
     }
@@ -945,6 +883,25 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Hradí toaletní židli zdravotní pojišťovna?',
         'answer'   => 'Některé konkrétní zdravotnické prostředky tohoto typu hrazené být mohou, ale záleží na přesném prostředku, indikačních podmínkách, předpisu a případném schválení. Retail nákup není automaticky hrazená cesta.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_toilet_support_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Je lepší madlo do zdi, nebo toaletní opora?',
+        'answer'   => 'Záleží hlavně na prostoru a bezpečném kotvení. Pokud je nosný podklad spolehlivě ověřený, může být pevné madlo jednoduché řešení. Pokud kotvení jisté není, dává větší smysl porovnat samostatnou toaletní oporu.',
+      ),
+      array(
+        'question' => 'Jak vysoko umístit madlo k WC?',
+        'answer'   => 'Výška a poloha musí odpovídat konkrétnímu úchopu při sedání a vstávání. Univerzální výška neexistuje; důležitější je bezpečný dosah a správné kotvení.',
+      ),
+      array(
+        'question' => 'Stačí znát nosnost madla?',
+        'answer'   => 'Ne. Deklarovaná nosnost výrobku neznamená automaticky stejnou nosnost montáže ve zdi. Je potřeba ověřit materiál podkladu, spojovací materiál a způsob instalace.',
+      ),
+      array(
+        'question' => 'Kdy online poradce konkrétní oporu nedoporučí?',
+        'answer'   => 'Pokud je při přesunu běžně potřeba fyzické zvedání druhou osobou nebo není ověřená potřebná nosnost. V takové situaci je nejdřív potřeba bezpečný postup přesunu a vhodný typ pomůcky.',
       ),
     );
   } elseif ( zaprazi_2_is_adl_page() ) {

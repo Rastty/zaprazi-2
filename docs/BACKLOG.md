@@ -584,3 +584,30 @@ Verification attempt 2026-10-07:
 - therefore `monthlySuklListVerified` remains false.
 
 This converts an opaque internal evidence object into a useful user-facing next step without relaxing trust rules.
+
+
+### ZP-032 Slice 3 Adjustable bed evidence + decision engine v0
+Status: **READY_CODE / PRE_UI**
+
+New Slice 3 foundation:
+- exact product catalog for UNIZDRAV P2777 CLASSIC, P4707 Hospital and P4044 Multibed,
+- practical decision branches for standard home positioning, caregiver access, robust/high-load use and advanced in-bed care,
+- mandatory load-fit and space-fit gates,
+- no raw body-weight entry,
+- transfer ability used only as a practical caution, not diagnosis,
+- short-term acquisition leads with local rental comparison,
+- long-term acquisition leads with reimbursement / insurer-circulation check plus purchase comparison.
+
+Current public evidence:
+- VZP guidance updated 2024-01-10 describes prescription, prior insurer approval, max once per 10 years and possible circulation/loan regime for adjustable beds,
+- current Czech charity rental examples show electric adjustable beds around 750–900 Kč/month, with transport/assembly varying locally,
+- exact UNIZDRAV specs verified 2026-10-07.
+
+Pre-UI affiliate slots planned:
+- unizdrav-cz:p2777
+- unizdrav-cz:p4707
+- unizdrav-cz:p4044
+
+Canonical merchant URLs remain the safe fallback; no deeplinks are fabricated.
+
+See `docs/ADJUSTABLE_BED_EVIDENCE_V0.md`.

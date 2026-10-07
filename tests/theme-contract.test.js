@@ -282,6 +282,40 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
+test("bathroom main page builds SEO authority without a second decision engine", () => {
+  const functions = read("functions.php");
+  const page = read("page-koupelna-a-wc.php");
+
+  assert.match(page, /Pomůcky do koupelny pro seniory/);
+  assert.ok(functions.includes("Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží"));
+
+  for (const question of [
+    "Jaké pomůcky do koupelny pro seniory dávají nejčastěji smysl?",
+    "Jak vybrat pomůcku k WC pro seniora?",
+    "Je lepší sprchovací židle, nebo toaletní židle 4v1?",
+    "Je do koupelny vždy lepší nástěnné madlo?",
+    "Může být pomůcka do koupelny hrazená pojišťovnou?"
+  ]) {
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+  }
+
+  assert.equal((page.match(/id=["']zp-bathroom-advisor["']/g) || []).length, 1);
+  assert.match(functions, /assets\/js\/bathroom-advisor\.js/);
+
+  for (const path of [
+    "/nastavec-na-wc-pro-seniory/",
+    "/sprchovaci-zidle-pro-seniory/",
+    "/toaletni-zidle-pro-seniory/",
+    "/madlo-k-wc-pro-seniory/",
+    "/sedatko-do-vany-pro-seniory/",
+    "/pomucky-do-koupelny-na-pojistovnu/"
+  ]) {
+    assert.ok(page.includes(path), `bathroom authority link missing: ${path}`);
+  }
+});
+
+
 test("bed main page builds SEO authority without a second decision engine", () => {
   const functions = read("functions.php");
   const page = read("page-polohovaci-postel.php");

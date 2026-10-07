@@ -827,3 +827,44 @@ It packages:
 - deployment-integrity coverage for the new acquisition page.
 
 No retail wheelchair is labelled reimbursed without exact current SÚKL identity.
+
+
+### ZP-042 Slice 5 Return home after hospital foundation
+Status: **READY_CODE / PRE_UI**
+
+New orchestration layer:
+- question: what must be solved before the first night at home after hospital discharge,
+- reuses existing Mobility, Bathroom/WC, Adjustable Bed and Wheelchair Advisors,
+- no new product catalog,
+- no diagnosis / operation / wound / medication / exact-weight collection.
+
+Practical inputs:
+- discharge timing,
+- entrance readiness,
+- transfer ability,
+- walking mode,
+- WC readiness,
+- bathroom readiness,
+- bed readiness,
+- wheelchair readiness when walking is insufficient,
+- whether home health care is arranged / needed / unknown.
+
+Hard blockers:
+- unsafe entrance route,
+- physical person-assisted transfer without a resolved transfer plan.
+
+Official evidence:
+- NZIP: hospital treating physician can indicate home health care for 14 days after hospitalization; continuation after that is handled by the registering GP,
+- SÚKL: ePoukaz is standard from 1 Jan 2026,
+- SÚKL monthly Seznam ZP remains the product-level reimbursement authority.
+
+First-night priority:
+1. entrance,
+2. transfer,
+3. WC,
+4. bed,
+5. required home health care.
+
+The engine never decides medical fitness for discharge and never converts a shopping problem into a medical recommendation.
+
+See `docs/RETURN_HOME_EVIDENCE_V0.md`.

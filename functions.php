@@ -614,6 +614,29 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ne nutně. VZP popisuje možnost cirkulace, kdy postel zůstává ve vlastnictví pojišťovny a pojištěnci je zapůjčena; může proto jít i o repasované lůžko.',
       ),
     );
+  } elseif ( zaprazi_2_is_wheelchair_acquisition_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Hradí pojišťovna mechanický invalidní vozík?',
+        'answer'   => 'Může, pokud jsou splněny zákonné indikační podmínky a schvalovací postup. VZP uvádí, že žádost často řeší praktický lékař nebo příslušný specialista. ZaPrazi individuální nárok nepotvrzuje.',
+      ),
+      array(
+        'question' => 'Dostanu hrazený vozík do vlastnictví?',
+        'answer'   => 'Ne nutně. VZP uvádí, že většina invalidních vozíků zůstává majetkem zdravotní pojišťovny a pacientovi je zapůjčena.',
+      ),
+      array(
+        'question' => 'Kolik stojí půjčení mechanického invalidního vozíku?',
+        'answer'   => 'Ve veřejných cenících ověřených 7. 10. 2026 jsme našli například 300 Kč, 360 Kč nebo 420 Kč za měsíc. Ceny, zálohy a dostupnost se liší podle půjčovny.',
+      ),
+      array(
+        'question' => 'Je elektrický vozík na pojišťovnu složitější?',
+        'answer'   => 'Ano. VZP u žádosti o elektrický vozík uvádí další podklady včetně zaměřovacího protokolu s datem a podpisem pacienta a technika.',
+      ),
+      array(
+        'question' => 'Mohu si nejdřív koupit vozík a potom chtít proplacení?',
+        'answer'   => 'Na takový postup se nespoléhejte. Retail nákup a hrazená cesta přes předpis, schválení a výdej zdravotnického prostředku jsou odlišné procesy.',
+      ),
+    );
   }
 
   if ( ! $faq ) {
@@ -731,7 +754,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v8' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v9' ) ) {
     return;
   }
 
@@ -776,6 +799,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce pro mechanický nebo elektrický invalidní vozík podle způsobu pohonu, rozměrů, nosnosti a způsobu pořízení.',
       'template' => 'page-invalidni-vozik.php',
     ),
+    'invalidni-vozik-na-pojistovnu' => array(
+      'title'    => 'Invalidní vozík na pojišťovnu 2026: půjčit, koupit nebo řešit úhradu',
+      'excerpt'  => 'Praktické porovnání pojišťovny, půjčovny a přímého nákupu mechanického nebo elektrického invalidního vozíku.',
+      'template' => 'page-invalidni-vozik-na-pojistovnu.php',
+    ),
   );
 
   $all_ready = true;
@@ -808,7 +836,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v8', '1', false );
+    update_option( 'zaprazi_resource_pages_v9', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
@@ -833,6 +861,10 @@ function zaprazi_2_is_bed_acquisition_page() {
   return is_page( 'polohovaci-postel-na-pojistovnu' );
 }
 
+function zaprazi_2_is_wheelchair_acquisition_page() {
+  return is_page( 'invalidni-vozik-na-pojistovnu' );
+}
+
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
@@ -852,6 +884,10 @@ function zaprazi_2_resource_title( $title ) {
 
   if ( zaprazi_2_is_bed_acquisition_page() ) {
     return 'Polohovací postel na pojišťovnu 2026: půjčit nebo koupit | ZaPrazi';
+  }
+
+  if ( zaprazi_2_is_wheelchair_acquisition_page() ) {
+    return 'Invalidní vozík na pojišťovnu 2026: půjčit nebo koupit | ZaPrazi';
   }
 
   return $title;
@@ -878,6 +914,10 @@ function zaprazi_2_resource_description( $description ) {
 
   if ( zaprazi_2_is_bed_acquisition_page() ) {
     return 'Polohovací postel 2026: jak funguje pojišťovna a cirkulace, kolik stojí aktuální půjčovny a kdy dává smysl přímý nákup.';
+  }
+
+  if ( zaprazi_2_is_wheelchair_acquisition_page() ) {
+    return 'Invalidní vozík 2026: jak funguje pojišťovna a cirkulace, aktuální příklady půjčovného a kdy dává smysl přímý nákup.';
   }
 
   return $description;

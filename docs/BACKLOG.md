@@ -784,3 +784,27 @@ Expected affiliate readiness after deployment:
 - Invalidní vozík 0/3.
 
 No wheelchair deeplinks are generated in code. Empty slots use exact canonical UNIZDRAV fallbacks.
+
+
+### ZP-040 Wheelchair high-intent acquisition page
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds:
+- `/invalidni-vozik-na-pojistovnu/`,
+- one combined decision page for insurer / circulation, local rental and direct purchase,
+- VZP mechanical-wheelchair application evidence,
+- VZP electric-wheelchair extra-documentation boundary,
+- SÚKL monthly-list boundary,
+- current public rental examples checked 2026-10-07:
+  - Charita sv. Martina: mechanical wheelchair 300 Kč/month,
+  - Charita Odry: mechanical wheelchair 360 Kč,
+  - Charita Veselí nad Moravou: mechanical wheelchair 420 Kč/month,
+- direct CTA into the Slice 4 Advisor,
+- visible FAQ + matching FAQPage structured data,
+- non-destructive resource registry v9.
+
+Trust boundary:
+- does not determine medical indication,
+- does not confirm individual reimbursement entitlement,
+- does not label P4384, P3641 or P2961 reimbursed without exact current SÚKL identity,
+- rental examples are explicitly local and time-sensitive.

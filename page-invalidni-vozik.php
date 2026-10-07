@@ -114,6 +114,9 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Jak ho získat</p>
       <h2 class="zp-section-title">U vozíku nezačínejte automaticky nákupem.</h2>
+      <div class="zp-hero-actions">
+        <a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Podrobně: pojišťovna, půjčení a kdy koupit</a>
+      </div>
       <div class="zp-acquire-grid">
         <article><h3>Půjčit</h3><p>U krátkodobé potřeby má smysl nejdřív porovnat místní půjčovny a ověřit přesný rozměr dostupného vozíku.</p></article>
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje mechanické vozíky jako hrazenou kategorii při splnění podmínek a uvádí, že většina vozíků zůstává majetkem pojišťovny a pacientovi se půjčuje.</p></article>

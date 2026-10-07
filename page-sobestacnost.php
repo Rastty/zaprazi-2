@@ -70,8 +70,11 @@ get_header();
 
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
-      <p class="zp-kicker">Jak vybíráme</p>
-      <h2 class="zp-section-title">Čtyři úzké problémy místo katalogu stovek pomůcek.</h2>
+      <p class="zp-kicker">Pomůcky pro soběstačnost seniorů</p>
+      <h2 class="zp-section-title">Vybírejte podle konkrétní činnosti, ne podle věku nebo názvu diagnózy.</h2>
+      <p>Nejprve pojmenujte úkon, který člověka doma skutečně omezuje. U pití může být problém v úchopu nebo rozlévání, u jídla ve stabilizaci nebo obsluze jednou rukou a u běžných obalů v nedostatečném úchopu, otočení či zatažení. Každá z těchto situací potřebuje jiný typ pomůcky.</p>
+      <p>Proto Zápraží neukazuje obecný seznam „pomůcek pro seniory“. Nejprve projde praktické podmínky použití a až potom nabídne přesný kandidát. Pokud je problém zdravotní — například samotné polykání — výběr retail produktu zastaví.</p>
+      <h3>Čtyři úzké problémy místo katalogu stovek pomůcek.</h3>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Pití</h3><p>Řešíme držení, naklánění a rozlévání. Pokud je problém v polykání nebo zakuckávání, výběr produktu zastavíme.</p></article>
         <article class="zp-decision-card"><h3>Stabilizace nádoby</h3><p>Držák doporučujeme jen tehdy, když je potvrzená stabilní pracovní plocha a lze bezpečně ověřit rozměr předmětu.</p></article>
@@ -91,6 +94,33 @@ get_header();
         <article class="zp-decision-card"><h3>Postel nebo vozík</h3><p>Pro polohovací postel a invalidní vozík používáme samostatné poradce s technickými fit kontrolami.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></p></article>
       </div>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Pokud řešíte návrat z nemocnice, začněte plánem první noci doma.</a></p>
+    </div>
+  </section>
+
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Pomůcky pro soběstačnost: co má smysl řešit jako první?</h2>
+      <div class="zp-faq">
+        <details>
+          <summary>Jak vybrat pomůcku pro soběstačnost seniora?</summary>
+          <p>Začněte konkrétní činností, která je obtížná: pití, stabilizace nádoby, jídlo jednou rukou nebo otevírání běžného obalu. Zápraží nevybírá podle věku nebo diagnózy, ale podle praktického úkonu a podmínek použití.</p>
+        </details>
+        <details>
+          <summary>Co může pomoci při jídle jednou rukou?</summary>
+          <p>Pokud je hlavní problém opravdu obsluha jídla jednou rukou, může dávat smysl stabilní multifunkční podnos. Před nákupem je potřeba ověřit pracovní plochu a zda pomůcka řeší právě činnost, která doma omezuje samostatnost.</p>
+        </details>
+        <details>
+          <summary>Co dělat, když se člověk při pití zakuckává nebo má problém polykat?</summary>
+          <p>To už není běžný problém s úchopem nádoby. Zápraží v této větvi konkrétní produkt nedoporučí. Poruchu polykání je potřeba odborně posoudit; NZIP uvádí, že příčiny dysfagie má objasnit lékař.</p>
+          <p><a class="zp-text-link" href="https://www.nzip.cz/rejstrikovy-pojem/1949" target="_blank" rel="noopener">Ověřit informace o poruše polykání na NZIP</a></p>
+        </details>
+        <details>
+          <summary>Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?</summary>
+          <p>Ano, existují multifunkční pomůcky pro běžné uzávěry, jazýčky plechovek, zipy a obaly. Tuto větev používáme pouze pro praktický úkon otevírání a neposkytujeme rady k výběru, dávkování ani bezpečnosti léků.</p>
+        </details>
+      </div>
     </div>
   </section>
 

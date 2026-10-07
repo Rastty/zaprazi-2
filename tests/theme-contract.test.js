@@ -318,3 +318,14 @@ test("affiliate admin shows readiness without changing recommendation logic", ()
   assert.doesNotMatch(advisor, /commission/i);
   assert.doesNotMatch(advisor, /affiliate.*sort/i);
 });
+
+
+test("WordPress admins are warned when release integrity is partial", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_release_integrity_admin_notice/);
+  assert.match(functions, /admin_notices/);
+  assert.match(functions, /ZaPrazi deployment partial/);
+  assert.match(functions, /zaprazi_2_release_integrity_ok\(\)/);
+  assert.match(functions, /current_user_can\( 'manage_options' \)/);
+});

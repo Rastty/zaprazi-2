@@ -352,7 +352,7 @@ Implemented:
 - unit tests for safety branches and catalog eligibility.
 
 Still open after first UI:
-- bathtub-transfer evidence remains professional-check only,
+- simple independent bathtub-transfer evidence is now closed for one exact seat; assisted/uncertain transfer remains professional-check only,
 - exact product-level SÚKL mapping where identity can be proven,
 - exact UNIZDRAV affiliate deeplinks after production smoke.
 
@@ -399,7 +399,7 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **READY_DEPLOY_0_8_12 / 0_OF_5_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_5_DEEPLINKS**
 
 Adds five exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
@@ -424,7 +424,7 @@ RehaVita.cz:
 
 
 ### ZP-026 Bathroom/WC reimbursement resource
-Status: **READY_DEPLOY_0_8_13**
+Status: **DEPLOY_CONFIRMED_0_8_13 / PUBLIC_SMOKE_PARTIAL**
 
 Adds high-intent resource page:
 - `/pomucky-do-koupelny-na-pojistovnu/`
@@ -442,3 +442,34 @@ Current official evidence checked 2026-10-07:
 - SÚKL publishes the official reimbursed-device list monthly for the following month and may issue corrective lists.
 
 No exact UNIZDRAV product is labelled reimbursed.
+
+
+### ZP-027 Safe bath-transfer branch
+Status: **READY_CODE / PRE_RELEASE**
+
+Unlocks one narrow bathtub branch that was previously professional-check only.
+
+Automatic product selection is allowed only when all of these are explicit:
+- general transfer is independent,
+- user can sit on a stable bath seat and move both legs over the rim without physical assistance,
+- the bath inner rim width is 41–65 cm,
+- the seat can be securely fixed without movement,
+- the 100 kg product load limit is confirmed as sufficient.
+
+Verified production candidate:
+- BESCO BES-BS008 — bath transfer seat with handle,
+- merchant: RehabilitačníPomůcky.cz,
+- direct-pay canonical fallback,
+- separate affiliate runtime slot prepared but left empty until an exact publisher deeplink is supplied.
+
+Fail-closed boundaries:
+- physical help / lifting -> professional check,
+- unknown transfer -> no product,
+- bath does not fit -> no product,
+- combined shower/toilet wheelchair remains professional-check only.
+
+Evidence:
+- current merchant specifications checked 2026-10-07,
+- independent public guidance supports seated bath-board style transfer only with correct fit, secure use and appropriate transfer ability.
+
+No diagnosis question and no raw health data were added.

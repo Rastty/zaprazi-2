@@ -399,9 +399,9 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_5_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_6_DEEPLINKS**
 
-Adds five exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
+Adds exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
 - UNIZDRAV P2015,
 - UNIZDRAV P2807,
@@ -445,7 +445,7 @@ No exact UNIZDRAV product is labelled reimbursed.
 
 
 ### ZP-027 Safe bath-transfer branch
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_14**
 
 Unlocks one narrow bathtub branch that was previously professional-check only.
 

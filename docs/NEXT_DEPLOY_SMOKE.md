@@ -1,78 +1,88 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.13
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.14
 
-Run after deploying release 0.8.13 from `dev`.
+Run after deploying release 0.8.14 from `dev`.
 
 ## 1. Release integrity
 
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.13`,
+- `zaprazi-release` = `0.8.14`,
 - `zaprazi-integrity` = `ok`,
-- homepage, `/koupelna-a-wc/` and the new reimbursement page load without errors.
+- homepage, `/koupelna-a-wc/` and `/pomucky-do-koupelny-na-pojistovnu/` load without errors.
 
-## 2. New Bathroom/WC reimbursement resource
+## 2. Bathroom/WC — new bath-transfer branch
 
 Open:
-`/pomucky-do-koupelny-na-pojistovnu/`
+`/koupelna-a-wc/`
+
+Choose:
+- problem: **Je problém dostat se přes okraj vany**
+- general transfer: **Samostatně**
+- load fit: **Ano**
+- can sit and move both legs over the bath rim without physical assistance: **Ano**
+- bath inner rim width 41–65 cm and secure fixing possible: **Ano**
 
 Expected:
-- normal published WordPress page,
-- H1: Pomůcky do koupelny a na WC na pojišťovnu v roce 2026,
-- visible VZP evidence date 29. 9. 2026,
-- prior insurer approval is explained,
-- group examples include shower/bath seats, shower chairs, shower wheelchairs, toilet chairs and toilet wheelchairs,
-- 1 piece / 10 years is presented only as the current VZP rule for the described group,
-- practical doctor is listed among VZP-described prescriber specialties,
-- SÚKL monthly-list freshness is explained.
+- candidate result,
+- exact product: **BESCO BES-BS008 — sedačka na vanu s madlem**,
+- merchant: RehabilitačníPomůcky.cz,
+- canonical merchant link while affiliate slot is empty,
+- separate reimbursement-alternative explanation remains visible.
 
-Must NOT claim:
-- UNIZDRAV P2868 is reimbursed,
-- UNIZDRAV P2131 is reimbursed,
-- any individual qualifies automatically.
+## 3. Bath-transfer fail-closed checks
 
-## 3. FAQ + schema parity
-
-Visible FAQ must contain:
-- Hradí pojišťovna sprchovací nebo toaletní židli?
-- Mohu si koupit pomůcku a potom požádat pojišťovnu o proplacení?
-- Může pomůcku do koupelny předepsat praktický lékař?
-- Je nástavec na WC automaticky hrazený?
+Repeat with any one of:
+- regular physical assistance,
+- bath-specific transfer = **Ne**,
+- bath-specific transfer = **Nevím**,
+- bath fit = **Ne**,
+- bath fit = **Nevím**,
+- load fit = **Ne/Nevím**.
 
 Expected:
-- resource FAQ structured data mirrors the same wording.
+- no exact bath product where critical safety/fit information is missing or unsafe,
+- physical help routes to professional check.
 
-## 4. Advisor internal route
+## 4. Higher-support regression
 
-Run an eligible Bathroom/WC branch.
-
-Expected under **Prověřit hrazenou alternativu**:
-- internal link **Jak funguje úhrada koupelnových pomůcek**,
-- separate links to current SÚKL and VZP sources.
-
-## 5. Affiliate regression
-
-Open **Nastavení → ZaPrazi affiliate**.
+Choose:
+- combined shower/toilet wheelchair.
 
 Expected:
-- Mobility remains 3/3,
-- Koupelna a WC remains 0/5 until exact UNIZDRAV publisher deeplinks are entered,
-- all five Bathroom/WC canonical fallbacks still work,
-- affiliate state does not change recommendation order.
+- professional-check result,
+- no exact product,
+- no commercial shortcut.
 
-## 6. Safety regression
+## 5. Affiliate admin
+
+Open:
+**Nastavení → ZaPrazi affiliate**
 
 Expected:
-- assisted transfer → professional-check only,
-- bath transfer → professional-check only,
-- combined shower/toilet wheelchair → professional-check only,
-- no commercial shortcut on those branches.
+- Mobility: **3 / 3**
+- Koupelna a WC: **0 / 6** until Bathroom deeplinks are supplied,
+- new slot: **RehabilitačníPomůcky.cz — BESCO BS008 sedačka na vanu s madlem**,
+- exact target: `https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/`,
+- empty slot uses canonical fallback.
+
+## 6. Existing Bathroom regression
+
+Expected:
+- raised WC safe-fit → P2868,
+- toilet support with unverified wall fixing → P2015 only,
+- shower seated safe-fit → P2062,
+- toilet nearby safe-fit → P2807.
+
+## 7. Reimbursement separation
+
+Expected:
+- direct retail BESCO BS008 is not labelled as reimbursed,
+- reimbursement route still points to the explanatory page and official VZP/SÚKL sources.
 
 ## After smoke
 
-Next Slice 2 work:
-1. exact UNIZDRAV publisher deeplinks for the 5 production slots,
-2. product-level SÚKL mapping only where exact identity can be proven,
-3. further SEO/reference pages only after useful query evidence or a clear high-intent gap.
-
-Search Console remains the trigger for switching to track 2.
+Next:
+1. exact publisher deeplink for BESCO BS008 plus the five UNIZDRAV Bathroom slots,
+2. then expand only where a new decision scenario is unlocked,
+3. switch to Search Console track 2 as soon as query/page data become accessible.

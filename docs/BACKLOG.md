@@ -1497,7 +1497,7 @@ Resource registry advances to v17.
 
 
 ### ZP-070 Release 0.8.34 — Toilet-chair Advisor + asset-loader hotfix
-Status: **READY_DEPLOY**
+Status: **DEPLOYED**
 
 Release 0.8.34 supersedes 0.8.33.
 
@@ -1515,3 +1515,28 @@ Packages:
 - regression tests preventing FAQ payload from re-entering the asset loader.
 
 This release is a functional hotfix as well as a new acquisition slice and should replace production 0.8.33 as soon as practical.
+
+
+### ZP-071 Toilet-support high-intent micro-Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/madlo-k-wc-pro-seniory/` for the high-intent query cluster around WC grab rails and support frames.
+
+Decision:
+- confirmed safe wall fixing → compare fixed UNIZDRAV P2131 + support-frame alternative,
+- wall fixing unverified / impossible → do not recommend the wall rail; keep UNIZDRAV P2015 as the structural alternative,
+- person-assist or unverified load fit still fails closed through the existing Bathroom engine.
+
+Exact candidates:
+- P2015 toaletní opora — width 53–63 cm, depth 47 cm, height 64–74 cm, max load 100 kg,
+- P2131 fixed anti-slip rail — 30 / 40 / 45 cm variants, 5.5 cm wall offset, max product load 100 kg.
+
+Commercial:
+- reuses existing `unizdrav-cz:p2015` and `unizdrav-cz:p2131` slots,
+- no duplicate merchant logic.
+
+SEO / UX:
+- dedicated title/meta,
+- four visible FAQs + matching resource FAQ schema,
+- links from Bathroom/WC, insurer guide, compensatory hub and footer,
+- resource registry v18.

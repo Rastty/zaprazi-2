@@ -46,6 +46,21 @@ Model consequence:
 - this branch is based on the practical access problem, not diagnosis,
 - stable floor, space fit and non-assisted transfer must be confirmed before an exact product is returned.
 
+### Bath transfer seat over the tub rim
+
+Independent public guidance supports seated transfer over the bath as a possible way to reduce slipping risk, but repeatedly places emphasis on assessment, correct sizing/fit and learning the transfer.
+
+Sources:
+- https://www.guysandstthomas.nhs.uk/health-information/daily-tasks-using-1-hand
+- https://www.northerncarealliance.nhs.uk/patient-information/patient-leaflets/orthopaedic-surgery-therapy-information-following-hip-surgery
+
+Model consequence:
+- automated selection is allowed only for a simple **independent** seated transfer,
+- any physical lifting/assistance or uncertain balance routes to professional check,
+- exact bath fit and secure installation must be confirmed before a product is returned,
+- the product load limit must be explicitly checked,
+- higher-support bath transfer remains outside the automated route.
+
 ## Verified product candidates
 
 ### UNIZDRAV P2868 — raised toilet seat, 15 cm
@@ -120,6 +135,24 @@ Source:
 
 Status: **PRODUCTION_CANDIDATE_ONLY_WITH_VERIFIED_WALL_FIXING**
 
+### BESCO BES-BS008 — bath transfer seat with handle
+
+Verified:
+- seat width 69 cm,
+- seat depth 31 cm,
+- compatible inner bath width 41–65 cm,
+- max load 100 kg,
+- four adjustable spacer feet for secure positioning.
+
+Source:
+- https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/
+
+Status: **PRODUCTION_CANDIDATE_ONLY_AFTER_INDEPENDENT_TRANSFER_AND_EXACT_BATH_FIT_GATES**
+
+Important:
+- RehabilitačníPomůcky.cz explicitly states that it does not process health-insurance reimbursement; this offer is a direct-pay route only,
+- the existence of a reimbursed bath-seat category does not make this exact retail product reimbursed.
+
 ### UNIZDRAV P2085 — combined shower/toilet wheelchair
 
 Verified merchant facts:
@@ -142,7 +175,8 @@ Reason:
 
 ## Deliberate exclusions from v1
 
-- bathtub transfer products,
+- assisted or uncertain bathtub transfers,
+- bath seats/boards that do not have exact fit and secure-installation evidence,
 - suction grab rails,
 - wheeled hygiene chairs as an automated recommendation,
 - reimbursement claims,
@@ -156,6 +190,6 @@ The model asks only whether a product's published load limit safely covers the u
 
 ## Next evidence increment
 
-1. Verify one bathtub-transfer family from independent guidance plus exact product documentation.
-2. Research Czech acquisition/reimbursement or rental routes for Bathroom/WC categories.
-3. Only after product evidence passes, request the small exact batch of UNIZDRAV deeplinks.
+1. Keep the newly verified independent bath-transfer branch narrow; do not generalize it to assisted transfer.
+2. Verify exact product-level SÚKL identity only where a retail product can be matched without ambiguity.
+3. Generate only the exact affiliate deeplinks for production-eligible Bathroom/WC slots after deployment smoke.

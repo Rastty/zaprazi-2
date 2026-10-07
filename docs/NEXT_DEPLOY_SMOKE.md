@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.28
+# Next Deploy Smoke — Zápraží 2.0 v0.8.29
 
-This release supersedes 0.8.27. Deploy only 0.8.28 from `dev`.
+This release supersedes 0.8.28. Deploy only 0.8.29 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.28`
+- `zaprazi-release` = `0.8.29`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -130,3 +130,19 @@ Expected:
 - four visible FAQs are present
 - FAQPage schema contains the same four questions
 - swallowing FAQ links to NZIP and still results in no retail product recommendation.
+
+
+## 12. Compensatory aids SEO hub
+Open `/kompenzacni-pomucky-pro-seniory/`.
+
+Expected:
+- H1 contains **Kompenzační pomůcky pro seniory**
+- all six core decision journeys are linked,
+- page explains buy / rent / insurer as separate paths,
+- SÚKL link explains ePoukaz from 1 Jan 2026,
+- SÚKL boundary says ePoukaz does not itself change price or reimbursement,
+- VZP source is visible,
+- five visible FAQs are present,
+- FAQPage schema contains the same five questions,
+- no product catalog or merchant ranking appears on the page,
+- homepage and footer link to this guide.

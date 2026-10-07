@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.44
+# Next Deploy Smoke — Zápraží 2.0 v0.8.45
 
-This release supersedes 0.8.43. Deploy only 0.8.44 from `dev`.
+This release supersedes 0.8.44. Deploy only 0.8.45 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -451,4 +451,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.44`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 30. Safe-home fall-prevention authority
+Open `/bezpecny-byt-pro-seniora/`.
+
+Expected:
+- H1 covers **Jak upravit byt pro seniora** and **předcházet pádům doma**,
+- document title is **Jak upravit byt pro seniora a předcházet pádům | Zápraží**,
+- meta description includes home audit + fall-prevention intent,
+- prevention section uses **Prevence pádů seniorů doma**,
+- visible FAQ asks **Jak předcházet pádům seniorů doma?** and FAQPage schema mirrors it,
+- Mobility links route to `/choditka-pro-seniory/`,
+- no duplicate decision engine or product ranking is introduced.
+
+Release integrity:
+- `zaprazi-release` = `0.8.45`,
 - `zaprazi-integrity` = `ok`.

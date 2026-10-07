@@ -297,3 +297,12 @@ a{color:inherit}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
 /* ZP_RELEASE_0_8_42 */
+
+
+.zp-affiliate-policy {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  opacity: 0.78;
+}

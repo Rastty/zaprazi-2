@@ -90,12 +90,12 @@ if (form && result && submitButton && errorBox) {
           const offer = resolveOffer(rawOffer);
           const rel = offer.isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow";
           return `
-            <div class="zp-offer">
+            <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
               <strong>${escapeHtml(offer.merchantName)}</strong>
               <p>${escapeHtml(offer.note)}</p>
               ${offer.freshnessStatus === "fresh" ? "" : '<p class="zp-stale-evidence">Nabídka nebyla v posledních 30 dnech znovu ověřena. Před nákupem zkontrolujte aktuální cenu a dostupnost.</p>'}
               <a class="zp-link-btn" data-zp-merchant-link="1" href="${escapeHtml(offer.resolvedUrl)}" target="_blank" rel="${rel}">
-                ${offer.isAffiliate ? "Přejít k obchodníkovi" : "Zobrazit produkt u obchodníka"}
+                ${offer.isAffiliate ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}
               </a>
               ${offer.isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
             </div>

@@ -329,3 +329,28 @@ test("WordPress admins are warned when release integrity is partial", () => {
   assert.match(functions, /zaprazi_2_release_integrity_ok\(\)/);
   assert.match(functions, /current_user_can\( 'manage_options' \)/);
 });
+
+test("homepage FAQ structured data mirrors visible Mobility FAQs", () => {
+  const functions = read("functions.php");
+  const front = read("front-page.php");
+
+  assert.match(functions, /zaprazi_2_front_faq_schema/);
+  assert.match(functions, /'@type'\s*=>\s*'FAQPage'/);
+  assert.match(functions, /'@type'\s*=>\s*'Question'/);
+  assert.match(functions, /'@type'\s*=>\s*'Answer'/);
+  assert.match(functions, /data-zaprazi-schema="faq"/);
+
+  for (const question of [
+    "Jaké chodítko pro seniora do bytu?",
+    "Jaké chodítko nebo rollátor na ven?",
+    "Je lepší chodítko půjčit, nebo koupit?",
+    "Hradí chodítko zdravotní pojišťovna?"
+  ]) {
+    assert.ok(functions.includes(question));
+    assert.ok(front.includes(question));
+  }
+
+  assert.match(functions, /nepotvrzuje individuální nárok konkrétního člověka/);
+  assert.doesNotMatch(functions, /FAQPage[\s\S]*provize/i);
+});
+

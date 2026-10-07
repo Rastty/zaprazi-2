@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.38
+# Next Deploy Smoke — Zápraží 2.0 v0.8.39
 
-This release supersedes 0.8.37. Deploy only 0.8.38 from `dev`.
+This release supersedes 0.8.38. Deploy only 0.8.39 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -350,4 +350,21 @@ Header regression:
 
 Release integrity:
 - `zaprazi-release` = `0.8.38`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 24. Adjustable bed SEO authority
+Open `/polohovaci-postel/`.
+
+Expected:
+- H1 contains **Polohovací postel pro seniory**,
+- document title is **Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží**,
+- meta description mentions purpose, transfer, load and room/transport fit,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing Bed Advisor remains the only suitability engine,
+- load and space gates remain unchanged,
+- links to acquisition/insurance, safe-home audit and return-home journey are visible.
+
+Release integrity:
+- `zaprazi-release` = `0.8.39`,
 - `zaprazi-integrity` = `ok`.

@@ -1737,3 +1737,19 @@ Safety boundary stays unchanged:
 - complex in-bed care remains a separate guarded scenario.
 
 Commercial routing and affiliate ranking are unchanged.
+
+
+### ZP-082 Release 0.8.39 — Adjustable bed SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.39 supersedes 0.8.38.
+
+Packages:
+- everything from deployed 0.8.38,
+- `/polohovaci-postel/` authority layer for the **polohovací postel pro seniory** head-term,
+- five visible FAQ items with exact FAQPage schema parity,
+- stronger links to acquisition/insurance, safe-home and return-home journeys,
+- unchanged Bed Advisor decision logic, safety gates and affiliate ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

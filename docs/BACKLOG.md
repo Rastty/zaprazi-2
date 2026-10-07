@@ -424,7 +424,7 @@ RehaVita.cz:
 
 
 ### ZP-026 Bathroom/WC reimbursement resource
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_13**
 
 Adds high-intent resource page:
 - `/pomucky-do-koupelny-na-pojistovnu/`

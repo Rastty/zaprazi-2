@@ -1006,3 +1006,15 @@ Expected affiliate readiness after deployment:
 Commercial rule:
 - affiliate availability never changes product suitability or ranking,
 - fit-check and professional-check states must not become shopping-first flows.
+
+
+### ZP-048 Core scenario internal-link architecture
+Status: **DONE_CODE**
+
+Adds navigational cross-links without mixing decision logic:
+- Return-home page points to Soběstačnost only after the critical first-night section.
+- Soběstačnost links back to Mobility, Bathroom/WC, Adjustable Bed, Wheelchair and Return-home.
+- Return-home engine remains product-free and contains no RehaVita candidate logic.
+- The goal is to reduce dead ends and strengthen topical relationships between the six core user scenarios.
+
+No new affiliate ranking or health-data collection is introduced.

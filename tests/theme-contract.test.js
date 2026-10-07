@@ -536,6 +536,29 @@ test("commercial Advisor CTAs are clear, trustworthy and consistently tracked", 
 });
 
 
+test("affiliate deeplink workbench is network-aware and keeps RehaVita on eHUB", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_affiliate_merchant_networks/);
+  assert.match(functions, /zaprazi_2_affiliate_network_for_key/);
+  assert.match(functions, /'unizdrav-cz' => array/);
+  assert.match(functions, /CJ program 5654758/);
+  assert.match(functions, /'rehavita-cz' => array/);
+  assert.match(functions, /eHUB kampaň 18119967/);
+  assert.doesNotMatch(functions, /RehaVita\.cz \(VIV 18119967\)/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\)/);
+
+  assert.match(functions, /Deeplink workbench/);
+  assert.match(functions, /Kopírovat URL/);
+  assert.match(functions, /zp-copy-affiliate-target/);
+  assert.match(functions, /data-zp-copy-target/);
+  assert.match(functions, /navigator\.clipboard/);
+
+  assert.match(functions, /'network' => \$network\['network'\]/);
+  assert.match(functions, /'program' => \$network\['program'\]/);
+});
+
+
 test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");
   const mobilityAdvisor = read("assets/js/mobility-advisor.js");
@@ -585,6 +608,8 @@ test("public affiliate readiness API exposes counts and missing canonical target
   assert.match(payloadCode, /zaprazi_2_affiliate_targets/);
   assert.match(payloadCode, /zaprazi_2_affiliate_fields/);
   assert.match(payloadCode, /zaprazi_2_affiliate_groups/);
+  assert.match(payloadCode, /'network'/);
+  assert.match(payloadCode, /'program'/);
 });
 
 
@@ -1358,16 +1383,16 @@ test("global footer exposes all six core advisor journeys", () => {
 });
 
 
-test("RehaVita affiliate helper identifies VIV advertiser without fabricating tracking URLs", () => {
+test("RehaVita affiliate helper identifies eHUB campaign without fabricating tracking URLs", () => {
   const functions = read("functions.php");
   const evidence = read("docs/ADL_SELF_CARE_EVIDENCE_V0.md");
 
-  assert.match(functions, /RehaVita\.cz \(VIV 18119967\)/);
-  assert.match(functions, /advertiser <strong>18119967<\/strong>/);
-  assert.match(functions, /CJ Deep Link Generator/);
-  assert.match(evidence, /VIVnetworks \/ CJ/);
-  assert.match(evidence, /advertiser ID: \*\*18119967\*\*/);
-  assert.match(evidence, /do not manually construct PID\/AID\/tracking parameters/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\)/);
+  assert.match(functions, /eHUB kampaň <strong>18119967<\/strong>/);
+  assert.match(functions, /standardní eHUB deeplink/);
+  assert.match(evidence, /network: \*\*eHUB\*\*/);
+  assert.match(evidence, /campaign ID: \*\*18119967\*\*/);
+  assert.match(evidence, /do not manually construct tracking parameters/);
   assert.doesNotMatch(functions, /jdoqocy\.com\/click-[0-9]/i);
   assert.doesNotMatch(functions, /anrdoezrs\.net\/links\/[0-9]/i);
 });
@@ -1398,7 +1423,7 @@ test("ADL packaging branch stays narrow and does not become medication advice", 
   assert.match(page, /ne rozhodování o lécích/i);
   assert.match(engine, /MVS Open-It/);
   assert.match(engine, /neřeší výběr, dávkování ani bezpečnost léků/i);
-  assert.match(functions, /RehaVita\.cz \(VIV 18119967\) — MVS Open-It 15-050105/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\) — MVS Open-It 15-050105/);
 });
 
 

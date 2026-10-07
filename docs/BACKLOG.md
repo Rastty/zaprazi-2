@@ -2084,7 +2084,7 @@ This is operational visibility only; recommendation logic, product order and mer
 
 
 ### ZP-100 Release 0.8.48 — Affiliate readiness diagnostics
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE API VERIFY_PENDING**
 
 Release 0.8.48 supersedes deployed 0.8.47.
 
@@ -2098,3 +2098,27 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-101 Affiliate deeplink workbench
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Turns the WordPress affiliate admin into a network-aware batch workbench for missing deeplinks.
+
+Adds:
+- merchant → network metadata,
+- UNIZDRAV mapped to **VIV/CJ**, public CJ program **5654758**,
+- RehaVita corrected to **eHUB campaign 18119967**,
+- RehabilitačníPomůcky.cz, Lékárna.cz, Dr.Max and Zdravá Obuv mapped to **VIV/CJ**,
+- missing deeplink table with network, product, canonical target, slot key and **Kopírovat URL** action,
+- readiness API missing rows now expose network/program metadata too.
+
+Important correction:
+- previous admin text incorrectly described RehaVita campaign 18119967 as VIV/CJ,
+- public current evidence shows it as an eHUB campaign,
+- the code and admin copy now use eHUB.
+
+Commercial boundary:
+- tracking URLs are still generated only in the approved affiliate account,
+- no guessed publisher IDs or hand-built tracking links,
+- recommendation logic and product order remain unchanged.

@@ -124,10 +124,10 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p4384' => 'UNIZDRAV — P4384 invalidní vozík Basic',
     'unizdrav-cz:p3641' => 'UNIZDRAV — P3641 odlehčený mechanický vozík',
     'unizdrav-cz:p2961' => 'UNIZDRAV — P2961 elektrický invalidní vozík 46 cm',
-    'rehavita-cz:upcup-15-050101' => 'RehaVita.cz (VIV 18119967) — UpCup 15-050101',
-    'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz (VIV 18119967) — Beat It 15-050102',
-    'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz (VIV 18119967) — Theomatik 15-050103',
-    'rehavita-cz:open-it-15-050105' => 'RehaVita.cz (VIV 18119967) — MVS Open-It 15-050105',
+    'rehavita-cz:upcup-15-050101' => 'RehaVita.cz (eHUB 18119967) — UpCup 15-050101',
+    'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz (eHUB 18119967) — Beat It 15-050102',
+    'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz (eHUB 18119967) — Theomatik 15-050103',
+    'rehavita-cz:open-it-15-050105' => 'RehaVita.cz (eHUB 18119967) — MVS Open-It 15-050105',
     'zdrava-obuv-cz:arsene' => 'Zdravá Obuv — PodoWell ARSENE',
     'zdrava-obuv-cz:xavier' => 'Zdravá Obuv — PodoWell XAVIER',
     'zdrava-obuv-cz:altitude' => 'Zdravá Obuv — PodoWell ALTITUDE',
@@ -224,6 +224,52 @@ function zaprazi_2_affiliate_groups() {
   );
 }
 
+function zaprazi_2_affiliate_merchant_networks() {
+  return array(
+    'rehabilitacni-pomucky-cz' => array(
+      'network' => 'VIV/CJ',
+      'program' => '',
+    ),
+    'lekarna-cz' => array(
+      'network' => 'VIV/CJ',
+      'program' => '',
+    ),
+    'unizdrav-cz' => array(
+      'network' => 'VIV/CJ',
+      'program' => 'CJ program 5654758',
+    ),
+    'drmax-cz' => array(
+      'network' => 'VIV/CJ',
+      'program' => '',
+    ),
+    'rehavita-cz' => array(
+      'network' => 'eHUB',
+      'program' => 'eHUB kampaň 18119967',
+    ),
+    'zdrava-obuv-cz' => array(
+      'network' => 'VIV/CJ',
+      'program' => '',
+    ),
+  );
+}
+
+function zaprazi_2_affiliate_network_for_key( $key ) {
+  $merchant = strstr( $key, ':', true );
+  if ( false === $merchant ) {
+    $merchant = $key;
+  }
+
+  $networks = zaprazi_2_affiliate_merchant_networks();
+  if ( isset( $networks[ $merchant ] ) ) {
+    return $networks[ $merchant ];
+  }
+
+  return array(
+    'network' => 'Ověřit síť',
+    'program' => '',
+  );
+}
+
 function zaprazi_2_affiliate_readiness_payload() {
   $values = get_option( 'zaprazi_affiliate_map', array() );
   if ( ! is_array( $values ) ) {
@@ -250,10 +296,13 @@ function zaprazi_2_affiliate_readiness_payload() {
         continue;
       }
 
+      $network = zaprazi_2_affiliate_network_for_key( $key );
       $missing[] = array(
-        'key'    => $key,
-        'label'  => isset( $fields[ $key ] ) ? $fields[ $key ] : $key,
-        'target' => isset( $targets[ $key ] ) ? $targets[ $key ] : '',
+        'key'     => $key,
+        'label'   => isset( $fields[ $key ] ) ? $fields[ $key ] : $key,
+        'target'  => isset( $targets[ $key ] ) ? $targets[ $key ] : '',
+        'network' => $network['network'],
+        'program' => $network['program'],
       );
     }
 
@@ -366,6 +415,22 @@ function zaprazi_2_render_settings_page() {
       'total'      => count( $group['keys'] ),
     );
   }
+
+  $missing_workbench = array();
+  foreach ( $fields as $key => $label ) {
+    if ( ! empty( $values[ $key ] ) ) {
+      continue;
+    }
+
+    $network = zaprazi_2_affiliate_network_for_key( $key );
+    $missing_workbench[] = array(
+      'key'     => $key,
+      'label'   => $label,
+      'target'  => isset( $targets[ $key ] ) ? $targets[ $key ] : '',
+      'network' => $network['network'],
+      'program' => $network['program'],
+    );
+  }
   ?>
   <div class="wrap">
     <h1>Zápraží affiliate routing</h1>
@@ -376,8 +441,63 @@ function zaprazi_2_render_settings_page() {
     </div>
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
-      <p><strong>RehaVita.cz:</strong> schválený program je vedený přes VIVnetworks/CJ jako advertiser <strong>18119967</strong>. Pro UpCup, Beat It, Theomatik a Open-It otevřete níže uvedenou přesnou produktovou URL a použijte CJ Deep Link Generator / jeho Chrome rozšíření. Vygenerovaný odkaz patří vždy jen do odpovídajícího slotu.</p>
+      <p><strong>Sítě ověřené 7. 10. 2026:</strong> RehabilitačníPomůcky.cz, Lékárna.cz, UNIZDRAV, Dr.Max a Zdravá Obuv používají VIV/CJ. UNIZDRAV má veřejně uvedený CJ program <strong>5654758</strong>. RehaVita.cz používá eHUB kampaň <strong>18119967</strong>. Tracking URL vždy generujte v příslušné síti; ručně je neskládejte.</p>
     </div>
+
+    <div class="notice notice-warning inline" style="margin:16px 0 18px">
+      <p><strong>RehaVita.cz:</strong> eHUB uvádí doménové trackování, ale Zápraží ho nepovažuje za náhradu přesného affiliate odkazu. Pro UpCup, Beat It, Theomatik a Open-It vytvořte standardní eHUB deeplink pro odpovídající cílovou URL.</p>
+    </div>
+
+    <h2>Deeplink workbench</h2>
+    <p>Chybějící affiliate sloty jsou seskupené v jednom seznamu. Zkopírujte cílovou URL, vygenerujte deeplink v uvedené síti a výsledek vložte do odpovídajícího pole níže.</p>
+    <?php if ( $missing_workbench ) : ?>
+      <table class="widefat striped" style="margin:12px 0 22px">
+        <thead>
+          <tr>
+            <th>Síť</th>
+            <th>Produkt</th>
+            <th>Cílová URL</th>
+            <th>Slot</th>
+          </tr>
+        </thead>
+        <tbody>
+        <?php foreach ( $missing_workbench as $item ) : ?>
+          <tr>
+            <td>
+              <strong><?php echo esc_html( $item['network'] ); ?></strong>
+              <?php if ( $item['program'] ) : ?><br><small><?php echo esc_html( $item['program'] ); ?></small><?php endif; ?>
+            </td>
+            <td><?php echo esc_html( $item['label'] ); ?></td>
+            <td>
+              <?php if ( $item['target'] ) : ?>
+                <code style="word-break:break-all"><?php echo esc_html( $item['target'] ); ?></code><br>
+                <button type="button" class="button button-small zp-copy-affiliate-target" data-zp-copy-target="<?php echo esc_attr( $item['target'] ); ?>">Kopírovat URL</button>
+                <a class="button button-small" href="<?php echo esc_url( $item['target'] ); ?>" target="_blank" rel="noopener noreferrer">Otevřít produkt ↗</a>
+              <?php else : ?>
+                <em>Chybí canonical target</em>
+              <?php endif; ?>
+            </td>
+            <td><code><?php echo esc_html( $item['key'] ); ?></code></td>
+          </tr>
+        <?php endforeach; ?>
+        </tbody>
+      </table>
+      <script>
+        document.addEventListener("click", function (event) {
+          var button = event.target.closest(".zp-copy-affiliate-target");
+          if (!button) return;
+          var target = button.getAttribute("data-zp-copy-target") || "";
+          if (!target || !navigator.clipboard) return;
+          navigator.clipboard.writeText(target).then(function () {
+            var original = button.textContent;
+            button.textContent = "Zkopírováno";
+            window.setTimeout(function () { button.textContent = original; }, 1400);
+          });
+        });
+      </script>
+    <?php else : ?>
+      <div class="notice notice-success inline"><p><strong>Všechny affiliate sloty jsou vyplněné.</strong></p></div>
+    <?php endif; ?>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">
       <?php foreach ( $readiness as $item ) : ?>

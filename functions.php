@@ -561,7 +561,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v3' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v4' ) ) {
     return;
   }
 
@@ -580,6 +580,11 @@ function zaprazi_2_ensure_resource_pages() {
       'title'    => 'Ochrana soukromí a měření návštěvnosti',
       'excerpt'  => 'Jak ZaPrazi pracuje s odpověďmi z poradce, volitelným Google Analytics a nastavením souhlasu.',
       'template' => 'page-ochrana-soukromi.php',
+    ),
+    'koupelna-a-wc' => array(
+      'title'    => 'Koupelna a WC: bezpečnější řešení doma',
+      'excerpt'  => 'Praktický poradce pro zvýšení WC, opory, toaletní a sprchovací židle a bezpečné rozhodnutí mezi koupí, půjčením a hrazenou alternativou.',
+      'template' => 'page-koupelna-a-wc.php',
     ),
   );
 
@@ -613,7 +618,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v3', '1', false );
+    update_option( 'zaprazi_resource_pages_v4', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

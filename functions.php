@@ -365,6 +365,10 @@ function zaprazi_2_is_compensatory_aids_page() {
   return is_page( 'kompenzacni-pomucky-pro-seniory' );
 }
 
+function zaprazi_2_is_safe_home_page() {
+  return is_page( 'bezpecny-byt-pro-seniora' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -487,6 +491,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
   }
+  if ( zaprazi_2_is_safe_home_page() ) {
+    return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -512,6 +519,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
+  }
+  if ( zaprazi_2_is_safe_home_page() ) {
+    return 'Jak upravit byt pro seniora: bezpečný domov krok za krokem | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -539,6 +549,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Praktický průvodce kompenzačními pomůckami pro seniory: chůze, koupelna a WC, postel, vozík, soběstačnost a rozdíl mezi koupí, půjčením a pojišťovnou.';
+  }
+  if ( zaprazi_2_is_safe_home_page() ) {
+    return 'Jak upravit byt pro seniora: praktický audit vstupu, trasy postel–WC, koupelny, osvětlení, překážek a návazných kompenzačních pomůcek.';
   }
   return $description;
 }
@@ -765,6 +778,29 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'U krátkodobé nebo nejisté potřeby může být půjčení praktičtější. U dlouhodobé potřeby je rozumné nejdřív prověřit pojišťovnu a pak porovnat přímý nákup. Vždy ale musí sedět typ a technické parametry pomůcky.',
       ),
     );
+  } elseif ( zaprazi_2_is_safe_home_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Co upravit v bytě pro seniora jako první?',
+        'answer'   => 'Začněte trasami, které používá denně: vstup, postel k WC a koupelna. Odstraňte překážky na zemi, ověřte osvětlení a sledujte, kde se člověk přidržuje nábytku nebo potřebuje pomoc.',
+      ),
+      array(
+        'question' => 'Jak snížit riziko pádu doma?',
+        'answer'   => 'NZIP doporučuje mimo jiné odstranit překážky a volné kabely, použít protiskluzové prvky v koupelně, zajistit dostatečné osvětlení a podle potřeby používat vhodnou pomůcku při chůzi.',
+      ),
+      array(
+        'question' => 'Je lepší přidat madla, nebo koupit chodítko?',
+        'answer'   => 'Řeší jiný problém. Madlo pomáhá v konkrétním místě, zatímco chodítko poskytuje oporu při pohybu. Nejprve zjistěte, kdy a kde člověk oporu skutečně potřebuje.',
+      ),
+      array(
+        'question' => 'Kdy má smysl polohovací postel?',
+        'answer'   => 'Pokud je problém s bezpečným vstáváním, polohováním nebo péčí u lůžka, má smysl prověřit technické požadavky a způsob pořízení. Samotný věk není důvodem pro výběr polohovací postele.',
+      ),
+      array(
+        'question' => 'Co řešit před návratem seniora z nemocnice?',
+        'answer'   => 'Nejdřív bezpečný vstup, přesun, toaletu, postel a návaznou péči. Zápraží má pro první noc doma samostatný plán, aby rodina nezačínala náhodným nákupním seznamem.',
+      ),
+    );
   }
 
   if ( ! $faq ) {
@@ -882,7 +918,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v12' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v13' ) ) {
     return;
   }
 
@@ -947,6 +983,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický rozcestník pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.',
       'template' => 'page-kompenzacni-pomucky-pro-seniory.php',
     ),
+    'bezpecny-byt-pro-seniora' => array(
+      'title'    => 'Jak upravit byt pro seniora: bezpečný domov krok za krokem',
+      'excerpt'  => 'Praktický audit vstupu, cesty z postele na WC, koupelny, osvětlení, překážek a návazných pomůcek.',
+      'template' => 'page-bezpecny-byt-pro-seniora.php',
+    ),
   );
 
   $all_ready = true;
@@ -979,7 +1020,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v12', '1', false );
+    update_option( 'zaprazi_resource_pages_v13', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

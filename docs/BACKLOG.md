@@ -659,3 +659,26 @@ Expected affiliate readiness after deployment:
 - Polohovací postel 0/3.
 
 No new affiliate deeplinks are generated in code. Empty bed slots use exact canonical UNIZDRAV fallbacks.
+
+
+### ZP-035 Adjustable bed high-intent acquisition page
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds:
+- `/polohovaci-postel-na-pojistovnu/`,
+- one combined decision page for insurer reimbursement/circulation, local rental and direct purchase,
+- current VZP process evidence,
+- current SÚKL monthly-list boundary,
+- current public rental examples checked 2026-10-07:
+  - Charita Studénka: 750 Kč/month, 2,000 Kč deposit,
+  - Charita sv. Martina: 900 Kč/month, 500 Kč bed transport including assembly,
+  - Oblastní charita Třebíč: 40 Kč/day + 130 Kč one-time fee; assembly 600 Kč; transport 19 Kč/km,
+- direct CTA into the Slice 3 Advisor,
+- visible FAQ + matching FAQPage structured data,
+- non-destructive resource registry v7.
+
+Trust boundary:
+- does not determine medical indication,
+- does not confirm individual reimbursement entitlement,
+- does not claim any current retail UNIZDRAV candidate is reimbursed until exact current SÚKL identity is proven,
+- rental examples are explicitly local and time-sensitive.

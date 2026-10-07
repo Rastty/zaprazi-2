@@ -94,6 +94,9 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Jak ji získat</p>
       <h2 class="zp-section-title">U polohovací postele často není nejlepší první krok nákup.</h2>
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">Podrobně: pojišťovna, půjčení a kdy koupit</a>
+      </div>
       <div class="zp-acquire-grid">
         <article><h3>Půjčit</h3><p>U dočasné potřeby mohou lokální půjčovny elektrickou postel nabídnout za stovky korun měsíčně. Dostupnost, doprava a montáž se liší podle místa.</p></article>
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje předpis, schválení pojišťovnou a také režim cirkulace, kdy může být lůžko pojištěnci zapůjčeno.</p></article>

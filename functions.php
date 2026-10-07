@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.20' );
+  define( 'ZAPRAZI_RELEASE', '0.8.21' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_20';
+  $marker = 'ZP_RELEASE_0_8_21';
   $files = array(
     'header.php',
     'footer.php',
@@ -18,10 +18,12 @@ function zaprazi_2_release_integrity_ok() {
     'page-pomucky-do-koupelny-na-pojistovnu.php',
     'page-polohovaci-postel.php',
     'page-polohovaci-postel-na-pojistovnu.php',
+    'page-invalidni-vozik.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',
     'assets/js/bed-advisor.js',
+    'assets/js/wheelchair-advisor.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

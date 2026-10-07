@@ -545,7 +545,7 @@ test("affiliate deeplink workbench is network-aware and keeps RehaVita on eHUB",
   assert.match(functions, /CJ program 5654758/);
   assert.match(functions, /'rehavita-cz' => array/);
   assert.match(functions, /eHUB kampaň 18119967/);
-  assert.doesNotMatch(functions, /RehaVita\.cz \(VIV 18119967\)/);
+  assert.doesNotMatch(functions, /RehaVita\.cz \(eHUB 18119967\)/);
   assert.match(functions, /RehaVita\.cz \(eHUB 18119967\)/);
 
   assert.match(functions, /Deeplink workbench/);
@@ -1383,11 +1383,11 @@ test("global footer exposes all six core advisor journeys", () => {
 });
 
 
-test("RehaVita affiliate helper identifies VIV advertiser without fabricating tracking URLs", () => {
+test("RehaVita affiliate helper identifies eHUB campaign without fabricating tracking URLs", () => {
   const functions = read("functions.php");
   const evidence = read("docs/ADL_SELF_CARE_EVIDENCE_V0.md");
 
-  assert.match(functions, /RehaVita\.cz \(VIV 18119967\)/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\)/);
   assert.match(functions, /advertiser <strong>18119967<\/strong>/);
   assert.match(functions, /CJ Deep Link Generator/);
   assert.match(evidence, /VIVnetworks \/ CJ/);
@@ -1423,7 +1423,7 @@ test("ADL packaging branch stays narrow and does not become medication advice", 
   assert.match(page, /ne rozhodování o lécích/i);
   assert.match(engine, /MVS Open-It/);
   assert.match(engine, /neřeší výběr, dávkování ani bezpečnost léků/i);
-  assert.match(functions, /RehaVita\.cz \(VIV 18119967\) — MVS Open-It 15-050105/);
+  assert.match(functions, /RehaVita\.cz \(eHUB 18119967\) — MVS Open-It 15-050105/);
 });
 
 

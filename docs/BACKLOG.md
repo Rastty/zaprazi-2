@@ -1039,3 +1039,19 @@ Brand text is aligned with the approved direction:
 - homepage SEO now describes the broader decision platform instead of only chodítka/rollátory.
 
 The graphical logo asset remains a separate brand-only implementation step.
+
+
+### ZP-050 Global core-advisor footer navigation
+Status: **DONE_CODE**
+
+Adds all six core ZaPrazi decision journeys to the global footer:
+- Mobility,
+- Bathroom/WC,
+- Adjustable Bed,
+- Wheelchair,
+- Return from hospital,
+- Daily self-care.
+
+This makes the new decision architecture reachable from legacy posts, archives and other non-core pages without replacing the low-prominence legacy crawl paths.
+
+Footer brand text is aligned to **Zápraží**. The legacy archive links remain preserved.

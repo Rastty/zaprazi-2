@@ -75,3 +75,26 @@ After rollout, smoke:
 - sitemap,
 - internal links,
 - major historical URLs.
+
+
+## Authoritative public URL snapshot — 2026-10-07
+
+The repository now persists the published WordPress URL inventory generated directly from the live public REST API:
+
+- `data/legacy-url-inventory.csv`
+- `data/legacy-url-inventory.summary.json`
+- exporter: `scripts/export-legacy-url-inventory.mjs`
+
+Snapshot counts:
+- published posts: **4,360**
+- published pages: **7**
+- total unique URLs: **4,367**
+
+This closes the row-inventory gap. It does **not** authorize destructive redirects or removals by itself.
+
+Still required before traffic-sensitive migration verdicts:
+- Search Console click/impression evidence where available,
+- backlink/value review for candidate URLs,
+- intent match against the new Mobility journey.
+
+The inventory is therefore the canonical candidate universe; migration verdicts remain a separate evidence-backed layer.

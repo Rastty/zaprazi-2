@@ -1650,7 +1650,7 @@ Architecture:
 
 
 ### ZP-077 Release 0.8.37 — Mobility hub
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_NEXT**
 
 Release 0.8.37 supersedes 0.8.36.
 
@@ -1665,3 +1665,15 @@ Packages:
 - release integrity includes `page-choditka-pro-seniory.php`.
 
 No new suitability logic or affiliate ranking is introduced.
+
+
+### ZP-078 Navigation uniqueness cleanup
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Removes the duplicate header target where both **Mobilita** and **Jak vybírat** pointed to `/choditka-pro-seniory/`.
+
+New header behavior:
+- **Mobilita** → `/choditka-pro-seniory/`
+- **Přehled pomůcek** → `/kompenzacni-pomucky-pro-seniory/`
+
+Adds a regression test that extracts all core-navigation `home_url()` targets and requires them to be unique.

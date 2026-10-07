@@ -28,7 +28,7 @@
       <a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Soběstačnost</a>
       <a href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Pojišťovna</a>
       <a href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení</a>
-      <a href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Jak vybírat</a>
+      <a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled pomůcek</a>
     </nav>
 
     <span class="zp-tagline">Cesta k lepšímu životu.</span>

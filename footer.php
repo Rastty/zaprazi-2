@@ -1,4 +1,4 @@
-<?php /* ZP_RELEASE_0_8_29 */ ?>
+<?php /* ZP_RELEASE_0_8_30 */ ?>
 <footer class="zp-footer">
   <div class="zp-wrap zp-footer-inner zp-footer-grid">
     <div>

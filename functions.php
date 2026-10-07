@@ -749,7 +749,7 @@ add_filter( 'woocommerce_loop_add_to_cart_link', 'zaprazi_2_guard_legacy_loop_ex
 
 function zaprazi_2_wpseo_schema_website( $data ) {
   if ( is_array( $data ) ) {
-    $data['name'] = 'ZaPrazi.cz';
+    $data['name'] = 'Zápraží';
     $data['description'] = 'Bezpečně a samostatně doma.';
   }
   return $data;
@@ -757,7 +757,7 @@ function zaprazi_2_wpseo_schema_website( $data ) {
 add_filter( 'wpseo_schema_website', 'zaprazi_2_wpseo_schema_website', 20 );
 
 function zaprazi_2_wpseo_og_site_name( $name ) {
-  return 'ZaPrazi.cz';
+  return 'Zápraží';
 }
 add_filter( 'wpseo_opengraph_site_name', 'zaprazi_2_wpseo_og_site_name', 20 );
 

@@ -73,6 +73,11 @@ function zaprazi_2_affiliate_fields() {
     'rehabilitacni-pomucky-cz:besco-wa17' => 'RehabilitačníPomůcky.cz — BESCO WA17',
     'rehabilitacni-pomucky-cz:besco-wa21' => 'RehabilitačníPomůcky.cz — BESCO WA21',
     'lekarna-cz:meyra-ideal-3061982' => 'Lékárna.cz — MEYRA Ideal 3061982',
+    'unizdrav-cz:p2868' => 'UNIZDRAV — P2868 zvyšovač WC 15 cm',
+    'unizdrav-cz:p2015' => 'UNIZDRAV — P2015 toaletní opora',
+    'unizdrav-cz:p2807' => 'UNIZDRAV — P2807 toaletní židle',
+    'unizdrav-cz:p2062' => 'UNIZDRAV — P2062 sprchovací židle',
+    'unizdrav-cz:p2131' => 'UNIZDRAV — P2131 pevné madlo',
   );
 }
 
@@ -81,6 +86,34 @@ function zaprazi_2_affiliate_targets() {
     'rehabilitacni-pomucky-cz:besco-wa17' => 'https://www.rehabilitacnipomucky.cz/besco-ctyrbodove-choditko-skladaci/',
     'rehabilitacni-pomucky-cz:besco-wa21' => 'https://www.rehabilitacnipomucky.cz/besco-dvoukolove-choditko-skladaci/',
     'lekarna-cz:meyra-ideal-3061982' => 'https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/',
+    'unizdrav-cz:p2868' => 'https://unizdrav.cz/zbozi/2868/zvysovac-wc-s-priklopem-unizdrav-15-cm',
+    'unizdrav-cz:p2015' => 'https://unizdrav.cz/zbozi/2015/toaletni-opora',
+    'unizdrav-cz:p2807' => 'https://unizdrav.cz/zbozi/2807/toaletni-zidle-vyskove-nastavitelna-unizdrav',
+    'unizdrav-cz:p2062' => 'https://unizdrav.cz/zbozi/2062/sprchovaci-zidle-s-ruckami',
+    'unizdrav-cz:p2131' => 'https://unizdrav.cz/zbozi/2131/protiskluzove-madlo-do-koupelny-a-toalety-od-30-do-45-cm',
+  );
+}
+
+function zaprazi_2_affiliate_groups() {
+  return array(
+    'mobility' => array(
+      'label' => 'Mobility',
+      'keys' => array(
+        'rehabilitacni-pomucky-cz:besco-wa17',
+        'rehabilitacni-pomucky-cz:besco-wa21',
+        'lekarna-cz:meyra-ideal-3061982',
+      ),
+    ),
+    'bathroom' => array(
+      'label' => 'Koupelna a WC',
+      'keys' => array(
+        'unizdrav-cz:p2868',
+        'unizdrav-cz:p2015',
+        'unizdrav-cz:p2807',
+        'unizdrav-cz:p2062',
+        'unizdrav-cz:p2131',
+      ),
+    ),
   );
 }
 
@@ -142,11 +175,22 @@ function zaprazi_2_render_settings_page() {
 
   $fields = zaprazi_2_affiliate_fields();
   $targets = zaprazi_2_affiliate_targets();
-  $configured = 0;
-  foreach ( $fields as $key => $label ) {
-    if ( ! empty( $values[ $key ] ) ) {
-      $configured++;
+  $groups = zaprazi_2_affiliate_groups();
+  $readiness = array();
+
+  foreach ( $groups as $group_id => $group ) {
+    $configured = 0;
+    foreach ( $group['keys'] as $key ) {
+      if ( ! empty( $values[ $key ] ) ) {
+        $configured++;
+      }
     }
+
+    $readiness[ $group_id ] = array(
+      'label'      => $group['label'],
+      'configured' => $configured,
+      'total'      => count( $group['keys'] ),
+    );
   }
   ?>
   <div class="wrap">
@@ -154,23 +198,19 @@ function zaprazi_2_render_settings_page() {
     <p>Vkládejte pouze přesné, ověřené partnerské deeplinky vygenerované schváleným affiliate účtem. Prázdné pole znamená bezpečný fallback na běžný produktový odkaz.</p>
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
-      <p><strong>Jak získat přesný VIV/CJ deeplink:</strong> otevřete v publisher účtu nástroj Deep Link Generator, vyberte správného inzerenta, vložte níže uvedenou cílovou produktovou URL a vygenerovaný partnerský odkaz vložte do příslušného pole. Tracking URL ručně neskládejte.</p>
+      <p><strong>Jak získat přesný deeplink:</strong> v affiliate účtu otevřete správného inzerenta. Pokud síť nabízí deeplink nástroj (např. VIV/CJ Deep Link Generator), vložte níže uvedenou cílovou produktovou URL a vygenerovaný partnerský odkaz vložte do příslušného pole. Tracking URL ručně neskládejte.</p>
     </div>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">
-      <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:180px">
-        <strong>Affiliate readiness</strong><br>
-        <span style="font-size:24px;font-weight:700"><?php echo esc_html( $configured . ' / ' . count( $fields ) ); ?></span>
-      </div>
-      <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:260px">
+      <?php foreach ( $readiness as $item ) : ?>
+        <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:180px">
+          <strong><?php echo esc_html( $item['label'] ); ?></strong><br>
+          <span style="font-size:24px;font-weight:700"><?php echo esc_html( $item['configured'] . ' / ' . $item['total'] ); ?></span>
+        </div>
+      <?php endforeach; ?>
+      <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:300px">
         <strong>Produkční chování</strong><br>
-        <?php if ( $configured === count( $fields ) ) : ?>
-          <span style="color:#008a20">Všechny podporované outbound sloty mají partnerský deeplink.</span>
-        <?php elseif ( 0 === $configured ) : ?>
-          <span>Affiliate není aktivní; všechny odkazy používají ověřený běžný fallback.</span>
-        <?php else : ?>
-          <span>Částečně aktivní; nevyplněné sloty dál bezpečně používají běžný fallback.</span>
-        <?php endif; ?>
+        <span>Prázdný slot vždy bezpečně používá ověřený běžný produktový odkaz. Affiliate readiness nemění doporučení ani pořadí výrobků.</span>
       </div>
     </div>
 

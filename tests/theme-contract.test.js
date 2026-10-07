@@ -208,15 +208,14 @@ test("resource registry creates insurance and rental pages without overwriting c
 });
 
 
-test("core navigation links Advisor, reimbursement, rental and selection guidance", () => {
+test("core navigation links mobility hub, reimbursement and rental guidance", () => {
   const header = read("header.php");
   const style = read("style.css");
 
   assert.match(header, /aria-label=["']Hlavní navigace["']/);
-  assert.match(header, /\/#poradce/);
+  assert.match(header, /\/choditka-pro-seniory\//);
   assert.match(header, /\/choditko-na-pojistovnu\//);
   assert.match(header, /\/pujceni-choditka\//);
-  assert.match(header, /\/#jak-vybrat/);
 
   assert.match(style, /\.zp-core-nav/);
   assert.match(style, /overflow-x:auto/);
@@ -1121,7 +1120,7 @@ test("global footer exposes all six core advisor journeys", () => {
 
   assert.match(footer, /Hlavní poradci/);
   for (const path of [
-    "/#poradce",
+    "/choditka-pro-seniory/",
     "/koupelna-a-wc/",
     "/polohovaci-postel/",
     "/invalidni-vozik/",

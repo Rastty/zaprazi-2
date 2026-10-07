@@ -336,3 +336,22 @@ UNIZDRAV is the primary evidence merchant; RehabilitačníPomůcky.cz and Dr.Max
 No new affiliate deeplinks should be generated until exact product parameters and safety gates are verified.
 
 See `docs/BATHROOM_WC_CANDIDATE_PACK_V0.md`.
+
+
+### ZP-022 Bathroom + WC decision engine v1
+Status: **DONE_CODE / PRE_UI**
+
+Implemented:
+- fail-closed decision engine for raised WC, toilet support, static commode and shower-chair branches,
+- verified product catalog for UNIZDRAV P2868, P2015, P2807, P2062 and P2131,
+- P2085 combined shower/toilet wheelchair kept research-only,
+- independent safety gates for toilet fit, foot support after raising, wall fixing, stable floor, space fit, transfer mode and load fit,
+- no raw body-weight storage and no diagnosis-based routing,
+- unit tests for safety branches and catalog eligibility.
+
+Still open before UI:
+- bathtub-transfer evidence,
+- Czech buy/rent/reimbursement research for the Slice 2 categories,
+- exact affiliate deeplinks only after evidence review.
+
+See docs/BATHROOM_WC_EVIDENCE_V1.md.

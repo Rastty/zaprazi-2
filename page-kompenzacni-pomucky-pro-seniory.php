@@ -13,6 +13,7 @@ get_header();
       <p class="zp-lead">Chodítko, sprchovací židle, polohovací postel nebo invalidní vozík nejsou zaměnitelné produkty. Nejdřív určete, co člověka doma skutečně omezuje, potom ověřte bezpečnost a rozměry a až nakonec řešte koupit, půjčit nebo pojišťovnu.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#situace">Vybrat podle situace</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Chci projít bezpečnost bytu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Řeším návrat z nemocnice</a>
       </div>
     </div>

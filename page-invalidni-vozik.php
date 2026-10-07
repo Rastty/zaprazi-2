@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_20 */
+/* ZP_RELEASE_0_8_21 */
 /*
 Template Name: ZaPrazi — Invalidní vozík
 */

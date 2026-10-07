@@ -1,0 +1,149 @@
+const TASKS = new Set(["drink", "stabilize_container", "one_hand_meal", "other", "unknown"]);
+const PROBLEMS = new Set(["grip_or_spill", "container_moves", "one_hand_setup", "swallowing_or_medical", "other", "unknown"]);
+const YES_NO_UNKNOWN = new Set(["yes", "no", "unknown"]);
+
+const CANDIDATES = Object.freeze({
+  upcup: {
+    id: "rehavita-upcup-15-050101",
+    product: "UpCup - pomůcka pro snadné pití MoVeS",
+    sku: "15-050101",
+    merchant: "RehaVita.cz",
+    sourceUrl: "https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/"
+  },
+  beatIt: {
+    id: "rehavita-beat-it-15-050102",
+    product: "Beat It - držák pro stabilizaci nádob MoVeS",
+    sku: "15-050102",
+    merchant: "RehaVita.cz",
+    sourceUrl: "https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/"
+  },
+  theomatik: {
+    id: "rehavita-theomatik-15-050103",
+    product: "Theomatik - multifunkční jídelní podnos pro obsluhu jednou rukou MoVeS",
+    sku: "15-050103",
+    merchant: "RehaVita.cz",
+    sourceUrl: "https://www.rehavita.cz/pomucky-pro-sobestacnost/"
+  }
+});
+
+function invalid(field) {
+  return {
+    status: "invalid_input",
+    headline: "Zkontrolujte odpovědi.",
+    nextStep: `Neplatná hodnota pole: ${field}`,
+    candidate: null,
+    checks: [],
+    safetyNote: null
+  };
+}
+
+function result(status, headline, nextStep, candidate = null, checks = [], safetyNote = null) {
+  return { status, headline, nextStep, candidate, checks, safetyNote };
+}
+
+export function chooseAdlSelfCareAid(input = {}) {
+  const {
+    task = "unknown",
+    mainProblem = "unknown",
+    stableSurface = "unknown",
+    oneHandUse = "unknown"
+  } = input;
+
+  if (!TASKS.has(task)) return invalid("task");
+  if (!PROBLEMS.has(mainProblem)) return invalid("mainProblem");
+  if (!YES_NO_UNKNOWN.has(stableSurface)) return invalid("stableSurface");
+  if (!YES_NO_UNKNOWN.has(oneHandUse)) return invalid("oneHandUse");
+
+  if (mainProblem === "swallowing_or_medical") {
+    return result(
+      "professional_check",
+      "Tady není bezpečné vybírat pomůcku jen podle e-shopu.",
+      "Pokud je hlavní problém samotné polykání, zakuckávání nebo jiná zdravotní obtíž při jídle či pití, nejdřív řešte bezpečný postup s odborníkem.",
+      null,
+      [],
+      "ZaPrazi v této větvi nedoporučuje konkrétní produkt a nevyhodnocuje diagnózu."
+    );
+  }
+
+  if (task === "drink" && mainProblem === "grip_or_spill") {
+    return result(
+      "candidate",
+      "Pro snazší samostatné pití dává smysl ověřit UpCup.",
+      "Ověřte, že problém je hlavně v držení, naklánění nebo rozlévání. Pokud je problém v samotném polykání, produkt nevybírejte tímto poradcem.",
+      CANDIDATES.upcup,
+      ["ověřit pohodlný úchop", "ověřit vhodnost pro používaný nápoj"]
+    );
+  }
+
+  if (task === "stabilize_container" && mainProblem === "container_moves") {
+    if (stableSurface === "no") {
+      return result(
+        "no_match",
+        "Pro Beat It chybí stabilní pracovní plocha.",
+        "Nejdřív vyřešte stabilní plochu nebo jiný způsob fixace; samotný držák není bezpečné doporučit bez vhodného podkladu."
+      );
+    }
+
+    if (stableSurface === "unknown") {
+      return result(
+        "needs_fit_check",
+        "Beat It může dávat smysl, ale nejdřív je potřeba ověřit pracovní plochu.",
+        "Ověřte stabilní stůl nebo pracovní desku a zda lze nádobu bezpečně upevnit.",
+        CANDIDATES.beatIt,
+        ["stabilní pracovní plocha", "rozměr a tvar nádoby"]
+      );
+    }
+
+    return result(
+      "candidate",
+      "Pro stabilizaci nádoby dává smysl ověřit Beat It.",
+      "Před nákupem ověřte, že používaná nádoba a pracovní plocha odpovídají způsobu upevnění.",
+      CANDIDATES.beatIt,
+      ["rozměr a tvar nádoby", "bezpečné upevnění na stabilní ploše"]
+    );
+  }
+
+  if (task === "one_hand_meal" && mainProblem === "one_hand_setup") {
+    if (oneHandUse === "no") {
+      return result(
+        "no_match",
+        "Theomatik je cílený hlavně na obsluhu jídla jednou rukou.",
+        "Pokud problém není v obsluze jednou rukou, tento konkrétní produkt není dostatečně přesná shoda."
+      );
+    }
+
+    if (oneHandUse === "unknown") {
+      return result(
+        "needs_fit_check",
+        "Theomatik může být vhodný, ale nejdřív ověřte skutečný způsob použití.",
+        "Ověřte, že hlavní potřeba je stabilní příprava a jídlo s využitím jedné ruky.",
+        CANDIDATES.theomatik,
+        ["potvrdit obsluhu jednou rukou", "ověřit dostatek místa na stole"]
+      );
+    }
+
+    return result(
+      "candidate",
+      "Pro jídlo a přípravu jednou rukou dává smysl ověřit Theomatik.",
+      "Před nákupem ověřte rozměry pracovní plochy a zda podnos řeší právě konkrétní činnost, která doma nejvíc omezuje samostatnost.",
+      CANDIDATES.theomatik,
+      ["dostatek místa na stole", "konkrétní domácí činnost"]
+    );
+  }
+
+  if (task === "unknown" || mainProblem === "unknown") {
+    return result(
+      "needs_more_context",
+      "Ještě chybí jeden praktický údaj.",
+      "Vyberte konkrétní činnost a hlavní překážku; poradce nemá hádat podle věku nebo diagnózy."
+    );
+  }
+
+  return result(
+    "no_match",
+    "Pro tuto kombinaci zatím nemáme ověřený přesný produkt.",
+    "Nevynucujeme doporučení jen proto, že je produkt v affiliate programu. Zvolte jinou činnost nebo pokračujte bez produktového doporučení."
+  );
+}
+
+export const adlSelfCareCandidates = CANDIDATES;

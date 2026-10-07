@@ -45,28 +45,45 @@ function professionalCheck(headline, nextStep) {
   };
 }
 
+function reimbursementAlternative() {
+  return {
+    id: "check_reimbursement_alternative",
+    label: "Prověřit hrazenou alternativu",
+    reason: "V aktuálním Seznamu SÚKL mohou být hrazené některé nástavce na WC a prostředky s kompenzační funkcí pro koupelnu/WC. Úhrada závisí na konkrétním prostředku, podmínkách a případném schválení; aktuální maloobchodní kandidát není automaticky hrazený."
+  };
+}
+
 function acquisitionFor(duration) {
   if (duration === "short_term") {
-    return [{
-      id: "compare_rent_buy",
-      label: "Porovnat půjčení a koupi",
-      reason: "U krátkodobé potřeby má smysl před nákupem ověřit, zda není dostupné vhodné půjčení."
-    }];
+    return [
+      {
+        id: "compare_rent_buy",
+        label: "Porovnat půjčení a koupi",
+        reason: "U krátkodobé potřeby má smysl před nákupem ověřit, zda není dostupné vhodné půjčení."
+      },
+      reimbursementAlternative()
+    ];
   }
 
   if (duration === "long_term") {
-    return [{
-      id: "compare_buy_rent",
-      label: "Porovnat koupi a případné půjčení",
-      reason: "U dlouhodobé potřeby může dávat smysl nákup, ale dostupnost půjčení nebo příspěvku se ověřuje zvlášť."
-    }];
+    return [
+      {
+        id: "compare_buy_rent",
+        label: "Porovnat koupi a případné půjčení",
+        reason: "U dlouhodobé potřeby může dávat smysl nákup, ale dostupnost půjčení se ověřuje zvlášť."
+      },
+      reimbursementAlternative()
+    ];
   }
 
-  return [{
-    id: "compare_acquisition",
-    label: "Ověřit způsob pořízení",
-    reason: "Bez znalosti délky používání zatím neupřednostňujeme koupi ani půjčení."
-  }];
+  return [
+    {
+      id: "compare_acquisition",
+      label: "Ověřit způsob pořízení",
+      reason: "Bez znalosti délky používání zatím neupřednostňujeme koupi ani půjčení."
+    },
+    reimbursementAlternative()
+  ];
 }
 
 /**

@@ -984,7 +984,7 @@ Affiliate readiness after deploy:
 
 
 ### ZP-047 Release 0.8.24 — ADL self-care journey
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_25**
 
 Release 0.8.24 supersedes 0.8.23.
 
@@ -1090,3 +1090,28 @@ Prepared from the approved brand board:
 - square icon crop.
 
 The graphical files are intentionally not embedded as base64 or fabricated in code. A clean WordPress media/custom-logo upload is the final asset step.
+
+
+### ZP-053 Release 0.8.25 — Brand + core scenario hub
+Status: **READY_DEPLOY**
+
+Release 0.8.25 supersedes 0.8.24 and packages all ADL work plus the next structural layer:
+- six-scenario homepage hub while retaining the full Mobility Advisor,
+- public brand text **Zápraží**,
+- claim **Cesta k lepšímu životu**,
+- self-care ↔ return-home/core-advisor internal links,
+- global footer links to all six core journeys,
+- RehaVita VIV/CJ advertiser helper for advertiser **18119967**,
+- native WordPress custom-logo support with text fallback,
+- deployment-integrity coverage bumped to 0.8.25,
+- updated deployment smoke checklist.
+
+Commercial rules remain unchanged:
+- suitability before merchant,
+- canonical fallback when affiliate slot is empty,
+- no manually fabricated tracking links,
+- no affiliate influence on recommendation ranking.
+
+Post-deploy manual asset step:
+- upload the approved horizontal logo as WordPress custom logo,
+- upload the prepared square icon as Site Icon.

@@ -282,6 +282,32 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
+test("bed main page builds SEO authority without a second decision engine", () => {
+  const functions = read("functions.php");
+  const page = read("page-polohovaci-postel.php");
+
+  assert.match(page, /Polohovací postel pro seniory/);
+  assert.ok(functions.includes("Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží"));
+
+  for (const question of [
+    "Jak vybrat polohovací postel pro seniora?",
+    "Je vždy potřeba elektrická polohovací postel?",
+    "Jaké rozměry změřit před koupí polohovací postele?",
+    "Jak ověřit nosnost polohovací postele?",
+    "Je lepší polohovací postel půjčit, koupit, nebo řešit přes pojišťovnu?"
+  ]) {
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+  }
+
+  assert.equal((page.match(/id=["']zp-bed-advisor["']/g) || []).length, 1);
+  assert.match(functions, /assets\/js\/bed-advisor\.js/);
+  assert.match(page, /\/polohovaci-postel-na-pojistovnu\//);
+  assert.match(page, /\/bezpecny-byt-pro-seniora\//);
+  assert.match(page, /\/navrat-z-nemocnice\//);
+});
+
+
 test("wheelchair main page builds SEO authority without a second decision engine", () => {
   const functions = read("functions.php");
   const page = read("page-invalidni-vozik.php");

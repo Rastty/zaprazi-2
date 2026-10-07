@@ -1,67 +1,78 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.12
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.13
 
-Run after deploying release 0.8.12 from `dev`.
+Run after deploying release 0.8.13 from `dev`.
 
 ## 1. Release integrity
 
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.12`,
+- `zaprazi-release` = `0.8.13`,
 - `zaprazi-integrity` = `ok`,
-- homepage and `/koupelna-a-wc/` load without errors.
+- homepage, `/koupelna-a-wc/` and the new reimbursement page load without errors.
 
-## 2. Affiliate admin readiness
+## 2. New Bathroom/WC reimbursement resource
 
 Open:
-**Nastavení → ZaPrazi affiliate**
+`/pomucky-do-koupelny-na-pojistovnu/`
 
 Expected:
-- **Mobility 3 / 3**
-- **Koupelna a WC 0 / 5**
-- existing three Mobility partner links remain populated,
-- five UNIZDRAV Bathroom/WC slots are visible with exact canonical product targets.
+- normal published WordPress page,
+- H1: Pomůcky do koupelny a na WC na pojišťovnu v roce 2026,
+- visible VZP evidence date 29. 9. 2026,
+- prior insurer approval is explained,
+- group examples include shower/bath seats, shower chairs, shower wheelchairs, toilet chairs and toilet wheelchairs,
+- 1 piece / 10 years is presented only as the current VZP rule for the described group,
+- practical doctor is listed among VZP-described prescriber specialties,
+- SÚKL monthly-list freshness is explained.
 
-Expected Bathroom/WC targets:
-- P2868 — raised WC seat,
-- P2015 — toilet support,
-- P2807 — static commode,
-- P2062 — shower chair,
-- P2131 — fixed grab rail.
+Must NOT claim:
+- UNIZDRAV P2868 is reimbursed,
+- UNIZDRAV P2131 is reimbursed,
+- any individual qualifies automatically.
 
-Research-only P2085 must not have an affiliate slot.
+## 3. FAQ + schema parity
 
-## 3. Safe fallback
-
-Without entering any UNIZDRAV affiliate link:
-
-Run the Bathroom/WC Advisor through one eligible branch.
-
-Expected:
-- exact UNIZDRAV product still opens via canonical merchant URL,
-- no dead end,
-- no `sponsored` label unless a partner URL is actually configured.
-
-## 4. Mobility regression
+Visible FAQ must contain:
+- Hradí pojišťovna sprchovací nebo toaletní židli?
+- Mohu si koupit pomůcku a potom požádat pojišťovnu o proplacení?
+- Může pomůcku do koupelny předepsat praktický lékař?
+- Je nástavec na WC automaticky hrazený?
 
 Expected:
-- existing 3 Mobility affiliate deeplinks still work,
-- recommendation ranking is unchanged.
+- resource FAQ structured data mirrors the same wording.
 
-## 5. Bathroom/WC regression
+## 4. Advisor internal route
 
-Quick checks:
-- raised WC safe-fit branch → P2868,
-- toilet support with unverified wall fixing → P2015 only,
-- shower chair safe-fit branch → P2062,
-- assisted transfer / bath transfer / combined hygiene wheelchair → professional-check only.
+Run an eligible Bathroom/WC branch.
+
+Expected under **Prověřit hrazenou alternativu**:
+- internal link **Jak funguje úhrada koupelnových pomůcek**,
+- separate links to current SÚKL and VZP sources.
+
+## 5. Affiliate regression
+
+Open **Nastavení → ZaPrazi affiliate**.
+
+Expected:
+- Mobility remains 3/3,
+- Koupelna a WC remains 0/5 until exact UNIZDRAV publisher deeplinks are entered,
+- all five Bathroom/WC canonical fallbacks still work,
+- affiliate state does not change recommendation order.
+
+## 6. Safety regression
+
+Expected:
+- assisted transfer → professional-check only,
+- bath transfer → professional-check only,
+- combined shower/toilet wheelchair → professional-check only,
+- no commercial shortcut on those branches.
 
 ## After smoke
 
-Next monetization step:
-1. generate exact publisher deeplinks for the five UNIZDRAV targets,
-2. paste them into **Nastavení → ZaPrazi affiliate**,
-3. test each deeplink,
-4. then Bathroom/WC readiness moves from 0/5 toward 5/5.
+Next Slice 2 work:
+1. exact UNIZDRAV publisher deeplinks for the 5 production slots,
+2. product-level SÚKL mapping only where exact identity can be proven,
+3. further SEO/reference pages only after useful query evidence or a clear high-intent gap.
 
-RehaVita stays reserved for later ADL / return-from-hospital because its currently verified inventory does not improve Bathroom/WC v1.
+Search Console remains the trigger for switching to track 2.

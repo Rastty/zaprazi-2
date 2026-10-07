@@ -100,6 +100,31 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
+  const renderReimbursementEvidence = (product) => {
+    const evidence = product.reimbursementEvidence;
+    if (!evidence) return "";
+
+    const currentStatus = evidence.monthlySuklListVerified
+      ? '<strong>Aktuální seznam SÚKL: ověřeno</strong>'
+      : '<strong>Aktuální seznam SÚKL: zatím neověřeno</strong>';
+
+    return `
+      <div class="zp-reimbursement-evidence">
+        <p class="zp-kicker">Úhradová identita</p>
+        <p>${currentStatus}</p>
+        <dl>
+          <div><dt>Kód prostředku</dt><dd>${escapeHtml(evidence.payerCode)}</dd></div>
+          ${evidence.reimbursementGroup ? `<div><dt>Úhradová skupina</dt><dd>${escapeHtml(evidence.reimbursementGroup)}</dd></div>` : ""}
+          ${evidence.approvalRequired ? '<div><dt>Schválení pojišťovny</dt><dd>výrobce uvádí, že je vyžadováno</dd></div>' : ""}
+          ${evidence.serviceLifeYears ? `<div><dt>Užitná doba</dt><dd>výrobce uvádí ${escapeHtml(evidence.serviceLifeYears)} let</dd></div>` : ""}
+        </dl>
+        ${evidence.monthlySuklListVerified
+          ? '<p class="zp-muted-copy">ZaPrazi má pro tento měsíc přímo ověřený účinný záznam SÚKL.</p>'
+          : '<p class="zp-stale-evidence">Výrobce uvádí přesný kód, ale ZaPrazi zatím nepotvrdilo jeho aktuální účinnost v měsíčním seznamu SÚKL. Neberte tuto kartu jako potvrzení nároku ani aktuální úhrady.</p>'}
+        <a class="zp-text-link" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Ověřit aktuální seznam SÚKL</a>
+      </div>
+    `;
+  };
   const renderOffers = (offers = []) => {
     if (!offers.length) return "";
     return `
@@ -138,6 +163,7 @@ if (form && result && submitButton && errorBox) {
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
+              ${renderReimbursementEvidence(product)}
               ${renderSources(product.evidence)}
               ${renderOffers(product.offers)}
             </article>

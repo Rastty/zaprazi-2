@@ -1,116 +1,127 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.10
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.11
 
-Run after deploying release 0.8.10 from `dev`. This release adds resource FAQ structured data and refreshes the deployment-integrity marker.
+Run after deploying release 0.8.11 from `dev`.
 
-## 1. Homepage + navigation
+## 1. Release integrity
 
 Open `/`.
 
 Expected:
-- new ZaPrazi homepage loads,
-- header links: **Poradce · Pojišťovna · Půjčení · Jak vybírat**,
-- no horizontal page scroll on mobile,
-- core navigation may scroll horizontally on a narrow screen.
+- `zaprazi-release` = `0.8.11`,
+- `zaprazi-integrity` = `ok`,
+- homepage loads without PHP/JS errors.
 
-## 2. Insurance resource
+## 2. Core navigation
 
-Open:
-`/choditko-na-pojistovnu/`
+Expected header links:
+- **Mobilita**
+- **Koupelna a WC**
+- **Pojišťovna**
+- **Půjčení**
+- **Jak vybírat**
 
-Expected:
-- page exists as a normal WordPress page,
-- title covers ePoukaz / reimbursement / 2026,
-- VZP warning says a self-purchased walker cannot be reimbursed retroactively,
-- common-walker guidance mentions GP prescribing path and max. 1 piece / 5 years with caveats,
-- October SÚKL example shows **3 408 Kč** only while the verified October record is current,
-- after 2026-10-31 the amount is explicitly historical/stale, not presented as current.
+Homepage hero also links to **Řeším koupelnu nebo WC**.
 
-## 3. Rental resource
+## 3. New Bathroom/WC page
 
 Open:
-`/pujceni-choditka/`
+`/koupelna-a-wc/`
 
 Expected:
-- RehaKomp examples: 12 Kč/day + 360 Kč/month for four-wheel outdoor walker; 10 Kč/day + 300 Kč/month for fixed four-point walker,
-- MEYRA example: 250 Kč/week + 600 Kč/month, 1 000 Kč refundable deposit,
-- page clearly says these are provider examples, not a national tariff,
-- after 2026-11-06 prices are labeled historical until refreshed.
+- page exists and uses the dedicated template,
+- title/meta describe Bathroom + WC decision support,
+- no diagnosis or identifying data is requested,
+- answers stay client-side.
 
-## 4. Privacy page
+## 4. Bathroom/WC decision smoke
 
-Open:
-`/ochrana-soukromi/`
-
-Expected:
-- explains that Advisor answers remain local,
-- lists only the five generic funnel event names,
-- explains strict opt-in GA4 and how to change consent,
-- links to Google Analytics data-protection information.
-
-## 5. Analytics — deny path
-
-Use a fresh/incognito browser.
-
-Before clicking consent:
-- no request to `googletagmanager.com/gtag/js`,
-- no GA4 request should be sent.
-
-Choose **Bez měření** and reload.
+### Raised WC
+Choose:
+- WC is too low,
+- transfer independently,
+- load fit yes,
+- toilet fit yes,
+- feet safely reach floor yes.
 
 Expected:
-- consent banner stays hidden,
-- Google Analytics still does not load.
+- candidate: UNIZDRAV P2868,
+- canonical merchant link,
+- separate **Prověřit hrazenou alternativu** path,
+- no claim that P2868 itself is reimbursed.
 
-## 6. Analytics — allow path
-
-Open **Nastavení měření** in the footer and choose **Povolit měření**.
+### Toilet support
+Choose:
+- missing support at WC,
+- steadying,
+- load fit yes,
+- wall fixing unverified.
 
 Expected:
-- GA4 script loads once using `G-WM86QVXVST`,
-- page view is sent,
-- Google Signals and ad-personalization signals remain disabled.
+- P2015 toilet support only,
+- fixed wall grab rail is not returned.
 
-Run the Advisor.
+Repeat with verified wall fixing.
 
-Allowed analytics event names only:
-- `builder_start`
-- `builder_complete`
-- `recommendation_view`
-- `product_click`
-- `merchant_click`
+Expected:
+- P2131 fixed rail may be compared with P2015.
 
-Network payload must not contain:
-- Advisor answers,
-- environment/support choices,
-- brake/lift answers,
-- recommended product ID,
-- merchant ID,
-- derived health/mobility profile.
+### Shower chair
+Choose:
+- difficult to stand while showering,
+- independent transfer,
+- load fit yes,
+- stable floor yes,
+- space fit yes.
 
-## 7. Existing Advisor regression
+Expected:
+- P2062 shower chair candidate.
+
+### High-support safety gate
+Choose either:
+- regular physical assistance by another person, or
+- combined shower/toilet wheelchair, or
+- bath transfer.
+
+Expected:
+- professional-check result,
+- no exact product and no commercial acquisition shortcut.
+
+## 5. Privacy + analytics regression
+
+Before analytics consent:
+- no GA4 load.
+
+After consent:
+- only generic event names may be sent:
+  `builder_start`, `builder_complete`, `recommendation_view`, `product_click`, `merchant_click`.
+
+Must not send Bathroom/WC answers, product IDs, merchant IDs or derived profile.
+
+## 6. Mobility regression
 
 Quick checks:
 - indoor + steady + cannot lift → BESCO WA21 only,
 - outdoor + steady + brakes yes → MEYRA Ideal,
-- frequent physical assistance → no product/commercial path.
+- frequent physical assistance → no product/commercial path,
+- existing 3/3 affiliate routes remain active.
 
-## 8. Legacy regression
+## 7. Resource + legacy regression
 
 Open:
+- `/choditko-na-pojistovnu/`,
+- `/pujceni-choditka/`,
+- `/ochrana-soukromi/`,
 - one old article,
-- one old category/archive.
+- one old archive/category.
 
 Expected:
-- readable content,
-- no PHP fatal,
-- old URL unchanged.
+- readable, no fatal error, URLs unchanged.
 
-## Remaining non-deploy blockers
+## After smoke
 
-These remain separate:
-- exact VIV publisher deeplinks / joined-account confirmation,
-- ZaPrazi Search Console access,
-- full traffic/backlink-backed legacy migration inventory.
+Next Bathroom/WC steps:
+1. generate only the exact UNIZDRAV deeplinks for production-eligible candidates,
+2. add them to runtime affiliate routing,
+3. then improve Bathroom/WC SEO/reference pages from real query data when Search Console retrieval becomes available.
 
-Rollback for a critical theme issue:
-**Vzhled → Šablony → Flatsome → Aktivovat**.
+Search Console ownership is verified; destructive legacy migration still waits for query/page evidence.

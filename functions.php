@@ -89,6 +89,9 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p2777' => 'UNIZDRAV — P2777 polohovací postel CLASSIC',
     'unizdrav-cz:p4707' => 'UNIZDRAV — P4707 polohovací postel Hospital',
     'unizdrav-cz:p4044' => 'UNIZDRAV — P4044 polohovací postel Multibed',
+    'unizdrav-cz:p4384' => 'UNIZDRAV — P4384 invalidní vozík Basic',
+    'unizdrav-cz:p3641' => 'UNIZDRAV — P3641 odlehčený mechanický vozík',
+    'unizdrav-cz:p2961' => 'UNIZDRAV — P2961 elektrický invalidní vozík 46 cm',
   );
 }
 
@@ -109,6 +112,9 @@ function zaprazi_2_affiliate_targets() {
     'unizdrav-cz:p2777' => 'https://unizdrav.cz/zbozi/2777/elektricka-polohovaci-postel-classic',
     'unizdrav-cz:p4707' => 'https://unizdrav.cz/zbozi/4707/elektricka-polohovaci-postel-hospital',
     'unizdrav-cz:p4044' => 'https://unizdrav.cz/zbozi/4044/elektricka-polohovaci-postel-s-matraci-multibed',
+    'unizdrav-cz:p4384' => 'https://unizdrav.cz/zbozi/4384/invalidni-vozik-unizdrav-basic',
+    'unizdrav-cz:p3641' => 'https://unizdrav.cz/zbozi/3641/invalidni-vozik-odlehceny-s-brzdami-pro-doprovod',
+    'unizdrav-cz:p2961' => 'https://unizdrav.cz/zbozi/2961/elektricky-invalidni-vozik-46-cm',
   );
 }
 
@@ -142,6 +148,14 @@ function zaprazi_2_affiliate_groups() {
         'unizdrav-cz:p2777',
         'unizdrav-cz:p4707',
         'unizdrav-cz:p4044',
+      ),
+    ),
+    'wheelchair' => array(
+      'label' => 'Invalidní vozík',
+      'keys' => array(
+        'unizdrav-cz:p4384',
+        'unizdrav-cz:p3641',
+        'unizdrav-cz:p2961',
       ),
     ),
   );
@@ -300,6 +314,10 @@ function zaprazi_2_is_bed_page() {
   return is_page( 'polohovaci-postel' );
 }
 
+function zaprazi_2_is_wheelchair_page() {
+  return is_page( 'invalidni-vozik' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -330,7 +348,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -372,6 +390,13 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/bed-advisor.js') ? filemtime($dir . '/assets/js/bed-advisor.js') : null
         );
+      } elseif ( zaprazi_2_is_wheelchair_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-wheelchair-advisor',
+          $uri . '/assets/js/wheelchair-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/wheelchair-advisor.js') ? filemtime($dir . '/assets/js/wheelchair-advisor.js') : null
+        );
       }
     }
   }
@@ -389,6 +414,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
   }
+  if ( zaprazi_2_is_wheelchair_page() ) {
+    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -402,6 +430,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel: koupit, půjčit nebo pojišťovna | ZaPrazi';
+  }
+  if ( zaprazi_2_is_wheelchair_page() ) {
+    return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
@@ -417,6 +448,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Praktický poradce pro polohovací postel: vhodný typ, rozměry a nosnost, půjčení, koupě a prověření úhrady nebo cirkulace přes pojišťovnu.';
+  }
+  if ( zaprazi_2_is_wheelchair_page() ) {
+    return 'Praktický poradce pro invalidní vozík: doprovod, samostatný ruční nebo elektrický pohon, správný sed, průchody, nosnost, půjčení a pojišťovna.';
   }
   return $description;
 }
@@ -695,7 +729,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v7' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v8' ) ) {
     return;
   }
 
@@ -735,6 +769,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktické porovnání pojišťovny, půjčovny a přímého nákupu polohovací postele včetně aktuálních příkladů cen.',
       'template' => 'page-polohovaci-postel-na-pojistovnu.php',
     ),
+    'invalidni-vozik' => array(
+      'title'    => 'Invalidní vozík: jak vybrat vhodný typ',
+      'excerpt'  => 'Praktický poradce pro mechanický nebo elektrický invalidní vozík podle způsobu pohonu, rozměrů, nosnosti a způsobu pořízení.',
+      'template' => 'page-invalidni-vozik.php',
+    ),
   );
 
   $all_ready = true;
@@ -767,7 +806,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v7', '1', false );
+    update_option( 'zaprazi_resource_pages_v8', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

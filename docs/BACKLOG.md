@@ -732,3 +732,30 @@ Planned affiliate slots after UI exists:
 No deeplinks fabricated; canonical merchant URLs remain the safe fallback.
 
 See `docs/WHEELCHAIR_EVIDENCE_V0.md`.
+
+
+### ZP-038 Wheelchair Advisor UI v1
+Status: **READY_CODE / PRE_RELEASE**
+
+Adds:
+- dedicated `/invalidni-vozik/` Home Advisor page,
+- client-side propulsion-first decision flow,
+- branches for companion transport, self-propelled/mixed manual and powered joystick,
+- mandatory seat-fit, route-width and load-fit checks without collecting raw body weight,
+- powered-only joystick-safety and charging-readiness questions,
+- exact candidates:
+  - UNIZDRAV P4384 Basic,
+  - UNIZDRAV P3641 lightweight manual,
+  - UNIZDRAV P2961 powered wheelchair,
+- insurer / rental / purchase acquisition paths,
+- homepage and core-navigation entry points,
+- non-destructive resource registry v8,
+- separate affiliate readiness group for three wheelchair slots.
+
+Planned affiliate readiness after deploy:
+- Mobility 3/3,
+- Bathroom/WC 0/9,
+- Polohovací postel 0/3,
+- Invalidní vozík 0/3.
+
+No wheelchair deeplinks are fabricated; canonical UNIZDRAV URLs remain the safe fallback.

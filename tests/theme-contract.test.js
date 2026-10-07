@@ -186,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -264,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -778,7 +778,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -903,7 +903,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -1229,7 +1229,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   assert.match(functions, /'kompenzacni-pomucky-pro-seniory' => array/);
   assert.match(functions, /page-kompenzacni-pomucky-pro-seniory\.php/);
   assert.match(functions, /Kompenzační pomůcky pro seniory: jak vybrat \| Zápraží/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   assert.match(front, /\/kompenzacni-pomucky-pro-seniory\//);
   assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\//);
@@ -1286,7 +1286,7 @@ test("safe-home senior audit is task-first and routes into existing advisors", (
   assert.match(functions, /zaprazi_2_is_safe_home_page/);
   assert.match(functions, /'bezpecny-byt-pro-seniora' => array/);
   assert.match(functions, /page-bezpecny-byt-pro-seniora\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
   assert.match(compensatory, /\/bezpecny-byt-pro-seniora\//);
   assert.match(returnHome, /\/bezpecny-byt-pro-seniora\//);
   assert.match(footer, /\/bezpecny-byt-pro-seniora\//);
@@ -1344,7 +1344,7 @@ test("easy-footwear Advisor is privacy-safe, fit-gated and merchant-separated", 
   assert.match(functions, /'obuv-pro-seniory' => array/);
   assert.match(functions, /page-obuv-pro-seniory\.php/);
   assert.match(functions, /'footwear' => array/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   assert.match(footer, /\/obuv-pro-seniory\//);
   assert.match(safeHome, /\/obuv-pro-seniory\//);
@@ -1392,7 +1392,7 @@ test("toilet-riser micro-Advisor reuses Bathroom engine and exact verified candi
   assert.match(functions, /assets\/js\/toilet-riser-advisor\.js/);
   assert.match(functions, /'nastavec-na-wc-pro-seniory' => array/);
   assert.match(functions, /page-nastavec-na-wc-pro-seniory\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   assert.match(bathroom, /\/nastavec-na-wc-pro-seniory\//);
   assert.match(insurer, /\/nastavec-na-wc-pro-seniory\//);
@@ -1448,7 +1448,7 @@ test("shower-chair micro-Advisor reuses Bathroom engine and verified P2062 candi
   assert.match(functions, /assets\/js\/shower-chair-advisor\.js/);
   assert.match(functions, /'sprchovaci-zidle-pro-seniory' => array/);
   assert.match(functions, /page-sprchovaci-zidle-pro-seniory\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   assert.match(bathroom, /\/sprchovaci-zidle-pro-seniory\//);
   assert.match(insurer, /\/sprchovaci-zidle-pro-seniory\//);
@@ -1489,7 +1489,9 @@ test("Advisor asset loader is structurally clean and contains no FAQ payload", (
     "zaprazi-shower-chair-advisor",
     "zaprazi-toilet-chair-advisor",
     "zaprazi-toilet-support-advisor",
-    "zaprazi-bath-transfer-advisor"
+    "zaprazi-bath-transfer-advisor",
+    "zaprazi-indoor-walker-advisor",
+    "zaprazi-rollator-advisor"
   ]) {
     assert.ok(assets.includes(handle), `missing Advisor enqueue: ${handle}`);
   }
@@ -1541,7 +1543,7 @@ test("toilet-chair micro-Advisor reuses Bathroom engine for static vs 4v1 routin
   assert.match(functions, /assets\/js\/toilet-chair-advisor\.js/);
   assert.match(functions, /'toaletni-zidle-pro-seniory' => array/);
   assert.match(functions, /page-toaletni-zidle-pro-seniory\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   for (const content of [bathroom, insurer, compensatory, footer]) {
     assert.match(content, /\/toaletni-zidle-pro-seniory\//);
@@ -1585,7 +1587,7 @@ test("toilet-support micro-Advisor reuses Bathroom engine for wall rail vs suppo
   assert.match(functions, /assets\/js\/toilet-support-advisor\.js/);
   assert.match(functions, /'madlo-k-wc-pro-seniory' => array/);
   assert.match(functions, /page-madlo-k-wc-pro-seniory\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   for (const content of [bathroom, insurer, compensatory, footer]) {
     assert.match(content, /\/madlo-k-wc-pro-seniory\//);
@@ -1631,7 +1633,7 @@ test("bath-transfer micro-Advisor reuses Bathroom engine for seat vs transfer be
   assert.match(functions, /assets\/js\/bath-transfer-advisor\.js/);
   assert.match(functions, /'sedatko-do-vany-pro-seniory' => array/);
   assert.match(functions, /page-sedatko-do-vany-pro-seniory\.php/);
-  assert.match(functions, /zaprazi_resource_pages_v19/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
 
   for (const content of [bathroom, insurer, compensatory, footer]) {
     assert.match(content, /\/sedatko-do-vany-pro-seniory\//);
@@ -1649,5 +1651,72 @@ test("bath-transfer visible FAQ mirrors resource FAQ schema", () => {
   ]) {
     assert.ok(page.includes(question), `visible bath-transfer FAQ missing: ${question}`);
     assert.ok(functions.includes(question), `bath-transfer FAQ schema missing: ${question}`);
+  }
+});
+
+
+test("mobility high-intent Advisors reuse Mobility engine and verified products", () => {
+  const indoorPage = read("page-choditko-do-bytu-pro-seniory.php");
+  const indoorApp = read("assets/js/indoor-walker-advisor.js");
+  const rollPage = read("page-rollator-pro-seniory.php");
+  const rollApp = read("assets/js/rollator-advisor.js");
+  const catalog = read("src/mobility/catalog.js");
+  const functions = read("functions.php");
+  const front = read("front-page.php");
+  const hub = read("page-kompenzacni-pomucky-pro-seniory.php");
+  const insurer = read("page-choditko-na-pojistovnu.php");
+  const footer = read("footer.php");
+
+  assert.match(indoorPage, /Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové/);
+  assert.match(indoorApp, /recommendMobility/);
+  assert.match(indoorApp, /environment:"indoor"/);
+  assert.match(indoorApp, /canLiftWalker/);
+
+  assert.match(rollPage, /Rollátor pro seniory: kdy dává smysl čtyřkolové chodítko s brzdami/);
+  assert.match(rollApp, /recommendMobility/);
+  assert.match(rollApp, /environment:"both"/);
+  assert.match(rollApp, /handBrakes/);
+
+  assert.match(catalog, /id: "besco-wa17"/);
+  assert.match(catalog, /id: "besco-wa21"/);
+  assert.match(catalog, /id: "meyra-ideal-3061982"/);
+
+  assert.match(functions, /zaprazi_2_is_indoor_walker_page/);
+  assert.match(functions, /zaprazi_2_is_rollator_page/);
+  assert.match(functions, /assets\/js\/indoor-walker-advisor\.js/);
+  assert.match(functions, /assets\/js\/rollator-advisor\.js/);
+  assert.match(functions, /'choditko-do-bytu-pro-seniory' => array/);
+  assert.match(functions, /'rollator-pro-seniory' => array/);
+  assert.match(functions, /zaprazi_resource_pages_v20/);
+
+  for (const content of [front, hub, insurer, footer]) {
+    assert.match(content, /\/choditko-do-bytu-pro-seniory\//);
+    assert.match(content, /\/rollator-pro-seniory\//);
+  }
+});
+
+test("mobility high-intent visible FAQs mirror resource FAQ schema", () => {
+  const indoor = read("page-choditko-do-bytu-pro-seniory.php");
+  const roll = read("page-rollator-pro-seniory.php");
+  const functions = read("functions.php");
+
+  for (const question of [
+    "Jaké chodítko je vhodnější do bytu?",
+    "Kolik místa chodítko potřebuje?",
+    "Je lehčí chodítko automaticky lepší?",
+    "Kdy online poradce konkrétní chodítko nedoporučí?"
+  ]) {
+    assert.ok(indoor.includes(question));
+    assert.ok(functions.includes(question));
+  }
+
+  for (const question of [
+    "Jak poznat, že je rollátor vhodnější než chodítko bez brzd?",
+    "Musí mít rollátor sedátko?",
+    "Hradí rollátor zdravotní pojišťovna?",
+    "Kdy online poradce rollátor nedoporučí?"
+  ]) {
+    assert.ok(roll.includes(question));
+    assert.ok(functions.includes(question));
   }
 });

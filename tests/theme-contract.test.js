@@ -184,7 +184,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v6/);
+  assert.match(functions, /zaprazi_resource_pages_v7/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -262,7 +262,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v6/);
+  assert.match(functions, /zaprazi_resource_pages_v7/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -293,6 +293,7 @@ test("0.8.19 deployment integrity contract covers critical runtime files", () =>
     "page-koupelna-a-wc.php",
     "page-pomucky-do-koupelny-na-pojistovnu.php",
     "page-polohovaci-postel.php",
+    "page-polohovaci-postel-na-pojistovnu.php",
     "assets/js/analytics-consent.js",
     "assets/js/mobility-advisor.js",
     "assets/js/bathroom-advisor.js",
@@ -746,4 +747,53 @@ test("Adjustable bed is reachable from homepage and core navigation", () => {
   assert.match(front, /Řeším polohovací postel/);
   assert.match(header, /\/polohovaci-postel\//);
   assert.match(header, /Polohovací postel/);
+});
+
+
+test("Adjustable bed high-intent acquisition page separates insurer rental and retail paths", () => {
+  const functions = read("functions.php");
+  const page = read("page-polohovaci-postel-na-pojistovnu.php");
+  const bed = read("page-polohovaci-postel.php");
+
+  assert.match(functions, /zaprazi_resource_pages_v7/);
+  assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
+  assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
+  assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
+  assert.doesNotMatch(functions, /wp_update_post\(/);
+
+  assert.match(page, /Polohovací postel na pojišťovnu 2026/);
+  assert.match(page, /max\. 1× za 10 let/);
+  assert.match(page, /cirkulace/);
+  assert.match(page, /750 Kč \/ měsíc/);
+  assert.match(page, /900 Kč \/ měsíc/);
+  assert.match(page, /40 Kč \/ den/);
+  assert.match(page, /2 000 Kč/);
+  assert.match(page, /600 Kč/);
+  assert.match(page, /19 Kč\/km/);
+  assert.match(page, /nepotvrzuje individuální nárok/i);
+  assert.match(page, /Seznam zdravotnických prostředků hrazených na poukaz/);
+  assert.match(page, /\/polohovaci-postel\/#poradce-postel/);
+
+  assert.match(bed, /\/polohovaci-postel-na-pojistovnu\//);
+});
+
+test("Adjustable bed acquisition FAQ schema mirrors visible questions", () => {
+  const functions = read("functions.php");
+  const page = read("page-polohovaci-postel-na-pojistovnu.php");
+
+  const questions = [
+    "Hradí pojišťovna polohovací postel?",
+    "Může polohovací postel předepsat praktický lékař?",
+    "Kolik stojí půjčení elektrické polohovací postele?",
+    "Je lepší postel půjčit, nebo koupit?",
+    "Dostanu od pojišťovny novou postel?"
+  ];
+
+  for (const question of questions) {
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+  }
+
+  assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
+  assert.match(functions, /data-zaprazi-schema="resource-faq"/);
 });

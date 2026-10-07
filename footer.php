@@ -20,6 +20,7 @@
         <li><a href="<?php echo esc_url( home_url( '/obuv-pro-seniory/' ) ); ?>">Obuv pro seniory</a></li>
         <li><a href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle pro seniory</a></li>
         <li><a href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Madlo a opora k WC</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/' ) ); ?>">Sedátko do vany</a></li>
       </ul>
     </nav>
 

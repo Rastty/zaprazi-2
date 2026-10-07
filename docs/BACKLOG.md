@@ -1540,3 +1540,27 @@ SEO / UX:
 - four visible FAQs + matching resource FAQ schema,
 - links from Bathroom/WC, insurer guide, compensatory hub and footer,
 - resource registry v18.
+
+
+### ZP-072 Bath-transfer high-intent micro-Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/sedatko-do-vany-pro-seniory/` for the high-intent bathtub-seat query cluster.
+
+Decision:
+- confirmed independent transfer + bath fit 41–65 cm → BESCO BS008 seat-over-bath candidate,
+- seat-over-bath does not fit + 81 × 61 cm transfer construction fits → UNIZDRAV P2203 transfer-bench candidate,
+- person-assist or non-independent leg transfer fails closed.
+
+Exact candidates:
+- BESCO BS008 — seat 69 × 31 cm, bath inner width 41–65 cm, max load 100 kg,
+- UNIZDRAV P2203 — footprint 81 × 61 cm, seat 68 × 41 cm, seat height 45.5–56 cm, max load 110 kg; rechecked 2026-10-07 at 2,118 Kč and >10 units in stock.
+
+Commercial:
+- reuses existing `rehabilitacni-pomucky-cz:besco-bs008` and `unizdrav-cz:p2203` slots.
+
+SEO / UX:
+- dedicated title/meta,
+- four visible FAQs + matching resource FAQ schema,
+- links from Bathroom/WC, insurer guide, compensatory hub and footer,
+- resource registry v19.

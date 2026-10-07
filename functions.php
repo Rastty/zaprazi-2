@@ -321,6 +321,10 @@ function zaprazi_2_is_wheelchair_page() {
   return is_page( 'invalidni-vozik' );
 }
 
+function zaprazi_2_is_return_home_page() {
+  return is_page( 'navrat-z-nemocnice' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -351,7 +355,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -400,6 +404,13 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/wheelchair-advisor.js') ? filemtime($dir . '/assets/js/wheelchair-advisor.js') : null
         );
+      } elseif ( zaprazi_2_is_return_home_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-return-home-advisor',
+          $uri . '/assets/js/return-home-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/return-home-advisor.js') ? filemtime($dir . '/assets/js/return-home-advisor.js') : null
+        );
       }
     }
   }
@@ -420,6 +431,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
   }
+  if ( zaprazi_2_is_return_home_page() ) {
+    return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -436,6 +450,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík: jak vybrat, půjčit nebo řešit pojišťovnu | ZaPrazi';
+  }
+  if ( zaprazi_2_is_return_home_page() ) {
+    return 'Návrat z nemocnice domů: co připravit první noc | ZaPrazi';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
@@ -454,6 +471,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Praktický poradce pro invalidní vozík: doprovod, samostatný ruční nebo elektrický pohon, správný sed, průchody, nosnost, půjčení a pojišťovna.';
+  }
+  if ( zaprazi_2_is_return_home_page() ) {
+    return 'Praktický plán návratu z nemocnice: vstup domů, přesuny, chůze, WC, postel, koupelna a návazná domácí péče pro první noc doma.';
   }
   return $description;
 }
@@ -755,7 +775,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v9' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v10' ) ) {
     return;
   }
 
@@ -805,6 +825,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktické porovnání pojišťovny, půjčovny a přímého nákupu mechanického nebo elektrického invalidního vozíku.',
       'template' => 'page-invalidni-vozik-na-pojistovnu.php',
     ),
+    'navrat-z-nemocnice' => array(
+      'title'    => 'Návrat z nemocnice domů: co připravit první noc',
+      'excerpt'  => 'Praktický plán bezpečného návratu domů: vstup, přesuny, chůze, WC, postel, koupelna a návazná domácí péče.',
+      'template' => 'page-navrat-z-nemocnice.php',
+    ),
   );
 
   $all_ready = true;
@@ -837,7 +862,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v9', '1', false );
+    update_option( 'zaprazi_resource_pages_v10', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

@@ -561,6 +561,33 @@ test("affiliate admin shows slice readiness without changing recommendation logi
 });
 
 
+test("public affiliate readiness API exposes counts and missing canonical targets without tracking URLs", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_affiliate_readiness_payload/);
+  assert.match(functions, /register_rest_route/);
+  assert.match(functions, /zaprazi\/v1/);
+  assert.match(functions, /affiliate-readiness/);
+  assert.match(functions, /configured_total/);
+  assert.match(functions, /slot_total/);
+  assert.match(functions, /'missing'/);
+  assert.match(functions, /Cache-Control/);
+  assert.match(functions, /no-store, max-age=0/);
+  assert.match(functions, /permission_callback' => '__return_true'/);
+
+  const payloadStart = functions.indexOf("function zaprazi_2_affiliate_readiness_payload()");
+  const payloadEnd = functions.indexOf("function zaprazi_2_sanitize_affiliate_map", payloadStart);
+  const payloadCode = functions.slice(payloadStart, payloadEnd);
+
+  assert.doesNotMatch(payloadCode, /affiliate_url/i);
+  assert.doesNotMatch(payloadCode, /tracking/i);
+  assert.doesNotMatch(payloadCode, /supportNeed|environment|diagnosis|answer/i);
+  assert.match(payloadCode, /zaprazi_2_affiliate_targets/);
+  assert.match(payloadCode, /zaprazi_2_affiliate_fields/);
+  assert.match(payloadCode, /zaprazi_2_affiliate_groups/);
+});
+
+
 test("WordPress admins are warned when release integrity is partial", () => {
   const functions = read("functions.php");
 

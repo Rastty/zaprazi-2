@@ -2047,7 +2047,7 @@ No reimbursement rules, product rankings or individual-eligibility logic are cha
 
 
 ### ZP-098 Release 0.8.47 — Insurance navigation IA
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / PRODUCTION_SMOKE_PASS**
 
 Release 0.8.47 supersedes deployed 0.8.46.
 
@@ -2060,3 +2060,24 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-099 Public affiliate readiness API
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds a read-only production diagnostic endpoint:
+
+`/wp-json/zaprazi/v1/affiliate-readiness`
+
+Purpose:
+- let Portfolio / Zápraží verify live affiliate coverage without WordPress admin access,
+- report release and integrity state,
+- report configured vs. total affiliate slots by slice,
+- list only missing slot keys, public labels and canonical merchant targets.
+
+Privacy / security:
+- does **not** expose configured affiliate tracking URLs,
+- does **not** expose Advisor answers, recommendation IDs, health data or user data,
+- response is read-only and marked `Cache-Control: no-store, max-age=0`.
+
+This is operational visibility only; recommendation logic, product order and merchant ranking remain unchanged.

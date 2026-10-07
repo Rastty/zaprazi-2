@@ -16,6 +16,7 @@
     <nav class="zp-core-nav" aria-label="Hlavní navigace">
       <a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Mobilita</a>
       <a href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a>
+      <a href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a>
       <a href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Pojišťovna</a>
       <a href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení</a>
       <a href="<?php echo esc_url( home_url( '/#jak-vybrat' ) ); ?>">Jak vybírat</a>

@@ -554,6 +554,29 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ne. ZaPrazi neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.',
       ),
     );
+  } elseif ( zaprazi_2_is_bed_acquisition_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Hradí pojišťovna polohovací postel?',
+        'answer'   => 'Může, pokud jsou splněny podmínky pro konkrétního člověka a konkrétní zdravotnický prostředek. VZP popisuje předpis lékařem a předchozí schválení pojišťovnou. ZaPrazi individuální nárok nepotvrzuje.',
+      ),
+      array(
+        'question' => 'Může polohovací postel předepsat praktický lékař?',
+        'answer'   => 'VZP mezi uvedenými odbornostmi zmiňuje také praktického lékaře. Samotný předpis ale nestačí: u popsané cesty je potřeba předchozí schválení zdravotní pojišťovnou.',
+      ),
+      array(
+        'question' => 'Kolik stojí půjčení elektrické polohovací postele?',
+        'answer'   => 'Ve veřejných cenících ověřených 7. 10. 2026 jsme našli například 750 Kč za měsíc, 900 Kč za měsíc nebo 40 Kč za den. K ceně se může přidat kauce, doprava, montáž nebo jednorázový poplatek.',
+      ),
+      array(
+        'question' => 'Je lepší postel půjčit, nebo koupit?',
+        'answer'   => 'U krátkodobé nebo nejisté potřeby bývá rozumné nejdřív prověřit půjčení. U dlouhodobé potřeby má smysl nejdřív prověřit pojišťovnu a teprve potom porovnat přímý nákup. Vždy musí sedět technické parametry konkrétní postele.',
+      ),
+      array(
+        'question' => 'Dostanu od pojišťovny novou postel?',
+        'answer'   => 'Ne nutně. VZP popisuje možnost cirkulace, kdy postel zůstává ve vlastnictví pojišťovny a pojištěnci je zapůjčena; může proto jít i o repasované lůžko.',
+      ),
+    );
   }
 
   if ( ! $faq ) {
@@ -671,7 +694,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v6' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v7' ) ) {
     return;
   }
 
@@ -706,6 +729,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce pro výběr elektrické polohovací postele a rozhodnutí mezi koupí, půjčením a prověřením úhrady.',
       'template' => 'page-polohovaci-postel.php',
     ),
+    'polohovaci-postel-na-pojistovnu' => array(
+      'title'    => 'Polohovací postel na pojišťovnu 2026: půjčit, koupit nebo řešit úhradu',
+      'excerpt'  => 'Praktické porovnání pojišťovny, půjčovny a přímého nákupu polohovací postele včetně aktuálních příkladů cen.',
+      'template' => 'page-polohovaci-postel-na-pojistovnu.php',
+    ),
   );
 
   $all_ready = true;
@@ -738,7 +766,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v6', '1', false );
+    update_option( 'zaprazi_resource_pages_v7', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
@@ -759,6 +787,10 @@ function zaprazi_2_is_bathroom_insurance_page() {
   return is_page( 'pomucky-do-koupelny-na-pojistovnu' );
 }
 
+function zaprazi_2_is_bed_acquisition_page() {
+  return is_page( 'polohovaci-postel-na-pojistovnu' );
+}
+
 function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | ZaPrazi';
@@ -774,6 +806,10 @@ function zaprazi_2_resource_title( $title ) {
 
   if ( zaprazi_2_is_bathroom_insurance_page() ) {
     return 'Pomůcky do koupelny a na WC na pojišťovnu 2026 | ZaPrazi';
+  }
+
+  if ( zaprazi_2_is_bed_acquisition_page() ) {
+    return 'Polohovací postel na pojišťovnu 2026: půjčit nebo koupit | ZaPrazi';
   }
 
   return $title;
@@ -796,6 +832,10 @@ function zaprazi_2_resource_description( $description ) {
 
   if ( zaprazi_2_is_bathroom_insurance_page() ) {
     return 'Pomůcky do koupelny a na WC na pojišťovnu v roce 2026: které skupiny VZP uvádí, kdy je potřeba schválení a jak ověřit aktuální seznam SÚKL.';
+  }
+
+  if ( zaprazi_2_is_bed_acquisition_page() ) {
+    return 'Polohovací postel 2026: jak funguje pojišťovna a cirkulace, kolik stojí aktuální půjčovny a kdy dává smysl přímý nákup.';
   }
 
   return $description;

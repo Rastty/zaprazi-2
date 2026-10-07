@@ -282,6 +282,33 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
+test("wheelchair main page builds SEO authority without a second decision engine", () => {
+  const functions = read("functions.php");
+  const page = read("page-invalidni-vozik.php");
+
+  assert.match(page, /Invalidní vozík pro seniory/);
+  assert.ok(functions.includes("Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží"));
+  assert.ok(functions.includes("šířky sedu, průchodů a nosnosti"));
+
+  for (const question of [
+    "Jak vybrat invalidní vozík pro seniora?",
+    "Je lepší mechanický, nebo elektrický invalidní vozík?",
+    "Jak poznat správnou šířku sedu a vozíku?",
+    "Je lepší invalidní vozík půjčit, koupit, nebo řešit přes pojišťovnu?",
+    "Kdy Zápraží nedoporučí konkrétní vozík?"
+  ]) {
+    assert.ok(page.includes(question), `visible FAQ missing: ${question}`);
+    assert.ok(functions.includes(question), `FAQ schema missing: ${question}`);
+  }
+
+  assert.equal((page.match(/id=["']zp-wheelchair-advisor["']/g) || []).length, 1);
+  assert.match(functions, /assets\/js\/wheelchair-advisor\.js/);
+  assert.match(page, /\/invalidni-vozik-na-pojistovnu\//);
+  assert.match(page, /\/bezpecny-byt-pro-seniora\//);
+  assert.match(page, /\/kompenzacni-pomucky-pro-seniory\//);
+});
+
+
 test("0.8.37 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [

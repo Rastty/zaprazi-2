@@ -1774,3 +1774,19 @@ Safety boundary stays unchanged:
 - complex shower/toilet wheelchair situations remain outside automatic product selection.
 
 Commercial routing and affiliate ranking are unchanged.
+
+
+### ZP-084 Release 0.8.40 — Bathroom SEO authority
+Status: **READY_DEPLOY**
+
+Release 0.8.40 supersedes 0.8.39.
+
+Packages:
+- everything from deployed 0.8.39,
+- `/koupelna-a-wc/` authority layer for **pomůcky do koupelny pro seniory**,
+- five visible FAQ items with exact FAQPage schema parity,
+- stronger links to all five Bathroom micro-Advisors and insurer guide,
+- unchanged Bathroom Advisor decision logic, safety gates and affiliate ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

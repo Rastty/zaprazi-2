@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.31
+# Next Deploy Smoke — Zápraží 2.0 v0.8.32
 
-This release supersedes 0.8.30. Deploy only 0.8.31 from `dev`.
+This release supersedes 0.8.31. Deploy only 0.8.32 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.31`
+- `zaprazi-release` = `0.8.32`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -187,3 +187,26 @@ Affiliate admin expected:
   - `zdrava-obuv-cz:xavier`
   - `zdrava-obuv-cz:altitude`
 - empty slots use exact canonical Zdravá Obuv product URLs.
+
+
+## 15. Toilet-riser micro-Advisor
+Open `/nastavec-na-wc-pro-seniory/`.
+
+Expected:
+- H1 contains **Nástavec na WC pro seniory**
+- Advisor asks only:
+  - transfer ability,
+  - toilet fit,
+  - feet-on-floor after raising,
+  - load fit,
+  - optional duration
+- independent transfer + all fit gates = UNIZDRAV P2868 candidate
+- stable hand support + all fit gates = BESCO BS15 candidate
+- person-assist transfer = no automatic product candidate
+- unknown/no toilet fit, feet support or load fit = no shopping-first merchant CTA
+- page links to insurer guidance.
+
+Regression:
+- Bathroom/WC Advisor still uses the same `recommendBathroom` engine
+- existing affiliate slots `unizdrav-cz:p2868` and `rehabilitacni-pomucky-cz:besco-bs15` are reused
+- no duplicate affiliate slot is created.

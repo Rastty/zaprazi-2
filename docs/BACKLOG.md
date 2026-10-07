@@ -1467,3 +1467,30 @@ Packages:
 - release integrity includes `page-sprchovaci-zidle-pro-seniory.php` and `assets/js/shower-chair-advisor.js`.
 
 No second suitability engine, duplicate affiliate slot or reimbursement shortcut is introduced.
+
+
+### ZP-069 Toilet-chair high-intent micro-Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/toaletni-zidle-pro-seniory/` for the high-intent toilet-chair query cluster.
+
+Decision split:
+- static toilet chair nearby → existing `toilet_nearby` Bathroom branch,
+- one chair for toilet + shower → existing `multifunction_toilet_shower` branch.
+
+Exact candidates:
+- UNIZDRAV P2807 — 60 cm width, 44 cm seat, 36–60 cm seat height, 100 kg max load,
+- DMA EH-CMDA 4v1 — 51 cm width, 39–54 cm seat height, 150 kg max load.
+
+Commercial:
+- reuses existing `unizdrav-cz:p2807` and `drmax-cz:dma-eh-cmda` slots,
+- no duplicate affiliate mapping,
+- insurer route remains separate.
+
+Regression fix bundled with this slice:
+- repaired `zaprazi_2_assets()` after FAQ branches had been accidentally inserted into the module-enqueue chain,
+- restored deterministic enqueue for ADL, footwear, toilet-riser and shower-chair Advisors,
+- moved toilet-riser and shower-chair FAQ content into `zaprazi_2_resource_faq_schema()`,
+- added structural tests that forbid FAQ payload inside the asset loader.
+
+Resource registry advances to v17.

@@ -33,7 +33,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Koupelna a WC</h3>
           <p>Nástavec na WC, toaletní židle, madlo nebo sprchovací židle řeší odlišný problém. Nejdřív je potřeba určit přesun, výšku, oporu a prostor v koupelně.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nástavec na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Sprchovací židle</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nástavec na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Sprchovací židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle</a></p>
         </article>
 
         <article class="zp-decision-card">

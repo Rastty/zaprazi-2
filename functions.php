@@ -402,6 +402,10 @@ function zaprazi_2_is_shower_chair_page() {
   return is_page( 'sprchovaci-zidle-pro-seniory' );
 }
 
+function zaprazi_2_is_toilet_chair_page() {
+  return is_page( 'toaletni-zidle-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -432,7 +436,18 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() || zaprazi_2_is_bathroom_page() || zaprazi_2_is_bed_page() || zaprazi_2_is_wheelchair_page() || zaprazi_2_is_return_home_page() || zaprazi_2_is_adl_page() || zaprazi_2_is_footwear_page() || zaprazi_2_is_toilet_riser_page() || zaprazi_2_is_shower_chair_page() ) {
+  if (
+    is_front_page() ||
+    zaprazi_2_is_bathroom_page() ||
+    zaprazi_2_is_bed_page() ||
+    zaprazi_2_is_wheelchair_page() ||
+    zaprazi_2_is_return_home_page() ||
+    zaprazi_2_is_adl_page() ||
+    zaprazi_2_is_footwear_page() ||
+    zaprazi_2_is_toilet_riser_page() ||
+    zaprazi_2_is_shower_chair_page() ||
+    zaprazi_2_is_toilet_chair_page()
+  ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -452,7 +467,7 @@ function zaprazi_2_assets() {
       'after'
     );
 
-    if ( function_exists('wp_enqueue_script_module') ) {
+    if ( function_exists( 'wp_enqueue_script_module' ) ) {
       if ( is_front_page() ) {
         wp_enqueue_script_module(
           'zaprazi-mobility-advisor',
@@ -488,45 +503,7 @@ function zaprazi_2_assets() {
           array(),
           file_exists($dir . '/assets/js/return-home-advisor.js') ? filemtime($dir . '/assets/js/return-home-advisor.js') : null
         );
-      } elseif ( zaprazi_2_is_shower_chair_page() ) {
-    $faq = array(
-      array(
-        'question' => 'Jak vysoká má být sprchovací židle?',
-        'answer'   => 'Výška má umožnit bezpečné sednutí a vstávání a zároveň stabilní oporu chodidel. Prakticky je důležitější správně nastavená výška než maximálně vysoký sed.',
-      ),
-      array(
-        'question' => 'Jak změřit, zda se sprchovací židle vejde?',
-        'answer'   => 'Měřte celkovou šířku a hloubku sprchového prostoru a ponechte místo pro bezpečné přesednutí. U ověřeného P2062 je celková šířka 55 cm a hloubka 48 cm.',
-      ),
-      array(
-        'question' => 'Kdy online poradce konkrétní židli nedoporučí?',
-        'answer'   => 'Když je potřeba fyzické zvedání nebo výrazné jištění druhou osobou, není potvrzen stabilní podklad, prostor nebo nosnost. V takovém případě je nejdřív potřeba bezpečný způsob přesunu a vhodný typ pomůcky.',
-      ),
-      array(
-        'question' => 'Hradí sprchovací židli zdravotní pojišťovna?',
-        'answer'   => 'Některé konkrétní zdravotnické prostředky tohoto typu mohou být hrazené, ale záleží na přesném prostředku, podmínkách a schválení. Běžný produkt z e-shopu není automaticky hrazený jen podle názvu kategorie.',
-      ),
-    );
-  } elseif ( zaprazi_2_is_toilet_riser_page() ) {
-    $faq = array(
-      array(
-        'question' => 'Jak vysoký nástavec na WC vybrat?',
-        'answer'   => 'Ne podle toho, který je nejvyšší. Výsledná výška musí umožnit bezpečné sednutí a vstávání a po zvýšení musí zůstat stabilní opora chodidel o podlahu.',
-      ),
-      array(
-        'question' => 'Kdy má smysl nástavec s madly?',
-        'answer'   => 'Když člověk přesedá bez fyzické pomoci druhé osoby, ale při sedání nebo vstávání potřebuje stabilní oporu rukama. Pokud je běžně potřeba zvedání nebo výrazné jištění druhou osobou, online poradce konkrétní nástavec nevybírá.',
-      ),
-      array(
-        'question' => 'Pasuje nástavec na každý záchod?',
-        'answer'   => 'Ne. Je potřeba ověřit tvar a rozměry konkrétní WC mísy i způsob upevnění. Nástavec musí po instalaci zůstat pevný a bez posunu.',
-      ),
-      array(
-        'question' => 'Hradí nástavec na WC zdravotní pojišťovna?',
-        'answer'   => 'Některé konkrétní zdravotnické prostředky hrazené být mohou, ale nelze to určit jen podle názvu kategorie. Před tvrzením o úhradě je potřeba ověřit přesný prostředek a aktuální záznam v seznamu SÚKL.',
-      ),
-    );
-  } elseif ( zaprazi_2_is_adl_page() ) {
+      } elseif ( zaprazi_2_is_adl_page() ) {
         wp_enqueue_script_module(
           'zaprazi-adl-advisor',
           $uri . '/assets/js/adl-advisor.js',
@@ -553,6 +530,13 @@ function zaprazi_2_assets() {
           $uri . '/assets/js/shower-chair-advisor.js',
           array(),
           file_exists($dir . '/assets/js/shower-chair-advisor.js') ? filemtime($dir . '/assets/js/shower-chair-advisor.js') : null
+        );
+      } elseif ( zaprazi_2_is_toilet_chair_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-toilet-chair-advisor',
+          $uri . '/assets/js/toilet-chair-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/toilet-chair-advisor.js') ? filemtime($dir . '/assets/js/toilet-chair-advisor.js') : null
         );
       }
     }
@@ -595,6 +579,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_shower_chair_page() ) {
     return 'Sprchovací židle pro seniory: jak vybrat rozměr a výšku | Zápraží';
   }
+  if ( zaprazi_2_is_toilet_chair_page() ) {
+    return 'Toaletní židle pro seniory: jak vybrat správný typ | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -632,6 +619,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_shower_chair_page() ) {
     return 'Sprchovací židle pro seniory: jak vybrat rozměr a výšku | Zápraží';
+  }
+  if ( zaprazi_2_is_toilet_chair_page() ) {
+    return 'Toaletní židle pro seniory: jak vybrat správný typ | Zápraží';
   }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'Zápraží', $title );
@@ -671,6 +661,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_shower_chair_page() ) {
     return 'Jak vybrat sprchovací židli pro seniora: rozměr sprchy, výška sedu, boční opory, stabilní podklad, nosnost a bezpečný přesun.';
+  }
+  if ( zaprazi_2_is_toilet_chair_page() ) {
+    return 'Jak vybrat toaletní židli pro seniora: statická židle u lůžka nebo 4v1 pro WC i sprchu, rozměry, výška sedu, nosnost a bezpečný přesun.';
   }
   return $description;
 }
@@ -855,6 +848,63 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Na takový postup se nespoléhejte. Retail nákup a hrazená cesta přes předpis, schválení a výdej zdravotnického prostředku jsou odlišné procesy.',
       ),
     );
+  } elseif ( zaprazi_2_is_toilet_riser_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vysoký nástavec na WC vybrat?',
+        'answer'   => 'Ne podle toho, který je nejvyšší. Výsledná výška musí umožnit bezpečné sednutí a vstávání a po zvýšení musí zůstat stabilní opora chodidel o podlahu.',
+      ),
+      array(
+        'question' => 'Kdy má smysl nástavec s madly?',
+        'answer'   => 'Když člověk přesedá bez fyzické pomoci druhé osoby, ale při sedání nebo vstávání potřebuje stabilní oporu rukama. Pokud je běžně potřeba zvedání nebo výrazné jištění druhou osobou, online poradce konkrétní nástavec nevybírá.',
+      ),
+      array(
+        'question' => 'Pasuje nástavec na každý záchod?',
+        'answer'   => 'Ne. Je potřeba ověřit tvar a rozměry konkrétní WC mísy i způsob upevnění. Nástavec musí po instalaci zůstat pevný a bez posunu.',
+      ),
+      array(
+        'question' => 'Hradí nástavec na WC zdravotní pojišťovna?',
+        'answer'   => 'Některé konkrétní zdravotnické prostředky hrazené být mohou, ale nelze to určit jen podle názvu kategorie. Před tvrzením o úhradě je potřeba ověřit přesný prostředek a aktuální záznam v seznamu SÚKL.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_shower_chair_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Jak vysoká má být sprchovací židle?',
+        'answer'   => 'Výška má umožnit bezpečné sednutí a vstávání a zároveň stabilní oporu chodidel. Prakticky je důležitější správně nastavená výška než maximálně vysoký sed.',
+      ),
+      array(
+        'question' => 'Jak změřit, zda se sprchovací židle vejde?',
+        'answer'   => 'Měřte celkovou šířku a hloubku sprchového prostoru a ponechte místo pro bezpečné přesednutí. U ověřeného P2062 je celková šířka 55 cm a hloubka 48 cm.',
+      ),
+      array(
+        'question' => 'Kdy online poradce konkrétní židli nedoporučí?',
+        'answer'   => 'Když je potřeba fyzické zvedání nebo výrazné jištění druhou osobou, není potvrzen stabilní podklad, prostor nebo nosnost. V takovém případě je nejdřív potřeba bezpečný způsob přesunu a vhodný typ pomůcky.',
+      ),
+      array(
+        'question' => 'Hradí sprchovací židli zdravotní pojišťovna?',
+        'answer'   => 'Některé konkrétní zdravotnické prostředky tohoto typu mohou být hrazené, ale záleží na přesném prostředku, podmínkách a schválení. Běžný produkt z e-shopu není automaticky hrazený jen podle názvu kategorie.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_toilet_chair_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Kdy má smysl samostatná toaletní židle?',
+        'answer'   => 'Když je hlavní problém obtížná cesta na běžné WC a člověk zvládne bezpečný přesun na stabilní židli bez fyzického zvedání druhou osobou.',
+      ),
+      array(
+        'question' => 'Jaký je rozdíl mezi toaletní židlí a 4v1?',
+        'answer'   => 'Statická toaletní židle řeší hlavně toaletu poblíž lůžka nebo místnosti. Židle 4v1 je navržená i pro další použití, například sprchování nebo umístění nad WC, takže je potřeba ověřit oba prostory.',
+      ),
+      array(
+        'question' => 'Jak vysoká má být toaletní židle?',
+        'answer'   => 'Tak, aby bylo sedání a vstávání stabilní a chodidla měla jistou oporu. U nastavitelných modelů vybírejte výšku podle konkrétního člověka a prostoru, ne podle maxima výrobku.',
+      ),
+      array(
+        'question' => 'Hradí toaletní židli zdravotní pojišťovna?',
+        'answer'   => 'Některé konkrétní zdravotnické prostředky tohoto typu hrazené být mohou, ale záleží na přesném prostředku, indikačních podmínkách, předpisu a případném schválení. Retail nákup není automaticky hrazená cesta.',
+      ),
+    );
   } elseif ( zaprazi_2_is_adl_page() ) {
     $faq = array(
       array(
@@ -1037,7 +1087,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v16' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v17' ) ) {
     return;
   }
 
@@ -1122,6 +1172,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce podle bezpečného přesunu, stabilního podkladu, prostoru, výšky sedu a nosnosti.',
       'template' => 'page-sprchovaci-zidle-pro-seniory.php',
     ),
+    'toaletni-zidle-pro-seniory' => array(
+      'title'    => 'Toaletní židle pro seniory: statická, nebo 4v1?',
+      'excerpt'  => 'Praktický poradce pro rozdíl mezi samostatnou toaletní židlí a 4v1 řešením podle přesunu, prostoru, podkladu a nosnosti.',
+      'template' => 'page-toaletni-zidle-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -1154,7 +1209,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v16', '1', false );
+    update_option( 'zaprazi_resource_pages_v17', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

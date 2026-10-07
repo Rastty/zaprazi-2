@@ -158,7 +158,7 @@ get_header();
       <p class="zp-kicker">Časté otázky</p>
       <h2 class="zp-section-title">Rychlá orientace před řešením poukazu.</h2>
 
-      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Nejdřív vybrat správný typ sprchovací židle</a></p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Nejdřív vybrat správný typ sprchovací židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Vybrat toaletní židli</a></p>
 
       <details>
         <summary>Hradí pojišťovna sprchovací nebo toaletní židli?</summary>

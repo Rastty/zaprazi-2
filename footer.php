@@ -18,6 +18,7 @@
         <li><a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek</a></li>
         <li><a href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Bezpečný byt pro seniora</a></li>
         <li><a href="<?php echo esc_url( home_url( '/obuv-pro-seniory/' ) ); ?>">Obuv pro seniory</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle pro seniory</a></li>
       </ul>
     </nav>
 

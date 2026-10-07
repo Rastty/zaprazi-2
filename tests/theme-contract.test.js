@@ -1047,3 +1047,21 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.match(header, /\/sobestacnost\//);
   assert.match(front, /\/sobestacnost\//);
 });
+
+
+test("Return-home and self-care journeys cross-link without mixing decision logic", () => {
+  const returnHome = read("page-navrat-z-nemocnice.php");
+  const adl = read("page-sobestacnost.php");
+  const returnEngine = read("src/return-home/engine.js");
+
+  assert.match(returnHome, /\/sobestacnost\//);
+  assert.match(returnHome, /každodenní soběstačnost/i);
+  assert.match(adl, /\/#poradce/);
+  assert.match(adl, /\/koupelna-a-wc\//);
+  assert.match(adl, /\/polohovaci-postel\//);
+  assert.match(adl, /\/invalidni-vozik\//);
+  assert.match(adl, /\/navrat-z-nemocnice\//);
+
+  // Cross-links are navigational only; return-home orchestration must remain product-free.
+  assert.doesNotMatch(returnEngine, /rehavita|upcup|beat it|theomatik/i);
+});

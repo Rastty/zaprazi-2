@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.34' );
+  define( 'ZAPRAZI_RELEASE', '0.8.35' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_34';
+  $marker = 'ZP_RELEASE_0_8_35';
   $files = array(
     'header.php',
     'footer.php',
@@ -28,6 +28,8 @@ function zaprazi_2_release_integrity_ok() {
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
+    'page-madlo-k-wc-pro-seniory.php',
+    'page-sedatko-do-vany-pro-seniory.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',
@@ -39,6 +41,8 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/toilet-riser-advisor.js',
     'assets/js/shower-chair-advisor.js',
     'assets/js/toilet-chair-advisor.js',
+    'assets/js/toilet-support-advisor.js',
+    'assets/js/bath-transfer-advisor.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

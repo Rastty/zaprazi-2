@@ -1564,3 +1564,21 @@ SEO / UX:
 - four visible FAQs + matching resource FAQ schema,
 - links from Bathroom/WC, insurer guide, compensatory hub and footer,
 - resource registry v19.
+
+
+### ZP-073 Release 0.8.35 — Bathroom high-intent expansion
+Status: **READY_DEPLOY**
+
+Release 0.8.35 supersedes deployed 0.8.34.
+
+Packages:
+- everything from 0.8.34,
+- `/madlo-k-wc-pro-seniory/` with P2015 vs P2131 routing,
+- `/sedatko-do-vany-pro-seniory/` with BESCO BS008 vs P2203 routing,
+- existing Bathroom engine/catalog reused for both pages,
+- resource registry v19,
+- internal links + SEO title/meta + FAQ schema,
+- release integrity includes both new pages and both new JS modules,
+- hardened deterministic Advisor module routing retained.
+
+No duplicate eligibility engine or affiliate mapping is introduced.

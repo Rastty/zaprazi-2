@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.34
+# Next Deploy Smoke — Zápraží 2.0 v0.8.35
 
-This release supersedes 0.8.33. Deploy only 0.8.34 from `dev`.
+This release supersedes 0.8.34. Deploy only 0.8.35 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.34`
+- `zaprazi-release` = `0.8.35`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -254,3 +254,26 @@ Regression checks:
 - ADL, footwear, toilet-riser, shower-chair and toilet-chair JS modules all have explicit enqueue branches
 - toilet-riser, shower-chair and toilet-chair FAQ data lives only inside `zaprazi_2_resource_faq_schema()`
 - release integrity includes `page-toaletni-zidle-pro-seniory.php` and `assets/js/toilet-chair-advisor.js`.
+
+
+## 18. Toilet-support micro-Advisor
+Open `/madlo-k-wc-pro-seniory/`.
+
+Expected:
+- H1 contains **Madlo k WC pro seniory**
+- confirmed safe wall fixing can expose P2131 alongside P2015
+- unverified / impossible wall fixing never exposes P2131 as shopping-first choice
+- person-assist transfer or failed load fit gives no automatic product recommendation
+- existing affiliate slots `unizdrav-cz:p2015` and `unizdrav-cz:p2131` are reused
+- asset loader contains no FAQ payload.
+
+## 19. Bath-transfer micro-Advisor
+Open `/sedatko-do-vany-pro-seniory/`.
+
+Expected:
+- H1 contains **Sedátko do vany pro seniory**
+- independent transfer + 41–65 cm bath fit = BESCO BS008 candidate
+- if BS008 does not fit but 81 × 61 cm bench fit is confirmed = UNIZDRAV P2203 candidate
+- non-independent / person-assist transfer gives no automatic product recommendation
+- existing affiliate slots `rehabilitacni-pomucky-cz:besco-bs008` and `unizdrav-cz:p2203` are reused
+- no merchant CTA on needs-more-info / professional-check states.

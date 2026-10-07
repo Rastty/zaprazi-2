@@ -81,6 +81,7 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p2131' => 'UNIZDRAV — P2131 pevné madlo',
     'rehabilitacni-pomucky-cz:besco-bs008' => 'RehabilitačníPomůcky.cz — BESCO BS008 sedačka na vanu s madlem',
     'rehabilitacni-pomucky-cz:besco-bs15' => 'RehabilitačníPomůcky.cz — BESCO BS15 nástavec na WC s madly',
+    'drmax-cz:dma-eh-cmda' => 'Dr.Max — DMA EH-CMDA toaletní židle 4v1',
   );
 }
 
@@ -96,6 +97,7 @@ function zaprazi_2_affiliate_targets() {
     'unizdrav-cz:p2131' => 'https://unizdrav.cz/zbozi/2131/protiskluzove-madlo-do-koupelny-a-toalety-od-30-do-45-cm',
     'rehabilitacni-pomucky-cz:besco-bs008' => 'https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/',
     'rehabilitacni-pomucky-cz:besco-bs15' => 'https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/',
+    'drmax-cz:dma-eh-cmda' => 'https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1',
   );
 }
 
@@ -119,6 +121,7 @@ function zaprazi_2_affiliate_groups() {
         'unizdrav-cz:p2131',
         'rehabilitacni-pomucky-cz:besco-bs008',
         'rehabilitacni-pomucky-cz:besco-bs15',
+        'drmax-cz:dma-eh-cmda',
       ),
     ),
   );

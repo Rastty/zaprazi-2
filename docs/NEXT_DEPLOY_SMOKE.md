@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.48
+# Next Deploy Smoke — Zápraží 2.0 v0.8.49
 
-This release supersedes 0.8.47. Deploy only 0.8.48 from `dev`.
+This release supersedes 0.8.48. Deploy only 0.8.49 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -520,4 +520,26 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.48`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 34. Affiliate deeplink workbench
+Open WordPress admin → Settings → **Zápraží affiliate**.
+
+Expected:
+- **Deeplink workbench** is visible above the affiliate slots,
+- each missing slot shows network, product, canonical target and slot key,
+- **Kopírovat URL** copies the canonical target,
+- UNIZDRAV shows **VIV/CJ** and **CJ program 5654758**,
+- RehaVita shows **eHUB** and **eHUB kampaň 18119967**,
+- RehaVita is not labelled as VIV/CJ,
+- no tracking URL is fabricated in code,
+- existing configured affiliate URLs remain unchanged.
+
+Readiness API:
+- `/wp-json/zaprazi/v1/affiliate-readiness` missing rows include `network` and `program`,
+- configured publisher tracking URLs are never returned.
+
+Release integrity:
+- `zaprazi-release` = `0.8.49`,
 - `zaprazi-integrity` = `ok`.

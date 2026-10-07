@@ -2122,3 +2122,21 @@ Commercial boundary:
 - tracking URLs are still generated only in the approved affiliate account,
 - no guessed publisher IDs or hand-built tracking links,
 - recommendation logic and product order remain unchanged.
+
+
+### ZP-102 Release 0.8.49 — Affiliate deeplink workbench
+Status: **READY_DEPLOY**
+
+Release 0.8.49 supersedes deployed 0.8.48.
+
+Packages:
+- everything from 0.8.48,
+- network-aware **Deeplink workbench** in WordPress affiliate settings,
+- missing affiliate slots grouped with canonical targets and one-click copy action,
+- UNIZDRAV mapped to VIV/CJ program 5654758,
+- RehaVita corrected to eHUB campaign 18119967,
+- readiness API network/program metadata for missing slots,
+- unchanged configured publisher links, recommendation logic and product order,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

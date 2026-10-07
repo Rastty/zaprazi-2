@@ -303,3 +303,18 @@ test("0.8.8 deployment integrity contract covers critical runtime files", () => 
   }
   assert.ok(read("style.css").includes("Version: 0.8.8"));
 });
+
+
+test("affiliate admin shows readiness without changing recommendation logic", () => {
+  const functions = read("functions.php");
+  const advisor = read("assets/js/mobility-advisor.js");
+
+  assert.match(functions, /Affiliate readiness/);
+  assert.match(functions, /Partnerský odkaz aktivní/);
+  assert.match(functions, /Otestovat deeplink/);
+  assert.match(functions, /Fallback/);
+  assert.match(functions, /\$configured/);
+
+  assert.doesNotMatch(advisor, /commission/i);
+  assert.doesNotMatch(advisor, /affiliate.*sort/i);
+});

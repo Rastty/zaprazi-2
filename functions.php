@@ -79,6 +79,7 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p2807' => 'UNIZDRAV — P2807 toaletní židle',
     'unizdrav-cz:p2062' => 'UNIZDRAV — P2062 sprchovací židle',
     'unizdrav-cz:p2131' => 'UNIZDRAV — P2131 pevné madlo',
+    'rehabilitacni-pomucky-cz:besco-bs008' => 'RehabilitačníPomůcky.cz — BESCO BS008 sedačka na vanu s madlem',
   );
 }
 
@@ -92,6 +93,7 @@ function zaprazi_2_affiliate_targets() {
     'unizdrav-cz:p2807' => 'https://unizdrav.cz/zbozi/2807/toaletni-zidle-vyskove-nastavitelna-unizdrav',
     'unizdrav-cz:p2062' => 'https://unizdrav.cz/zbozi/2062/sprchovaci-zidle-s-ruckami',
     'unizdrav-cz:p2131' => 'https://unizdrav.cz/zbozi/2131/protiskluzove-madlo-do-koupelny-a-toalety-od-30-do-45-cm',
+    'rehabilitacni-pomucky-cz:besco-bs008' => 'https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/',
   );
 }
 
@@ -113,6 +115,7 @@ function zaprazi_2_affiliate_groups() {
         'unizdrav-cz:p2807',
         'unizdrav-cz:p2062',
         'unizdrav-cz:p2131',
+        'rehabilitacni-pomucky-cz:besco-bs008',
       ),
     ),
   );

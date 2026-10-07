@@ -109,9 +109,10 @@ Status: **DONE_CODE / BLOCKED_EXACT_VIV_LINKS**
 - recommendation and affiliate routing are separated,
 - WordPress runtime affiliate settings exist,
 - safe fallback to canonical merchant URL,
-- generic privacy-safe funnel events exist.
+- generic privacy-safe funnel events exist,
+- admin shows the exact canonical destination URL for each of the 3 supported slots so the publisher can paste it into VIV/CJ Deep Link Generator without manually composing tracking parameters.
 
-Need exact VIV deeplinks to activate affiliate tracking.
+Need exact VIV-generated publisher deeplinks to activate affiliate tracking.
 
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**

@@ -100,6 +100,8 @@ export function recommendBathroom(input = {}) {
     floorStable = "unknown",
     spaceFit = "unknown",
     wallFixing = "unknown",
+    bathTransferIndependent = "unknown",
+    bathFit = "unknown",
     duration = "unknown"
   } = input;
 
@@ -111,6 +113,8 @@ export function recommendBathroom(input = {}) {
   if (!FIT.has(floorStable)) return invalid("floorStable");
   if (!FIT.has(spaceFit)) return invalid("spaceFit");
   if (!WALL_FIXING.has(wallFixing)) return invalid("wallFixing");
+  if (!FIT.has(bathTransferIndependent)) return invalid("bathTransferIndependent");
+  if (!FIT.has(bathFit)) return invalid("bathFit");
   if (!DURATION.has(duration)) return invalid("duration");
 
   if (primaryNeed === "unknown") {
@@ -143,13 +147,6 @@ export function recommendBathroom(input = {}) {
     );
   }
 
-  if (primaryNeed === "bath_transfer") {
-    return professionalCheck(
-      "Přesun přes okraj vany zatím ZaPrazi nebude řešit automatickým výběrem výrobku.",
-      "Nejdřív je potřeba ověřit způsob přesunu a prostor vany. Až potom má smysl porovnávat vanovou sedačku, desku nebo jiné řešení."
-    );
-  }
-
   if (loadFit === "unknown") {
     return needsMoreInfo(
       "loadFit",
@@ -163,6 +160,65 @@ export function recommendBathroom(input = {}) {
       "Současný shortlist nemá potvrzenou dostatečnou nosnost.",
       "Nevybírejte slabší výrobek jen podle ceny. Potřebujeme najít variantu s odpovídající nosností a rozměry."
     );
+  }
+
+  if (primaryNeed === "bath_transfer") {
+    if (transferAbility !== "independent") {
+      return professionalCheck(
+        "Přesun přes okraj vany má smysl řešit automaticky jen tehdy, když člověk nepotřebuje fyzické zvedání nebo jištění druhou osobou.",
+        "Pokud je při přesunu potřeba opora člověka, zvedání nebo nejisté balancování, nejdřív ověřte postup s ergoterapeutem, fyzioterapeutem nebo odbornou výdejnou."
+      );
+    }
+
+    if (bathTransferIndependent !== "yes") {
+      if (bathTransferIndependent === "no") {
+        return professionalCheck(
+          "Sedačka přes okraj vany není bezpečný automatický kandidát, pokud člověk nezvládne samostatně usednout a přenést nohy přes okraj.",
+          "Nevybírejte výrobek jen podle rozměru. Potřebujeme jiný typ řešení nebo odborné posouzení přesunu."
+        );
+      }
+
+      return needsMoreInfo(
+        "bathTransferIndependent",
+        "Potřebujeme ještě ověřit samotný pohyb přes okraj vany.",
+        "Zjistěte, zda člověk dokáže bezpečně usednout na stabilní sedačku přes vanu a přenést obě nohy přes okraj bez fyzické pomoci druhé osoby."
+      );
+    }
+
+    if (bathFit !== "yes") {
+      if (bathFit === "no") {
+        return {
+          status: "needs_more_info",
+          headline: "Ověřený kandidát nepasuje na tuto vanu.",
+          nextStep: "Tento model je určen pro vnitřní šířku okrajů vany 41–65 cm a musí jít pevně zajistit. Potřebujeme jiný rozměr nebo jiný typ řešení.",
+          missing: [],
+          recommendations: [],
+          acquisition: []
+        };
+      }
+
+      return needsMoreInfo(
+        "bathFit",
+        "Sedačka přes vanu musí přesně pasovat a jít pevně zajistit.",
+        "Změřte vnitřní šířku okrajů vany a ověřte, že je v rozsahu 41–65 cm a že čtyři rozpěrné nožičky lze podle návodu bezpečně upevnit bez posunu."
+      );
+    }
+
+    return {
+      status: "candidate",
+      headline: "Sedačka přes okraj vany může být kandidátní řešení pro samostatný přesun.",
+      nextStep: "Před nákupem znovu ověřte šířku vany, pevnost uchycení, nosnost a to, že člověk zvládne přesun nohou přes okraj bez fyzické pomoci.",
+      missing: [],
+      recommendations: [{
+        id: "bath_transfer_seat_candidate",
+        label: "Sedačka na vanu s madlem jako kandidátní řešení",
+        reason: "Samostatný přesun je potvrzený a vana odpovídá rozměrovému a montážnímu rozsahu ověřeného výrobku.",
+        parameters: ["vnitřní šířka vany 41–65 cm", "pevné uchycení bez posunu", "nosnost 100 kg", "samostatný přesun nohou přes okraj", "neklouzavé a bezpečné okolí vany"],
+        productCandidateIds: ["besco-bs008"]
+      }],
+      acquisition: acquisitionFor(duration),
+      disclaimer: "Tato větev platí jen pro jednoduchý samostatný přesun. Pokud je potřeba fyzická pomoc, zvedání nebo je přesun nejistý, konkrétní výrobek online nevybíráme."
+    };
   }
 
   if (primaryNeed === "raise_toilet") {

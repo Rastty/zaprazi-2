@@ -1767,3 +1767,17 @@ test("mobility hub visible FAQ mirrors resource FAQ schema", () => {
     assert.ok(functions.includes(question));
   }
 });
+
+
+test("core navigation targets are unique", () => {
+  const header = read("header.php");
+  const navStart = header.indexOf('<nav class="zp-core-nav"');
+  const navEnd = header.indexOf("</nav>", navStart);
+  assert.ok(navStart >= 0 && navEnd > navStart, "core nav block missing");
+  const nav = header.slice(navStart, navEnd);
+  const targets = [...nav.matchAll(/home_url\(\s*'([^']+)'\s*\)/g)].map((m) => m[1]);
+  assert.ok(targets.length >= 6, "too few core navigation targets");
+  assert.equal(new Set(targets).size, targets.length, "duplicate core navigation target");
+  assert.ok(targets.includes("/choditka-pro-seniory/"));
+  assert.ok(targets.includes("/kompenzacni-pomucky-pro-seniory/"));
+});

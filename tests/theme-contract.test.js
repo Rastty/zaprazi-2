@@ -97,6 +97,7 @@ test("all primary theme surfaces expose the global skip-link target", () => {
     "page-koupelna-a-wc.php",
     "page-polohovaci-postel.php",
     "page-invalidni-vozik.php",
+    "page-navrat-z-nemocnice.php",
     "single.php",
     "page.php",
     "index.php",
@@ -185,7 +186,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v9/);
+  assert.match(functions, /zaprazi_resource_pages_v10/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -263,7 +264,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v9/);
+  assert.match(functions, /zaprazi_resource_pages_v10/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -759,7 +760,7 @@ test("Adjustable bed high-intent acquisition page separates insurer rental and r
   const page = read("page-polohovaci-postel-na-pojistovnu.php");
   const bed = read("page-polohovaci-postel.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v9/);
+  assert.match(functions, /zaprazi_resource_pages_v10/);
   assert.match(functions, /'polohovaci-postel-na-pojistovnu' => array/);
   assert.match(functions, /page-polohovaci-postel-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_bed_acquisition_page/);
@@ -884,7 +885,7 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   const page = read("page-invalidni-vozik-na-pojistovnu.php");
   const advisor = read("page-invalidni-vozik.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v9/);
+  assert.match(functions, /zaprazi_resource_pages_v10/);
   assert.match(functions, /'invalidni-vozik-na-pojistovnu' => array/);
   assert.match(functions, /page-invalidni-vozik-na-pojistovnu\.php/);
   assert.match(functions, /zaprazi_2_is_wheelchair_acquisition_page/);
@@ -932,4 +933,69 @@ test("Wheelchair acquisition page never labels retail candidates as currently re
   assert.doesNotMatch(page, /P4384[^\n]{0,160}hrazen/i);
   assert.doesNotMatch(page, /P3641[^\n]{0,160}hrazen/i);
   assert.doesNotMatch(page, /P2961[^\n]{0,160}hrazen/i);
+});
+
+
+test("Return-home Advisor is a privacy-safe orchestration surface", () => {
+  const page = read("page-navrat-z-nemocnice.php");
+  const app = read("assets/js/return-home-advisor.js");
+  const functions = read("functions.php");
+  const engine = read("src/return-home/engine.js");
+
+  assert.doesNotMatch(page, /<form[^>]+id=["']zp-return-home-advisor/);
+  assert.match(page, /id=["']zp-return-home-advisor["'][^>]+role=["']form/);
+  assert.match(page, /Nepotřebujeme jméno, diagnózu, typ operace, seznam léků ani přesnou hmotnost/i);
+  assert.match(page, /Neodesíláme jejich kombinaci do analytiky ani affiliate systémů/i);
+
+  for (const field of [
+    "timing",
+    "entranceReady",
+    "transferAbility",
+    "walking",
+    "wheelchairReady",
+    "toiletReady",
+    "bedReady",
+    "bathroomReady",
+    "homeCare"
+  ]) {
+    assert.ok(page.includes(`data-zp-return-required="${field}"`) || page.includes(`name="${field}"`), `missing return-home field ${field}`);
+  }
+
+  assert.match(app, /buildReturnHomePlan/);
+  assert.match(app, /zaprazi:analytics/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.doesNotMatch(app, /new FormData/);
+  assert.doesNotMatch(app, /commission/i);
+
+  assert.match(engine, /blocked_before_discharge/);
+  assert.match(engine, /entrance_not_ready/);
+  assert.match(engine, /assisted_transfer/);
+  assert.match(engine, /14 dní/);
+  assert.match(functions, /zaprazi_2_is_return_home_page/);
+  assert.match(functions, /assets\/js\/return-home-advisor\.js/);
+  assert.match(functions, /'navrat-z-nemocnice' => array/);
+  assert.match(functions, /page-navrat-z-nemocnice\.php/);
+});
+
+test("Return-home Advisor routes only into existing ZaPrazi decision surfaces", () => {
+  const engine = read("src/return-home/engine.js");
+
+  assert.match(engine, /\/#poradce/);
+  assert.match(engine, /\/koupelna-a-wc\/#poradce-koupelna/);
+  assert.match(engine, /\/polohovaci-postel\/#poradce-postel/);
+  assert.match(engine, /\/invalidni-vozik\/#poradce-vozik/);
+
+  assert.doesNotMatch(engine, /affiliate/i);
+  assert.doesNotMatch(engine, /merchant/i);
+  assert.doesNotMatch(engine, /productCandidateIds/);
+});
+
+test("Return-home surface is reachable from homepage and core navigation", () => {
+  const front = read("front-page.php");
+  const header = read("header.php");
+
+  assert.match(front, /\/navrat-z-nemocnice\//);
+  assert.match(front, /Vracíme se z nemocnice domů/);
+  assert.match(header, /\/navrat-z-nemocnice\//);
+  assert.match(header, /Návrat domů/);
 });

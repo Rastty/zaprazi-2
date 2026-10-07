@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Pomůcky do koupelny na pojišťovnu
+Template Name: Zápraží — Pomůcky do koupelny na pojišťovnu
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Koupelna a WC · Úhrada</p>
+      <p class="zp-kicker">Zápraží · Koupelna a WC · Úhrada</p>
       <h1>Pomůcky do koupelny a na WC na pojišťovnu v roce 2026.</h1>
       <p class="zp-lead">Co zdravotní pojišťovna skutečně může hradit, kdy je potřeba schválení a proč nestačí koupit podobný výrobek v e-shopu. Prakticky, podle aktuálních zdrojů VZP a SÚKL.</p>
       <div class="zp-hero-actions">
@@ -52,7 +52,7 @@ get_header();
           <li>toaletní vozíky,</li>
           <li>toaletní a sprchovací židle.</li>
         </ul>
-        <p class="zp-muted-copy">ZaPrazi z tohoto seznamu neodvozuje, že každý výrobek v dané kategorii je hrazený ani že konkrétní člověk splňuje podmínky.</p>
+        <p class="zp-muted-copy">Zápraží z tohoto seznamu neodvozuje, že každý výrobek v dané kategorii je hrazený ani že konkrétní člověk splňuje podmínky.</p>
       </div>
 
       <aside class="zp-resource-callout">
@@ -107,7 +107,7 @@ get_header();
           <span>5</span>
           <div>
             <h3>Výdej na poukaz a přímý nákup jsou dvě různé cesty.</h3>
-            <p>Pokud koupíte běžný maloobchodní výrobek, neznamená to automaticky, že jej lze následně proplatit. ZaPrazi proto drží obchodní nabídku odděleně od úhradové cesty.</p>
+            <p>Pokud koupíte běžný maloobchodní výrobek, neznamená to automaticky, že jej lze následně proplatit. Zápraží proto drží obchodní nabídku odděleně od úhradové cesty.</p>
           </div>
         </article>
       </div>
@@ -125,7 +125,7 @@ get_header();
 
       <aside class="zp-resource-callout">
         <h3>Co s nástavcem na WC nebo pevným madlem?</h3>
-        <p>ZaPrazi je automaticky nezařazuje do stejné hrazené skupiny jen proto, že pomáhají v koupelně nebo na WC. U takových produktů musí být ověřen konkrétní prostředek a jeho aktuální SÚKL záznam.</p>
+        <p>Zápraží je automaticky nezařazuje do stejné hrazené skupiny jen proto, že pomáhají v koupelně nebo na WC. U takových produktů musí být ověřen konkrétní prostředek a jeho aktuální SÚKL záznam.</p>
         <p>Proto například náš maloobchodní UNIZDRAV P2868 nebo UNIZDRAV P2131 vedeme zatím jen jako přímý nákup, ne jako „produkt na pojišťovnu“.</p>
       </aside>
     </div>
@@ -171,7 +171,7 @@ get_header();
       </details>
       <details>
         <summary>Je nástavec na WC automaticky hrazený?</summary>
-        <p>Ne. ZaPrazi neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.</p>
+        <p>Ne. Zápraží neodvozuje úhradu jen z názvu kategorie. Pro konkrétní nástavec je potřeba ověřit přesný prostředek, jeho kód a aktuální úhradový záznam v seznamu SÚKL.</p>
       </details>
     </div>
   </section>
@@ -198,7 +198,7 @@ get_header();
         </article>
       </div>
 
-      <p class="zp-disclaimer"><strong>Hranice ZaPrazi:</strong> tato stránka vysvětluje veřejně dostupný postup. Nejde o diagnózu, preskripci, schválení pojišťovny ani potvrzení individuálního nároku.</p>
+      <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka vysvětluje veřejně dostupný postup. Nejde o diagnózu, preskripci, schválení pojišťovny ani potvrzení individuálního nároku.</p>
     </div>
   </section>
 </main>

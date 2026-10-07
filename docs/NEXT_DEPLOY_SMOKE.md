@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.29
+# Next Deploy Smoke — Zápraží 2.0 v0.8.30
 
-This release supersedes 0.8.28. Deploy only 0.8.29 from `dev`.
+This release supersedes 0.8.29. Deploy only 0.8.30 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.29`
+- `zaprazi-release` = `0.8.30`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -146,3 +146,18 @@ Expected:
 - FAQPage schema contains the same five questions,
 - no product catalog or merchant ranking appears on the page,
 - homepage and footer link to this guide.
+
+
+## 13. Safe-home senior audit
+Open `/bezpecny-byt-pro-seniora/`.
+
+Expected:
+- H1 contains **Jak upravit byt pro seniora**
+- audit covers entrance, bed → WC route, toilet, bathroom, walking paths and bed surroundings,
+- NZIP fall-prevention source is visible,
+- page mentions trip hazards, night lighting and anti-slip bathroom measures,
+- all six core Advisor routes are linked,
+- five visible FAQs are present,
+- FAQPage schema contains the same five questions,
+- compensatory-aids hub, return-home page and global footer link here,
+- no product catalog or diagnosis-first advice appears on the page.

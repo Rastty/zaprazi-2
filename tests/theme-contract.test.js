@@ -94,6 +94,7 @@ test("all primary theme surfaces expose the global skip-link target", () => {
 
   for (const path of [
     "front-page.php",
+    "page-koupelna-a-wc.php",
     "single.php",
     "page.php",
     "index.php",
@@ -182,7 +183,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   const insurance = read("page-choditko-na-pojistovnu.php");
   const front = read("front-page.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v3/);
+  assert.match(functions, /zaprazi_resource_pages_v4/);
   assert.match(functions, /get_page_by_path\( \$slug, OBJECT, 'page' \)/);
   assert.match(functions, /page-pujceni-choditka\.php/);
   assert.match(functions, /page-choditko-na-pojistovnu\.php/);
@@ -260,7 +261,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   const footer = read("footer.php");
   const privacy = read("page-ochrana-soukromi.php");
 
-  assert.match(functions, /zaprazi_resource_pages_v3/);
+  assert.match(functions, /zaprazi_resource_pages_v4/);
   assert.match(functions, /'ochrana-soukromi' => array/);
   assert.match(functions, /page-ochrana-soukromi\.php/);
   assert.doesNotMatch(functions, /wp_update_post\(/);
@@ -407,3 +408,64 @@ test("high-intent resource FAQ schema mirrors visible insurance and rental FAQs"
   assert.match(functions, /Ceny a dostupnost se mohou změnit/);
 });
 
+
+
+test("Bathroom WC Advisor is a privacy-safe separate decision surface", () => {
+  const page = read("page-koupelna-a-wc.php");
+  const app = read("assets/js/bathroom-advisor.js");
+  const functions = read("functions.php");
+
+  assert.doesNotMatch(page, /<form[^>]+id=["']zp-bathroom-advisor/);
+  assert.match(page, /id=["']zp-bathroom-advisor["'][^>]+role=["']form/);
+  assert.match(page, /Neptá se na diagnózu/i);
+  assert.match(page, /affiliate systém nedostává kombinaci odpovědí/i);
+  assert.match(page, /data-zp-bath-required=["']primaryNeed["']/);
+  assert.match(page, /data-zp-bath-required=["']transferAbility["']/);
+  assert.match(page, /data-zp-bath-required=["']loadFit["']/);
+
+  assert.match(app, /recommendBathroom/);
+  assert.match(app, /getBathroomProducts/);
+  assert.match(app, /zaprazi:analytics/);
+  assert.doesNotMatch(app, /gtag\(/);
+  assert.doesNotMatch(app, /new FormData/);
+  assert.doesNotMatch(app, /commission/i);
+
+  assert.match(functions, /zaprazi_2_is_bathroom_page/);
+  assert.match(functions, /assets\/js\/bathroom-advisor\.js/);
+  assert.match(functions, /'koupelna-a-wc' => array/);
+  assert.match(functions, /page-koupelna-a-wc\.php/);
+});
+
+test("Bathroom WC high-support branches visibly fail closed", () => {
+  const page = read("page-koupelna-a-wc.php");
+  const engine = read("src/bathroom/engine.js");
+
+  assert.match(page, /běžně pomáhá druhá osoba/i);
+  assert.match(page, /Vana a vyšší míra podpory zůstávají zatím mimo automatický výběr/i);
+  assert.match(engine, /combined_shower_toilet/);
+  assert.match(engine, /bath_transfer/);
+  assert.match(engine, /professional_check/);
+  assert.match(engine, /recommendations: \[\]/);
+});
+
+test("Bathroom WC navigation is reachable from homepage and core navigation", () => {
+  const front = read("front-page.php");
+  const header = read("header.php");
+
+  assert.match(front, /\/koupelna-a-wc\//);
+  assert.match(front, /Řeším koupelnu nebo WC/);
+  assert.match(header, /\/koupelna-a-wc\//);
+  assert.match(header, /Koupelna a WC/);
+});
+
+test("Bathroom WC acquisition UI separates direct retail from reimbursement evidence", () => {
+  const app = read("assets/js/bathroom-advisor.js");
+  const engine = read("src/bathroom/engine.js");
+
+  assert.match(engine, /check_reimbursement_alternative/);
+  assert.match(engine, /není automaticky hrazený/);
+  assert.match(app, /Aktuální seznam SÚKL/);
+  assert.match(app, /Vysvětlení VZP/);
+  assert.match(app, /sponsored/);
+  assert.doesNotMatch(app, /hradí tento produkt/i);
+});

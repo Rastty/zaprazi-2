@@ -220,6 +220,10 @@ function zaprazi_2_render_settings_page() {
   <?php
 }
 
+function zaprazi_2_is_bathroom_page() {
+  return is_page( 'koupelna-a-wc' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -250,7 +254,7 @@ function zaprazi_2_assets() {
     'before'
   );
 
-  if ( is_front_page() ) {
+  if ( is_front_page() || zaprazi_2_is_bathroom_page() ) {
     wp_enqueue_script(
       'zaprazi-runtime-config',
       $uri . '/assets/js/runtime-config.js',
@@ -271,12 +275,21 @@ function zaprazi_2_assets() {
     );
 
     if ( function_exists('wp_enqueue_script_module') ) {
-      wp_enqueue_script_module(
-        'zaprazi-mobility-advisor',
-        $uri . '/assets/js/mobility-advisor.js',
-        array(),
-        file_exists($dir . '/assets/js/mobility-advisor.js') ? filemtime($dir . '/assets/js/mobility-advisor.js') : null
-      );
+      if ( is_front_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-mobility-advisor',
+          $uri . '/assets/js/mobility-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/mobility-advisor.js') ? filemtime($dir . '/assets/js/mobility-advisor.js') : null
+        );
+      } elseif ( zaprazi_2_is_bathroom_page() ) {
+        wp_enqueue_script_module(
+          'zaprazi-bathroom-advisor',
+          $uri . '/assets/js/bathroom-advisor.js',
+          array(),
+          file_exists($dir . '/assets/js/bathroom-advisor.js') ? filemtime($dir . '/assets/js/bathroom-advisor.js') : null
+        );
+      }
     }
   }
 }
@@ -287,6 +300,9 @@ function zaprazi_2_front_title( $title ) {
   if ( is_front_page() ) {
     return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
   }
+  if ( zaprazi_2_is_bathroom_page() ) {
+    return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -295,15 +311,22 @@ function zaprazi_2_wpseo_title( $title ) {
   if ( is_front_page() ) {
     return 'Chodítko a rollátor: jak vybrat, půjčit nebo řešit úhradu | ZaPrazi';
   }
+  if ( zaprazi_2_is_bathroom_page() ) {
+    return 'Koupelna a WC: bezpečnější řešení doma | ZaPrazi';
+  }
 
   return str_replace( 'Rady a tipy pro Váš dům', 'ZaPrazi.cz', $title );
 }
 add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
 
 function zaprazi_2_wpseo_description( $description ) {
-  return is_front_page()
-    ? 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.'
-    : $description;
+  if ( is_front_page() ) {
+    return 'Praktický poradce pro výběr chodítka nebo rollátoru: použití doma či venku, důležité parametry, koupě, půjčení a prověření možnosti úhrady.';
+  }
+  if ( zaprazi_2_is_bathroom_page() ) {
+    return 'Praktický poradce pro bezpečnější WC a koupelnu: zvýšení WC, opory, toaletní a sprchovací židle, koupě, půjčení a prověření hrazené alternativy.';
+  }
+  return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_wpseo_description', 20 );
 
@@ -538,7 +561,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent ZaPrazi resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v3' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v4' ) ) {
     return;
   }
 
@@ -557,6 +580,11 @@ function zaprazi_2_ensure_resource_pages() {
       'title'    => 'Ochrana soukromí a měření návštěvnosti',
       'excerpt'  => 'Jak ZaPrazi pracuje s odpověďmi z poradce, volitelným Google Analytics a nastavením souhlasu.',
       'template' => 'page-ochrana-soukromi.php',
+    ),
+    'koupelna-a-wc' => array(
+      'title'    => 'Koupelna a WC: bezpečnější řešení doma',
+      'excerpt'  => 'Praktický poradce pro zvýšení WC, opory, toaletní a sprchovací židle a bezpečné rozhodnutí mezi koupí, půjčením a hrazenou alternativou.',
+      'template' => 'page-koupelna-a-wc.php',
     ),
   );
 
@@ -590,7 +618,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v3', '1', false );
+    update_option( 'zaprazi_resource_pages_v4', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

@@ -2016,7 +2016,7 @@ Safety:
 
 
 ### ZP-096 Release 0.8.46 — Insurance hub routing
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.46 supersedes deployed 0.8.45.
 
@@ -2029,3 +2029,18 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-097 Insurance navigation IA cleanup
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Aligns global navigation with the central insurance hub created in 0.8.46.
+
+Changes:
+- header **Pojišťovna** points to `/kompenzacni-pomucky-pro-seniory/#pojistovna` instead of the walker-only insurance page,
+- footer exposes **Pomůcky na pojišťovnu** through the same central route,
+- homepage adds a visible insurance-hub link next to the general compensatory-aids overview,
+- `/choditko-na-pojistovnu/` primary CTA **Nejdřív vybrat vhodný typ** routes to `/choditka-pro-seniory/` instead of the homepage mobility anchor,
+- regression tests preserve the broad → category information architecture.
+
+No reimbursement rules, product rankings or individual-eligibility logic are changed.

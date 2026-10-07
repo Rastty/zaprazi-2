@@ -208,14 +208,25 @@ test("resource registry creates insurance and rental pages without overwriting c
 });
 
 
-test("core navigation links mobility hub, reimbursement and rental guidance", () => {
+test("core navigation links mobility, central insurance hub and rental guidance", () => {
   const header = read("header.php");
+  const footer = read("footer.php");
+  const front = read("front-page.php");
+  const insuranceWalker = read("page-choditko-na-pojistovnu.php");
   const style = read("style.css");
 
   assert.match(header, /aria-label=["']Hlavní navigace["']/);
   assert.match(header, /\/choditka-pro-seniory\//);
-  assert.match(header, /\/choditko-na-pojistovnu\//);
+  assert.match(header, /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
+  assert.match(header, />Pojišťovna<\/a>/);
+  assert.doesNotMatch(header, /home_url\( '\/choditko-na-pojistovnu\/' \).*?>Pojišťovna/);
   assert.match(header, /\/pujceni-choditka\//);
+
+  assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
+  assert.match(front, /Pomůcky na pojišťovnu/);
+  assert.match(front, /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
+  assert.match(insuranceWalker, /Nejdřív vybrat vhodný typ/);
+  assert.match(insuranceWalker, /\/choditka-pro-seniory\//);
 
   assert.match(style, /\.zp-core-nav/);
   assert.match(style, /overflow-x:auto/);

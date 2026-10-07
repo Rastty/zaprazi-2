@@ -16,7 +16,7 @@ get_header();
       <h1>Chodítko na pojišťovnu v roce 2026.</h1>
       <p class="zp-lead">Prakticky a bez slibů: jak funguje ePoukaz, co znamená úhrada v seznamu SÚKL a co si ověřit dřív, než chodítko koupíte nebo objednáte.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nejdřív vybrat vhodný typ</a>
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>

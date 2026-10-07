@@ -360,6 +360,10 @@ function zaprazi_2_is_adl_page() {
   return is_page( 'sobestacnost' );
 }
 
+function zaprazi_2_is_compensatory_aids_page() {
+  return is_page( 'kompenzacni-pomucky-pro-seniory' );
+}
+
 function zaprazi_2_assets() {
   $dir = get_template_directory();
   $uri = get_template_directory_uri();
@@ -479,6 +483,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_adl_page() ) {
     return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
   }
+  if ( zaprazi_2_is_compensatory_aids_page() ) {
+    return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
+  }
   return $title;
 }
 add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
@@ -525,6 +532,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_adl_page() ) {
     return 'Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu: pití, stabilizace nádoby, jídlo jednou rukou a otevírání běžných obalů.';
+  }
+  if ( zaprazi_2_is_compensatory_aids_page() ) {
+    return 'Praktický průvodce kompenzačními pomůckami pro seniory: chůze, koupelna a WC, postel, vozík, soběstačnost a rozdíl mezi koupí, půjčením a pojišťovnou.';
   }
   return $description;
 }
@@ -728,6 +738,29 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ano, existují multifunkční otevírací pomůcky pro běžné uzávěry, jazýčky plechovek, zipy a obaly. Zápraží tuto větev používá pouze pro praktický úkon otevírání a neposkytuje rady k výběru, dávkování ani bezpečnosti léků.',
       ),
     );
+  } elseif ( zaprazi_2_is_compensatory_aids_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Co jsou kompenzační pomůcky pro seniory?',
+        'answer'   => 'Jsou to pomůcky, které pomáhají podpořit omezenou schopnost zvládat konkrétní každodenní činnost, například chůzi, přesun, hygienu, sezení, ležení nebo sebeobsluhu. Prakticky je důležitější konkrétní problém než samotný název kategorie.',
+      ),
+      array(
+        'question' => 'Jak vybrat správnou kompenzační pomůcku?',
+        'answer'   => 'Začněte konkrétním úkonem, prostředím a rozměry. Teprve potom vybírejte typ pomůcky a konkrétní výrobek. Zápraží proto nejprve rozděluje situaci a až následně vede k vhodnému dalšímu kroku.',
+      ),
+      array(
+        'question' => 'Hradí kompenzační pomůcky zdravotní pojišťovna?',
+        'answer'   => 'Některé ano, ale ne automaticky. Záleží na konkrétním zdravotnickém prostředku, indikačních a úhradových podmínkách, předpisu a někdy i předchozím schválení pojišťovny. Maloobchodní produkt nelze považovat za hrazený jen podle názvu kategorie.',
+      ),
+      array(
+        'question' => 'Znamená ePoukaz automaticky, že pomůcku pojišťovna zaplatí?',
+        'answer'   => 'Ne. SÚKL uvádí, že zavedení ePoukazu nemá vliv na výši cen ani úhrad. ePoukaz je způsob elektronického předpisu a výdeje, nikoli automatické potvrzení nároku na úhradu.',
+      ),
+      array(
+        'question' => 'Je lepší pomůcku půjčit, nebo koupit?',
+        'answer'   => 'U krátkodobé nebo nejisté potřeby může být půjčení praktičtější. U dlouhodobé potřeby je rozumné nejdřív prověřit pojišťovnu a pak porovnat přímý nákup. Vždy ale musí sedět typ a technické parametry pomůcky.',
+      ),
+    );
   }
 
   if ( ! $faq ) {
@@ -845,7 +878,7 @@ add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup', 3 );
  * Create high-intent Zápraží resource pages once, without overwriting existing content.
  */
 function zaprazi_2_ensure_resource_pages() {
-  if ( '1' === get_option( 'zaprazi_resource_pages_v11' ) ) {
+  if ( '1' === get_option( 'zaprazi_resource_pages_v12' ) ) {
     return;
   }
 
@@ -905,6 +938,11 @@ function zaprazi_2_ensure_resource_pages() {
       'excerpt'  => 'Praktický poradce pro samostatné pití, stabilizaci nádoby a přípravu jednoduchého jídla jednou rukou.',
       'template' => 'page-sobestacnost.php',
     ),
+    'kompenzacni-pomucky-pro-seniory' => array(
+      'title'    => 'Kompenzační pomůcky pro seniory: jak vybrat podle situace',
+      'excerpt'  => 'Praktický rozcestník pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.',
+      'template' => 'page-kompenzacni-pomucky-pro-seniory.php',
+    ),
   );
 
   $all_ready = true;
@@ -937,7 +975,7 @@ function zaprazi_2_ensure_resource_pages() {
   }
 
   if ( $all_ready ) {
-    update_option( 'zaprazi_resource_pages_v11', '1', false );
+    update_option( 'zaprazi_resource_pages_v12', '1', false );
   }
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );

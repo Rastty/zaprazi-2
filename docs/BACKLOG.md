@@ -399,7 +399,7 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_6_DEEPLINKS**
+Status: **LIVE_PRODUCTION_0_8_13 / BATHROOM_0_OF_7_DEEPLINKS**
 
 Adds exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,
@@ -473,3 +473,26 @@ Evidence:
 - independent public guidance supports seated bath-board style transfer only with correct fit, secure use and appropriate transfer ability.
 
 No diagnosis question and no raw health data were added.
+
+
+### ZP-028 Raised WC with arm support
+Status: **READY_CODE / PRE_RELEASE**
+
+Unlocks the previously incomplete low-WC scenario where the person:
+- does not need physical lifting by another person,
+- but does need stable hand support while sitting down or standing up.
+
+Verified product:
+- BESCO BES-BS15 — raised toilet seat with removable arms,
+- height increase 11.5 cm,
+- max load 100 kg,
+- direct-pay merchant route via RehabilitačníPomůcky.cz,
+- empty affiliate runtime slot with canonical fallback.
+
+Decision behavior:
+- independent transfer + fit gates -> UNIZDRAV P2868,
+- steadying transfer + fit gates -> BESCO BS15,
+- physical-assistance transfer -> professional check,
+- unknown/failed toilet fit, load fit or foot support -> no exact product.
+
+No new personal/health question was needed; existing practical answers are sufficient.

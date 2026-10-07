@@ -1,6 +1,6 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.7
+# Post-Deploy Smoke — ZaPrazi 2.0 v0.8.8
 
-Run after deploying the latest `dev` branch. ZaPrazi is already active; this is a post-deploy smoke, not an activation gate.
+Release 0.8.8 is deployed. Use this checklist only for regression spot-checks after future changes.
 
 ## 1. Homepage + navigation
 

@@ -1941,7 +1941,7 @@ Safety:
 
 
 ### ZP-092 Release 0.8.44 — Self-care SEO authority
-Status: **READY_DEPLOY**
+Status: **DEPLOYED / LIVE VERIFY_PENDING**
 
 Release 0.8.44 supersedes deployed 0.8.43.
 
@@ -1955,3 +1955,21 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-093 Safe-home fall-prevention authority
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Expands `/bezpecny-byt-pro-seniora/` to cover the adjacent Czech search cluster around **prevence pádů seniorů doma** without creating a competing second URL.
+
+Adds:
+- H1 combining **jak upravit byt pro seniora** and **předcházet pádům doma**,
+- SEO title/meta covering both home modification and fall prevention,
+- exact fall-prevention H2,
+- FAQ question updated to **Jak předcházet pádům seniorů doma?** with exact FAQPage schema parity,
+- mobility routing changed from homepage anchor to the `/choditka-pro-seniory/` head-term hub.
+
+The page remains a routing/audit layer only:
+- no duplicate suitability engine,
+- no product ranking,
+- existing downstream Mobility, Bathroom, Bed, Wheelchair, Return-home, Self-care and Footwear journeys remain authoritative.

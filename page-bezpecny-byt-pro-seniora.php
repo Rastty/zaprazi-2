@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Bezpečný byt pro seniora</p>
-      <h1>Jak upravit byt pro seniora: projděte nejdřív skutečné rizikové trasy.</h1>
+      <h1>Jak upravit byt pro seniora a předcházet pádům doma: začněte rizikovými trasami.</h1>
       <p class="zp-lead">Nezačínejte nákupním seznamem. Projděte vstup, cestu z postele na WC, koupelnu a místa, kde se člověk přidržuje nábytku. Teprve potom má smysl řešit konkrétní pomůcky nebo stavební úpravy.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#audit-bytu">Projít audit bytu</a>
@@ -44,7 +44,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>5. Chůze po bytě</h3>
           <p>Změřte nejužší průchod a sledujte, zda se člověk přidržuje nábytku. Pokud potřebuje pravidelnou oporu, má smysl řešit správný typ chodítka, ne jen přidávat další židle.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Poradce pro chůzi</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Poradce pro chůzi</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>6. Postel a okolí</h3>
@@ -58,7 +58,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Prevence pádů</p>
-      <h2 class="zp-section-title">Odstraňte nejdřív věci, které zvyšují riziko i bez drahé rekonstrukce.</h2>
+      <h2 class="zp-section-title">Prevence pádů seniorů doma: nejdřív odstraňte rizika bez drahé rekonstrukce.</h2>
       <div class="zp-check-grid">
         <div><span>01</span><strong>Volné koberce a kabely</strong><p>NZIP je uvádí mezi ovlivnitelnými riziky pádů. Uvolněte hlavní trasy a odstraňte překážky na zemi.</p></div>
         <div><span>02</span><strong>Noční osvětlení</strong><p>Zajistěte světlo na cestě z postele na WC a v chodbách. NZIP doporučuje dostatečné osvětlení včetně nočních cest.</p></div>
@@ -76,7 +76,7 @@ get_header();
       <p class="zp-kicker">Kdy nestačí jen upravit prostor</p>
       <h2 class="zp-section-title">Pokud problém vzniká při konkrétním úkonu, přejděte do správného poradce.</h2>
       <div class="zp-decision-grid">
-        <article class="zp-decision-card"><h3>Člověk se doma přidržuje nábytku</h3><p>Prověřte vhodnou oporu při chůzi.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Mobilita</a></p></article>
+        <article class="zp-decision-card"><h3>Člověk se doma přidržuje nábytku</h3><p>Prověřte vhodnou oporu při chůzi.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Mobilita</a></p></article>
         <article class="zp-decision-card"><h3>Nezvládá bezpečně WC nebo sprchu</h3><p>Řešte výšku, oporu, sed a prostor pro přesun.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a></p></article>
         <article class="zp-decision-card"><h3>Je problém vstát z postele nebo pečovat u lůžka</h3><p>Prověřte typ postele, přístup a způsob pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a></p></article>
         <article class="zp-decision-card"><h3>Chůze už není bezpečná ani s běžnou oporou</h3><p>Prověřte, zda dává smysl mechanický nebo elektrický vozík.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></p></article>
@@ -97,7 +97,7 @@ get_header();
           <p>Začněte trasami, které používá denně: vstup, postel → WC a koupelna. Odstraňte překážky na zemi, ověřte osvětlení a sledujte, kde se člověk přidržuje nábytku nebo potřebuje pomoc.</p>
         </details>
         <details>
-          <summary>Jak snížit riziko pádu doma?</summary>
+          <summary>Jak předcházet pádům seniorů doma?</summary>
           <p>NZIP doporučuje mimo jiné odstranit překážky a volné kabely, použít protiskluzové prvky v koupelně, zajistit dostatečné osvětlení a podle potřeby používat vhodnou pomůcku při chůzi.</p>
         </details>
         <details>

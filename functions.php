@@ -380,6 +380,77 @@ function zaprazi_2_front_faq_schema() {
 }
 add_action( 'wp_head', 'zaprazi_2_front_faq_schema', 6 );
 
+function zaprazi_2_resource_faq_schema() {
+  $faq = array();
+
+  if ( zaprazi_2_is_insurance_walker_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Je každé chodítko hrazené pojišťovnou?',
+        'answer'   => 'Ne. Rozhoduje konkrétní zdravotnický prostředek, jeho zařazení a úhradové podmínky. Nestačí, že se výrobek obecně jmenuje chodítko nebo rollátor.',
+      ),
+      array(
+        'question' => 'Musím mít od roku 2026 papírový poukaz?',
+        'answer'   => 'Standardně ne. Od 1. ledna 2026 je běžnou formou ePoukaz. Papírový poukaz zůstává jen pro stanovené výjimky.',
+      ),
+      array(
+        'question' => 'Mohu chodítko s ePoukazem koupit v libovolném e-shopu?',
+        'answer'   => 'Ne automaticky. Maloobchodní prodej a výdej prostředku na poukaz jsou odlišné cesty. Před objednáním ověřte, zda konkrétní výdejce ePoukaz pro daný prostředek zpracuje.',
+      ),
+      array(
+        'question' => 'Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?',
+        'answer'   => 'Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu ZaPrazi tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.',
+      ),
+    );
+  } elseif ( zaprazi_2_is_rental_walker_page() ) {
+    $faq = array(
+      array(
+        'question' => 'Kolik stojí půjčení rollátoru na měsíc?',
+        'answer'   => 'V ověřeném ceníku RehaKomp bylo 6. 10. 2026 čtyřkolové venkovní chodítko za 360 Kč měsíčně. MEYRA uváděla kategorii chodítek za 600 Kč měsíčně. Ceny a dostupnost se mohou změnit.',
+      ),
+      array(
+        'question' => 'Platí se při půjčení chodítka kauce?',
+        'answer'   => 'U ověřených příkladů RehaKomp i MEYRA byla vratná kauce 1 000 Kč. Vždy ověřte podmínky konkrétní půjčovny a modelu.',
+      ),
+      array(
+        'question' => 'Vyplatí se půjčení po operaci?',
+        'answer'   => 'Často může být praktické, pokud je potřeba dočasná. Nejdřív ale musí sedět typ pomůcky; cena pronájmu sama o sobě není důvod používat nevhodné chodítko.',
+      ),
+      array(
+        'question' => 'Mohu si půjčit chodítko, než vyřídím ePoukaz?',
+        'answer'   => 'Ano, půjčení může sloužit jako dočasná cesta. Podmínky konkrétní půjčovny a případný vztah půjčovného k následnému nákupu nebo výdeji se ale liší.',
+      ),
+    );
+  }
+
+  if ( ! $faq ) {
+    return;
+  }
+
+  $schema = array(
+    '@context'   => 'https://schema.org',
+    '@type'      => 'FAQPage',
+    'mainEntity' => array_map(
+      static function ( $item ) {
+        return array(
+          '@type'          => 'Question',
+          'name'           => $item['question'],
+          'acceptedAnswer' => array(
+            '@type' => 'Answer',
+            'text'  => $item['answer'],
+          ),
+        );
+      },
+      $faq
+    ),
+  );
+
+  echo '<script type="application/ld+json" data-zaprazi-schema="resource-faq">' .
+    wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) .
+    '</script>' . "\n";
+}
+add_action( 'wp_head', 'zaprazi_2_resource_faq_schema', 7 );
+
 
 function zaprazi_2_is_broken_legacy_external_url( $url ) {
   $decoded = html_entity_decode( (string) $url, ENT_QUOTES | ENT_HTML5, 'UTF-8' );

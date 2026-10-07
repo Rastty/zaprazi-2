@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.42
+# Next Deploy Smoke — Zápraží 2.0 v0.8.43
 
-This release supersedes 0.8.41. Deploy only 0.8.42 from `dev`.
+This release supersedes 0.8.42. Deploy only 0.8.43 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -418,4 +418,20 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.42`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 28. Commercial CTA standard
+Check any product-recommending Advisor after reaching an eligible product result.
+
+Expected:
+- affiliate-configured CTA says **Zobrazit cenu a dostupnost**,
+- canonical fallback CTA says **Zobrazit produkt a dostupnost**,
+- each offer visibly states **Výběr produktu se neřídí výší provize.**,
+- affiliate links retain `rel="noopener nofollow sponsored"`,
+- indoor-walker and rollator merchant links emit the same outbound click tracking as the other commercial Advisors,
+- recommendation order and safety gates are unchanged.
+
+Release integrity:
+- `zaprazi-release` = `0.8.43`,
 - `zaprazi-integrity` = `ok`.

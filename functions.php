@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.36' );
+  define( 'ZAPRAZI_RELEASE', '0.8.37' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_36';
+  $marker = 'ZP_RELEASE_0_8_37';
   $files = array(
     'header.php',
     'footer.php',
@@ -32,6 +32,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-sedatko-do-vany-pro-seniory.php',
     'page-choditko-do-bytu-pro-seniory.php',
     'page-rollator-pro-seniory.php',
+    'page-choditka-pro-seniory.php',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',

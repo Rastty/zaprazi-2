@@ -501,7 +501,8 @@ test("Bathroom WC catalog affiliate keys have matching WordPress runtime slots",
     "unizdrav-cz:p2062",
     "unizdrav-cz:p2131",
     "rehabilitacni-pomucky-cz:besco-bs008",
-    "rehabilitacni-pomucky-cz:besco-bs15"
+    "rehabilitacni-pomucky-cz:besco-bs15",
+    "drmax-cz:dma-eh-cmda"
   ]) {
     assert.ok(catalog.includes(key), `catalog missing ${key}`);
     assert.ok(functions.includes(key), `runtime affiliate slot missing ${key}`);
@@ -594,4 +595,28 @@ test("Bathroom raised-WC steadying branch has exact BS15 runtime routing", () =>
   assert.match(engine, /needsArmSupport/);
   assert.match(engine, /besco-bs15/);
   assert.match(app, /Nástavec na WC s madly/);
+});
+
+
+test("Bathroom multifunction WC/shower branch is wired to DrMax without overclaiming reimbursement", () => {
+  const functions = read("functions.php");
+  const page = read("page-koupelna-a-wc.php");
+  const app = read("assets/js/bathroom-advisor.js");
+  const catalog = read("src/bathroom/catalog.js");
+  const engine = read("src/bathroom/engine.js");
+
+  assert.match(page, /Jedna stabilní židle pro WC i sprchu/);
+  assert.match(page, /multifunction_toilet_shower/);
+  assert.match(app, /multifunction_toilet_shower_chair/);
+  assert.match(engine, /multifunction_toilet_shower/);
+  assert.match(engine, /dma-eh-cmda/);
+
+  assert.match(catalog, /payerCode: "5019427"/);
+  assert.match(catalog, /monthlySuklListVerified: false/);
+  assert.match(catalog, /drmax-cz:dma-eh-cmda/);
+  assert.match(functions, /drmax-cz:dma-eh-cmda/);
+  assert.match(functions, /dma-eh-cmda-toaletni-zidle-4v1/);
+
+  assert.doesNotMatch(page, /5019427[^\n]{0,120}aktuálně hrazen/i);
+  assert.doesNotMatch(app, /5019427[^\n]{0,120}aktuálně hrazen/i);
 });

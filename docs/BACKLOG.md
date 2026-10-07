@@ -1321,3 +1321,32 @@ Packages:
 - release integrity includes the new template.
 
 No product catalog, diagnosis-first routing or merchant ranking is introduced.
+
+
+### ZP-063 Easy-footwear Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds a narrow new commercial slice at `/obuv-pro-seniory/` using the approved Zdravá Obuv merchant.
+
+Decision inputs are practical only:
+- required opening size,
+- open vs closed toe,
+- ability to use Velcro,
+- confirmation that both feet were measured.
+
+Exact candidates verified 2026-10-07:
+- PodoWell ARSENE — width J, two Velcro straps, open toe, 1,650 Kč,
+- PodoWell XAVIER — width K+, large opening, closed toe, 1,660 Kč,
+- PodoWell ALTITUDE — multi-side opening, closed toe, ankle height, 1,840 Kč.
+
+Safety boundary:
+- no diagnosis, diabetes, medication or cause-of-swelling questions,
+- sudden size/shape change, wound, strong pain or rapid swelling is not treated as a shopping problem,
+- measurement and Velcro handling are required before merchant CTA becomes shopping-first.
+
+Commercial:
+- three isolated affiliate slots with canonical Zdravá Obuv fallbacks,
+- merchant approval does not affect suitability,
+- no fabricated tracking links.
+
+Resource registry advances to v14.

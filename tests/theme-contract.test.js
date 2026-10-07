@@ -369,3 +369,41 @@ test("affiliate admin exposes exact canonical targets for VIV/CJ deep-link gener
   assert.doesNotMatch(functions, /aid=\d+/i);
 });
 
+test("high-intent resource FAQ schema mirrors visible insurance and rental FAQs", () => {
+  const functions = read("functions.php");
+  const insurance = read("page-choditko-na-pojistovnu.php");
+  const rental = read("page-pujceni-choditka.php");
+
+  assert.match(functions, /zaprazi_2_resource_faq_schema/);
+  assert.match(functions, /data-zaprazi-schema="resource-faq"/);
+  assert.match(functions, /zaprazi_2_is_insurance_walker_page/);
+  assert.match(functions, /zaprazi_2_is_rental_walker_page/);
+
+  const insuranceQuestions = [
+    "Je každé chodítko hrazené pojišťovnou?",
+    "Musím mít od roku 2026 papírový poukaz?",
+    "Mohu chodítko s ePoukazem koupit v libovolném e-shopu?",
+    "Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?"
+  ];
+
+  const rentalQuestions = [
+    "Kolik stojí půjčení rollátoru na měsíc?",
+    "Platí se při půjčení chodítka kauce?",
+    "Vyplatí se půjčení po operaci?",
+    "Mohu si půjčit chodítko, než vyřídím ePoukaz?"
+  ];
+
+  for (const question of insuranceQuestions) {
+    assert.ok(functions.includes(question));
+    assert.ok(insurance.includes(question));
+  }
+
+  for (const question of rentalQuestions) {
+    assert.ok(functions.includes(question));
+    assert.ok(rental.includes(question));
+  }
+
+  assert.match(functions, /nepovažuje za aktuální, dokud neověří nový měsíční seznam/);
+  assert.match(functions, /Ceny a dostupnost se mohou změnit/);
+});
+

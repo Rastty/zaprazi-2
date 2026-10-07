@@ -174,6 +174,28 @@ Important:
 - RehabilitačníPomůcky.cz explicitly states that it does not process health-insurance reimbursement; this offer is a direct-pay route only,
 - the existence of a reimbursed bath-seat category does not make this exact retail product reimbursed.
 
+### UNIZDRAV P2203 — bath transfer bench / shower chair over bath
+
+Verified:
+- total dimensions 81 × 61 × 81.5–91.5 cm,
+- seat 68 × 41 cm,
+- seat height 45.5–56 cm,
+- max load 110 kg,
+- weight 4.4 kg,
+- one side of the frame is positioned in the bath and the other on the floor outside the bath.
+
+Source:
+- https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany
+- independent bathing guidance: https://www.uhcw.nhs.uk/download/clientfiles/files/Patient%20Information%20Leaflets/Clinical%20Support%20Services/Therapies/Occupational%20Therapy/Bathing%20and%20showering%20advice%20and%20information.pdf
+
+Status: **PRODUCTION_CANDIDATE_AS_FALLBACK_WHEN_RIM_SEAT_DOES_NOT_FIT**
+
+Decision consequence:
+- only considered after a standard bath-rim seat fails the 41–65 cm fit gate,
+- independent transfer remains mandatory,
+- user must confirm enough space for the 81 × 61 cm footprint and stable support both inside and outside the bath,
+- insufficient or unknown placement fit returns no exact product.
+
 ### DMA EH-CMDA — multifunction toilet/shower chair 4v1
 
 Verified functional identity:

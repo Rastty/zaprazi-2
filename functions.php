@@ -99,9 +99,9 @@ function zaprazi_2_affiliate_fields() {
     'unizdrav-cz:p4384' => 'UNIZDRAV — P4384 invalidní vozík Basic',
     'unizdrav-cz:p3641' => 'UNIZDRAV — P3641 odlehčený mechanický vozík',
     'unizdrav-cz:p2961' => 'UNIZDRAV — P2961 elektrický invalidní vozík 46 cm',
-    'rehavita-cz:upcup-15-050101' => 'RehaVita.cz — UpCup 15-050101',
-    'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz — Beat It 15-050102',
-    'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz — Theomatik 15-050103',
+    'rehavita-cz:upcup-15-050101' => 'RehaVita.cz (VIV 18119967) — UpCup 15-050101',
+    'rehavita-cz:beat-it-15-050102' => 'RehaVita.cz (VIV 18119967) — Beat It 15-050102',
+    'rehavita-cz:theomatik-15-050103' => 'RehaVita.cz (VIV 18119967) — Theomatik 15-050103',
   );
 }
 
@@ -264,6 +264,10 @@ function zaprazi_2_render_settings_page() {
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
       <p><strong>Jak získat přesný deeplink:</strong> v affiliate účtu otevřete správného inzerenta. Pokud síť nabízí deeplink nástroj (např. VIV/CJ Deep Link Generator), vložte níže uvedenou cílovou produktovou URL a vygenerovaný partnerský odkaz vložte do příslušného pole. Tracking URL ručně neskládejte.</p>
+    </div>
+
+    <div class="notice notice-info inline" style="margin:16px 0 18px">
+      <p><strong>RehaVita.cz:</strong> schválený program je vedený přes VIVnetworks/CJ jako advertiser <strong>18119967</strong>. Pro UpCup, Beat It a Theomatik otevřete níže uvedenou přesnou produktovou URL a použijte CJ Deep Link Generator / jeho Chrome rozšíření. Vygenerovaný odkaz patří vždy jen do odpovídajícího slotu.</p>
     </div>
 
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">

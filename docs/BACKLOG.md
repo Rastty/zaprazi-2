@@ -21,8 +21,9 @@ Done:
 - 359 proven-broken eHub placeholder CTAs fail-closed,
 - Prometheus GSC access discovery reviewed.
 
-Current blocker for destructive migration decisions:
-- ZaPrazi is absent from the stored Prometheus Search Console accessible-property list (2026-07-23), so per-URL clicks/impressions and traffic-backed KEEP/MERGE/REPURPOSE/REMOVE decisions are still unavailable.
+Search Console status:
+- site ownership was verified by the user on 2026-10-07 using the Yoast-rendered Google verification meta tag,
+- the remaining blocker is programmatic retrieval of per-URL/query Search Console evidence for KEEP/MERGE/REPURPOSE/REMOVE decisions.
 
 Guardrail: do not destructively change legacy URLs yet.
 
@@ -52,7 +53,7 @@ Future-slice work:
 - broader evidence for products/categories beyond the current Mobility v1 shortlist.
 
 ### ZP-005 Initial merchant verification
-Status: **PARTIAL**
+Status: **CORE_ACTIVE / EXPANSION_PORTFOLIO_VERIFIED**
 
 Verified public inventory/routes:
 - RehabilitačníPomůcky.cz,
@@ -60,10 +61,11 @@ Verified public inventory/routes:
 - MEYRA direct manufacturer route,
 - RehaKomp rental example.
 
-Still open:
-- exact publisher-specific VIV deeplinks / joined-account confirmation,
-- MůjZdrav.cz public inventory / affiliate verification,
-- feed access credentials where applicable.
+Current state:
+- exact publisher-specific deeplinks are active for all 3 Mobility v1 production slots,
+- approved expansion portfolio now includes Dr.Max, UNIZDRAV and Zdravá Obuv Štěpánková & C.,
+- UNIZDRAV is the priority merchant for Bathroom/WC, adjustable beds and wheelchairs,
+- feed/API credentials remain optional future work where they create clear value.
 
 Public program terms re-verified 2026-10-06:
 - RehabilitačníPomůcky.cz — 10 %, 30-day cookie, XML + S2S,
@@ -104,7 +106,7 @@ Verified in outdoor preview:
 - no guaranteed individual reimbursement claim.
 
 ### ZP-009 Merchant routing + tracking v1
-Status: **DONE_CODE / BLOCKED_EXACT_VIV_LINKS**
+Status: **LIVE_PRODUCTION / 3_OF_3_AFFILIATE_ACTIVE**
 
 - recommendation and affiliate routing are separated,
 - WordPress runtime affiliate settings exist,
@@ -112,12 +114,12 @@ Status: **DONE_CODE / BLOCKED_EXACT_VIV_LINKS**
 - generic privacy-safe funnel events exist,
 - admin shows the exact canonical destination URL for each of the 3 supported slots so the publisher can paste it into VIV/CJ Deep Link Generator without manually composing tracking parameters.
 
-Need exact VIV-generated publisher deeplinks to activate affiliate tracking.
+All 3 supported Mobility v1 slots now contain exact publisher-specific CJ/VIV deeplinks in WordPress runtime configuration.
 
 ### ZP-010 WordPress integration + staged page
 Status: **LIVE_PRODUCTION**
 
-ZaPrazi 2.0 is active on production. Latest production release is **0.8.9**. The 0.8.9 Git-first Deployer sync was user-confirmed on 2026-10-07; the public Mobility homepage remains reachable after deploy.
+ZaPrazi 2.0 is active on production. Latest production release is **0.8.10**. The 0.8.10 Git-first Deployer sync was user-confirmed on 2026-10-07.
 
 ### ZP-011 Slice 1 production smoke
 Status: **PASS_CORE_PRODUCTION**
@@ -140,8 +142,7 @@ Post-launch verified:
 
 Still open after launch:
 - manual mobile visual pass,
-- Search Console access,
-- exact VIV publisher deeplinks.
+- programmatic Search Console data retrieval / query-page evidence.
 
 ### ZP-012 Slice-related migration
 Status: **BLOCKED_ON_GSC_AND_LINK_EVIDENCE**
@@ -158,9 +159,8 @@ See `docs/LEGACY_MOBILITY_CANDIDATE_AUDIT_2026-10-07.md`.
 ## P1 — Acquisition for Mobility
 
 Current next steps after smoke:
-- exact VIV affiliate deeplinks,
-- connect consent-aware analytics to the existing GA4 stream rather than creating a duplicate,
-- establish ZaPrazi Search Console access,
+- retrieve Search Console query/page evidence now that site ownership is verified,
+- build the Bathroom + WC candidate/evidence pack using UNIZDRAV first and RehabilitačníPomůcky.cz / Dr.Max as supporting merchants,
 - broader legacy product link-health review,
 - relevant legacy internal links and redirects only after traffic/backlink evidence.
 
@@ -292,7 +292,7 @@ Deployment note 2026-10-07:
 
 
 ### ZP-019 Resource FAQ schema + release integrity 0.8.10
-Status: **READY_DEPLOY_0_8_10**
+Status: **LIVE_PRODUCTION**
 
 Adds:
 - FAQPage structured data for the two visible high-intent Mobility resource pages,
@@ -300,3 +300,22 @@ Adds:
 - full 0.8.10 release-marker bump across critical PHP/JS/CSS runtime files.
 
 No recommendation logic, health-suitability rules or affiliate ranking changed.
+
+
+### ZP-020 Merchant portfolio expansion
+Status: **READY_FOR_SLICE_2_RESEARCH**
+
+Approved advertiser portfolio supplied 2026-10-07:
+- RehabilitačníPomůcky.cz,
+- Lékárna.cz,
+- Dr.Max,
+- UNIZDRAV,
+- Zdravá Obuv Štěpánková & C.
+
+Priority:
+1. RehabilitačníPomůcky.cz remains the Mobility anchor.
+2. UNIZDRAV becomes the primary expansion merchant for Bathroom/WC, adjustable beds and wheelchairs.
+3. Dr.Max is a supporting retail/trust merchant for selected exact products.
+4. Zdravá Obuv stays a later niche until a dedicated decision slice is justified.
+
+See `docs/MERCHANT_PORTFOLIO_STRATEGY_2026-10-07.md`.

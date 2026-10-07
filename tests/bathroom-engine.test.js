@@ -120,14 +120,54 @@ test("returns shower chair only after stable floor and space fit", () => {
   assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p2062"]);
 });
 
-test("bath transfer remains professional-check only", () => {
+test("bath transfer asks for bath-specific transfer ability", () => {
   const result = recommendBathroom({
     primaryNeed: "bath_transfer",
     transferAbility: "independent",
-    loadFit: "yes"
+    loadFit: "yes",
+    bathTransferIndependent: "unknown",
+    bathFit: "yes"
+  });
+  assert.equal(result.status, "needs_more_info");
+  assert.ok(result.missing.includes("bathTransferIndependent"));
+  assert.deepEqual(result.recommendations, []);
+});
+
+test("bath transfer fails closed when physical help is needed", () => {
+  const result = recommendBathroom({
+    primaryNeed: "bath_transfer",
+    transferAbility: "independent",
+    loadFit: "yes",
+    bathTransferIndependent: "no",
+    bathFit: "yes"
   });
   assert.equal(result.status, "professional_check");
   assert.deepEqual(result.recommendations, []);
+});
+
+test("bath transfer refuses a non-fitting bath", () => {
+  const result = recommendBathroom({
+    primaryNeed: "bath_transfer",
+    transferAbility: "independent",
+    loadFit: "yes",
+    bathTransferIndependent: "yes",
+    bathFit: "no"
+  });
+  assert.equal(result.status, "needs_more_info");
+  assert.deepEqual(result.recommendations, []);
+});
+
+test("bath transfer returns exact seat only after independent-transfer and fit gates pass", () => {
+  const result = recommendBathroom({
+    primaryNeed: "bath_transfer",
+    transferAbility: "independent",
+    loadFit: "yes",
+    bathTransferIndependent: "yes",
+    bathFit: "yes"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["besco-bs008"]);
+  assert.ok(result.acquisition.some((item) => item.id === "check_reimbursement_alternative"));
 });
 
 test("combined shower/toilet chair remains professional-check only", () => {

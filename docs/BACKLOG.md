@@ -735,7 +735,7 @@ See `docs/WHEELCHAIR_EVIDENCE_V0.md`.
 
 
 ### ZP-038 Wheelchair Advisor UI v1
-Status: **READY_DEPLOY_0_8_21**
+Status: **PACKAGED_IN_0_8_22**
 
 Adds:
 - dedicated `/invalidni-vozik/` Home Advisor page,
@@ -762,7 +762,7 @@ No wheelchair deeplinks are fabricated; canonical UNIZDRAV URLs remain the safe 
 
 
 ### ZP-039 Release 0.8.21 — Slice 4 first end-to-end wheelchair journey
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_22**
 
 Release 0.8.21 supersedes 0.8.20.
 
@@ -787,7 +787,7 @@ No wheelchair deeplinks are generated in code. Empty slots use exact canonical U
 
 
 ### ZP-040 Wheelchair high-intent acquisition page
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_22**
 
 Adds:
 - `/invalidni-vozik-na-pojistovnu/`,
@@ -808,3 +808,22 @@ Trust boundary:
 - does not confirm individual reimbursement entitlement,
 - does not label P4384, P3641 or P2961 reimbursed without exact current SÚKL identity,
 - rental examples are explicitly local and time-sensitive.
+
+
+### ZP-041 Release 0.8.22 — Slice 4 acquisition SEO path
+Status: **READY_DEPLOY**
+
+Release 0.8.22 supersedes 0.8.21.
+
+It packages:
+- full Slice 4 wheelchair Advisor,
+- `/invalidni-vozik-na-pojistovnu/`,
+- VZP mechanical-wheelchair process,
+- electric-wheelchair extra-documentation boundary,
+- current local rental examples,
+- SÚKL monthly-list boundary,
+- FAQPage schema,
+- direct internal link from wheelchair Advisor,
+- deployment-integrity coverage for the new acquisition page.
+
+No retail wheelchair is labelled reimbursed without exact current SÚKL identity.

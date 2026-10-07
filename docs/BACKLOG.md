@@ -1414,3 +1414,38 @@ Packages:
 - release integrity includes `page-nastavec-na-wc-pro-seniory.php` and `assets/js/toilet-riser-advisor.js`.
 
 No second suitability engine, duplicate affiliate slots or reimbursement shortcut is introduced.
+
+
+### ZP-067 Shower-chair high-intent micro-Advisor
+Status: **DONE_CODE / RELEASE_NEXT**
+
+Adds `/sprchovaci-zidle-pro-seniory/` for the high-intent shower-chair query cluster.
+
+Architecture:
+- reuses the existing Bathroom/WC engine with `primaryNeed = shower_seated`,
+- asks only transfer ability, stable floor, space fit, load fit and optional duration,
+- does not create a second shower suitability engine.
+
+Exact candidate:
+- UNIZDRAV P2062,
+- total width 55 cm,
+- total depth 48 cm,
+- seat height 38–50.5 cm,
+- seat 40 × 33 cm,
+- max user weight 136 kg,
+- product page rechecked 2026-10-07: in stock >10, listed at 1,618 Kč.
+
+Safety:
+- physical person-assist blocks automatic product recommendation,
+- unstable floor, insufficient space or unverified load fit prevents shopping-first CTA.
+
+Commercial:
+- reuses existing affiliate slot `unizdrav-cz:p2062`,
+- canonical fallback remains active,
+- insurer path stays separate.
+
+SEO / UX:
+- dedicated title/meta,
+- four visible FAQs + matching FAQPage schema,
+- links from Bathroom/WC, insurer guide and compensatory-aids hub,
+- resource registry v16.

@@ -158,6 +158,8 @@ get_header();
       <p class="zp-kicker">Časté otázky</p>
       <h2 class="zp-section-title">Rychlá orientace před řešením poukazu.</h2>
 
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Nejdřív vybrat správný typ sprchovací židle</a></p>
+
       <details>
         <summary>Hradí pojišťovna sprchovací nebo toaletní židli?</summary>
         <p>Některé zdravotnické prostředky tohoto typu mohou být hrazené při splnění indikačních a úhradových podmínek. VZP tuto skupinu aktuálně popisuje, ale konkrétní výrobek musí být ověřen v aktuálním seznamu SÚKL a předpis podléhá schválení pojišťovny.</p>

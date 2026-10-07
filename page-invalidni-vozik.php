@@ -9,7 +9,7 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Invalidní vozík</p>
-      <h1>Invalidní vozík: kdo ho bude pohánět a co musí opravdu sedět?</h1>
+      <h1>Invalidní vozík pro seniory: mechanický, elektrický, nebo s doprovodem?</h1>
       <p class="zp-lead">Nezačínáme diagnózou ani značkou. Nejdřív rozlišíme doprovod, samostatný ruční pohon nebo elektrický pohon. Teprve potom ověřujeme sed, průchody, nosnost a způsob pořízení.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-vozik">Spustit poradce</a>
@@ -101,7 +101,7 @@ get_header();
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Jak rozhodujeme</p>
-      <h2 class="zp-section-title">Nejdřív pohon a prostor. Až potom značka a cena.</h2>
+      <h2 class="zp-section-title">Jak vybrat invalidní vozík pro seniora: nejdřív pohon a prostor.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Doprovod</h3><p>Jednoduchý skládací mechanický vozík může stačit pro krátké přesuny, pokud sedí šířka, nosnost a průchody.</p></article>
         <article class="zp-decision-card"><h3>Samostatný ruční pohon</h3><p>Hnací obruče, správná šířka sedu a nastavení jsou zásadní pro dlouhodobé používání.</p></article>
@@ -121,6 +121,40 @@ get_header();
         <article><h3>Půjčit</h3><p>U krátkodobé potřeby má smysl nejdřív porovnat místní půjčovny a ověřit přesný rozměr dostupného vozíku.</p></article>
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje mechanické vozíky jako hrazenou kategorii při splnění podmínek a uvádí, že většina vozíků zůstává majetkem pojišťovny a pacientovi se půjčuje.</p></article>
         <article><h3>Koupit</h3><p>Přímý nákup dává smysl až po potvrzení sedu, průchodů, nosnosti a způsobu používání.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="zp-section">
+    <div class="zp-wrap zp-faq">
+      <p class="zp-kicker">Časté otázky</p>
+      <h2 class="zp-section-title">Co ověřit před výběrem invalidního vozíku.</h2>
+
+      <details>
+        <summary>Jak vybrat invalidní vozík pro seniora?</summary>
+        <p>Začněte tím, kdo bude vozík běžně pohánět. Potom ověřte šířku sedu, celkovou šířku v nejužších průchodech a technickou nosnost; u elektrického vozíku navíc bezpečné ovládání joysticku a místo pro nabíjení.</p>
+      </details>
+      <details>
+        <summary>Je lepší mechanický, nebo elektrický invalidní vozík?</summary>
+        <p>Mechanický vozík dává smysl, když ho bezpečně zvládne uživatel rukama nebo doprovod. Elektrický vozík je kandidát až po potvrzení bezpečného ovládání joysticku, prostoru pro manévrování a pravidelného nabíjení.</p>
+      </details>
+      <details>
+        <summary>Jak poznat správnou šířku sedu a vozíku?</summary>
+        <p>Šířka sedu musí vyhovovat konkrétnímu člověku a celková šířka vozíku musí projít nejužšími dveřmi a umožnit otočení v běžné trase doma. Rozměry proto změřte před objednávkou.</p>
+      </details>
+      <details>
+        <summary>Je lepší invalidní vozík půjčit, koupit, nebo řešit přes pojišťovnu?</summary>
+        <p>U krátkodobé potřeby často dává smysl nejdřív půjčovna. U dlouhodobé potřeby je vhodné prověřit pojišťovnu před přímým nákupem. Retail nákup a hrazená cesta jsou oddělené procesy.</p>
+      </details>
+      <details>
+        <summary>Kdy Zápraží nedoporučí konkrétní vozík?</summary>
+        <p>Konkrétní produkt neukazujeme, pokud není potvrzená šířka sedu, průchod nebo nosnost, při běžně fyzicky asistovaném přesunu a u elektrického vozíku také tehdy, když není potvrzené bezpečné ovládání nebo nabíjení.</p>
+      </details>
+
+      <div class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Pojišťovna, půjčení a nákup</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Zkontrolovat průchody a bezpečný byt</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek</a>
       </div>
     </div>
   </section>

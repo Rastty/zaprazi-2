@@ -399,7 +399,7 @@ Production smoke 2026-10-07:
 
 
 ### ZP-025 Bathroom + WC affiliate readiness
-Status: **READY_CODE / 0_OF_5_DEEPLINKS**
+Status: **READY_DEPLOY_0_8_12 / 0_OF_5_DEEPLINKS**
 
 Adds five exact runtime affiliate slots matching production-eligible Bathroom/WC catalog products:
 - UNIZDRAV P2868,

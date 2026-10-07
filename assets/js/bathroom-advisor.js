@@ -32,7 +32,8 @@ if (form && result && submitButton && errorBox) {
     toilet_support_frame: "Toaletní opora",
     static_commode: "Toaletní židle",
     shower_chair: "Sprchovací židle",
-    fixed_grab_rail: "Pevné madlo"
+    fixed_grab_rail: "Pevné madlo",
+    bath_transfer_seat: "Sedačka na vanu"
   }[family] || family);
 
   const statusLabel = (status) => ({
@@ -56,6 +57,8 @@ if (form && result && submitButton && errorBox) {
       f.seatCm ? `sedák: ${f.seatCm} cm` : null,
       f.outerCm ? `vnější rozměr: ${f.outerCm} cm` : null,
       f.openingCm ? `otvor: ${f.openingCm} cm` : null,
+      f.bathInnerWidthCm ? `vnitřní šířka vany: ${f.bathInnerWidthCm} cm` : null,
+      f.seatDepthCm ? `hloubka sedáku: ${f.seatDepthCm} cm` : null,
       f.maxUserWeightKg ? `max. nosnost: ${f.maxUserWeightKg} kg` : null,
       f.weightKg ? `hmotnost: ${f.weightKg} kg` : null,
       f.lengthsCm ? `délky: ${f.lengthsCm.join(" / ")} cm` : null
@@ -205,7 +208,7 @@ if (form && result && submitButton && errorBox) {
 
   const shouldShow = (condition, need) => {
     if (condition === "simple") {
-      return ["raise_toilet", "toilet_support", "toilet_nearby", "shower_seated"].includes(need);
+      return ["raise_toilet", "toilet_support", "toilet_nearby", "shower_seated", "bath_transfer"].includes(need);
     }
     if (condition === "floor_space") {
       return ["toilet_nearby", "shower_seated"].includes(need);
@@ -263,6 +266,8 @@ if (form && result && submitButton && errorBox) {
       floorStable: checkedValue("floorStable", "unknown"),
       spaceFit: checkedValue("spaceFit", "unknown"),
       wallFixing: checkedValue("wallFixing", "unknown"),
+      bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
+      bathFit: checkedValue("bathFit", "unknown"),
       duration: checkedValue("duration", "unknown")
     });
 

@@ -2,9 +2,21 @@
 <footer class="zp-footer">
   <div class="zp-wrap zp-footer-inner zp-footer-grid">
     <div>
-      <strong>ZaPrazi.cz</strong>
+      <strong>Zápraží</strong>
       <p>Praktická cesta k bezpečnějšímu a samostatnějšímu životu doma.</p>
     </div>
+
+    <nav class="zp-footer-core" aria-label="Hlavní poradci Zápraží">
+      <strong>Hlavní poradci</strong>
+      <ul>
+        <li><a href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Chůze a opora</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a></li>
+        <li><a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Každodenní soběstačnost</a></li>
+      </ul>
+    </nav>
 
     <nav class="zp-footer-legacy" aria-label="Starší obsah ZaPrazi">
       <strong>Starší archiv</strong>

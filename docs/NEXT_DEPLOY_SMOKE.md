@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.46
+# Next Deploy Smoke — Zápraží 2.0 v0.8.47
 
-This release supersedes 0.8.45. Deploy only 0.8.46 from `dev`.
+This release supersedes 0.8.46. Deploy only 0.8.47 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -487,4 +487,20 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.46`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 32. Insurance navigation IA
+Check the homepage, global header/footer and `/choditko-na-pojistovnu/`.
+
+Expected:
+- global header **Pojišťovna** links to `/kompenzacni-pomucky-pro-seniory/#pojistovna`,
+- footer contains **Pomůcky na pojišťovnu** pointing to the same hub,
+- homepage exposes **Pomůcky na pojišťovnu** beside the compensatory-aids overview,
+- walker insurance primary CTA **Nejdřív vybrat vhodný typ** points to `/choditka-pro-seniory/`,
+- walker-specific insurance detail remains at `/choditko-na-pojistovnu/`,
+- reimbursement rules, ranking and eligibility boundaries are unchanged.
+
+Release integrity:
+- `zaprazi-release` = `0.8.47`,
 - `zaprazi-integrity` = `ok`.

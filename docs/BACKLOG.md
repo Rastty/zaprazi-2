@@ -2044,3 +2044,19 @@ Changes:
 - regression tests preserve the broad → category information architecture.
 
 No reimbursement rules, product rankings or individual-eligibility logic are changed.
+
+
+### ZP-098 Release 0.8.47 — Insurance navigation IA
+Status: **READY_DEPLOY**
+
+Release 0.8.47 supersedes deployed 0.8.46.
+
+Packages:
+- everything from 0.8.46,
+- global **Pojišťovna** navigation routed to the central insurance hub,
+- footer + homepage reinforcement of the broad insurance route,
+- walker insurance selection CTA routed to the Mobility head-term hub,
+- unchanged reimbursement rules, product ranking and eligibility boundaries,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

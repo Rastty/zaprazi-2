@@ -485,6 +485,46 @@ test("0.8.42 deployment integrity contract covers critical runtime files", () =>
 });
 
 
+test("commercial Advisor CTAs are clear, trustworthy and consistently tracked", () => {
+  const commercialAdvisors = [
+    "assets/js/adl-advisor.js",
+    "assets/js/bath-transfer-advisor.js",
+    "assets/js/bathroom-advisor.js",
+    "assets/js/bed-advisor.js",
+    "assets/js/footwear-advisor.js",
+    "assets/js/indoor-walker-advisor.js",
+    "assets/js/mobility-advisor.js",
+    "assets/js/rollator-advisor.js",
+    "assets/js/shower-chair-advisor.js",
+    "assets/js/toilet-chair-advisor.js",
+    "assets/js/toilet-riser-advisor.js",
+    "assets/js/toilet-support-advisor.js",
+    "assets/js/wheelchair-advisor.js"
+  ];
+
+  for (const path of commercialAdvisors) {
+    const source = read(path);
+    assert.ok(source.includes("Zobrazit cenu a dostupnost"), `affiliate CTA missing in ${path}`);
+    assert.ok(source.includes("Zobrazit produkt a dostupnost"), `fallback CTA missing in ${path}`);
+    assert.ok(source.includes("Výběr produktu se neřídí výší provize."), `commission-independence note missing in ${path}`);
+    assert.doesNotMatch(source, /Přejít k obchodníkovi/);
+    assert.doesNotMatch(source, /Zobrazit produkt u obchodníka/);
+    assert.match(source, /nofollow sponsored/);
+  }
+
+  const indoor = read("assets/js/indoor-walker-advisor.js");
+  const rollator = read("assets/js/rollator-advisor.js");
+  for (const source of [indoor, rollator]) {
+    assert.match(source, /product_click/);
+    assert.match(source, /merchant_click/);
+    assert.match(source, /addEventListener\("click"/);
+  }
+
+  const style = read("style.css");
+  assert.match(style, /\.zp-affiliate-policy/);
+});
+
+
 test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");
   const mobilityAdvisor = read("assets/js/mobility-advisor.js");

@@ -29,6 +29,7 @@ if (form && result && submitButton && errorBox) {
 
   const familyLabel = (family) => ({
     raised_toilet_seat: "Nástavec na WC",
+    raised_toilet_seat_with_arms: "Nástavec na WC s madly",
     toilet_support_frame: "Toaletní opora",
     static_commode: "Toaletní židle",
     shower_chair: "Sprchovací židle",

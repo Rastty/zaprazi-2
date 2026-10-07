@@ -1,136 +1,124 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.23
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.24
 
-This release supersedes 0.8.22. Deploy only 0.8.23 from `dev`.
+This release supersedes 0.8.23. Deploy only 0.8.24 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.23`
+- `zaprazi-release` = `0.8.24`
 - `zaprazi-integrity` = `ok`
-- header contains **Návrat domů**
-- homepage contains **Vracíme se z nemocnice domů**
+- header contains **Soběstačnost**
+- homepage contains **Řeším pití nebo jídlo jednou rukou**
 
-## 2. Return-home page
+## 2. Self-care page
 Open:
-`/navrat-z-nemocnice/`
+`/sobestacnost/`
 
 Expected H1:
-**Návrat z nemocnice domů: co musí fungovat první noc?**
+**Malé pomůcky, které mohou vrátit kus samostatnosti.**
 
 Expected:
 - no diagnosis question,
 - no operation type,
 - no medication list,
 - no raw body-weight input,
-- no product or merchant cards directly on this page,
-- answers stay client-side.
+- answers stay client-side,
+- no health answers are sent to analytics.
 
-## 3. Fully ready scenario
+## 3. UpCup branch
 Choose:
-- timing later
-- entrance yes
-- transfer independent
-- walking independent
-- WC yes
-- bed yes
-- bathroom yes
-- home health care not needed
+- task = samostatné pití
+- obstacle = držení / naklánění / rozlévání
 
 Expected:
-- basic readiness confirmed,
-- no hard blocker,
-- no forced commercial CTA.
+- UpCup 15-050101 candidate,
+- canonical RehaVita fallback when affiliate slot is empty,
+- merchant CTA only after the branch qualifies,
+- visible source and checked date.
 
-## 4. Unsafe entrance blocker
+## 4. Swallowing safety boundary
 Choose:
-- discharge today/tomorrow
-- entrance no
-- other basic areas yes
+- obstacle = polykání / zakuckávání / zdravotní obtíž
 
 Expected:
-- status says critical points must be solved before return,
-- **Vstup do domu/bytu není bezpečně vyřešený**
-- instruction explicitly says not to start by buying more products.
+- professional-check result,
+- no product candidate,
+- no merchant CTA,
+- explicit instruction not to solve swallowing safety by choosing a retail product.
 
-## 5. Physical transfer blocker
+## 5. Beat It branch
 Choose:
-- transfer = physical help by another person
+- task = stabilize container
+- obstacle = container moves
+- stable surface = yes
 
 Expected:
-- hard blocker,
-- action to clarify safe bed/chair/WC transfer with the discharge team,
-- no claim that bed, wheelchair or toilet aid alone solves the transfer.
+- Beat It 15-050102 candidate,
+- practical fit checks visible.
 
-## 6. Walking support route
-Choose:
-- walking = needs support
-- no blockers
+Repeat with:
+- stable surface = unknown
 
 Expected:
-- route **Vyřešit chůzi a oporu**
-- link to Mobility Advisor.
+- needs-fit-check state,
+- candidate context may be shown,
+- merchant CTA is not presented as the next action.
 
-## 7. Wheelchair route
-Choose:
-- walking cannot rely on walking
-- wheelchair ready = no
-- no transfer blocker
+Repeat with:
+- stable surface = no
 
 Expected:
-- route **Vyřešit invalidní vozík**
-- link to `/invalidni-vozik/#poradce-vozik`.
+- no exact product.
 
-## 8. WC + bed route
+## 6. Theomatik branch
 Choose:
-- toilet ready = no
-- bed ready = no
+- task = one-hand meal
+- obstacle = one-hand setup
+- one-hand use = yes
 
 Expected:
-- WC route into Bathroom/WC Advisor,
-- bed route into Adjustable Bed Advisor,
-- both shown in priority order.
+- Theomatik 15-050103 candidate,
+- dimensions **36.5 × 18.8 × 3 cm** visible,
+- canonical RehaVita fallback when affiliate slot is empty.
 
-## 9. Home health care
-Choose:
-- home care = needed but not arranged
-
-Expected:
-- discharge action says to solve home health care before discharge,
-- visible explanation that NZIP says hospital treating physician can indicate it for 14 days after hospitalization.
-
-Choose:
-- home care = unknown
+Repeat with:
+- one-hand use = unknown
 
 Expected:
-- action to ask the hospital team whether home health care is needed.
+- needs-fit-check state,
+- no shopping-first CTA.
 
-## 10. Acquisition boundary
-Expected visible:
-- from 1 Jan 2026 ePoukaz is standard,
-- retail purchase, rental and reimbursed dispensing remain separate paths,
-- no suggestion that retail purchase can simply be reimbursed afterwards.
+## 7. Affiliate readiness
+In WordPress admin → ZaPrazi affiliate:
 
-## 11. Analytics/privacy
+Expected:
+- new group **Soběstačnost**
+- readiness starts at **0 / 3** unless exact publisher-specific deeplinks have already been entered,
+- three exact targets:
+  - UpCup 15-050101
+  - Beat It 15-050102
+  - Theomatik 15-050103
+- empty slot falls back to canonical RehaVita product URL,
+- configured affiliate URL does not change recommendation logic.
+
+## 8. Analytics/privacy
 Expected:
 - no GA4 before consent,
-- only generic `builder_start`, `builder_complete`, `recommendation_view`,
-- no timing / entrance / transfer / walking / WC / bed / bathroom / home-care answers sent.
+- only generic events such as `builder_start`, `builder_complete`, `recommendation_view`, `product_click`, `merchant_click`,
+- no task / obstacle / stable-surface / one-hand-use answer is sent.
 
-## 12. Regression
+## 9. Regression
 Expected unchanged:
 - Mobility Advisor,
 - Bathroom/WC Advisor,
 - Adjustable Bed Advisor + acquisition page,
 - Wheelchair Advisor + acquisition page,
-- affiliate readiness:
-  - Mobility 3/3
-  - Bathroom/WC 0/9
-  - Polohovací postel 0/3
-  - Invalidní vozík 0/3
+- Return-home orchestration,
+- existing affiliate readiness groups and canonical fallbacks.
 
 ## After smoke
-1. add a concise printable/checklist-style pre-discharge page only if it adds SEO/user value beyond the Advisor,
-2. improve internal-link architecture around the five core scenarios,
-3. pursue exact SÚKL mapping and affiliate deeplinks where available,
-4. switch immediately to Search Console track 2 once query/page data become accessible.
+1. verify mobile visual layout of `/sobestacnost/`,
+2. add exact RehaVita publisher deeplinks only when available,
+3. review early Search Console query/CTR evidence before expanding ADL beyond the three narrow jobs,
+4. prepare the approved Zápraží logo as a clean production asset in a separate brand-only change.

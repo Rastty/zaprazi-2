@@ -144,9 +144,16 @@ Still open after launch:
 - exact VIV publisher deeplinks.
 
 ### ZP-012 Slice-related migration
-Status: **BLOCKED_BY_ZP_002_ZP_011**
+Status: **BLOCKED_ON_GSC_AND_LINK_EVIDENCE**
 
 Only migrate URLs with a logical relationship to the new Mobility content.
+
+Legacy candidate audit 2026-10-07:
+- lexical scan of all 4,367 published URLs found **0 direct pre-existing walking-aid Mobility candidates** after excluding the two new Mobility pages,
+- two weak adjacent matches (accessibility furniture / senior-safe tables) do not share the same intent and must not be auto-redirected,
+- therefore no migration redirect map should be manufactured without Search Console/backlink evidence.
+
+See `docs/LEGACY_MOBILITY_CANDIDATE_AUDIT_2026-10-07.md`.
 
 ## P1 — Acquisition for Mobility
 

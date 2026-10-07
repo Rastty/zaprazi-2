@@ -1973,3 +1973,20 @@ The page remains a routing/audit layer only:
 - no duplicate suitability engine,
 - no product ranking,
 - existing downstream Mobility, Bathroom, Bed, Wheelchair, Return-home, Self-care and Footwear journeys remain authoritative.
+
+
+### ZP-094 Release 0.8.45 — Safe-home fall-prevention authority
+Status: **READY_DEPLOY**
+
+Release 0.8.45 supersedes deployed 0.8.44.
+
+Packages:
+- everything from 0.8.44,
+- `/bezpecny-byt-pro-seniora/` expansion for **prevence pádů seniorů doma**,
+- revised H1/title/meta,
+- fall-prevention heading + FAQ schema parity,
+- Mobility routing to `/choditka-pro-seniory/`,
+- unchanged downstream decision engines and product ranking,
+- full release-integrity marker bump across all critical runtime files.
+
+Deploy only this release from `dev`.

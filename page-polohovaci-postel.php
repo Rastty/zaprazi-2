@@ -1,14 +1,14 @@
 <?php
 /* ZP_RELEASE_0_8_25 */
 /*
-Template Name: ZaPrazi — Polohovací postel
+Template Name: Zápraží — Polohovací postel
 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
-      <p class="zp-kicker">ZaPrazi.cz · Polohovací postel</p>
+      <p class="zp-kicker">Zápraží · Polohovací postel</p>
       <h1>Polohovací postel: koupit, půjčit, nebo nejdřív řešit pojišťovnu?</h1>
       <p class="zp-lead">Začínáme tím, co má postel doma prakticky vyřešit. Neptáme se na diagnózu ani přesnou hmotnost člověka. Poradce oddělí standardní domácí postel, robustnější variantu a náročnější péči na lůžku — a až potom způsob pořízení.</p>
       <div class="zp-hero-actions">

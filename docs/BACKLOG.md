@@ -1305,7 +1305,7 @@ See `docs/SAFE_HOME_SENIOR_EVIDENCE_V0.md`.
 
 
 ### ZP-062 Release 0.8.30 — Safe-home senior audit
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_31**
 
 Release 0.8.30 supersedes 0.8.29.
 
@@ -1350,3 +1350,22 @@ Commercial:
 - no fabricated tracking links.
 
 Resource registry advances to v14.
+
+
+### ZP-064 Release 0.8.31 — Easy-footwear Advisor
+Status: **READY_DEPLOY**
+
+Release 0.8.31 supersedes 0.8.30.
+
+Packages:
+- everything from 0.8.30,
+- new `/obuv-pro-seniory/` Advisor,
+- practical fit-only routing,
+- exact Zdravá Obuv candidates ARSENE / XAVIER / ALTITUDE,
+- measurement gate before merchant CTA,
+- three canonical-fallback affiliate slots,
+- links from safe-home audit and global footer,
+- resource registry v14,
+- release integrity includes `page-obuv-pro-seniory.php` and `assets/js/footwear-advisor.js`.
+
+No diagnosis-first routing, treatment claims or commission-based recommendation order is introduced.

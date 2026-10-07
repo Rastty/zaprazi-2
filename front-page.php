@@ -25,6 +25,7 @@
         <article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>Co musí fungovat první noc doma: vstup, přesuny, WC, postel a návazná péče.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a></p></article>
         <article class="zp-decision-card"><h3>Každodenní soběstačnost</h3><p>Samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řešit soběstačnost</a></p></article>
       </div>
+      <p class="zp-section-note">Nevíte, do které oblasti začít? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek pro seniory podle situace</a>.</p>
     </div>
   </section>
 

@@ -154,3 +154,48 @@ test("output never echoes raw input payload", () => {
   assert.equal("input" in result, false);
   assert.equal("answers" in result, false);
 });
+
+
+test("candidate acquisition includes reimbursement-alternative check", () => {
+  const result = recommendBathroom({
+    primaryNeed: "shower_seated",
+    transferAbility: "independent",
+    loadFit: "yes",
+    floorStable: "yes",
+    spaceFit: "yes",
+    duration: "long_term"
+  });
+
+  assert.equal(result.status, "candidate");
+  const check = result.acquisition.find((item) => item.id === "check_reimbursement_alternative");
+  assert.ok(check);
+  assert.match(check.reason, /konkrétním prostředku/i);
+  assert.match(check.reason, /není automaticky hrazený/i);
+});
+
+test("short-term acquisition keeps rental comparison plus reimbursement check", () => {
+  const result = recommendBathroom({
+    primaryNeed: "toilet_nearby",
+    transferAbility: "independent",
+    loadFit: "yes",
+    floorStable: "yes",
+    spaceFit: "yes",
+    duration: "short_term"
+  });
+
+  assert.deepEqual(result.acquisition.map((item) => item.id), [
+    "compare_rent_buy",
+    "check_reimbursement_alternative"
+  ]);
+});
+
+test("professional-check branches do not offer acquisition shortcuts", () => {
+  const result = recommendBathroom({
+    primaryNeed: "combined_shower_toilet",
+    transferAbility: "steadying",
+    loadFit: "yes"
+  });
+
+  assert.equal(result.status, "professional_check");
+  assert.deepEqual(result.acquisition, []);
+});

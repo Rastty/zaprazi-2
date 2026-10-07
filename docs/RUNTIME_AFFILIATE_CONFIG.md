@@ -38,3 +38,21 @@ The Mobility Advisor emits only generic event names:
 No questionnaire answer, combination of answers, product ID, merchant ID or derived profile is attached to these events.
 
 The Advisor does not install GA4 and does not call `gtag` directly. It emits only a local browser `zaprazi:analytics` CustomEvent. A future analytics adapter may forward these generic event names to the existing GA4 stream only after the site's consent layer permits analytics.
+
+
+## Affiliate readiness panel
+
+The WordPress page **Settings → ZaPrazi affiliate** shows:
+- configured supported slots / total supported slots,
+- per-slot state:
+  - `Fallback`, or
+  - `Partnerský odkaz aktivní`,
+- a direct test link for each configured deeplink.
+
+The panel is operational visibility only. It does not:
+- change the recommendation engine,
+- rank by commission,
+- infer or generate affiliate URLs,
+- activate unverified merchant programs.
+
+Current readiness target for Mobility v1 is **3 / 3** supported exact deeplinks.

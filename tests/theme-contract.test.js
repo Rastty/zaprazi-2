@@ -279,7 +279,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
 });
 
 
-test("0.8.8 deployment integrity contract covers critical runtime files", () => {
+test("0.8.9 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -294,12 +294,38 @@ test("0.8.8 deployment integrity contract covers critical runtime files", () => 
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.8' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.9' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_8/);
+    assert.match(read(path), /ZP_RELEASE_0_8_9/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.8"));
+  assert.ok(read("style.css").includes("Version: 0.8.9"));
+});
+
+
+test("affiliate admin shows readiness without changing recommendation logic", () => {
+  const functions = read("functions.php");
+  const advisor = read("assets/js/mobility-advisor.js");
+
+  assert.match(functions, /Affiliate readiness/);
+  assert.match(functions, /Partnerský odkaz aktivní/);
+  assert.match(functions, /Otestovat deeplink/);
+  assert.match(functions, /Fallback/);
+  assert.match(functions, /\$configured/);
+
+  assert.doesNotMatch(advisor, /commission/i);
+  assert.doesNotMatch(advisor, /affiliate.*sort/i);
+});
+
+
+test("WordPress admins are warned when release integrity is partial", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /zaprazi_2_release_integrity_admin_notice/);
+  assert.match(functions, /admin_notices/);
+  assert.match(functions, /ZaPrazi deployment partial/);
+  assert.match(functions, /zaprazi_2_release_integrity_ok\(\)/);
+  assert.match(functions, /current_user_can\( 'manage_options' \)/);
 });

@@ -264,3 +264,15 @@ Production confirmation:
 - public release/integrity markers are part of the runtime contract.
 
 Future deploys should treat a version bump without matching runtime markers as a failed/partial deployment.
+
+
+### ZP-018 Affiliate readiness + deploy operations
+Status: **READY_DEPLOY_0_8_9**
+
+Adds:
+- affiliate readiness count for the 3 supported Mobility deeplink slots,
+- per-slot Fallback / Partnerský odkaz aktivní state,
+- direct admin test link for configured deeplinks,
+- admin warning when the deployment-integrity contract detects a partial runtime sync.
+
+This remains operational visibility only; recommendation ranking is unchanged.

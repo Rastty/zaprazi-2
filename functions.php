@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.8' );
+  define( 'ZAPRAZI_RELEASE', '0.8.9' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_8';
+  $marker = 'ZP_RELEASE_0_8_9';
   $files = array(
     'header.php',
     'footer.php',
@@ -40,6 +40,16 @@ function zaprazi_2_release_meta() {
   echo '<meta name="zaprazi-integrity" content="' . ( zaprazi_2_release_integrity_ok() ? 'ok' : 'partial' ) . '">' . "\n";
 }
 add_action( 'wp_head', 'zaprazi_2_release_meta', 1 );
+
+function zaprazi_2_release_integrity_admin_notice() {
+  if ( ! current_user_can( 'manage_options' ) || zaprazi_2_release_integrity_ok() ) {
+    return;
+  }
+
+  echo '<div class="notice notice-error"><p><strong>ZaPrazi deployment partial.</strong> Některý kritický runtime soubor neodpovídá release ' . esc_html( ZAPRAZI_RELEASE ) . '. Nespouštějte další změny, dokud se neprovede úplný Deploy z větve dev.</p></div>';
+}
+add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
+
 
 
 function zaprazi_2_setup() {
@@ -121,10 +131,34 @@ function zaprazi_2_render_settings_page() {
   }
 
   $fields = zaprazi_2_affiliate_fields();
+  $configured = 0;
+  foreach ( $fields as $key => $label ) {
+    if ( ! empty( $values[ $key ] ) ) {
+      $configured++;
+    }
+  }
   ?>
   <div class="wrap">
     <h1>ZaPrazi affiliate routing</h1>
     <p>Vkládejte pouze přesné, ověřené partnerské deeplinky vygenerované schváleným affiliate účtem. Prázdné pole znamená bezpečný fallback na běžný produktový odkaz.</p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 22px">
+      <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:180px">
+        <strong>Affiliate readiness</strong><br>
+        <span style="font-size:24px;font-weight:700"><?php echo esc_html( $configured . ' / ' . count( $fields ) ); ?></span>
+      </div>
+      <div style="padding:14px 16px;background:#fff;border:1px solid #dcdcde;border-radius:8px;min-width:260px">
+        <strong>Produkční chování</strong><br>
+        <?php if ( $configured === count( $fields ) ) : ?>
+          <span style="color:#008a20">Všechny podporované outbound sloty mají partnerský deeplink.</span>
+        <?php elseif ( 0 === $configured ) : ?>
+          <span>Affiliate není aktivní; všechny odkazy používají ověřený běžný fallback.</span>
+        <?php else : ?>
+          <span>Částečně aktivní; nevyplněné sloty dál bezpečně používají běžný fallback.</span>
+        <?php endif; ?>
+      </div>
+    </div>
+
     <form method="post" action="options.php">
       <?php settings_fields( 'zaprazi_affiliate' ); ?>
       <table class="form-table" role="presentation">
@@ -133,16 +167,25 @@ function zaprazi_2_render_settings_page() {
           <tr>
             <th scope="row"><label for="<?php echo esc_attr( 'zp-aff-' . md5( $key ) ); ?>"><?php echo esc_html( $label ); ?></label></th>
             <td>
+              <?php $current_url = isset( $values[ $key ] ) ? $values[ $key ] : ''; ?>
               <input
                 type="url"
                 class="regular-text code"
                 id="<?php echo esc_attr( 'zp-aff-' . md5( $key ) ); ?>"
                 name="zaprazi_affiliate_map[<?php echo esc_attr( $key ); ?>]"
-                value="<?php echo esc_attr( isset( $values[ $key ] ) ? $values[ $key ] : '' ); ?>"
+                value="<?php echo esc_attr( $current_url ); ?>"
                 placeholder="https://..."
                 inputmode="url"
                 autocomplete="off"
               />
+              <p style="margin:6px 0 0">
+                <?php if ( $current_url ) : ?>
+                  <strong style="color:#008a20">Partnerský odkaz aktivní</strong>
+                  · <a href="<?php echo esc_url( $current_url ); ?>" target="_blank" rel="noopener noreferrer">Otestovat deeplink ↗</a>
+                <?php else : ?>
+                  <strong>Fallback</strong> — poradce používá běžný ověřený produktový odkaz.
+                <?php endif; ?>
+              </p>
             </td>
           </tr>
         <?php endforeach; ?>

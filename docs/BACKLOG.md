@@ -920,7 +920,7 @@ Commercial rule:
 
 
 ### ZP-045 ADL / daily self-care micro-slice foundation
-Status: **DONE_CODE / UI_NEXT**
+Status: **DONE_CODE / UI_WIRED**
 
 First RehaVita-backed ADL foundation:
 - narrow practical scope only: drinking, stabilizing a container and one-hand meal setup,
@@ -949,9 +949,9 @@ Commercial state:
 See `docs/ADL_SELF_CARE_EVIDENCE_V0.md`.
 
 Next:
-- capture exact Theomatik product detail/specs,
-- build ADL Advisor UI v1,
-- add three isolated affiliate runtime slots with canonical fallbacks after the UI path is ready.
+- deploy and smoke ADL Advisor UI v1,
+- fill three isolated affiliate runtime slots only with exact publisher-specific deeplinks,
+- review early query/CTR evidence before expanding the ADL catalog.
 
 
 ### ZP-046 ADL self-care Advisor UI v1
@@ -981,3 +981,28 @@ Verified 2026-10-07:
 Affiliate readiness after deploy:
 - Soběstačnost starts at 0/3 unless exact publisher deeplinks are entered in WordPress admin.
 - Empty slots use verified canonical RehaVita product URLs.
+
+
+### ZP-047 Release 0.8.24 — ADL self-care journey
+Status: **READY_DEPLOY**
+
+Release 0.8.24 supersedes 0.8.23.
+
+It packages:
+- dedicated `/sobestacnost/` Advisor UI,
+- UpCup / Beat It / Theomatik exact candidate identities,
+- exact Theomatik product URL and verified fit dimensions,
+- fail-closed swallowing / choking professional-check boundary,
+- stable-surface gate for Beat It,
+- one-hand-use gate for Theomatik,
+- three separate RehaVita affiliate runtime slots with canonical fallbacks,
+- homepage and core-navigation entry points,
+- non-destructive resource registry v11,
+- deployment-integrity coverage for `page-sobestacnost.php` and `assets/js/adl-advisor.js`.
+
+Expected affiliate readiness after deployment:
+- Soběstačnost 0/3 until exact publisher deeplinks are entered.
+
+Commercial rule:
+- affiliate availability never changes product suitability or ranking,
+- fit-check and professional-check states must not become shopping-first flows.

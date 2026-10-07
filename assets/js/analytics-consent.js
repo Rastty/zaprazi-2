@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_23
+// ZP_RELEASE_0_8_24
 (() => {
   "use strict";
 

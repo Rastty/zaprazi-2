@@ -56,3 +56,26 @@ The panel is operational visibility only. It does not:
 - activate unverified merchant programs.
 
 Current readiness target for Mobility v1 is **3 / 3** supported exact deeplinks.
+
+
+## VIV / CJ deep-link operating procedure
+
+Use the publisher account's official CJ Deep Link Generator. Do not construct PID/AID tracking URLs manually.
+
+Current VIV guidance:
+1. Confirm the advertiser program is joined/approved before promotion.
+2. In CJ, open **Links → Link tools** and install/use **CJ Deep Link**, or use the current CJ Deep Link Generator Chrome extension.
+3. Open the exact advertiser product page in the browser.
+4. Run CJ Deep Link and copy the generated publisher-specific affiliate URL.
+5. Paste that generated URL into **Settings → ZaPrazi affiliate** for the matching slot.
+6. Use **Otestovat deeplink ↗** and confirm the destination resolves to the intended product.
+7. Leave the slot empty if the generator refuses the advertiser/product or joined status is uncertain; ZaPrazi will keep the verified canonical merchant fallback.
+
+Operational notes:
+- VIV states that the modern link includes publisher/advertiser-specific identifiers, so one advertiser's generated link must not be reused across different advertisers.
+- SID is optional and may be used for campaign attribution, but must never contain Advisor answers, product-fit answers or any derived health/mobility profile.
+- For feed-based integrations, prefer CJ's publisher-specific feed/API links rather than rewriting tracking URLs yourself.
+
+Public reference:
+- VIVnetworks: `https://www.vivnetworks.com/deeplink-generator-nova-lepsi-forma-odkazovani/`
+- VIVnetworks 2025 Chrome extension update: `https://www.vivnetworks.com/novinka-pro-partnery-vylepseny-deeplink-generator-jako-rozsireni-pro-chrome/`

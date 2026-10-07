@@ -1072,3 +1072,21 @@ Admin now shows the VIV advertiser identity next to each RehaVita slot and expla
 - never manually compose tracking parameters.
 
 No affiliate URL has been fabricated. Canonical RehaVita fallbacks remain active until the exact links are supplied.
+
+
+### ZP-052 Production logo support
+Status: **DONE_CODE / ASSET_UPLOAD_PENDING**
+
+Theme now supports WordPress custom logos:
+- custom-logo theme support enabled,
+- header renders the configured logo when present,
+- text fallback remains **Zápraží**,
+- responsive size limits are defined for desktop and mobile,
+- the approved claim remains separate text: **Cesta k lepšímu životu**.
+
+Prepared from the approved brand board:
+- light horizontal logo crop,
+- dark horizontal logo crop,
+- square icon crop.
+
+The graphical files are intentionally not embedded as base64 or fabricated in code. A clean WordPress media/custom-logo upload is the final asset step.

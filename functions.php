@@ -567,7 +567,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Návrat z nemocnice domů: co zařídit po propuštění | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
+    return 'Pomůcky pro sebeobsluhu seniorů: jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
@@ -623,7 +623,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Návrat z nemocnice domů: co zařídit po propuštění | Zápraží';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Pomůcky pro soběstačnost seniorů: jak vybrat | Zápraží';
+    return 'Pomůcky pro sebeobsluhu seniorů: jak vybrat | Zápraží';
   }
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Kompenzační pomůcky pro seniory: jak vybrat | Zápraží';
@@ -680,7 +680,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Co zařídit před návratem z nemocnice domů: bezpečný vstup, přesuny, chůze, WC, postel, koupelna, pomůcky a návazná domácí péče.';
   }
   if ( zaprazi_2_is_adl_page() ) {
-    return 'Jak vybrat pomůcky pro soběstačnost seniorů podle konkrétního úkonu: pití, stabilizace nádoby, jídlo jednou rukou a otevírání běžných obalů.';
+    return 'Jak vybrat pomůcky pro sebeobsluhu seniorů podle konkrétního úkonu: pití, stabilizace nádoby, jídlo jednou rukou a otevírání běžných obalů.';
   }
   if ( zaprazi_2_is_compensatory_aids_page() ) {
     return 'Praktický průvodce kompenzačními pomůckami pro seniory: chůze, koupelna a WC, postel, vozík, soběstačnost a rozdíl mezi koupí, půjčením a pojišťovnou.';
@@ -1147,6 +1147,10 @@ function zaprazi_2_resource_faq_schema() {
       array(
         'question' => 'Existuje pomůcka na otevírání lahví a obalů při slabším úchopu?',
         'answer'   => 'Ano, existují multifunkční otevírací pomůcky pro běžné uzávěry, jazýčky plechovek, zipy a obaly. Zápraží tuto větev používá pouze pro praktický úkon otevírání a neposkytuje rady k výběru, dávkování ani bezpečnosti léků.',
+      ),
+      array(
+        'question' => 'Jaké pomůcky pro sebeobsluhu seniorů existují?',
+        'answer'   => 'Patří sem například pomůcky pro pití, stabilizaci nádob, přípravu jídla jednou rukou, otevírání běžných obalů, oblékání, obouvání nebo podávání předmětů. Zápraží v této stránce řeší jen úzkou část kolem pití, jídla a otevírání a ostatní potřeby směruje do samostatných cest.',
       ),
     );
   } elseif ( zaprazi_2_is_compensatory_aids_page() ) {

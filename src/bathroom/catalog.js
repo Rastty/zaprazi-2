@@ -140,6 +140,54 @@ export const BATHROOM_PRODUCTS = Object.freeze([
     ]
   },
   {
+    id: "dma-eh-cmda",
+    name: "DMA EH-CMDA – toaletní židle 4v1",
+    solutionFamily: "multifunction_toilet_shower_chair",
+    productionEligible: true,
+    identityStatus: "verified",
+    facts: {
+      totalWidthCm: 51,
+      totalDepthCm: 40,
+      totalHeightCm: "59–77",
+      seatWidthCm: 50,
+      seatDepthCm: 40,
+      seatHeightCm: "39–54",
+      maxUserWeightKg: 150,
+      weightKg: 3
+    },
+    selectionNotes: [
+      "jedna stabilní pomůcka může sloužit jako toaletní židle, sprchovací sedačka nebo nástavec nad WC",
+      "před použitím je potřeba ověřit rovný stabilní podklad, prostor alespoň pro celkovou šířku 51 cm a bezpečný přesun bez fyzického zvedání druhou osobou",
+      "odnímatelná madla mohou pomoci při vstávání, ale nenahrazují odborné posouzení asistovaného přesunu",
+      "při použití nad WC nebo ve sprše je nutné dodržet návod výrobce a zkontrolovat správné zajištění rámu"
+    ],
+    reimbursementEvidence: {
+      payerCode: "5019427",
+      reimbursementGroup: "07.04.03.01",
+      manufacturerStatesFullyReimbursed: true,
+      approvalRequired: true,
+      serviceLifeYears: 10,
+      monthlySuklListVerified: false,
+      checkedAt: "2026-10-07"
+    },
+    evidence: [
+      { type: "manufacturer_product_page", url: "https://www.dmapraha.cz/eh-cmda_z35658/", checkedAt: "2026-10-07" },
+      { type: "manufacturer_manual", url: "https://www.dmapraha.cz/data/files/manual/KD_IFU_EH-CMDA_ToaletniZidle_cs.pdf", checkedAt: "2026-10-07" },
+      { type: "approved_merchant_product_page", url: "https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1", checkedAt: "2026-10-07" }
+    ],
+    offers: [
+      {
+        merchantId: "drmax-cz",
+        merchantName: "Dr.Max",
+        affiliateKey: "drmax-cz:dma-eh-cmda",
+        url: "https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1",
+        affiliateUrl: null,
+        acquisitionMode: "direct_pay",
+        checkedAt: "2026-10-07"
+      }
+    ]
+  },
+  {
     id: "unizdrav-p2085",
     name: "UNIZDRAV P2085 – toaletní sprchovací vozík",
     solutionFamily: "combined_shower_toilet_wheelchair",

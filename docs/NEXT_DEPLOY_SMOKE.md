@@ -1,6 +1,6 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.40
+# Next Deploy Smoke — Zápraží 2.0 v0.8.41
 
-This release supersedes 0.8.39. Deploy only 0.8.40 from `dev`.
+This release supersedes 0.8.40. Deploy only 0.8.41 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
@@ -384,4 +384,21 @@ Expected:
 
 Release integrity:
 - `zaprazi-release` = `0.8.40`,
+- `zaprazi-integrity` = `ok`.
+
+
+## 26. Footwear SEO authority
+Open `/obuv-pro-seniory/`.
+
+Expected:
+- H1 contains **Obuv pro seniory**,
+- document title is **Obuv pro seniory: široké boty na suchý zip | Zápraží**,
+- meta description covers opening, width, toe and current foot measurement,
+- five visible FAQs are present and FAQPage schema mirrors the same five questions,
+- the existing Footwear Advisor remains the only suitability engine,
+- product shortlist and affiliate order are unchanged,
+- links to safe-home and compensatory-aids journeys are visible.
+
+Release integrity:
+- `zaprazi-release` = `0.8.41`,
 - `zaprazi-integrity` = `ok`.

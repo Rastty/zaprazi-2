@@ -80,6 +80,7 @@ get_header();
           <div>
             <h3>Ujasněte si, jakou oporu člověk skutečně potřebuje.</h3>
             <p>Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Prostředí, schopnost chodítko posouvat a bezpečné ovládání brzd jsou důležitější než samotná značka.</p>
+            <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Vybrat chodítko do bytu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Vybrat rollátor</a></p>
           </div>
         </article>
         <article>

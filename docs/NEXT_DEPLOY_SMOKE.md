@@ -1,12 +1,12 @@
-# Next Deploy Smoke — Zápraží 2.0 v0.8.32
+# Next Deploy Smoke — Zápraží 2.0 v0.8.33
 
-This release supersedes 0.8.31. Deploy only 0.8.32 from `dev`.
+This release supersedes 0.8.32. Deploy only 0.8.33 from `dev`.
 
 ## 1. Release integrity
 Open `/`.
 
 Expected:
-- `zaprazi-release` = `0.8.32`
+- `zaprazi-release` = `0.8.33`
 - `zaprazi-integrity` = `ok`
 - public brand text is **Zápraží** everywhere, with no remaining public ZaPrazi/ZaPrazi.cz copy
 - claim is **Cesta k lepšímu životu**
@@ -210,3 +210,26 @@ Regression:
 - Bathroom/WC Advisor still uses the same `recommendBathroom` engine
 - existing affiliate slots `unizdrav-cz:p2868` and `rehabilitacni-pomucky-cz:besco-bs15` are reused
 - no duplicate affiliate slot is created.
+
+
+## 16. Shower-chair micro-Advisor
+Open `/sprchovaci-zidle-pro-seniory/`.
+
+Expected:
+- H1 contains **Sprchovací židle pro seniory**
+- Advisor asks only:
+  - transfer ability,
+  - stable floor,
+  - space fit,
+  - load fit,
+  - optional duration
+- independent/steadying transfer + all fit gates = UNIZDRAV P2062 candidate
+- person-assist transfer = no automatic product candidate
+- unstable floor, insufficient space or unverified load fit = no shopping-first merchant CTA
+- visible product facts include 55 cm total width, 48 cm depth, 38–50.5 cm seat height and 136 kg max load
+- insurer path remains separate.
+
+Regression:
+- Bathroom/WC Advisor still uses the same `recommendBathroom` engine
+- existing affiliate slot `unizdrav-cz:p2062` is reused
+- no duplicate shower-chair affiliate slot is created.

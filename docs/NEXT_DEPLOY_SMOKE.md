@@ -1,95 +1,64 @@
-# Next Deploy Smoke — ZaPrazi 2.0 v0.8.15
+# Next Deploy Smoke — ZaPrazi 2.0 v0.8.16
 
-Run after deploying release 0.8.15 from `dev`.
+Run after deploying release 0.8.16 from `dev`.
 
 ## 1. Release integrity
+Expected on `/`:
+- `zaprazi-release` = `0.8.16`
+- `zaprazi-integrity` = `ok`
 
-Open `/`.
-
-Expected:
-- `zaprazi-release` = `0.8.15`,
-- `zaprazi-integrity` = `ok`,
-- homepage and `/koupelna-a-wc/` load without errors.
-
-## 2. Raised WC — independent transfer
+## 2. New multifunction WC + shower branch
+Open `/koupelna-a-wc/`.
 
 Choose:
-- problem: **WC je příliš nízké**
-- transfer: **Samostatně**
-- load fit: **Ano**
-- toilet fit: **Ano**
-- feet safely reach floor after raising: **Ano**
+- **Jedna stabilní židle pro WC i sprchu**
+- transfer: samostatně or s oporou
+- load fit: ano
+- stable floor: ano
+- space fit: ano
 
 Expected:
-- exact candidate: **UNIZDRAV P2868**
-- simple raised-seat path,
-- canonical merchant URL while Bathroom affiliate slot is empty.
+- candidate **DMA EH-CMDA – toaletní židle 4v1**
+- merchant **Dr.Max**
+- canonical merchant URL while affiliate slot is empty
+- dimensions shown: 51 cm width, 40 cm depth, seat height 39–54 cm
+- load 150 kg
+- separate reimbursement-alternative path remains visible
 
-## 3. Raised WC — needs steady hand support
-
-Choose:
-- problem: **WC je příliš nízké**
-- transfer: **S oporou, ale bez zvedání druhou osobou**
-- load fit: **Ano**
-- toilet fit: **Ano**
-- feet safely reach floor after raising: **Ano**
-
-Expected:
-- exact candidate: **BESCO BES-BS15 — nástavec na WC s odnímatelnými madly**
-- height increase 11.5 cm,
-- max load 100 kg,
-- merchant: RehabilitačníPomůcky.cz,
-- canonical merchant URL while affiliate slot is empty.
-
-## 4. Raised WC fail-closed
-
-Repeat either raised-WC path with:
-- load fit = **Ne/Nevím**, or
-- toilet fit = **Ne/Nevím**, or
-- feet safely reach floor = **Ne/Nevím**.
+## 3. Fail-closed
+Any of:
+- physical assistance by another person
+- unstable/unknown floor
+- insufficient/unknown space
+- insufficient/unknown load fit
 
 Expected:
-- no exact product.
+- no exact EH-CMDA product.
 
-Choose:
-- transfer = **Běžně pomáhá druhá osoba**
-
+## 4. Reimbursement boundary
 Expected:
-- professional-check only,
-- no exact product,
-- no commercial shortcut.
+- product may mention that manufacturer DMA identifies payer code 5019427 only in guarded copy
+- site must NOT state current monthly reimbursement as verified
+- monthly SÚKL verification is still required before a current exact reimbursement claim
 
-## 5. Bath-transfer regression
-
-Safe independent bath-transfer case must still return:
-- **BESCO BES-BS008**
-
-Any assisted/unknown transfer or failed bath fit must return no exact product.
-
-## 6. Affiliate admin
-
-Open:
-**Nastavení → ZaPrazi affiliate**
-
+## 5. Affiliate admin
 Expected:
-- Mobility: **3 / 3**
-- Koupelna a WC: **0 / 7** until exact Bathroom deeplinks are supplied,
-- BS008 slot present,
-- new BS15 slot present,
-- BS15 exact target:
-  `https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/`,
-- empty slots use canonical fallbacks.
+- Mobility 3/3
+- Bathroom/WC 0/8 until exact deeplinks are supplied
+- new slot: **Dr.Max — DMA EH-CMDA toaletní židle 4v1**
+- target: `https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1`
 
-## 7. Reimbursement separation
-
-Expected:
-- BS15 is presented as a direct-pay retail candidate,
-- no claim that BS15 is reimbursed,
-- reimbursement alternative remains separate.
+## 6. Regression
+Expected unchanged:
+- P2868 independent raised WC
+- BS15 steadying raised WC
+- P2015 toilet support
+- P2807 static commode
+- P2062 shower chair
+- BS008 safe bath transfer
+- combined shower/toilet wheelchair remains professional-check only
 
 ## After smoke
-
-Next Slice 2 work:
-1. exact publisher deeplinks for the seven Bathroom/WC runtime slots,
-2. expand only where a new scenario is unlocked,
-3. switch to Search Console track 2 as soon as query/page data become accessible.
+1. exact publisher deeplinks for the 8 Bathroom/WC slots
+2. direct SÚKL monthly-list verification for EH-CMDA code 5019427
+3. switch to Search Console track 2 immediately once the connector is actually connected

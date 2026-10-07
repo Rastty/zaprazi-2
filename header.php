@@ -26,7 +26,7 @@
       <a href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a>
       <a href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat domů</a>
       <a href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Soběstačnost</a>
-      <a href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Pojišťovna</a>
+      <a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Pojišťovna</a>
       <a href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení</a>
       <a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled pomůcek</a>
     </nav>

@@ -286,9 +286,9 @@ Adds:
 This remains operational visibility only; recommendation ranking is unchanged.
 
 Deployment note 2026-10-07:
-- user confirmed the Deployer sync after 0.8.9 was merged to `dev`/`main`,
-- public homepage remained reachable in post-deploy crawl,
-- exact affiliate deeplinks are still intentionally empty until publisher-specific URLs are supplied.
+- user confirmed the 0.8.10 Deployer sync,
+- public homepage remained reachable after deploy,
+- all 3 Mobility affiliate slots now contain verified publisher-specific CJ/VIV deeplinks.
 
 
 ### ZP-019 Resource FAQ schema + release integrity 0.8.10
@@ -322,7 +322,7 @@ See `docs/MERCHANT_PORTFOLIO_STRATEGY_2026-10-07.md`.
 
 
 ### ZP-021 Slice 2 Bathroom + WC candidate pack
-Status: **EVIDENCE_RESEARCH_READY**
+Status: **DONE_V1**
 
 Initial decision set is intentionally limited to five branches:
 1. raise existing WC,
@@ -339,7 +339,7 @@ See `docs/BATHROOM_WC_CANDIDATE_PACK_V0.md`.
 
 
 ### ZP-022 Bathroom + WC decision engine v1
-Status: **DONE_CODE / PRE_UI**
+Status: **DONE_CODE / UI_WIRED**
 
 Implemented:
 - fail-closed decision engine for raised WC, toilet support, static commode and shower-chair branches,
@@ -349,10 +349,10 @@ Implemented:
 - no raw body-weight storage and no diagnosis-based routing,
 - unit tests for safety branches and catalog eligibility.
 
-Still open before UI:
-- bathtub-transfer evidence,
+Still open after first UI:
+- bathtub-transfer evidence remains professional-check only,
 - exact product-level SÚKL mapping where identity can be proven,
-- exact affiliate deeplinks only after evidence review.
+- exact UNIZDRAV affiliate deeplinks after production smoke.
 
 Acquisition research v0 is complete:
 - direct purchase, local rental and reimbursement-alternative paths are separated,
@@ -363,7 +363,7 @@ See docs/BATHROOM_WC_EVIDENCE_V1.md.
 
 
 ### ZP-023 Bathroom + WC acquisition evidence v0
-Status: **DONE_RESEARCH / PRE_UI**
+Status: **DONE_RESEARCH / UI_WIRED**
 
 Implemented:
 - separate buy / rental / reimbursement-alternative paths,
@@ -375,3 +375,19 @@ Implemented:
 - professional-check branches expose no acquisition shortcut.
 
 See `docs/BATHROOM_WC_ACQUISITION_V0.md`.
+
+
+### ZP-024 Bathroom + WC Advisor UI + release 0.8.11
+Status: **READY_DEPLOY_0_8_11**
+
+Adds:
+- dedicated `/koupelna-a-wc/` Home Advisor page,
+- client-side fail-closed Bathroom/WC flow,
+- verified canonical product candidates for WC raiser, toilet support, static commode, shower chair and fixed grab rail,
+- explicit professional-check boundary for bath transfer, assisted transfer and combined shower/toilet wheelchair,
+- separate buy/rental/reimbursement-alternative acquisition presentation,
+- homepage and core-navigation entry point,
+- WordPress non-destructive resource-page registry v4,
+- 0.8.11 deployment-integrity markers covering the new Bathroom/WC page and frontend JS.
+
+No UNIZDRAV affiliate deeplinks are required for the first production smoke; canonical merchant URLs remain the safe fallback.

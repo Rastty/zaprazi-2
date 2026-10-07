@@ -1210,7 +1210,7 @@ Commercial boundary:
 
 
 ### ZP-058 Release 0.8.28 — Self-care SEO authority
-Status: **READY_DEPLOY**
+Status: **SUPERSEDED_BY_0_8_29**
 
 Release 0.8.28 supersedes 0.8.27 and is the next deployment target after production 0.8.25.
 
@@ -1253,3 +1253,22 @@ SEO architecture:
 - no product catalog or merchant ranking on the broad page.
 
 See `docs/COMPENSATORY_AIDS_EVIDENCE_V0.md`.
+
+
+### ZP-060 Release 0.8.29 — Compensatory aids SEO hub
+Status: **READY_DEPLOY**
+
+Release 0.8.29 supersedes 0.8.28.
+
+Packages:
+- everything from 0.8.28,
+- new `/kompenzacni-pomucky-pro-seniory/` broad SEO decision hub,
+- six-way routing to existing Advisors,
+- buy / rent / insurer separation,
+- official SÚKL/VZP 2026 evidence,
+- visible FAQ + matching FAQPage schema,
+- homepage + footer internal links,
+- resource registry v12,
+- release integrity now covers the new page.
+
+No broad product catalog, diagnosis-first routing or merchant ranking is introduced.

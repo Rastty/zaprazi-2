@@ -489,7 +489,7 @@ test("Bathroom WC navigation is reachable from homepage and core navigation", ()
   const header = read("header.php");
 
   assert.match(front, /\/koupelna-a-wc\//);
-  assert.match(front, /Řeším koupelnu nebo WC/);
+  assert.match(front, /Řešit koupelnu a WC/);
   assert.match(header, /\/koupelna-a-wc\//);
   assert.match(header, /Koupelna a WC/);
 });
@@ -753,7 +753,7 @@ test("Adjustable bed is reachable from homepage and core navigation", () => {
   const header = read("header.php");
 
   assert.match(front, /\/polohovaci-postel\//);
-  assert.match(front, /Řeším polohovací postel/);
+  assert.match(front, /Řešit polohovací postel/);
   assert.match(header, /\/polohovaci-postel\//);
   assert.match(header, /Polohovací postel/);
 });
@@ -878,7 +878,7 @@ test("Wheelchair is reachable from homepage and core navigation", () => {
   const header = read("header.php");
 
   assert.match(front, /\/invalidni-vozik\//);
-  assert.match(front, /Řeším invalidní vozík/);
+  assert.match(front, /Řešit invalidní vozík/);
   assert.match(header, /\/invalidni-vozik\//);
   assert.match(header, /Invalidní vozík/);
 });
@@ -999,7 +999,7 @@ test("Return-home surface is reachable from homepage and core navigation", () =>
   const header = read("header.php");
 
   assert.match(front, /\/navrat-z-nemocnice\//);
-  assert.match(front, /Vracíme se z nemocnice domů/);
+  assert.match(front, /Připravit návrat domů/);
   assert.match(header, /\/navrat-z-nemocnice\//);
   assert.match(header, /Návrat domů/);
 });

@@ -562,7 +562,7 @@ No diagnosis or raw health data added.
 
 
 ### ZP-031 Guarded product-level reimbursement evidence UI
-Status: **READY_DEPLOY_0_8_18**
+Status: **PACKAGED_IN_0_8_19**
 
 Adds a product-card reimbursement evidence block for products that have an exact payer identity candidate.
 
@@ -587,7 +587,7 @@ This converts an opaque internal evidence object into a useful user-facing next 
 
 
 ### ZP-032 Slice 3 Adjustable bed evidence + decision engine v0
-Status: **READY_CODE / PRE_UI**
+Status: **DONE_CODE / UI_WIRED**
 
 New Slice 3 foundation:
 - exact product catalog for UNIZDRAV P2777 CLASSIC, P4707 Hospital and P4044 Multibed,
@@ -614,7 +614,7 @@ See `docs/ADJUSTABLE_BED_EVIDENCE_V0.md`.
 
 
 ### ZP-033 Adjustable bed Advisor UI v1
-Status: **READY_CODE / PRE_RELEASE**
+Status: **READY_DEPLOY_0_8_19**
 
 Adds:
 - dedicated `/polohovaci-postel/` Home Advisor page,
@@ -636,3 +636,26 @@ Planned affiliate readiness after deploy:
 - Polohovací postel 0/3.
 
 No bed deeplinks are fabricated; canonical UNIZDRAV product URLs remain the safe fallback.
+
+
+### ZP-034 Release 0.8.19 — Slice 3 first end-to-end high-ticket journey
+Status: **READY_DEPLOY**
+
+Release 0.8.19 supersedes 0.8.18.
+
+It packages:
+- all Bathroom/WC additions from 0.8.18,
+- guarded EH-CMDA reimbursement identity card,
+- Slice 3 adjustable-bed engine and evidence,
+- live `/polohovaci-postel/` Advisor UI,
+- three exact UNIZDRAV bed candidates,
+- buy / rent / reimbursement-or-circulation acquisition paths,
+- separate affiliate readiness group for beds,
+- release-integrity coverage for `page-polohovaci-postel.php` and `assets/js/bed-advisor.js`.
+
+Expected affiliate readiness after deployment:
+- Mobility 3/3,
+- Bathroom/WC 0/9,
+- Polohovací postel 0/3.
+
+No new affiliate deeplinks are generated in code. Empty bed slots use exact canonical UNIZDRAV fallbacks.

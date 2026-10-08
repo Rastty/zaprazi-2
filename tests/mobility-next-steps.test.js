@@ -17,7 +17,7 @@ test("safe indoor candidate offers both rental and insurer guidance, respecting 
   assert.match(next.items[0].label, /půjčení/);
 });
 
-test("long-term candidate keeps engine's insurer-first ordering", () => {
+test("long-term candidate preserves the actual engine acquisition ordering", () => {
   const result = recommendMobility({
     environment: "both", supportNeed: "steady", handBrakes: "yes", duration: "long_term"
   });
@@ -25,7 +25,7 @@ test("long-term candidate keeps engine's insurer-first ordering", () => {
   const next = getMobilityNextSteps(result);
   assert.equal(next.canCompareAcquisition, true);
   assert.deepEqual(next.items.map(x => x.href), [
-    "/choditko-na-pojistovnu/", "/pujceni-choditka/"
+    "/pujceni-choditka/", "/choditko-na-pojistovnu/"
   ]);
 });
 

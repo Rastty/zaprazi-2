@@ -431,6 +431,8 @@ function zaprazi_2_render_settings_page() {
       'program' => $network['program'],
     );
   }
+  $workbench_networks = array_values( array_unique( array_column( $missing_workbench, 'network' ) ) );
+  sort( $workbench_networks );
   ?>
   <div class="wrap">
     <h1>Zápraží affiliate routing</h1>
@@ -451,6 +453,16 @@ function zaprazi_2_render_settings_page() {
     <h2>Deeplink workbench</h2>
     <p>Chybějící affiliate sloty jsou seskupené v jednom seznamu. Zkopírujte cílovou URL, vygenerujte deeplink v uvedené síti a výsledek vložte do odpovídajícího pole níže.</p>
     <?php if ( $missing_workbench ) : ?>
+      <p>
+        <label for="zp-affiliate-network-filter"><strong>Filtrovat podle sítě:</strong></label>
+        <select id="zp-affiliate-network-filter">
+          <option value="">Všechny sítě</option>
+          <?php foreach ( $workbench_networks as $network_name ) : ?>
+            <option value="<?php echo esc_attr( $network_name ); ?>"><?php echo esc_html( $network_name ); ?></option>
+          <?php endforeach; ?>
+        </select>
+        <span id="zp-affiliate-visible-count" role="status" aria-live="polite"></span>
+      </p>
       <table class="widefat striped" style="margin:12px 0 22px">
         <thead>
           <tr>
@@ -462,7 +474,7 @@ function zaprazi_2_render_settings_page() {
         </thead>
         <tbody>
         <?php foreach ( $missing_workbench as $item ) : ?>
-          <tr>
+          <tr data-zp-affiliate-network="<?php echo esc_attr( $item['network'] ); ?>">
             <td>
               <strong><?php echo esc_html( $item['network'] ); ?></strong>
               <?php if ( $item['program'] ) : ?><br><small><?php echo esc_html( $item['program'] ); ?></small><?php endif; ?>
@@ -477,13 +489,42 @@ function zaprazi_2_render_settings_page() {
                 <em>Chybí canonical target</em>
               <?php endif; ?>
             </td>
-            <td><code><?php echo esc_html( $item['key'] ); ?></code></td>
+            <td>
+              <code><?php echo esc_html( $item['key'] ); ?></code><br>
+              <a href="#<?php echo esc_attr( 'zp-aff-' . md5( $item['key'] ) ); ?>" class="zp-focus-affiliate-field">Přejít na pole ↓</a>
+            </td>
           </tr>
         <?php endforeach; ?>
         </tbody>
       </table>
       <script>
+        (function () {
+          var filter = document.getElementById("zp-affiliate-network-filter");
+          var count = document.getElementById("zp-affiliate-visible-count");
+          var rows = Array.prototype.slice.call(document.querySelectorAll("tr[data-zp-affiliate-network]"));
+          function updateFilter() {
+            var visible = 0;
+            rows.forEach(function (row) {
+              var match = !filter.value || row.getAttribute("data-zp-affiliate-network") === filter.value;
+              row.hidden = !match;
+              if (match) visible++;
+            });
+            count.textContent = "Zobrazeno " + visible + " z " + rows.length + " chybějících odkazů";
+          }
+          filter.addEventListener("change", updateFilter);
+          updateFilter();
+        })();
         document.addEventListener("click", function (event) {
+          var jump = event.target.closest(".zp-focus-affiliate-field");
+          if (jump) {
+            var field = document.getElementById(jump.getAttribute("href").slice(1));
+            if (field) {
+              event.preventDefault();
+              field.scrollIntoView({ block: "center" });
+              field.focus();
+            }
+            return;
+          }
           var button = event.target.closest(".zp-copy-affiliate-target");
           if (!button) return;
           var target = button.getAttribute("data-zp-copy-target") || "";

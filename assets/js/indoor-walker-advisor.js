@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_56
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
+import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
 
 const form=document.querySelector("#zp-indoor-walker-advisor");
 const result=document.querySelector("#zp-indoor-walker-result");
@@ -41,7 +42,16 @@ if(form&&result&&submit&&errors){
     });
     const ids=out.recommendations.flatMap(r=>r.productCandidateIds??[]);
     const products=getMobilityProducts(ids);
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
+
+    const next = getMobilityNextSteps(out);
+    const nextMarkup = next.canCompareAcquisition
+      ? '<section class="zp-acquisition-summary"><h3>Jak chodítko získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
+      : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>Dokud nejsou splněné podmínky, nepřecházejte k nákupu konkrétní pomůcky.</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
+    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${nextMarkup}`;
+    result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
+      form.scrollIntoView({ block: "start" });
+      form.querySelector('input[name="supportNeed"]')?.focus();
+    });
     result.querySelectorAll("[data-zp-indoor-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     track("builder_complete");
     if(out.status==="candidate"&&products.length) track("recommendation_view");

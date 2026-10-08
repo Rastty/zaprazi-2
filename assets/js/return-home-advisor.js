@@ -116,6 +116,21 @@ if (form && result && submitButton && errorBox) {
     }
   });
 
+  result.addEventListener("click", (event) => {
+    if (!event.target?.closest?.("#zp-return-home-print")) return;
+    if (typeof window.print !== "function") return;
+    document.body.classList.add("zp-return-print-mode");
+    try {
+      window.print();
+    } catch (error) {
+      document.body.classList.remove("zp-return-print-mode");
+    }
+  });
+
+  window.addEventListener("afterprint", () => {
+    document.body.classList.remove("zp-return-print-mode");
+  });
+
   submitButton.addEventListener("click", () => {
     if (!validate()) return;
 
@@ -142,6 +157,10 @@ if (form && result && submitButton && errorBox) {
       ${renderRoutes(output.routes, blocked)}
       <p class="zp-disclaimer">${escapeHtml(output.acquisitionNote)}</p>
       <p class="zp-muted-copy">ZaPrazi neposuzuje, zda je člověk zdravotně způsobilý k propuštění. Tento plán řeší jen praktickou připravenost domácnosti a návazné kroky.</p>
+      <div class="zp-return-print-actions">
+        <button type="button" class="zp-link-btn" id="zp-return-home-print">Vytisknout plán pro rodinu</button>
+        <p class="zp-muted-copy">Tisk probíhá ve vašem prohlížeči. Odpovědi neodesíláme a plán na webu neukládáme. S výtiskem zacházejte jako se soukromým dokumentem.</p>
+      </div>
     `;
 
     track("builder_complete");

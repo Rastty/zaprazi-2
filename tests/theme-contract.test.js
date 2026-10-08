@@ -597,6 +597,7 @@ test("deeplink workbench filters missing slots by network and focuses the exact 
       return null;
     },
     querySelectorAll(selector) {
+      if (selector === "input[data-zp-affiliate-key]") return [];
       assert.equal(selector, "tr[data-zp-affiliate-network]");
       return rows;
     },

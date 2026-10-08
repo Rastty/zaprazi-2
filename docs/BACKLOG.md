@@ -2229,7 +2229,7 @@ After deploy verify `zaprazi-release=0.8.55`, `zaprazi-integrity=ok`, and actual
 
 
 ### ZP-109 Consent-only affiliate click measurement + release 0.8.56
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages feature PR #156 on top of user-reported 0.8.55 deployment:
 - A distinct generic `affiliate_click` event emitted only for click on a `rel=sponsored` link inside a generated Advisor result.
@@ -2241,3 +2241,16 @@ Packages feature PR #156 on top of user-reported 0.8.55 deployment:
 Note: Google Analytics standard automatic enhanced-measurement outbound events are controlled separately in GA4 admin. These custom generic events carry no URL/product parameters, but review GA4 data collection settings before claiming all GA data is URL-free.
 
 After deploy verify `zaprazi-release=0.8.56`, `zaprazi-integrity=ok` and GA4 debug with opt-in test visitor: ordinary product link must not add `affiliate_click`, active sponsored advisor link must; no event without consent.
+
+
+### ZP-110 Standalone walker/rollator safe next-step journeys + release 0.8.57
+Status: **READY_DEPLOY**
+
+Includes green-tested/merged PR #158 on top of user-reported 0.8.56 deployment:
+- On both high-intent pages, an Advisor `candidate` outcome provides relevant in-site guidance to compare renting a walker and to check potential insurance reimbursement, following the engine-provided acquisition order.
+- Non-candidate safety outcomes never receive new buying/rental/insurance CTAs; they get a clear next step and functional **Upravit odpovědi** control to return focus to the form.
+- Source-of-truth safety gates, candidate product shortlist, advertiser routing and opt-in anonymous analytics events unchanged.
+- New pure `src/mobility/next-steps.js` helper whitelists existing guide URLs only; Node tests protect status gating, URL injection and ordering.
+- Release-integrity markers bumped to 0.8.57 in all critical runtime files, stylesheet and contract tests.
+
+Deploy from dev after main/dev are aligned. Production smoke should verify `zaprazi-release=0.8.57`, integrity `ok`, and both live Advisors: candidate shows safe acquisition routes, a denied brake/physical-assistance route shows no purchase CTA and an edit-answers action.

@@ -626,6 +626,88 @@ test("deeplink workbench filters missing slots by network and focuses the exact 
 });
 
 
+test("affiliate batch entry is atomic, HTTPS-only, and never overwrites populated slots", () => {
+  const functions = read("functions.php");
+  assert.match(functions, /id="zp-affiliate-batch-input"/);
+  assert.match(functions, /id="zp-affiliate-batch-apply"/);
+  assert.match(functions, /data-zp-affiliate-key="<\?php echo esc_attr\( \$key \); \?>"/);
+  assert.match(functions, /Pro skutečné uložení/);
+
+  const section = functions.slice(functions.indexOf('id="zp-affiliate-batch-input"'));
+  const match = section.match(/<script>([\s\S]*?)<\/script>/);
+  assert.ok(match, "workbench batch entry script exists");
+
+  let onApply;
+  const source = { value: "" };
+  const feedback = { textContent: "" };
+  const batchButton = { addEventListener(type, handler) {
+    assert.equal(type, "click");
+    onApply = handler;
+  } };
+  const filter = { value: "", addEventListener() {} };
+  const count = { textContent: "" };
+  const fields = [
+    { key: "unizdrav-cz:p2868", value: "", getAttribute(name) {
+      assert.equal(name, "data-zp-affiliate-key");
+      return this.key;
+    } },
+    { key: "rehavita-cz:open-it-15-050105", value: "", getAttribute(name) {
+      assert.equal(name, "data-zp-affiliate-key");
+      return this.key;
+    } },
+  ];
+  const document = {
+    getElementById(id) {
+      return ({
+        "zp-affiliate-network-filter": filter,
+        "zp-affiliate-visible-count": count,
+        "zp-affiliate-batch-input": source,
+        "zp-affiliate-batch-apply": batchButton,
+        "zp-affiliate-batch-feedback": feedback,
+      })[id] || null;
+    },
+    querySelectorAll(selector) {
+      if (selector === "tr[data-zp-affiliate-network]") return [];
+      if (selector === "input[data-zp-affiliate-key]") return fields;
+      throw new Error("Unexpected selector " + selector);
+    },
+    addEventListener() {},
+  };
+  vm.runInNewContext(match[1], { document, URL, navigator: {}, window: {} });
+  assert.equal(typeof onApply, "function");
+
+  const first = "unizdrav-cz:p2868\thttps://tracking.example/a";
+  const second = "rehavita-cz:open-it-15-050105\thttps://tracking.example/b";
+  source.value = first + "\n" + "unknown:slot\thttps://tracking.example/evil";
+  onApply();
+  assert.equal(fields[0].value, "", "one bad row prevents all writes");
+  assert.match(feedback.textContent, /Nic se nezměnilo/);
+
+  source.value = first + "\n" + first;
+  onApply();
+  assert.equal(fields[0].value, "", "duplicate slot is rejected");
+
+  source.value = "unizdrav-cz:p2868\thttp://tracking.example/a";
+  onApply();
+  assert.equal(fields[0].value, "", "plain HTTP is rejected");
+
+  source.value = first + "\n" + second;
+  onApply();
+  assert.equal(fields[0].value, "https://tracking.example/a");
+  assert.equal(fields[1].value, "https://tracking.example/b");
+  assert.match(feedback.textContent, /Připraveno 2 nových odkazů/);
+
+  source.value = "unizdrav-cz:p2868\thttps://tracking.example/different";
+  onApply();
+  assert.equal(fields[0].value, "https://tracking.example/a", "existing affiliate URL is not replaced");
+  assert.match(feedback.textContent, /Nic se nezměnilo/);
+
+  source.value = first;
+  onApply();
+  assert.match(feedback.textContent, /Připraveno 0 nových odkazů/);
+});
+
+
 test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");
   const mobilityAdvisor = read("assets/js/mobility-advisor.js");

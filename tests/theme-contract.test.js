@@ -2304,6 +2304,23 @@ test("return-home plan can be printed locally without storing or submitting resp
   assert.match(page, /id="zp-return-home-result"/);
 });
 
+test("high-intent mobility Advisors parse and send generic funnel events", () => {
+  const workflow = read(".github/workflows/ci.yml");
+  assert.match(workflow, /find assets\/js src tests -type f -name/);
+  assert.match(workflow, /xargs -0 -r -n1 node --check/);
+
+  for (const path of ["assets/js/indoor-walker-advisor.js", "assets/js/rollator-advisor.js"]) {
+    const source = read(path);
+    assert.ok(!source.includes("\\n"), path + " contains literal backslash-n outside a string");
+    assert.match(source, /track\("builder_start"\)/);
+    assert.match(source, /track\("builder_complete"\)/);
+    assert.match(source, /track\("recommendation_view"\)/);
+    assert.match(source, /track\("product_click"\)/);
+    assert.match(source, /track\("merchant_click"\)/);
+    assert.doesNotMatch(source, /gtag\(|sendBeacon|fetch\(|localStorage/);
+  }
+});
+
 test("core navigation targets are unique", () => {
   const header = read("header.php");
   const navStart = header.indexOf('<nav class="zp-core-nav"');

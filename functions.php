@@ -497,6 +497,13 @@ function zaprazi_2_render_settings_page() {
         <?php endforeach; ?>
         </tbody>
       </table>
+      <h3>Hromadné vložení ověřených odkazů</h3>
+      <p>Do každého řádku vložte přesný klíč slotu, tabulátor a HTTPS partnerský odkaz vytvořený v příslušné affiliate síti. Například: <code>unizdrav-cz:p2868[TAB]https://...</code>. Při chybě se nezmění žádné pole a již vyplněné odkazy se nepřepisují.</p>
+      <label for="zp-affiliate-batch-input"><strong>Slot a partnerský odkaz (TSV; jeden na řádek)</strong></label>
+      <textarea id="zp-affiliate-batch-input" rows="5" style="width:100%;max-width:860px;display:block;margin:8px 0" placeholder="merchant-id:product-id[TAB]https://partnersky-odkaz..." spellcheck="false" autocomplete="off"></textarea>
+      <button type="button" class="button button-secondary" id="zp-affiliate-batch-apply">Zkontrolovat a vložit do polí</button>
+      <p id="zp-affiliate-batch-feedback" role="status" aria-live="polite"></p>
+      <p><strong>Pozor:</strong> Toto pouze vyplní pole formuláře níže. Pro skutečné uložení musíte zkontrolovat odkazy a kliknout na <strong>Uložit affiliate odkazy</strong>.</p>
       <script>
         (function () {
           var filter = document.getElementById("zp-affiliate-network-filter");
@@ -513,6 +520,70 @@ function zaprazi_2_render_settings_page() {
           }
           filter.addEventListener("change", updateFilter);
           updateFilter();
+        })();
+        (function () {
+          var button = document.getElementById("zp-affiliate-batch-apply");
+          var source = document.getElementById("zp-affiliate-batch-input");
+          var feedback = document.getElementById("zp-affiliate-batch-feedback");
+          var fields = Object.create(null);
+          Array.prototype.forEach.call(document.querySelectorAll("input[data-zp-affiliate-key]"), function (input) {
+            fields[input.getAttribute("data-zp-affiliate-key")] = input;
+          });
+          if (!button || !source || !feedback) return;
+          button.addEventListener("click", function () {
+            var entries = source.value.replace(/\r/g, "").split("\n");
+            var seen = Object.create(null);
+            var pending = [];
+            var errors = [];
+            var count = 0;
+            entries.forEach(function (line, index) {
+              if (!line.trim()) return;
+              count++;
+              var cells = line.split("\t");
+              var key = cells[0] ? cells[0].trim() : "";
+              var value = cells[1] ? cells[1].trim() : "";
+              var lineNumber = index + 1;
+              if (cells.length !== 2 || !key || !value) {
+                errors.push("Řádek " + lineNumber + ": použijte klíč, TAB a URL.");
+                return;
+              }
+              if (!Object.prototype.hasOwnProperty.call(fields, key)) {
+                errors.push("Řádek " + lineNumber + ": neznámý slot.");
+                return;
+              }
+              if (seen[key]) {
+                errors.push("Řádek " + lineNumber + ": stejný slot je uveden vícekrát.");
+                return;
+              }
+              seen[key] = true;
+              var parsed;
+              try {
+                parsed = new URL(value);
+              } catch (error) {
+                errors.push("Řádek " + lineNumber + ": neplatná URL.");
+                return;
+              }
+              if (parsed.protocol !== "https:" || !parsed.hostname || parsed.username || parsed.password || /[\s<>"']/.test(value)) {
+                errors.push("Řádek " + lineNumber + ": povolen je pouze čistý HTTPS odkaz.");
+                return;
+              }
+              if (fields[key].value && fields[key].value !== value) {
+                errors.push("Řádek " + lineNumber + ": již vyplněný slot nebude přepsán.");
+                return;
+              }
+              if (!fields[key].value) pending.push({ input: fields[key], value: value });
+            });
+            if (!count) {
+              feedback.textContent = "Vložte alespoň jeden řádek ve formátu klíč, TAB a HTTPS odkaz.";
+              return;
+            }
+            if (errors.length) {
+              feedback.textContent = "Nic se nezměnilo. " + errors.slice(0, 5).join(" ");
+              return;
+            }
+            pending.forEach(function (entry) { entry.input.value = entry.value; });
+            feedback.textContent = "Připraveno " + pending.length + " nových odkazů. Zkontrolujte je níže a potom uložte formulář.";
+          });
         })();
         document.addEventListener("click", function (event) {
           var jump = event.target.closest(".zp-focus-affiliate-field");
@@ -569,6 +640,7 @@ function zaprazi_2_render_settings_page() {
                 type="url"
                 class="regular-text code"
                 id="<?php echo esc_attr( 'zp-aff-' . md5( $key ) ); ?>"
+                data-zp-affiliate-key="<?php echo esc_attr( $key ); ?>"
                 name="zaprazi_affiliate_map[<?php echo esc_attr( $key ); ?>]"
                 value="<?php echo esc_attr( $current_url ); ?>"
                 placeholder="https://..."

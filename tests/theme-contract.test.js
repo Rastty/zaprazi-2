@@ -257,6 +257,9 @@ test("GA4 loads only after explicit consent and receives only whitelisted generi
   assert.match(analytics, /recommendation_view/);
   assert.match(analytics, /product_click/);
   assert.match(analytics, /merchant_click/);
+  assert.match(analytics, /affiliate_click/);
+  assert.match(analytics, /a\[rel~=/);
+  assert.match(analytics, /link\.closest\("\.zp-result"\)/);
   assert.match(analytics, /allowedEvents\.has/);
   assert.match(analytics, /allow_google_signals: false/);
   assert.match(analytics, /allow_ad_personalization_signals: false/);
@@ -287,6 +290,7 @@ test("privacy page transparently documents strict opt-in analytics without Advis
   assert.match(privacy, /Odpovědi neposíláme do analytiky/);
   assert.match(privacy, /builder_start/);
   assert.match(privacy, /merchant_click/);
+  assert.match(privacy, /affiliate_click/);
   assert.match(privacy, /zaprazi_analytics_consent_v1/);
   assert.match(privacy, /_ga/);
   assert.match(privacy, /Google Signals/);

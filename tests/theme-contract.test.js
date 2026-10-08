@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
+import vm from "node:vm";
 
 const read = (path) => fs.readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -556,6 +557,72 @@ test("affiliate deeplink workbench is network-aware and keeps RehaVita on eHUB",
 
   assert.match(functions, /'network' => \$network\['network'\]/);
   assert.match(functions, /'program' => \$network\['program'\]/);
+});
+
+
+test("deeplink workbench filters missing slots by network and focuses the exact field", () => {
+  const functions = read("functions.php");
+
+  assert.match(functions, /id="zp-affiliate-network-filter"/);
+  assert.match(functions, /data-zp-affiliate-network/);
+  assert.match(functions, /class="zp-focus-affiliate-field"/);
+  assert.match(functions, /role="status" aria-live="polite"/);
+  assert.match(functions, /'zp-aff-' \. md5\( \$item\['key'\] \)/);
+  assert.match(functions, /'zp-aff-' \. md5\( \$key \)/);
+
+  const section = functions.slice(functions.indexOf('id="zp-affiliate-network-filter"'));
+  const scriptMatch = section.match(/<script>([\s\S]*?)<\/script>/);
+  assert.ok(scriptMatch, "workbench interactive logic exists");
+
+  const filter = { value: "", addEventListener(type, handler) {
+    assert.equal(type, "change");
+    this.onChange = handler;
+  } };
+  const count = { textContent: "" };
+  const rows = ["VIV/CJ", "eHUB", "VIV/CJ"].map((network) => ({
+    hidden: false,
+    getAttribute(name) {
+      assert.equal(name, "data-zp-affiliate-network");
+      return network;
+    },
+  }));
+  const input = { focused: false, scrolled: false, focus() { this.focused = true; },
+    scrollIntoView() { this.scrolled = true; } };
+  const events = {};
+  const document = {
+    getElementById(id) {
+      if (id === "zp-affiliate-network-filter") return filter;
+      if (id === "zp-affiliate-visible-count") return count;
+      if (id === "zp-aff-example") return input;
+      return null;
+    },
+    querySelectorAll(selector) {
+      assert.equal(selector, "tr[data-zp-affiliate-network]");
+      return rows;
+    },
+    addEventListener(type, callback) { events[type] = callback; },
+  };
+  vm.runInNewContext(scriptMatch[1], { document, navigator: {}, window: {} });
+
+  assert.equal(count.textContent, "Zobrazeno 3 z 3 chybějících odkazů");
+  filter.value = "eHUB";
+  filter.onChange();
+  assert.deepEqual(rows.map((row) => row.hidden), [true, false, true]);
+  assert.equal(count.textContent, "Zobrazeno 1 z 3 chybějících odkazů");
+
+  let prevented = false;
+  events.click({
+    target: { closest(selector) {
+      if (selector === ".zp-focus-affiliate-field") {
+        return { getAttribute() { return "#zp-aff-example"; } };
+      }
+      return null;
+    } },
+    preventDefault() { prevented = true; },
+  });
+  assert.equal(prevented, true);
+  assert.equal(input.focused, true);
+  assert.equal(input.scrolled, true);
 });
 
 

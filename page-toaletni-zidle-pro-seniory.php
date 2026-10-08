@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_53 */
+/* ZP_RELEASE_0_8_54 */
 /*
 Template Name: Zápraží — Toaletní židle pro seniory
 */

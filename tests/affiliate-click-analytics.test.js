@@ -46,7 +46,7 @@ function harness(savedConsent = null) {
     const target = { closest(selector) { return selector === 'a[rel~="sponsored"]' && kind === "affiliate" ? link : null; } };
     listeners["document:click"]({ target });
   };
-  const eventNames = () => (window.dataLayer || []).map((args) => Array.from(args)).filter((args) => args[0] === "event").map((args) => args[1]);
+  const eventNames = () => Array.from(window.dataLayer || [], (args) => Array.from(args)).filter((args) => args[0] === "event").map((args) => args[1]);
   return {
     click, eventNames, consent, listeners, banner, appendedScripts, get reloads() { return reloads; }
   };

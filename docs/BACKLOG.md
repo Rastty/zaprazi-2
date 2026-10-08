@@ -2155,7 +2155,7 @@ Boundary: no invented tracking URLs, no new stored personal data, no changes to 
 
 
 ### ZP-104 Safe affiliate batch entry + release 0.8.51
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages merged PR #146 on top of user-reported 0.8.50 deployment:
 - admin-only textarea for multiple `slot-key<TAB>https://network-generated-link` lines,
@@ -2169,3 +2169,19 @@ Packages merged PR #146 on top of user-reported 0.8.50 deployment:
 Limitations: URL ownership/destination and affiliate-network attribution are NOT validated by this admin helper, and only publisher-generated, account-verified links should be pasted. Server-side WordPress HTTPS sanitization stays unchanged. No change to recommendation order, questionnaire data or outbound analytics.
 
 Deploy the merged release from `dev` and verify `zaprazi-release=0.8.51`, integrity `ok`, affiliate workbench and the read-only readiness endpoint.
+
+
+### ZP-105 Network-filtered missing target export + release 0.8.52
+Status: **READY_DEPLOY**
+
+Packages merged PR #148 and its green CI checks on top of user-reported 0.8.51 deployment:
+- WordPress affiliate admin button generates TSV of **only missing** product slots for the selected affiliate network,
+- rows contain network, program, slot key and canonical merchant destination only,
+- blank canonical targets are excluded,
+- selected text can be manually copied, with optional clipboard integration,
+- explicit warning prevents re-import of canonical target export into tracking deeplink importer,
+- keeps existing batch import and server-side validation unchanged,
+- no fabricated publisher deeplinks, saved tokens or visitor data,
+- full 0.8.52 integrity markers across 42 critical files.
+
+Release from dev and verify public `zaprazi-release=0.8.52` and `zaprazi-integrity=ok`, readiness API and admin export with single selected network.

@@ -2101,7 +2101,7 @@ Deploy only this release from `dev`.
 
 
 ### ZP-101 Affiliate deeplink workbench
-Status: **DONE_CODE / RELEASE_NEXT**
+Status: **PACKAGED_IN_0_8_50**
 
 Turns the WordPress affiliate admin into a network-aware batch workbench for missing deeplinks.
 
@@ -2140,3 +2140,15 @@ Packages:
 - full release-integrity marker bump across all critical runtime files.
 
 Deploy only this release from `dev`.
+
+
+### ZP-102 Faster affiliate deeplink entry + release 0.8.50
+Status: **READY_DEPLOY**
+
+Packages merged PR #144 on top of 0.8.49:
+- missing-slot filter by VIV/CJ or eHUB network with accessible visible count,
+- focus jump from each missing slot to its corresponding WordPress affiliate input,
+- behavioral Node test exercising filtering and focus,
+- integrity marker bump across all critical PHP, JS and CSS runtime files.
+
+Boundary: no invented tracking URLs, no new stored personal data, no changes to recommendation rules, product ranking, pricing or merchant routing. Deploy 0.8.50 from dev after main/dev are aligned. Smoke the affiliate admin, public release/integrity markers and readiness API.

@@ -718,11 +718,13 @@ test("affiliate batch entry is atomic, HTTPS-only, and never overwrites populate
   const filter = { value: "", addEventListener() {} };
   const count = { textContent: "" };
   const fields = [
-    { key: "unizdrav-cz:p2868", value: "", getAttribute(name) {
+    { key: "unizdrav-cz:p2868", value: "", target: "https://unizdrav.cz/zbozi/2868/zvysovac-wc-s-priklopem-unizdrav-15-cm", getAttribute(name) {
+      if (name === "data-zp-affiliate-target") return this.target;
       assert.equal(name, "data-zp-affiliate-key");
       return this.key;
     } },
-    { key: "rehavita-cz:open-it-15-050105", value: "", getAttribute(name) {
+    { key: "rehavita-cz:open-it-15-050105", value: "", target: "https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/", getAttribute(name) {
+      if (name === "data-zp-affiliate-target") return this.target;
       assert.equal(name, "data-zp-affiliate-key");
       return this.key;
     } },
@@ -762,6 +764,11 @@ test("affiliate batch entry is atomic, HTTPS-only, and never overwrites populate
   onApply();
   assert.equal(fields[0].value, "", "plain HTTP is rejected");
 
+  source.value = "unizdrav-cz:p2868\thttps://unizdrav.cz/zbozi/2868/zvysovac-wc-s-priklopem-unizdrav-15-cm/";
+  onApply();
+  assert.equal(fields[0].value, "", "plain canonical merchant target is rejected");
+  assert.match(feedback.textContent, /běžná produktová URL/);
+
   source.value = first + "\n" + second;
   onApply();
   assert.equal(fields[0].value, "https://tracking.example/a");
@@ -778,6 +785,19 @@ test("affiliate batch entry is atomic, HTTPS-only, and never overwrites populate
   assert.match(feedback.textContent, /Připraveno 0 nových odkazů/);
 });
 
+
+test("canonical merchant URL is not saved or marked as verified affiliate routing", () => {
+  const functions = read("functions.php");
+  assert.match(functions, /function zaprazi_2_is_plain_product_target/);
+  assert.match(functions, /function zaprazi_2_effective_affiliate_map/);
+  assert.match(functions, /function zaprazi_2_sanitize_affiliate_map/);
+  assert.match(functions, /settings_errors\( 'zaprazi_affiliate_map' \)/);
+  assert.match(functions, /add_settings_error\(/);
+  assert.match(functions, /data-zp-affiliate-target="<\?php echo esc_attr\( \$target_url \); \?>"/);
+  assert.match(functions, /\$affiliate_map = zaprazi_2_effective_affiliate_map\(\)/);
+  assert.equal((functions.match(/\$values = zaprazi_2_effective_affiliate_map\(\)/g) || []).length, 2);
+  assert.match(functions, /return \$previous/);
+});
 
 test("affiliate admin shows slice readiness without changing recommendation logic", () => {
   const functions = read("functions.php");

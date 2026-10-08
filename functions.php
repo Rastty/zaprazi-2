@@ -463,6 +463,11 @@ function zaprazi_2_render_settings_page() {
         </select>
         <span id="zp-affiliate-visible-count" role="status" aria-live="polite"></span>
       </p>
+      <p><button type="button" id="zp-affiliate-export-missing" class="button button-secondary">Připravit přehled chybějících produktů (TSV)</button></p>
+      <p id="zp-affiliate-export-status" role="status" aria-live="polite"></p>
+      <label for="zp-affiliate-export-text"><strong>Přehled pro generování partnerských odkazů</strong></label>
+      <textarea id="zp-affiliate-export-text" rows="6" style="width:100%;max-width:860px;display:block;margin:8px 0" readonly hidden></textarea>
+      <p><small>Export obsahuje pouze síť, program, slot a běžnou produktovou URL. <strong>Nevkládejte ho zpět do hromadného vložení.</strong> Tam patří až nové partnerské odkazy vytvořené ve schválené síti.</small></p>
       <table class="widefat striped" style="margin:12px 0 22px">
         <thead>
           <tr>
@@ -474,7 +479,7 @@ function zaprazi_2_render_settings_page() {
         </thead>
         <tbody>
         <?php foreach ( $missing_workbench as $item ) : ?>
-          <tr data-zp-affiliate-network="<?php echo esc_attr( $item['network'] ); ?>">
+          <tr data-zp-affiliate-network="<?php echo esc_attr( $item['network'] ); ?>" data-zp-affiliate-program="<?php echo esc_attr( $item['program'] ); ?>" data-zp-affiliate-key="<?php echo esc_attr( $item['key'] ); ?>" data-zp-affiliate-target="<?php echo esc_attr( $item['target'] ); ?>">
             <td>
               <strong><?php echo esc_html( $item['network'] ); ?></strong>
               <?php if ( $item['program'] ) : ?><br><small><?php echo esc_html( $item['program'] ); ?></small><?php endif; ?>
@@ -606,6 +611,56 @@ function zaprazi_2_render_settings_page() {
             window.setTimeout(function () { button.textContent = original; }, 1400);
           });
         });
+      </script>
+      <script>
+        (function () {
+          var button = document.getElementById("zp-affiliate-export-missing");
+          var output = document.getElementById("zp-affiliate-export-text");
+          var status = document.getElementById("zp-affiliate-export-status");
+          var filter = document.getElementById("zp-affiliate-network-filter");
+          if (!button || !output || !status || !filter) return;
+
+          button.addEventListener("click", function () {
+            var entries = Array.prototype.slice.call(document.querySelectorAll("tr[data-zp-affiliate-network]"))
+              .filter(function (row) {
+                return !filter.value || row.getAttribute("data-zp-affiliate-network") === filter.value;
+              })
+              .map(function (row) {
+                var values = [
+                  row.getAttribute("data-zp-affiliate-network"),
+                  row.getAttribute("data-zp-affiliate-program"),
+                  row.getAttribute("data-zp-affiliate-key"),
+                  row.getAttribute("data-zp-affiliate-target")
+                ];
+                if (!values[2] || !values[3] || !/^https:\/\//.test(values[3])) return null;
+                return values.map(function (value) {
+                  return String(value || "").replace(/[\t\r\n]/g, " ");
+                }).join("\t");
+              }).filter(Boolean);
+
+            if (!entries.length) {
+              output.hidden = true;
+              output.value = "";
+              status.textContent = "Pro vybranou síť nejsou žádné chybějící produktové adresy.";
+              return;
+            }
+
+            var text = ["Síť\tProgram\tSlot\tCílová produktová URL"].concat(entries).join("\n");
+            output.value = text;
+            output.hidden = false;
+            output.focus();
+            output.select();
+
+            status.textContent = "Připraven přehled " + entries.length + " produktů. Text můžete zkopírovat ručně.";
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(text).then(function () {
+                status.textContent = "Zkopírován přehled " + entries.length + " produktů. Partnerské odkazy vytvořte až v příslušné síti.";
+              }).catch(function () {
+                status.textContent = "Přehled je označený. Zkopírujte ho ručně.";
+              });
+            }
+          });
+        })();
       </script>
     <?php else : ?>
       <div class="notice notice-success inline"><p><strong>Všechny affiliate sloty jsou vyplněné.</strong></p></div>

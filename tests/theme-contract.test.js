@@ -627,6 +627,76 @@ test("deeplink workbench filters missing slots by network and focuses the exact 
 });
 
 
+test("affiliate target export includes only missing canonical destinations from selected network", () => {
+  const functions = read("functions.php");
+  assert.match(functions, /id="zp-affiliate-export-missing"/);
+  assert.match(functions, /id="zp-affiliate-export-text"/);
+  assert.match(functions, /data-zp-affiliate-program/);
+  assert.match(functions, /data-zp-affiliate-target/);
+  assert.match(functions, /Nevkládejte ho zpět do hromadného vložení/);
+
+  const section = functions.slice(functions.indexOf('id="zp-affiliate-export-missing"'));
+  const scripts = [...section.matchAll(/<script>([\s\S]*?)<\/script>/g)];
+  assert.ok(scripts.length >= 2, "separate export script exists");
+
+  let exportHandler;
+  const button = { addEventListener(name, callback) {
+    assert.equal(name, "click");
+    exportHandler = callback;
+  } };
+  const output = { value: "", hidden: true, selected: false, focused: false,
+    focus() { this.focused = true; },
+    select() { this.selected = true; } };
+  const status = { textContent: "" };
+  const filter = { value: "eHUB" };
+  const rows = [
+    { "data-zp-affiliate-network": "VIV/CJ", "data-zp-affiliate-program": "CJ", "data-zp-affiliate-key": "unizdrav-cz:p2868", "data-zp-affiliate-target": "https://unizdrav.cz/zbozi/2868/" },
+    { "data-zp-affiliate-network": "eHUB", "data-zp-affiliate-program": "18119967", "data-zp-affiliate-key": "rehavita-cz:open-it-15-050105", "data-zp-affiliate-target": "https://www.rehavita.cz/product/" },
+    { "data-zp-affiliate-network": "eHUB", "data-zp-affiliate-program": "18119967", "data-zp-affiliate-key": "rehavita-cz:missing-target", "data-zp-affiliate-target": "" },
+  ].map((attributes) => ({
+    getAttribute(name) { return attributes[name] ?? null; }
+  }));
+
+  const document = {
+    getElementById(id) {
+      return {
+        "zp-affiliate-export-missing": button,
+        "zp-affiliate-export-text": output,
+        "zp-affiliate-export-status": status,
+        "zp-affiliate-network-filter": filter
+      }[id] || null;
+    },
+    querySelectorAll(selector) {
+      assert.equal(selector, "tr[data-zp-affiliate-network]");
+      return rows;
+    }
+  };
+  vm.runInNewContext(scripts.at(-1)[1], { document, navigator: {} });
+  assert.equal(typeof exportHandler, "function");
+
+  exportHandler();
+  assert.match(output.value, /^Síť\tProgram\tSlot\tCílová produktová URL/);
+  assert.match(output.value, /rehavita-cz:open-it-15-050105\thttps:\/\/www\.rehavita\.cz\/product\//);
+  assert.doesNotMatch(output.value, /unizdrav-cz:p2868/);
+  assert.doesNotMatch(output.value, /missing-target/);
+  assert.equal(output.value.split("\n").length, 2);
+  assert.equal(output.hidden, false);
+  assert.equal(output.focused, true);
+  assert.equal(output.selected, true);
+
+  filter.value = "No match";
+  exportHandler();
+  assert.equal(output.value, "");
+  assert.equal(output.hidden, true);
+  assert.match(status.textContent, /nejsou žádné/);
+
+  filter.value = "";
+  exportHandler();
+  assert.equal(output.value.split("\n").length, 3, "all networks export two real canonical destinations");
+  assert.doesNotMatch(output.value, /https:\/\/tracking\./);
+});
+
+
 test("affiliate batch entry is atomic, HTTPS-only, and never overwrites populated slots", () => {
   const functions = read("functions.php");
   assert.match(functions, /id="zp-affiliate-batch-input"/);

@@ -2172,7 +2172,7 @@ Deploy the merged release from `dev` and verify `zaprazi-release=0.8.51`, integr
 
 
 ### ZP-105 Network-filtered missing target export + release 0.8.52
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages merged PR #148 and its green CI checks on top of user-reported 0.8.51 deployment:
 - WordPress affiliate admin button generates TSV of **only missing** product slots for the selected affiliate network,
@@ -2185,3 +2185,16 @@ Packages merged PR #148 and its green CI checks on top of user-reported 0.8.51 d
 - full 0.8.52 integrity markers across 42 critical files.
 
 Release from dev and verify public `zaprazi-release=0.8.52` and `zaprazi-integrity=ok`, readiness API and admin export with single selected network.
+
+
+### ZP-106 Local printable return-home plan + release 0.8.53
+Status: **READY_DEPLOY**
+
+Packages the merged PR #150 after user-reported 0.8.52 deployment:
+- A locally printed, result-only practical preparation plan on `/navrat-z-nemocnice/` after the existing questionnaire is completed.
+- Print CSS removes surrounding questionnaire, navigation, cookie consent, unrelated sections and the print button from the paper/PDF output.
+- Browser-native print dialog; no upload, server submission, URL health-answer parameters, stored responses or analytics events.
+- Existing safety gates, medicine/professional advice boundary and navigation to specialized Advisors stay unchanged.
+- Accessibility/privacy contract test and full integrity marker bump to 0.8.53 across 42 critical runtime files.
+
+After deploy verify `zaprazi-release=0.8.53`, `zaprazi-integrity=ok` and mobile/desktop print preview with a completed return-home result. Browser print output is user-controlled and may include personal situational context, so the UI encourages keeping it private.

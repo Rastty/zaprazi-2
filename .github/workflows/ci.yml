@@ -14,15 +14,9 @@ jobs:
         with:
           node-version: 20
       - run: npm test
-      - name: Check frontend JavaScript syntax
+      - name: Check every JavaScript source and test syntax
         run: |
-          node --check assets/js/runtime-config.js
-          node --check assets/js/analytics-consent.js
-          node --check assets/js/mobility-advisor.js
-          node --check src/mobility/engine.js
-          node --check src/mobility/catalog.js
-          node --check src/mobility/acquisition.js
-          node --check src/evidence/freshness.js
+          find assets/js src tests -type f -name '*.js' -print0 | xargs -0 -r -n1 node --check
       - name: Guard advisor privacy fallback
         run: |
           if grep -q '<form id="zp-mobility-advisor"' front-page.php; then

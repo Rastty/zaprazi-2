@@ -529,6 +529,7 @@ function zaprazi_2_render_settings_page() {
           Array.prototype.forEach.call(document.querySelectorAll("input[data-zp-affiliate-key]"), function (input) {
             fields[input.getAttribute("data-zp-affiliate-key")] = input;
           });
+          if (!button || !source || !feedback) return;
           button.addEventListener("click", function () {
             var entries = source.value.replace(/\r/g, "").split("\n");
             var seen = Object.create(null);

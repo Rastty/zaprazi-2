@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_51
+// ZP_RELEASE_0_8_52
 import { recommendAdjustableBed } from "../../src/bed/engine.js";
 import { getAdjustableBedProducts } from "../../src/bed/catalog.js";
 

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_51 */
+/* ZP_RELEASE_0_8_52 */
 /*
 Template Name: Zápraží — Kompenzační pomůcky pro seniory
 */

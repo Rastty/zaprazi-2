@@ -8,9 +8,14 @@ const submit=document.querySelector("#zp-indoor-walker-submit");
 const errors=document.querySelector("#zp-indoor-walker-errors");
 const runtime=window.ZaPraziRuntime||{affiliateMap:{}};
 const affiliateMap=runtime.affiliateMap||{};
-const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");\nconst track=(eventName)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{detail:{event:eventName}}));
+const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+const track=(eventName)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{detail:{event:eventName}}));
 
 if(form&&result&&submit&&errors){
+  let builderStarted=false;
+  form.addEventListener("change",()=>{
+    if(!builderStarted){builderStarted=true;track("builder_start");}
+  });
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
   const validate=()=>{
     const missing=[...form.querySelectorAll("[data-zp-indoor-required]")].filter(g=>!val(g.dataset.zpIndoorRequired));
@@ -37,6 +42,9 @@ if(form&&result&&submit&&errors){
     const ids=out.recommendations.flatMap(r=>r.productCandidateIds??[]);
     const products=getMobilityProducts(ids);
     result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
-    result.querySelectorAll("[data-zp-indoor-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));\n    result.hidden=false;result.focus();
+    result.querySelectorAll("[data-zp-indoor-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
+    track("builder_complete");
+    if(out.status==="candidate"&&products.length) track("recommendation_view");
+    result.hidden=false;result.focus();
   });
 }

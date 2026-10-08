@@ -164,6 +164,31 @@ function zaprazi_2_affiliate_targets() {
   );
 }
 
+function zaprazi_2_is_plain_product_target( $key, $url ) {
+  $targets = zaprazi_2_affiliate_targets();
+  if ( ! is_string( $url ) || ! isset( $targets[ $key ] ) ) return false;
+  $candidate = wp_parse_url( trim( $url ) );
+  $original = wp_parse_url( $targets[ $key ] );
+  if ( ! is_array( $candidate ) || ! is_array( $original ) || ! empty( $candidate['query'] ) ) return false;
+  return strtolower( $candidate['scheme'] ?? '' ) === strtolower( $original['scheme'] ?? '' )
+    && strtolower( $candidate['host'] ?? '' ) === strtolower( $original['host'] ?? '' )
+    && rtrim( $candidate['path'] ?? '', '/' ) === rtrim( $original['path'] ?? '', '/' );
+}
+
+function zaprazi_2_effective_affiliate_map() {
+  $stored = get_option( 'zaprazi_affiliate_map', array() );
+  if ( ! is_array( $stored ) ) return array();
+  $allowed = zaprazi_2_affiliate_fields();
+  $active = array();
+  foreach ( $stored as $key => $url ) {
+    if ( ! isset( $allowed[ $key ] ) || ! is_string( $url ) || 0 !== strpos( $url, 'https://' ) ) continue;
+    $parts = wp_parse_url( $url );
+    if ( ! is_array( $parts ) || empty( $parts['host'] ) || zaprazi_2_is_plain_product_target( $key, $url ) ) continue;
+    $active[ $key ] = $url;
+  }
+  return $active;
+}
+
 function zaprazi_2_affiliate_groups() {
   return array(
     'mobility' => array(
@@ -271,10 +296,7 @@ function zaprazi_2_affiliate_network_for_key( $key ) {
 }
 
 function zaprazi_2_affiliate_readiness_payload() {
-  $values = get_option( 'zaprazi_affiliate_map', array() );
-  if ( ! is_array( $values ) ) {
-    $values = array();
-  }
+  $values = zaprazi_2_effective_affiliate_map();
 
   $fields = zaprazi_2_affiliate_fields();
   $targets = zaprazi_2_affiliate_targets();
@@ -341,24 +363,31 @@ function zaprazi_2_register_affiliate_readiness_route() {
 add_action( 'rest_api_init', 'zaprazi_2_register_affiliate_readiness_route' );
 
 function zaprazi_2_sanitize_affiliate_map( $value ) {
+  $previous = get_option( 'zaprazi_affiliate_map', array() );
+  if ( ! is_array( $previous ) ) $previous = array();
+  if ( ! is_array( $value ) ) {
+    add_settings_error( 'zaprazi_affiliate_map', 'zaprazi_affiliate_invalid', 'Affiliate odkazy nebyly uloženy: neplatný formát. Původní nastavení zůstává beze změny.', 'error' );
+    return $previous;
+  }
   $allowed = zaprazi_2_affiliate_fields();
   $clean = array();
-
-  if ( ! is_array( $value ) ) {
-    return $clean;
-  }
-
+  $invalid = 0;
   foreach ( $allowed as $key => $label ) {
-    if ( empty( $value[ $key ] ) ) {
+    if ( ! isset( $value[ $key ] ) ) continue;
+    if ( ! is_string( $value[ $key ] ) ) { $invalid++; continue; }
+    if ( '' === trim( $value[ $key ] ) ) continue;
+    $url = esc_url_raw( trim( $value[ $key ] ), array( 'https' ) );
+    $parts = $url ? wp_parse_url( $url ) : false;
+    if ( ! $url || 0 !== strpos( $url, 'https://' ) || ! is_array( $parts ) || empty( $parts['host'] ) || zaprazi_2_is_plain_product_target( $key, $url ) ) {
+      $invalid++;
       continue;
     }
-
-    $url = esc_url_raw( trim( $value[ $key ] ), array( 'https' ) );
-    if ( $url && 0 === strpos( $url, 'https://' ) ) {
-      $clean[ $key ] = $url;
-    }
+    $clean[ $key ] = $url;
   }
-
+  if ( $invalid ) {
+    add_settings_error( 'zaprazi_affiliate_map', 'zaprazi_affiliate_invalid', 'Affiliate odkazy nebyly uloženy: ' . (int) $invalid . ' neplatných položek (HTTP, neplatná URL nebo běžná produktová URL). Původní nastavení zůstává beze změny.', 'error' );
+    return $previous;
+  }
   return $clean;
 }
 
@@ -391,10 +420,7 @@ function zaprazi_2_render_settings_page() {
     return;
   }
 
-  $values = get_option( 'zaprazi_affiliate_map', array() );
-  if ( ! is_array( $values ) ) {
-    $values = array();
-  }
+  $values = zaprazi_2_effective_affiliate_map();
 
   $fields = zaprazi_2_affiliate_fields();
   $targets = zaprazi_2_affiliate_targets();
@@ -436,6 +462,8 @@ function zaprazi_2_render_settings_page() {
   ?>
   <div class="wrap">
     <h1>Zápraží affiliate routing</h1>
+    <?php settings_errors( 'zaprazi_affiliate_map' ); ?>
+    <p><strong>Kontrola odkazů:</strong> obyčejné produktové URL ze seznamu cílů nejsou partnerské odkazy. Pokud je některá nová položka neplatná, WordPress neuloží žádnou změnu a původní odkazy zůstanou zachované.</p>
     <p>Vkládejte pouze přesné, ověřené partnerské deeplinky vygenerované schváleným affiliate účtem. Prázdné pole znamená bezpečný fallback na běžný produktový odkaz.</p>
 
     <div class="notice notice-info inline" style="margin:16px 0 18px">
@@ -531,8 +559,11 @@ function zaprazi_2_render_settings_page() {
           var source = document.getElementById("zp-affiliate-batch-input");
           var feedback = document.getElementById("zp-affiliate-batch-feedback");
           var fields = Object.create(null);
+          var canonical = Object.create(null);
           Array.prototype.forEach.call(document.querySelectorAll("input[data-zp-affiliate-key]"), function (input) {
-            fields[input.getAttribute("data-zp-affiliate-key")] = input;
+            var key = input.getAttribute("data-zp-affiliate-key");
+            fields[key] = input;
+            canonical[key] = input.getAttribute("data-zp-affiliate-target") || "";
           });
           if (!button || !source || !feedback) return;
           button.addEventListener("click", function () {
@@ -571,6 +602,16 @@ function zaprazi_2_render_settings_page() {
               if (parsed.protocol !== "https:" || !parsed.hostname || parsed.username || parsed.password || /[\s<>"']/.test(value)) {
                 errors.push("Řádek " + lineNumber + ": povolen je pouze čistý HTTPS odkaz.");
                 return;
+              }
+              if (canonical[key]) {
+                var original = new URL(canonical[key]);
+                if (parsed.protocol === original.protocol &&
+                    parsed.hostname.toLowerCase() === original.hostname.toLowerCase() &&
+                    parsed.pathname.replace(/\/+$/, "") === original.pathname.replace(/\/+$/, "") &&
+                    !parsed.search) {
+                  errors.push("Řádek " + lineNumber + ": běžná produktová URL není partnerský odkaz.");
+                  return;
+                }
               }
               if (fields[key].value && fields[key].value !== value) {
                 errors.push("Řádek " + lineNumber + ": již vyplněný slot nebude přepsán.");
@@ -696,6 +737,7 @@ function zaprazi_2_render_settings_page() {
                 class="regular-text code"
                 id="<?php echo esc_attr( 'zp-aff-' . md5( $key ) ); ?>"
                 data-zp-affiliate-key="<?php echo esc_attr( $key ); ?>"
+                data-zp-affiliate-target="<?php echo esc_attr( $target_url ); ?>"
                 name="zaprazi_affiliate_map[<?php echo esc_attr( $key ); ?>]"
                 value="<?php echo esc_attr( $current_url ); ?>"
                 placeholder="https://..."
@@ -846,10 +888,7 @@ function zaprazi_2_assets() {
       false
     );
 
-    $affiliate_map = get_option( 'zaprazi_affiliate_map', array() );
-    if ( ! is_array( $affiliate_map ) ) {
-      $affiliate_map = array();
-    }
+    $affiliate_map = zaprazi_2_effective_affiliate_map();
 
     wp_add_inline_script(
       'zaprazi-runtime-config',

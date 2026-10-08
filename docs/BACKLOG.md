@@ -2142,8 +2142,8 @@ Packages:
 Deploy only this release from `dev`.
 
 
-### ZP-102 Faster affiliate deeplink entry + release 0.8.50
-Status: **READY_DEPLOY**
+### ZP-103 Faster affiliate deeplink entry + release 0.8.50
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages merged PR #144 on top of 0.8.49:
 - missing-slot filter by VIV/CJ or eHUB network with accessible visible count,
@@ -2152,3 +2152,20 @@ Packages merged PR #144 on top of 0.8.49:
 - integrity marker bump across all critical PHP, JS and CSS runtime files.
 
 Boundary: no invented tracking URLs, no new stored personal data, no changes to recommendation rules, product ranking, pricing or merchant routing. Deploy 0.8.50 from dev after main/dev are aligned. Smoke the affiliate admin, public release/integrity markers and readiness API.
+
+
+### ZP-104 Safe affiliate batch entry + release 0.8.51
+Status: **READY_DEPLOY**
+
+Packages merged PR #146 on top of user-reported 0.8.50 deployment:
+- admin-only textarea for multiple `slot-key<TAB>https://network-generated-link` lines,
+- all-or-nothing validation before any input changes,
+- rejects unknown and duplicate keys, invalid/non-HTTPS links and overwrites of existing slots,
+- never auto-saves: publisher must review and submit normal WordPress options form,
+- JS controls include visible error/success status; old single-slot workflow remains available,
+- behavioral Node tests cover import validation and protection of existing mapping,
+- full release marker bump to 0.8.51 across all 42 critical files.
+
+Limitations: URL ownership/destination and affiliate-network attribution are NOT validated by this admin helper, and only publisher-generated, account-verified links should be pasted. Server-side WordPress HTTPS sanitization stays unchanged. No change to recommendation order, questionnaire data or outbound analytics.
+
+Deploy the merged release from `dev` and verify `zaprazi-release=0.8.51`, integrity `ok`, affiliate workbench and the read-only readiness endpoint.

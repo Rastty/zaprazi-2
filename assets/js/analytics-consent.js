@@ -10,7 +10,8 @@
     "builder_complete",
     "recommendation_view",
     "product_click",
-    "merchant_click"
+    "merchant_click",
+    "affiliate_click"
   ]);
 
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) {
@@ -107,6 +108,17 @@
     if (typeof eventName === "string") {
       sendEvent(eventName);
     }
+  });
+
+  // Only track outbound links that the Advisor itself labels as affiliate.
+  // No destination URL, merchant name, product, or questionnaire answers are included.
+  // GA4 adapter silently drops this signal until explicit analytics consent is granted.
+  document.addEventListener("click", (event) => {
+    const link = event?.target?.closest?.('a[rel~="sponsored"]');
+    if (!link || !link.closest(".zp-result")) {
+      return;
+    }
+    sendEvent("affiliate_click");
   });
 
   const initUi = () => {

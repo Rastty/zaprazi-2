@@ -2216,7 +2216,7 @@ After deployment verify `zaprazi-release=0.8.54`, `zaprazi-integrity=ok`, affili
 
 
 ### ZP-108 Fix broken high-intent mobility Advisors and CI blind spot + release 0.8.55
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Includes fully tested/merged PR #154 after user-reported 0.8.54 deployment:
 - Fixes invalid literal backslash-n tokens in `assets/js/indoor-walker-advisor.js` and `assets/js/rollator-advisor.js`, which prevented browser parsing of both high-intent advisor modules.
@@ -2226,3 +2226,18 @@ Includes fully tested/merged PR #154 after user-reported 0.8.54 deployment:
 - Full release integrity bump to 0.8.55 across all 42 critical files, plus `ZAPRAZI_RELEASE`, stylesheet version and tests.
 
 After deploy verify `zaprazi-release=0.8.55`, `zaprazi-integrity=ok`, and actually interact with both Advisors on their high-intent pages. Check no browser syntax errors and that recommended product links render only after safe validation.
+
+
+### ZP-109 Consent-only affiliate click measurement + release 0.8.56
+Status: **READY_DEPLOY**
+
+Packages feature PR #156 on top of user-reported 0.8.55 deployment:
+- A distinct generic `affiliate_click` event emitted only for click on a `rel=sponsored` link inside a generated Advisor result.
+- Consent adapter drops it until analytics explicitly permitted and after permission is revoked; no event parameters, merchant/product/network/URL/answer payload.
+- Existing `merchant_click` continues covering both canonical and affiliate outbound merchant navigation; affiliate count is a narrower signal, never equal to a confirmed commission or order.
+- Privacy page transparently documents the new event; behavior tests cover granted, denied, revocation and unrelated/regular links.
+- Full integrity marker bump to 0.8.56 across all 42 critical runtime files; stylesheet, tests and release constant aligned.
+
+Note: Google Analytics standard automatic enhanced-measurement outbound events are controlled separately in GA4 admin. These custom generic events carry no URL/product parameters, but review GA4 data collection settings before claiming all GA data is URL-free.
+
+After deploy verify `zaprazi-release=0.8.56`, `zaprazi-integrity=ok` and GA4 debug with opt-in test visitor: ordinary product link must not add `affiliate_click`, active sponsored advisor link must; no event without consent.

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_49 */
+/* ZP_RELEASE_0_8_50 */
 /*
 Template Name: Zápraží — Polohovací postel
 */

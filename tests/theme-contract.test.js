@@ -2271,16 +2271,16 @@ test("return-home plan can be printed locally without storing or submitting resp
 
   assert.match(app, /id="zp-return-home-print"/);
   assert.match(app, /Vytisknout plán pro rodinu/);
-  assert.match(app, /window\\.print\\(\\)/);
-  assert.match(app, /addEventListener\\("afterprint"/);
-  assert.match(app, /document\\.body\\.classList\\.remove\\("zp-return-print-mode"\\)/);
-  assert.match(app, /result\\.addEventListener\\("click"/);
+  assert.match(app, /window\.print\(\)/);
+  assert.match(app, /addEventListener\("afterprint"/);
+  assert.match(app, /document\.body\.classList\.remove\("zp-return-print-mode"\)/);
+  assert.match(app, /result\.addEventListener\("click"/);
   assert.match(app, /Tisk probíhá ve vašem prohlížeči/);
-  assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\\(/);
+  assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
   assert.match(css, /@media print/);
-  assert.match(css, /body\\.zp-return-print-mode > :not\\(main\\)/);
-  assert.match(css, /\\.zp-return-print-actions \\{ display: none/);
-  assert.match(css, /#zp-return-home-result\\[hidden\\]/);
+  assert.match(css, /body\.zp-return-print-mode > :not\(main\)/);
+  assert.match(css, /\.zp-return-print-actions \{ display: none/);
+  assert.match(css, /#zp-return-home-result\[hidden\]/);
   assert.match(page, /id="zp-return-home-result"/);
 });
 

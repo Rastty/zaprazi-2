@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_50
+// ZP_RELEASE_0_8_51
 import { chooseEasyFootwear } from "../../src/footwear/engine.js";
 
 const form = document.querySelector("#zp-footwear-advisor");

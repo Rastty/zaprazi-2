@@ -2188,7 +2188,7 @@ Release from dev and verify public `zaprazi-release=0.8.52` and `zaprazi-integri
 
 
 ### ZP-106 Local printable return-home plan + release 0.8.53
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages the merged PR #150 after user-reported 0.8.52 deployment:
 - A locally printed, result-only practical preparation plan on `/navrat-z-nemocnice/` after the existing questionnaire is completed.
@@ -2198,3 +2198,18 @@ Packages the merged PR #150 after user-reported 0.8.52 deployment:
 - Accessibility/privacy contract test and full integrity marker bump to 0.8.53 across 42 critical runtime files.
 
 After deploy verify `zaprazi-release=0.8.53`, `zaprazi-integrity=ok` and mobile/desktop print preview with a completed return-home result. Browser print output is user-controlled and may include personal situational context, so the UI encourages keeping it private.
+
+
+### ZP-107 Block untracked canonical product URLs + release 0.8.54
+Status: **READY_DEPLOY**
+
+Packages merged PR #152 after user-reported 0.8.53 deployment:
+- The admin batch importer detects and rejects when a plain canonical merchant product URL is pasted instead of an approved affiliate deeplink.
+- WordPress PHP sanitizer validates all affiliate slots atomically; on malformed/HTTP/plain canonical values it displays a settings error and keeps the previous configured map unchanged.
+- Effective runtime affiliate mapping and public readiness API exclude previously stored plain canonical URLs from tracking coverage, leaving the ordinary product fallback intact.
+- Existing valid network-generated tracking URLs remain unchanged, recommendation logic and ranking untouched.
+- JS batch behavior and real PHP sanitizer integration tested, plus complete 0.8.54 integrity marker bump across 42 runtime files.
+
+Important: This check rejects exact canonical targets (normalizing trailing slash). It is not an affiliate ownership validation: only tracking URLs copied from an approved publisher account should be configured. No personal or questionnaire responses are stored.
+
+After deployment verify `zaprazi-release=0.8.54`, `zaprazi-integrity=ok`, affiliate readiness, and WordPress admin's rejection notice on plain canonical target submission.

@@ -2201,7 +2201,7 @@ After deploy verify `zaprazi-release=0.8.53`, `zaprazi-integrity=ok` and mobile/
 
 
 ### ZP-107 Block untracked canonical product URLs + release 0.8.54
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / TECHNICAL_SMOKE_PENDING**
 
 Packages merged PR #152 after user-reported 0.8.53 deployment:
 - The admin batch importer detects and rejects when a plain canonical merchant product URL is pasted instead of an approved affiliate deeplink.
@@ -2213,3 +2213,16 @@ Packages merged PR #152 after user-reported 0.8.53 deployment:
 Important: This check rejects exact canonical targets (normalizing trailing slash). It is not an affiliate ownership validation: only tracking URLs copied from an approved publisher account should be configured. No personal or questionnaire responses are stored.
 
 After deployment verify `zaprazi-release=0.8.54`, `zaprazi-integrity=ok`, affiliate readiness, and WordPress admin's rejection notice on plain canonical target submission.
+
+
+### ZP-108 Fix broken high-intent mobility Advisors and CI blind spot + release 0.8.55
+Status: **READY_DEPLOY**
+
+Includes fully tested/merged PR #154 after user-reported 0.8.54 deployment:
+- Fixes invalid literal backslash-n tokens in `assets/js/indoor-walker-advisor.js` and `assets/js/rollator-advisor.js`, which prevented browser parsing of both high-intent advisor modules.
+- Adds consent-filtered generic funnel events (`builder_start`, `builder_complete`, `recommendation_view`) to these two advisers. No answer or recommendation attributes transmitted.
+- Extends GitHub CI `node --check` to every JS file under `assets/js`, `src` and `tests`; adds regression tests for both files.
+- Product safety gates, selection and affiliate ranking unchanged.
+- Full release integrity bump to 0.8.55 across all 42 critical files, plus `ZAPRAZI_RELEASE`, stylesheet version and tests.
+
+After deploy verify `zaprazi-release=0.8.55`, `zaprazi-integrity=ok`, and actually interact with both Advisors on their high-intent pages. Check no browser syntax errors and that recommended product links render only after safe validation.

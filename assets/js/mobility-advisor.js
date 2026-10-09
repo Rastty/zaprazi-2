@@ -150,7 +150,7 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
-  const renderProducts = (products) => {
+  const renderProducts = (products, fitOptions = {}) => {
     if (!products.length) return "";
 
     return `
@@ -169,7 +169,7 @@ if (form && result && submitButton && errorBox) {
               </details>
               ${renderSources(product.evidence)}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
-              ${renderMobilityProductFitGate(renderOffers(product.offers))}
+              ${renderMobilityProductFitGate(renderOffers(product.offers), fitOptions)}
             </article>
           `).join("")}
         </div>
@@ -267,12 +267,13 @@ if (form && result && submitButton && errorBox) {
 
   const updateConditionalQuestions = () => {
     const environment = checkedValue("environment", "");
+    const seatNeeded = isChecked("seatNeeded");
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
       const condition = section.dataset.zpConditional;
       const show = condition === "indoor"
         ? environment === "indoor"
         : condition === "outdoor"
-          ? environment === "outdoor" || environment === "both"
+          ? environment === "outdoor" || environment === "both" || seatNeeded
           : true;
 
       section.hidden = !show;
@@ -289,7 +290,7 @@ if (form && result && submitButton && errorBox) {
   updateConditionalQuestions();
 
   form.addEventListener("change", (event) => {
-    if (event.target?.name === "environment") {
+    if (["environment", "seatNeeded"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 
@@ -318,6 +319,10 @@ if (form && result && submitButton && errorBox) {
     }
 
     const duration = checkedValue("duration", "unknown");
+    const fitOptions = {
+      requireSeatFit: isChecked("seatNeeded"),
+      requireTransportFit: isChecked("transportNeed")
+    };
     const output = recommendMobility({
       environment: checkedValue("environment"),
       supportNeed: checkedValue("supportNeed"),
@@ -365,7 +370,7 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
-      ${renderProducts(products)}
+      ${renderProducts(products, fitOptions)}
       ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}

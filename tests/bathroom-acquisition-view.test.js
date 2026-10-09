@@ -68,3 +68,30 @@ test("acquisition markup escapes engine text and never constructs user-derived U
   assert.equal(renderBathroomAcquisition([],escapeHtml),"");
   assert.throws(()=>renderBathroomAcquisition([{id:"x"}]),/escape function required/);
 });
+
+
+test("rental advice explains a real local verification journey, without a national availability claim", () => {
+  for (const duration of ["short_term", "long_term", "unknown"]) {
+    const result = recommendBathroom({...cases[0][1], duration});
+    const html = renderBathroomAcquisition(result.acquisition, escapeHtml);
+    assert.match(html, /Jak ověřit půjčení ve svém okolí/);
+    assert.match(html, /Telefonicky ověřte dostupnost konkrétního typu/);
+    assert.match(html, /cenu za týden nebo měsíc, kauci/);
+    assert.match(html, /Půjčovny jsou místní služby/);
+    assert.doesNotMatch(html, /Charita Šumperk|garantujeme|v celé ČR/);
+    assert.match(html, /Aktuální seznam SÚKL/);
+    assert.match(html, /Zdroj VZP/);
+  }
+});
+
+test("only known acquisition IDs can show external-information links", () => {
+  const html = renderBathroomAcquisition([{id:"untrusted",label:"Půjčení",reason:"test"}],escapeHtml);
+  assert.doesNotMatch(html, /<a\b|<details\b/);
+});
+
+test("the main Bathroom Advisor shares the same acquisition UI as its five focused Advisors", () => {
+  const main = fs.readFileSync(new URL("../assets/js/bathroom-advisor.js", import.meta.url), "utf8");
+  assert.match(main, /import \{ renderBathroomAcquisition \}/);
+  assert.match(main, /renderBathroomAcquisition\(output\.acquisition, escapeHtml\)/);
+  assert.doesNotMatch(main, /const renderAcquisition =/);
+});

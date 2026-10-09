@@ -158,6 +158,7 @@ test("mobility offers require three checks for each product, independently", () 
 test("main mobility Advisor exposes brake verification for an indoor seat requirement", () => {
   const source=read("assets/js/mobility-advisor.js");
   assert.match(source,/\["environment", "seatNeeded"\]\.includes/);
+  assert.match(source,/environment === "indoor" && !seatNeeded/);
   assert.match(source,/environment === "both" \|\| seatNeeded/);
   const page=read("front-page.php");
   assert.match(page,/rollátor venku nebo kvůli sedátku/);

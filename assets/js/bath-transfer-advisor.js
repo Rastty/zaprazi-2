@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_76
+// ZP_RELEASE_0_8_77
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
@@ -33,7 +33,7 @@ if(form&&result&&submit&&errors){
   });
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
-  const groups=()=>[...form.querySelectorAll("[data-zp-bath-required]")];
+  const groups=()=>[...form.querySelectorAll("[data-zp-bath-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
   const validate=()=>{
     const missing=groups().filter((g)=>!val(g.dataset.zpBathRequired));
     groups().forEach((g)=>g.classList.toggle("is-error",!val(g.dataset.zpBathRequired)));

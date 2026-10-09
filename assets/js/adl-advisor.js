@@ -21,6 +21,14 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox) {
+
+  // A result belongs to the exact answers used to produce it.
+  // Hide and remove any previous outbound offer as soon as an answer changes.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 

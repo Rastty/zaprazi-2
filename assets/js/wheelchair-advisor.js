@@ -24,6 +24,14 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox && candidateNote) {
+
+  // A result belongs to the exact answers used to produce it.
+  // Hide and remove any previous outbound offer as soon as an answer changes.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
   const preview = document.querySelector("#zp-wheelchair-preview");
   const fitStage = document.querySelector("#zp-wheelchair-fit-stage");
   let previewReady = false;

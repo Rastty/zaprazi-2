@@ -60,6 +60,16 @@ async function visible(page, selector) {
 async function count(page, selector) {
   return page.$$eval(selector, nodes => nodes.length);
 }
+async function checkPreviewNoCommerce(page, selector) {
+  const state = await page.$eval(selector, root => ({
+    offers: root.querySelectorAll(".zp-offer, [data-zp-merchant-link], [data-zp-bath-merchant-link], [data-zp-wheelchair-merchant-link], [data-zp-bed-merchant-link], [data-zp-support-merchant-link]").length,
+    trackingLinks: [...root.querySelectorAll("a[href]")].map(a => a.href)
+      .filter(url => /ehub\.cz\/system\/scripts\/click|awin1\.com\/cread|anrdoezrs\.net|tkqlhce\.com|jdoqocy\.com/.test(url))
+  }));
+  assert.equal(state.offers, 0, "Unverified preview contains a commercial offer");
+  assert.deepEqual(state.trackingLinks, [], "Unverified preview contains a commission-tracking link");
+}
+
 async function checkNoMerchant(page, resultSelector) {
   assert.equal(await count(page, resultSelector + ' [data-zp-merchant-link], ' +
     resultSelector + ' [data-zp-bath-merchant-link], ' +
@@ -112,7 +122,7 @@ try {
     await click(page, "#zp-bathroom-submit");
     assert.equal(await visible(page, "#zp-bathroom-preview"), true);
     assert.equal(await visible(page, "#zp-bathroom-fit-stage"), true);
-    assert.equal(await count(page, "#zp-bathroom-preview a[href]"), 0, "Preview cannot link out");
+    await checkPreviewNoCommerce(page, "#zp-bathroom-preview");
     await choose(page, "loadFit", "yes");
     await choose(page, "toiletFit", "unknown");
     await choose(page, "feetFlatAtRaisedHeight", "yes");
@@ -142,7 +152,7 @@ try {
     await choose(page, "manualControlSafe", "yes");
     await click(page, "#zp-wheelchair-submit");
     assert.equal(await visible(page, "#zp-wheelchair-preview"), true);
-    assert.equal(await count(page, "#zp-wheelchair-preview a[href]"), 0);
+    await checkPreviewNoCommerce(page, "#zp-wheelchair-preview");
     await choose(page, "seatFit", "yes");
     await choose(page, "widthFit", "yes");
     await choose(page, "loadFit", "yes");
@@ -163,7 +173,7 @@ try {
     await choose(page, "transferAbility", "independent");
     await click(page, "#zp-bed-submit");
     assert.equal(await visible(page, "#zp-bed-preview"), true);
-    assert.equal(await count(page, "#zp-bed-preview a[href]"), 0);
+    await checkPreviewNoCommerce(page, "#zp-bed-preview");
     await choose(page, "loadFit", "unknown");
     await choose(page, "spaceFit", "yes");
     await click(page, "#zp-bed-submit");
@@ -184,7 +194,7 @@ try {
     await choose(page, "wallFixing", "unverified");
     await click(page, "#zp-toilet-support-submit");
     assert.equal(await visible(page, "#zp-toilet-support-preview"), true);
-    assert.equal(await count(page, "#zp-toilet-support-preview a[href]"), 0);
+    await checkPreviewNoCommerce(page, "#zp-toilet-support-preview");
     await choose(page, "loadFit", "yes");
     await choose(page, "supportFrameFit", "unknown");
     await click(page, "#zp-toilet-support-submit");

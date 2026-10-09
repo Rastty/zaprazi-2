@@ -320,7 +320,7 @@ try {
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
     await assertAffiliateOffers(page, offer);
-    const explanations=await page.$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
+    const explanations=await page.$$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
       heading:n.querySelector("h3")?.textContent.trim(),reason:n.querySelector("p")?.textContent.trim()
     })));
     assert.equal(explanations.length,1,"Each completed micro Advisor must explain its chosen solution");

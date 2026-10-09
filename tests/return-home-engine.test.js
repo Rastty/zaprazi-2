@@ -214,3 +214,59 @@ test("ready_basic output does not falsely instruct the family to follow nonexist
   assert.doesNotMatch(result.nextStep, /Postupujte od nejvyšší priority/i);
   assert.match(result.nextStep, /nikoli posouzení zdravotní způsobilosti/i);
 });
+
+test("steadying support is not automatically discharge-ready even with other checks confirmed", () => {
+  const result = buildReturnHomePlan({
+    timing: "today_or_tomorrow",
+    entranceReady: "yes",
+    transferAbility: "steadying",
+    walking: "independent",
+    toiletReady: "yes",
+    bathroomReady: "yes",
+    bedReady: "yes",
+    homeCare: "not_needed"
+  });
+
+  assert.equal(result.status, "action_plan");
+  assert.match(result.headline, /zbývá ověřit nebo zajistit/i);
+  assert.match(result.nextStep, /není potvrzení bezpečného návratu/i);
+  const support = result.dischargeActions.find((item) => item.id === "confirm_transfer_support");
+  assert.ok(support, "available transfer support must be checked before departure");
+  assert.match(support.reason, /skutečně dostupná/i);
+  assert.deepEqual(result.routes, [], "support verification must not invent a shopping offer");
+});
+
+test("walking with support requires a concrete first-night availability check", () => {
+  const result = buildReturnHomePlan({
+    timing: "later",
+    entranceReady: "yes",
+    transferAbility: "independent",
+    walking: "needs_support",
+    toiletReady: "yes",
+    bathroomReady: "yes",
+    bedReady: "yes",
+    homeCare: "not_needed"
+  });
+
+  assert.equal(result.status, "action_plan");
+  assert.match(result.headline, /zbývá ověřit nebo zajistit/i);
+  assert.match(result.nextStep, /nemocničním týmem ještě před odjezdem/i);
+  assert.ok(result.dischargeActions.some((item) => item.id === "confirm_walking_support"));
+  assert.ok(result.routes.some((item) => item.id === "mobility" && item.href === "/#poradce"));
+  assert.ok(result.routes.every((item) => item.href.startsWith("/")), "routes stay internal to existing safety-gated advisors");
+});
+
+test("independent transfers and walking do not introduce false support requirements", () => {
+  const result = buildReturnHomePlan({
+    timing: "later",
+    entranceReady: "yes",
+    transferAbility: "independent",
+    walking: "independent",
+    toiletReady: "yes",
+    bathroomReady: "yes",
+    bedReady: "yes",
+    homeCare: "not_needed"
+  });
+  assert.equal(result.status, "ready_basic");
+  assert.ok(!result.dischargeActions.some((item) => /confirm_(transfer|walking)_support/.test(item.id)));
+});

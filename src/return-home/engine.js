@@ -103,9 +103,22 @@ export function buildReturnHomePlan(input = {}) {
       reason: "Pokud si rodina není jistá, jak bude přesun doma fungovat, je lepší to vyjasnit před odjezdem z nemocnice.",
       priority: 1
     });
+  } else if (transferAbility === "steadying") {
+    dischargeActions.push(action(
+      "confirm_transfer_support",
+      "Ověřit dostupnou oporu nebo dohled při přesunech",
+      "Projděte s nemocničním týmem, jak bude doma bezpečně probíhat přesun mezi postelí, židlí a WC. Ověřte, že potřebná stabilní opora nebo osoba pro dohled bude skutečně dostupná. Samotný nákup pomůcky bezpečný přesun nepotvrzuje.",
+      1
+    ));
   }
 
   if (walking === "needs_support") {
+    dischargeActions.push(action(
+      "confirm_walking_support",
+      "Ověřit oporu pro krátké domácí přesuny",
+      "Před odjezdem ověřte s nemocničním týmem, jak se člověk bezpečně dostane mezi postelí, židlí a WC a zda potřebná opora nebo pomoc bude doma k dispozici. Konkrétní pomůcka vyžaduje vlastní kontrolu vhodnosti.",
+      1
+    ));
     routes.push(route(
       "mobility",
       "Vyřešit chůzi a oporu",
@@ -221,8 +234,9 @@ export function buildReturnHomePlan(input = {}) {
   // distinguish unresolved essential arrangements from ordinary follow-ups.
   const hasUnresolvedEssentials =
     entranceReady !== "yes" ||
-    transferAbility === "unknown" ||
+    transferAbility !== "independent" ||
     walking === "unknown" ||
+    walking === "needs_support" ||
     (walking === "wheelchair_or_no_walk" && wheelchairReady !== "yes") ||
     toiletReady !== "yes" ||
     bedReady !== "yes" ||

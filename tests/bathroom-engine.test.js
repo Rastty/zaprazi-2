@@ -67,10 +67,26 @@ test("unverified wall fixing does not return wall-mounted grab rail", () => {
     primaryNeed: "toilet_support",
     transferAbility: "steadying",
     loadFit: "yes",
-    wallFixing: "unverified"
+    wallFixing: "unverified",
+    supportFrameFit: "yes"
   });
   assert.equal(result.status, "candidate");
   assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p2015"]);
+});
+
+test("toilet support frame requires its own space and fixing compatibility check", () => {
+  for (const supportFrameFit of ["no", "unknown"]) {
+    const result = recommendBathroom({
+      primaryNeed: "toilet_support",
+      transferAbility: "steadying",
+      loadFit: "yes",
+      wallFixing: "unverified",
+      supportFrameFit
+    });
+    assert.equal(result.status, "needs_more_info");
+    assert.ok(result.missing.includes("supportFrameFit"));
+    assert.deepEqual(result.recommendations, []);
+  }
 });
 
 test("verified wall fixing allows fixed rail comparison", () => {

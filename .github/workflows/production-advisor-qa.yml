@@ -22,4 +22,13 @@ jobs:
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
           CHROME_BIN: /usr/bin/google-chrome
-        run: node tests/production-advisor-smoke.mjs
+        run: |
+          # On a PR, the next release is not deployed yet: audit the live version.
+          # On manual dispatch (after deploy), enforce the checked-out source version.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            LIVE_VERSION="$(curl --fail --silent --show-error --location https://zaprazi.cz/wp-json/zaprazi/v1/affiliate-readiness | node -e "let s='';process.stdin.on('data',d=>s+=d);process.stdin.on('end',()=>{let v=JSON.parse(s).release;if(!/^\\d+\\.\\d+\\.\\d+$/.test(v))process.exit(1);process.stdout.write(v)})")"
+            test -n "$LIVE_VERSION"
+            echo "::notice::Pre-deploy QA runs against currently deployed release $LIVE_VERSION. Manually dispatch this workflow after the new version is deployed."
+            export ZP_RELEASE="$LIVE_VERSION"
+          fi
+          node tests/production-advisor-smoke.mjs

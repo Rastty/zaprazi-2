@@ -172,6 +172,7 @@ try {
     const page = await open("/koupelna-a-wc/");
     await choose(page, "primaryNeed", "raise_toilet");
     await choose(page, "transferAbility", "independent");
+    await choose(page, "duration", "long_term");
     await click(page, "#zp-bathroom-submit");
     assert.equal(await visible(page, "#zp-bathroom-preview"), true);
     assert.equal(await visible(page, "#zp-bathroom-fit-stage"), true);
@@ -186,6 +187,13 @@ try {
     assert.ok(await count(page, "#zp-bathroom-result [data-zp-bath-merchant-link]") > 0,
       "Completed bathroom fit should present eligible offer");
     await assertAffiliateOffers(page, "#zp-bathroom-result [data-zp-bath-merchant-link]");
+    // 0.8.69: actionable acquisition must be shared by main Bathroom Advisor.
+    const acquisition = await page.$eval("#zp-bathroom-result .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Porovnat koupi a případné půjčení/);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/);
+    assert.match(acquisition, /Telefonicky ověřte dostupnost konkrétního typu/);
+    assert.match(acquisition, /Půjčovny jsou místní služby/);
+    assert.match(acquisition, /Zdroj VZP/);
     await choose(page, "primaryNeed", "shower_seated");
     assert.equal(await visible(page, "#zp-bathroom-result"), false, "Old bathroom offer must disappear");
     await checkNoMerchant(page, "#zp-bathroom-result");
@@ -260,7 +268,10 @@ try {
     assert.ok(await count(page, "#zp-toilet-support-result [data-zp-support-merchant-link]") > 0,
       "Verified frame fit is required before WC support product link");
     await assertAffiliateOffers(page, "#zp-toilet-support-result [data-zp-support-merchant-link]");
-    console.log("PASS WC support frame-specific fit");
+    const acquisition = await page.$eval("#zp-toilet-support-result .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/);
+    assert.match(acquisition, /Zdroj VZP/);
+    console.log("PASS WC support frame-specific fit and shared acquisition");
     await page.close();
   }
 
@@ -301,6 +312,7 @@ try {
     const result = "#zp-" + scenario.slug + "-result";
     const offer = result + " [" + scenario.offer + "]";
     for (const [name, value] of scenario.initial) await choose(page, name, value);
+    await choose(page, "duration", "short_term");
     await click(page, submit);
     assert.equal(await visible(page, preview), true, "Micro preview absent: " + scenario.slug);
     await checkPreviewNoCommerce(page, preview);
@@ -320,9 +332,16 @@ try {
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
     await assertAffiliateOffers(page, offer);
-    const explanations=await page.$$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
+    // 0.8.69: each narrow Bathroom journey explains real local rental checks.
+    const acquisition = await page.$eval(result+" .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Porovnat půjčení a koupi/, scenario.slug);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/, scenario.slug);
+    assert.match(acquisition, /cenu za týden nebo měsíc, kauci/, scenario.slug);
+    assert.match(acquisition, /Půjčovny jsou místní služby/, scenario.slug);
+    assert.match(acquisition, /Aktuální seznam SÚKL/, scenario.slug);
+    const explanations=await page.evaluate(selector => [...document.querySelectorAll(selector)].map(n=>({
       heading:n.querySelector("h3")?.textContent.trim(),reason:n.querySelector("p")?.textContent.trim()
-    })));
+    })), result+" .zp-why-recommendation");
     assert.equal(explanations.length,1,"Each completed micro Advisor must explain its chosen solution");
     assert.equal(explanations[0].heading,"Proč právě toto řešení?");
     assert.ok(explanations[0].reason?.length>28,"Missing substantial reason for "+scenario.slug);
@@ -573,6 +592,43 @@ try {
     await assertAffiliateOffers(page,final+" a[rel~=sponsored]");
     console.log("PASS 0.8.66 Czech product facts in preview + final result: "+spec.slug);
     await page.close();
+  }
+
+  // New 0.8.70-only safety regression. PRs target the currently deployed
+  // version; after deployment, workflow_dispatch must execute these paths.
+  if (requiredVersion !== "0.8.69") {
+    for (const branch of [
+      {need:"robust_high_load", model:"P4707"},
+      {need:"advanced_in_bed_care", model:"P4044"}
+    ]) {
+      const page = await open("/polohovaci-postel/");
+      await choose(page,"primaryNeed",branch.need);
+      await choose(page,"transferAbility","independent");
+      await click(page,"#zp-bed-submit");
+      const preview="#zp-bed-preview", result="#zp-bed-result";
+      assert.equal(await visible(page,preview),true,"Bed preview must be available: "+branch.need);
+      assert.match(await page.$eval(preview,el=>el.textContent),new RegExp(branch.model));
+      await checkPreviewNoCommerce(page,preview);
+      assert.equal(await visible(page,'#zp-bed-fit-stage [name="userCapacityVerified"]'),true,
+        "Independent patient capacity confirmation must appear: "+branch.need);
+      await choose(page,"loadFit","yes");
+      await choose(page,"spaceFit","yes");
+      await choose(page,"userCapacityVerified","unknown");
+      await click(page,"#zp-bed-submit");
+      await checkNoMerchant(page,result);
+      const blocked=await page.$eval(result,el=>el.textContent);
+      assert.match(blocked,/hmotnosti uživatele|hmotnost samotného uživatele/i);
+      await choose(page,"userCapacityVerified","yes");
+      await click(page,"#zp-bed-submit");
+      assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
+        "Explicit verified patient capacity must enable eligible bed offer: "+branch.need);
+      await assertAffiliateOffers(page,result+' [data-zp-bed-merchant-link]');
+      await choose(page,"primaryNeed","home_positioning");
+      assert.equal(await visible(page,result),false,"Changed bed branch must clear stale purchase links");
+      await checkNoMerchant(page,result);
+      console.log("PASS 0.8.70 bed separate patient-weight limit, no bypass and branch reset: "+branch.need);
+      await page.close();
+    }
   }
 
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_69 */
+/* ZP_RELEASE_0_8_70 */
 /*
 Template Name: Zápraží — Polohovací postel
 */
@@ -59,6 +59,14 @@ get_header();
           <label class="zp-choice"><input type="radio" name="spaceFit" value="yes" required><span><strong>Ano, změřeno</strong></span></label>
           <label class="zp-choice"><input type="radio" name="spaceFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="spaceFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte pokoj, dveře a průchody.</small></span></label>
+        </fieldset>
+
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-bed-required="userCapacityVerified" hidden>
+          <legend>Máte od výrobce nebo odborné výdejny zvlášť potvrzenou maximální povolenou hmotnost samotného uživatele pro tuto konkrétní postel?</legend>
+          <p>U Hospital a Multibed obchod uvádí jen obecnou „nosnost“ 250/260 kg. Tento údaj sám o sobě nedokládá maximální hmotnost člověka. Ověřte i použitou matraci a příslušenství.</p>
+          <label class="zp-choice"><input type="radio" name="userCapacityVerified" value="yes"><span><strong>Ano, ověřil/a jsem to pro konkrétní model</strong><small>Nespoléhám jen na číslo označené jako nosnost postele.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="userCapacityVerified" value="no"><span><strong>Ne, potvrzený limit nemám</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="userCapacityVerified" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset">

@@ -1,3 +1,4 @@
+// ZP_RELEASE_0_8_70
 import { recommendAdjustableBed } from "../bed/engine.js";
 import { recommendWheelchair } from "../wheelchair/engine.js";
 
@@ -24,7 +25,7 @@ function toPreview(result) {
 }
 
 export function previewAdjustableBed(input = {}) {
-  return toPreview(recommendAdjustableBed({ ...input, loadFit: "yes", spaceFit: "yes" }));
+  return toPreview(recommendAdjustableBed({ ...input, loadFit: "yes", spaceFit: "yes", userCapacityVerified: "yes" }));
 }
 
 export function previewWheelchair(input = {}) {

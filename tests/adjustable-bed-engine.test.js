@@ -34,6 +34,7 @@ test("caregiver access uses same CLASSIC candidate with different rationale", ()
 test("robust branch returns Hospital", () => {
   const result = recommendAdjustableBed({
     primaryNeed: "robust_high_load",
+    userCapacityVerified: "yes",
     transferAbility: "steadying",
     loadFit: "yes",
     spaceFit: "yes"
@@ -47,6 +48,7 @@ test("robust branch returns Hospital", () => {
 test("advanced in-bed care returns Multibed with explicit caregiver caution", () => {
   const result = recommendAdjustableBed({
     primaryNeed: "advanced_in_bed_care",
+    userCapacityVerified: "yes",
     transferAbility: "mostly_in_bed",
     loadFit: "yes",
     spaceFit: "yes"
@@ -105,4 +107,26 @@ test("short-term acquisition leads with rental", () => {
 
   assert.equal(result.acquisition[0].id, "rent_first");
   assert.ok(result.acquisition.some((item) => item.id === "check_reimbursement_or_circulation"));
+});
+
+
+test("generic bed nosnost cannot authorize Hospital or Multibed patient-weight suitability", () => {
+  for (const primaryNeed of ["robust_high_load", "advanced_in_bed_care"]) {
+    const input = { primaryNeed, transferAbility: "independent", loadFit: "yes", spaceFit: "yes" };
+    for (const confirmation of [undefined, "unknown", "no"]) {
+      const outcome = recommendAdjustableBed({...input, ...(confirmation ? {userCapacityVerified:confirmation} : {})});
+      assert.equal(outcome.status, "needs_more_info");
+      assert.deepEqual(outcome.recommendations, []);
+      assert.deepEqual(outcome.acquisition, []);
+      assert.deepEqual(outcome.missing, ["userCapacityVerified"]);
+      assert.match(outcome.nextStep, /nosnost|hmotnost|výrobce/i);
+    }
+    const confirmed = recommendAdjustableBed({...input, userCapacityVerified:"yes"});
+    assert.equal(confirmed.status, "candidate");
+  }
+  const classic = recommendAdjustableBed({primaryNeed:"home_positioning",loadFit:"yes",spaceFit:"yes"});
+  assert.equal(classic.status,"candidate","CLASSIC has a separately evidenced max patient weight");
+  assert.equal(recommendAdjustableBed({
+    primaryNeed:"robust_high_load",loadFit:"yes",spaceFit:"yes",userCapacityVerified:"untrusted"
+  }).status,"invalid_input");
 });

@@ -1,3 +1,4 @@
+// ZP_RELEASE_0_8_70
 const PRIMARY_NEEDS = new Set([
   "home_positioning",
   "caregiver_access",
@@ -102,6 +103,7 @@ export function recommendAdjustableBed(input = {}) {
     transferAbility = "unknown",
     loadFit = "unknown",
     spaceFit = "unknown",
+    userCapacityVerified = "unknown",
     duration = "unknown"
   } = input;
 
@@ -109,6 +111,7 @@ export function recommendAdjustableBed(input = {}) {
   if (!TRANSFER.has(transferAbility)) return invalid("transferAbility");
   if (!FIT.has(loadFit)) return invalid("loadFit");
   if (!FIT.has(spaceFit)) return invalid("spaceFit");
+  if (!FIT.has(userCapacityVerified)) return invalid("userCapacityVerified");
   if (!DURATION.has(duration)) return invalid("duration");
 
   if (primaryNeed === "unknown") {
@@ -144,6 +147,19 @@ export function recommendAdjustableBed(input = {}) {
       spaceFit === "no"
         ? "Tento kandidát se do prostoru nevejde. Potřebujeme jiný rozměr nebo jinak upravit místnost."
         : "Změřte prostor včetně průchodu pro instalaci, celkového půdorysu postele a místa pro pečující osobu."
+    );
+  }
+
+  // P4707/P4044 merchant evidence states only general bed "nosnost" (250/260 kg),
+  // NOT an explicit maximum patient weight as it does for the CLASSIC model.
+  // A loadFit=yes by itself must never authorize an exact offer for these models.
+  if (["robust_high_load", "advanced_in_bed_care"].includes(primaryNeed) && userCapacityVerified !== "yes") {
+    return needsMoreInfo(
+      "userCapacityVerified",
+      "Chybí zvláštní potvrzení povolené hmotnosti uživatele.",
+      userCapacityVerified === "no"
+        ? "Bez potvrzení od výrobce nebo odborné výdejny tento model nevybírejte ke koupi. Údaj 250/260 kg označený jako nosnost postele nesmí být automaticky považován za limit hmotnosti člověka."
+        : "U modelu Hospital nebo Multibed si u výrobce či odborné výdejny ověřte maximální povolenou hmotnost samotného uživatele pro přesnou variantu, matraci a vybavení. Obecná nosnost postele 250/260 kg sama nestačí."
     );
   }
 

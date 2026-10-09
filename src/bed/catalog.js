@@ -1,3 +1,4 @@
+// ZP_RELEASE_0_8_70
 export const ADJUSTABLE_BED_PRODUCTS = Object.freeze([
   {
     id: "unizdrav-p2777",
@@ -65,7 +66,8 @@ export const ADJUSTABLE_BED_PRODUCTS = Object.freeze([
       "robustnější kandidát, když standardní domácí nosnost nestačí",
       "před pořízením je potřeba ověřit prostor alespoň pro vnější rozměr 105 × 214 cm",
       "matrace není součástí",
-      "vyšší nosnost sama o sobě neřeší bezpečný přesun člověka z postele"
+      "vyšší nosnost sama o sobě neřeší bezpečný přesun člověka z postele",
+      "prodejce uvádí obecnou nosnost 250 kg, ale ne samostatný limit hmotnosti samotného uživatele; před nákupem jej potvrďte u výrobce nebo odborné výdejny"
     ],
     evidence: [
       {
@@ -109,7 +111,8 @@ export const ADJUSTABLE_BED_PRODUCTS = Object.freeze([
       "specializovaný kandidát pro náročnější každodenní péči přímo na lůžku",
       "obsahuje matraci, bočnice, hrazdu a příslušenství pro hygienu a toaletu na lůžku",
       "před doporučením je potřeba ověřit, že jsou tyto funkce skutečně prakticky potřebné a že se postel vejde do prostoru",
-      "boční otáčení a hygienické funkce nenahrazují zaučení pečující osoby"
+      "boční otáčení a hygienické funkce nenahrazují zaučení pečující osoby",
+      "prodejce uvádí obecnou nosnost 260 kg bez samostatného limitu hmotnosti samotného uživatele; bezpečnou mez potvrďte u výrobce nebo odborné výdejny"
     ],
     evidence: [
       {

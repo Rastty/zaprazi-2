@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
-import { accessSync, constants } from "node:fs";
+import { accessSync, constants, readFileSync } from "node:fs";
 import puppeteer from "puppeteer-core";
 
 const base = process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz";
-const requiredVersion = process.env.ZP_RELEASE || "0.8.62";
+const sourceRelease = readFileSync(new URL("../style.css", import.meta.url), "utf8").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
+const requiredVersion = process.env.ZP_RELEASE || sourceRelease;
+assert.ok(requiredVersion, "Release missing in theme style.css");
 const browserCandidates = [process.env.CHROME_BIN, "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium"].filter(Boolean);
 const chrome = browserCandidates.find(path => {
   try { accessSync(path, constants.X_OK); return true; } catch { return false; }
@@ -86,7 +88,13 @@ try {
     assert.ok(await page.$(resultSelector), "Result container missing: " + path);
     assert.equal(await visible(page, resultSelector), false, "Result should be initially hidden: " + path);
     await checkNoMerchant(page, resultSelector);
-    console.log("PASS boot", path, formSelector);
+    await page.$eval(formSelector, root => {
+      const button = root.querySelector('button[id$="-submit"]');
+      if (!button) throw new Error("Advisor submit button missing");
+      button.click();
+    });
+    await checkNoMerchant(page, resultSelector);
+    console.log("PASS boot and empty-answer safety", path, formSelector);
     await page.close();
   }
 
@@ -207,7 +215,7 @@ try {
     await page.close();
   }
 
-  console.log("SUCCESS: 14 advisor boots and 5 high-value safety/funnel scenarios passed");
+  console.log("SUCCESS: 14 advisor entry and no-answer safety checks plus 5 high-value safety/funnel scenarios passed");
 } finally {
   await browser.close();
 }

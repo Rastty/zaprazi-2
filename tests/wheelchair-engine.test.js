@@ -144,6 +144,7 @@ test("unknown load fit returns no exact product without asking raw weight", () =
   const result = recommendWheelchair({
     propulsion: "self_manual",
     wheelType: "pneumatic",
+    seatWidthVariant: "48",
     transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",

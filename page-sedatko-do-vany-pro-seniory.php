@@ -55,7 +55,7 @@ get_header();
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-bath-required="loadFit">
-          <legend>Ověřili jste nosnost podle varianty, která skutečně pasuje? Sedačka na okraj BESCO BS008 má limit 100 kg, transferová židle UNIZDRAV P2203 110 kg.</legend>
+          <legend>Ověřili jste nosnost právě vybrané varianty? Sedačka na okraj BESCO BS008 má limit 100 kg, transferová židle UNIZDRAV P2203 110 kg. Při změně varianty potvrďte nosnost znovu.</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>

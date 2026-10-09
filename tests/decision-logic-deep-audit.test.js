@@ -38,10 +38,27 @@ test("unknown transfer never produces a wheelchair candidate even when all techn
     for (const transferAbility of ["unknown","person_assist"]) {
       const result = recommendWheelchair({
         propulsion,transferAbility,
-        seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes"
+        seatFit:"yes",widthFit:"yes",loadFit:"yes",manualControlSafe:"yes",joystickSafe:"yes",chargingReady:"yes"
       });
       assert.notEqual(result.status, "candidate", JSON.stringify({propulsion,transferAbility}));
       assert.deepEqual(result.recommendations, []);
+    }
+  }
+});
+
+test("manual wheelchair never becomes a candidate without practical control confirmation", () => {
+  for (const propulsion of ["self_manual","mixed_manual"]) {
+    for (const manualControlSafe of ["no","unknown"]) {
+      const output = recommendWheelchair({
+        propulsion,
+        transferAbility:"independent",
+        manualControlSafe,
+        loadFit:"yes",
+        widthFit:"yes",
+        seatFit:"yes"
+      });
+      assert.notEqual(output.status,"candidate");
+      assert.deepEqual(output.recommendations,[]);
     }
   }
 });

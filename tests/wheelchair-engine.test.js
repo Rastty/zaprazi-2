@@ -20,6 +20,7 @@ test("companion branch returns Basic after fit gates pass", () => {
 test("self-propelled branch returns lightweight manual chair", () => {
   const result = recommendWheelchair({
     propulsion: "self_manual",
+    wheelType: "pneumatic",
     transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -35,6 +36,7 @@ test("self-propelled branch returns lightweight manual chair", () => {
 test("mixed manual branch uses the same dual-use chair", () => {
   const result = recommendWheelchair({
     propulsion: "mixed_manual",
+    wheelType: "tubeless",
     transferAbility: "steadying",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -139,6 +141,7 @@ test("physical assistance transfer remains professional-check only", () => {
 test("unknown load fit returns no exact product without asking raw weight", () => {
   const result = recommendWheelchair({
     propulsion: "self_manual",
+    wheelType: "pneumatic",
     transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -175,4 +178,25 @@ test("short-term acquisition leads with rental", () => {
   });
 
   assert.equal(result.acquisition[0].id, "rent_first");
+});
+
+
+test("P3641 requires exact wheel type and separately confirmed variant capacity",()=>{
+  for(const propulsion of ["self_manual","mixed_manual"]){
+    const input={propulsion,transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"};
+    for(const wheelType of ["unknown",undefined]){
+      const result=recommendWheelchair({...input,...(wheelType?{wheelType}:{})});
+      assert.equal(result.status,"needs_more_info");
+      assert.deepEqual(result.recommendations,[]);
+      assert.deepEqual(result.missing,["wheelType"]);
+    }
+    const pneumatic=recommendWheelchair({...input,wheelType:"pneumatic"});
+    assert.equal(pneumatic.status,"candidate");
+    assert.match(pneumatic.recommendations[0].parameters.join(" "),/pneumatická kola – 125 kg/);
+    const tubeless=recommendWheelchair({...input,wheelType:"tubeless"});
+    assert.equal(tubeless.status,"candidate");
+    assert.match(tubeless.recommendations[0].parameters.join(" "),/bezdušová kola – 136 kg/);
+    assert.equal(recommendWheelchair({...input,wheelType:"wrong"}).status,"invalid_input");
+  }
+  assert.equal(recommendWheelchair({propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}).status,"candidate");
 });

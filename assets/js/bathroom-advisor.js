@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_75
+// ZP_RELEASE_0_8_76
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
@@ -251,8 +251,10 @@ if (form && result && submitButton && errorBox) {
     result.focus();
   };
 
+  // Questions inside the hidden model-fit stage must not block stage one.
   const visibleRequiredGroups = () =>
-    [...form.querySelectorAll("[data-zp-bath-required]")].filter((fieldset) => !fieldset.hidden);
+    [...form.querySelectorAll("[data-zp-bath-required]")]
+      .filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
 
   const validate = () => {
     const missing = visibleRequiredGroups().filter((fieldset) => {
@@ -330,6 +332,8 @@ if (form && result && submitButton && errorBox) {
       result.hidden = true;
       submitButton.textContent = "1. Ukázat možná řešení";
       fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+      // Recalculate conditional visibility when returning to stage one.
+      updateConditionalQuestions();
     }
     // The 110 kg transfer bench and the 100 kg rim-mounted bath seat must
     // never share an earlier load-capacity confirmation across a model switch.

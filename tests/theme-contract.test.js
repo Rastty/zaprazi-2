@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.75 deployment integrity contract covers critical runtime files", () => {
+test("0.8.76 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -503,14 +503,14 @@ test("0.8.75 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.75' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.76' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_75/);
+    assert.match(read(path), /ZP_RELEASE_0_8_76/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.75"));
+  assert.ok(read("style.css").includes("Version: 0.8.76"));
 });
 
 
@@ -2364,4 +2364,19 @@ test("core navigation targets are unique", () => {
   assert.equal(new Set(targets).size, targets.length, "duplicate core navigation target");
   assert.ok(targets.includes("/choditka-pro-seniory/"));
   assert.ok(targets.includes("/kompenzacni-pomucky-pro-seniory/"));
+});
+
+
+test("main Bathroom Advisor excludes hidden fit-stage fields from required validation", () => {
+  const app = read("assets/js/bathroom-advisor.js");
+  const page = read("page-koupelna-a-wc.php");
+
+  for (const name of ["loadFit", "toiletFit", "bathFit", "bathBenchFit"]) {
+    assert.ok(page.includes('data-zp-bath-required="' + name + '"'));
+  }
+  assert.ok(app.includes("!fieldset.hidden && !fieldset.closest('[hidden]')"));
+  assert.match(
+    app,
+    /if \(previewReady && !event\.target\?\.closest\?\.\("#zp-bathroom-fit-stage"\)\) \{[\s\S]*?previewReady = false;[\s\S]*?fitStage\.hidden = true;[\s\S]*?fitStage\.querySelectorAll\('[^']+'\)[\s\S]*?updateConditionalQuestions\(\);/
+  );
 });

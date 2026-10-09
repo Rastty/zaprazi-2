@@ -594,6 +594,43 @@ try {
     await page.close();
   }
 
+  // New 0.8.70-only safety regression. PRs target the currently deployed
+  // version; after deployment, workflow_dispatch must execute these paths.
+  if (requiredVersion !== "0.8.69") {
+    for (const branch of [
+      {need:"robust_high_load", model:"P4707"},
+      {need:"advanced_in_bed_care", model:"P4044"}
+    ]) {
+      const page = await open("/polohovaci-postel/");
+      await choose(page,"primaryNeed",branch.need);
+      await choose(page,"transferAbility","independent");
+      await click(page,"#zp-bed-submit");
+      const preview="#zp-bed-preview", result="#zp-bed-result";
+      assert.equal(await visible(page,preview),true,"Bed preview must be available: "+branch.need);
+      assert.match(await page.$eval(preview,el=>el.textContent),new RegExp(branch.model));
+      await checkPreviewNoCommerce(page,preview);
+      assert.equal(await visible(page,'#zp-bed-fit-stage [name="userCapacityVerified"]'),true,
+        "Independent patient capacity confirmation must appear: "+branch.need);
+      await choose(page,"loadFit","yes");
+      await choose(page,"spaceFit","yes");
+      await choose(page,"userCapacityVerified","unknown");
+      await click(page,"#zp-bed-submit");
+      await checkNoMerchant(page,result);
+      const blocked=await page.$eval(result,el=>el.textContent);
+      assert.match(blocked,/hmotnosti uživatele|hmotnost samotného uživatele/i);
+      await choose(page,"userCapacityVerified","yes");
+      await click(page,"#zp-bed-submit");
+      assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
+        "Explicit verified patient capacity must enable eligible bed offer: "+branch.need);
+      await assertAffiliateOffers(page,result+' [data-zp-bed-merchant-link]');
+      await choose(page,"primaryNeed","home_positioning");
+      assert.equal(await visible(page,result),false,"Changed bed branch must clear stale purchase links");
+      await checkNoMerchant(page,result);
+      console.log("PASS 0.8.70 bed separate patient-weight limit, no bypass and branch reset: "+branch.need);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");
 } finally {
   await browser.close();

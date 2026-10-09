@@ -379,7 +379,81 @@ try {
     await page.close();
   }
 
-  console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths");
+  // Release 0.8.63 adaptive model-fit questions: show only the relevant
+  // construction-specific measurement, but preserve fail-closed merchant gates.
+  // This checks actual rendered state in production, not only rule-engine outputs.
+  {
+    const page = await open("/madlo-k-wc-pro-seniory/");
+    const button = "#zp-toilet-support-submit";
+    const preview = "#zp-toilet-support-preview";
+    const fit = "#zp-toilet-support-fit-stage";
+    const frame = fit + ' input[name="supportFrameFit"]';
+    const load = fit + ' input[name="loadFit"]';
+    const offer = "#zp-toilet-support-result [data-zp-support-merchant-link]";
+    await choose(page, "transferAbility", "independent");
+    await choose(page, "wallFixing", "verified");
+    await click(page, button);
+    assert.equal(await visible(page, preview), true);
+    assert.equal(await visible(page, frame), false, "Wall rail must not ask for P2015 frame size");
+    assert.equal(await visible(page, load), true, "Wall rail still requires load check");
+    await choose(page, "loadFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "Verified wall rail should retain an offer");
+    await choose(page, "wallFixing", "unverified");
+    assert.equal(await visible(page, preview), false, "Mounting approach change must clear preview");
+    assert.equal(await count(page, offer), 0, "Previous wall rail offer must be removed");
+    await click(page, button);
+    assert.equal(await visible(page, frame), true, "Unverified wall must ask for P2015 dimensions");
+    const confirmed = await page.$eval(frame, node => node.checked);
+    assert.equal(confirmed, false, "Old frame confirmation must not carry to new branch");
+    await choose(page, "loadFit", "yes");
+    await choose(page, "supportFrameFit", "unknown");
+    await click(page, button);
+    assert.equal(await count(page, offer), 0, "Unknown frame dimensions must block its offer");
+    await choose(page, "supportFrameFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "Verified P2015 frame should retain an offer");
+    console.log("PASS 0.8.63 adaptive WC support: wall rail / frame checks and merchant gate");
+    await page.close();
+  }
+
+  {
+    const page = await open("/sedatko-do-vany-pro-seniory/");
+    const button = "#zp-bath-transfer-submit";
+    const preview = "#zp-bath-transfer-preview";
+    const fit = "#zp-bath-transfer-fit-stage";
+    const seat = fit + ' input[name="bathFit"]';
+    const bench = fit + ' input[name="bathBenchFit"]';
+    const offer = "#zp-bath-transfer-result [data-zp-bath-merchant-link]";
+    await choose(page, "transferAbility", "independent");
+    await choose(page, "bathTransferIndependent", "yes");
+    await click(page, button);
+    assert.equal(await visible(page, preview), true);
+    assert.equal(await visible(page, seat), true, "Standard bath seat must ask whether it fits");
+    assert.equal(await visible(page, bench), false, "Unneeded transfer bench check must be hidden");
+    await choose(page, "bathFit", "yes");
+    await choose(page, "loadFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "Verified standard bath seat should retain an offer");
+    await choose(page, "bathFit", "no");
+    assert.equal(await count(page, offer), 0, "Previous seat offer must disappear after fit change");
+    assert.equal(await visible(page, bench), true, "Seat incompatible: bench measurements must appear");
+    const staleBench = await page.$eval(bench, node => node.checked);
+    assert.equal(staleBench, false, "Bench fit must not be silently confirmed");
+    await click(page, button);
+    assert.equal(await count(page, offer), 0, "Unknown bench size must block merchant");
+    await choose(page, "bathBenchFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "Verified transfer bench should retain an offer");
+    await choose(page, "bathFit", "yes");
+    assert.equal(await visible(page, bench), false, "Returning to normal seat must hide bench check");
+    assert.equal(await page.$eval(bench, node => node.checked), false, "Hidden bench answer must clear");
+    assert.equal(await count(page, offer), 0, "Previous bench link must be invalidated");
+    console.log("PASS 0.8.63 adaptive bath transfer: branch switching and merchant gate");
+    await page.close();
+  }
+
+  console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");
 } finally {
   await browser.close();
 }

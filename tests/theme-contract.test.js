@@ -461,6 +461,7 @@ test("0.8.73 deployment integrity contract covers critical runtime files", () =>
     "page-invalidni-vozik.php",
     "page-invalidni-vozik-na-pojistovnu.php",
     "page-navrat-z-nemocnice.php",
+    "page-otazky-pred-propustenim-z-nemocnice.php",
     "page-sobestacnost.php",
     "page-kompenzacni-pomucky-pro-seniory.php",
     "page-bezpecny-byt-pro-seniora.php",
@@ -500,7 +501,7 @@ test("0.8.73 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.72' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.73' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {

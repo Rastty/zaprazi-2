@@ -6,6 +6,12 @@ const base = process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz";
 const sourceRelease = readFileSync(new URL("../style.css", import.meta.url), "utf8").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
 const requiredVersion = process.env.ZP_RELEASE || sourceRelease;
 assert.ok(requiredVersion, "Release missing in theme style.css");
+const releaseAtLeast = (minimum) => {
+  const current = requiredVersion.split(".").map(Number);
+  const target = minimum.split(".").map(Number);
+  return current.some((n, i) => n !== target[i] && current.slice(0,i).every((x,j)=>x===target[j]) && n > target[i])
+    || current.every((n,i)=>n===target[i]);
+};
 const browserCandidates = [process.env.CHROME_BIN, "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium"].filter(Boolean);
 const chrome = browserCandidates.find(path => {
   try { accessSync(path, constants.X_OK); return true; } catch { return false; }
@@ -677,7 +683,7 @@ try {
 
   // After 0.8.71 deploy: P3641 (125 kg pneumatic / 136 kg tubeless)
   // must never share one generic capacity approval across constructions.
-  if (requiredVersion === "0.8.71") {
+  if (releaseAtLeast("0.8.71")) {
     const page = await open("/invalidni-vozik/");
     await choose(page,"propulsion","self_manual");
     await choose(page,"transferAbility","independent");
@@ -724,7 +730,7 @@ try {
 
   // After release 0.8.72: every ADL product has real-world fit verification
   // before an outbound offer; switching the user's task invalidates the result.
-  if (requiredVersion === "0.8.72") {
+  if (releaseAtLeast("0.8.72")) {
     for (const scenario of [
       {task:"drink",problem:"grip_or_spill",other:[]},
       {task:"stabilize_container",problem:"container_moves",other:[["stableSurface","yes"]]},
@@ -757,6 +763,42 @@ try {
       console.log("PASS ADL fit confirmation and stale-CTA invalidation:",scenario.task);
       await page.close();
     }
+  }
+
+  // SEO 0.8.73: informative page must be genuinely published and discoverable,
+  // with source material, two-way internal links and zero purchase-gate bypass.
+  if (releaseAtLeast("0.8.73")) {
+    const path="/otazky-pred-propustenim-z-nemocnice/";
+    const page=await open(path);
+    const seo=await page.evaluate(() => ({
+      title:document.title,
+      description:document.querySelector('meta[name="description"]')?.content || "",
+      canonical:document.querySelector('link[rel="canonical"]')?.href || "",
+      headings:[...document.querySelectorAll("main h1")].map(e=>e.textContent.trim()),
+      official:[...document.querySelectorAll("main a[href]")].filter(a=>
+        /nzip\\.cz|vzp\\.cz/.test(a.hostname)).length,
+      internal:[...document.querySelectorAll("main a[href]")].map(a=>a.getAttribute("href"))
+        .filter(Boolean),
+      overflow:document.documentElement.scrollWidth-window.innerWidth
+    }));
+    assert.equal(seo.headings.length,1,"Discharge questions must have one H1");
+    assert.match(seo.headings[0],/Na co se zeptat v nemocnici před propuštěním domů/);
+    assert.match(seo.title,/Na co se zeptat před propuštěním z nemocnice/);
+    assert.match(seo.description,/propouštěcí zpráva|domácí péče/);
+    assert.equal(new URL(seo.canonical).pathname,path,"Discharge article canonical must be self-reference");
+    assert.ok(seo.official>=4,"Discharge questions need official evidence links");
+    assert.ok(seo.internal.some(h=>h.includes("/navrat-z-nemocnice/")),"No link to first-night Advisor");
+    assert.ok(seo.overflow<=2,"Mobile overflow on discharge article");
+    assert.equal(await count(page,"main [data-zp-merchant-link], main [data-zp-adl-merchant-link], main .zp-offer"),0,
+      "Informational page may not bypass purchase gates");
+    await page.close();
+    for(const back of ["/navrat-z-nemocnice/","/bezpecny-byt-pro-seniora/"]){
+      const hub=await open(back);
+      assert.ok(await count(hub,'a[href*="/otazky-pred-propustenim-z-nemocnice/"]')>0,
+        "Missing reciprocal internal link on "+back);
+      await hub.close();
+    }
+    console.log("PASS 0.8.73 noncommercial discharge article, SEO metadata, sources and cluster links");
   }
 
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");

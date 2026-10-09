@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_77
+// ZP_RELEASE_0_8_78
 import { chooseAdlSelfCareAid } from "../../src/adl/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 
@@ -140,7 +140,19 @@ if (form && result && submitButton && errorBox) {
 
   form.addEventListener("change", (event) => {
     if (event.target?.name !== "productFit") clearProductFit();
-    if (event.target?.name === "task") updateConditional();
+    if (event.target?.name === "task") {
+      // The previous obstacle belongs to the previous activity. Keeping it
+      // would silently evaluate a mismatched task/problem pair.
+      form.querySelectorAll('input[name="mainProblem"]').forEach((input) => {
+        input.checked = false;
+      });
+      const problemGroup = form.querySelector('[data-zp-adl-required="mainProblem"]');
+      problemGroup?.classList.remove("is-error");
+      problemGroup?.removeAttribute("aria-invalid");
+      errorBox.hidden = true;
+      errorBox.textContent = "";
+      updateConditional();
+    }
 
     const group = event.target?.closest?.("[data-zp-adl-required]");
     if (group && checkedValue(group.dataset.zpAdlRequired)) {

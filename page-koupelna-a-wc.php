@@ -149,6 +149,15 @@ get_header();
 
   <section class="zp-section">
     <div class="zp-wrap">
+      <p class="zp-kicker">Konkrétní situace doma</p>
+      <h2 class="zp-section-title">Člověk bezpečně dojde k WC ve dne, ale jak je to v noci?</h2>
+      <p>Pokud je problém na cestě z postele k toaletě, nestačí řešit jen výšku sedu nebo madla u WC. Ověřte vstávání z postele, noční světlo, průchody, potřebnou oporu i bezpečný návrat.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Noční cesta z postele na WC: sedmibodová kontrola</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section">
+    <div class="zp-wrap">
       <p class="zp-kicker">Důležitá hranice</p>
       <h2 class="zp-section-title">Jednoduchý samostatný přesun přes vanu už umíme odlišit od složitější situace.</h2>
       <p>Pokud člověk zvládne přesun bez fyzické pomoci a vana přesně odpovídá rozměrům bezpečně upevnitelné sedačky, poradce může ukázat kandidátní řešení. Jakmile je potřeba zvedání, jištění druhou osobou nebo je fit vany nejasný, Zápraží zůstane u odborného ověření. Kombinované sprchovací/toaletní vozíky zůstávají mimo automatický produktový výběr.</p>

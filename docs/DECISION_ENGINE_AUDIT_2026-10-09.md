@@ -49,3 +49,7 @@ The first audit removed the obvious unsafe/stale paths. A second adversarial pas
 After these fixes, no further P0/P1 decision-logic gap was found in the 14 Advisor entrypoints during the repository-level audit. Footwear deliberately stops at a candidate model and instructs the visitor to compare measured feet with the merchant's model-specific size table before ordering; adding another binary gate there would duplicate the merchant sizing step rather than close a safety-critical construction fit. ADL remaining checks are task/comfort checks rather than hard structural-fit gates.
 
 Remaining work is therefore practical QA rather than another known engine rewrite: real mobile/desktop walkthroughs, keyboard/touch behavior, and production verification after deployment. The engines still rely on self-reported confirmations and cannot physically measure the home, user or installation.
+
+
+## Release target
+The second-pass fixes are packaged as **0.8.62**. If 0.8.61 has not been deployed yet, deploy 0.8.62 directly rather than deploying both releases in sequence.

@@ -1,5 +1,6 @@
 // ZP_RELEASE_0_8_61
 import { recommendBathroom } from "../../src/bathroom/engine.js";
+import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 
@@ -110,18 +111,23 @@ if (form && result && submitButton && errorBox) {
     };
   };
 
-  const renderSources = (evidence = []) => {
+  const renderSources = (evidence = [], commerceUrls = [], commerceUnlocked = true) => {
     if (!evidence.length) return "";
     return `
       <details class="zp-sources">
         <summary>Zdroje a datum ověření</summary>
         <ul>
-          ${evidence.map((source) => `
-            <li>
-              <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a>
-              <small>ověřeno ${escapeHtml(source.checkedAt)}</small>
-            </li>
-          `).join("")}
+          ${evidence.map((source) => {
+            const canLink = canLinkEvidence(source.url, commerceUrls, commerceUnlocked);
+            return `
+              <li>
+                ${canLink
+                  ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a>`
+                  : "<span>Obchodní produktový podklad – odkaz se zpřístupní po dokončení kontroly</span>"}
+                <small>ověřeno ${escapeHtml(source.checkedAt)}</small>
+              </li>
+            `;
+          }).join("")}
         </ul>
       </details>
     `;
@@ -191,7 +197,7 @@ if (form && result && submitButton && errorBox) {
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
               ${renderReimbursementEvidence(product)}
-              ${renderSources(product.evidence)}
+              ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [], false)}
               ${renderOffers(product.offers)}
             </article>
           `).join("")}

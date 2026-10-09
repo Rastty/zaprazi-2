@@ -28,7 +28,7 @@ function createMobility(overrides = {}) {
     addEventListener(type, callback) { (handlers[type] ||= []).push(callback); },
     querySelector(selector) {
       if (selector === ".zp-fieldset.is-error") return null;
-      const match = selector.match(/^input\\[name="([^"]+)"\\]:checked$/);
+      const match = selector.match(/^input\[name="([^"]+)"\]:checked$/);
       if (!match) throw Error("Unknown form selector: " + selector);
       const name = match[1];
       const value = state[name];
@@ -70,7 +70,7 @@ function createMobility(overrides = {}) {
   };
   const file = "assets/js/mobility-advisor.js";
   const script = fs.readFileSync(new URL("../" + file, import.meta.url), "utf8")
-    .replace(/^import .*;\\s*$/gm, "");
+    .replace(/^import .*;\s*$/gm, "");
   vm.runInNewContext(script, globals, { filename: file, timeout: 1500 });
   return { form, result, submitButton, errorBox, state };
 }
@@ -88,7 +88,7 @@ test("exact rollator rental URL is present only in the hidden model-fit-gated ac
   assert.match(html, /data-zp-mobility-fit-confirm="seat"/);
   assert.match(html, /data-zp-mobility-fit-confirm="transport"/);
   assert.equal(html.split(RENTAL_URL).length - 1, 1, "there must not be a second ungated rental URL");
-  assert.match(html, /<div class="zp-fit-locked-offers" hidden>[\\s\\S]*?data-zp-mobility-rental-link="1"/);
+  assert.match(html, /<div class="zp-fit-locked-offers" hidden>[\s\S]*?data-zp-mobility-rental-link="1"/);
   const acquisition = html.split('<section class="zp-acquisition-evidence">')[1];
   assert.ok(acquisition, "still provide rental and SÚKL acquisition information");
   assert.match(acquisition, /RehaKomp/);

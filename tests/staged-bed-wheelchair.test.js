@@ -20,7 +20,7 @@ test("bed preview identifies exact model but cannot approve unverified space or 
       assert.notEqual(result.status,"candidate");
       assert.deepEqual(result.recommendations,[]);
     }
-    const valid=recommendAdjustableBed({...input,loadFit:"yes",spaceFit:"yes"});
+    const valid=recommendAdjustableBed({...input,loadFit:"yes",spaceFit:"yes",userCapacityVerified:"yes"});
     assert.equal(valid.status,"candidate");
     assert.deepEqual(valid.recommendations[0].productCandidateIds,[id]);
   }
@@ -69,7 +69,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
 
 test("bed and wheelchair Advisor UI renders factual preview before fit, without merchant links",()=>{
   for(const [slug,engine,prefix,fitFields] of [
-    ["bed","previewAdjustableBed","bed",["loadFit","spaceFit"]],
+    ["bed","previewAdjustableBed","bed",["loadFit","spaceFit","userCapacityVerified"]],
     ["wheelchair","previewWheelchair","wheelchair",["seatFit","widthFit","loadFit"]]
   ]) {
     const page=read(slug==="bed"?"page-polohovaci-postel.php":"page-invalidni-vozik.php");

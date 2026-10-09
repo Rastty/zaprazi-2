@@ -128,7 +128,7 @@ test("critical transfer, capacity, width and floor safety gates fail closed acro
   }
   for (const primaryNeed of ["home_positioning","caregiver_access","robust_high_load","advanced_in_bed_care"]) {
     for (const field of ["loadFit","spaceFit"]) {
-      const base={primaryNeed,transferAbility:"independent",loadFit:"yes",spaceFit:"yes"};
+      const base={primaryNeed,transferAbility:"independent",loadFit:"yes",spaceFit:"yes",userCapacityVerified:"yes"};
       for (const value of ["no","unknown"])
         assert.notEqual(recommendAdjustableBed({...base,[field]:value}).status,"candidate");
     }

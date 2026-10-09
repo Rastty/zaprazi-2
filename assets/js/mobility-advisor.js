@@ -117,6 +117,25 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
+  // Renting a named rollator is still selecting that exact physical model.
+  // The specific rental-provider link belongs behind the SAME model checks
+  // as a retail offer, not inside the ungated acquisition-information card.
+  const renderRentalOffers = (productId, duration) => {
+    if (duration === "long_term") return "";
+    const rentals = getRentalGuidance([productId]);
+    return rentals.map((item) => `
+      <div class="zp-offer zp-rental-offer">
+        <small class="zp-affiliate-policy">Půjčení konkrétního modelu</small>
+        <strong>${escapeHtml(item.providerName)}</strong>
+        <p>${item.displayPricing
+          ? `Uváděná cena: ${escapeHtml(item.displayPricing.perDayKc)} Kč/den nebo ${escapeHtml(item.displayPricing.perMonthKc)} Kč/měsíc.`
+          : "Aktuální cena a dostupnost vyžadují nové ověření."}</p>
+        <p class="zp-muted-copy">${escapeHtml(item.note)}</p>
+        <a class="zp-link-btn" data-zp-mobility-rental-link="1" href="${escapeHtml(item.url)}" target="_blank" rel="noopener nofollow">Ověřit dostupnost půjčení</a>
+      </div>
+    `).join("");
+  };
+
   const evidenceLabel = (type) => ({
     instruction_manual: "Návod k použití",
     manufacturer_manual: "Návod výrobce",
@@ -156,7 +175,7 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
-  const renderProducts = (products, fitOptions = {}) => {
+  const renderProducts = (products, fitOptions = {}, duration = "unknown") => {
     if (!products.length) return "";
 
     return `
@@ -175,7 +194,7 @@ if (form && result && submitButton && errorBox) {
               </details>
               ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [])}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
-              ${renderMobilityProductFitGate(renderOffers(product.offers), fitOptions)}
+              ${renderMobilityProductFitGate(renderOffers(product.offers) + renderRentalOffers(product.id, duration), fitOptions)}
             </article>
           `).join("")}
         </div>
@@ -197,7 +216,7 @@ if (form && result && submitButton && errorBox) {
             <h4>${escapeHtml(item.providerName)}</h4>
             ${item.displayPricing ? `<p>Aktuálně uvádí pronájem tohoto typu chodítka za <strong>${escapeHtml(item.displayPricing.perDayKc)} Kč/den</strong> nebo <strong>${escapeHtml(item.displayPricing.perMonthKc)} Kč/měsíc</strong>.</p>` : '<p class="zp-stale-evidence">Cena a dostupnost nebyly v posledních 30 dnech znovu ověřeny. Aktuální podmínky zkontrolujte přímo u půjčovny.</p>'}
             <p class="zp-muted-copy">${escapeHtml(item.note)} Ověřeno ${escapeHtml(formatCheckedAt(item.checkedAt))}.</p>
-            <a class="zp-link-btn" href="${escapeHtml(item.url)}" target="_blank" rel="noopener nofollow">Prověřit půjčení</a>
+            <p class="zp-muted-copy">Odkaz na půjčení konkrétního modelu se zobrazí u výrobku až po potvrzení rozměrů, nosnosti a dalších potřebných kontrol.</p>
           </article>
         `).join("");
 
@@ -376,13 +395,13 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
-      ${renderProducts(products, fitOptions)}
+      ${renderProducts(products, fitOptions, duration)}
       ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 
-    result.querySelectorAll("[data-zp-merchant-link]").forEach((link) => {
+    result.querySelectorAll("[data-zp-merchant-link], [data-zp-mobility-rental-link]").forEach((link) => {
       link.addEventListener("click", () => {
         track("product_click");
         track("merchant_click");

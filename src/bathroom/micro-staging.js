@@ -10,7 +10,7 @@ import { previewBathroomCandidates } from "./preview.js";
  * A change in situation invalidates the preview and clears all fit answers.
  */
 export function installBathroomMicroStaging({
-  form, result, submit, errors, key, requiredAttr, fitNames, primaryNeed, alternativeIds = [], conditionalFit = {}
+  form, result, submit, errors, key, requiredAttr, fitNames, primaryNeed, alternativeIds = [], conditionalFit = {}, dependentFitResets = {}
 }) {
   if (!form || !result || !submit || !errors) return false;
   const preview = document.querySelector("#zp-" + key + "-preview");
@@ -113,6 +113,16 @@ export function installBathroomMicroStaging({
     if (!event.target?.closest?.("#zp-" + key + "-fit-stage")) {
       reset();
       return;
+    }
+    // A confirmation for one construction must never approve a different
+    // construction. In particular, the 110 kg bath bench confirmation cannot
+    // silently approve a 100 kg bath seat after the user switches model.
+    for (const dependentName of dependentFitResets[event.target?.name] || []) {
+      const group = fitGroups.get(dependentName);
+      if (!group) throw new Error("Dependent fit field not found: " + dependentName);
+      group.querySelectorAll('input[type="radio"]').forEach(radio => { radio.checked = false; });
+      group.classList.remove("is-error");
+      group.removeAttribute("aria-invalid");
     }
     updateConditionalFit();
   });

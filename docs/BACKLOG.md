@@ -2348,3 +2348,12 @@ Status: **IMPLEMENTED / RELEASE_PENDING**
 - Track a generic, consent-only `next_step_click` when a visitor follows an internal link from the Advisor result to a different page; do not include target URLs, answers, product IDs, merchant IDs or diagnosis/status in GA4 params.
 - Update public privacy disclosure and strict consent unit tests. Preserve click measurement and affiliate/safety gates without touching recommendation logic.
 - This is instrumentation, **not** evidence of incremental sales. Need comparable GA4 sessions and affiliate-approved order reconciliation before claiming business results.
+
+
+### ZP-118 P0 — Validace nosnosti po přepnutí produktu ve vaně
+Status: **CODE_FIXED / RELEASE_PENDING**
+
+- Reálný produktový rozdíl: BESCO BS008 maximálně 100 kg vs. UNIZDRAV P2203 maximálně 110 kg. Při přepnutí `bathFit` mohl zůstat potvrzený `loadFit=yes` z konstrukce s vyšší nosností a umožnit zobrazit nákup nižší nosnosti.
+- Sdílený micro-staging nyní umí invalidovat závislé fit otázky a vana to explicitně používá na změnu varianty. Uživatelsky vysvětleno nutné nové potvrzení. Přidán regresní test obou směrů a nové dokumentované akceptační brány pro všech 14 poradců.
+- Před nasazením provést kompletní CI a vydat novou integritní release verzi. Poté v produkčním Chrome ověřit, že přepnutí varianty vymaže nosnost a nenabídne produkt do nové potvrzené kontroly.
+- Následně dokončit kompletní manuálovou a situační kontrolu 14 poradců, teprve poté logo + favicon, potom další plán. Viz `docs/ADVISOR_QUALITY_GATE_2026-10-09.md`.

@@ -51,7 +51,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
     {propulsion:"powered",id:"unizdrav-p2961"}
   ];
   for(const {propulsion,id} of modes) {
-    const input={propulsion,wheelType:"pneumatic",transferAbility:"independent",manualControlSafe:"yes",joystickSafe:"yes",chargingReady:"yes",
+    const input={propulsion,wheelType:"pneumatic",seatWidthVariant:"48",transferAbility:"independent",manualControlSafe:"yes",joystickSafe:"yes",chargingReady:"yes",
       loadFit:"unknown",seatFit:"unknown",widthFit:"unknown"};
     const p=previewWheelchair(input);
     assert.equal(p.status,"unverified_preview");
@@ -70,7 +70,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
 test("bed and wheelchair Advisor UI renders factual preview before fit, without merchant links",()=>{
   for(const [slug,engine,prefix,fitFields] of [
     ["bed","previewAdjustableBed","bed",["loadFit","spaceFit","userCapacityVerified"]],
-    ["wheelchair","previewWheelchair","wheelchair",["seatFit","widthFit","wheelType","loadFit"]]
+    ["wheelchair","previewWheelchair","wheelchair",["seatWidthVariant","seatFit","widthFit","wheelType","loadFit"]]
   ]) {
     const page=read(slug==="bed"?"page-polohovaci-postel.php":"page-invalidni-vozik.php");
     const script=read("assets/js/"+slug+"-advisor.js");

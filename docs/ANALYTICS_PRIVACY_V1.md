@@ -30,7 +30,9 @@ GA4 may receive:
 - `builder_complete`,
 - `recommendation_view`,
 - `product_click`,
-- `merchant_click`.
+- `merchant_click`,
+- `affiliate_click`,
+- `next_step_click` (přechod z výsledku poradce na jinou interní stránku, bez cílové URL jako parametru).
 
 For Advisor funnel events the payload is the **event name only**.
 
@@ -88,3 +90,12 @@ Official Google references used for the general GA4 description:
 - https://support.google.com/analytics/answer/11397207?hl=cs
 
 The public page is a technical transparency explanation of the current ZaPrazi implementation, not a substitute for legal advice.
+
+## Measurement quality, iteration 0.8.64
+
+- `builder_start`, `builder_complete` and `recommendation_view` are measured **at most once per page load** after explicit consent. Repeated evaluations of the same answer form do not inflate funnel event counts. Other click events remain click counts.
+- `next_step_click` is emitted only for a user-clicked, same-origin navigation **from a visible Advisor result to a different path** (e.g., compare loan versus purchase, check insurer procedure, visit another Advisor). It excludes on-page anchors, links with query strings, external links, downloads and sponsored merchant CTAs. The event has **no URL, answer, product, merchant or outcome parameters**.
+- No catch-up: actions before consent are not replayed when consent is granted. Denial and revocation continue to block every GA4 event and script.
+- Interpret `next_step_click` as an *interaction*, not proof of understanding or purchase. It is not a conversion or approved affiliate revenue. GA4 cannot alone establish approval status or commissions; reconcile those separately in the affiliate networks.
+- A page path or GA4 technical/session identifiers may still be handled by GA4 after opt-in, as declared publicly. Do not add parameters that reveal answers or health profile.
+- Compare consented and comparable-period funnels only. Avoid treating the first sparse weeks as causal evidence of a UX lift. Segments do not include questionnaire replies.

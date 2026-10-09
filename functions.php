@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.57' );
+  define( 'ZAPRAZI_RELEASE', '0.8.58' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_57';
+  $marker = 'ZP_RELEASE_0_8_58';
   $files = array(
     'header.php',
     'footer.php',
@@ -14,6 +14,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-choditko-na-pojistovnu.php',
     'page-pujceni-choditka.php',
     'page-ochrana-soukromi.php',
+    'page-jak-vznika-doporuceni.php',
     'page-koupelna-a-wc.php',
     'page-pomucky-do-koupelny-na-pojistovnu.php',
     'page-polohovaci-postel.php',

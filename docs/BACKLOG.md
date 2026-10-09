@@ -2244,7 +2244,7 @@ After deploy verify `zaprazi-release=0.8.56`, `zaprazi-integrity=ok` and GA4 deb
 
 
 ### ZP-110 Standalone walker/rollator safe next-step journeys + release 0.8.57
-Status: **READY_DEPLOY**
+Status: **PACKAGED_IN_0_8_58 / NOT_SEPARATELY_DEPLOYED**
 
 Includes green-tested/merged PR #158 on top of user-reported 0.8.56 deployment:
 - On both high-intent pages, an Advisor `candidate` outcome provides relevant in-site guidance to compare renting a walker and to check potential insurance reimbursement, following the engine-provided acquisition order.
@@ -2254,3 +2254,17 @@ Includes green-tested/merged PR #158 on top of user-reported 0.8.56 deployment:
 - Release-integrity markers bumped to 0.8.57 in all critical runtime files, stylesheet and contract tests.
 
 Deploy from dev after main/dev are aligned. Production smoke should verify `zaprazi-release=0.8.57`, integrity `ok`, and both live Advisors: candidate shows safe acquisition routes, a denied brake/physical-assistance route shows no purchase CTA and an edit-answers action.
+
+
+### ZP-111 Honest editorial methodology / trust layer + release 0.8.58
+Status: **READY_DEPLOY**
+
+Includes merged feature PR #160 on top of 0.8.57 (release 0.8.57 was prepared but not user-confirmed deployed):
+- New public page `/jak-vznika-doporuceni/`: methodological source hierarchy, editorial responsibility, practical recommendation vs health-professional boundary, affiliate independence and date of methodology update (not falsely represented as last clinical review of products).
+- Explicit, honest **external expert review is not documented** as of 2026-10-09; no invented physiotherapist, credentials or medical guarantee.
+- Visible trust note on homepage and 13 advisor pages, with direct methodology link in footer.
+- WordPress safely creates new page once without overwriting any existing content or SEO URLs; template included in release integrity list.
+- Tests cover disclosures, non-destructive publication, templates, accessible notice, CSS and PHP lint.
+- Full 0.8.58 marker bump and 0.8.57 mobility next-step improvements included.
+
+Next P0: Confirm live `zaprazi-release=0.8.58` and `zaprazi-integrity=ok`; validate method page URL exists. For legacy 359 known eHub placeholder targets, existing storefront guards already fail closed; do not claim all legacy post-body links repaired. Audit rendered legacy pages and target inventory before safe cleanup. Establish per-URL GSC baseline before any destructive KEEP/MERGE/REPURPOSE/REMOVE action. No verified commissions or live GA4/GSC funnel figures yet.

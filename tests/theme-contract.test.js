@@ -443,7 +443,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.68 deployment integrity contract covers critical runtime files", () => {
+test("0.8.69 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -493,14 +493,14 @@ test("0.8.68 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.68' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.69' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_68/);
+    assert.match(read(path), /ZP_RELEASE_0_8_69/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.68"));
+  assert.ok(read("style.css").includes("Version: 0.8.69"));
 });
 
 
@@ -1014,7 +1014,7 @@ test("Bathroom WC acquisition UI separates direct retail from reimbursement evid
   assert.match(engine, /check_reimbursement_alternative/);
   assert.match(engine, /není automaticky hrazený/);
   assert.match(app, /Aktuální seznam SÚKL/);
-  assert.match(app, /Zdroj VZP/);
+  assert.match(read("src/bathroom/acquisition-view.js"), /Zdroj VZP/);
   assert.match(app, /sponsored/);
   assert.doesNotMatch(app, /hradí tento produkt/i);
 });
@@ -1063,8 +1063,10 @@ test("Bathroom reimbursement resource is created non-destructively and linked fr
   assert.match(page, /UNIZDRAV P2131/);
 
   assert.match(bathroom, /\/pomucky-do-koupelny-na-pojistovnu\//);
-  assert.match(app, /\/pomucky-do-koupelny-na-pojistovnu\//);
-  assert.match(app, /Jak funguje úhrada koupelnových pomůcek/);
+  assert.match(app, /renderBathroomAcquisition/);
+  const shared = read("src/bathroom/acquisition-view.js");
+  assert.match(shared, /\/pomucky-do-koupelny-na-pojistovnu\//);
+  assert.match(shared, /Jak ověřit možnosti úhrady/);
 });
 
 test("Bathroom reimbursement FAQ schema mirrors the visible FAQ", () => {

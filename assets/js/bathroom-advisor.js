@@ -1,6 +1,7 @@
-// ZP_RELEASE_0_8_68
+// ZP_RELEASE_0_8_69
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
+import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 
@@ -199,33 +200,6 @@ if (form && result && submitButton && errorBox) {
               ${renderReimbursementEvidence(product)}
               ${renderSources(product.evidence)}
               ${renderOffers(product.offers)}
-            </article>
-          `).join("")}
-        </div>
-      </section>
-    `;
-  };
-
-  const renderAcquisition = (items = []) => {
-    if (!items.length) return "";
-    return `
-      <section class="zp-acquisition-summary">
-        <h3>Jak řešení získat</h3>
-        <div>
-          ${items.map((item) => `
-            <article>
-              <h4>${escapeHtml(item.label)}</h4>
-              <p>${escapeHtml(item.reason)}</p>
-              ${item.id === "check_reimbursement_alternative" ? `
-                <p>
-                  <a class="zp-link-btn" href="/pomucky-do-koupelny-na-pojistovnu/">Jak funguje úhrada koupelnových pomůcek</a>
-                </p>
-                <p>
-                  <a class="zp-text-link" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Aktuální seznam SÚKL</a>
-                  ·
-                  <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener">Zdroj VZP</a>
-                </p>
-              ` : ""}
             </article>
           `).join("")}
         </div>
@@ -449,7 +423,7 @@ if (form && result && submitButton && errorBox) {
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
       ${renderProducts(products)}
-      ${output.status === "candidate" ? renderAcquisition(output.acquisition) : ""}
+      ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

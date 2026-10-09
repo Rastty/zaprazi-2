@@ -53,6 +53,15 @@ get_header();
           <strong>Po výběru způsobu pohonu ukážeme rozměry kandidáta, které je potřeba ověřit.</strong>
         </div>
 
+
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="seatWidthVariant" hidden>
+          <legend>Jakou přesnou šířku sedu má nabízené provedení vozíku UNIZDRAV P3641?</legend>
+          <p>Každá šířka sedu má jiný celkový rozměr vozíku. Pokud přepnete variantu, ověříte sed i průchody znovu. Rozměry podle výrobce.</p>
+          <label class="zp-choice"><input type="radio" name="seatWidthVariant" value="48"><span><strong>Sed 48 cm</strong><small>Celková šířka vozíku 68 cm, hmotnost 17 kg.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="seatWidthVariant" value="51"><span><strong>Sed 51 cm</strong><small>Celková šířka vozíku 70 cm, hmotnost 17,5 kg.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="seatWidthVariant" value="unknown"><span><strong>Nevím, kterou šířku nabízí obchodník</strong><small>Bez potvrzení varianty nezobrazíme nákupní nabídku.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="seatFit">
           <legend>Ověřili jste šířku sedu přesné nabízené varianty vozíku? U odlehčeného modelu existují různé šířky.</legend>
           <label class="zp-choice"><input type="radio" name="seatFit" value="yes" required><span><strong>Ano</strong></span></label>

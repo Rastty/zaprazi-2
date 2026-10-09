@@ -32,7 +32,7 @@ export function previewWheelchair(input = {}) {
   // Unsafe/unknown personal transfer and powered control must be resolved
   // before even previewing an exact wheelchair model.
   if (!["independent", "steadying"].includes(input.transferAbility)) {
-    const result = recommendWheelchair({ ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic" });
+    const result = recommendWheelchair({ ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic", seatWidthVariant: "48" });
     if (input.transferAbility === "person_assist") return toPreview(result);
     return {
       status: "needs_more_info",
@@ -42,6 +42,6 @@ export function previewWheelchair(input = {}) {
     };
   }
   return toPreview(recommendWheelchair({
-    ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic"
+    ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic", seatWidthVariant: "48"
   }));
 }

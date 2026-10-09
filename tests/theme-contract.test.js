@@ -1352,7 +1352,8 @@ test("Wheelchair Advisor is a separate privacy-safe Slice 4 surface", () => {
   assert.match(page, /data-zp-wheelchair-required=["']widthFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["']loadFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["\']wheelType["\']/);
-  assert.match(read("assets/js/wheelchair-advisor.js"), /updateWheelTypeQuestion/);
+  assert.match(read("assets/js/wheelchair-advisor.js"), /updateVariantQuestions/);
+  assert.match(page, /data-zp-wheelchair-required=["\']seatWidthVariant["\']/);
   assert.match(read("src/wheelchair/engine.js"), /wheelType === "unknown"/);
   assert.match(page, /data-zp-wheelchair-required=["']joystickSafe["']/);
   assert.match(page, /data-zp-wheelchair-required=["']chargingReady["']/);
@@ -1377,7 +1378,8 @@ test("Wheelchair UI exposes exact fit facts without raw body-weight collection",
   const app = read("assets/js/wheelchair-advisor.js");
 
   assert.match(app, /sed 48 cm/);
-  assert.match(app, /68 nebo 70 cm/);
+  assert.match(app, /šířka 68 cm/);
+  assert.match(app, /šířka 70 cm/);
   assert.match(app, /nosnost 135 kg/);
   assert.match(app, /62 kg/);
   assert.match(app, /86,5 cm/);

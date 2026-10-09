@@ -618,6 +618,9 @@ try {
       await checkNoMerchant(page,result);
       const blocked=await page.$eval(result,el=>el.textContent);
       assert.match(blocked,/hmotnosti uživatele|hmotnost samotného uživatele/i);
+      await choose(page,"userCapacityVerified","no");
+      await click(page,"#zp-bed-submit");
+      await checkNoMerchant(page,result);
       await choose(page,"userCapacityVerified","yes");
       await click(page,"#zp-bed-submit");
       assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
@@ -626,6 +629,14 @@ try {
       await choose(page,"primaryNeed","home_positioning");
       assert.equal(await visible(page,result),false,"Changed bed branch must clear stale purchase links");
       await checkNoMerchant(page,result);
+      await click(page,"#zp-bed-submit");
+      assert.equal(await visible(page,'#zp-bed-fit-stage [name="userCapacityVerified"]'),false,
+        "CLASSIC must not require a second patient limit confirmation");
+      await choose(page,"loadFit","yes");
+      await choose(page,"spaceFit","yes");
+      await click(page,"#zp-bed-submit");
+      assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
+        "Explicitly sourced CLASSIC patient limit should retain purchase path");
       console.log("PASS 0.8.70 bed separate patient-weight limit, no bypass and branch reset: "+branch.need);
       await page.close();
     }

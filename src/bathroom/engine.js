@@ -330,15 +330,17 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "toilet_support") {
-    const productCandidateIds = ["unizdrav-p2015"];
-    if (wallFixing === "verified") productCandidateIds.unshift("unizdrav-p2131");
+    // One capacity/fit confirmation cannot safely apply to two different
+    // constructions. The wall-mounted rail is used only when wall fixing
+    // was explicitly verified; otherwise choose the freestanding support.
+    const productCandidateIds = [wallFixing === "verified" ? "unizdrav-p2131" : "unizdrav-p2015"];
 
     return {
       status: "candidate",
       headline: "Má smysl porovnat oporu u WC podle prostoru a způsobu uchycení.",
       nextStep: wallFixing === "verified"
-        ? "Porovnejte pevné madlo a toaletní oporu podle místa úchopu, rozměrů, nosnosti a montáže."
-        : "Dokud není ověřeno bezpečné kotvení do stěny, upřednostněte porovnání řešení, které na nástěnném madle není závislé.",
+        ? "Pro ověřené nástěnné kotvení posuzujte konkrétní madlo a jeho nosnost i upevnění do stěny."
+        : "Bez doloženého bezpečného kotvení do stěny posuzujte samostatnou toaletní oporu, nikoli nástěnné madlo.",
       missing: [],
       recommendations: [{
         id: "toilet_support_candidate",

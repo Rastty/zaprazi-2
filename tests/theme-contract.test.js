@@ -1627,7 +1627,10 @@ test("homepage is a six-scenario hub while keeping Mobility Advisor intact", () 
 
   assert.match(front, /id=["']zp-mobility-advisor["']/);
   assert.match(front, /Začněte situací, ne názvem pomůcky/);
-  assert.match(header, />Zápraží<\/a>/);
+  assert.match(header, /zp-brand-text/);
+  assert.match(header, /<strong>Zápraží<\/strong>/);
+  assert.match(header, /Cesta k lepšímu životu/);
+  assert.match(header, /assets\/brand\/zaprazi-icon\.svg/);
   assert.match(header, /Cesta k lepšímu životu/);
   assert.match(functions, /Zápraží: domácí poradce pro bezpečný a samostatný život doma/);
   assert.match(functions, /Praktický domácí poradce pro chůzi, koupelnu a WC/);
@@ -2395,4 +2398,35 @@ test("mobile anchored Advisors and model-fit touch controls respect the sticky h
   assert.ok(css.includes(".zp-fit-progress{"));
   assert.ok(gate.includes('data-zp-fit-progress role="status" aria-live="polite"'));
   assert.ok(gate.includes("Všechna ověření hotová"));
+});
+
+
+test("brand icon, lockup and monochrome SVG share approved house/path symbol and have safe local assets", () => {
+  const icon = read("assets/brand/zaprazi-icon.svg");
+  const logo = read("assets/brand/zaprazi-logo.svg");
+  const mono = read("assets/brand/zaprazi-logo-monochrome.svg");
+  for (const svg of [icon, logo, mono]) {
+    assert.match(svg, /^<svg xmlns="http:\/\/www\.w3\.org\/2000\/svg"/);
+    assert.match(svg, /viewBox="0 0 /);
+    assert.match(svg, /<title/);
+    assert.match(svg, /d="M9 29\.5 32 9l23 20\.5"/);
+    assert.match(svg, /<\/svg>/);
+    assert.doesNotMatch(svg, /<script|onload=|<foreignObject|https?:\/\/(?!www\.w3\.org)/i);
+  }
+  assert.match(logo, /Zápraží/);
+  assert.match(logo, /Cesta k lepšímu životu/);
+  assert.doesNotMatch(mono, /#b96537|#355d4b/);
+});
+
+test("WordPress native custom logo and site icon win over versioned theme fallbacks", () => {
+  const header = read("header.php");
+  const css = read("style.css");
+  assert.match(header, /has_custom_logo\(\)/);
+  assert.match(header, /the_custom_logo\(\)/);
+  assert.match(header, /! has_site_icon\(\)/);
+  assert.match(header, /rel="icon" type="image\/svg\+xml" sizes="any"/);
+  assert.match(header, /get_theme_file_uri\( '\/assets\/brand\/zaprazi-icon\.svg' \)/);
+  assert.match(header, /alt="" aria-hidden="true"/);
+  assert.match(css, /grid-column:1\/-1;grid-row:2;min-width:0;max-width:100%;width:100%;overflow-x:auto/);
+  assert.match(css, /zp-brand-icon/);
 });

@@ -10,7 +10,7 @@ const cases = [
   ["toilet-riser","nastavec-na-wc-pro-seniory",["toiletFit","feetFlatAtRaisedHeight","loadFit"],"raise_toilet","unizdrav-p2868",{}],
   ["shower-chair","sprchovaci-zidle-pro-seniory",["spaceFit","loadFit"],"shower_seated","unizdrav-p2062",{floorStable:"yes"}],
   ["toilet-chair","toaletni-zidle-pro-seniory",["spaceFit","loadFit"],"toilet_nearby","unizdrav-p2807",{floorStable:"yes"}],
-  ["toilet-support","madlo-k-wc-pro-seniory",["loadFit"],"toilet_support","unizdrav-p2015",{wallFixing:"unverified"}],
+  ["toilet-support","madlo-k-wc-pro-seniory",["loadFit","supportFrameFit"],"toilet_support","unizdrav-p2015",{wallFixing:"unverified"}],
   ["bath-transfer","sedatko-do-vany-pro-seniory",["bathFit","bathBenchFit","loadFit"],"bath_transfer","besco-bs008",{bathTransferIndependent:"yes"}]
 ];
 
@@ -59,7 +59,7 @@ test("each micro preview shows known technical facts, never actual offer or appr
 test("no-fit and unknown capacity remain blocked after preview",()=>{
   for(const [, ,fields,need,,other] of cases){
     const base={primaryNeed:need,transferAbility:"independent",duration:"long_term",...other};
-    const allValid={...base,loadFit:"yes",spaceFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes",
+    const allValid={...base,loadFit:"yes",supportFrameFit:"yes",spaceFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes",
       bathFit:"yes",bathBenchFit:"unknown"};
     assert.equal(recommendBathroom(allValid).status,"candidate");
     for(const field of fields.filter(f=>f!=="bathBenchFit")){

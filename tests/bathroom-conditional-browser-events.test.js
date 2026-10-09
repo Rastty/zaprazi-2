@@ -25,7 +25,7 @@ function runFinalStep(kind, choices, hiddenNames = []) {
     closest(selector) {
       return selector === "[hidden]" && this.hidden ? this : null;
     },
-    focus() { throw Error("Cannot focus hidden or missing fieldset: " + name); }
+    focus() { if (this.hidden || this.closest("[hidden]")) throw Error("Cannot focus hidden fieldset: " + name); this.focused = true; }
   }));
   const form = {
     addEventListener() {},

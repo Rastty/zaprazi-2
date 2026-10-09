@@ -1,3 +1,4 @@
+// ZP_RELEASE_0_8_72
 const TASKS = new Set(["drink", "stabilize_container", "one_hand_meal", "open_packaging", "other", "unknown"]);
 const PROBLEMS = new Set(["grip_or_spill", "container_moves", "one_hand_setup", "grip_or_twist", "swallowing_or_medical", "other", "unknown"]);
 const YES_NO_UNKNOWN = new Set(["yes", "no", "unknown"]);
@@ -65,13 +66,34 @@ export function chooseAdlSelfCareAid(input = {}) {
     task = "unknown",
     mainProblem = "unknown",
     stableSurface = "unknown",
-    oneHandUse = "unknown"
+    oneHandUse = "unknown",
+    productFit = "unknown"
   } = input;
 
   if (!TASKS.has(task)) return invalid("task");
   if (!PROBLEMS.has(mainProblem)) return invalid("mainProblem");
   if (!YES_NO_UNKNOWN.has(stableSurface)) return invalid("stableSurface");
   if (!YES_NO_UNKNOWN.has(oneHandUse)) return invalid("oneHandUse");
+  if (!YES_NO_UNKNOWN.has(productFit)) return invalid("productFit");
+
+  // Knowing a matching product category does not verify the exact real-world fit.
+  // Merchant routes must remain closed until the specific checks are confirmed.
+  const verifiedCandidate = (headline, nextStep, candidate, checks, safetyNote = null) => {
+    if (productFit === "yes") return { ...result("candidate", headline, nextStep, candidate, checks, safetyNote), requiresProductFit: true };
+    return { ...result(
+      "needs_fit_check",
+      productFit === "no"
+        ? "Tato pomůcka zatím nesplňuje ověřené podmínky."
+        : "Našli jsme konkrétní pomůcku, ale její použití ještě není ověřené.",
+      productFit === "no"
+        ? "Pokud některá důležitá podmínka nevyhovuje, tento výrobek nekupujte. Vyberte jiné řešení nebo se poraďte s odborníkem."
+        : "Než zobrazíme nákupní nabídku, ověřte níže uvedené praktické podmínky přímo pro vybraný výrobek. Pokud si nejste jistí, odpovězte Nevím.",
+      candidate,
+      checks,
+      safetyNote
+    ), requiresProductFit: true };
+  };
+
 
   if (mainProblem === "swallowing_or_medical") {
     return result(
@@ -85,8 +107,7 @@ export function chooseAdlSelfCareAid(input = {}) {
   }
 
   if (task === "drink" && mainProblem === "grip_or_spill") {
-    return result(
-      "candidate",
+    return verifiedCandidate(
       "Pro snazší samostatné pití dává smysl ověřit UpCup.",
       "Ověřte, že problém je hlavně v držení, naklánění nebo rozlévání. Pokud je problém v samotném polykání, produkt nevybírejte tímto poradcem.",
       CANDIDATES.upcup,
@@ -113,8 +134,7 @@ export function chooseAdlSelfCareAid(input = {}) {
       );
     }
 
-    return result(
-      "candidate",
+    return verifiedCandidate(
       "Pro stabilizaci nádoby dává smysl ověřit Beat It.",
       "Před nákupem ověřte, že používaná nádoba a pracovní plocha odpovídají způsobu upevnění.",
       CANDIDATES.beatIt,
@@ -123,8 +143,7 @@ export function chooseAdlSelfCareAid(input = {}) {
   }
 
   if (task === "open_packaging" && mainProblem === "grip_or_twist") {
-    return result(
-      "candidate",
+    return verifiedCandidate(
       "Pro běžné otevírání lahví, plechovek, zipů a obalů dává smysl ověřit MVS Open-It.",
       "Ověřte, že problém je opravdu v úchopu, otočení nebo zatažení při otevírání běžného obalu. Tato větev neslouží k rozhodování o lécích ani dávkování.",
       CANDIDATES.openIt,
@@ -152,8 +171,7 @@ export function chooseAdlSelfCareAid(input = {}) {
       );
     }
 
-    return result(
-      "candidate",
+    return verifiedCandidate(
       "Pro jídlo a přípravu jednou rukou dává smysl ověřit Theomatik.",
       "Před nákupem ověřte rozměry pracovní plochy a zda podnos řeší právě konkrétní činnost, která doma nejvíc omezuje samostatnost.",
       CANDIDATES.theomatik,

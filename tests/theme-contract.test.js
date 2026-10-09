@@ -443,7 +443,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.71 deployment integrity contract covers critical runtime files", () => {
+test("0.8.72 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -494,18 +494,19 @@ test("0.8.71 deployment integrity contract covers critical runtime files", () =>
     "src/decision/product-preview.js",
     "src/wheelchair/engine.js",
     "src/wheelchair/catalog.js",
+    "src/adl/engine.js",
     "assets/js/runtime-config.js",
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.71' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.72' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_71/);
+    assert.match(read(path), /ZP_RELEASE_0_8_72/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.71"));
+  assert.ok(read("style.css").includes("Version: 0.8.72"));
 });
 
 
@@ -1544,7 +1545,7 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.match(page, /Nezadávejte jméno, diagnózu, typ operace/i);
   assert.match(page, /polykání, zakuckávání/i);
 
-  for (const field of ["task", "mainProblem", "stableSurface", "oneHandUse"]) {
+  for (const field of ["task", "mainProblem", "stableSurface", "oneHandUse", "productFit"]) {
     assert.ok(page.includes(`data-zp-adl-required="${field}"`) || page.includes(`name="${field}"`), `missing ADL field ${field}`);
   }
 
@@ -1554,6 +1555,10 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.doesNotMatch(app, /new FormData/);
   assert.match(app, /affiliateMap/);
   assert.match(app, /output\.status === "candidate"/);
+  assert.match(page, /id="zp-adl-product-fit"/);
+  assert.match(app, /clearProductFit/);
+  assert.match(app, /showProductFit/);
+  assert.match(engine, /const verifiedCandidate/);
 
   assert.match(engine, /swallowing_or_medical/);
   assert.match(engine, /professional_check/);

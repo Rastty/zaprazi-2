@@ -339,9 +339,9 @@ try {
     assert.match(acquisition, /cenu za týden nebo měsíc, kauci/, scenario.slug);
     assert.match(acquisition, /Půjčovny jsou místní služby/, scenario.slug);
     assert.match(acquisition, /Aktuální seznam SÚKL/, scenario.slug);
-    const explanations=await page.$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
+    const explanations=await page.evaluate(selector => [...document.querySelectorAll(selector)].map(n=>({
       heading:n.querySelector("h3")?.textContent.trim(),reason:n.querySelector("p")?.textContent.trim()
-    })));
+    })), result+" .zp-why-recommendation");
     assert.equal(explanations.length,1,"Each completed micro Advisor must explain its chosen solution");
     assert.equal(explanations[0].heading,"Proč právě toto řešení?");
     assert.ok(explanations[0].reason?.length>28,"Missing substantial reason for "+scenario.slug);

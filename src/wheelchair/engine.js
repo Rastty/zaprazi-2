@@ -14,6 +14,7 @@ const TRANSFER = new Set([
 ]);
 
 const FIT = new Set(["yes", "no", "unknown"]);
+const WHEEL_TYPES = new Set(["pneumatic", "tubeless", "unknown"]);
 const DURATION = new Set(["short_term", "long_term", "unknown"]);
 
 function invalid(field) {
@@ -101,6 +102,7 @@ export function recommendWheelchair(input = {}) {
     seatFit = "unknown",
     widthFit = "unknown",
     loadFit = "unknown",
+    wheelType = "unknown",
     manualControlSafe = "unknown",
     joystickSafe = "unknown",
     chargingReady = "unknown",
@@ -113,6 +115,7 @@ export function recommendWheelchair(input = {}) {
     if (!FIT.has(value)) return invalid(name);
   }
   if (!DURATION.has(duration)) return invalid("duration");
+  if (!WHEEL_TYPES.has(wheelType)) return invalid("wheelType");
 
   if (propulsion === "unknown") {
     return needsMoreInfo(
@@ -148,6 +151,16 @@ export function recommendWheelchair(input = {}) {
       "manualControlSafe",
       "Před ručním pohonem potřebujeme ověřit praktické ovládání vozíku.",
       "Ověřte, zda člověk na běžné trase zvládne vozík rukama rozjet, řídit, zpomalit a zastavit a bezpečně použít parkovací brzdu."
+    );
+  }
+
+  // P3641 capacity is wheel-variant dependent: 125kg pneumatic, 136kg tubeless.
+  // Generic loadFit=yes cannot unlock a P3641 offer without variant identity.
+  if (["self_manual", "mixed_manual"].includes(propulsion) && wheelType === "unknown") {
+    return needsMoreInfo(
+      "wheelType",
+      "U odlehčeného vozíku musíme nejdřív určit provedení zadních kol.",
+      "UNIZDRAV P3641 má podle výrobce limit 125 kg s pneumatickými koly nebo 136 kg s bezdušovými. Ověřte konkrétní nabízené provedení a potom potvrďte jeho nosnost."
     );
   }
 
@@ -241,10 +254,11 @@ export function recommendWheelchair(input = {}) {
     };
   }
 
+  const variantLabel = wheelType === "pneumatic" ? "pneumatická kola – 125 kg" : "bezdušová kola – 136 kg";
   return {
     status: "candidate",
     headline: "Odlehčený mechanický vozík pro samostatný pohon i doprovod může být kandidátní řešení.",
-    nextStep: "Vyberte správnou šířku sedu a variantu kol, ověřte nosnost a celkovou šířku v domácích průchodech.",
+    nextStep: "Při nákupu vyberte skutečně potvrzené provedení kol a šířku sedu. Znovu ověřte nosnost, celkovou šířku a nastavení ve svých podmínkách.",
     missing: [],
     recommendations: [{
       id: "manual_self_or_companion_candidate",
@@ -252,10 +266,10 @@ export function recommendWheelchair(input = {}) {
       reason: propulsion === "self_manual"
         ? "Uživatel má vozík pohánět rukama a zadní kola mají hnací obruče pro samostatný pohyb."
         : "Využití se má střídat mezi samostatným pohonem a doprovodem.",
-      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", "nosnost 125 nebo 136 kg podle kol", "hmotnost 17–17,5 kg", "hnací obruče", "bezpečné řízení a zastavení", "parkovací brzda", "brzdy pro doprovod"],
+      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", `ověřená varianta: ${variantLabel}`, "hmotnost 17–17,5 kg", "hnací obruče", "bezpečné řízení a zastavení", "parkovací brzda", "brzdy pro doprovod"],
       productCandidateIds: ["unizdrav-p3641"]
     }],
     acquisition: acquisitionFor(duration, false),
-    disclaimer: "Před dlouhodobým používáním je potřeba správně nastavit šířku sedu, stupačky a posed."
+    disclaimer: "Potvrzení platí pouze pro zvolené provedení kol; nepřenášejte jej na jiné provedení. Před dlouhodobým používáním správně nastavte šířku sedu, stupačky a posed."
   };
 }

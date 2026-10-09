@@ -1956,6 +1956,39 @@ add_action( 'init', 'zaprazi_2_ensure_discharge_questions_page', 32 );
  * generic 'safe home' or post-discharge landing page.
  * Create only if the canonical slug is unused; never edit legacy pages.
  */
+// Idempotent publication: never rewrite or replace an existing legacy page.
+function zaprazi_2_ensure_walker_measurements_page() {
+  if ( '1' === get_option( 'zaprazi_walker_measurements_page_v1' ) ) {
+    return;
+  }
+  $slug = 'co-zmerit-pred-vyberem-choditka';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Co změřit před výběrem chodítka nebo rollátoru',
+      'post_name'    => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Sedm praktických kontrol před výběrem chodítka: výška madel, průchody, podlaha, brzdy, sed, nosnost a převoz.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-co-zmerit-pred-vyberem-choditka.php',
+      ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_walker_measurements_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_walker_measurements_page', 34 );
+
+function zaprazi_2_is_walker_measurements_page() {
+  return is_page( 'co-zmerit-pred-vyberem-choditka' );
+}
+
 function zaprazi_2_ensure_night_wc_page() {
   if ( '1' === get_option( 'zaprazi_night_wc_page_v1' ) ) {
     return;
@@ -2018,6 +2051,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_walker_measurements_page() ) {
+    return 'Co změřit před výběrem chodítka a rollátoru | Zápraží';
+  }
   if ( zaprazi_2_is_night_wc_page() ) {
     return 'Noční cesta z postele na WC: 7 bodů kontroly | Zápraží';
   }
@@ -2054,6 +2090,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_walker_measurements_page() ) {
+    return 'Co změřit doma před pořízením chodítka nebo rollátoru: výška madel, dveře, otočení, brzdy, nosnost, sed a složení. Praktický seznam a bezpečné poradce.';
+  }
   if ( zaprazi_2_is_night_wc_page() ) {
     return 'Noční cesta z postele na WC: praktická kontrola světla, překážek, vstávání, chůze a bezpečného návratu. Sedm bodů a návazní poradci.';
   }
@@ -2099,6 +2138,15 @@ function zaprazi_2_discharge_questions_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
 }
 add_action( 'wp_head', 'zaprazi_2_discharge_questions_meta_fallback', 5 );
+
+/** Only when Yoast is inactive, do not emit a duplicate description tag. */
+function zaprazi_2_walker_measurements_meta_fallback() {
+  if ( ! zaprazi_2_is_walker_measurements_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_walker_measurements_meta_fallback', 5 );
 
 /** Only when Yoast is inactive: one non-duplicated descriptive tag. */
 function zaprazi_2_night_wc_meta_fallback() {

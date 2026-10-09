@@ -27,8 +27,8 @@ const scenarios = [
   ["robust bed",recommendAdjustableBed,getAdjustableBedProducts,{primaryNeed:"robust_high_load",loadFit:"yes",spaceFit:"yes"}],
   ["advanced care bed",recommendAdjustableBed,getAdjustableBedProducts,{primaryNeed:"advanced_in_bed_care",loadFit:"yes",spaceFit:"yes"}],
   ["companion wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
-  ["manual wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"self_manual",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
-  ["mixed wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"mixed_manual",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
+  ["manual wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"self_manual",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
+  ["mixed wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"mixed_manual",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
   ["powered wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"powered",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes"}]
 ];
 

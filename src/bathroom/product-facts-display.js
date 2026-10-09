@@ -34,7 +34,7 @@ export function formatBathroomFacts(facts = {}) {
       // Never present an untranslated internal database property to readers.
       if (!entry) throw new Error("Unknown Bathroom fact label: " + key);
       const rendered = (Array.isArray(value) ? value.join(" / ") : String(value))
-        .replace(/(\\d)\\.(\\d)/g, "$1,$2");
+        .replace(/(\d)\.(\d)/g, "$1,$2");
       return entry[0] + ": " + rendered + " " + entry[1];
     });
 }

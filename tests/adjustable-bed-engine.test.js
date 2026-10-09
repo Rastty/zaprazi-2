@@ -124,9 +124,34 @@ test("generic bed nosnost cannot authorize Hospital or Multibed patient-weight s
     const confirmed = recommendAdjustableBed({...input, userCapacityVerified:"yes"});
     assert.equal(confirmed.status, "candidate");
   }
-  const classic = recommendAdjustableBed({primaryNeed:"home_positioning",loadFit:"yes",spaceFit:"yes"});
+  const classic = recommendAdjustableBed({primaryNeed:"home_positioning",transferAbility:"independent",loadFit:"yes",spaceFit:"yes"});
   assert.equal(classic.status,"candidate","CLASSIC has a separately evidenced max patient weight");
   assert.equal(recommendAdjustableBed({
     primaryNeed:"robust_high_load",loadFit:"yes",spaceFit:"yes",userCapacityVerified:"untrusted"
   }).status,"invalid_input");
+});
+
+test("unknown transfer blocks any exact bed even if dimensions and capacity are approved", () => {
+  for (const primaryNeed of [
+    "home_positioning", "caregiver_access", "robust_high_load", "advanced_in_bed_care"
+  ]) {
+    const out = recommendAdjustableBed({
+      primaryNeed, transferAbility: "unknown",
+      loadFit: "yes", spaceFit: "yes", userCapacityVerified: "yes"
+    });
+    assert.equal(out.status, "needs_more_info", primaryNeed);
+    assert.deepEqual(out.missing, ["transferAbility"]);
+    assert.deepEqual(out.recommendations, []);
+    assert.deepEqual(out.acquisition, []);
+    assert.match(out.nextStep, /postel.*židle.*WC/i);
+  }
+});
+
+test("actual assisted transfer remains eligible for caregiving bed with explicit transfer warning", () => {
+  const out = recommendAdjustableBed({
+    primaryNeed: "caregiver_access", transferAbility: "person_assist",
+    loadFit: "yes", spaceFit: "yes"
+  });
+  assert.equal(out.status, "candidate");
+  assert.match(out.disclaimer, /sama neřeší bezpečný přesun/);
 });

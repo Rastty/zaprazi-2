@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_79
+// ZP_RELEASE_0_8_80
 const PRIMARY_NEEDS = new Set([
   "home_positioning",
   "caregiver_access",
@@ -119,6 +119,17 @@ export function recommendAdjustableBed(input = {}) {
       "primaryNeed",
       "Nejdřív potřebujeme vědět, co má nová postel prakticky vyřešit.",
       "Rozlište běžné elektrické polohování doma, snazší péči u lůžka, potřebu vyšší nosnosti nebo specializované funkce přímo na lůžku."
+    );
+  }
+
+  // A bed's width and capacity do not establish safe transfers. If the family
+  // does not know how transfers will work, no exact purchase candidate yet.
+  // Assisted transfers remain eligible for a bed but require a separate plan.
+  if (transferAbility === "unknown") {
+    return needsMoreInfo(
+      "transferAbility",
+      "Nejdřív upřesněte, jak bude člověk bezpečně vstávat a přesouvat se z postele.",
+      "Ověřte běžný přesun postel–židle–WC: samostatně, s oporou nebo dohledem, s fyzickou pomocí druhé osoby, případně zda člověk většinu času zůstává na lůžku. Nejasný přesun neřešte nákupem postele; postup si vyjasněte s nemocničním týmem nebo odborníkem."
     );
   }
 

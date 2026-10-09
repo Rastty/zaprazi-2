@@ -1063,8 +1063,10 @@ test("Bathroom reimbursement resource is created non-destructively and linked fr
   assert.match(page, /UNIZDRAV P2131/);
 
   assert.match(bathroom, /\/pomucky-do-koupelny-na-pojistovnu\//);
-  assert.match(app, /\/pomucky-do-koupelny-na-pojistovnu\//);
-  assert.match(app, /Jak funguje úhrada koupelnových pomůcek/);
+  assert.match(app, /renderBathroomAcquisition/);
+  const shared = read("src/bathroom/acquisition-view.js");
+  assert.match(shared, /\/pomucky-do-koupelny-na-pojistovnu\//);
+  assert.match(shared, /Jak ověřit možnosti úhrady/);
 });
 
 test("Bathroom reimbursement FAQ schema mirrors the visible FAQ", () => {

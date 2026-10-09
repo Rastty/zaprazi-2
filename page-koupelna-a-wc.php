@@ -43,21 +43,21 @@ get_header();
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-bath-conditional="simple" data-zp-bath-required="loadFit" hidden>
-          <legend>Ověřili jste, že nosnost vybraného typu pomůcky bezpečně pokrývá člověka?</legend>
+          <legend>Má konkrétní zobrazená pomůcka dostatečnou nosnost pro člověka, který ji bude používat?</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong><small>Poradce nebude chtít přesnou hmotnost ukládat.</small></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-bath-conditional="raise_toilet" data-zp-bath-required="toiletFit" hidden>
-          <legend>Pasuje zvolený nástavec rozměry a upevněním na konkrétní WC?</legend>
+          <legend>Pasuje výše zobrazený nástavec způsobem uchycení a rozměry na vaše WC?</legend>
           <label class="zp-choice"><input type="radio" name="toiletFit" value="yes"><span><strong>Ano, ověřeno</strong></span></label>
           <label class="zp-choice"><input type="radio" name="toiletFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="toiletFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-bath-conditional="raise_toilet" data-zp-bath-required="feetFlatAtRaisedHeight" hidden>
-          <legend>Po zvýšení sedu dosáhne člověk chodidly bezpečně na podlahu?</legend>
+          <legend>Po zvýšení WC o výše uvedenou výšku dosáhne člověk chodidly bezpečně na podlahu?</legend>
           <label class="zp-choice"><input type="radio" name="feetFlatAtRaisedHeight" value="yes"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="feetFlatAtRaisedHeight" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="feetFlatAtRaisedHeight" value="unknown"><span><strong>Nevím</strong></span></label>
@@ -113,8 +113,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <section id="zp-bathroom-preview" class="zp-result zp-bathroom-preview" aria-live="polite" tabindex="-1" hidden></section>
+        <section id="zp-bathroom-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bathroom-fit-title" hidden>
+          <h3 id="zp-bathroom-fit-title">2. Ověřte parametry zobrazené pomůcky</h3>
+          <p>Teď už znáte konkrétní výrobek, jeho maximální nosnost a rozměry. Porovnejte je s realitou doma. Pokud si nejste jistí, zvolte <strong>Nevím</strong> – takový výrobek neoznačíme za ověřený.</p>
+        </section>
         <div id="zp-bathroom-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bathroom-submit">Zjistit vhodný další krok</button>
+        <button class="zp-btn zp-submit" type="button" id="zp-bathroom-submit">1. Ukázat možná řešení</button>
         <p id="zp-bathroom-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do adresy stránky a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

@@ -2285,7 +2285,7 @@ After Pull+Deploy verify `/koupelna-a-wc/` first shows '1. Ukázat možná řeš
 
 
 ### ZP-113 Bed, wheelchair and 5 standalone Bathroom Advisors: facts before fit + release 0.8.60
-Status: **READY_DEPLOY**
+Status: **DEPLOY_REPORTED / INTEGRITY_VERIFIED**
 
 Includes green-tested and merged PRs #164 and #165, on top of not-user-reported-deployed 0.8.59:
 - High-risk adjustable bed and wheelchair advisors now show exact model facts, dimensions and capacity **before** visitors must confirm model-specific fit. No merchant links appear in the preview; only original strict engine with actual yes/no answers can authorize outbound product offers.
@@ -2296,3 +2296,19 @@ Includes green-tested and merged PRs #164 and #165, on top of not-user-reported-
 - All 43 integrity-critical runtime files updated to release 0.8.60; PHP theme constant and stylesheet version aligned.
 
 After Pull+Deploy from dev verify meta `zaprazi-release=0.8.60`, `zaprazi-integrity=ok` and run actual browser interactions across all 8 updated advisor entry points. No commission/revenue claims from these tests.
+
+
+### ZP-114 Decision engine full sales flow audit + release 0.8.61
+Status: **READY_DEPLOY**
+
+Production 0.8.60 verified on 2026-10-09: `release=0.8.60`, `integrity=ok`, 25/25 configured affiliate slots. Independent audit found P0 safety/UX shortcomings. PR #168 merged after full green CI; release #169 packaging:
+- Any change to form responses immediately clears the previously displayed merchant CTA across all 14 Advisor entrypoints (including wheelchair, bed, bathroom and mobility). No stale recommendations remain clickable.
+- Core wheelchair engine fails closed when transfer type is unknown, not just at UI preview level.
+- Bathroom toilet-support uses *one* concrete product candidate per capacity confirmation: wall rail if wall fixing verified, otherwise freestanding frame. Never silently approve two different constructions with one answer.
+- All mobility entrypoints now display technical specifications first and guard every model's retailer offers behind three separate user confirmations: weight capacity, actual width and safe handle-height fit. Each model's checks stay independent, and unticking any locks links again. No input storage or event answers transmitted.
+- Added deep matrix tests for all major safety gates and regression coverage for 20 catalog mapping decision paths. Clarified variant-specific wheelchair widths/loads, bathroom bath-transfer seat vs bench limits, and bed max user weight.
+- All 43 critical theme runtime files, PHP release constant, CSS and tests aligned to 0.8.61; full CI must be green before merge.
+
+**Remaining checks, not automatically certified:** end-to-end mobile/caregiver usability with 5 people, actual product manual and manufacturer verification freshness, individual seat/rail mounting correctness, affiliate network attribution, and real-world medical suitability. No audited automation can replace physical measurement or professional assessment.
+
+After user Pull+Deploy verify `release=0.8.61`, `integrity=ok`, 25/25 slots. Check changing an input hides previously generated buy links, and unchecking any width/load/height fit on a walker immediately hides its merchant CTA.

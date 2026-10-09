@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_60 */
+/* ZP_RELEASE_0_8_61 */
 /*
 Template Name: Zápraží — Polohovací postel
 */
@@ -48,7 +48,7 @@ get_header();
         </div>
 
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-bed-required="loadFit">
-          <legend>Ověřili jste, že nosnost kandidátní postele bezpečně stačí?</legend>
+          <legend>Ověřili jste maximální povolenou hmotnost uživatele konkrétní zobrazené postele? Nezaměňujte ji s nosností celé konstrukce.</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong><small>Přesnou hmotnost člověka do poradce nezadávejte.</small></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>

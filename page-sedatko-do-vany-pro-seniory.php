@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_60 */
+/* ZP_RELEASE_0_8_61 */
 /*
 Template Name: Zápraží — Sedátko do vany pro seniory
 */
@@ -55,7 +55,7 @@ get_header();
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-bath-required="loadFit">
-          <legend>Je ověřeno, že nosnost konkrétního řešení bezpečně vyhovuje?</legend>
+          <legend>Ověřili jste nosnost podle varianty, která skutečně pasuje? Sedačka na okraj BESCO BS008 má limit 100 kg, transferová židle UNIZDRAV P2203 110 kg.</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>

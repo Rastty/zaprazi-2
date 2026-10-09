@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_58
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 
 const form = document.querySelector("#zp-bathroom-advisor");
 const result = document.querySelector("#zp-bathroom-result");
@@ -24,6 +25,24 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox) {
+  const preview = document.querySelector("#zp-bathroom-preview");
+  const fitStage = document.querySelector("#zp-bathroom-fit-stage");
+  let previewReady = false;
+
+  // Move only model-dependent questions behind the product preview.
+  // Questions about practical transfer, floor stability and fixing conditions
+  // are still asked first, so unsafe transfers never receive a product preview.
+  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "spaceFit", "bathFit", "bathBenchFit"];
+  if (preview && fitStage) {
+    for (const name of fitNames) {
+      const fieldset = form.querySelector(`[data-zp-bath-required="${name}"]`);
+      if (fieldset) {
+        fieldset.dataset.zpBathFitCheck = "1";
+        fitStage.appendChild(fieldset);
+      }
+    }
+  }
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
@@ -200,6 +219,48 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
+  const readAnswers = () => ({
+    primaryNeed: checkedValue("primaryNeed"),
+    transferAbility: checkedValue("transferAbility", "unknown"),
+    loadFit: checkedValue("loadFit", "unknown"),
+    toiletFit: checkedValue("toiletFit", "unknown"),
+    feetFlatAtRaisedHeight: checkedValue("feetFlatAtRaisedHeight", "unknown"),
+    floorStable: checkedValue("floorStable", "unknown"),
+    spaceFit: checkedValue("spaceFit", "unknown"),
+    wallFixing: checkedValue("wallFixing", "unknown"),
+    bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
+    bathFit: checkedValue("bathFit", "unknown"),
+    bathBenchFit: checkedValue("bathBenchFit", "unknown"),
+    duration: checkedValue("duration", "unknown")
+  });
+
+  const renderPreviewProduct = (product, alternative = false) => `
+    <article class="zp-product-card">
+      <p class="zp-product-family">${alternative ? "Možná alternativa, pokud první varianta nepasuje" : "Výrobek k ověření"}</p>
+      <h4>${escapeHtml(product.name)}</h4>
+      <ul class="zp-facts">${factsFor(product)}</ul>
+      <p class="zp-muted-copy">Parametry výrobku jsou z podkladů uvedených níže. Zatím nemáme ověřeno, že rozměry, nosnost nebo uchycení vyhovují vašemu použití.</p>
+      <details><summary>Co je před pořízením potřeba ověřit</summary><ul>
+        ${product.selectionNotes.map(note => `<li>${escapeHtml(note)}</li>`).join("")}
+      </ul></details>
+      ${renderSources(product.evidence)}
+    </article>
+  `;
+
+  const showBlockedPreview = (outcome) => {
+    previewReady = false;
+    if (preview) preview.hidden = true;
+    if (fitStage) fitStage.hidden = true;
+    result.innerHTML = `
+      <p class="zp-result-status">${escapeHtml(statusLabel(outcome.status))}</p>
+      <h2>${escapeHtml(outcome.headline)}</h2>
+      <p>${escapeHtml(outcome.nextStep)}</p>
+      <p class="zp-disclaimer">Konkrétní produkt bez bezpečných podkladů zatím nezobrazujeme.</p>
+    `;
+    result.hidden = false;
+    result.focus();
+  };
+
   const visibleRequiredGroups = () =>
     [...form.querySelectorAll("[data-zp-bath-required]")].filter((fieldset) => !fieldset.hidden);
 
@@ -251,7 +312,8 @@ if (form && result && submitButton && errorBox) {
   const updateConditionalQuestions = () => {
     const need = checkedValue("primaryNeed", "");
     form.querySelectorAll("[data-zp-bath-conditional]").forEach((fieldset) => {
-      const show = shouldShow(fieldset.dataset.zpBathConditional, need);
+      const show = shouldShow(fieldset.dataset.zpBathConditional, need)
+        && (!fieldset.dataset.zpBathFitCheck || previewReady);
       fieldset.hidden = !show;
 
       if (!show) {
@@ -267,6 +329,15 @@ if (form && result && submitButton && errorBox) {
   updateConditionalQuestions();
 
   form.addEventListener("change", (event) => {
+    if (previewReady && !event.target?.closest?.("#zp-bathroom-fit-stage")) {
+      // A first-stage answer changed: prior preview and product checks are stale.
+      previewReady = false;
+      preview.hidden = true;
+      fitStage.hidden = true;
+      result.hidden = true;
+      submitButton.textContent = "1. Ukázat možná řešení";
+      fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    }
     if (["primaryNeed", "bathFit"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
@@ -287,22 +358,53 @@ if (form && result && submitButton && errorBox) {
   });
 
   submitButton.addEventListener("click", () => {
-    if (!validate()) return;
+    if (!preview || !fitStage || !validate()) return;
 
-    const output = recommendBathroom({
-      primaryNeed: checkedValue("primaryNeed"),
-      transferAbility: checkedValue("transferAbility", "unknown"),
-      loadFit: checkedValue("loadFit", "unknown"),
-      toiletFit: checkedValue("toiletFit", "unknown"),
-      feetFlatAtRaisedHeight: checkedValue("feetFlatAtRaisedHeight", "unknown"),
-      floorStable: checkedValue("floorStable", "unknown"),
-      spaceFit: checkedValue("spaceFit", "unknown"),
-      wallFixing: checkedValue("wallFixing", "unknown"),
-      bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
-      bathFit: checkedValue("bathFit", "unknown"),
-      bathBenchFit: checkedValue("bathBenchFit", "unknown"),
-      duration: checkedValue("duration", "unknown")
-    });
+    if (!previewReady) {
+      const initialAnswers = readAnswers();
+      const previewOutcome = previewBathroomCandidates(initialAnswers);
+      if (previewOutcome.status !== "unverified_preview") {
+        showBlockedPreview(previewOutcome);
+        return;
+      }
+
+      // Stage 1 is a *product-facts preview only*: NO merchant URLs and
+      // NO eligibility claim. Physical fit will be evaluated by the original
+      // strict engine only after explicit visitor confirmation in stage 2.
+      const ids = [...previewOutcome.productCandidateIds];
+      if (initialAnswers.primaryNeed === "bath_transfer") {
+        ids.push("unizdrav-p2203"); // alternative only if rim-mounted seat cannot fit
+      }
+      const products = getBathroomProducts([...new Set(ids)]);
+      if (!products.length) {
+        showBlockedPreview({
+          status: "needs_more_info",
+          headline: "V této situaci zatím nemáme ověřené konkrétní výrobky.",
+          nextStep: "Vyberte jiný praktický problém nebo požádejte o odborné posouzení."
+        });
+        return;
+      }
+
+      const primaryIds = new Set(previewOutcome.productCandidateIds);
+      preview.innerHTML = `
+        <p class="zp-result-status">1. Orientační výběr – není potvrzená vhodnost</p>
+        <h2>${escapeHtml(previewOutcome.headline)}</h2>
+        <p>${escapeHtml(previewOutcome.nextStep)}</p>
+        <div class="zp-product-grid">${products.map(p => renderPreviewProduct(p, !primaryIds.has(p.id))).join("")}</div>
+        <p class="zp-disclaimer">Nejde o schválení nákupu. Odkazy na obchodníky se objeví až tehdy, když bezpečnostní podmínky pro konkrétní výrobek skutečně ověříte.</p>
+      `;
+      previewReady = true;
+      updateConditionalQuestions();
+      fitStage.hidden = false;
+      preview.hidden = false;
+      result.hidden = true;
+      submitButton.textContent = "2. Vyhodnotit ověření a pokračovat";
+      preview.focus();
+      return;
+    }
+
+    // Stage 2: the original fail-closed engine receives ONLY actual answers.
+    const output = recommendBathroom(readAnswers());
 
     const recommendations = output.recommendations.map((item) => `
       <article>

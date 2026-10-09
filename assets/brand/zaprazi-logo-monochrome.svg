@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 72" width="350" height="72" role="img" aria-labelledby="zp-logo-title">
+<title id="zp-logo-title">Zápraží — Cesta k lepšímu životu</title>
+<g transform="translate(3 3)">
+  <path d="M9 29.5 32 9l23 20.5" fill="none" stroke="#20251f" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M17.5 29V51H46.5V29" fill="none" stroke="#20251f" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 51V36" fill="none" stroke="#20251f" stroke-width="3.7" stroke-linecap="round"/>
+  <path d="M24 59c7-6 9-11 8-19" fill="none" stroke="#20251f" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="51" cy="12" r="5" fill="#20251f"/>
+</g>
+<text x="78" y="39" font-family="Inter,system-ui,-apple-system,'Segoe UI',sans-serif" font-size="31" font-weight="800" letter-spacing="-1.2" fill="#20251f">Zápraží</text>
+<text x="79" y="60" font-family="Inter,system-ui,-apple-system,'Segoe UI',sans-serif" font-size="13" font-weight="600" fill="#20251f">Cesta k lepšímu životu</text>
+</svg>

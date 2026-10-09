@@ -2257,7 +2257,7 @@ Deploy from dev after main/dev are aligned. Production smoke should verify `zapr
 
 
 ### ZP-111 Honest editorial methodology / trust layer + release 0.8.58
-Status: **READY_DEPLOY**
+Status: **PACKAGED_IN_0_8_59 / NOT_SEPARATELY_DEPLOYED**
 
 Includes merged feature PR #160 on top of 0.8.57 (release 0.8.57 was prepared but not user-confirmed deployed):
 - New public page `/jak-vznika-doporuceni/`: methodological source hierarchy, editorial responsibility, practical recommendation vs health-professional boundary, affiliate independence and date of methodology update (not falsely represented as last clinical review of products).
@@ -2268,3 +2268,17 @@ Includes merged feature PR #160 on top of 0.8.57 (release 0.8.57 was prepared bu
 - Full 0.8.58 marker bump and 0.8.57 mobility next-step improvements included.
 
 Next P0: Confirm live `zaprazi-release=0.8.58` and `zaprazi-integrity=ok`; validate method page URL exists. For legacy 359 known eHub placeholder targets, existing storefront guards already fail closed; do not claim all legacy post-body links repaired. Audit rendered legacy pages and target inventory before safe cleanup. Establish per-URL GSC baseline before any destructive KEEP/MERGE/REPURPOSE/REMOVE action. No verified commissions or live GA4/GSC funnel figures yet.
+
+
+### ZP-112 Bathroom/WC two-step decision: preview before fit + release 0.8.59
+Status: **READY_DEPLOY**
+
+Packages merged PR #162 on top of un-deployed 0.8.58:
+- Fixes the impossible order in Bathroom/WC Advisor: user can no longer be asked whether an unidentified product fits in weight, width, fixings or raised-seat height.
+- Step 1 asks only practical problem, ability to transfer, stable floor/fixing conditions and duration; uses the existing strict engine and hypothetical fit answers **only to identify preliminary product facts**; no merchant link or successful confirmation can be derived from this preview.
+- Step 2 shows product name, exact evidenced capacity/size and sources, followed by checkboxes for actual fit confirmation. Original fail-closed engine receives only real visitor answers and produces buy/rent/reimbursement paths only for safe candidates.
+- Unknown/no load, toilet compatibility, feet-on-floor, room space and bathtub checks continue to block unsafe retail recommendations. Assisted transfers and unsafe floor/transfer branches cannot even render a preview.
+- Existing affiliate mapping, tracking, source dates and merchant ranking unchanged. No answers sent to server or stored.
+- Stage-specific Node tests cover concrete toilet seats, unknown/no fits, hard safety gates, bathtub fallback and no affiliate commerce at preview; full release integrity 0.8.59.
+
+After Pull+Deploy verify `/koupelna-a-wc/` first shows '1. Ukázat možná řešení', then a product with known max. load / dimensions, only then product-fit questions; final merchant CTA only with actual verified yes values. Verify `zaprazi-release=0.8.59` and `zaprazi-integrity=ok`. User has not reported 0.8.58 deployed; supersede it with 0.8.59.

@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.83' );
+  define( 'ZAPRAZI_RELEASE', '0.8.84' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_83';
+  $marker = 'ZP_RELEASE_0_8_84';
   $files = array(
     'header.php',
     'footer.php',
@@ -26,6 +26,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-sobestacnost.php',
     'page-kompenzacni-pomucky-pro-seniory.php',
     'page-bezpecny-byt-pro-seniora.php',
+    'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
@@ -1949,6 +1950,43 @@ function zaprazi_2_ensure_discharge_questions_page() {
 }
 add_action( 'init', 'zaprazi_2_ensure_discharge_questions_page', 32 );
 
+/**
+ * A narrow editorial page on the night-time route bed -> toilet, not another
+ * generic 'safe home' or post-discharge landing page.
+ * Create only if the canonical slug is unused; never edit legacy pages.
+ */
+function zaprazi_2_ensure_night_wc_page() {
+  if ( '1' === get_option( 'zaprazi_night_wc_page_v1' ) ) {
+    return;
+  }
+  $slug = 'nocni-cesta-z-postele-na-wc';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Noční cesta z postele na WC: 7 bodů bezpečné trasy',
+      'post_name'    => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Sedmibodový kontrolní seznam: vstání z postele, osvětlení, průchody, opora, WC a bezpečný návrat. Kdy řešit úpravu bytu a kdy odbornou pomoc.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-nocni-cesta-z-postele-na-wc.php',
+      ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_night_wc_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_night_wc_page', 33 );
+
+function zaprazi_2_is_night_wc_page() {
+  return is_page( 'nocni-cesta-z-postele-na-wc' );
+}
+
 function zaprazi_2_is_discharge_questions_page() {
   return is_page( 'otazky-pred-propustenim-z-nemocnice' );
 }
@@ -1979,6 +2017,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_night_wc_page() ) {
+    return 'Noční cesta z postele na WC: 7 bodů kontroly | Zápraží';
+  }
   if ( zaprazi_2_is_discharge_questions_page() ) {
     return 'Na co se zeptat před propuštěním z nemocnice | Zápraží';
   }
@@ -2012,6 +2053,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_night_wc_page() ) {
+    return 'Noční cesta z postele na WC: praktická kontrola světla, překážek, vstávání, chůze a bezpečného návratu. Sedm bodů a návazní poradci.';
+  }
   if ( zaprazi_2_is_discharge_questions_page() ) {
     return 'Praktické otázky před propuštěním z nemocnice: propouštěcí zpráva, domácí péče, zdravotnická doprava, pomoc rodině a první noc doma.';
   }
@@ -2054,4 +2098,14 @@ function zaprazi_2_discharge_questions_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
 }
 add_action( 'wp_head', 'zaprazi_2_discharge_questions_meta_fallback', 5 );
+
+/** Only when Yoast is inactive: one non-duplicated descriptive tag. */
+function zaprazi_2_night_wc_meta_fallback() {
+  if ( ! zaprazi_2_is_night_wc_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_night_wc_meta_fallback', 5 );
+
 

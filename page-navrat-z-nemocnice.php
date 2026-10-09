@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_83 */
+/* ZP_RELEASE_0_8_84 */
 /*
 Template Name: Zápraží — Návrat z nemocnice
 */
@@ -125,6 +125,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-link-btn" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Poradce pro každodenní soběstačnost</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Projít bezpečnost bytu</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedm bodů noční cesty na WC</a>
       </div>
     </div>
   </section>

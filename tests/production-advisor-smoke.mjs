@@ -308,6 +308,15 @@ try {
     await click(page, submit);
     assert.equal(await count(page, offer), 0, "Unverified model showed a merchant: " + scenario.slug);
     await choose(page, ...scenario.fix);
+    if (scenario.slug === "bath-transfer") {
+      // Selecting a concrete 100 kg construction invalidates a stale loadFit
+      // even if the earlier stage already confirmed another capacity.
+      assert.equal(await page.$eval('input[name="loadFit"]:checked', el => el.value).catch(() => null),
+        null, "Switching a bath construction must clear its previous load approval");
+      await click(page, submit);
+      assert.equal(await count(page, offer), 0, "Unconfirmed new capacity exposed a bath merchant");
+      await choose(page, "loadFit", "yes");
+    }
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
     await assertAffiliateOffers(page, offer);

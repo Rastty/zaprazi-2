@@ -66,6 +66,7 @@ get_header();
         <article><h3>Klik na produkt</h3><p><code>product_click</code></p></article>
         <article><h3>Klik k obchodníkovi</h3><p><code>merchant_click</code></p></article>
         <article><h3>Klik na partnerský odkaz</h3><p><code>affiliate_click</code> – jen pokud je v poradci nastavený skutečný partnerský odkaz.</p></article>
+        <article><h3>Přechod na další užitečný krok</h3><p><code>next_step_click</code> – pouze přechod z výsledku poradce na jinou stránku Zápraží. Cílovou adresu ani odpovědi neodesíláme jako parametry události.</p></article>
       </div>
       <p class="zp-disclaimer">U těchto událostí Zápraží předává pouze název události. Neobsahují odpovědi z poradce, produktové ID, merchant ID ani odvozený profil.</p>
     </div>

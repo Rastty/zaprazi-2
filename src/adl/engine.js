@@ -78,8 +78,8 @@ export function chooseAdlSelfCareAid(input = {}) {
   // Knowing a matching product category does not verify the exact real-world fit.
   // Merchant routes must remain closed until the specific checks are confirmed.
   const verifiedCandidate = (headline, nextStep, candidate, checks, safetyNote = null) => {
-    if (productFit === "yes") return result("candidate", headline, nextStep, candidate, checks, safetyNote);
-    return result(
+    if (productFit === "yes") return { ...result("candidate", headline, nextStep, candidate, checks, safetyNote), requiresProductFit: true };
+    return { ...result(
       "needs_fit_check",
       productFit === "no"
         ? "Tato pomůcka zatím nesplňuje ověřené podmínky."
@@ -90,7 +90,7 @@ export function chooseAdlSelfCareAid(input = {}) {
       candidate,
       checks,
       safetyNote
-    );
+    ), requiresProductFit: true };
   };
 
 

@@ -36,12 +36,14 @@ function createAdl() {
     querySelector(selector){
       if (selector === "#zp-adl-product-fit") return groups.get("productFit");
       if (selector === "#zp-adl-product-fit-checks") return fitChecks;
+      if (selector === '[data-zp-adl-required="mainProblem"]') return groups.get("mainProblem");
       const match = selector.match(/^input\[name="([^"]+)"\]:checked$/);
       return match ? inputs.get(match[1])?.find(x => x.checked) || null : null;
     },
     querySelectorAll(selector) {
       if (selector === "[data-zp-adl-conditional]") return [...groups.values()].filter(x=>x.dataset.zpAdlConditional);
       if (selector === "[data-zp-adl-required]") return [...groups.values()];
+      if (selector === 'input[name="mainProblem"]') return inputs.get("mainProblem");
       throw Error("Unrecognized form query " + selector);
     },
     change(name,value){
@@ -123,4 +125,52 @@ test("ADL does not reveal final fit question before a required work surface is r
   h.form.change("stableSurface","no");
   assert.equal(h.groups.get("productFit").hidden,true);
   assert.equal(h.result.hidden,true);
+});
+
+test("changing ADL activity clears the old obstacle and cannot reuse its approved product", () => {
+  const h = createAdl();
+  h.form.change("task", "drink");
+  h.form.change("mainProblem", "grip_or_spill");
+  h.button.click();
+  h.form.change("productFit", "yes");
+  h.button.click();
+  assert.match(h.result.innerHTML, /data-zp-adl-merchant-link/);
+
+  // Switching activity must not preserve the previous answer 'grip_or_spill'.
+  h.form.change("task", "open_packaging");
+  assert.equal(h.result.hidden, true);
+  assert.equal(h.result.innerHTML, "");
+  assert.equal(h.groups.get("productFit").hidden, true);
+  assert.equal(h.inputs.get("mainProblem").filter(x => x.checked).length, 0);
+  assert.equal(h.inputs.get("productFit").filter(x => x.checked).length, 0);
+
+  h.button.click();
+  assert.equal(h.errorBox.hidden, false, "new activity needs a fresh obstacle");
+  assert.equal(h.result.hidden, true, "old affiliate offer must stay hidden");
+
+  h.form.change("mainProblem", "grip_or_twist");
+  h.button.click();
+  assert.equal(h.groups.get("productFit").hidden, false);
+  assert.match(h.fitChecks.innerHTML, /Open-It/);
+  assert.doesNotMatch(h.result.innerHTML, /data-zp-adl-merchant-link/);
+  h.form.change("productFit", "yes");
+  h.button.click();
+  assert.match(h.result.innerHTML, /data-zp-adl-merchant-link/);
+  assert.match(h.result.innerHTML, /Open-It/);
+});
+
+test("changing task back to a previous activity still needs a new obstacle answer", () => {
+  const h = createAdl();
+  h.form.change("task", "stabilize_container");
+  h.form.change("mainProblem", "container_moves");
+  h.form.change("stableSurface", "yes");
+  h.button.click();
+  assert.match(h.fitChecks.innerHTML, /Beat It/);
+
+  h.form.change("task", "drink");
+  assert.equal(h.inputs.get("mainProblem").filter(x => x.checked).length, 0);
+  assert.equal(h.inputs.get("stableSurface").filter(x => x.checked).length, 0);
+  h.button.click();
+  assert.equal(h.errorBox.hidden, false);
+  assert.equal(h.groups.get("productFit").hidden, true);
 });

@@ -25,7 +25,8 @@ if(form&&result&&submit&&errors){
   installBathroomMicroStaging({
     form, result, submit: submit, errors: errors,
     key: "toilet-support", requiredAttr: "data-zp-support-required",
-    fitNames: ["loadFit","supportFrameFit"], primaryNeed: "toilet_support"
+    fitNames: ["loadFit","supportFrameFit"], primaryNeed: "toilet_support",
+    conditionalFit: { supportFrameFit: value => value("wallFixing") !== "verified" }
   });
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;

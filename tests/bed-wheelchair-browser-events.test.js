@@ -36,7 +36,7 @@ function create(kind) {
     const group={
       parent:null,hidden:isWheelchair && ["joystickSafe","chargingReady"].includes(name),
       dataset:{[requiredAttr]:name},attributes:{},
-      classList:{toggle(){}},
+      classList:{toggle(){},remove(){},add(){}},
       closest(selector){return selector==='[hidden]' && this.parent?.hidden?stage:null;},
       setAttribute(k,v){this.attributes[k]=v;},
       removeAttribute(k){delete this.attributes[k];},

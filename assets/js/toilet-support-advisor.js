@@ -15,6 +15,13 @@ const track=(event)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{d
 const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 
 if(form&&result&&submit&&errors){
+
+  // Never keep a purchase link tied to old answers on the page.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
   installBathroomMicroStaging({
     form, result, submit: submit, errors: errors,
     key: "toilet-support", requiredAttr: "data-zp-support-required",

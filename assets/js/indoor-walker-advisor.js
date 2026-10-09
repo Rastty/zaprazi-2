@@ -13,6 +13,13 @@ const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").repl
 const track=(eventName)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{detail:{event:eventName}}));
 
 if(form&&result&&submit&&errors){
+
+  // Never keep a purchase link tied to old answers on the page.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
   let builderStarted=false;
   form.addEventListener("change",()=>{
     if(!builderStarted){builderStarted=true;track("builder_start");}

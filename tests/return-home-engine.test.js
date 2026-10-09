@@ -151,3 +151,66 @@ test("engine never collects diagnosis or raw body weight", () => {
   const source = buildReturnHomePlan.toString();
   assert.doesNotMatch(source, /diagnos|operation|wound|medication|weightKg|bodyWeight/i);
 });
+
+
+test("unprepared WC and bed must not sound like a ready-to-go discharge", () => {
+  const result = buildReturnHomePlan({
+    timing: "today_or_tomorrow",
+    entranceReady: "yes",
+    transferAbility: "independent",
+    walking: "independent",
+    toiletReady: "no",
+    bathroomReady: "yes",
+    bedReady: "no",
+    homeCare: "not_needed"
+  });
+
+  assert.equal(result.status, "action_plan");
+  assert.match(result.headline, /zbývá ověřit nebo zajistit/i);
+  assert.match(result.nextStep, /není potvrzení bezpečného návratu/i);
+  assert.ok(result.routes.some((item) => item.id === "toilet"));
+  assert.ok(result.routes.some((item) => item.id === "bed"));
+});
+
+test("uncertain transfer, mobility or home-care arrangements never imply readiness", () => {
+  const scenarios = [
+    { transferAbility: "unknown" },
+    { walking: "unknown" },
+    { walking: "wheelchair_or_no_walk", wheelchairReady: "no" },
+    { homeCare: "unknown" },
+    { homeCare: "needed_not_arranged" }
+  ];
+  const known = {
+    timing: "later",
+    entranceReady: "yes",
+    transferAbility: "independent",
+    walking: "independent",
+    toiletReady: "yes",
+    bathroomReady: "yes",
+    bedReady: "yes",
+    homeCare: "not_needed"
+  };
+  for (const situation of scenarios) {
+    const result = buildReturnHomePlan({ ...known, ...situation });
+    assert.equal(result.status, "action_plan", JSON.stringify(situation));
+    assert.match(result.headline, /zbývá ověřit nebo zajistit/i, JSON.stringify(situation));
+    assert.match(result.nextStep, /nemocničním týmem ještě před odjezdem/i);
+  }
+});
+
+test("ready_basic output does not falsely instruct the family to follow nonexistent priorities", () => {
+  const result = buildReturnHomePlan({
+    timing: "later",
+    entranceReady: "yes",
+    transferAbility: "independent",
+    walking: "independent",
+    toiletReady: "yes",
+    bathroomReady: "yes",
+    bedReady: "yes",
+    homeCare: "not_needed"
+  });
+  assert.equal(result.status, "ready_basic");
+  assert.equal(result.priorities.length, 0);
+  assert.doesNotMatch(result.nextStep, /Postupujte od nejvyšší priority/i);
+  assert.match(result.nextStep, /nikoli posouzení zdravotní způsobilosti/i);
+});

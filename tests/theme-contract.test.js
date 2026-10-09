@@ -2387,12 +2387,12 @@ test("main Bathroom Advisor excludes hidden fit-stage fields from required valid
 test("mobile anchored Advisors and model-fit touch controls respect the sticky header and reduced motion", () => {
   const css=read("style.css");
   const gate=read("src/mobility/offer-fit-gate.js");
-  assert.match(css,/html\\{scroll-behavior:smooth;scroll-padding-top:96px\\}/);
-  assert.match(css,/scroll-padding-top:140px/);
-  assert.match(css,/scroll-margin-top:140px/);
-  assert.match(css,/prefers-reduced-motion:reduce/);
-  assert.match(css,/\\.zp-mobility-fit-gate>label\\{[^}]*min-height:44px/);
-  assert.match(css,/\\.zp-fit-progress\\{/);
-  assert.match(gate,/data-zp-fit-progress role="status" aria-live="polite"/);
-  assert.match(gate,/Všechna ověření hotová/);
+  assert.ok(css.includes("html{scroll-behavior:smooth;scroll-padding-top:96px}"));
+  assert.ok(css.includes("scroll-padding-top:140px"));
+  assert.ok(css.includes("scroll-margin-top:140px"));
+  assert.ok(css.includes("prefers-reduced-motion:reduce"));
+  assert.ok(css.includes(".zp-mobility-fit-gate>label{display:flex;align-items:flex-start;gap:.65rem;margin:.5rem 0;min-height:44px"));
+  assert.ok(css.includes(".zp-fit-progress{"));
+  assert.ok(gate.includes('data-zp-fit-progress role="status" aria-live="polite"'));
+  assert.ok(gate.includes("Všechna ověření hotová"));
 });

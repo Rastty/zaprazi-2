@@ -356,3 +356,13 @@ Přednost mají vhodná bezplatná řešení, veřejné služby a bezpečné kro
 ### Realizace bez změny priority P0
 
 Toto **není pokyn okamžitě vytvořit nový univerzální engine nebo rozšířit Home Scan**. Nejprve dokončit kvalitu a QA všech 14 stávajících poradců, bezpečnost produktových doporučení a mobilní UX; následně finální aktualizaci loga a faviconu podle již schváleného pořadí. Poté ověřit **jeden malý pilot existujícího „Návratu z nemocnice“**: užitečný obecný checklist a srozumitelný akční plán odkazující na stávající moduly, bez duplikace enginu. Hodnotit reálné porozumění, schopnost provést další krok, bezpečnost, přístupnost a ochranu soukromí; obchodní proklik je až sekundární signál.
+
+
+### Upřesnění obchodního postupu — nejprve užitečnost a návštěvnost (9. 10. 2026)
+
+- **Teď neoslovovat nové půjčovny, poskytovatele služeb ani výrobce s nabídkou placeného partnerství.** Není to aktuální úkol; nezakládat seznamy pro oslovování a nevyžadovat od majitele projektu domlouvání spoluprací.
+- Nejprve vytvořit skutečně užitečný, důvěryhodný obsah, checklisty a výběrové cesty. Růst stavět na dohledatelnosti ve vyhledávání, kvalitních odpovědích a dobrovolných doporučeních mezi lidmi; nespoléhat na to, že samotná kvalita automaticky zajistí návštěvnost.
+- Zatím používat již schválené affiliate programy a ověřené produktové cesty; u relevantních bezplatných, veřejných či nekomerčních služeb lze poskytovat užitečné odkazy i bez provize. Nevkládat umělé reklamní bloky či nevhodné produkty jen kvůli monetizaci.
+- **K budoucím individuálním dohodám přistoupit až po doložení stabilní relevantní návštěvnosti a skutečných odchozích prokliků na konkrétní segment nebo partnera.** Návštěvy webu nejsou totéž co obchodní příležitosti; měřit pouze agregované privacy-safe počty bez předávání odpovědí z poradců či zdravotních profilů.
+- Až budou doložitelná data, lze **teprve vyhodnotit** dobrovolné modely spolupráce: transparentně označené fixní umístění, měsíční paušál, platbu za doložené předání zájemce nebo rozumný hybrid. Částky jsou předmětem budoucího ověření, nikoli nynější příslib výnosů.
+- Žádná placená dohoda nesmí ovlivňovat odborné doporučení, pořadí řešení ani bezpečnostní kontrolu; uživatel vždy dostává smysluplnou pomoc i bez obchodního prokliku. Stávající P0 a pořadí vývoje se nemění.

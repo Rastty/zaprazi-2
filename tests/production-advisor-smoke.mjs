@@ -130,6 +130,25 @@ try {
     const page = await open(path);
     assert.ok(await page.$(formSelector), "Advisor missing: " + path);
     assert.ok(await page.$(resultSelector), "Result container missing: " + path);
+    // Accessibility sanity audit on each real 390px page (not jsdom):
+    // prevent sideways scrolling and input controls without a readable name.
+    const mobileA11y = await page.evaluate(selector => {
+      const root = document.querySelector(selector);
+      const unlabeledInputs = [...root.querySelectorAll('input[type="radio"], input[type="checkbox"]')]
+        .filter(el => !el.labels?.length && !el.closest("label") &&
+          !el.getAttribute("aria-label") && !el.getAttribute("aria-labelledby"))
+        .map(el => el.name || el.outerHTML.slice(0, 90));
+      const unnamedGroups = [...root.querySelectorAll("fieldset")]
+        .filter(group => !group.querySelector("legend")?.textContent?.trim())
+        .map(group => group.className || group.outerHTML.slice(0, 90));
+      const overflowPx = Math.round(document.documentElement.scrollWidth - window.innerWidth);
+      return { unlabeledInputs, unnamedGroups, overflowPx };
+    }, formSelector);
+    assert.deepEqual(mobileA11y.unlabeledInputs, [], "Unnamed answer control: " + path);
+    assert.deepEqual(mobileA11y.unnamedGroups, [], "Question without legend: " + path);
+    assert.ok(mobileA11y.overflowPx <= 2,
+      "Horizontal mobile overflow " + mobileA11y.overflowPx + "px: " + path);
+
     assert.equal(await visible(page, resultSelector), false, "Result should be initially hidden: " + path);
     await checkNoMerchant(page, resultSelector);
     await page.$eval(formSelector, root => {
@@ -138,7 +157,7 @@ try {
       button.click();
     });
     await checkNoMerchant(page, resultSelector);
-    console.log("PASS boot and empty-answer safety", path, formSelector);
+    console.log("PASS boot, mobile layout, labeled controls and empty-answer safety", path, formSelector);
     await page.close();
   }
 

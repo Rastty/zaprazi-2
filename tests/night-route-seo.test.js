@@ -95,6 +95,8 @@ test("Long night route has a conditional, fit-gated toilet-chair option with a r
   assert.match(chair, /fyzické zvedání nebo není znám bezpečný postup/);
   assert.match(chair, /nevybírejte konkrétní židli bez odborného posouzení/);
   assert.ok(night.includes("home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' )"));
-  assert.doesNotMatch(night, /affiliateMap|data-zp-merchant-link|eHUB|awin1\\.com/i);
-  assert.doesNotMatch(chair.match(/<p class="zp-kicker">Situace v noci<\\/p>[\\s\\S]*?<\\/section>/)?.[0] || "", /https?:\\/\\//i);
+  assert.doesNotMatch(night, /affiliateMap|data-zp-merchant-link|eHUB|awin1[.]com/i);
+  const editorial = chair.split('<p class="zp-kicker">Situace v noci</p>')[1]?.split("</section>")[0] ?? "";
+  assert.ok(editorial.includes("/nocni-cesta-z-postele-na-wc/"));
+  assert.doesNotMatch(editorial, /https?:/i);
 });

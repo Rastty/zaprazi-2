@@ -533,6 +533,37 @@ try {
     await page.close();
   }
 
+  // Real DOM + mobile QA of 0.8.66 Czech product facts in BOTH preview and result.
+  // A machine-readable catalog key would confuse the caregiver at purchase time.
+  for (const spec of [
+    {path:"/madlo-k-wc-pro-seniory/", slug:"toilet-support", situation:[["transferAbility","independent"],["wallFixing","unverified"]],
+     fits:[["supportFrameFit","yes"],["loadFit","yes"]], expected:["Maximální nosnost: 100 kg","Šířka: 53–63 cm"]},
+    {path:"/sedatko-do-vany-pro-seniory/", slug:"bath-transfer", situation:[["transferAbility","independent"],["bathTransferIndependent","yes"]],
+     fits:[["bathFit","yes"],["loadFit","yes"]], expected:["Maximální nosnost: 100 kg","Vnitřní šířka vany: 41–65 cm"]}
+  ]) {
+    const page=await open(spec.path);
+    for (const [name,value] of spec.situation) await choose(page,name,value);
+    await click(page,"#zp-"+spec.slug+"-submit");
+    const preview="#zp-"+spec.slug+"-preview";
+    const final="#zp-"+spec.slug+"-result";
+    assert.equal(await visible(page,preview),true,"Missing Czech preview on "+spec.slug);
+    const previewText=await page.$eval(preview,node=>node.textContent);
+    for(const expected of spec.expected) assert.ok(previewText.includes(expected),"Preview missing "+expected);
+    assert.ok(!/maxUserWeightKg|totalWidthCm|bathInnerWidthCm|fixingHoleSpacingCm/.test(previewText),
+      "Technical database keys exposed in "+spec.slug+" preview");
+    await checkPreviewNoCommerce(page,preview);
+    for(const [name,value] of spec.fits) await choose(page,name,value);
+    await click(page,"#zp-"+spec.slug+"-submit");
+    assert.equal(await visible(page,final),true,"Missing verified result "+spec.slug);
+    const resultText=await page.$eval(final,node=>node.textContent);
+    for(const expected of spec.expected) assert.ok(resultText.includes(expected),"Result missing "+expected);
+    assert.ok(!/maxUserWeightKg|totalWidthCm|bathInnerWidthCm|fixingHoleSpacingCm/.test(resultText),
+      "Technical database keys exposed in "+spec.slug+" result");
+    await assertAffiliateOffers(page,final+" a[rel~=sponsored]");
+    console.log("PASS 0.8.66 Czech product facts in preview + final result: "+spec.slug);
+    await page.close();
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");
 } finally {
   await browser.close();

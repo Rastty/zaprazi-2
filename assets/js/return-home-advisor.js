@@ -1,5 +1,6 @@
 // ZP_RELEASE_0_8_86
 import { buildReturnHomePlan } from "../../src/return-home/engine.js";
+import { buildReturnHomeChecklist } from "../../src/return-home/checklist.js";
 
 const form = document.querySelector("#zp-return-home-advisor");
 const result = document.querySelector("#zp-return-home-result");
@@ -89,20 +90,31 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
-  const renderRoutes = (routes, blocked) => {
-    if (!routes?.length) return "";
+  // Reuse the engine output; checkboxes are only temporary notes for the family.
+  // Ticking a task NEVER changes safety status or unlocks product offers.
+  const renderChecklist = (plan) => {
+    const tasks = buildReturnHomeChecklist(plan);
+    if (!tasks.length) return "";
     return `
-      <section>
-        <h3>${blocked ? "Co řešit hned po odstranění blokujícího bodu" : "Navazující ZaPrazi poradci"}</h3>
-        <div class="zp-product-grid">
-          ${routes.map((item) => `
-            <article class="zp-product-card">
-              <h4>${escapeHtml(item.label)}</h4>
-              <p>${escapeHtml(item.reason)}</p>
-              <a class="zp-link-btn" href="${escapeHtml(item.href)}">Otevřít poradce</a>
-            </article>
-          `).join("")}
-        </div>
+      <section class="zp-return-checklist" aria-labelledby="zp-return-checklist-title">
+        <h3 id="zp-return-checklist-title">Akční seznam pro rodinu</h3>
+        <p class="zp-muted-copy">Odškrtnutí slouží pouze jako osobní poznámka. Nepotvrzuje bezpečný návrat ani vhodnost pomůcky a nemění výsledek poradce. Při změně odpovědi se seznam vytvoří znovu.</p>
+        <ol class="zp-return-tasks">
+          ${tasks.map((task, index) => {
+            const inputId = `zp-return-task-${index}`;
+            const safeHref = typeof task.href === "string" && /^\/(?!\/)/.test(task.href) ? task.href : null;
+            return `
+              <li class="zp-return-task">
+                <label class="zp-return-task-label" for="${inputId}">
+                  <input id="${inputId}" type="checkbox">
+                  <span><small class="zp-return-task-kind">${escapeHtml(task.kindLabel)}</small><strong>${escapeHtml(task.label)}</strong></span>
+                </label>
+                <p>${escapeHtml(task.reason)}</p>
+                ${safeHref ? `<a class="zp-text-link" href="${escapeHtml(safeHref)}">Otevřít navazujícího poradce</a>` : ""}
+              </li>
+            `;
+          }).join("")}
+        </ol>
       </section>
     `;
   };
@@ -154,15 +166,11 @@ if (form && result && submitButton && errorBox) {
       homeCare: checkedValue("homeCare", "unknown")
     });
 
-    const blocked = output.status === "blocked_before_discharge";
-
     result.innerHTML = `
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${renderItems("Blokuje bezpečný návrat domů", output.blockers, "zp-critical-plan")}
-      ${renderItems("Co řešit s nemocničním týmem před odjezdem", output.dischargeActions)}
-      ${renderItems("Další priority", output.priorities)}
-      ${renderRoutes(output.routes, blocked)}
+      ${renderChecklist(output)}
       <p class="zp-disclaimer">${escapeHtml(output.acquisitionNote)}</p>
       <p class="zp-muted-copy">ZaPrazi neposuzuje, zda je člověk zdravotně způsobilý k propuštění. Tento plán řeší jen praktickou připravenost domácnosti a návazné kroky.</p>
       <div class="zp-return-print-actions">

@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form=document.querySelector("#zp-toilet-support-advisor");
 const result=document.querySelector("#zp-toilet-support-result");
@@ -14,6 +15,12 @@ const track=(event)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{d
 const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 
 if(form&&result&&submit&&errors){
+  installBathroomMicroStaging({
+    form, result, submit: submit, errors: errors,
+    key: "toilet-support", requiredAttr: "data-zp-support-required",
+    fitNames: ["loadFit"], primaryNeed: "toilet_support"
+  });
+
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
   const groups=()=>[...form.querySelectorAll("[data-zp-support-required]")];
   const validate=()=>{

@@ -48,7 +48,7 @@ function professionalCheck(headline, nextStep) {
     acquisition: [{
       id: "check_insurer_or_specialist",
       label: "Prověřit odborný výběr a pojišťovnu",
-      reason: "U složitějšího přesunu nebo elektrického vozíku je vhodné řešit současně vhodnost, nastavení, případné příslušenství a úhradovou cestu."
+      reason: "U složitějšího přesunu nebo neověřeného bezpečného ovládání vozíku je vhodné řešit současně vhodnost, nastavení, případné příslušenství a úhradovou cestu."
     }]
   };
 }
@@ -101,6 +101,7 @@ export function recommendWheelchair(input = {}) {
     seatFit = "unknown",
     widthFit = "unknown",
     loadFit = "unknown",
+    manualControlSafe = "unknown",
     joystickSafe = "unknown",
     chargingReady = "unknown",
     duration = "unknown"
@@ -108,7 +109,7 @@ export function recommendWheelchair(input = {}) {
 
   if (!PROPULSION.has(propulsion)) return invalid("propulsion");
   if (!TRANSFER.has(transferAbility)) return invalid("transferAbility");
-  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, joystickSafe, chargingReady })) {
+  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, manualControlSafe, joystickSafe, chargingReady })) {
     if (!FIT.has(value)) return invalid(name);
   }
   if (!DURATION.has(duration)) return invalid("duration");
@@ -133,6 +134,20 @@ export function recommendWheelchair(input = {}) {
     return professionalCheck(
       "Při fyzicky asistovaném přesunu nevybíráme vozík jen podle šířky a ceny.",
       "Nejdřív je potřeba ověřit způsob přesunu na vozík, bočnice, stupačky, případný přesunový/zvedací prostředek a práci pečující osoby."
+    );
+  }
+
+  if (["self_manual", "mixed_manual"].includes(propulsion) && manualControlSafe !== "yes") {
+    if (manualControlSafe === "no") {
+      return professionalCheck(
+        "Samostatný ruční pohon není bezpečný automatický kandidát, pokud člověk nedokáže vozík spolehlivě řídit a zastavit.",
+        "Zvažte režim s doprovodem nebo odborně ověřte jiný způsob mobility a nastavení vozíku."
+      );
+    }
+    return needsMoreInfo(
+      "manualControlSafe",
+      "Před ručním pohonem potřebujeme ověřit praktické ovládání vozíku.",
+      "Ověřte, zda člověk na běžné trase zvládne vozík rukama rozjet, řídit, zpomalit a zastavit a bezpečně použít parkovací brzdu."
     );
   }
 
@@ -237,7 +252,7 @@ export function recommendWheelchair(input = {}) {
       reason: propulsion === "self_manual"
         ? "Uživatel má vozík pohánět rukama a zadní kola mají hnací obruče pro samostatný pohyb."
         : "Využití se má střídat mezi samostatným pohonem a doprovodem.",
-      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", "nosnost 125 nebo 136 kg podle kol", "hmotnost 17–17,5 kg", "hnací obruče", "brzdy pro doprovod"],
+      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", "nosnost 125 nebo 136 kg podle kol", "hmotnost 17–17,5 kg", "hnací obruče", "bezpečné řízení a zastavení", "parkovací brzda", "brzdy pro doprovod"],
       productCandidateIds: ["unizdrav-p3641"]
     }],
     acquisition: acquisitionFor(duration, false),

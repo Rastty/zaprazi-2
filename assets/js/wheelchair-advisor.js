@@ -55,18 +55,23 @@ if (form && result && submitButton && errorBox && candidateNote) {
   }[propulsion] || "Nejdřív vyberte, kdo má vozík běžně pohánět.");
 
   const updateConditional = () => {
-    const powered = checkedValue("propulsion", "unknown") === "powered";
-    form.querySelectorAll("[data-zp-wheelchair-conditional='powered']").forEach((fieldset) => {
-      fieldset.hidden = !powered;
-      if (!powered) {
-        fieldset.querySelectorAll("input").forEach((input) => {
-          input.checked = false;
-          input.required = false;
-        });
-        fieldset.classList.remove("is-error");
-        fieldset.removeAttribute("aria-invalid");
-      }
-    });
+    const propulsion = checkedValue("propulsion", "unknown");
+    const powered = propulsion === "powered";
+    const manual = ["self_manual", "mixed_manual"].includes(propulsion);
+
+    for (const [condition, visible] of [["powered", powered], ["manual", manual]]) {
+      form.querySelectorAll(`[data-zp-wheelchair-conditional='${condition}']`).forEach((fieldset) => {
+        fieldset.hidden = !visible;
+        if (!visible) {
+          fieldset.querySelectorAll("input").forEach((input) => {
+            input.checked = false;
+            input.required = false;
+          });
+          fieldset.classList.remove("is-error");
+          fieldset.removeAttribute("aria-invalid");
+        }
+      });
+    }
   };
 
   const updateCandidateNote = () => {
@@ -141,6 +146,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     seatFit: checkedValue("seatFit", "unknown"),
     widthFit: checkedValue("widthFit", "unknown"),
     loadFit: checkedValue("loadFit", "unknown"),
+    manualControlSafe: checkedValue("manualControlSafe", "unknown"),
     joystickSafe: checkedValue("joystickSafe", "unknown"),
     chargingReady: checkedValue("chargingReady", "unknown"),
     duration: checkedValue("duration", "unknown")

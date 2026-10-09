@@ -348,3 +348,10 @@ a{color:inherit}
 .zp-editorial-trust h2{font-size:1.2rem;line-height:1.3;margin:0 0 7px}
 .zp-editorial-trust p{font-size:.96rem;margin:0;color:var(--zp-ink)}
 .zp-editorial-trust .zp-link-btn{flex-shrink:0;min-height:44px;background:var(--zp-paper)}
+
+/* P0 aid-selection safety: do not visually reveal offers before model-fit checks. */
+.zp-fit-locked-offers[hidden]{display:none!important}
+.zp-mobility-fit-gate{margin-top:1rem;padding:1rem;border:1px solid var(--zp-line,#d2d9d0);border-radius:.8rem}
+.zp-mobility-fit-gate>label{display:flex;align-items:flex-start;gap:.65rem;margin:.65rem 0;line-height:1.45;cursor:pointer}
+.zp-mobility-fit-gate>label input{min-width:20px;min-height:20px;flex-shrink:0;margin-top:.1rem}
+.zp-mobility-fit-gate>h5{margin:0 0 .5rem;font-size:1.05rem}

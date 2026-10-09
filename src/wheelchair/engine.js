@@ -121,6 +121,14 @@ export function recommendWheelchair(input = {}) {
     );
   }
 
+  if (transferAbility === "unknown") {
+    return needsMoreInfo(
+      "transferAbility",
+      "Nejdřív musíme vědět, zda člověk zvládne přesun na vozík bez fyzického zvedání.",
+      "Ověřte bezpečné přesednutí na vozík. Při nejistotě zatím konkrétní vozík nedoporučujeme."
+    );
+  }
+
   if (transferAbility === "person_assist") {
     return professionalCheck(
       "Při fyzicky asistovaném přesunu nevybíráme vozík jen podle šířky a ceny.",

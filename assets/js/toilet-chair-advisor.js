@@ -20,6 +20,13 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox) {
+
+  // Never keep a purchase link tied to old answers on the page.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
   installBathroomMicroStaging({
     form, result, submit: submitButton, errors: errorBox,
     key: "toilet-chair", requiredAttr: "data-zp-chair-required",

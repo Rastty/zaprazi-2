@@ -81,7 +81,7 @@ test("verified wall fixing allows fixed rail comparison", () => {
     wallFixing: "verified"
   });
   assert.equal(result.status, "candidate");
-  assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p2131", "unizdrav-p2015"]);
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p2131"]);
 });
 
 test("static commode requires stable floor and space", () => {

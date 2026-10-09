@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_60
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
+import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
 
 const form=document.querySelector("#zp-indoor-walker-advisor");
@@ -13,6 +14,15 @@ const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").repl
 const track=(eventName)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{detail:{event:eventName}}));
 
 if(form&&result&&submit&&errors){
+
+  // Never keep a purchase link tied to old answers on the page.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
+  installMobilityProductFitGate(result);
+
   let builderStarted=false;
   form.addEventListener("change",()=>{
     if(!builderStarted){builderStarted=true;track("builder_start");}
@@ -28,7 +38,7 @@ if(form&&result&&submit&&errors){
     const configured=offer.affiliateKey?affiliateMap[offer.affiliateKey]:null;
     const affiliateUrl=typeof configured==="string"&&configured.startsWith("https://")?configured:null;
     const url=affiliateUrl||offer.url;
-    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>hmotnost: ${esc(p.facts.weightKg)} kg</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${allow?`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-indoor-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`:""}</article>`;
+    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>hmotnost: ${esc(p.facts.weightKg)} kg</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${allow?renderMobilityProductFitGate(`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-indoor-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`):""}</article>`;
   };
   submit.addEventListener("click",()=>{
     if(!validate()) return;

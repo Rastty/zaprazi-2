@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_60
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
+import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/acquisition.js";
 import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
@@ -19,6 +20,16 @@ const track = (eventName) => {
 };
 
 if (form && result && submitButton && errorBox) {
+
+  // A result belongs to the exact answers used to produce it.
+  // Hide and remove any previous outbound offer as soon as an answer changes.
+  form.addEventListener("change", () => {
+    result.hidden = true;
+    result.innerHTML = "";
+  });
+
+  installMobilityProductFitGate(result);
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
@@ -158,7 +169,7 @@ if (form && result && submitButton && errorBox) {
               </details>
               ${renderSources(product.evidence)}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
-              ${renderOffers(product.offers)}
+              ${renderMobilityProductFitGate(renderOffers(product.offers))}
             </article>
           `).join("")}
         </div>

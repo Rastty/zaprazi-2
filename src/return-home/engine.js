@@ -215,17 +215,35 @@ export function buildReturnHomePlan(input = {}) {
 
   const hasBlocker = blockers.length > 0;
   const hasAnyWork = priorities.length > 0 || routes.length > 0 || dischargeActions.length > 0;
+  // Having a plan is not proof that the home is ready for a safe first night.
+  // Preserve the existing status contract and Advisor routes, but explicitly
+  // distinguish unresolved essential arrangements from ordinary follow-ups.
+  const hasUnresolvedEssentials =
+    entranceReady !== "yes" ||
+    transferAbility === "unknown" ||
+    walking === "unknown" ||
+    (walking === "wheelchair_or_no_walk" && wheelchairReady !== "yes") ||
+    toiletReady !== "yes" ||
+    bedReady !== "yes" ||
+    homeCare === "unknown" ||
+    homeCare === "needed_not_arranged";
 
   return {
     status: hasBlocker ? "blocked_before_discharge" : hasAnyWork ? "action_plan" : "ready_basic",
     headline: hasBlocker
       ? "Před návratem domů je potřeba vyřešit několik kritických bodů."
-      : hasAnyWork
-        ? "Základní plán návratu domů je připravený."
-        : "Podle zadaných praktických bodů je základní domácí připravenost potvrzená.",
+      : hasUnresolvedEssentials
+        ? "Před návratem domů zbývá ověřit nebo zajistit důležité věci."
+        : hasAnyWork
+          ? "Máte plán dalších kroků pro návrat domů."
+          : "Podle zadaných praktických bodů je základní domácí připravenost potvrzená.",
     nextStep: hasBlocker
       ? "Nezačínejte nákupem dalších produktů. Nejdřív vyřešte blokující vstup nebo fyzicky asistovaný přesun a návaznou péči."
-      : "Postupujte od nejvyšší priority. Každý produktový odkaz vede do samostatného ZaPrazi poradce s vlastními bezpečnostními gate.",
+      : hasUnresolvedEssentials
+        ? "Tento plán není potvrzení bezpečného návratu. Nejasné nebo nezajištěné důležité body projděte s nemocničním týmem ještě před odjezdem. Odkazy níže slouží k orientaci, ne k posouzení vhodnosti propuštění."
+        : hasAnyWork
+          ? "Postupujte od nejvyšší priority. Odkazy vedou do samostatných poradců s vlastními bezpečnostními kontrolami."
+          : "Toto je orientační kontrola praktické připravenosti domácnosti podle zadaných bodů, nikoli posouzení zdravotní způsobilosti k propuštění.",
     blockers: sortByPriority(blockers),
     priorities: sortByPriority(priorities),
     routes: sortByPriority(routes),

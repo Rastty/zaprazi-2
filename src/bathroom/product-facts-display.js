@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_81
+// ZP_RELEASE_0_8_82
 /**
  * Stable, human-readable facts for the Bathroom/WC product family.
  * Keep exact catalog numbers: formatting must never calculate safety suitability.

@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.81 deployment integrity contract covers critical runtime files", () => {
+test("0.8.82 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -503,14 +503,14 @@ test("0.8.81 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.81' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.82' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_81/);
+    assert.match(read(path), /ZP_RELEASE_0_8_82/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.81"));
+  assert.ok(read("style.css").includes("Version: 0.8.82"));
 });
 
 
@@ -2381,4 +2381,18 @@ test("main Bathroom Advisor excludes hidden fit-stage fields from required valid
     app,
     /if \(previewReady && !event\.target\?\.closest\?\.\("#zp-bathroom-fit-stage"\)\) \{[\s\S]*?previewReady = false;[\s\S]*?fitStage\.hidden = true;[\s\S]*?fitStage\.querySelectorAll\('[^']+'\)[\s\S]*?updateConditionalQuestions\(\);/
   );
+});
+
+
+test("mobile anchored Advisors and model-fit touch controls respect the sticky header and reduced motion", () => {
+  const css=read("style.css");
+  const gate=read("src/mobility/offer-fit-gate.js");
+  assert.ok(css.includes("html{scroll-behavior:smooth;scroll-padding-top:96px}"));
+  assert.ok(css.includes("scroll-padding-top:140px"));
+  assert.ok(css.includes("scroll-margin-top:140px"));
+  assert.ok(css.includes("prefers-reduced-motion:reduce"));
+  assert.ok(css.includes(".zp-mobility-fit-gate>label{display:flex;align-items:flex-start;gap:.65rem;margin:.5rem 0;min-height:44px"));
+  assert.ok(css.includes(".zp-fit-progress{"));
+  assert.ok(gate.includes('data-zp-fit-progress role="status" aria-live="polite"'));
+  assert.ok(gate.includes("Všechna ověření hotová"));
 });

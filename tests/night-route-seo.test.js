@@ -74,3 +74,11 @@ test("Legacy article inventory has no canonical night-route slug collision", () 
   const csv = read("data/legacy-url-inventory.csv");
   assert.doesNotMatch(csv, /"https:\/\/zaprazi\.cz\/nocni-cesta-z-postele-na-wc\/?"/);
 });
+
+
+test("Bathroom/WC hub points to the night-route checklist where the problem extends beyond toilet fit", () => {
+  const page = read("page-koupelna-a-wc.php");
+  assert.ok(page.includes("/nocni-cesta-z-postele-na-wc/"));
+  assert.match(page, /Člověk bezpečně dojde k WC ve dne, ale jak je to v noci/);
+  assert.match(page, /Ověřte vstávání z postele, noční světlo, průchody/);
+});

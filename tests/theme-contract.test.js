@@ -2432,3 +2432,13 @@ test("WordPress native custom logo and site icon win over versioned theme fallba
   assert.match(css, /grid-column:1\/-1;grid-row:2;min-width:0;max-width:100%;width:100%;overflow-x:auto/);
   assert.match(css, /zp-brand-icon/);
 });
+
+
+test("visible logo wordmark is the accessible name of its home link", () => {
+  const header = read("header.php");
+  const logoAnchor = header.match(/<a class="zp-brand"[^>]+>/)?.[0] ?? "";
+  assert.ok(logoAnchor, "brand home link must exist");
+  assert.ok(!logoAnchor.includes("aria-label="), "ARIA name must not hide visible Zápraží slogan");
+  assert.ok(header.includes('<span class="zp-brand-text"><strong>Zápraží</strong><small>Cesta k lepšímu životu</small></span>'));
+  assert.ok(header.includes('alt="" aria-hidden="true"'), "SVG icon must remain decorative beside readable wordmark");
+});

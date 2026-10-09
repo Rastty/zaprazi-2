@@ -1344,6 +1344,9 @@ test("Wheelchair Advisor is a separate privacy-safe Slice 4 surface", () => {
   assert.match(page, /data-zp-wheelchair-required=["']seatFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["']widthFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["']loadFit["']/);
+  assert.match(page, /data-zp-wheelchair-required=["\']wheelType["\']/);
+  assert.match(read("assets/js/wheelchair-advisor.js"), /updateWheelTypeQuestion/);
+  assert.match(read("src/wheelchair/engine.js"), /wheelType === "unknown"/);
   assert.match(page, /data-zp-wheelchair-required=["']joystickSafe["']/);
   assert.match(page, /data-zp-wheelchair-required=["']chargingReady["']/);
 

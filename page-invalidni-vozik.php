@@ -67,6 +67,14 @@ get_header();
           <label class="zp-choice"><input type="radio" name="widthFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte nejužší průchod a místo pro manévrování.</small></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="wheelType" hidden>
+          <legend>Jaká zadní kola má přesná nabízená varianta vozíku UNIZDRAV P3641?</legend>
+          <p>Pro tento odlehčený model uvádí výrobce dva různé limity. Ověřte u obchodníka nebo v dokumentaci provedení konkrétního kusu. Při změně varianty potvrdíte nosnost znovu.</p>
+          <label class="zp-choice"><input type="radio" name="wheelType" value="pneumatic"><span><strong>Pneumatická (nafukovací) kola</strong><small>Výrobce uvádí nosnost 125 kg.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="wheelType" value="tubeless"><span><strong>Bezdušová kola</strong><small>Výrobce uvádí nosnost 136 kg.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="wheelType" value="unknown"><span><strong>Nevím, jaká kola má vybraná varianta</strong><small>Bez tohoto ověření nelze nabídku odemknout.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="loadFit">
           <legend>Ověřili jste nosnost přesné varianty? U některých vozíků se limit liší podle provedení kol.</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong><small>Přesnou hmotnost člověka do poradce nezadávejte.</small></span></label>

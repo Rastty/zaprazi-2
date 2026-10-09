@@ -59,7 +59,7 @@ export const WHEELCHAIR_PRODUCTS = Object.freeze([
     selectionNotes: [
       "zadní kola mají hnací obruče pro samostatný pohyb uživatele a současně brzdy pro doprovod",
       "před výběrem je nutné ověřit šířku sedu 48 nebo 51 cm a celkovou šířku 68 nebo 70 cm",
-      "nosnost se liší podle zvolené varianty kol",
+      "pneumatická (nafukovací) kola: nosnost 125 kg; bezdušová kola: nosnost 136 kg; před nákupem ověřte přesné provedení",
       "odlehčená konstrukce a rychloupínací kola usnadňují převoz, ale vozík stále váží přibližně 17 kg"
     ],
     evidence: [

@@ -4,6 +4,9 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <?php if ( ! has_site_icon() ) : ?>
+  <link rel="icon" type="image/svg+xml" sizes="any" href="<?php echo esc_url( get_theme_file_uri( '/assets/brand/zaprazi-icon.svg' ) ); ?>">
+  <?php endif; ?>
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -15,7 +18,10 @@
       <?php if ( has_custom_logo() ) : ?>
         <?php the_custom_logo(); ?>
       <?php else : ?>
-        <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">Zápraží</a>
+        <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="Zápraží – úvodní stránka">
+          <img class="zp-brand-icon" src="<?php echo esc_url( get_theme_file_uri( '/assets/brand/zaprazi-icon.svg' ) ); ?>" width="52" height="52" alt="" aria-hidden="true">
+          <span class="zp-brand-text"><strong>Zápraží</strong><small>Cesta k lepšímu životu</small></span>
+        </a>
       <?php endif; ?>
     </div>
 
@@ -31,6 +37,8 @@
       <a href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled pomůcek</a>
     </nav>
 
-    <span class="zp-tagline">Cesta k lepšímu životu.</span>
+    <?php if ( has_custom_logo() ) : ?>
+      <span class="zp-tagline">Cesta k lepšímu životu.</span>
+    <?php endif; ?>
   </div>
 </header>

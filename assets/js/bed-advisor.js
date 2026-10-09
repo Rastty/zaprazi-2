@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendAdjustableBed } from "../../src/bed/engine.js";
 import { getAdjustableBedProducts } from "../../src/bed/catalog.js";
+import { previewAdjustableBed } from "../../src/decision/product-preview.js";
 
 const form = document.querySelector("#zp-bed-advisor");
 const result = document.querySelector("#zp-bed-result");
@@ -23,6 +24,17 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox && candidateNote) {
+  const preview = document.querySelector("#zp-bed-preview");
+  const fitStage = document.querySelector("#zp-bed-fit-stage");
+  let previewReady = false;
+  const fitFields = ["loadFit","spaceFit"];
+  if (preview && fitStage) {
+    for (const name of fitFields) {
+      const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-bed-required="${name}"]`);
+      if (fieldset) fitStage.appendChild(fieldset);
+    }
+  }
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
@@ -101,8 +113,35 @@ if (form && result && submitButton && errorBox && candidateNote) {
     </section>
   `;
 
+  const readAnswers = () => ({
+    primaryNeed: checkedValue("primaryNeed", "unknown"),
+    transferAbility: checkedValue("transferAbility", "unknown"),
+    loadFit: checkedValue("loadFit", "unknown"),
+    spaceFit: checkedValue("spaceFit", "unknown"),
+    duration: checkedValue("duration", "unknown")
+  });
+
+  const renderUnverifiedProduct = (product) => `
+    <article class="zp-product-card">
+      <p class="zp-result-status">Pouze předběžný kandidát – vhodnost není potvrzena</p>
+      <h4>${escapeHtml(product.name)}</h4>
+      <ul class="zp-facts">${factsFor(product)}</ul>
+      <details><summary>Co ještě ověřit</summary><ul>${product.selectionNotes.map(note=>`<li>${escapeHtml(note)}</li>`).join("")}</ul></details>
+      <p class="zp-muted-copy">Zdroje technických údajů: ${product.evidence.map(e=>escapeHtml(e.checkedAt)).join(", ")}. Nejde o ověření individuální vhodnosti.</p>
+    </article>
+  `;
+
+  const displayBlocked = (outcome) => {
+    previewReady = false;
+    preview.hidden = true;
+    fitStage.hidden = true;
+    result.innerHTML = `<h2>${escapeHtml(outcome.headline)}</h2><p>${escapeHtml(outcome.nextStep)}</p><p class="zp-disclaimer">V této situaci nedoporučujeme konkrétní výrobek bez dalšího ověření.</p>`;
+    result.hidden = false;
+    result.focus();
+  };
+
   const visibleRequiredGroups = () =>
-    [...form.querySelectorAll("[data-zp-bed-required]")];
+    [...form.querySelectorAll("[data-zp-bed-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
 
   const validate = () => {
     const missing = visibleRequiredGroups().filter((fieldset) => !checkedValue(fieldset.dataset.zpBedRequired));
@@ -132,6 +171,14 @@ if (form && result && submitButton && errorBox && candidateNote) {
   updateCandidateNote();
 
   form.addEventListener("change", (event) => {
+    if (previewReady && !event.target?.closest?.("#zp-bed-fit-stage")) {
+      previewReady = false;
+      preview.hidden = true;
+      fitStage.hidden = true;
+      result.hidden = true;
+      submitButton.textContent = "1. Ukázat možný výrobek";
+      fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    }
     if (event.target?.name === "primaryNeed") updateCandidateNote();
 
     const group = event.target?.closest?.("[data-zp-bed-required]");
@@ -147,15 +194,39 @@ if (form && result && submitButton && errorBox && candidateNote) {
   });
 
   submitButton.addEventListener("click", () => {
-    if (!validate()) return;
+    if (!preview || !fitStage || !validate()) return;
 
-    const output = recommendAdjustableBed({
-      primaryNeed: checkedValue("primaryNeed", "unknown"),
-      transferAbility: checkedValue("transferAbility", "unknown"),
-      loadFit: checkedValue("loadFit", "unknown"),
-      spaceFit: checkedValue("spaceFit", "unknown"),
-      duration: checkedValue("duration", "unknown")
-    });
+    if (!previewReady) {
+      const upcoming = previewAdjustableBed(readAnswers());
+      if (upcoming.status !== "unverified_preview") {
+        displayBlocked(upcoming);
+        return;
+      }
+      const products = getAdjustableBedProducts(upcoming.productCandidateIds);
+      if (!products.length) {
+        displayBlocked({
+          headline: "Nemáme ověřený výrobek pro tuto situaci.",
+          nextStep: "Vyberte jiný způsob použití nebo vyhledejte odborné posouzení."
+        });
+        return;
+      }
+      // Preview contains no shop URLs: no actual fit confirmed yet.
+      preview.innerHTML = `
+        <h2>1. Možné postele k ověření</h2>
+        <p>Zkontrolujte následující skutečné parametry výrobku. Jeho vhodnost ještě nebyla potvrzena.</p>
+        <div class="zp-product-grid">${products.map(renderUnverifiedProduct).join("")}</div>
+        <p class="zp-disclaimer">Nákupní odkazy se objeví až po skutečném ověření parametrů v druhém kroku.</p>
+      `;
+      previewReady = true;
+      preview.hidden = false;
+      fitStage.hidden = false;
+      result.hidden = true;
+      submitButton.textContent = "2. Vyhodnotit parametry";
+      preview.focus();
+      return;
+    }
+
+    const output = recommendAdjustableBed(readAnswers());
 
     const recommendations = output.recommendations.map((item) => `
       <article>

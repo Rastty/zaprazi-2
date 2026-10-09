@@ -21,6 +21,5 @@ jobs:
       - name: Run safety and purchase-gate QA against deployed production
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
-          ZP_RELEASE: "0.8.62"
           CHROME_BIN: /usr/bin/google-chrome
         run: node tests/production-advisor-smoke.mjs

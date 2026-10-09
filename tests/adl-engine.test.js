@@ -60,6 +60,7 @@ test("unknown Beat It fit does not become an automatic recommendation", () => {
 
   assert.equal(result.status, "needs_fit_check");
   assert.equal(result.candidate?.sku, "15-050102");
+  assert.equal(result.requiresProductFit, undefined, "An unverified work surface must not trigger an extra shopping-fit question");
 });
 
 test("Theomatik requires one-hand use to be confirmed for automatic candidate status", () => {
@@ -143,6 +144,7 @@ test("ADL exact models are previews, not purchase approvals, until practical fit
       assert.equal(output.status, "needs_fit_check", task+":"+String(productFit));
       assert.ok(output.candidate?.sku, task+" preview should identify the candidate");
       assert.ok(output.checks.length>0, task+" must show what to verify");
+      assert.equal(output.requiresProductFit, true, task+" precise model is ready for the final fit question");
       if(productFit==="no") assert.match(output.nextStep,/nekupujte/i);
     }
     assert.equal(chooseAdlSelfCareAid({...answers,productFit:"yes"}).status,"candidate");

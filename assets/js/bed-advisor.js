@@ -35,7 +35,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const preview = document.querySelector("#zp-bed-preview");
   const fitStage = document.querySelector("#zp-bed-fit-stage");
   let previewReady = false;
-  const fitFields = ["loadFit","spaceFit"];
+  const fitFields = ["loadFit","spaceFit","userCapacityVerified"];
   if (preview && fitStage) {
     for (const name of fitFields) {
       const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-bed-required="${name}"]`);
@@ -46,16 +46,27 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
+  const updateCapacityQuestion = () => {
+    const capacityGroup = fitStage?.querySelector('[data-zp-bed-required="userCapacityVerified"]');
+    if (!capacityGroup) return;
+    const need = checkedValue("primaryNeed", "unknown");
+    const required = ["robust_high_load", "advanced_in_bed_care"].includes(need);
+    capacityGroup.hidden = !required;
+    if (!required) {
+      capacityGroup.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    }
+  };
+
   const candidateSummary = (need) => ({
     home_positioning: "CLASSIC: max. hmotnost pacienta 178 kg, vnější rozměr 102,5 × 212 cm, výška 38,6–80,6 cm.",
     caregiver_access: "CLASSIC: max. hmotnost pacienta 178 kg, vnější rozměr 102,5 × 212 cm, výška 38,6–80,6 cm.",
-    robust_high_load: "Hospital: nosnost 250 kg, vnější rozměr 105 × 214 cm, výška 40–70 cm.",
-    advanced_in_bed_care: "Multibed: nosnost 260 kg, vnější rozměr 96 × 212 cm, výška 50–70 cm; matrace je součástí.",
+    robust_high_load: "Hospital: obecně uváděná nosnost 250 kg; samostatný limit hmotnosti uživatele není na produktové stránce doložen. Rozměr 105 × 214 cm.",
+    advanced_in_bed_care: "Multibed: obecně uváděná nosnost 260 kg; samostatný limit hmotnosti uživatele není na produktové stránce doložen. Matrace je součástí.",
     unknown: "Nejdřív vyberte hlavní praktickou potřebu."
   }[need] || "Nejdřív vyberte hlavní praktickou potřebu.");
 
   const updateCandidateNote = () => {
-    candidateNote.innerHTML = `<strong>${escapeHtml(candidateSummary(checkedValue("primaryNeed", "unknown")))}</strong><p>Přesnou hmotnost člověka do poradce nezadávejte. Stačí ověřit, zda technický limit kandidáta bezpečně vyhovuje.</p>`;
+    candidateNote.innerHTML = `<strong>${escapeHtml(candidateSummary(checkedValue("primaryNeed", "unknown")))}</strong><p>U Hospital a Multibed je nutné ověřit maximální hmotnost samotného uživatele přímo u výrobce nebo odborné výdejny. Přesnou hmotnost člověka do poradce nezadávejte.</p>`;
   };
 
   const resolveOffer = (offer) => {
@@ -71,7 +82,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
       f.outerSizeCm ? `vnější rozměr: ${f.outerSizeCm} cm` : null,
       f.heightRangeCm ? `výška ložné plochy: ${f.heightRangeCm} cm` : null,
       f.maxUserWeightKg ? `max. hmotnost pacienta: ${f.maxUserWeightKg} kg` : null,
-      f.maxLoadKg ? `nosnost: ${f.maxLoadKg} kg` : null,
+      f.maxLoadKg ? `prodejcem uváděná nosnost postele: ${f.maxLoadKg} kg (nikoli doložený samostatný limit uživatele)` : null,
       f.safeWorkingLoadKg ? `pracovní zatížení: ${f.safeWorkingLoadKg} kg` : null,
       f.lateralTurnDeg ? `boční otáčení: do ${f.lateralTurnDeg}°` : null,
       f.mattressIncluded === true ? "matrace: součástí" : "matrace: není součástí"
@@ -126,6 +137,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     transferAbility: checkedValue("transferAbility", "unknown"),
     loadFit: checkedValue("loadFit", "unknown"),
     spaceFit: checkedValue("spaceFit", "unknown"),
+    userCapacityVerified: checkedValue("userCapacityVerified", "unknown"),
     duration: checkedValue("duration", "unknown")
   });
 
@@ -226,6 +238,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
         <p class="zp-disclaimer">Nákupní odkazy se objeví až po skutečném ověření parametrů v druhém kroku.</p>
       `;
       previewReady = true;
+      updateCapacityQuestion();
       preview.hidden = false;
       fitStage.hidden = false;
       result.hidden = true;

@@ -443,7 +443,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.65 deployment integrity contract covers critical runtime files", () => {
+test("0.8.66 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -487,18 +487,19 @@ test("0.8.65 deployment integrity contract covers critical runtime files", () =>
     "assets/js/bath-transfer-advisor.js",
     "assets/js/indoor-walker-advisor.js",
     "assets/js/rollator-advisor.js",
+    "src/bathroom/product-facts-display.js",
     "assets/js/runtime-config.js",
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.65' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.66' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_65/);
+    assert.match(read(path), /ZP_RELEASE_0_8_66/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.65"));
+  assert.ok(read("style.css").includes("Version: 0.8.66"));
 });
 
 

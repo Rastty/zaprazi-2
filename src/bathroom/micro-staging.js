@@ -1,4 +1,5 @@
 import { getBathroomProducts } from "./catalog.js";
+import { formatBathroomFacts } from "./product-facts-display.js";
 import { previewBathroomCandidates } from "./preview.js";
 
 /**
@@ -58,23 +59,8 @@ export function installBathroomMicroStaging({
     duration: value("duration")
   });
 
-  const fieldLabels = {
-    heightIncreaseCm: "Zvýšení sedu (cm)", outerCm: "Vnější rozměr (cm)",
-    openingCm: "Otvor (cm)", widthCm: "Šířka (cm)",
-    totalWidthCm: "Celková šířka (cm)", totalDepthCm: "Celková hloubka (cm)",
-    depthCm: "Hloubka (cm)", seatWidthCm: "Šířka sedáku (cm)",
-    seatHeightCm: "Výška sedu (cm)", seatDepthCm: "Hloubka sedáku (cm)",
-    bathInnerWidthCm: "Vnitřní šířka vany (cm)",
-    maxUserWeightKg: "Maximální nosnost (kg)", totalHeightCm: "Celková výška (cm)",
-    heightCm: "Výška (cm)", seatCm: "Rozměry sedáku (cm)",
-    weightKg: "Hmotnost pomůcky (kg)", lengthsCm: "Délky (cm)",
-    fixingHoleSpacingCm: "Rozteč uchycení (cm)"
-  };
   const renderProduct = (product, alternative) => {
-    const facts = Object.entries(product.facts || {})
-      .filter(([,v]) => v !== null && v !== undefined)
-      .map(([k,v]) => '<li>' + esc(fieldLabels[k] || k) + ': ' +
-        esc(Array.isArray(v) ? v.join(" / ") : v) + '</li>').join("");
+    const facts = formatBathroomFacts(product.facts).map(text => '<li>' + esc(text) + '</li>').join("");
     return '<article class="zp-product-card">' +
       '<p class="zp-product-family">' + (alternative ? "Možná alternativa" : "Předběžný kandidát") + '</p>' +
       '<h4>' + esc(product.name) + '</h4><ul class="zp-facts">' + facts + '</ul>' +

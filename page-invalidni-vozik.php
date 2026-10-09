@@ -10,7 +10,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Invalidní vozík</p>
       <h1>Invalidní vozík pro seniory: mechanický, elektrický, nebo s doprovodem?</h1>
-      <p class="zp-lead">Nezačínáme diagnózou ani značkou. Nejdřív rozlišíme doprovod, samostatný ruční pohon nebo elektrický pohon. Teprve potom ověřujeme sed, průchody, nosnost a způsob pořízení.</p>
+      <p class="zp-lead">Nezačínáme diagnózou ani značkou. Nejdřív rozlišíme doprovod, samostatný ruční pohon nebo elektrický pohon. Teprve potom ověřujeme bezpečné ovládání, sed, průchody, nosnost a způsob pořízení.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-vozik">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
@@ -40,6 +40,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="transferAbility" value="steadying"><span><strong>S oporou nebo dohledem, bez fyzického zvedání</strong></span></label>
           <label class="zp-choice"><input type="radio" name="transferAbility" value="person_assist"><span><strong>Běžně fyzicky pomáhá druhá osoba</strong></span></label>
           <label class="zp-choice"><input type="radio" name="transferAbility" value="unknown"><span><strong>Nevím</strong></span></label>
+        </fieldset>
+
+        <fieldset class="zp-fieldset" data-zp-wheelchair-conditional="manual" data-zp-wheelchair-required="manualControlSafe" hidden>
+          <legend>Pokud má člověk vozík pohánět rukama: zvládne ho na běžné trase spolehlivě rozjet, řídit, zpomalit a zastavit a použít parkovací brzdu?</legend>
+          <label class="zp-choice"><input type="radio" name="manualControlSafe" value="yes"><span><strong>Ano</strong><small>Prakticky vyzkoušeno nebo spolehlivě zvládá.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="manualControlSafe" value="no"><span><strong>Ne</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="manualControlSafe" value="unknown"><span><strong>Nevím</strong><small>Nejdřív ověřte na bezpečné trase.</small></span></label>
         </fieldset>
 
         <div id="zp-wheelchair-candidate-note" class="zp-resource-callout" aria-live="polite">
@@ -141,7 +148,7 @@ get_header();
       </details>
       <details>
         <summary>Je lepší mechanický, nebo elektrický invalidní vozík?</summary>
-        <p>Mechanický vozík dává smysl, když ho bezpečně zvládne uživatel rukama nebo doprovod. Elektrický vozík je kandidát až po potvrzení bezpečného ovládání joysticku, prostoru pro manévrování a pravidelného nabíjení.</p>
+        <p>Mechanický vozík dává smysl, když ho uživatel rukama dokáže bezpečně rozjet, řídit a zastavit, nebo když ho bezpečně obsluhuje doprovod. Elektrický vozík je kandidát až po potvrzení bezpečného ovládání joysticku, prostoru pro manévrování a pravidelného nabíjení.</p>
       </details>
       <details>
         <summary>Jak poznat správnou šířku sedu a vozíku?</summary>
@@ -153,7 +160,7 @@ get_header();
       </details>
       <details>
         <summary>Kdy Zápraží nedoporučí konkrétní vozík?</summary>
-        <p>Konkrétní produkt neukazujeme, pokud není potvrzená šířka sedu, průchod nebo nosnost, při běžně fyzicky asistovaném přesunu a u elektrického vozíku také tehdy, když není potvrzené bezpečné ovládání nebo nabíjení.</p>
+        <p>Konkrétní produkt neukazujeme, pokud není potvrzená šířka sedu, průchod nebo nosnost, při běžně fyzicky asistovaném přesunu, u ručního pohonu bez potvrzeného bezpečného řízení a zastavení a u elektrického vozíku bez bezpečného ovládání nebo nabíjení.</p>
       </details>
 
       <div class="zp-hero-actions">

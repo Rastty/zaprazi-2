@@ -59,7 +59,7 @@
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-conditional="outdoor" data-zp-required-group="handBrakes" hidden>
-          <legend>Pokud řešíte pohyb venku: zvládne člověk bezpečně používat ruční brzdy?</legend>
+          <legend>Pokud řešíte rollátor venku nebo kvůli sedátku: zvládne člověk bezpečně používat a zajistit ruční brzdy?</legend>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="yes"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="unknown"><span><strong>Nevím</strong></span></label>

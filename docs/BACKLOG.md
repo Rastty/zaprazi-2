@@ -2339,3 +2339,12 @@ Status: **READY_FOR_DEPLOY** (production not yet updated; 0.8.62 remains the las
 - Never use hidden field values to unlock product offers: irrelevant checked values are removed on branch change; old-stage answers reset when the primary situation changes.
 - Release 0.8.63 contains all 43 integrity-critical file markers, CSS version, WordPress constant, tests and documentation; **Pull + Deploy from dev** then verify `zaprazi-release=0.8.63` and `zaprazi-integrity=ok` before interpreting production QA.
 - Acceptance after deployment: run repeatable 14-Advisor Chrome smoke, add both dynamic branch assertions, then compare aggregate completion and guided-user task clarity; do not claim measured uplift without real data.
+
+
+### ZP-117 Privacy-safe funnel step quality and downstream navigation (target 0.8.64)
+Status: **IMPLEMENTED / RELEASE_PENDING**
+
+- Avoid double-counting builder_start, builder_complete and recommendation_view when a visitor changes their answers and reevaluates one Advisor several times on a single page load.
+- Track a generic, consent-only `next_step_click` when a visitor follows an internal link from the Advisor result to a different page; do not include target URLs, answers, product IDs, merchant IDs or diagnosis/status in GA4 params.
+- Update public privacy disclosure and strict consent unit tests. Preserve click measurement and affiliate/safety gates without touching recommendation logic.
+- This is instrumentation, **not** evidence of incremental sales. Need comparable GA4 sessions and affiliate-approved order reconciliation before claiming business results.

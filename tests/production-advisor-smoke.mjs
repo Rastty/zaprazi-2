@@ -51,7 +51,7 @@ const approvedRedirectHosts = new Set([
   "tkqlhce.com", "jdoqocy.com", "ehub.cz"
 ]);
 async function assertAffiliateOffers(page, selector) {
-  const links = await page.$eval(selector, nodes =>
+  const links = await page.$$eval(selector, nodes =>
     nodes.map(node => ({
       href: node.getAttribute("href"),
       rel: node.getAttribute("rel") || "",

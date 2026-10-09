@@ -2458,3 +2458,28 @@ test("return-home printable checklist uses only safe engine routes and ephemeral
   assert.match(css, /\.zp-return-checklist/);
   assert.match(css, /body\.zp-return-print-mode \.zp-return-task/);
 });
+
+test("specialist mobility advisors show, focus and clear required-question errors on mobile", () => {
+  const css = read("style.css");
+  assert.match(css, /\.zp-fieldset\.is-error\{border-color:/);
+  for (const [path, attr, page] of [
+    ["assets/js/indoor-walker-advisor.js","zpIndoorRequired","page-choditko-do-bytu-pro-seniory.php"],
+    ["assets/js/rollator-advisor.js","zpRollRequired","page-rollator-pro-seniory.php"]
+  ]) {
+    const app = read(path);
+    const html = read(page);
+    assert.match(html, /role="alert" aria-live="assertive" hidden/);
+    assert.match(app, /requiredGroups=\(\)=>/);
+    assert.match(app, /!group\.hidden&&!group\.closest\("\[hidden\]"\)/);
+    assert.ok(app.includes("group.dataset."+attr), path);
+    assert.match(app, /group\.classList\.toggle\("is-error",invalid\)/);
+    assert.match(app, /group\.setAttribute\("aria-invalid","true"\)/);
+    assert.match(app, /missing\[0\]\.setAttribute\("tabindex","-1"\)/);
+    assert.match(app, /missing\[0\]\.focus\(\)/);
+    assert.match(app, /event\.target\?\.closest\?/);
+    assert.match(app, /group\.classList\.remove\("is-error"\)/);
+    assert.match(app, /group\.removeAttribute\("aria-invalid"\)/);
+    assert.match(app, /remaining=requiredGroups\(\)\.filter/);
+    assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
+  }
+});

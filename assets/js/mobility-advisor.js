@@ -2,6 +2,7 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
+import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/acquisition.js";
 import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
@@ -132,19 +133,24 @@ if (form && result && submitButton && errorBox) {
     return freshness.status === "fresh" ? "" : " · zdroj potřebuje nové ověření";
   };
 
-  const renderSources = (evidence = []) => {
+  const renderSources = (evidence = [], commerceUrls = []) => {
     if (!evidence.length) return "";
 
     return `
       <details class="zp-sources">
         <summary>Zdroje a datum ověření</summary>
         <ul>
-          ${evidence.map((source) => `
-            <li>
-              <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>
-              <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}${escapeHtml(sourceFreshnessLabel(source))}</small>
-            </li>
-          `).join("")}
+          ${evidence.map((source) => {
+            const canLink = canLinkEvidence(source.url, commerceUrls, false);
+            return `
+              <li>
+                ${canLink
+                  ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>`
+                  : `<span>${escapeHtml(evidenceLabel(source.type))} – obchodní odkaz je uzamčen do dokončení kontroly modelu</span>`}
+                <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}${escapeHtml(sourceFreshnessLabel(source))}</small>
+              </li>
+            `;
+          }).join("")}
         </ul>
       </details>
     `;
@@ -167,7 +173,7 @@ if (form && result && submitButton && errorBox) {
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
-              ${renderSources(product.evidence)}
+              ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [])}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
               ${renderMobilityProductFitGate(renderOffers(product.offers), fitOptions)}
             </article>

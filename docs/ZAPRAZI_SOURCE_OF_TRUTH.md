@@ -319,3 +319,40 @@ U každého UX experimentu vymezit výchozí stav a očekávané zlepšení ales
 ### Aktualizace priorit 9. 10. 2026 — kvalita průvodců před značkou a expanzí
 
 Před SEO/rozšiřováním, novými nástroji nebo Home Scan má absolutní prioritu **praktická správnost, bezpečnost, přesné produktové mapování a výborné mobilní UX všech 14 existujících poradců**. Pracovat po konkrétních nalezených závadách a měřit dokončení až jako doplněk, nikoli náhradu bezpečnostních testů. Po uzavření kritických a významných zjištění následuje jednotná finální aktualizace loga Zápraží a faviconu, včetně mobilního zobrazení. Teprve pak další body schválené vize. Windsor.ai není závislost a nepřipojovat. Podrobná matice přijetí a bezpečnostní regresní scénáře: `docs/ADVISOR_QUALITY_GATE_2026-10-09.md`.
+
+
+---
+
+## Schválené upřesnění vize — životní situace, akční plány a checklisty (9. 10. 2026)
+
+**Toto je doplnění, nikoli změna Master Vision & Execution Brief.** Původní strategie, architektura, bezpečnostní a privacy pravidla, obchodní model i pořadí priorit zůstávají v platnosti. Cílem ZaPraží je být postupně nejdůvěryhodnějším praktickým průvodcem bezpečným, samostatným a kvalitním životem ve vyšším věku pro lidi samotné i jejich rodiny, nejprve v ČR a následně s lokálně ověřeným obsahem také na Slovensku. Nejde primárně o reklamní web ani o katalog pomůcek.
+
+### Primární uživatelský slib: z nejistoty ke konkrétnímu plánu
+
+Člověk často přichází s životní situací, ne s názvem pomůcky: „maminka se vrací z nemocnice“, „tatínek začíná padat“, „nevím, jak se postarat o blízkého“, „chceme, aby mohl dál bezpečně bydlet doma“. ZaPraží mu má pomoci pochopit problém a odejít s **jasným použitelným akčním plánem**. Doporučení produktu je možný následující krok, nikoli povinný výsledek nebo účel celé stránky.
+
+**Preferovaná cesta:** životní situace nebo konkrétní problém → vysvětlení možností a limitů → praktický checklist / akční plán → odpovídající odborné, veřejné, bezplatné, službové či produktové řešení → bezpečně proveditelný další krok.
+
+### Standard kvalitního průvodce životní situací
+
+Průvodce má podle povahy tématu srozumitelně nabídnout:
+
+1. **Co řešit hned:** časově kritické praktické kroky a případné situace, kdy nejprve kontaktovat zdravotníka, sociální službu nebo jiného odborníka.
+2. **Co zařídit:** instituce, dokumenty, návazná domácí péče, doprava a dostupné služby, pokud jsou pro situaci relevantní; uvést, kdo a za jakých podmínek je řeší.
+3. **Co zkontrolovat doma:** vstup, bezpečný pohyb, koupelnu, WC, lůžko a další skutečně relevantní oblasti; nevyvozovat individuální zdravotní bezpečnost bez odborného posouzení.
+4. **Co zvážit později:** prevence, dlouhodobá soběstačnost, úpravy domácnosti, pomoc rodině, pohyb a kvalita života.
+5. **Kde hledat pomoc a jak ji získat:** ověřitelné oficiální zdroje, služby, půjčovny, možnost prověřit úhradu, případně vhodné produkty až po splnění bezpečnostních podmínek.
+
+Checklist má rozlišovat **ověřit / zařídit / zvážit / odborně posoudit**, uvádět časovou důležitost a nezaměňovat obecnou informaci za individuální doporučení. Jeho kroky musí mít srozumitelný důvod a nejbližší proveditelný úkon. Uživatel může získat užitek i tehdy, když **nic nekoupí**. Tisk nebo lokální uložení checklistu lze přidat pouze způsobem slučitelným s již platným privacy-by-design přístupem; nevyžadovat účet ani trvalé ukládání citlivých odpovědí.
+
+### Obsahová autorita budovaná kolem potřeb, ne počtu článků
+
+Budovat tematické clustery kolem reálných životních situací a každodenních činností: návrat z nemocnice, pohyb a pády, bezpečné bydlení, hygiena, péče o blízkého, dostupná pomoc, financování a další kvalitně zdrojované oblasti samostatného života. Propojit **vysvětlující obsah → checklist → existující specializovaný poradce → ověřený praktický krok**, bez duplicitní rozhodovací logiky a bez generického masového AI obsahu. Každá důležitá situace má mít jasnou vstupní stránku s možností rychlé orientace pro seniora i pro jeho děti či vnoučata.
+
+### Monetizace jako důsledek užitečné pomoci
+
+Přednost mají vhodná bezplatná řešení, veřejné služby a bezpečné kroky. Affiliate nabídky, půjčení, produkty či budoucí placené partnerské služby smějí navazovat jen tam, kde řeší skutečnou potřebu a jsou transparentně označené. Nepřipustit pořadí podle provize, nátlakové CTA, zpoplatnění základního bezpečnostního checklistu ani prodej individuálních odpovědí či odvozených zdravotních profilů. Další modely monetizace posoudit samostatně podle užitku, důvěry, compliance a proveditelnosti; toto doplnění žádný nový model automaticky neschvaluje.
+
+### Realizace bez změny priority P0
+
+Toto **není pokyn okamžitě vytvořit nový univerzální engine nebo rozšířit Home Scan**. Nejprve dokončit kvalitu a QA všech 14 stávajících poradců, bezpečnost produktových doporučení a mobilní UX; následně finální aktualizaci loga a faviconu podle již schváleného pořadí. Poté ověřit **jeden malý pilot existujícího „Návratu z nemocnice“**: užitečný obecný checklist a srozumitelný akční plán odkazující na stávající moduly, bez duplikace enginu. Hodnotit reálné porozumění, schopnost provést další krok, bezpečnost, přístupnost a ochranu soukromí; obchodní proklik je až sekundární signál.

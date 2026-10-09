@@ -13,6 +13,7 @@ get_header();
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Na co se zeptat před propuštěním</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
       </div>
     </div>
@@ -134,6 +135,7 @@ get_header();
       <h2 class="zp-section-title">Půjčovna, ePoukaz a běžný nákup jsou tři odlišné cesty.</h2>
       <p>Od 1. ledna 2026 je standardem elektronický ePoukaz na zdravotnické prostředky. To ale neznamená, že každý retail produkt lze automaticky vydat nebo proplatit přes pojišťovnu.</p>
       <p>Zápraží proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>
+      <p>Pokud ještě neznáte pokyny nemocničního týmu, začněte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">seznamem otázek před propuštěním</a>. Tento poradce řeší až praktický plán domácnosti.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/media/tiskove-zpravy/poukaz-na-zdravotnicke-prostredky-od-1-ledna-2026-uz-jen-elektronicky/" target="_blank" rel="noopener">Ověřit pravidla ePoukazu u SÚKL</a>
     </div>
   </section>

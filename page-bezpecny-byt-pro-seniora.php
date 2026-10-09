@@ -30,6 +30,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>2. Postel → WC</h3>
           <p>Projďte trasu večer i v noci. Odstraňte volné kabely, koberečky a překážky, ověřte světlo a místa, kde se člověk instinktivně přidržuje.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodový návod: noční cesta z postele na WC</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>3. WC</h3>

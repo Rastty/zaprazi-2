@@ -2103,6 +2103,9 @@ test("toilet-support micro-Advisor reuses Bathroom engine for wall rail vs suppo
   assert.match(app, /recommendBathroom/);
   assert.match(app, /primaryNeed:"toilet_support"/);
   assert.match(app, /wallFixing/);
+  assert.match(app, /supportFrameFit/);
+  assert.match(page, /name="supportFrameFit"/);
+  assert.match(page, /53–63 cm/);
   assert.match(app, /getBathroomProducts/);
   assert.match(catalog, /id: "unizdrav-p2015"/);
   assert.match(catalog, /id: "unizdrav-p2131"/);

@@ -13,6 +13,7 @@ export function previewBathroomCandidates(input = {}) {
     loadFit: "yes",
     toiletFit: "yes",
     feetFlatAtRaisedHeight: "yes",
+    supportFrameFit: "yes",
     spaceFit: "yes",
     bathFit: "yes",
     bathBenchFit: "unknown"

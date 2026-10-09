@@ -33,7 +33,9 @@ test("wheelchair preview blocks assisted or unknown transfers and unsafe powered
     {propulsion:"unknown",transferAbility:"independent"},
     {propulsion:"powered",transferAbility:"independent",joystickSafe:"no",chargingReady:"yes"},
     {propulsion:"powered",transferAbility:"independent",joystickSafe:"unknown",chargingReady:"yes"},
-    {propulsion:"powered",transferAbility:"independent",joystickSafe:"yes",chargingReady:"no"}
+    {propulsion:"powered",transferAbility:"independent",joystickSafe:"yes",chargingReady:"no"},
+    {propulsion:"self_manual",transferAbility:"independent",manualControlSafe:"unknown"},
+    {propulsion:"mixed_manual",transferAbility:"independent",manualControlSafe:"no"}
   ]) {
     const result=previewWheelchair(changes);
     assert.notEqual(result.status,"unverified_preview",JSON.stringify(changes));
@@ -49,7 +51,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
     {propulsion:"powered",id:"unizdrav-p2961"}
   ];
   for(const {propulsion,id} of modes) {
-    const input={propulsion,transferAbility:"independent",joystickSafe:"yes",chargingReady:"yes",
+    const input={propulsion,transferAbility:"independent",manualControlSafe:"yes",joystickSafe:"yes",chargingReady:"yes",
       loadFit:"unknown",seatFit:"unknown",widthFit:"unknown"};
     const p=previewWheelchair(input);
     assert.equal(p.status,"unverified_preview");
@@ -75,6 +77,10 @@ test("bed and wheelchair Advisor UI renders factual preview before fit, without 
     assert.match(page,new RegExp('id="zp-'+prefix+'-preview"'));
     assert.match(page,new RegExp('id="zp-'+prefix+'-fit-stage"'));
     assert.match(page,/1\. Ukázat možný výrobek/);
+    if (slug==="wheelchair") {
+      assert.match(page,/name="manualControlSafe"/);
+      assert.match(page,/data-zp-wheelchair-conditional="manual"/);
+    }
     for(const field of fitFields) assert.match(page,new RegExp('data-zp-product-fit="1" data-zp-'+prefix+'-required="'+field+'"'));
     assert.ok(script.includes(engine+"(readAnswers())"));
     assert.match(script,/fitStage\.appendChild\(fieldset\)/);

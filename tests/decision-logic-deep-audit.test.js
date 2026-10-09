@@ -38,10 +38,27 @@ test("unknown transfer never produces a wheelchair candidate even when all techn
     for (const transferAbility of ["unknown","person_assist"]) {
       const result = recommendWheelchair({
         propulsion,transferAbility,
-        seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes"
+        seatFit:"yes",widthFit:"yes",loadFit:"yes",manualControlSafe:"yes",joystickSafe:"yes",chargingReady:"yes"
       });
       assert.notEqual(result.status, "candidate", JSON.stringify({propulsion,transferAbility}));
       assert.deepEqual(result.recommendations, []);
+    }
+  }
+});
+
+test("manual wheelchair never becomes a candidate without practical control confirmation", () => {
+  for (const propulsion of ["self_manual","mixed_manual"]) {
+    for (const manualControlSafe of ["no","unknown"]) {
+      const output = recommendWheelchair({
+        propulsion,
+        transferAbility:"independent",
+        manualControlSafe,
+        loadFit:"yes",
+        widthFit:"yes",
+        seatFit:"yes"
+      });
+      assert.notEqual(output.status,"candidate");
+      assert.deepEqual(output.recommendations,[]);
     }
   }
 });
@@ -58,7 +75,7 @@ test("wheelchair valid fit is blocked if any individual part is no or unknown", 
 });
 
 test("one physical-fit answer never approves two distinct toilet support constructions", () => {
-  const base={primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes"};
+  const base={primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",supportFrameFit:"yes"};
   for(const wallFixing of ["verified","unverified","not_possible","unknown"]) {
     const result=recommendBathroom({...base,wallFixing});
     assert.equal(result.status,"candidate");
@@ -66,6 +83,28 @@ test("one physical-fit answer never approves two distinct toilet support constru
     assert.equal(ids.length,1, "single load confirmation must address exactly one physical model");
     assert.deepEqual(ids, wallFixing === "verified" ? ["unizdrav-p2131"] : ["unizdrav-p2015"]);
   }
+});
+
+test("toilet support frame fit is independent from wall-rail fixing", () => {
+  const frame = recommendBathroom({
+    primaryNeed:"toilet_support",
+    transferAbility:"steadying",
+    loadFit:"yes",
+    wallFixing:"unverified",
+    supportFrameFit:"yes"
+  });
+  assert.equal(frame.status,"candidate");
+  assert.deepEqual(frame.recommendations[0].productCandidateIds,["unizdrav-p2015"]);
+
+  const blocked = recommendBathroom({
+    primaryNeed:"toilet_support",
+    transferAbility:"steadying",
+    loadFit:"yes",
+    wallFixing:"unverified",
+    supportFrameFit:"unknown"
+  });
+  assert.notEqual(blocked.status,"candidate");
+  assert.deepEqual(blocked.recommendations,[]);
 });
 
 test("critical transfer, capacity, width and floor safety gates fail closed across categories",()=>{
@@ -109,6 +148,13 @@ test("mobility offers require three checks for each product, independently", () 
   assert.match(markup,/Maximální nosnost/);
   assert.match(markup,/Šířka tohoto modelu/);
   assert.match(markup,/Výšku madel/);
+  const expanded=renderMobilityProductFitGate('<a href="https://merchant.example/">Offer</a>',{
+    requireSeatFit:true,
+    requireTransportFit:true
+  });
+  assert.equal((expanded.match(/type="checkbox"/g)||[]).length,5);
+  assert.match(expanded,/Sedátko je pro člověka prakticky použitelné/);
+  assert.match(expanded,/složené rozměry i hmotnost/);
   assert.equal(renderMobilityProductFitGate(""),"");
   const listeners=[];
   const root={addEventListener(type,fn){assert.equal(type,"change");listeners.push(fn);}};
@@ -129,6 +175,30 @@ test("mobility offers require three checks for each product, independently", () 
   assert.equal(models[1].offers.hidden,true, "other product stays locked");
   models[0].inputs[1].checked=false;fire(0);
   assert.equal(models[0].offers.hidden,true,"revoking a model check hides link again");
+});
+
+test("main mobility Advisor exposes brake verification for an indoor seat requirement", () => {
+  const source=read("assets/js/mobility-advisor.js");
+  assert.match(source,/\["environment", "seatNeeded"\]\.includes/);
+  assert.match(source,/environment === "indoor" && !seatNeeded/);
+  assert.match(source,/environment === "both" \|\| seatNeeded/);
+  const page=read("front-page.php");
+  assert.match(page,/rollátor venku nebo kvůli sedátku/);
+});
+
+test("pre-fit product evidence cannot expose a merchant-page bypass", () => {
+  const bathroom=read("assets/js/bathroom-advisor.js");
+  const mobility=read("assets/js/mobility-advisor.js");
+  const adl=read("assets/js/adl-advisor.js");
+  const footwear=read("assets/js/footwear-advisor.js");
+  for (const source of [bathroom,mobility,adl,footwear]) {
+    assert.match(source,/canLinkEvidence/);
+  }
+  assert.match(bathroom,/commerceUnlocked/);
+  assert.match(bathroom,/product\.offers\?\.map\(offer => offer\.url\).*false/);
+  assert.match(mobility,/renderSources\(product\.evidence, product\.offers\?\.map/);
+  assert.match(adl,/canLinkSource/);
+  assert.match(footwear,/canLinkSource/);
 });
 
 test("all three mobility entrypoints render the shared product-specific gate", () => {

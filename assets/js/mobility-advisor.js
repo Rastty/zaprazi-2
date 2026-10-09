@@ -2,6 +2,7 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
+import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { getRentalGuidance, getReimbursementGuidance } from "../../src/mobility/acquisition.js";
 import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
@@ -132,25 +133,30 @@ if (form && result && submitButton && errorBox) {
     return freshness.status === "fresh" ? "" : " · zdroj potřebuje nové ověření";
   };
 
-  const renderSources = (evidence = []) => {
+  const renderSources = (evidence = [], commerceUrls = []) => {
     if (!evidence.length) return "";
 
     return `
       <details class="zp-sources">
         <summary>Zdroje a datum ověření</summary>
         <ul>
-          ${evidence.map((source) => `
-            <li>
-              <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>
-              <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}${escapeHtml(sourceFreshnessLabel(source))}</small>
-            </li>
-          `).join("")}
+          ${evidence.map((source) => {
+            const canLink = canLinkEvidence(source.url, commerceUrls, false);
+            return `
+              <li>
+                ${canLink
+                  ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${escapeHtml(evidenceLabel(source.type))}</a>`
+                  : `<span>${escapeHtml(evidenceLabel(source.type))} – obchodní odkaz je uzamčen do dokončení kontroly modelu</span>`}
+                <small>ověřeno ${escapeHtml(formatCheckedAt(source.checkedAt))}${escapeHtml(sourceFreshnessLabel(source))}</small>
+              </li>
+            `;
+          }).join("")}
         </ul>
       </details>
     `;
   };
 
-  const renderProducts = (products) => {
+  const renderProducts = (products, fitOptions = {}) => {
     if (!products.length) return "";
 
     return `
@@ -167,9 +173,9 @@ if (form && result && submitButton && errorBox) {
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
-              ${renderSources(product.evidence)}
+              ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [])}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
-              ${renderMobilityProductFitGate(renderOffers(product.offers))}
+              ${renderMobilityProductFitGate(renderOffers(product.offers), fitOptions)}
             </article>
           `).join("")}
         </div>
@@ -267,12 +273,13 @@ if (form && result && submitButton && errorBox) {
 
   const updateConditionalQuestions = () => {
     const environment = checkedValue("environment", "");
+    const seatNeeded = isChecked("seatNeeded");
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
       const condition = section.dataset.zpConditional;
       const show = condition === "indoor"
-        ? environment === "indoor"
+        ? environment === "indoor" && !seatNeeded
         : condition === "outdoor"
-          ? environment === "outdoor" || environment === "both"
+          ? environment === "outdoor" || environment === "both" || seatNeeded
           : true;
 
       section.hidden = !show;
@@ -289,7 +296,7 @@ if (form && result && submitButton && errorBox) {
   updateConditionalQuestions();
 
   form.addEventListener("change", (event) => {
-    if (event.target?.name === "environment") {
+    if (["environment", "seatNeeded"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 
@@ -318,6 +325,10 @@ if (form && result && submitButton && errorBox) {
     }
 
     const duration = checkedValue("duration", "unknown");
+    const fitOptions = {
+      requireSeatFit: isChecked("seatNeeded"),
+      requireTransportFit: isChecked("transportNeed")
+    };
     const output = recommendMobility({
       environment: checkedValue("environment"),
       supportNeed: checkedValue("supportNeed"),
@@ -365,7 +376,7 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
-      ${renderProducts(products)}
+      ${renderProducts(products, fitOptions)}
       ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}

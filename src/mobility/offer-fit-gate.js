@@ -3,15 +3,25 @@
  * Render individual model-fit checks before ANY product-specific retailer CTA.
  * Inputs stay solely in the browser and are never sent to analytics or a server.
  */
-export function renderMobilityProductFitGate(offersHtml) {
+export function renderMobilityProductFitGate(offersHtml, options = {}) {
   if (!offersHtml) return "";
+  const checks = [
+    ["load", "Maximální nosnost tohoto modelu bezpečně stačí."],
+    ["width", "Šířka tohoto modelu bezpečně projde všemi potřebnými místy."],
+    ["height", "Výšku madel lze nastavit pro bezpečné používání."]
+  ];
+  if (options.requireSeatFit) {
+    checks.push(["seat", "Sedátko je pro člověka prakticky použitelné a před usednutím umí bezpečně zajistit brzdy."]);
+  }
+  if (options.requireTransportFit) {
+    checks.push(["transport", "Ověřili jsme složené rozměry i hmotnost a tento model lze bezpečně naložit do konkrétního auta."]);
+  }
+
   return `
     <div class="zp-mobility-fit-gate">
       <h5>Ověření konkrétního modelu před nákupem</h5>
-      <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny tři body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
-      <label><input type="checkbox" data-zp-mobility-fit-confirm="load"> Maximální nosnost tohoto modelu bezpečně stačí.</label>
-      <label><input type="checkbox" data-zp-mobility-fit-confirm="width"> Šířka tohoto modelu bezpečně projde všemi potřebnými místy.</label>
-      <label><input type="checkbox" data-zp-mobility-fit-confirm="height"> Výšku madel lze nastavit pro bezpečné používání.</label>
+      <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny relevantní body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
+      ${checks.map(([key, label]) => `<label><input type="checkbox" data-zp-mobility-fit-confirm="${key}"> ${label}</label>`).join("")}
       <p class="zp-muted-copy">Pokud cokoli nevíte nebo nevyhovuje, neotvírejte nabídku ke koupi. Ověřte rozměry a nastavení s prodejcem nebo odbornou výdejnou.</p>
       <div class="zp-fit-locked-offers" hidden>${offersHtml}</div>
     </div>`;
@@ -30,6 +40,6 @@ export function installMobilityProductFitGate(root) {
     if (!gate) return;
     const checks = [...gate.querySelectorAll('[data-zp-mobility-fit-confirm]')];
     const offers = gate.querySelector(".zp-fit-locked-offers");
-    if (offers) offers.hidden = checks.length !== 3 || !checks.every(checkbox => checkbox.checked);
+    if (offers) offers.hidden = checks.length < 3 || !checks.every(checkbox => checkbox.checked);
   });
 }

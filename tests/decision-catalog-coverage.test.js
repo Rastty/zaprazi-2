@@ -15,7 +15,7 @@ const scenarios = [
   ["mobile rollator",recommendMobility,getMobilityProducts,{environment:"both",supportNeed:"steady",handBrakes:"yes"}],
   ["toilet riser",recommendBathroom,getBathroomProducts,{primaryNeed:"raise_toilet",transferAbility:"independent",loadFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes"}],
   ["toilet riser support",recommendBathroom,getBathroomProducts,{primaryNeed:"raise_toilet",transferAbility:"steadying",loadFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes"}],
-  ["toilet frame",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"unknown"}],
+  ["toilet frame",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"unknown",supportFrameFit:"yes"}],
   ["wall rail",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"verified"}],
   ["bedside toilet",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_nearby",transferAbility:"independent",loadFit:"yes",floorStable:"yes",spaceFit:"yes"}],
   ["shower chair",recommendBathroom,getBathroomProducts,{primaryNeed:"shower_seated",transferAbility:"independent",loadFit:"yes",floorStable:"yes",spaceFit:"yes"}],
@@ -27,8 +27,8 @@ const scenarios = [
   ["robust bed",recommendAdjustableBed,getAdjustableBedProducts,{primaryNeed:"robust_high_load",loadFit:"yes",spaceFit:"yes"}],
   ["advanced care bed",recommendAdjustableBed,getAdjustableBedProducts,{primaryNeed:"advanced_in_bed_care",loadFit:"yes",spaceFit:"yes"}],
   ["companion wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
-  ["manual wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"self_manual",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
-  ["mixed wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"mixed_manual",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
+  ["manual wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"self_manual",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
+  ["mixed wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"mixed_manual",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"}],
   ["powered wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"powered",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes"}]
 ];
 

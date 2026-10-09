@@ -1,5 +1,6 @@
 // ZP_RELEASE_0_8_61
 import { recommendBathroom } from "../../src/bathroom/engine.js";
+import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 
@@ -40,7 +41,7 @@ if (form && result && submitButton && errorBox) {
   // Move only model-dependent questions behind the product preview.
   // Questions about practical transfer, floor stability and fixing conditions
   // are still asked first, so unsafe transfers never receive a product preview.
-  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "spaceFit", "bathFit", "bathBenchFit"];
+  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "supportFrameFit", "spaceFit", "bathFit", "bathBenchFit"];
   if (preview && fitStage) {
     for (const name of fitNames) {
       const fieldset = form.querySelector(`[data-zp-bath-required="${name}"]`);
@@ -110,18 +111,23 @@ if (form && result && submitButton && errorBox) {
     };
   };
 
-  const renderSources = (evidence = []) => {
+  const renderSources = (evidence = [], commerceUrls = [], commerceUnlocked = true) => {
     if (!evidence.length) return "";
     return `
       <details class="zp-sources">
         <summary>Zdroje a datum ověření</summary>
         <ul>
-          ${evidence.map((source) => `
-            <li>
-              <a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a>
-              <small>ověřeno ${escapeHtml(source.checkedAt)}</small>
-            </li>
-          `).join("")}
+          ${evidence.map((source) => {
+            const canLink = canLinkEvidence(source.url, commerceUrls, commerceUnlocked);
+            return `
+              <li>
+                ${canLink
+                  ? `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a>`
+                  : "<span>Obchodní produktový podklad – odkaz se zpřístupní po dokončení kontroly</span>"}
+                <small>ověřeno ${escapeHtml(source.checkedAt)}</small>
+              </li>
+            `;
+          }).join("")}
         </ul>
       </details>
     `;
@@ -236,6 +242,7 @@ if (form && result && submitButton && errorBox) {
     floorStable: checkedValue("floorStable", "unknown"),
     spaceFit: checkedValue("spaceFit", "unknown"),
     wallFixing: checkedValue("wallFixing", "unknown"),
+    supportFrameFit: checkedValue("supportFrameFit", "unknown"),
     bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
     bathFit: checkedValue("bathFit", "unknown"),
     bathBenchFit: checkedValue("bathBenchFit", "unknown"),
@@ -251,7 +258,7 @@ if (form && result && submitButton && errorBox) {
       <details><summary>Co je před pořízením potřeba ověřit</summary><ul>
         ${product.selectionNotes.map(note => `<li>${escapeHtml(note)}</li>`).join("")}
       </ul></details>
-      ${renderSources(product.evidence)}
+      ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [], false)}
     </article>
   `;
 
@@ -311,6 +318,9 @@ if (form && result && submitButton && errorBox) {
     if (condition === "floor_space") {
       return ["toilet_nearby", "shower_seated", "multifunction_toilet_shower"].includes(need);
     }
+    if (condition === "toilet_support_frame") {
+      return need === "toilet_support" && checkedValue("wallFixing", "unknown") !== "verified";
+    }
     if (condition === "bath_bench") {
       return need === "bath_transfer" && checkedValue("bathFit", "unknown") === "no";
     }
@@ -346,7 +356,7 @@ if (form && result && submitButton && errorBox) {
       submitButton.textContent = "1. Ukázat možná řešení";
       fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
     }
-    if (["primaryNeed", "bathFit"].includes(event.target?.name)) {
+    if (["primaryNeed", "wallFixing", "bathFit"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 

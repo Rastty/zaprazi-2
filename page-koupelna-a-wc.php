@@ -71,6 +71,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="wallFixing" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-bath-conditional="toilet_support_frame" data-zp-bath-required="supportFrameFit" hidden>
+          <legend>Pasuje zobrazená toaletní opora P2015 kolem vašeho WC rozměry i způsobem upevnění?</legend>
+          <label class="zp-choice"><input type="radio" name="supportFrameFit" value="yes"><span><strong>Ano, ověřeno</strong><small>Šířka 53–63 cm, hloubka 47 cm a upevnění včetně rozteče otvorů 14,4 cm vyhovují.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="supportFrameFit" value="no"><span><strong>Ne</strong></span></label>
+          <label class="zp-choice"><input type="radio" name="supportFrameFit" value="unknown"><span><strong>Nevím</strong></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset" data-zp-bath-conditional="floor_space" data-zp-bath-required="floorStable" hidden>
           <legend>Bude pomůcka stát na rovném a stabilním podkladu?</legend>
           <label class="zp-choice"><input type="radio" name="floorStable" value="yes"><span><strong>Ano</strong></span></label>

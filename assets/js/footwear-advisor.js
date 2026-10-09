@@ -1,5 +1,6 @@
 // ZP_RELEASE_0_8_61
 import { chooseEasyFootwear } from "../../src/footwear/engine.js";
+import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 
 const form = document.querySelector("#zp-footwear-advisor");
 const result = document.querySelector("#zp-footwear-result");
@@ -63,6 +64,7 @@ if (form && result && submitButton && errorBox) {
     const affiliateUrl = typeof configured === "string" && configured.startsWith("https://") ? configured : null;
     const resolvedUrl = affiliateUrl || candidate.sourceUrl;
     const allowOffer = output.status === "candidate";
+    const canLinkSource = canLinkEvidence(candidate.sourceUrl, [candidate.sourceUrl], allowOffer);
 
     return `
       <section class="zp-product-section">
@@ -76,7 +78,9 @@ if (form && result && submitButton && errorBox) {
           ${output.checks?.length ? `<h5>Co ještě ověřit</h5><ul>${output.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
           <details class="zp-sources">
             <summary>Zdroj a datum ověření</summary>
-            <p><a href="${escapeHtml(candidate.sourceUrl)}" target="_blank" rel="noopener">Ověřit produkt u zdroje</a> · ověřeno ${escapeHtml(candidate.checkedAt)}</p>
+            <p>${canLinkSource
+              ? `<a href="${escapeHtml(candidate.sourceUrl)}" target="_blank" rel="noopener">Ověřit produkt u zdroje</a>`
+              : "Produktový podklad je ověřený; obchodní odkaz se zpřístupní až po dokončení měření a kontroly."} · ověřeno ${escapeHtml(candidate.checkedAt)}</p>
           </details>
           ${allowOffer ? `
             <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>

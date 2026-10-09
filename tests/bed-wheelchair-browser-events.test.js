@@ -14,7 +14,7 @@ function create(kind) {
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
   const attr=isWheelchair?"data-zp-wheelchair-required":"data-zp-bed-required";
   const fitFields=isWheelchair?["seatFit","widthFit","loadFit"]:["loadFit","spaceFit"];
-  const names=isWheelchair?["propulsion","transferAbility",...fitFields,"joystickSafe","chargingReady","duration"]:
+  const names=isWheelchair?["propulsion","transferAbility","manualControlSafe",...fitFields,"joystickSafe","chargingReady","duration"]:
     ["primaryNeed","transferAbility",...fitFields,"duration"];
   const inputs=new Map(),fields=new Map(),listeners={};
   const stage={
@@ -34,7 +34,7 @@ function create(kind) {
   };
   for(const name of names){
     const group={
-      parent:null,hidden:isWheelchair && ["joystickSafe","chargingReady"].includes(name),
+      parent:null,hidden:isWheelchair && ["manualControlSafe","joystickSafe","chargingReady"].includes(name),
       dataset:{[requiredAttr]:name},attributes:{},
       classList:{toggle(){},remove(){},add(){}},
       closest(selector){return selector==='[hidden]' && this.parent?.hidden?stage:null;},
@@ -68,6 +68,7 @@ function create(kind) {
     querySelectorAll(selector){
       if(selector==="["+attr+"]")return [...fields.values()].filter(g=>g.dataset[requiredAttr]);
       if(selector==="[data-zp-wheelchair-conditional='powered']")return [fields.get("joystickSafe"),fields.get("chargingReady")].filter(Boolean);
+      if(selector==="[data-zp-wheelchair-conditional='manual']")return [fields.get("manualControlSafe")].filter(Boolean);
       throw Error("Unexpected form selector "+selector);
     },
     change(name,value){
@@ -138,6 +139,7 @@ for(const kind of ["bed","wheelchair"]){
     h.submitButton.click();
     for(const name of h.fitFields)h.form.change(name,"yes");
     h.form.change(kind==="bed"?"primaryNeed":"propulsion",kind==="bed"?"robust_high_load":"self_manual");
+    if(kind==="wheelchair") h.form.change("manualControlSafe","yes");
     assert.equal(h.stage.hidden,true);
     assert.equal(h.preview.hidden,true);
     assert.ok(h.fitFields.every(n=>!h.inputs.get(n).checked));
@@ -147,6 +149,19 @@ for(const kind of ["bed","wheelchair"]){
     assert.equal(h.result.hidden,true);
   });
 }
+
+test("manual wheelchair control must be confirmed before any model preview",()=>{
+  for (const value of ["unknown","no"]) {
+    const h=create("wheelchair");
+    h.form.change("propulsion","self_manual");
+    h.form.change("manualControlSafe",value);
+    h.submitButton.click();
+    assert.equal(h.stage.hidden,true);
+    assert.equal(h.preview.hidden,true);
+    assert.equal(h.result.hidden,false);
+    assert.doesNotMatch(h.result.innerHTML,/P3641|merchant-link|href=/);
+  }
+});
 
 test("assisted wheelchair transfer must not expose even a model preview",()=>{
   const h=create("wheelchair");

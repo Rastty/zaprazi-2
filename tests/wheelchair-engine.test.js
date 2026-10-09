@@ -21,6 +21,7 @@ test("self-propelled branch returns lightweight manual chair", () => {
   const result = recommendWheelchair({
     propulsion: "self_manual",
     transferAbility: "independent",
+    manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes"
@@ -35,6 +36,7 @@ test("mixed manual branch uses the same dual-use chair", () => {
   const result = recommendWheelchair({
     propulsion: "mixed_manual",
     transferAbility: "steadying",
+    manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes"
@@ -43,6 +45,33 @@ test("mixed manual branch uses the same dual-use chair", () => {
   assert.equal(result.status, "candidate");
   assert.deepEqual(result.recommendations[0].productCandidateIds, ["unizdrav-p3641"]);
   assert.match(result.recommendations[0].reason, /střídat/i);
+});
+
+test("manual propulsion requires practical steering and stopping safety", () => {
+  for (const propulsion of ["self_manual", "mixed_manual"]) {
+    const unknown = recommendWheelchair({
+      propulsion,
+      transferAbility: "independent",
+      manualControlSafe: "unknown",
+      seatFit: "yes",
+      widthFit: "yes",
+      loadFit: "yes"
+    });
+    assert.equal(unknown.status, "needs_more_info");
+    assert.ok(unknown.missing.includes("manualControlSafe"));
+    assert.deepEqual(unknown.recommendations, []);
+
+    const unsafe = recommendWheelchair({
+      propulsion,
+      transferAbility: "independent",
+      manualControlSafe: "no",
+      seatFit: "yes",
+      widthFit: "yes",
+      loadFit: "yes"
+    });
+    assert.equal(unsafe.status, "professional_check");
+    assert.deepEqual(unsafe.recommendations, []);
+  }
 });
 
 test("powered branch requires practical joystick safety", () => {
@@ -111,6 +140,7 @@ test("unknown load fit returns no exact product without asking raw weight", () =
   const result = recommendWheelchair({
     propulsion: "self_manual",
     transferAbility: "independent",
+    manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "unknown"

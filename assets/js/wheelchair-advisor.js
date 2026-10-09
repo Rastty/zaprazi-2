@@ -223,8 +223,8 @@ if (form && result && submitButton && errorBox && candidateNote) {
     }
     // Selecting a new 125kg/136kg construction invalidates any older approval.
     if (event.target?.name === "wheelType") {
-      form.querySelectorAll('input[name="loadFit"]').forEach(input => { input.checked = false; });
       const load = form.querySelector('[data-zp-product-fit][data-zp-wheelchair-required="loadFit"]');
+      load?.querySelectorAll("input").forEach(input => { input.checked = false; });
       load?.classList?.remove("is-error");
       load?.removeAttribute?.("aria-invalid");
     }

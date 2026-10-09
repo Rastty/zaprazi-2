@@ -261,3 +261,56 @@ Potential monetization:
 Any new idea must pass one question:
 
 **Does it help the user get faster from a real problem to a safe practical solution while increasing the long-term value of the asset?**
+
+
+---
+
+## Schválené rozšíření vize — světová UX inspirace a Home Scan (2026-10-09)
+
+**Status: rozšíření stávajícího Master Vision & Execution Brief, nikoli nový projekt či změna strategie.** Veškeré dosud schválené závazky týkající se mise, značky, bezpečnosti, soukromí, architektury, produktové evidence, monetizace a postupného nasazování zůstávají platné. Toto rozšíření nerozhoduje o okamžité implementaci žádné nové funkce.
+
+### 1. Používat konkrétní prvky nejlepších zahraničních projektů
+
+Využít cílený benchmarking těchto referencí. Uvedené prvky jsou **hypotézy k ověření**, nikoli automatické závěry o jejich aktuální funkcionalitě:
+
+| Inspirace | Prvek k ověření | Co porovnat se současným ZaPraží |
+|---|---|---|
+| AskSARA / Living Made Easy | adaptivní výběrové otázky a přechod od situace ke konkrétnímu řešení | počet nezbytných otázek, relevance větví, srozumitelnost výsledku 14 poradců |
+| AARP HomeFit | průchod místnostmi a praktické úpravy bez nutnosti nákupu | dnešní problémové vstupy, bezpečný byt a plán návratu z nemocnice |
+| LiveUp Australia | lidský, pozitivní jazyk a lehkost navigace | srozumitelnost češtiny, kognitivní zátěž, přístupnost pro rodinu a seniory |
+| Carewell | přehledné srovnání výrobků a jasná nákupní cesta | současné produktové karty, fakta vs. ověřená vhodnost, koupit/půjčit/úhrada |
+| Aging in Place Index | transparentní kritéria a vysvětlení doporučení | metodika rozhodování, zdroje, důvody doporučení a důvody blokace |
+
+Každé kandidátní zlepšení musí mít: (a) skutečně ověřený funkční vzor, (b) konkrétní odchylku proti současnému ZaPraží, (c) očekávaný přínos a metriku, (d) kontrolu bezpečnosti, přístupnosti a soukromí, (e) jednoduchý experiment a rozhodnutí **přijmout / upravit / odmítnout**. Neprovádět obecné rešerše bez návaznosti na reálnou uživatelskou či obchodní potřebu. Nekopírovat konkurenční web 1:1.
+
+### 2. Vylepšovat existujících 14 poradců, nevytvářet náhradní engine
+
+- **Adaptivní otázky:** pouze rozhodovací a bezpečnostní vstupy relevantní ke konkrétní větvi; nepokládat otázku, která nemůže změnit výsledek.
+- **Jednoduchá čeština:** začít reálným problémem, ne názvem odborné pomůcky; vysvětlit neznámé pojmy.
+- **„Proč právě toto“:** výsledek uvádí srozumitelný důvod, kritéria, nejistotu a další krok.
+- **Neproduktová řešení:** připustit bezplatnou změnu zvyku či uspořádání a jednoduchou úpravu domácnosti, je-li bezpečnější nebo přiměřenější než nákup.
+- **Oddělené stavy:** typ řešení ≠ předběžný kandidát výrobku ≠ potvrzená praktická/rozměrová kontrola ≠ odborné posouzení. Nezaměňovat je v UI ani v obchodních CTA.
+- **Úplná cesta:** problém → nezbytné odpovědi → vysvětlený výsledek → praktické kontroly → konkrétní ověřený produkt či neproduktový krok → koupit / půjčit / prověřit úhradu.
+- **Neobcházet fail-closed:** nový UX ani jiné odkazy (včetně zdrojů či doporučení navazujícího modulu) nesmějí odemknout nabídku bez splnění příslušného fit-gate.
+
+Doporučovací pravidla, katalog, affiliate routing a zdrojová evidence mají zůstat jediné sdílené; žádný druhý rozhodovací systém ani jednorázově vymyšlené produktové doporučování v prezentační vrstvě.
+
+### 3. ZaPraží Home Scan — „Projděte svůj domov“ (podmíněné malé MVP)
+
+Dlouhodobý koncept dvou rovnocenných vstupů do **stávajícího Domácího poradce**:
+1. **Začínám problémem** (dosavadní cesta).
+2. **Začínám místností** — koupelna/WC, ložnice, pohyb po bytě, schody, vstup do domu.
+
+Uživatel řeší praktické překážky, systém orchestruje stávající poradce, jejich rozhodovací pravidla, ověřený katalog a stejné akviziční cesty. Výstupem je **akční plán** podle konkrétnosti a naléhavosti: co zlepšit hned bez nákupu; jednoduchá domácí úprava; kde dává smysl pomůcka; co je nutné změřit či odborně ověřit; které nabídky smí být zobrazeny až po řádně dokončeném fit-gate. Nedávat univerzální checklist jako individuální zdravotní doporučení.
+
+**Home Scan není P0.** Nejprve uzavřít kritické bezpečnostní nálezy a praktické QA existujících prodejních cest. Teprve pak navrhnout malý, měřitelný proof-of-value nad existujícími moduly (například pouze koupelna/WC + pohyb po bytě, bez nového enginu). Rozšíření do dalších místností pouze po ověření užitečnosti, nákladů a obchodního dopadu. Nevytvářet trvalý osobní ani zdravotní profil; odpovědi jen dočasně v prohlížeči, bez kombinací odpovědí v URL/analytics/affiliate datech.
+
+### 4. GitHub Website Cloner — rámec benchmarkingu, nikoli povolení ke klonování
+
+Zadaná část 4 byla předána pouze s názvem „Využití GitHub Website Cloner nástrojů“ a úvodem „Pro rychlejší vývoj a benchmarking“; konkrétní pokračování zatím nebylo dodáno. Do jeho doplnění lze nástroje **posoudit** jako technickou pomoc pro porovnání veřejně viditelných UX vzorů a informační architektury, nikoli použít k převzetí cizího kódu, textů, grafik, brandingu, dat či chráněných částí webu. Respektovat licence, autorská práva, podmínky přístupu, robots pravidla a soukromí. Všechny finální komponenty musí být vlastní, přístupné a zapojené do existující architektury ZaPraží.
+
+### 5. Měření, prioritizace a definice dokončení
+
+U každého UX experimentu vymezit výchozí stav a očekávané zlepšení alespoň v některých metrikách: zahájení/dokončení poradce, odpadnutí na otázkách, počet zbytečných odpovědí, úspěšné pochopení doporučení, navazující bezpečný krok, relevantní merchant CTR, případně schválený affiliate výsledek. **Nulová tolerance** k obcházení bezpečnostních gate a úniku zdravotně citlivých kombinací; výsledek s takovým problémem nelze vyhodnotit jako úspěch ani při lepší konverzi. Hodnocení po přiměřeném vzorku, ne podle estetického dojmu.
+
+**Pořadí práce:** 0.8.62 deploy a praktické QA → odstranit skutečné překážky v již existujících poradenských cestách → cílené benchmarky a malé UX úpravy → rozhodnout o Home Scan MVP podle doloženého přínosu. Žádný tento bod neopravňuje obejít release/production smoke pravidla.

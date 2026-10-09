@@ -47,13 +47,13 @@ if (form && result && submitButton && errorBox && candidateNote) {
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
   const updateCapacityQuestion = () => {
-    const capacityGroup = fitStage?.querySelector('[data-zp-bed-required="userCapacityVerified"]');
+    const capacityGroup = form.querySelector('[data-zp-product-fit][data-zp-bed-required="userCapacityVerified"]');
     if (!capacityGroup) return;
     const need = checkedValue("primaryNeed", "unknown");
     const required = ["robust_high_load", "advanced_in_bed_care"].includes(need);
     capacityGroup.hidden = !required;
     if (!required) {
-      capacityGroup.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+      capacityGroup.querySelectorAll('input').forEach(input => { input.checked = false; });
     }
   };
 
@@ -61,7 +61,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     home_positioning: "CLASSIC: max. hmotnost pacienta 178 kg, vnější rozměr 102,5 × 212 cm, výška 38,6–80,6 cm.",
     caregiver_access: "CLASSIC: max. hmotnost pacienta 178 kg, vnější rozměr 102,5 × 212 cm, výška 38,6–80,6 cm.",
     robust_high_load: "Hospital: obecně uváděná nosnost 250 kg; samostatný limit hmotnosti uživatele není na produktové stránce doložen. Rozměr 105 × 214 cm.",
-    advanced_in_bed_care: "Multibed: obecně uváděná nosnost 260 kg; samostatný limit hmotnosti uživatele není na produktové stránce doložen. Matrace je součástí.",
+    advanced_in_bed_care: "Multibed: obecně uváděná nosnost 260 kg; samostatný limit hmotnosti uživatele není na produktové stránce doložen. Vnější rozměr 96 × 212 cm; matrace je součástí.",
     unknown: "Nejdřív vyberte hlavní praktickou potřebu."
   }[need] || "Nejdřív vyberte hlavní praktickou potřebu.");
 

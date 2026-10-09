@@ -358,7 +358,9 @@ export function recommendBathroom(input = {}) {
       recommendations: [{
         id: "toilet_support_candidate",
         label: wallMounted ? "Pevné madlo u WC jako kandidátní řešení" : "Toaletní opora kolem WC jako kandidátní řešení",
-        reason: "Člověk přesedá bez fyzické pomoci druhé osoby, ale potřebuje stabilní oporu při sedání nebo vstávání.",
+        reason: wallMounted
+          ? "Člověk potřebuje při sedání nebo vstávání stabilní úchop. Nástěnné kotvení do vhodného podkladu bylo ověřeno, proto má smysl porovnat pevné madlo."
+          : "Člověk potřebuje při sedání nebo vstávání stabilní úchop. Nástěnné kotvení není potvrzené, ale rozměry, prostor a způsob upevnění konkrétního toaletního rámu byly ověřeny.",
         parameters: wallMounted
           ? ["místo úchopu", "délka madla", "nosnost konkrétního madla", "bezpečné kotvení do nosného podkladu"]
           : ["šířka 53–63 cm", "hloubka 47 cm", "výška 64–74 cm", "rozteč otvorů pro upevnění 14,4 cm", "nosnost 100 kg", "prostor pro sedání a vstávání"],

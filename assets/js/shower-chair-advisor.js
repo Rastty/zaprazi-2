@@ -136,6 +136,7 @@ if (form && result && submitButton && errorBox) {
     result.innerHTML = `
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
+      ${output.recommendations.map((item) => `<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${escapeHtml(item.reason)}</p></section>`).join("")}
       ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}
       ${output.status === "candidate" ? '<p><a class="zp-text-link" href="/pomucky-do-koupelny-na-pojistovnu/">Prověřit také cestu přes pojišťovnu</a></p>' : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}

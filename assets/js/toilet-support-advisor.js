@@ -62,7 +62,7 @@ if(form&&result&&submit&&errors){
     const products=getBathroomProducts(ids);
     if(!["needs_more_info","invalid_input"].includes(out.status)) track("builder_complete");
     if(products.length) track("recommendation_view");
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<section class="zp-product-section"><div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div></section>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
+    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${out.recommendations.map(item=>`<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${esc(item.reason)}</p></section>`).join("")}${products.length?`<section class="zp-product-section"><div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div></section>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
     result.querySelectorAll("[data-zp-support-merchant-link]").forEach(a=>a.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     result.hidden=false;result.focus();
   });

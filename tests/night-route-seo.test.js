@@ -82,3 +82,19 @@ test("Bathroom/WC hub points to the night-route checklist where the problem exte
   assert.match(page, /Člověk bezpečně dojde k WC ve dne, ale jak je to v noci/);
   assert.match(page, /Ověřte vstávání z postele, noční světlo, průchody/);
 });
+
+test("Long night route has a conditional, fit-gated toilet-chair option with a reciprocal editorial link", () => {
+  const night = read("page-nocni-cesta-z-postele-na-wc.php");
+  const chair = read("page-toaletni-zidle-pro-seniory.php");
+  const target = "/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle";
+  assert.ok(night.includes(target), "night route must link to dedicated chair advisor, not a merchant");
+  assert.match(night, /WC je příliš daleko, ale přesednutí může být samostatné/);
+  assert.match(night, /bez fyzického zvedání/);
+  assert.match(night, /ověřit prostor, podlahu, rozměry a nosnost konkrétního modelu/);
+  assert.ok(chair.includes("/nocni-cesta-z-postele-na-wc/"), "chair advisor must link back to complete route audit");
+  assert.match(chair, /fyzické zvedání nebo není znám bezpečný postup/);
+  assert.match(chair, /nevybírejte konkrétní židli bez odborného posouzení/);
+  assert.ok(night.includes("home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' )"));
+  assert.doesNotMatch(night, /affiliateMap|data-zp-merchant-link|eHUB|awin1\\.com/i);
+  assert.doesNotMatch(chair.match(/<p class="zp-kicker">Situace v noci<\\/p>[\\s\\S]*?<\\/section>/)?.[0] || "", /https?:\\/\\//i);
+});

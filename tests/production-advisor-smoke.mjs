@@ -218,6 +218,13 @@ try {
     await choose(page, "seatFit", "yes");
     await choose(page, "widthFit", "yes");
     await choose(page, "loadFit", "yes");
+    await choose(page, "wheelType", "unknown");
+    await click(page, "#zp-wheelchair-submit");
+    await checkNoMerchant(page, "#zp-wheelchair-result");
+    await choose(page, "wheelType", "pneumatic");
+    assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null,
+      "Wheel variant selection invalidates earlier generic load confirmation");
+    await choose(page, "loadFit", "yes");
     await click(page, "#zp-wheelchair-submit");
     assert.ok(await count(page, "#zp-wheelchair-result [data-zp-wheelchair-merchant-link]") > 0,
       "Manual wheelchair verified branch needs a specific offer");

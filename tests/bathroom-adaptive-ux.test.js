@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { installBathroomMicroStaging } from "../src/bathroom/micro-staging.js";
 import { recommendBathroom } from "../src/bathroom/engine.js";
 
-function setup({key, primaryNeed, fitNames, conditionalFit, requiredAttr, required, initial}) {
+function setup({key, primaryNeed, fitNames, conditionalFit, dependentFitResets = {}, requiredAttr, required, initial}) {
   const events = [], groups = new Map(), radios = new Map();
   const stage = {
     hidden: true,
@@ -78,7 +78,7 @@ function setup({key, primaryNeed, fitNames, conditionalFit, requiredAttr, requir
   try {
     assert.equal(installBathroomMicroStaging({
       form,result,submit:button,errors,key,requiredAttr,fitNames,
-      primaryNeed,conditionalFit
+      primaryNeed,conditionalFit,dependentFitResets
     }),true);
   } finally {globalThis.document=priorDocument;}
   return {form,groups,radios,stage,preview,result,button};
@@ -141,4 +141,59 @@ test("Bath seat: transfer bench dimensions appear only when standard seat does n
   assert.equal(h.groups.get("bathBenchFit").hidden,true);
   assert.equal(h.radios.get("bathBenchFit").checked,false);
   assert.equal(recommendBathroom({primaryNeed:"bath_transfer",transferAbility:"independent",bathTransferIndependent:"yes",bathFit:"yes",bathBenchFit:"unknown",loadFit:"yes"}).status,"candidate");
+});
+
+
+test("Bath transfer: a 110 kg bench capacity confirmation cannot approve a 100 kg seat", () => {
+  const h=setup({
+    key:"bath-transfer",primaryNeed:"bath_transfer",
+    fitNames:["bathFit","bathBenchFit","loadFit"],
+    conditionalFit:{bathBenchFit:v=>v("bathFit")==="no"},
+    dependentFitResets:{bathFit:["loadFit"]},
+    requiredAttr:"data-zp-bath-required",
+    required:["transferAbility","bathTransferIndependent","bathFit","loadFit"],
+    initial:{transferAbility:"independent",bathTransferIndependent:"yes",bathFit:"no"}
+  });
+  h.button.click();
+  h.form.change("bathBenchFit","yes");
+  h.form.change("loadFit","yes");
+  assert.equal(h.radios.get("loadFit").checked,true);
+
+  // Bench 110 kg -> seat 100 kg: the previous weight confirmation is unsafe.
+  h.form.change("bathFit","yes");
+  assert.equal(h.radios.get("loadFit").checked,false, "seat needs a fresh 100 kg capacity check");
+  assert.equal(h.groups.get("bathBenchFit").hidden,true);
+  assert.equal(h.radios.get("bathBenchFit").checked,false);
+  let output=recommendBathroom({
+    primaryNeed:"bath_transfer",transferAbility:"independent",
+    bathTransferIndependent:"yes",bathFit:"yes",loadFit:"unknown"
+  });
+  assert.notEqual(output.status,"candidate");
+  assert.deepEqual(output.recommendations,[]);
+  h.form.change("loadFit","yes");
+  output=recommendBathroom({
+    primaryNeed:"bath_transfer",transferAbility:"independent",
+    bathTransferIndependent:"yes",bathFit:"yes",loadFit:"yes"
+  });
+  assert.equal(output.status,"candidate");
+  assert.deepEqual(output.recommendations[0].productCandidateIds,["besco-bs008"]);
+
+  // Seat 100 kg -> bench 110 kg: still require new confirmation; no carryover.
+  h.form.change("bathFit","no");
+  assert.equal(h.radios.get("loadFit").checked,false, "bench needs a fresh 110 kg capacity check");
+  assert.equal(h.groups.get("bathBenchFit").hidden,false);
+  output=recommendBathroom({
+    primaryNeed:"bath_transfer",transferAbility:"independent",
+    bathTransferIndependent:"yes",bathFit:"no",bathBenchFit:"yes",loadFit:"unknown"
+  });
+  assert.notEqual(output.status,"candidate");
+  assert.deepEqual(output.recommendations,[]);
+  h.form.change("bathBenchFit","yes");
+  h.form.change("loadFit","yes");
+  output=recommendBathroom({
+    primaryNeed:"bath_transfer",transferAbility:"independent",
+    bathTransferIndependent:"yes",bathFit:"no",bathBenchFit:"yes",loadFit:"yes"
+  });
+  assert.equal(output.status,"candidate");
+  assert.deepEqual(output.recommendations[0].productCandidateIds,["unizdrav-p2203"]);
 });

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_59
+// ZP_RELEASE_0_8_60
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";

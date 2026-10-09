@@ -2271,7 +2271,7 @@ Next P0: Confirm live `zaprazi-release=0.8.58` and `zaprazi-integrity=ok`; valid
 
 
 ### ZP-112 Bathroom/WC two-step decision: preview before fit + release 0.8.59
-Status: **READY_DEPLOY**
+Status: **PACKAGED_IN_0_8_60 / NOT_SEPARATELY_DEPLOYED**
 
 Packages merged PR #162 on top of un-deployed 0.8.58:
 - Fixes the impossible order in Bathroom/WC Advisor: user can no longer be asked whether an unidentified product fits in weight, width, fixings or raised-seat height.
@@ -2282,3 +2282,17 @@ Packages merged PR #162 on top of un-deployed 0.8.58:
 - Stage-specific Node tests cover concrete toilet seats, unknown/no fits, hard safety gates, bathtub fallback and no affiliate commerce at preview; full release integrity 0.8.59.
 
 After Pull+Deploy verify `/koupelna-a-wc/` first shows '1. Ukázat možná řešení', then a product with known max. load / dimensions, only then product-fit questions; final merchant CTA only with actual verified yes values. Verify `zaprazi-release=0.8.59` and `zaprazi-integrity=ok`. User has not reported 0.8.58 deployed; supersede it with 0.8.59.
+
+
+### ZP-113 Bed, wheelchair and 5 standalone Bathroom Advisors: facts before fit + release 0.8.60
+Status: **READY_DEPLOY**
+
+Includes green-tested and merged PRs #164 and #165, on top of not-user-reported-deployed 0.8.59:
+- High-risk adjustable bed and wheelchair advisors now show exact model facts, dimensions and capacity **before** visitors must confirm model-specific fit. No merchant links appear in the preview; only original strict engine with actual yes/no answers can authorize outbound product offers.
+- Powered wheelchair joystick/charging and assisted-transfer safety gates still block premature product preview. Any first-stage answer change resets the model checks and previous result.
+- Five standalone Bathroom Advisors (WC riser, shower chair, toilet chair, support/grab rail and bath transfer) now reuse a single guarded product preview stage. Main Bathroom/WC two-stage flow from 0.8.59 also included.
+- Static and pure behavioral tests cover no/unknown capacity, space, seat dimensions, unsafe transfers and no commerce until verified.
+- Public methodology from 0.8.58 and mobility follow-up from 0.8.57 also included; 0.8.57–0.8.59 do not need separate deployments.
+- All 43 integrity-critical runtime files updated to release 0.8.60; PHP theme constant and stylesheet version aligned.
+
+After Pull+Deploy from dev verify meta `zaprazi-release=0.8.60`, `zaprazi-integrity=ok` and run actual browser interactions across all 8 updated advisor entry points. No commission/revenue claims from these tests.

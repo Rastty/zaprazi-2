@@ -99,6 +99,7 @@ test("all primary theme surfaces expose the global skip-link target", () => {
     "page-polohovaci-postel.php",
     "page-invalidni-vozik.php",
     "page-navrat-z-nemocnice.php",
+    "page-otazky-pred-propustenim-z-nemocnice.php",
     "single.php",
     "page.php",
     "index.php",
@@ -443,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.72 deployment integrity contract covers critical runtime files", () => {
+test("0.8.73 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -460,6 +461,7 @@ test("0.8.72 deployment integrity contract covers critical runtime files", () =>
     "page-invalidni-vozik.php",
     "page-invalidni-vozik-na-pojistovnu.php",
     "page-navrat-z-nemocnice.php",
+    "page-otazky-pred-propustenim-z-nemocnice.php",
     "page-sobestacnost.php",
     "page-kompenzacni-pomucky-pro-seniory.php",
     "page-bezpecny-byt-pro-seniora.php",
@@ -499,14 +501,14 @@ test("0.8.72 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.72' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.73' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_72/);
+    assert.match(read(path), /ZP_RELEASE_0_8_73/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.72"));
+  assert.ok(read("style.css").includes("Version: 0.8.73"));
 });
 
 

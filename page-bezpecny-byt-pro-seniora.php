@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_72 */
+/* ZP_RELEASE_0_8_73 */
 /*
 Template Name: Zápraží — Bezpečný byt pro seniora
 */
@@ -80,7 +80,7 @@ get_header();
         <article class="zp-decision-card"><h3>Nezvládá bezpečně WC nebo sprchu</h3><p>Řešte výšku, oporu, sed a prostor pro přesun.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Koupelna a WC</a></p></article>
         <article class="zp-decision-card"><h3>Je problém vstát z postele nebo pečovat u lůžka</h3><p>Prověřte typ postele, přístup a způsob pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Polohovací postel</a></p></article>
         <article class="zp-decision-card"><h3>Chůze už není bezpečná ani s běžnou oporou</h3><p>Prověřte, zda dává smysl mechanický nebo elektrický vozík.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Invalidní vozík</a></p></article>
-        <article class="zp-decision-card"><h3>Člověk se právě vrací z nemocnice</h3><p>Začněte tím, co musí fungovat první noc doma.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a></p></article>
+        <article class="zp-decision-card"><h3>Člověk se právě vrací z nemocnice</h3><p>Začněte tím, co musí fungovat první noc doma.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Na co se zeptat před propuštěním</a></p></article>
         <article class="zp-decision-card"><h3>Problém je v běžné sebeobsluze</h3><p>Pití, jídlo jednou rukou, stabilizace nádoby nebo otevírání obalů mají vlastní úzkou cestu.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Soběstačnost</a></p></article>
         <article class="zp-decision-card"><h3>Obouvání je zbytečně složité</h3><p>Pokud je problém hlavně v otevření boty, šířce nebo zapínání, řešte parametry obuvi místo diagnózy.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/obuv-pro-seniory/' ) ); ?>">Poradce pro snadné obouvání</a></p></article>
       </div>

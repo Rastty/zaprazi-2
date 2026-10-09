@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.72' );
+  define( 'ZAPRAZI_RELEASE', '0.8.73' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_72';
+  $marker = 'ZP_RELEASE_0_8_73';
   $files = array(
     'header.php',
     'footer.php',
@@ -22,6 +22,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-invalidni-vozik.php',
     'page-invalidni-vozik-na-pojistovnu.php',
     'page-navrat-z-nemocnice.php',
+    'page-otazky-pred-propustenim-z-nemocnice.php',
     'page-sobestacnost.php',
     'page-kompenzacni-pomucky-pro-seniory.php',
     'page-bezpecny-byt-pro-seniora.php',
@@ -1909,6 +1910,48 @@ function zaprazi_2_ensure_methodology_page() {
 }
 add_action( 'init', 'zaprazi_2_ensure_methodology_page', 31 );
 
+/**
+ * A separate editorial-intent page: practical questions for hospital staff
+ * BEFORE discharge, rather than a duplicate of the first-night home Advisor.
+ * Create once, do not overwrite older WordPress page content or URLs.
+ */
+function zaprazi_2_ensure_discharge_questions_page() {
+  if ( '1' === get_option( 'zaprazi_discharge_questions_v1' ) ) {
+    return;
+  }
+
+  $slug = 'otazky-pred-propustenim-z-nemocnice';
+  $existing = get_page_by_path( $slug, OBJECT, 'page' );
+  if ( $existing ) {
+    // Never repurpose/overwrite existing page content via automatic deployment.
+    return;
+  }
+
+  $created = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Na co se zeptat před propuštěním z nemocnice: otázky pro rodinu',
+      'post_name'    => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Praktické otázky na propouštěcí zprávu, domácí péči, dopravu a první den doma. Ověřené české zdroje a návazný plán návratu.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-otazky-pred-propustenim-z-nemocnice.php',
+      ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_discharge_questions_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_discharge_questions_page', 32 );
+
+function zaprazi_2_is_discharge_questions_page() {
+  return is_page( 'otazky-pred-propustenim-z-nemocnice' );
+}
+
+
 function zaprazi_2_is_insurance_walker_page() {
   return is_page( 'choditko-na-pojistovnu' );
 }
@@ -1934,6 +1977,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_discharge_questions_page() ) {
+    return 'Na co se zeptat před propuštěním z nemocnice | Zápraží';
+  }
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | Zápraží';
   }
@@ -1964,6 +2010,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_discharge_questions_page() ) {
+    return 'Praktické otázky před propuštěním z nemocnice: propouštěcí zpráva, domácí péče, zdravotnická doprava, pomoc rodině a první noc doma.';
+  }
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a měsíčně ověřovaný příklad MEYRA Ideal podle SÚKL.';
   }
@@ -1991,3 +2040,16 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+
+/**
+ * Descriptive meta fallback when Yoast is absent. Do not emit duplicate tags.
+ */
+function zaprazi_2_discharge_questions_meta_fallback() {
+  if ( ! zaprazi_2_is_discharge_questions_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  $description = zaprazi_2_resource_description( '' );
+  echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
+}
+add_action( 'wp_head', 'zaprazi_2_discharge_questions_meta_fallback', 5 );
+

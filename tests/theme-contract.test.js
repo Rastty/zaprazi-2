@@ -1681,7 +1681,7 @@ test("theme supports production custom logo with accessible text fallback", () =
   assert.match(header, /has_custom_logo\(\)/);
   assert.match(header, /the_custom_logo\(\)/);
   assert.match(header, /zp-brand-text/);
-  assert.match(header, /<strong>Zápraží<\\/strong>/);
+  assert.ok(header.includes("<strong>Zápraží</strong>"));
   assert.match(header, /Cesta k lepšímu životu/);
   assert.match(style, /zp-brand-wrap \.custom-logo/);
   assert.match(style, /max-height:54px/);

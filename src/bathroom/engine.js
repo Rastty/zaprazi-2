@@ -101,6 +101,7 @@ export function recommendBathroom(input = {}) {
     floorStable = "unknown",
     spaceFit = "unknown",
     wallFixing = "unknown",
+    supportFrameFit = "unknown",
     bathTransferIndependent = "unknown",
     bathFit = "unknown",
     bathBenchFit = "unknown",
@@ -115,6 +116,7 @@ export function recommendBathroom(input = {}) {
   if (!FIT.has(floorStable)) return invalid("floorStable");
   if (!FIT.has(spaceFit)) return invalid("spaceFit");
   if (!WALL_FIXING.has(wallFixing)) return invalid("wallFixing");
+  if (!FIT.has(supportFrameFit)) return invalid("supportFrameFit");
   if (!FIT.has(bathTransferIndependent)) return invalid("bathTransferIndependent");
   if (!FIT.has(bathFit)) return invalid("bathFit");
   if (!FIT.has(bathBenchFit)) return invalid("bathBenchFit");
@@ -330,27 +332,42 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "toilet_support") {
-    // One capacity/fit confirmation cannot safely apply to two different
-    // constructions. The wall-mounted rail is used only when wall fixing
-    // was explicitly verified; otherwise choose the freestanding support.
-    const productCandidateIds = [wallFixing === "verified" ? "unizdrav-p2131" : "unizdrav-p2015"];
+    // The two constructions have different critical fit gates. A confirmed
+    // wall fixing selects the rail; otherwise the toilet-support frame must
+    // itself be checked against the concrete toilet and surrounding space.
+    if (wallFixing !== "verified" && supportFrameFit !== "yes") {
+      return needsMoreInfo(
+        "supportFrameFit",
+        "Toaletní opora musí pasovat kolem konkrétního WC a způsobem upevnění.",
+        supportFrameFit === "no"
+          ? "Tento rám nepoužívejte. Potřebujeme jiný rozměr nebo jiný způsob opory."
+          : "U zobrazeného rámu ověřte nastavitelnou šířku 53–63 cm, hloubku 47 cm, prostor pro bezpečné sedání/vstávání a kompatibilitu upevnění včetně rozteče otvorů 14,4 cm."
+      );
+    }
+
+    const wallMounted = wallFixing === "verified";
+    const productCandidateIds = [wallMounted ? "unizdrav-p2131" : "unizdrav-p2015"];
 
     return {
       status: "candidate",
       headline: "Má smysl porovnat oporu u WC podle prostoru a způsobu uchycení.",
-      nextStep: wallFixing === "verified"
+      nextStep: wallMounted
         ? "Pro ověřené nástěnné kotvení posuzujte konkrétní madlo a jeho nosnost i upevnění do stěny."
-        : "Bez doloženého bezpečného kotvení do stěny posuzujte samostatnou toaletní oporu, nikoli nástěnné madlo.",
+        : "U rámu je potvrzený prostor i kompatibilita upevnění; před nákupem ještě zkontrolujte nastavení výšky a bezpečný úchop.",
       missing: [],
       recommendations: [{
         id: "toilet_support_candidate",
-        label: "Opora u WC jako kandidátní řešení",
+        label: wallMounted ? "Pevné madlo u WC jako kandidátní řešení" : "Toaletní opora kolem WC jako kandidátní řešení",
         reason: "Člověk přesedá bez fyzické pomoci druhé osoby, ale potřebuje stabilní oporu při sedání nebo vstávání.",
-        parameters: ["místo úchopu", "prostor kolem WC", "kompatibilita upevnění", "nosnost", "bezpečné kotvení u nástěnného madla"],
+        parameters: wallMounted
+          ? ["místo úchopu", "délka madla", "nosnost konkrétního madla", "bezpečné kotvení do nosného podkladu"]
+          : ["šířka 53–63 cm", "hloubka 47 cm", "výška 64–74 cm", "rozteč otvorů pro upevnění 14,4 cm", "nosnost 100 kg", "prostor pro sedání a vstávání"],
         productCandidateIds
       }],
       acquisition: acquisitionFor(duration),
-      disclaimer: "Nosnost samotného madla nenahrazuje ověření nosnosti konkrétní montáže ve zdi."
+      disclaimer: wallMounted
+        ? "Nosnost samotného madla nenahrazuje ověření nosnosti konkrétní montáže ve zdi."
+        : "Potvrzení rozměrů a upevnění se vztahuje jen na konkrétní zobrazený rám P2015."
     };
   }
 

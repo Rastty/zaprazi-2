@@ -4,6 +4,7 @@ import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
+import { resetBathroomLoadFitOnBathVariantChange } from "../../src/bathroom/variant-fit.js";
 
 const form = document.querySelector("#zp-bathroom-advisor");
 const result = document.querySelector("#zp-bathroom-result");
@@ -42,7 +43,7 @@ if (form && result && submitButton && errorBox) {
   // Move only model-dependent questions behind the product preview.
   // Questions about practical transfer, floor stability and fixing conditions
   // are still asked first, so unsafe transfers never receive a product preview.
-  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "supportFrameFit", "spaceFit", "bathFit", "bathBenchFit"];
+  const fitNames = ["toiletFit", "feetFlatAtRaisedHeight", "supportFrameFit", "spaceFit", "bathFit", "bathBenchFit", "loadFit"];
   if (preview && fitStage) {
     for (const name of fitNames) {
       const fieldset = form.querySelector(`[data-zp-bath-required="${name}"]`);
@@ -330,6 +331,9 @@ if (form && result && submitButton && errorBox) {
       submitButton.textContent = "1. Ukázat možná řešení";
       fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
     }
+    // The 110 kg transfer bench and the 100 kg rim-mounted bath seat must
+    // never share an earlier load-capacity confirmation across a model switch.
+    resetBathroomLoadFitOnBathVariantChange(form, event.target?.name);
     if (["primaryNeed", "wallFixing", "bathFit"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }

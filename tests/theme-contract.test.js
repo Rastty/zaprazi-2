@@ -2390,7 +2390,7 @@ test("main Bathroom Advisor excludes hidden fit-stage fields from required valid
 test("mobile anchored Advisors and model-fit touch controls respect the sticky header and reduced motion", () => {
   const css=read("style.css");
   const gate=read("src/mobility/offer-fit-gate.js");
-  assert.ok(css.includes("html{scroll-behavior:smooth;scroll-padding-top:96px}"));
+  assert.ok(css.includes("html{scroll-behavior:smooth;scroll-padding-top:136px}"));
   assert.ok(css.includes("scroll-padding-top:140px"));
   assert.ok(css.includes("scroll-margin-top:140px"));
   assert.ok(css.includes("prefers-reduced-motion:reduce"));

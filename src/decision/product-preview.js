@@ -24,7 +24,7 @@ function toPreview(result) {
 }
 
 export function previewAdjustableBed(input = {}) {
-  return toPreview(recommendAdjustableBed({ ...input, loadFit: "yes", spaceFit: "yes" }));
+  return toPreview(recommendAdjustableBed({ ...input, loadFit: "yes", spaceFit: "yes", userCapacityVerified: "yes" }));
 }
 
 export function previewWheelchair(input = {}) {

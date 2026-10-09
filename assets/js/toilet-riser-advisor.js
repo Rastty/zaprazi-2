@@ -37,7 +37,7 @@ if (form && result && submitButton && errorBox) {
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
-  const groups = () => [...form.querySelectorAll("[data-zp-toilet-required]")];
+  const groups = () => [...form.querySelectorAll("[data-zp-toilet-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
 
   const validate = () => {
     const missing = groups().filter((fieldset) => !checkedValue(fieldset.dataset.zpToiletRequired));

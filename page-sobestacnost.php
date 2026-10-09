@@ -58,6 +58,15 @@ get_header();
           <label class="zp-choice"><input type="radio" name="oneHandUse" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-adl-required="productFit" id="zp-adl-product-fit" tabindex="-1" hidden>
+          <legend>Ověřili jste podmínky pro konkrétní zobrazenou pomůcku?</legend>
+          <p>Neodpovídejte podle podobného výrobku. Zkontrolujte níže uvedené věci pro přesný model a obvyklý způsob použití.</p>
+          <div id="zp-adl-product-fit-checks" class="zp-resource-callout" aria-live="polite"></div>
+          <label class="zp-choice"><input type="radio" name="productFit" value="yes"><span><strong>Ano, vše uvedené vyhovuje</strong><small>Použití i potřebné rozměry byly skutečně ověřeny.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="productFit" value="no"><span><strong>Ne, některá podmínka nevyhovuje</strong><small>Tento výrobek nebude doporučen k nákupu.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="productFit" value="unknown"><span><strong>Nevím, ještě potřebuji ověřit</strong><small>Nákupní nabídka zůstane skrytá.</small></span></label>
+        </fieldset>
+
         <div id="zp-adl-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
         <button class="zp-btn zp-submit" type="button" id="zp-adl-submit">Zjistit vhodný další krok</button>
         <p id="zp-adl-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server ani nejsou součástí URL. Do analytiky posíláme jen obecné události bez odpovědí.</p>

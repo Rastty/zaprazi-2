@@ -33,6 +33,25 @@ if (form && result && submitButton && errorBox) {
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
+  const fitGroup = form.querySelector("#zp-adl-product-fit");
+  const fitChecks = form.querySelector("#zp-adl-product-fit-checks");
+  const clearProductFit = () => {
+    if (!fitGroup) return;
+    fitGroup.hidden = true;
+    if (fitChecks) fitChecks.textContent = "";
+    fitGroup.querySelectorAll("input").forEach((input) => { input.checked = false; });
+    fitGroup.classList.remove("is-error");
+    fitGroup.removeAttribute("aria-invalid");
+  };
+  const showProductFit = (output) => {
+    if (!fitGroup || !fitChecks || !output.requiresProductFit || !output.candidate) return false;
+    if (!fitGroup.hidden) return false;
+    fitChecks.innerHTML = `<strong>Model k ověření: ${escapeHtml(output.candidate.product)}</strong><p>Co je potřeba skutečně ověřit:</p><ul>${(output.checks || [])
+      .map((check) => `<li>${escapeHtml(check)}</li>`).join("")}</ul>`;
+    fitGroup.hidden = false;
+    return true;
+  };
+
   const updateConditional = () => {
     const task = checkedValue("task", "unknown");
 
@@ -120,6 +139,7 @@ if (form && result && submitButton && errorBox) {
   updateConditional();
 
   form.addEventListener("change", (event) => {
+    if (event.target?.name !== "productFit") clearProductFit();
     if (event.target?.name === "task") updateConditional();
 
     const group = event.target?.closest?.("[data-zp-adl-required]");
@@ -141,11 +161,15 @@ if (form && result && submitButton && errorBox) {
       task: checkedValue("task", "unknown"),
       mainProblem: checkedValue("mainProblem", "unknown"),
       stableSurface: checkedValue("stableSurface", "unknown"),
-      oneHandUse: checkedValue("oneHandUse", "unknown")
+      oneHandUse: checkedValue("oneHandUse", "unknown"),
+      productFit: checkedValue("productFit", "unknown")
     });
 
-    if (!["needs_more_context", "invalid_input"].includes(output.status)) track("builder_complete");
-    if (output.candidate) track("recommendation_view");
+    const newlyOpenedFit = showProductFit(output);
+    if (!output.requiresProductFit && fitGroup && !fitGroup.hidden) clearProductFit();
+
+    if (!["needs_more_context", "needs_fit_check", "invalid_input"].includes(output.status)) track("builder_complete");
+    if (output.status === "candidate") track("recommendation_view");
 
     result.innerHTML = `
       <h2>${escapeHtml(output.headline)}</h2>
@@ -162,6 +186,8 @@ if (form && result && submitButton && errorBox) {
     });
 
     result.hidden = false;
-    result.focus();
+    // First reveal the practical checks; do not let a preliminary result look final.
+    if (newlyOpenedFit) fitGroup.focus();
+    else result.focus();
   });
 }

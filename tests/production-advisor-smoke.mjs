@@ -388,8 +388,15 @@ try {
     assert.equal(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]"), 0);
     await choose(page, "mainProblem", "grip_or_spill");
     await click(page, "#zp-adl-submit");
+    if (requiredVersion !== "0.8.71") {
+      await checkNoMerchant(page, "#zp-adl-result");
+      assert.equal(await visible(page,"#zp-adl-product-fit"),true,
+        "ADL initial candidate must ask for practical model-specific fit");
+      await choose(page,"productFit","yes");
+      await click(page,"#zp-adl-submit");
+    }
     assert.ok(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]") > 0,
-      "Self-care straightforward gripping case should offer an evidenced product");
+      "Self-care straightforward gripping case should offer an evidenced product after verification");
     await assertAffiliateOffers(page, "#zp-adl-result [data-zp-adl-merchant-link]");
     await choose(page, "mainProblem", "swallowing_or_medical");
     assert.equal(await visible(page, "#zp-adl-result"), false);
@@ -713,6 +720,43 @@ try {
       "Basic companion purchase path should remain available with verified fit");
     console.log("PASS 0.8.71 wheelchair P3641 variant-specific capacity, no bypass and reset");
     await page.close();
+  }
+
+  // After release 0.8.72: every ADL product has real-world fit verification
+  // before an outbound offer; switching the user's task invalidates the result.
+  if (requiredVersion === "0.8.72") {
+    for (const scenario of [
+      {task:"drink",problem:"grip_or_spill",other:[]},
+      {task:"stabilize_container",problem:"container_moves",other:[["stableSurface","yes"]]},
+      {task:"one_hand_meal",problem:"one_hand_setup",other:[["oneHandUse","yes"]]},
+      {task:"open_packaging",problem:"grip_or_twist",other:[]}
+    ]) {
+      const page=await open("/sobestacnost/");
+      const result="#zp-adl-result",merchant=result+" [data-zp-adl-merchant-link]";
+      await choose(page,"task",scenario.task);
+      await choose(page,"mainProblem",scenario.problem);
+      for(const [name,value] of scenario.other) await choose(page,name,value);
+      await click(page,"#zp-adl-submit");
+      assert.equal(await visible(page,"#zp-adl-product-fit"),true,scenario.task+" fit checklist missing");
+      assert.ok((await page.$eval("#zp-adl-product-fit-checks",el=>el.textContent)).length>45,
+        "Real candidate fit checks must be readable");
+      await checkNoMerchant(page,result);
+      for (const answer of ["unknown","no"]) {
+        await choose(page,"productFit",answer);
+        await click(page,"#zp-adl-submit");
+        await checkNoMerchant(page,result);
+      }
+      await choose(page,"productFit","yes");
+      await click(page,"#zp-adl-submit");
+      await assertAffiliateOffers(page,merchant);
+      await choose(page,"task","other");
+      assert.equal(await visible(page,result),false,"ADL task change must invalidate old result");
+      await checkNoMerchant(page,result);
+      assert.equal(await visible(page,"#zp-adl-product-fit"),false,
+        "ADL task change must clear the verification step");
+      console.log("PASS ADL fit confirmation and stale-CTA invalidation:",scenario.task);
+      await page.close();
+    }
   }
 
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");

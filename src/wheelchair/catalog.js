@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_75
+// ZP_RELEASE_0_8_76
 export const WHEELCHAIR_PRODUCTS = Object.freeze([
   {
     id: "unizdrav-p4384",

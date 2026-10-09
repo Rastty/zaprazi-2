@@ -47,14 +47,14 @@ get_header();
           <strong>Po výběru hlavní potřeby ukážeme nosnost a půdorys kandidátní postele, které je potřeba ověřit.</strong>
         </div>
 
-        <fieldset class="zp-fieldset" data-zp-bed-required="loadFit">
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-bed-required="loadFit">
           <legend>Ověřili jste, že nosnost kandidátní postele bezpečně stačí?</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong><small>Přesnou hmotnost člověka do poradce nezadávejte.</small></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-bed-required="spaceFit">
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-bed-required="spaceFit">
           <legend>Vejde se kandidátní postel do pokoje a je reálná i cesta pro dopravu/montáž?</legend>
           <label class="zp-choice"><input type="radio" name="spaceFit" value="yes" required><span><strong>Ano, změřeno</strong></span></label>
           <label class="zp-choice"><input type="radio" name="spaceFit" value="no"><span><strong>Ne</strong></span></label>
@@ -68,8 +68,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <section id="zp-bed-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
+        <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bed-fit-title" hidden>
+          <h3 id="zp-bed-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
+          <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
+        </section>
         <div id="zp-bed-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">Zjistit vhodný další krok</button>
+        <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">1. Ukázat možný výrobek</button>
         <p id="zp-bed-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do URL a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

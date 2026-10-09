@@ -13,7 +13,7 @@ function create(kind) {
   const isWheelchair=kind==="wheelchair";
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
   const attr=isWheelchair?"data-zp-wheelchair-required":"data-zp-bed-required";
-  const fitFields=isWheelchair?["seatFit","widthFit","loadFit"]:["loadFit","spaceFit"];
+  const fitFields=isWheelchair?["seatFit","widthFit","loadFit"]:["loadFit","spaceFit","userCapacityVerified"];
   const names=isWheelchair?["propulsion","transferAbility","manualControlSafe",...fitFields,"joystickSafe","chargingReady","duration"]:
     ["primaryNeed","transferAbility",...fitFields,"duration"];
   const inputs=new Map(),fields=new Map(),listeners={};
@@ -34,10 +34,10 @@ function create(kind) {
   };
   for(const name of names){
     const group={
-      parent:null,hidden:isWheelchair && ["manualControlSafe","joystickSafe","chargingReady"].includes(name),
+      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady"].includes(name) : name==="userCapacityVerified",
       dataset:{[requiredAttr]:name},attributes:{},
       classList:{toggle(){},remove(){},add(){}},
-      closest(selector){return selector==='[hidden]' && this.parent?.hidden?stage:null;},
+      closest(selector){return selector==='[hidden]' && (this.hidden || this.parent?.hidden)?(this.hidden?this:stage):null;},
       setAttribute(k,v){this.attributes[k]=v;},
       removeAttribute(k){delete this.attributes[k];},
       querySelectorAll(selector){return selector==="input"?[inputs.get(name)]:[];},
@@ -171,4 +171,22 @@ test("assisted wheelchair transfer must not expose even a model preview",()=>{
   assert.equal(h.preview.hidden,true);
   assert.equal(h.result.hidden,false);
   assert.doesNotMatch(h.result.innerHTML,/merchant-link|href=/);
+});
+
+
+test("Hospital capacity confirmation is relevant, optional for CLASSIC but mandatory for a robust-bed offer",()=>{
+  const h=create("bed");
+  h.submitButton.click();
+  assert.equal(h.fields.get("userCapacityVerified").hidden,true,"CLASSIC has explicit patient weight in evidence");
+  h.form.change("primaryNeed","robust_high_load");
+  h.submitButton.click();
+  assert.equal(h.fields.get("userCapacityVerified").hidden,false,"Hospital must ask independent patient-weight confirmation");
+  h.form.change("loadFit","yes");
+  h.form.change("spaceFit","yes");
+  h.submitButton.click();
+  assert.doesNotMatch(h.result.innerHTML,/data-zp-bed-merchant-link/,"generic 250 kg bed load must not unlock purchase");
+  assert.match(h.result.innerHTML,/maximální|hmotnosti|potvrzení/i);
+  h.form.change("userCapacityVerified","yes");
+  h.submitButton.click();
+  assert.match(h.result.innerHTML,/data-zp-bed-merchant-link/,"separate supplier confirmation may unlock verified fit");
 });

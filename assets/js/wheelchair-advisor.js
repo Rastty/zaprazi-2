@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendWheelchair } from "../../src/wheelchair/engine.js";
 import { getWheelchairProducts } from "../../src/wheelchair/catalog.js";
+import { previewWheelchair } from "../../src/decision/product-preview.js";
 
 const form = document.querySelector("#zp-wheelchair-advisor");
 const result = document.querySelector("#zp-wheelchair-result");
@@ -23,6 +24,17 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox && candidateNote) {
+  const preview = document.querySelector("#zp-wheelchair-preview");
+  const fitStage = document.querySelector("#zp-wheelchair-fit-stage");
+  let previewReady = false;
+  const fitFields = ["seatFit","widthFit","loadFit"];
+  if (preview && fitStage) {
+    for (const name of fitFields) {
+      const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
+      if (fieldset) fitStage.appendChild(fieldset);
+    }
+  }
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 
@@ -115,8 +127,38 @@ if (form && result && submitButton && errorBox && candidateNote) {
     </section>
   `;
 
+  const readAnswers = () => ({
+    propulsion: checkedValue("propulsion", "unknown"),
+    transferAbility: checkedValue("transferAbility", "unknown"),
+    seatFit: checkedValue("seatFit", "unknown"),
+    widthFit: checkedValue("widthFit", "unknown"),
+    loadFit: checkedValue("loadFit", "unknown"),
+    joystickSafe: checkedValue("joystickSafe", "unknown"),
+    chargingReady: checkedValue("chargingReady", "unknown"),
+    duration: checkedValue("duration", "unknown")
+  });
+
+  const renderUnverifiedProduct = (product) => `
+    <article class="zp-product-card">
+      <p class="zp-result-status">Pouze předběžný kandidát – vhodnost není potvrzena</p>
+      <h4>${escapeHtml(product.name)}</h4>
+      <ul class="zp-facts">${factsFor(product)}</ul>
+      <details><summary>Co ještě ověřit</summary><ul>${product.selectionNotes.map(note=>`<li>${escapeHtml(note)}</li>`).join("")}</ul></details>
+      <p class="zp-muted-copy">Zdroje technických údajů: ${product.evidence.map(e=>escapeHtml(e.checkedAt)).join(", ")}. Nejde o ověření individuální vhodnosti.</p>
+    </article>
+  `;
+
+  const displayBlocked = (outcome) => {
+    previewReady = false;
+    preview.hidden = true;
+    fitStage.hidden = true;
+    result.innerHTML = `<h2>${escapeHtml(outcome.headline)}</h2><p>${escapeHtml(outcome.nextStep)}</p><p class="zp-disclaimer">V této situaci nedoporučujeme konkrétní výrobek bez dalšího ověření.</p>`;
+    result.hidden = false;
+    result.focus();
+  };
+
   const visibleRequiredGroups = () =>
-    [...form.querySelectorAll("[data-zp-wheelchair-required]")].filter((fieldset) => !fieldset.hidden);
+    [...form.querySelectorAll("[data-zp-wheelchair-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
 
   const validate = () => {
     const missing = visibleRequiredGroups().filter((fieldset) => !checkedValue(fieldset.dataset.zpWheelchairRequired));
@@ -147,6 +189,14 @@ if (form && result && submitButton && errorBox && candidateNote) {
   updateCandidateNote();
 
   form.addEventListener("change", (event) => {
+    if (previewReady && !event.target?.closest?.("#zp-wheelchair-fit-stage")) {
+      previewReady = false;
+      preview.hidden = true;
+      fitStage.hidden = true;
+      result.hidden = true;
+      submitButton.textContent = "1. Ukázat možný výrobek";
+      fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    }
     if (event.target?.name === "propulsion") {
       updateConditional();
       updateCandidateNote();
@@ -165,18 +215,39 @@ if (form && result && submitButton && errorBox && candidateNote) {
   });
 
   submitButton.addEventListener("click", () => {
-    if (!validate()) return;
+    if (!preview || !fitStage || !validate()) return;
 
-    const output = recommendWheelchair({
-      propulsion: checkedValue("propulsion", "unknown"),
-      transferAbility: checkedValue("transferAbility", "unknown"),
-      seatFit: checkedValue("seatFit", "unknown"),
-      widthFit: checkedValue("widthFit", "unknown"),
-      loadFit: checkedValue("loadFit", "unknown"),
-      joystickSafe: checkedValue("joystickSafe", "unknown"),
-      chargingReady: checkedValue("chargingReady", "unknown"),
-      duration: checkedValue("duration", "unknown")
-    });
+    if (!previewReady) {
+      const upcoming = previewWheelchair(readAnswers());
+      if (upcoming.status !== "unverified_preview") {
+        displayBlocked(upcoming);
+        return;
+      }
+      const products = getWheelchairProducts(upcoming.productCandidateIds);
+      if (!products.length) {
+        displayBlocked({
+          headline: "Nemáme ověřený výrobek pro tuto situaci.",
+          nextStep: "Vyberte jiný způsob použití nebo vyhledejte odborné posouzení."
+        });
+        return;
+      }
+      // Preview contains no shop URLs: no actual fit confirmed yet.
+      preview.innerHTML = `
+        <h2>1. Možné vozíku k ověření</h2>
+        <p>Zkontrolujte následující skutečné parametry výrobku. Jeho vhodnost ještě nebyla potvrzena.</p>
+        <div class="zp-product-grid">${products.map(renderUnverifiedProduct).join("")}</div>
+        <p class="zp-disclaimer">Nákupní odkazy se objeví až po skutečném ověření parametrů v druhém kroku.</p>
+      `;
+      previewReady = true;
+      preview.hidden = false;
+      fitStage.hidden = false;
+      result.hidden = true;
+      submitButton.textContent = "2. Vyhodnotit parametry";
+      preview.focus();
+      return;
+    }
+
+    const output = recommendWheelchair(readAnswers());
 
     const recommendations = output.recommendations.map((item) => `
       <article>

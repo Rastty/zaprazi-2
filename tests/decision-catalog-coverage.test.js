@@ -15,7 +15,7 @@ const scenarios = [
   ["mobile rollator",recommendMobility,getMobilityProducts,{environment:"both",supportNeed:"steady",handBrakes:"yes"}],
   ["toilet riser",recommendBathroom,getBathroomProducts,{primaryNeed:"raise_toilet",transferAbility:"independent",loadFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes"}],
   ["toilet riser support",recommendBathroom,getBathroomProducts,{primaryNeed:"raise_toilet",transferAbility:"steadying",loadFit:"yes",toiletFit:"yes",feetFlatAtRaisedHeight:"yes"}],
-  ["toilet frame",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"unknown"}],
+  ["toilet frame",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"unknown",supportFrameFit:"yes"}],
   ["wall rail",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",wallFixing:"verified"}],
   ["bedside toilet",recommendBathroom,getBathroomProducts,{primaryNeed:"toilet_nearby",transferAbility:"independent",loadFit:"yes",floorStable:"yes",spaceFit:"yes"}],
   ["shower chair",recommendBathroom,getBathroomProducts,{primaryNeed:"shower_seated",transferAbility:"independent",loadFit:"yes",floorStable:"yes",spaceFit:"yes"}],

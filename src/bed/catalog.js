@@ -110,7 +110,8 @@ export const ADJUSTABLE_BED_PRODUCTS = Object.freeze([
       "specializovaný kandidát pro náročnější každodenní péči přímo na lůžku",
       "obsahuje matraci, bočnice, hrazdu a příslušenství pro hygienu a toaletu na lůžku",
       "před doporučením je potřeba ověřit, že jsou tyto funkce skutečně prakticky potřebné a že se postel vejde do prostoru",
-      "boční otáčení a hygienické funkce nenahrazují zaučení pečující osoby"
+      "boční otáčení a hygienické funkce nenahrazují zaučení pečující osoby",
+      "prodejce uvádí obecnou nosnost 260 kg bez samostatného limitu hmotnosti samotného uživatele; bezpečnou mez potvrďte u výrobce nebo odborné výdejny"
     ],
     evidence: [
       {

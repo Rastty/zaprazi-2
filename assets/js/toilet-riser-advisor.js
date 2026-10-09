@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form = document.querySelector("#zp-toilet-riser-advisor");
 const result = document.querySelector("#zp-toilet-riser-result");
@@ -19,6 +20,12 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox) {
+  installBathroomMicroStaging({
+    form, result, submit: submitButton, errors: errorBox,
+    key: "toilet-riser", requiredAttr: "data-zp-toilet-required",
+    fitNames: ["toiletFit","feetFlatAtRaisedHeight","loadFit"], primaryNeed: "raise_toilet"
+  });
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 

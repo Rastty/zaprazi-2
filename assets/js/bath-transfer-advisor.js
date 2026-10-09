@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form=document.querySelector("#zp-bath-transfer-advisor");
 const result=document.querySelector("#zp-bath-transfer-result");
@@ -14,6 +15,12 @@ const track=(event)=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{d
 const esc=(v)=>String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
 
 if(form&&result&&submit&&errors){
+  installBathroomMicroStaging({
+    form, result, submit: submit, errors: errors,
+    key: "bath-transfer", requiredAttr: "data-zp-bath-required",
+    fitNames: ["bathFit","bathBenchFit","loadFit"], primaryNeed: "bath_transfer", alternativeIds: ["unizdrav-p2203"]
+  });
+
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
   const groups=()=>[...form.querySelectorAll("[data-zp-bath-required]")];
   const validate=()=>{

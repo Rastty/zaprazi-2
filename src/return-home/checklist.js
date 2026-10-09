@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_89
+// ZP_RELEASE_0_8_90
 // Presentation-only adapter: turns existing return-home decisions into checkable actions.
 // This never changes engine status, product suitability or acquisition gates.
 export function buildReturnHomeChecklist(plan = {}) {

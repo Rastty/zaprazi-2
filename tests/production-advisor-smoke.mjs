@@ -218,6 +218,13 @@ try {
     await choose(page, "seatFit", "yes");
     await choose(page, "widthFit", "yes");
     await choose(page, "loadFit", "yes");
+    await choose(page, "wheelType", "unknown");
+    await click(page, "#zp-wheelchair-submit");
+    await checkNoMerchant(page, "#zp-wheelchair-result");
+    await choose(page, "wheelType", "pneumatic");
+    assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null,
+      "Wheel variant selection invalidates earlier generic load confirmation");
+    await choose(page, "loadFit", "yes");
     await click(page, "#zp-wheelchair-submit");
     assert.ok(await count(page, "#zp-wheelchair-result [data-zp-wheelchair-merchant-link]") > 0,
       "Manual wheelchair verified branch needs a specific offer");
@@ -676,6 +683,15 @@ try {
     await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
     await choose(page,"propulsion","companion");
     await checkNoMerchant(page,result);
+    await click(page,"#zp-wheelchair-submit");
+    assert.equal(await visible(page,'#zp-wheelchair-fit-stage [name="wheelType"]'),false,
+      "Basic companion wheelchair must not ask about P3641 wheels");
+    await choose(page,"seatFit","yes");
+    await choose(page,"widthFit","yes");
+    await choose(page,"loadFit","yes");
+    await click(page,"#zp-wheelchair-submit");
+    assert.ok(await count(page,result+' [data-zp-wheelchair-merchant-link]')>0,
+      "Basic companion purchase path should remain available with verified fit");
     console.log("PASS 0.8.71 wheelchair P3641 variant-specific capacity, no bypass and reset");
     await page.close();
   }

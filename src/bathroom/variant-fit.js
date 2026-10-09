@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_77
+// ZP_RELEASE_0_8_78
 /**
  * The main Bathroom Advisor offers two bath-transfer constructions.
  * A yes for the 110 kg transfer bench cannot confirm the 100 kg bath seat,

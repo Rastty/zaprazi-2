@@ -2312,3 +2312,19 @@ Production 0.8.60 verified on 2026-10-09: `release=0.8.60`, `integrity=ok`, 25/2
 **Remaining checks, not automatically certified:** end-to-end mobile/caregiver usability with 5 people, actual product manual and manufacturer verification freshness, individual seat/rail mounting correctness, affiliate network attribution, and real-world medical suitability. No audited automation can replace physical measurement or professional assessment.
 
 After user Pull+Deploy verify `release=0.8.61`, `integrity=ok`, 25/25 slots. Check changing an input hides previously generated buy links, and unchecking any width/load/height fit on a walker immediately hides its merchant CTA.
+
+
+### ZP-115 Second-pass decision audit + release 0.8.62
+Status: **READY_DEPLOY**
+
+Supersedes 0.8.61 as the next deployment if 0.8.61 has not already been deployed. Second adversarial pass after ZP-114 found and fixed the remaining known P0/P1 decision-flow gaps:
+- locked merchant CTA could be bypassed through the same product URL exposed as evidence;
+- an indoor seat requirement could still shortlist a walker without a seat;
+- frequent car transport did not add a concrete model-fit gate;
+- self/mixed manual wheelchairs lacked the practical steering/stopping gate already required for powered joystick control;
+- UNIZDRAV P2015 toilet-support frame lacked its own width/space/fixing compatibility confirmation;
+- irrelevant fixed-walker lifting question removed when a seat already implies the rollator branch.
+
+PR #170 merged to dev with green CI. Release 0.8.62 changes no additional decision logic beyond that audited merge; it aligns all 43 integrity-critical runtime markers, WordPress release meta, stylesheet version and integrity contract.
+
+After Pull+Deploy verify `zaprazi-release=0.8.62`, `zaprazi-integrity=ok`, then run practical mobile/browser QA for: indoor+seat, indoor+transport, manual wheelchair unknown/no control, wall rail vs P2015 frame, and changing any prior answer after a merchant offer was revealed.

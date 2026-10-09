@@ -35,7 +35,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const preview = document.querySelector("#zp-wheelchair-preview");
   const fitStage = document.querySelector("#zp-wheelchair-fit-stage");
   let previewReady = false;
-  const fitFields = ["seatFit","widthFit","loadFit"];
+  const fitFields = ["seatFit","widthFit","wheelType","loadFit"];
   if (preview && fitStage) {
     for (const name of fitFields) {
       const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
@@ -45,6 +45,15 @@ if (form && result && submitButton && errorBox && candidateNote) {
 
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
+
+  // This is relevant only for P3641, not the Basic companion or powered chair.
+  const updateWheelTypeQuestion = () => {
+    const group = form.querySelector('[data-zp-product-fit][data-zp-wheelchair-required="wheelType"]');
+    if (!group) return;
+    const manual = ["self_manual", "mixed_manual"].includes(checkedValue("propulsion", "unknown"));
+    group.hidden = !manual;
+    if (!manual) group.querySelectorAll("input").forEach(input => { input.checked = false; });
+  };
 
   const candidateSummary = (propulsion) => ({
     companion: "Basic: sed 48 cm, celková šířka 65 cm, nosnost 100 kg, hmotnost 18,4 kg.",
@@ -146,6 +155,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     seatFit: checkedValue("seatFit", "unknown"),
     widthFit: checkedValue("widthFit", "unknown"),
     loadFit: checkedValue("loadFit", "unknown"),
+    wheelType: checkedValue("wheelType", "unknown"),
     manualControlSafe: checkedValue("manualControlSafe", "unknown"),
     joystickSafe: checkedValue("joystickSafe", "unknown"),
     chargingReady: checkedValue("chargingReady", "unknown"),
@@ -211,6 +221,13 @@ if (form && result && submitButton && errorBox && candidateNote) {
       submitButton.textContent = "1. Ukázat možný výrobek";
       fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
     }
+    // Selecting a new 125kg/136kg construction invalidates any older approval.
+    if (event.target?.name === "wheelType") {
+      form.querySelectorAll('input[name="loadFit"]').forEach(input => { input.checked = false; });
+      const load = form.querySelector('[data-zp-product-fit][data-zp-wheelchair-required="loadFit"]');
+      load?.classList?.remove("is-error");
+      load?.removeAttribute?.("aria-invalid");
+    }
     if (event.target?.name === "propulsion") {
       updateConditional();
       updateCandidateNote();
@@ -247,12 +264,13 @@ if (form && result && submitButton && errorBox && candidateNote) {
       }
       // Preview contains no shop URLs: no actual fit confirmed yet.
       preview.innerHTML = `
-        <h2>1. Možné vozíku k ověření</h2>
+        <h2>1. Možné vozíky k ověření</h2>
         <p>Zkontrolujte následující skutečné parametry výrobku. Jeho vhodnost ještě nebyla potvrzena.</p>
         <div class="zp-product-grid">${products.map(renderUnverifiedProduct).join("")}</div>
         <p class="zp-disclaimer">Nákupní odkazy se objeví až po skutečném ověření parametrů v druhém kroku.</p>
       `;
       previewReady = true;
+      updateWheelTypeQuestion();
       preview.hidden = false;
       fitStage.hidden = false;
       result.hidden = true;

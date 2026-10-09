@@ -25,7 +25,8 @@ if(form&&result&&submit&&errors){
   installBathroomMicroStaging({
     form, result, submit: submit, errors: errors,
     key: "bath-transfer", requiredAttr: "data-zp-bath-required",
-    fitNames: ["bathFit","bathBenchFit","loadFit"], primaryNeed: "bath_transfer", alternativeIds: ["unizdrav-p2203"]
+    fitNames: ["bathFit","bathBenchFit","loadFit"], primaryNeed: "bath_transfer", alternativeIds: ["unizdrav-p2203"],
+    conditionalFit: { bathBenchFit: value => value("bathFit") === "no" }
   });
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;

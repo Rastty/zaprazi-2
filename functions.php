@@ -2104,7 +2104,7 @@ function zaprazi_2_night_wc_meta_fallback() {
   if ( ! zaprazi_2_is_night_wc_page() || defined( 'WPSEO_VERSION' ) ) {
     return;
   }
-  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . "\\n";
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_night_wc_meta_fallback', 5 );
 

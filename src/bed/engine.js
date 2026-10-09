@@ -122,6 +122,17 @@ export function recommendAdjustableBed(input = {}) {
     );
   }
 
+  // A bed's width and capacity do not establish safe transfers. If the family
+  // does not know how transfers will work, no exact purchase candidate yet.
+  // Assisted transfers remain eligible for a bed but require a separate plan.
+  if (transferAbility === "unknown") {
+    return needsMoreInfo(
+      "transferAbility",
+      "Nejdřív upřesněte, jak bude člověk bezpečně vstávat a přesouvat se z postele.",
+      "Ověřte běžný přesun postel–židle–WC: samostatně, s oporou nebo dohledem, s fyzickou pomocí druhé osoby, případně zda člověk většinu času zůstává na lůžku. Nejasný přesun neřešte nákupem postele; postup si vyjasněte s nemocničním týmem nebo odborníkem."
+    );
+  }
+
   if (loadFit !== "yes") {
     if (loadFit === "no" && ["home_positioning", "caregiver_access"].includes(primaryNeed)) {
       return needsMoreInfo(

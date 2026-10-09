@@ -93,3 +93,15 @@ test("bed and wheelchair Advisor UI renders factual preview before fit, without 
     assert.doesNotMatch(script,/sendBeacon|localStorage|fetch\(/);
   }
 });
+
+test("bed preview does not show a model before transfer method is clear", () => {
+  for (const primaryNeed of ["home_positioning", "caregiver_access", "robust_high_load", "advanced_in_bed_care"]) {
+    const p = previewAdjustableBed({ primaryNeed, transferAbility: "unknown" });
+    assert.equal(p.status, "needs_more_info");
+    assert.deepEqual(p.productCandidateIds, []);
+    assert.match(p.nextStep, /přesun|postel/i);
+  }
+  const knownAssisted = previewAdjustableBed({ primaryNeed: "caregiver_access", transferAbility: "person_assist" });
+  assert.equal(knownAssisted.status, "unverified_preview");
+  assert.deepEqual(knownAssisted.productCandidateIds, ["unizdrav-p2777"]);
+});

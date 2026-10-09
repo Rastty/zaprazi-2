@@ -494,18 +494,33 @@ try {
     await choose(page, "bathFit", "no");
     assert.equal(await count(page, offer), 0, "Previous seat offer must disappear after fit change");
     assert.equal(await visible(page, bench), true, "Seat incompatible: bench measurements must appear");
+    assert.equal(await page.$eval(fit + ' input[name="loadFit"]:checked', el => el.value).catch(() => null),
+      null, "100 kg seat confirmation must not carry over to 110 kg bench");
     const staleBench = await page.$eval(bench, node => node.checked);
     assert.equal(staleBench, false, "Bench fit must not be silently confirmed");
-    await click(page, button);
-    assert.equal(await count(page, offer), 0, "Unknown bench size must block merchant");
     await choose(page, "bathBenchFit", "yes");
     await click(page, button);
-    assert.ok(await count(page, offer) > 0, "Verified transfer bench should retain an offer");
+    assert.equal(await count(page, offer), 0, "110 kg bench must remain blocked without fresh load confirmation");
+    await choose(page, "loadFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "Bench capacity confirmation should unlock its own offer");
+    await assertAffiliateOffers(page, offer);
     await choose(page, "bathFit", "yes");
     assert.equal(await visible(page, bench), false, "Returning to normal seat must hide bench check");
     assert.equal(await page.$eval(bench, node => node.checked), false, "Hidden bench answer must clear");
+    assert.equal(await page.$eval(fit + ' input[name="loadFit"]:checked', el => el.value).catch(() => null),
+      null, "110 kg bench confirmation must never approve the 100 kg seat");
     assert.equal(await count(page, offer), 0, "Previous bench link must be invalidated");
-    console.log("PASS 0.8.63 adaptive bath transfer: branch switching and merchant gate");
+    await click(page, button);
+    assert.equal(await count(page, offer), 0, "Seat must remain locked until its own 100 kg capacity is verified");
+    await choose(page, "loadFit", "yes");
+    await click(page, button);
+    assert.ok(await count(page, offer) > 0, "New 100 kg seat confirmation unlocks its own offer");
+    await choose(page, "bathFit", "no");
+    assert.equal(await page.$eval(fit + ' input[name="loadFit"]:checked', el => el.value).catch(() => null),
+      null, "Switching back to bench clears the 100 kg approval again");
+    assert.equal(await count(page, offer), 0, "No merchant survives another construction change");
+    console.log("PASS 0.8.65 bath seat/bench: different load limits always require new confirmation");
     await page.close();
   }
 

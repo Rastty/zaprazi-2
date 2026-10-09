@@ -24,14 +24,44 @@ if(form&&result&&submit&&errors){
   installMobilityProductFitGate(result);
 
   let builderStarted=false;
-  form.addEventListener("change",()=>{
+  form.addEventListener("change",(event)=>{
+    const group=event.target?.closest?.("[data-zp-roll-required]");
+    if(group&&val(group.dataset.zpRollRequired)){
+      group.classList.remove("is-error");
+      group.removeAttribute("aria-invalid");
+    }
+    // After an invalid submission, keep the message in sync with unresolved fields.
+    const remaining=requiredGroups().filter(item=>item.classList.contains("is-error"));
+    if(!remaining.length){errors.hidden=true;errors.textContent="";}
+    else errors.textContent=remaining.length===1
+      ?"Doplňte prosím zvýrazněnou otázku."
+      :`Doplňte prosím ${remaining.length} zvýrazněné otázky.`;
     if(!builderStarted){builderStarted=true;track("builder_start");}
   });
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
+  // Required questions must be visible, marked and keyboard-focusable on error.
+  const requiredGroups=()=>[...form.querySelectorAll("[data-zp-roll-required]")]
+    .filter(group=>!group.hidden&&!group.closest("[hidden]"));
   const validate=()=>{
-    const missing=[...form.querySelectorAll("[data-zp-roll-required]")].filter(g=>!val(g.dataset.zpRollRequired));
-    if(!missing.length){errors.hidden=true;return true;}
-    errors.textContent="Doplňte prosím zvýrazněné otázky.";errors.hidden=false;missing[0].focus();return false;
+    const missing=[];
+    requiredGroups().forEach(group=>{
+      const invalid=!val(group.dataset.zpRollRequired);
+      group.classList.toggle("is-error",invalid);
+      if(invalid){
+        group.setAttribute("aria-invalid","true");
+        missing.push(group);
+      }else{
+        group.removeAttribute("aria-invalid");
+      }
+    });
+    if(!missing.length){errors.hidden=true;errors.textContent="";return true;}
+    errors.textContent=missing.length===1
+      ?"Doplňte prosím zvýrazněnou otázku."
+      :`Doplňte prosím ${missing.length} zvýrazněné otázky.`;
+    errors.hidden=false;
+    missing[0].setAttribute("tabindex","-1");
+    missing[0].focus();
+    return false;
   };
   const render=(p,allow)=>{
     const offer=p.offers?.[0]; if(!offer) return "";

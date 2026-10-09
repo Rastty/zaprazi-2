@@ -314,3 +314,8 @@ Zadaná část 4 byla předána pouze s názvem „Využití GitHub Website Clon
 U každého UX experimentu vymezit výchozí stav a očekávané zlepšení alespoň v některých metrikách: zahájení/dokončení poradce, odpadnutí na otázkách, počet zbytečných odpovědí, úspěšné pochopení doporučení, navazující bezpečný krok, relevantní merchant CTR, případně schválený affiliate výsledek. **Nulová tolerance** k obcházení bezpečnostních gate a úniku zdravotně citlivých kombinací; výsledek s takovým problémem nelze vyhodnotit jako úspěch ani při lepší konverzi. Hodnocení po přiměřeném vzorku, ne podle estetického dojmu.
 
 **Pořadí práce:** 0.8.62 deploy a praktické QA → odstranit skutečné překážky v již existujících poradenských cestách → cílené benchmarky a malé UX úpravy → rozhodnout o Home Scan MVP podle doloženého přínosu. Žádný tento bod neopravňuje obejít release/production smoke pravidla.
+
+
+### Aktualizace priorit 9. 10. 2026 — kvalita průvodců před značkou a expanzí
+
+Před SEO/rozšiřováním, novými nástroji nebo Home Scan má absolutní prioritu **praktická správnost, bezpečnost, přesné produktové mapování a výborné mobilní UX všech 14 existujících poradců**. Pracovat po konkrétních nalezených závadách a měřit dokončení až jako doplněk, nikoli náhradu bezpečnostních testů. Po uzavření kritických a významných zjištění následuje jednotná finální aktualizace loga Zápraží a faviconu, včetně mobilního zobrazení. Teprve pak další body schválené vize. Windsor.ai není závislost a nepřipojovat. Podrobná matice přijetí a bezpečnostní regresní scénáře: `docs/ADVISOR_QUALITY_GATE_2026-10-09.md`.

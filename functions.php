@@ -856,7 +856,7 @@ function zaprazi_2_assets() {
     $uri . '/assets/js/analytics-consent.js',
     array(),
     file_exists($dir . '/assets/js/analytics-consent.js') ? filemtime($dir . '/assets/js/analytics-consent.js') : null,
-    false
+    true // Footer: non-essential consent UI must not block initial page rendering.
   );
 
   wp_add_inline_script(

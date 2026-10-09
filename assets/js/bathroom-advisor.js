@@ -41,7 +41,7 @@ if (form && result && submitButton && errorBox) {
   // Move only model-dependent questions behind the product preview.
   // Questions about practical transfer, floor stability and fixing conditions
   // are still asked first, so unsafe transfers never receive a product preview.
-  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "spaceFit", "bathFit", "bathBenchFit"];
+  const fitNames = ["loadFit", "toiletFit", "feetFlatAtRaisedHeight", "supportFrameFit", "spaceFit", "bathFit", "bathBenchFit"];
   if (preview && fitStage) {
     for (const name of fitNames) {
       const fieldset = form.querySelector(`[data-zp-bath-required="${name}"]`);
@@ -242,6 +242,7 @@ if (form && result && submitButton && errorBox) {
     floorStable: checkedValue("floorStable", "unknown"),
     spaceFit: checkedValue("spaceFit", "unknown"),
     wallFixing: checkedValue("wallFixing", "unknown"),
+    supportFrameFit: checkedValue("supportFrameFit", "unknown"),
     bathTransferIndependent: checkedValue("bathTransferIndependent", "unknown"),
     bathFit: checkedValue("bathFit", "unknown"),
     bathBenchFit: checkedValue("bathBenchFit", "unknown"),
@@ -317,6 +318,9 @@ if (form && result && submitButton && errorBox) {
     if (condition === "floor_space") {
       return ["toilet_nearby", "shower_seated", "multifunction_toilet_shower"].includes(need);
     }
+    if (condition === "toilet_support_frame") {
+      return need === "toilet_support" && checkedValue("wallFixing", "unknown") !== "verified";
+    }
     if (condition === "bath_bench") {
       return need === "bath_transfer" && checkedValue("bathFit", "unknown") === "no";
     }
@@ -352,7 +356,7 @@ if (form && result && submitButton && errorBox) {
       submitButton.textContent = "1. Ukázat možná řešení";
       fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
     }
-    if (["primaryNeed", "bathFit"].includes(event.target?.name)) {
+    if (["primaryNeed", "wallFixing", "bathFit"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 

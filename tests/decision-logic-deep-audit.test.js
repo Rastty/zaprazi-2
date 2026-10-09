@@ -144,6 +144,8 @@ test("critical transfer, capacity, width and floor safety gates fail closed acro
 test("mobility offers require three checks for each product, independently", () => {
   const markup=renderMobilityProductFitGate('<a href="https://merchant.example/">Offer</a>');
   assert.match(markup,/zp-fit-locked-offers" hidden/);
+  assert.match(markup,/data-zp-fit-progress role="status" aria-live="polite"/);
+  assert.match(markup,/Potvrzeno 0 z 3 kontrol/);
   assert.equal((markup.match(/type="checkbox"/g)||[]).length,3);
   assert.match(markup,/Maximální nosnost/);
   assert.match(markup,/Šířka tohoto modelu/);
@@ -153,6 +155,7 @@ test("mobility offers require three checks for each product, independently", () 
     requireTransportFit:true
   });
   assert.equal((expanded.match(/type="checkbox"/g)||[]).length,5);
+  assert.match(expanded,/Potvrzeno 0 z 5 kontrol/);
   assert.match(expanded,/Sedátko je pro člověka prakticky použitelné/);
   assert.match(expanded,/složené rozměry i hmotnost/);
   assert.equal(renderMobilityProductFitGate(""),"");
@@ -163,18 +166,22 @@ test("mobility offers require three checks for each product, independently", () 
   const models = Array.from({length:2},()=> {
     const inputs=Array.from({length:3},()=>({checked:false}));
     const offers={hidden:true};
-    const gate={querySelectorAll(){return inputs;},querySelector(){return offers;}};
+    const progress={textContent:"Potvrzeno 0 z 3 kontrol. Nabídka je zatím skrytá."};
+    const gate={querySelectorAll(){return inputs;},querySelector(selector){return selector==="[data-zp-fit-progress]"?progress:offers;}};
     const target={matches(){return true;},closest(){return gate;}};
-    return {inputs,offers,target};
+    return {inputs,offers,progress,target};
   });
   const fire = model => listeners[0]({target:models[model].target});
   models[0].inputs[0].checked=true;fire(0);
   assert.equal(models[0].offers.hidden,true);
+  assert.match(models[0].progress.textContent,/Potvrzeno 1 z 3/);
   models[0].inputs[1].checked=true;models[0].inputs[2].checked=true;fire(0);
   assert.equal(models[0].offers.hidden,false);
+  assert.match(models[0].progress.textContent,/Všechna ověření hotová/);
   assert.equal(models[1].offers.hidden,true, "other product stays locked");
   models[0].inputs[1].checked=false;fire(0);
   assert.equal(models[0].offers.hidden,true,"revoking a model check hides link again");
+  assert.match(models[0].progress.textContent,/Potvrzeno 2 z 3/);
 });
 
 test("main mobility Advisor exposes brake verification for an indoor seat requirement", () => {

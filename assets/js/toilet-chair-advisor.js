@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_67
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form = document.querySelector("#zp-toilet-chair-advisor");
@@ -138,8 +139,8 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${output.recommendations.map((item) => `<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${escapeHtml(item.reason)}</p></section>`).join("")}
+      ${renderBathroomAcquisition(output.status === "candidate" ? output.acquisition : [], escapeHtml)}
       ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}
-      ${output.status === "candidate" ? '<p><a class="zp-text-link" href="/pomucky-do-koupelny-na-pojistovnu/">Prověřit také cestu přes pojišťovnu</a></p>' : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

@@ -12,6 +12,7 @@ get_header();
       <h1>Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové?</h1>
       <p class="zp-lead">Nejdůležitější rozdíl není značka, ale způsob používání. Čtyřbodové chodítko se při kroku lehce nadzvedává. Dvoukolové se posouvá po předních kolečkách a zadní nohy zůstávají opěrné.</p>
       <a class="zp-btn" href="#poradce-choditko-byt">Spustit poradce</a>
+      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Nejdřív změřit dveře, madla a prostor doma</a></p>
     </div>
   </section>
 

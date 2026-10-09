@@ -277,7 +277,7 @@ if (form && result && submitButton && errorBox) {
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
       const condition = section.dataset.zpConditional;
       const show = condition === "indoor"
-        ? environment === "indoor"
+        ? environment === "indoor" && !seatNeeded
         : condition === "outdoor"
           ? environment === "outdoor" || environment === "both" || seatNeeded
           : true;

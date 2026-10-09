@@ -1862,6 +1862,44 @@ function zaprazi_2_ensure_resource_pages() {
 }
 add_action( 'init', 'zaprazi_2_ensure_resource_pages', 30 );
 
+/**
+ * Non-destructive publication of the editorial-methodology page.
+ * Never overwrite an existing WordPress page at this slug.
+ */
+function zaprazi_2_ensure_methodology_page() {
+  if ( '1' === get_option( 'zaprazi_methodology_page_v1' ) ) {
+    return;
+  }
+
+  $existing = get_page_by_path( 'jak-vznika-doporuceni', OBJECT, 'page' );
+  if ( $existing ) {
+    if ( 'page-jak-vznika-doporuceni.php' === get_post_meta( $existing->ID, '_wp_page_template', true ) ) {
+      update_option( 'zaprazi_methodology_page_v1', '1', false );
+    }
+    return;
+  }
+
+  $created = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Jak vzniká doporučení v Zápraží',
+      'post_name'    => 'jak-vznika-doporuceni',
+      'post_content' => '',
+      'post_excerpt' => 'Transparentní metodika, zdroje informací, hranice poradce a informace o odborné revizi.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-jak-vznika-doporuceni.php',
+      ),
+    ),
+    true
+  );
+
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_methodology_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_methodology_page', 31 );
+
 function zaprazi_2_is_insurance_walker_page() {
   return is_page( 'choditko-na-pojistovnu' );
 }

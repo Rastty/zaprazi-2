@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_85
+// ZP_RELEASE_0_8_86
 const TASKS = new Set(["drink", "stabilize_container", "one_hand_meal", "open_packaging", "other", "unknown"]);
 const PROBLEMS = new Set(["grip_or_spill", "container_moves", "one_hand_setup", "grip_or_twist", "swallowing_or_medical", "other", "unknown"]);
 const YES_NO_UNKNOWN = new Set(["yes", "no", "unknown"]);

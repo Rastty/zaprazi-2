@@ -320,6 +320,12 @@ try {
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
     await assertAffiliateOffers(page, offer);
+    const explanations=await page.$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
+      heading:n.querySelector("h3")?.textContent.trim(),reason:n.querySelector("p")?.textContent.trim()
+    })));
+    assert.equal(explanations.length,1,"Each completed micro Advisor must explain its chosen solution");
+    assert.equal(explanations[0].heading,"Proč právě toto řešení?");
+    assert.ok(explanations[0].reason?.length>28,"Missing substantial reason for "+scenario.slug);
     await choose(page, "transferAbility", "person_assist");
     assert.equal(await visible(page, result), false, "Stale micro offer: " + scenario.slug);
     assert.equal(await count(page, offer), 0, "Old micro merchant link survived: " + scenario.slug);
@@ -463,6 +469,8 @@ try {
     await click(page, button);
     assert.ok(await count(page, offer) > 0, "Verified wall rail should retain an offer");
     await assertAffiliateOffers(page, offer);
+    const wallReason=await page.$eval("#zp-toilet-support-result .zp-why-recommendation p",el=>el.textContent);
+    assert.match(wallReason,/Nástěnné kotvení/,"Wall-mounted rail explanation must cite verified fixing");
     await choose(page, "wallFixing", "unverified");
     assert.equal(await visible(page, preview), false, "Mounting approach change must clear preview");
     assert.equal(await count(page, offer), 0, "Previous wall rail offer must be removed");
@@ -477,7 +485,10 @@ try {
     await choose(page, "supportFrameFit", "yes");
     await click(page, button);
     assert.ok(await count(page, offer) > 0, "Verified P2015 frame should retain an offer");
-    console.log("PASS 0.8.63 adaptive WC support: wall rail / frame checks and merchant gate");
+    const frameReason=await page.$eval("#zp-toilet-support-result .zp-why-recommendation p",el=>el.textContent);
+    assert.match(frameReason,/toaletního rámu/,"Free-standing support explanation must describe the real construction");
+    assert.notEqual(frameReason,wallReason,"Different physical products must have different explanations");
+    console.log("PASS 0.8.67 adaptive WC support: construction-specific why, fit and merchant gate");
     await page.close();
   }
 

@@ -618,6 +618,9 @@ try {
       await checkNoMerchant(page,result);
       const blocked=await page.$eval(result,el=>el.textContent);
       assert.match(blocked,/hmotnosti uživatele|hmotnost samotného uživatele/i);
+      await choose(page,"userCapacityVerified","no");
+      await click(page,"#zp-bed-submit");
+      await checkNoMerchant(page,result);
       await choose(page,"userCapacityVerified","yes");
       await click(page,"#zp-bed-submit");
       assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
@@ -626,9 +629,55 @@ try {
       await choose(page,"primaryNeed","home_positioning");
       assert.equal(await visible(page,result),false,"Changed bed branch must clear stale purchase links");
       await checkNoMerchant(page,result);
+      await click(page,"#zp-bed-submit");
+      assert.equal(await visible(page,'#zp-bed-fit-stage [name="userCapacityVerified"]'),false,
+        "CLASSIC must not require a second patient limit confirmation");
+      await choose(page,"loadFit","yes");
+      await choose(page,"spaceFit","yes");
+      await click(page,"#zp-bed-submit");
+      assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
+        "Explicitly sourced CLASSIC patient limit should retain purchase path");
       console.log("PASS 0.8.70 bed separate patient-weight limit, no bypass and branch reset: "+branch.need);
       await page.close();
     }
+  }
+
+  // After 0.8.71 deploy: P3641 (125 kg pneumatic / 136 kg tubeless)
+  // must never share one generic capacity approval across constructions.
+  if (requiredVersion === "0.8.71") {
+    const page = await open("/invalidni-vozik/");
+    await choose(page,"propulsion","self_manual");
+    await choose(page,"transferAbility","independent");
+    await choose(page,"manualControlSafe","yes");
+    await click(page,"#zp-wheelchair-submit");
+    await checkPreviewNoCommerce(page,"#zp-wheelchair-preview");
+    assert.equal(await visible(page,'#zp-wheelchair-fit-stage [name="wheelType"]'),true);
+    await choose(page,"seatFit","yes");
+    await choose(page,"widthFit","yes");
+    await choose(page,"wheelType","unknown");
+    await choose(page,"loadFit","yes");
+    await click(page,"#zp-wheelchair-submit");
+    await checkNoMerchant(page,"#zp-wheelchair-result");
+    await choose(page,"wheelType","pneumatic");
+    assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null);
+    await choose(page,"loadFit","yes");
+    await click(page,"#zp-wheelchair-submit");
+    const result="#zp-wheelchair-result";
+    assert.match(await page.$eval(result,el=>el.textContent),/pneumatická kola – 125 kg/);
+    await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
+    await choose(page,"wheelType","tubeless");
+    assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null);
+    await checkNoMerchant(page,result);
+    await click(page,"#zp-wheelchair-submit");
+    assert.equal(await visible(page,"#zp-wheelchair-errors"),true);
+    await choose(page,"loadFit","yes");
+    await click(page,"#zp-wheelchair-submit");
+    assert.match(await page.$eval(result,el=>el.textContent),/bezdušová kola – 136 kg/);
+    await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
+    await choose(page,"propulsion","companion");
+    await checkNoMerchant(page,result);
+    console.log("PASS 0.8.71 wheelchair P3641 variant-specific capacity, no bypass and reset");
+    await page.close();
   }
 
   console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");

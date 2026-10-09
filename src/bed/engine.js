@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_70
+// ZP_RELEASE_0_8_71
 const PRIMARY_NEEDS = new Set([
   "home_positioning",
   "caregiver_access",

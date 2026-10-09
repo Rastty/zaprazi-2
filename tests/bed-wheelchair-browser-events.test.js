@@ -13,7 +13,7 @@ function create(kind) {
   const isWheelchair=kind==="wheelchair";
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
   const attr=isWheelchair?"data-zp-wheelchair-required":"data-zp-bed-required";
-  const fitFields=isWheelchair?["seatFit","widthFit","loadFit"]:["loadFit","spaceFit","userCapacityVerified"];
+  const fitFields=isWheelchair?["seatFit","widthFit","wheelType","loadFit"]:["loadFit","spaceFit","userCapacityVerified"];
   const names=isWheelchair?["propulsion","transferAbility","manualControlSafe",...fitFields,"joystickSafe","chargingReady","duration"]:
     ["primaryNeed","transferAbility",...fitFields,"duration"];
   const inputs=new Map(),fields=new Map(),listeners={};
@@ -34,7 +34,7 @@ function create(kind) {
   };
   for(const name of names){
     const group={
-      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady"].includes(name) : name==="userCapacityVerified",
+      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady","wheelType"].includes(name) : name==="userCapacityVerified",
       dataset:{[requiredAttr]:name},attributes:{},
       classList:{toggle(){},remove(){},add(){}},
       closest(selector){return selector==='[hidden]' && (this.hidden || this.parent?.hidden)?(this.hidden?this:stage):null;},
@@ -128,7 +128,7 @@ for(const kind of ["bed","wheelchair"]){
     assert.equal(h.result.hidden,false);
     assert.doesNotMatch(h.result.innerHTML,/href=.*(?:dpbolvw|anrdoezrs|tkqlhce|unizdrav)/);
     assert.doesNotMatch(h.result.innerHTML,/data-zp-.*merchant-link/);
-    for(const name of h.fitFields)h.form.change(name,"yes");
+    for(const name of h.fitFields)h.form.change(name,name==="wheelType"?"pneumatic":"yes");
     h.submitButton.click();
     assert.equal(h.result.hidden,false);
     assert.match(h.result.innerHTML,/data-zp-.*merchant-link/);
@@ -137,7 +137,7 @@ for(const kind of ["bed","wheelchair"]){
   test(kind+" changing scenario clears prior approvals and requires new preview",()=>{
     const h=create(kind);
     h.submitButton.click();
-    for(const name of h.fitFields)h.form.change(name,"yes");
+    for(const name of h.fitFields)h.form.change(name,name==="wheelType"?"pneumatic":"yes");
     h.form.change(kind==="bed"?"primaryNeed":"propulsion",kind==="bed"?"robust_high_load":"self_manual");
     if(kind==="wheelchair") h.form.change("manualControlSafe","yes");
     assert.equal(h.stage.hidden,true);
@@ -193,4 +193,31 @@ test("Hospital capacity confirmation is relevant, optional for CLASSIC but manda
   h.form.change("userCapacityVerified","yes");
   h.submitButton.click();
   assert.match(h.result.innerHTML,/data-zp-bed-merchant-link/,"separate supplier confirmation may unlock verified fit");
+});
+
+
+test("P3641 changing rear-wheel variant revokes load approval and removes merchant link",()=>{
+  const h=create("wheelchair");
+  h.form.change("propulsion","self_manual");
+  h.form.change("manualControlSafe","yes");
+  h.submitButton.click();
+  assert.equal(h.preview.hidden,false);
+  assert.equal(h.fields.get("wheelType").hidden,false);
+  h.form.change("seatFit","yes");
+  h.form.change("widthFit","yes");
+  h.form.change("wheelType","unknown");
+  h.form.change("loadFit","yes");
+  h.submitButton.click();
+  assert.doesNotMatch(h.result.innerHTML,/merchant-link/,"unknown wheels cannot approve 125kg/136kg");
+  h.form.change("wheelType","pneumatic");
+  assert.equal(h.inputs.get("loadFit").checked,false);
+  h.form.change("loadFit","yes");
+  h.submitButton.click();
+  assert.match(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);
+  h.form.change("wheelType","tubeless");
+  assert.equal(h.inputs.get("loadFit").checked,false,"old variant load approval must clear");
+  assert.equal(h.result.hidden,true);
+  assert.doesNotMatch(h.result.innerHTML,/merchant-link/);
+  h.submitButton.click();
+  assert.equal(h.errorBox.hidden,false,"fresh capacity confirmation required");
 });

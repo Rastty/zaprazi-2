@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_70
+// ZP_RELEASE_0_8_71
 import { recommendAdjustableBed } from "../bed/engine.js";
 import { recommendWheelchair } from "../wheelchair/engine.js";
 
@@ -32,7 +32,7 @@ export function previewWheelchair(input = {}) {
   // Unsafe/unknown personal transfer and powered control must be resolved
   // before even previewing an exact wheelchair model.
   if (!["independent", "steadying"].includes(input.transferAbility)) {
-    const result = recommendWheelchair({ ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes" });
+    const result = recommendWheelchair({ ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic" });
     if (input.transferAbility === "person_assist") return toPreview(result);
     return {
       status: "needs_more_info",
@@ -42,6 +42,6 @@ export function previewWheelchair(input = {}) {
     };
   }
   return toPreview(recommendWheelchair({
-    ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes"
+    ...input, loadFit: "yes", seatFit: "yes", widthFit: "yes", wheelType: "pneumatic"
   }));
 }

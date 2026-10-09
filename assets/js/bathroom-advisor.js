@@ -197,7 +197,7 @@ if (form && result && submitButton && errorBox) {
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>
               </details>
               ${renderReimbursementEvidence(product)}
-              ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [], false)}
+              ${renderSources(product.evidence)}
               ${renderOffers(product.offers)}
             </article>
           `).join("")}
@@ -257,7 +257,7 @@ if (form && result && submitButton && errorBox) {
       <details><summary>Co je před pořízením potřeba ověřit</summary><ul>
         ${product.selectionNotes.map(note => `<li>${escapeHtml(note)}</li>`).join("")}
       </ul></details>
-      ${renderSources(product.evidence)}
+      ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [], false)}
     </article>
   `;
 

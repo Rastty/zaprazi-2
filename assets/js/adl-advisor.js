@@ -44,9 +44,9 @@ if (form && result && submitButton && errorBox) {
     fitGroup.removeAttribute("aria-invalid");
   };
   const showProductFit = (output) => {
-    if (!fitGroup || !fitChecks || !output.candidate) return false;
+    if (!fitGroup || !fitChecks || !output.requiresProductFit || !output.candidate) return false;
     if (!fitGroup.hidden) return false;
-    fitChecks.innerHTML = `<strong>Co je potřeba skutečně ověřit:</strong><ul>${(output.checks || [])
+    fitChecks.innerHTML = `<strong>Model k ověření: ${escapeHtml(output.candidate.product)}</strong><p>Co je potřeba skutečně ověřit:</p><ul>${(output.checks || [])
       .map((check) => `<li>${escapeHtml(check)}</li>`).join("")}</ul>`;
     fitGroup.hidden = false;
     return true;
@@ -166,7 +166,7 @@ if (form && result && submitButton && errorBox) {
     });
 
     const newlyOpenedFit = showProductFit(output);
-    if (!output.candidate && fitGroup && !fitGroup.hidden) clearProductFit();
+    if (!output.requiresProductFit && fitGroup && !fitGroup.hidden) clearProductFit();
 
     if (!["needs_more_context", "needs_fit_check", "invalid_input"].includes(output.status)) track("builder_complete");
     if (output.status === "candidate") track("recommendation_view");

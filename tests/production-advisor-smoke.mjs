@@ -341,9 +341,9 @@ try {
     await click(page, "#zp-indoor-walker-submit");
     assert.ok(await count(page, "#zp-indoor-walker-result .zp-mobility-fit-gate") > 0);
     assert.equal(await visible(page, "#zp-indoor-walker-result .zp-fit-locked-offers"), false);
-    await page.$eval("#zp-indoor-walker-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
+    await page.$$eval("#zp-indoor-walker-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
       nodes => nodes.forEach(el => el.click()));
-    const unlocked = await page.$eval("#zp-indoor-walker-result .zp-fit-locked-offers",
+    const unlocked = await page.$$eval("#zp-indoor-walker-result .zp-fit-locked-offers",
       nodes => nodes.some(el => !el.hidden));
     assert.equal(unlocked, true, "Indoor walker offer did not unlock after model checks");
     await choose(page, "supportNeed", "person_assist");
@@ -367,9 +367,9 @@ try {
     const checks = await count(page, "#zp-rollator-result .zp-mobility-fit-gate [data-zp-mobility-fit-confirm]");
     assert.ok(checks >= 4, "Rollator seat check missing from the model-fit gate");
     assert.equal(await visible(page, "#zp-rollator-result .zp-fit-locked-offers"), false);
-    await page.$eval("#zp-rollator-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
+    await page.$$eval("#zp-rollator-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
       nodes => nodes.forEach(el => el.click()));
-    const unlocked = await page.$eval("#zp-rollator-result .zp-fit-locked-offers",
+    const unlocked = await page.$$eval("#zp-rollator-result .zp-fit-locked-offers",
       nodes => nodes.some(el => !el.hidden));
     assert.equal(unlocked, true, "Rollator offer remained locked after all model confirmations");
     await choose(page, "handBrakes", "no");

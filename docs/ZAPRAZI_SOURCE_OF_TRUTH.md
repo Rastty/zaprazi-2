@@ -366,3 +366,15 @@ Toto **není pokyn okamžitě vytvořit nový univerzální engine nebo rozší�
 - **K budoucím individuálním dohodám přistoupit až po doložení stabilní relevantní návštěvnosti a skutečných odchozích prokliků na konkrétní segment nebo partnera.** Návštěvy webu nejsou totéž co obchodní příležitosti; měřit pouze agregované privacy-safe počty bez předávání odpovědí z poradců či zdravotních profilů.
 - Až budou doložitelná data, lze **teprve vyhodnotit** dobrovolné modely spolupráce: transparentně označené fixní umístění, měsíční paušál, platbu za doložené předání zájemce nebo rozumný hybrid. Částky jsou předmětem budoucího ověření, nikoli nynější příslib výnosů.
 - Žádná placená dohoda nesmí ovlivňovat odborné doporučení, pořadí řešení ani bezpečnostní kontrolu; uživatel vždy dostává smysluplnou pomoc i bez obchodního prokliku. Stávající P0 a pořadí vývoje se nemění.
+
+
+### Schválené řízení další etapy — zpětná vazba majitele a paralelní SEO (9. 10. 2026)
+
+- **Poradci jsou hlavní P0:** dokončit a automaticky i technicky otestovat všech 14 existujících enginů. První praktické proklikání provede majitel projektu a po každém kole poskytne konkrétní zpětnou vazbu; následně zapracovat, otestovat regresi a znovu ověřit. Nevyžadovat nyní samostatné náborové/moderované uživatelské studie jako podmínku iterací; budoucí nezávislé ověření s pečujícími zůstává vhodným důkazem kvality, nikoliv nynější blokací.
+- **SEO běží paralelně**, protože indexace vyžaduje čas: inventura starého obsahu a kanibalizace, strategie tematických clusterů, návrhy a ověřování informačních stránek, kontextové interní odkazy, kontrola indexace/sitemap/canonical, rychlost a přístupnost. Povoleny jsou malé bezpečné změny a publikace pouze obsahově dokončených, doložených a skutečně užitečných stránek. SEO nesmí odčerpat kapacitu z bezpečnostních P0 oprav ani prolomit release QA.
+- SEO nepovažovat za počet publikovaných textů. Každý nový článek musí mít **samostatný vyhledávací záměr**, doložené zdroje, datum revize, praktický další krok, odkazy do stávajících průvodců a audit možné duplicity vůči ~4 360 historickým příspěvkům. Externí odkazy získávat pouze přirozeně, bez placených/schématických odkazů a bez oslovování firem kvůli komerčním spolupracím.
+- **Interaktivní odškrtávací checklist** je následný produktový pilot, ideálně nad existujícím průvodcem „Návrat z nemocnice“; nevytvářet ho na úkor dokončení P0 poradců. Současný tisknutelný plán zachovat, nepřidávat trvalé ukládání citlivých odpovědí.
+- Výkon optimalizovat podle **skutečných mobilních měření před/po** (LCP, INP, CLS, případně Lighthouse), ne podle pocitu nebo nevykonaného testu. Změny v JS/WordPressu ověřit vůči ochraně soukromí, funkčnosti poradců a release integritě.
+- Pořadí finálního schválení loga/favikony po kvalitativním QA 14 poradců zůstává. Paralelní SEO příprava a bezpečně ověřené informační články nemusí na logo čekat.
+
+Podrobný paralelní postup: `docs/SEO_PARALLEL_EXECUTION_2026-10-09.md`.

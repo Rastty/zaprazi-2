@@ -29,6 +29,31 @@
     </div>
   </section>
 
+  <section id="prakticke-kontroly" class="zp-section zp-section-soft">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktické návody bez nákupu</p>
+      <h2 class="zp-section-title">Začněte kontrolou situace doma. Pomůcky můžete řešit až potom.</h2>
+      <p>Projděte jednoduché kroky s rodinou. Pokud není bezpečný způsob pohybu nebo přesunu jasný, nejdřív jej ověřte s příslušným odborníkem. Návody nejsou individuálním zdravotním posouzením.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Před propuštěním z nemocnice</h3>
+          <p>Na co se zeptat lékaře, sestry a sociálního pracovníka, než se člověk vrátí domů.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm důležitých otázek pro nemocnici</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Noční cesta z postele na WC</h3>
+          <p>Ověřte světlo, překážky, vstávání, oporu a možnost přivolat pomoc ještě před první nocí.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodová kontrola noční cesty</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Bezpečnější byt bez velkých úprav</h3>
+          <p>Začněte hlavními trasami, prahy, volnými koberci a koupelnou, ne nákupním seznamem.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Praktický audit bezpečného bytu</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <section id="poradce" class="zp-wrap zp-advisor-section">
     <div class="zp-panel">
       <p class="zp-kicker">Domácí poradce · Mobilita</p>

@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.67' );
+  define( 'ZAPRAZI_RELEASE', '0.8.68' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_67';
+  $marker = 'ZP_RELEASE_0_8_68';
   $files = array(
     'header.php',
     'footer.php',
@@ -50,6 +50,7 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/indoor-walker-advisor.js',
     'assets/js/rollator-advisor.js',
     'src/bathroom/product-facts-display.js',
+    'src/bathroom/acquisition-view.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

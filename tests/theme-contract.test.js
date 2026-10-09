@@ -2442,3 +2442,17 @@ test("visible logo wordmark is the accessible name of its home link", () => {
   assert.ok(header.includes('<span class="zp-brand-text"><strong>Zápraží</strong><small>Cesta k lepšímu životu</small></span>'));
   assert.ok(header.includes('alt="" aria-hidden="true"'), "SVG icon must remain decorative beside readable wordmark");
 });
+
+test("return-home printable checklist uses only safe engine routes and ephemeral native checks", () => {
+  const app = read("assets/js/return-home-advisor.js");
+  const css = read("style.css");
+  assert.match(app, /buildReturnHomeChecklist\(plan\)/);
+  assert.match(app, /Odškrtnutí slouží pouze jako osobní poznámka/);
+  assert.match(app, /input id="\$\{inputId\}" type="checkbox"/);
+  assert.match(app, /\^\\\/\(\?!\\\/\)/);
+  assert.match(app, /renderChecklist\(output\)/);
+  assert.match(app, /result\.innerHTML = ""/);
+  assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
+  assert.match(css, /\.zp-return-checklist/);
+  assert.match(css, /body\.zp-return-print-mode \.zp-return-task/);
+});

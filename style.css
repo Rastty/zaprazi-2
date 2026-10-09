@@ -318,6 +318,21 @@ a{color:inherit}
   opacity: 0.78;
 }
 
+/* Family checklist is an ephemeral, non-clinical task list using the existing Advisor output. */
+.zp-return-checklist{margin-top:1.5rem}
+.zp-return-tasks{list-style:none;padding:0;margin:1rem 0;display:grid;gap:12px}
+.zp-return-task{padding:15px 16px;border:1px solid var(--zp-line);border-radius:14px;background:var(--zp-paper)}
+.zp-return-task-label{display:flex;align-items:flex-start;gap:12px;min-height:44px;cursor:pointer;line-height:1.45}
+.zp-return-task-label input{width:23px;height:23px;flex:0 0 23px;margin:3px 0 0;accent-color:var(--zp-accent)}
+.zp-return-task-label strong{display:block;font-size:1rem}
+.zp-return-task-kind{display:block;color:var(--zp-muted);font-weight:700;font-size:.82rem}
+.zp-return-task>p{margin:.4rem 0 .5rem 35px;line-height:1.55}
+.zp-return-task>.zp-text-link{margin-left:35px}
+.zp-return-task-label:has(input:focus-visible){outline:3px solid var(--zp-accent);outline-offset:3px;border-radius:6px}
+@media print{
+  body.zp-return-print-mode .zp-return-task{break-inside:avoid;page-break-inside:avoid;border:1px solid #bbb!important;background:#fff!important}
+  body.zp-return-print-mode .zp-return-task input{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
 /* Return-home plan is printed locally; no answers or result are submitted or stored. */
 @media print {
   body.zp-return-print-mode { background: #fff !important; color: #111 !important; }

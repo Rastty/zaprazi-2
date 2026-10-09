@@ -25,7 +25,7 @@ if(form&&result&&submit&&errors){
   installBathroomMicroStaging({
     form, result, submit: submit, errors: errors,
     key: "toilet-support", requiredAttr: "data-zp-support-required",
-    fitNames: ["loadFit"], primaryNeed: "toilet_support"
+    fitNames: ["loadFit","supportFrameFit"], primaryNeed: "toilet_support"
   });
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
@@ -53,6 +53,7 @@ if(form&&result&&submit&&errors){
       transferAbility:val("transferAbility","unknown"),
       loadFit:val("loadFit","unknown"),
       wallFixing:val("wallFixing","unknown"),
+      supportFrameFit:val("supportFrameFit","unknown"),
       duration:val("duration","unknown")
     });
     const ids=out.recommendations.flatMap(x=>x.productCandidateIds??[]);

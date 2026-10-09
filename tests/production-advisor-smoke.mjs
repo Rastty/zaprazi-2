@@ -29,6 +29,51 @@ const advisors = [
   ["/rollator-pro-seniory/", "#zp-rollator-advisor", "#zp-rollator-result"]
 ];
 
+// Read-only affiliate readiness: configured slots are necessary, but not
+// proof of an actual tracked conversion. Never follow merchant click links.
+const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-readiness", {
+  headers: { Accept: "application/json" }
+});
+assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
+const readiness = await readinessResponse.json();
+assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
+assert.equal(readiness.integrity, "ok", "Deployment integrity is partial");
+assert.ok(readiness.slot_total >= 25, "An expected affiliate slot was removed");
+assert.equal(readiness.configured_total, readiness.slot_total, "Not all affiliate slots are configured");
+for (const [name, group] of Object.entries(readiness.groups || {})) {
+  assert.equal(group.configured, group.total, "Affiliate group incomplete: " + name);
+  assert.deepEqual(group.missing, [], "Affiliate group missing targets: " + name);
+}
+console.log("PASS affiliate readiness:", readiness.configured_total, "/", readiness.slot_total);
+
+const approvedRedirectHosts = new Set([
+  "kqzyfj.com", "dpbolvw.net", "anrdoezrs.net",
+  "tkqlhce.com", "jdoqocy.com", "ehub.cz"
+]);
+async function assertAffiliateOffers(page, selector) {
+  const links = await page.$eval(selector, nodes =>
+    nodes.map(node => ({
+      href: node.getAttribute("href"),
+      rel: node.getAttribute("rel") || "",
+      visible: !node.closest("[hidden]")
+    }))
+  );
+  assert.ok(links.length > 0, "Expected a concrete affiliate merchant offer");
+  for (const link of links) {
+    assert.equal(link.visible, true, "Merchant CTA is hidden or not yet approved");
+    const url = new URL(link.href, base);
+    assert.equal(url.protocol, "https:", "Merchant link must use HTTPS");
+    assert.ok(approvedRedirectHosts.has(url.hostname.toLowerCase().replace(/^www\./, "")),
+      "Merchant link bypasses reviewed affiliate network: " + url.hostname);
+    assert.ok(!/(?:undefined|null)(?:$|[?&#])/i.test(link.href), "Unresolved merchant URL");
+    assert.ok(!/(?:answer|diagnos|weight|supportNeed|transferAbility|health)=/i.test(url.search),
+      "Merchant URL appears to expose user answers");
+    for (const token of ["noopener", "nofollow", "sponsored"]) {
+      assert.ok(link.rel.split(/\s+/).includes(token), "Affiliate link missing rel=" + token);
+    }
+  }
+}
+
 const browser = await puppeteer.launch({
   executablePath: chrome,
   headless: true,
@@ -114,6 +159,7 @@ try {
     const unlocked = await page.$$eval("#zp-mobility-result .zp-fit-locked-offers",
       nodes => nodes.some(el => !el.hidden));
     assert.equal(unlocked, true, "Mobility offer must unlock after all relevant checks");
+    await assertAffiliateOffers(page, "#zp-mobility-result [data-zp-merchant-link]");
     await choose(page, "supportNeed", "light");
     assert.equal(await visible(page, "#zp-mobility-result"), false, "Changed answer must hide previous result");
     await checkNoMerchant(page, "#zp-mobility-result");
@@ -140,6 +186,7 @@ try {
     await click(page, "#zp-bathroom-submit");
     assert.ok(await count(page, "#zp-bathroom-result [data-zp-bath-merchant-link]") > 0,
       "Completed bathroom fit should present eligible offer");
+    await assertAffiliateOffers(page, "#zp-bathroom-result [data-zp-bath-merchant-link]");
     await choose(page, "primaryNeed", "shower_seated");
     assert.equal(await visible(page, "#zp-bathroom-result"), false, "Old bathroom offer must disappear");
     await checkNoMerchant(page, "#zp-bathroom-result");
@@ -167,6 +214,7 @@ try {
     await click(page, "#zp-wheelchair-submit");
     assert.ok(await count(page, "#zp-wheelchair-result [data-zp-wheelchair-merchant-link]") > 0,
       "Manual wheelchair verified branch needs a specific offer");
+    await assertAffiliateOffers(page, "#zp-wheelchair-result [data-zp-wheelchair-merchant-link]");
     await choose(page, "manualControlSafe", "no");
     assert.equal(await visible(page, "#zp-wheelchair-result"), false);
     await checkNoMerchant(page, "#zp-wheelchair-result");
@@ -190,6 +238,7 @@ try {
     await click(page, "#zp-bed-submit");
     assert.ok(await count(page, "#zp-bed-result [data-zp-bed-merchant-link]") > 0,
       "Verified bed should lead to eligible product offer");
+    await assertAffiliateOffers(page, "#zp-bed-result [data-zp-bed-merchant-link]");
     console.log("PASS adjustable bed staged verification");
     await page.close();
   }
@@ -211,6 +260,7 @@ try {
     await click(page, "#zp-toilet-support-submit");
     assert.ok(await count(page, "#zp-toilet-support-result [data-zp-support-merchant-link]") > 0,
       "Verified frame fit is required before WC support product link");
+    await assertAffiliateOffers(page, "#zp-toilet-support-result [data-zp-support-merchant-link]");
     console.log("PASS WC support frame-specific fit");
     await page.close();
   }
@@ -261,6 +311,7 @@ try {
     await choose(page, ...scenario.fix);
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
+    await assertAffiliateOffers(page, offer);
     await choose(page, "transferAbility", "person_assist");
     assert.equal(await visible(page, result), false, "Stale micro offer: " + scenario.slug);
     assert.equal(await count(page, offer), 0, "Old micro merchant link survived: " + scenario.slug);
@@ -280,6 +331,7 @@ try {
     await click(page, "#zp-adl-submit");
     assert.ok(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]") > 0,
       "Self-care straightforward gripping case should offer an evidenced product");
+    await assertAffiliateOffers(page, "#zp-adl-result [data-zp-adl-merchant-link]");
     await choose(page, "mainProblem", "swallowing_or_medical");
     assert.equal(await visible(page, "#zp-adl-result"), false);
     assert.equal(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]"), 0);
@@ -302,6 +354,7 @@ try {
     await click(page, "#zp-footwear-submit");
     assert.ok(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]") > 0,
       "Measured, safely closable footwear should offer the matching model");
+    await assertAffiliateOffers(page, "#zp-footwear-result [data-zp-footwear-merchant-link]");
     await choose(page, "measuredFeet", "no");
     assert.equal(await visible(page, "#zp-footwear-result"), false);
     assert.equal(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]"), 0);
@@ -346,6 +399,7 @@ try {
     const unlocked = await page.$$eval("#zp-indoor-walker-result .zp-fit-locked-offers",
       nodes => nodes.some(el => !el.hidden));
     assert.equal(unlocked, true, "Indoor walker offer did not unlock after model checks");
+    await assertAffiliateOffers(page, "#zp-indoor-walker-result [data-zp-indoor-merchant-link]");
     await choose(page, "supportNeed", "person_assist");
     assert.equal(await visible(page, "#zp-indoor-walker-result"), false);
     assert.equal(await count(page, "#zp-indoor-walker-result [data-zp-indoor-merchant-link]"), 0);
@@ -372,6 +426,7 @@ try {
     const unlocked = await page.$$eval("#zp-rollator-result .zp-fit-locked-offers",
       nodes => nodes.some(el => !el.hidden));
     assert.equal(unlocked, true, "Rollator offer remained locked after all model confirmations");
+    await assertAffiliateOffers(page, "#zp-rollator-result [data-zp-rollator-merchant-link]");
     await choose(page, "handBrakes", "no");
     assert.equal(await visible(page, "#zp-rollator-result"), false);
     assert.equal(await count(page, "#zp-rollator-result [data-zp-rollator-merchant-link]"), 0);
@@ -399,6 +454,7 @@ try {
     await choose(page, "loadFit", "yes");
     await click(page, button);
     assert.ok(await count(page, offer) > 0, "Verified wall rail should retain an offer");
+    await assertAffiliateOffers(page, offer);
     await choose(page, "wallFixing", "unverified");
     assert.equal(await visible(page, preview), false, "Mounting approach change must clear preview");
     assert.equal(await count(page, offer), 0, "Previous wall rail offer must be removed");
@@ -435,6 +491,7 @@ try {
     await choose(page, "loadFit", "yes");
     await click(page, button);
     assert.ok(await count(page, offer) > 0, "Verified standard bath seat should retain an offer");
+    await assertAffiliateOffers(page, offer);
     await choose(page, "bathFit", "no");
     assert.equal(await count(page, offer), 0, "Previous seat offer must disappear after fit change");
     assert.equal(await visible(page, bench), true, "Seat incompatible: bench measurements must appear");

@@ -55,6 +55,29 @@ test("returns fixed and front-wheel candidates when lifting is possible", () => 
   assert.deepEqual(result.recommendations[0].productCandidateIds, ["besco-wa17", "besco-wa21"]);
 });
 
+test("indoor seat requirement never returns a walker without a seat", () => {
+  const blocked = recommendMobility({
+    environment: "indoor",
+    supportNeed: "steady",
+    canLiftWalker: "yes",
+    seatNeeded: true,
+    handBrakes: "unknown"
+  });
+  assert.notEqual(blocked.status, "candidate");
+  assert.deepEqual(blocked.recommendations, []);
+
+  const result = recommendMobility({
+    environment: "indoor",
+    supportNeed: "steady",
+    canLiftWalker: "yes",
+    seatNeeded: true,
+    handBrakes: "yes"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.recommendations[0].productCandidateIds, ["meyra-ideal-3061982"]);
+  assert.match(result.recommendations[0].label, /sedátkem/i);
+});
+
 test("returns rollator candidates for steady outdoor support with brake use confirmed", () => {
   const result = recommendMobility({
     environment: "outdoor",

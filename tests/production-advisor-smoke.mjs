@@ -172,6 +172,7 @@ try {
     const page = await open("/koupelna-a-wc/");
     await choose(page, "primaryNeed", "raise_toilet");
     await choose(page, "transferAbility", "independent");
+    await choose(page, "duration", "long_term");
     await click(page, "#zp-bathroom-submit");
     assert.equal(await visible(page, "#zp-bathroom-preview"), true);
     assert.equal(await visible(page, "#zp-bathroom-fit-stage"), true);
@@ -186,6 +187,13 @@ try {
     assert.ok(await count(page, "#zp-bathroom-result [data-zp-bath-merchant-link]") > 0,
       "Completed bathroom fit should present eligible offer");
     await assertAffiliateOffers(page, "#zp-bathroom-result [data-zp-bath-merchant-link]");
+    // 0.8.69: actionable acquisition must be shared by main Bathroom Advisor.
+    const acquisition = await page.$eval("#zp-bathroom-result .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Porovnat koupi a případné půjčení/);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/);
+    assert.match(acquisition, /Telefonicky ověřte dostupnost konkrétního typu/);
+    assert.match(acquisition, /Půjčovny jsou místní služby/);
+    assert.match(acquisition, /Zdroj VZP/);
     await choose(page, "primaryNeed", "shower_seated");
     assert.equal(await visible(page, "#zp-bathroom-result"), false, "Old bathroom offer must disappear");
     await checkNoMerchant(page, "#zp-bathroom-result");
@@ -260,7 +268,10 @@ try {
     assert.ok(await count(page, "#zp-toilet-support-result [data-zp-support-merchant-link]") > 0,
       "Verified frame fit is required before WC support product link");
     await assertAffiliateOffers(page, "#zp-toilet-support-result [data-zp-support-merchant-link]");
-    console.log("PASS WC support frame-specific fit");
+    const acquisition = await page.$eval("#zp-toilet-support-result .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/);
+    assert.match(acquisition, /Zdroj VZP/);
+    console.log("PASS WC support frame-specific fit and shared acquisition");
     await page.close();
   }
 
@@ -301,6 +312,7 @@ try {
     const result = "#zp-" + scenario.slug + "-result";
     const offer = result + " [" + scenario.offer + "]";
     for (const [name, value] of scenario.initial) await choose(page, name, value);
+    await choose(page, "duration", "short_term");
     await click(page, submit);
     assert.equal(await visible(page, preview), true, "Micro preview absent: " + scenario.slug);
     await checkPreviewNoCommerce(page, preview);
@@ -320,7 +332,14 @@ try {
     await click(page, submit);
     assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
     await assertAffiliateOffers(page, offer);
-    const explanations=await page.$$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
+    // 0.8.69: each narrow Bathroom journey explains real local rental checks.
+    const acquisition = await page.$eval(result+" .zp-acquisition-summary", el => el.textContent);
+    assert.match(acquisition, /Porovnat půjčení a koupi/, scenario.slug);
+    assert.match(acquisition, /Jak ověřit půjčení ve svém okolí/, scenario.slug);
+    assert.match(acquisition, /cenu za týden nebo měsíc, kauci/, scenario.slug);
+    assert.match(acquisition, /Půjčovny jsou místní služby/, scenario.slug);
+    assert.match(acquisition, /Aktuální seznam SÚKL/, scenario.slug);
+    const explanations=await page.$eval(result+" .zp-why-recommendation",nodes=>nodes.map(n=>({
       heading:n.querySelector("h3")?.textContent.trim(),reason:n.querySelector("p")?.textContent.trim()
     })));
     assert.equal(explanations.length,1,"Each completed micro Advisor must explain its chosen solution");

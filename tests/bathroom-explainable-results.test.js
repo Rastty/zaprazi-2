@@ -37,3 +37,16 @@ test("no rationale can be mistaken for an approved product on unsafe Bathroom br
     assert.deepEqual(unsafe.recommendations,[],name);
   }
 });
+
+test("WC explanation changes with the actual construction and evidence",()=>{
+  const base={primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes"};
+  const rail=recommendBathroom({...base,wallFixing:"verified"});
+  const frame=recommendBathroom({...base,wallFixing:"unverified",supportFrameFit:"yes"});
+  assert.equal(rail.status,"candidate");
+  assert.equal(frame.status,"candidate");
+  assert.deepEqual(rail.recommendations[0].productCandidateIds,["unizdrav-p2131"]);
+  assert.deepEqual(frame.recommendations[0].productCandidateIds,["unizdrav-p2015"]);
+  assert.match(rail.recommendations[0].reason,/Nástěnné kotvení/);
+  assert.match(frame.recommendations[0].reason,/toaletního rámu/);
+  assert.notEqual(rail.recommendations[0].reason,frame.recommendations[0].reason);
+});

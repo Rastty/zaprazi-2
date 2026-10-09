@@ -2328,3 +2328,14 @@ Supersedes 0.8.61 as the next deployment if 0.8.61 has not already been deployed
 PR #170 merged to dev with green CI. Release 0.8.62 changes no additional decision logic beyond that audited merge; it aligns all 43 integrity-critical runtime markers, WordPress release meta, stylesheet version and integrity contract.
 
 After Pull+Deploy verify `zaprazi-release=0.8.62`, `zaprazi-integrity=ok`, then run practical mobile/browser QA for: indoor+seat, indoor+transport, manual wheelchair unknown/no control, wall rail vs P2015 frame, and changing any prior answer after a merchant offer was revealed.
+
+
+### ZP-116 Targeted adaptive Bathroom/WC UX + release 0.8.63
+Status: **READY_FOR_DEPLOY** (production not yet updated; 0.8.62 remains the last verified release)
+
+- Focused AskSARA/LiveUp-inspired optimization of existing shared Bathroom micro-stage UX; **no second decision engine**. PR #175, tests and `docs/UX_BENCHMARK_PILOT_2026-10-09.md`.
+- Skip P2015 frame-fit question for verified wall-fixed WC rail; restore the P2015 question (with fail-closed restriction) for unverified/not-possible wall mounting.
+- Skip alternative transfer-bench fit when the standard bath seat fits; show the alternative's dimensions and require actual confirmation only when bath seat does not fit.
+- Never use hidden field values to unlock product offers: irrelevant checked values are removed on branch change; old-stage answers reset when the primary situation changes.
+- Release 0.8.63 contains all 43 integrity-critical file markers, CSS version, WordPress constant, tests and documentation; **Pull + Deploy from dev** then verify `zaprazi-release=0.8.63` and `zaprazi-integrity=ok` before interpreting production QA.
+- Acceptance after deployment: run repeatable 14-Advisor Chrome smoke, add both dynamic branch assertions, then compare aggregate completion and guided-user task clarity; do not claim measured uplift without real data.

@@ -75,7 +75,7 @@ test("wheelchair valid fit is blocked if any individual part is no or unknown", 
 });
 
 test("one physical-fit answer never approves two distinct toilet support constructions", () => {
-  const base={primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes"};
+  const base={primaryNeed:"toilet_support",transferAbility:"steadying",loadFit:"yes",supportFrameFit:"yes"};
   for(const wallFixing of ["verified","unverified","not_possible","unknown"]) {
     const result=recommendBathroom({...base,wallFixing});
     assert.equal(result.status,"candidate");
@@ -83,6 +83,28 @@ test("one physical-fit answer never approves two distinct toilet support constru
     assert.equal(ids.length,1, "single load confirmation must address exactly one physical model");
     assert.deepEqual(ids, wallFixing === "verified" ? ["unizdrav-p2131"] : ["unizdrav-p2015"]);
   }
+});
+
+test("toilet support frame fit is independent from wall-rail fixing", () => {
+  const frame = recommendBathroom({
+    primaryNeed:"toilet_support",
+    transferAbility:"steadying",
+    loadFit:"yes",
+    wallFixing:"unverified",
+    supportFrameFit:"yes"
+  });
+  assert.equal(frame.status,"candidate");
+  assert.deepEqual(frame.recommendations[0].productCandidateIds,["unizdrav-p2015"]);
+
+  const blocked = recommendBathroom({
+    primaryNeed:"toilet_support",
+    transferAbility:"steadying",
+    loadFit:"yes",
+    wallFixing:"unverified",
+    supportFrameFit:"unknown"
+  });
+  assert.notEqual(blocked.status,"candidate");
+  assert.deepEqual(blocked.recommendations,[]);
 });
 
 test("critical transfer, capacity, width and floor safety gates fail closed across categories",()=>{

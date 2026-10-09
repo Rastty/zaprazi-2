@@ -1544,7 +1544,7 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.match(page, /Nezadávejte jméno, diagnózu, typ operace/i);
   assert.match(page, /polykání, zakuckávání/i);
 
-  for (const field of ["task", "mainProblem", "stableSurface", "oneHandUse"]) {
+  for (const field of ["task", "mainProblem", "stableSurface", "oneHandUse", "productFit"]) {
     assert.ok(page.includes(`data-zp-adl-required="${field}"`) || page.includes(`name="${field}"`), `missing ADL field ${field}`);
   }
 
@@ -1554,6 +1554,10 @@ test("ADL self-care Advisor is privacy-safe and merchant-separated", () => {
   assert.doesNotMatch(app, /new FormData/);
   assert.match(app, /affiliateMap/);
   assert.match(app, /output\.status === "candidate"/);
+  assert.match(page, /id="zp-adl-product-fit"/);
+  assert.match(app, /clearProductFit/);
+  assert.match(app, /showProductFit/);
+  assert.match(engine, /const verifiedCandidate/);
 
   assert.match(engine, /swallowing_or_medical/);
   assert.match(engine, /professional_check/);

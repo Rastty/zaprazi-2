@@ -86,6 +86,11 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a></p>
         </article>
         <article class="zp-decision-card">
+          <h3>WC je příliš daleko, ale přesednutí může být samostatné</h3>
+          <p>Nejdřív ověřte, že samotný přesun z postele a na stabilní sed je bezpečný bez fyzického zvedání. Pokud je hlavní překážkou délka noční cesty, může stát za prověření samostatná toaletní židle poblíž lůžka. Je nutné ověřit prostor, podlahu, rozměry a nosnost konkrétního modelu. Jde o jiný problém než nízké WC.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Prověřit toaletní židli u lůžka</a></p>
+        </article>
+        <article class="zp-decision-card">
           <h3>Samostatná cesta na WC není bezpečná</h3>
           <p>Nezkoušejte ji „jen s novým chodítkem“. Proberte bezpečný transfer, potřebnou pomoc a případně blízké toaletní řešení s ošetřujícím týmem. Vlastní nákup problém nemusí vyřešit.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Zajistit bezpečný návrat a přesuny doma</a></p>

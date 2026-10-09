@@ -117,6 +117,15 @@ get_header();
 
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
+      <p class="zp-kicker">Situace v noci</p>
+      <h2 class="zp-section-title">Je hlavní problém cesta z postele na WC?</h2>
+      <p>Toaletní židle u lůžka může zkrátit cestu na toaletu, ale sama nevyřeší nejisté vstávání nebo přesun. Nejdřív projděte světlo, průchody, oporu, možnost bezpečného dosednutí a přivolání pomoci. Pokud je třeba fyzické zvedání nebo není znám bezpečný postup, nevybírejte konkrétní židli bez odborného posouzení.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodová kontrola noční cesty z postele na WC</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft">
+    <div class="zp-wrap">
       <p class="zp-kicker">Pojišťovna</p>
       <h2 class="zp-section-title">Toaletní židle může mít hrazenou cestu, ale retail nabídka není automaticky úhrada.</h2>
       <p>VZP aktuálně popisuje některé toaletní a sprchovací kompenzační prostředky jako potenciálně hrazené při splnění konkrétních podmínek. Zápraží proto drží přímý nákup a cestu přes předpis/schválení odděleně.</p>

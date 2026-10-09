@@ -1,6 +1,7 @@
 // ZP_RELEASE_0_8_59
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
+import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form = document.querySelector("#zp-shower-chair-advisor");
 const result = document.querySelector("#zp-shower-chair-result");
@@ -19,6 +20,12 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
 if (form && result && submitButton && errorBox) {
+  installBathroomMicroStaging({
+    form, result, submit: submitButton, errors: errorBox,
+    key: "shower-chair", requiredAttr: "data-zp-shower-required",
+    fitNames: ["spaceFit","loadFit"], primaryNeed: "shower_seated"
+  });
+
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
 

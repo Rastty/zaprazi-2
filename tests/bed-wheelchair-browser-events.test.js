@@ -184,6 +184,10 @@ test("Hospital capacity confirmation is relevant, optional for CLASSIC but manda
   h.form.change("loadFit","yes");
   h.form.change("spaceFit","yes");
   h.submitButton.click();
+  assert.equal(h.errorBox.hidden,false,"missing supplier capacity answer must be highlighted");
+  assert.equal(h.result.hidden,true);
+  h.form.change("userCapacityVerified","unknown");
+  h.submitButton.click();
   assert.doesNotMatch(h.result.innerHTML,/data-zp-bed-merchant-link/,"generic 250 kg bed load must not unlock purchase");
   assert.match(h.result.innerHTML,/maximální|hmotnosti|potvrzení/i);
   h.form.change("userCapacityVerified","yes");

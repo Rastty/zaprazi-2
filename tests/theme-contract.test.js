@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.78 deployment integrity contract covers critical runtime files", () => {
+test("0.8.79 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -503,14 +503,14 @@ test("0.8.78 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.78' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.79' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_78/);
+    assert.match(read(path), /ZP_RELEASE_0_8_79/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.78"));
+  assert.ok(read("style.css").includes("Version: 0.8.79"));
 });
 
 
@@ -1352,7 +1352,8 @@ test("Wheelchair Advisor is a separate privacy-safe Slice 4 surface", () => {
   assert.match(page, /data-zp-wheelchair-required=["']widthFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["']loadFit["']/);
   assert.match(page, /data-zp-wheelchair-required=["\']wheelType["\']/);
-  assert.match(read("assets/js/wheelchair-advisor.js"), /updateWheelTypeQuestion/);
+  assert.match(read("assets/js/wheelchair-advisor.js"), /updateVariantQuestions/);
+  assert.match(page, /data-zp-wheelchair-required=["\']seatWidthVariant["\']/);
   assert.match(read("src/wheelchair/engine.js"), /wheelType === "unknown"/);
   assert.match(page, /data-zp-wheelchair-required=["']joystickSafe["']/);
   assert.match(page, /data-zp-wheelchair-required=["']chargingReady["']/);
@@ -1377,7 +1378,8 @@ test("Wheelchair UI exposes exact fit facts without raw body-weight collection",
   const app = read("assets/js/wheelchair-advisor.js");
 
   assert.match(app, /sed 48 cm/);
-  assert.match(app, /68 nebo 70 cm/);
+  assert.match(app, /šířka 68 cm/);
+  assert.match(app, /šířka 70 cm/);
   assert.match(app, /nosnost 135 kg/);
   assert.match(app, /62 kg/);
   assert.match(app, /86,5 cm/);

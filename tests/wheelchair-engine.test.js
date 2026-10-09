@@ -21,6 +21,7 @@ test("self-propelled branch returns lightweight manual chair", () => {
   const result = recommendWheelchair({
     propulsion: "self_manual",
     wheelType: "pneumatic",
+    seatWidthVariant: "48",
     transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -37,6 +38,7 @@ test("mixed manual branch uses the same dual-use chair", () => {
   const result = recommendWheelchair({
     propulsion: "mixed_manual",
     wheelType: "tubeless",
+    seatWidthVariant: "51",
     transferAbility: "steadying",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -142,6 +144,7 @@ test("unknown load fit returns no exact product without asking raw weight", () =
   const result = recommendWheelchair({
     propulsion: "self_manual",
     wheelType: "pneumatic",
+    seatWidthVariant: "48",
     transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
@@ -183,7 +186,7 @@ test("short-term acquisition leads with rental", () => {
 
 test("P3641 requires exact wheel type and separately confirmed variant capacity",()=>{
   for(const propulsion of ["self_manual","mixed_manual"]){
-    const input={propulsion,transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes"};
+    const input={propulsion,transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes",seatWidthVariant:"48"};
     for(const wheelType of ["unknown",undefined]){
       const result=recommendWheelchair({...input,...(wheelType?{wheelType}:{})});
       assert.equal(result.status,"needs_more_info");
@@ -199,4 +202,27 @@ test("P3641 requires exact wheel type and separately confirmed variant capacity"
     assert.equal(recommendWheelchair({...input,wheelType:"wrong"}).status,"invalid_input");
   }
   assert.equal(recommendWheelchair({propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}).status,"candidate");
+});
+test("P3641 must identify the 48cm/51cm seat variant before accepting generic fit approvals", () => {
+  const base = { propulsion: "self_manual", transferAbility: "independent",
+    manualControlSafe: "yes", wheelType: "pneumatic",
+    seatFit: "yes", widthFit: "yes", loadFit: "yes" };
+  for (const variant of [undefined, "unknown"]) {
+    const answer = recommendWheelchair({ ...base, ...(variant ? { seatWidthVariant: variant } : {}) });
+    assert.equal(answer.status, "needs_more_info");
+    assert.deepEqual(answer.recommendations, []);
+    assert.deepEqual(answer.missing, ["seatWidthVariant"]);
+  }
+  const small = recommendWheelchair({ ...base, seatWidthVariant: "48" });
+  const large = recommendWheelchair({ ...base, seatWidthVariant: "51" });
+  assert.equal(small.status, "candidate");
+  assert.equal(large.status, "candidate");
+  assert.match(small.recommendations[0].parameters.join(" "), /sed 48 cm.*celková šířka 68 cm/);
+  assert.match(large.recommendations[0].parameters.join(" "), /sed 51 cm.*celková šířka 70 cm/);
+  assert.match(small.nextStep, /68 cm/);
+  assert.match(large.nextStep, /70 cm/);
+  assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "47" }).status, "invalid_input");
+  assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "48", seatFit: "unknown" }).status, "needs_more_info");
+  assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "51", widthFit: "no" }).status, "needs_more_info");
+  assert.equal(recommendWheelchair({ propulsion: "companion", transferAbility: "independent", seatFit: "yes", widthFit: "yes", loadFit: "yes" }).status, "candidate");
 });

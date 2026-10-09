@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_78
+// ZP_RELEASE_0_8_79
 const PROPULSION = new Set([
   "companion",
   "self_manual",
@@ -16,6 +16,7 @@ const TRANSFER = new Set([
 
 const FIT = new Set(["yes", "no", "unknown"]);
 const WHEEL_TYPES = new Set(["pneumatic", "tubeless", "unknown"]);
+const SEAT_WIDTH_VARIANTS = new Set(["48", "51", "unknown"]);
 const DURATION = new Set(["short_term", "long_term", "unknown"]);
 
 function invalid(field) {
@@ -104,6 +105,7 @@ export function recommendWheelchair(input = {}) {
     widthFit = "unknown",
     loadFit = "unknown",
     wheelType = "unknown",
+    seatWidthVariant = "unknown",
     manualControlSafe = "unknown",
     joystickSafe = "unknown",
     chargingReady = "unknown",
@@ -117,6 +119,7 @@ export function recommendWheelchair(input = {}) {
   }
   if (!DURATION.has(duration)) return invalid("duration");
   if (!WHEEL_TYPES.has(wheelType)) return invalid("wheelType");
+  if (!SEAT_WIDTH_VARIANTS.has(seatWidthVariant)) return invalid("seatWidthVariant");
 
   if (propulsion === "unknown") {
     return needsMoreInfo(
@@ -162,6 +165,16 @@ export function recommendWheelchair(input = {}) {
       "wheelType",
       "U odlehčeného vozíku musíme nejdřív určit provedení zadních kol.",
       "UNIZDRAV P3641 má podle výrobce limit 125 kg s pneumatickými koly nebo 136 kg s bezdušovými. Ověřte konkrétní nabízené provedení a potom potvrďte jeho nosnost."
+    );
+  }
+
+  // The 48cm seat has a 68cm outer width; the 51cm seat has a 70cm width.
+  // A generic seatFit/widthFit=yes cannot approve an unspecified P3641 size.
+  if (["self_manual", "mixed_manual"].includes(propulsion) && seatWidthVariant === "unknown") {
+    return needsMoreInfo(
+      "seatWidthVariant",
+      "Vyberte přesnou šířku sedu odlehčeného vozíku.",
+      "Pro UNIZDRAV P3641 odpovídá sedu 48 cm celková šířka 68 cm a sedu 51 cm celková šířka 70 cm. Nejdřív určete skutečně nabízené provedení, potom ověřte sed i průchody."
     );
   }
 
@@ -256,10 +269,13 @@ export function recommendWheelchair(input = {}) {
   }
 
   const variantLabel = wheelType === "pneumatic" ? "pneumatická kola – 125 kg" : "bezdušová kola – 136 kg";
+  const seatWidthCm = Number(seatWidthVariant);
+  const outerWidthCm = seatWidthVariant === "48" ? 68 : 70;
+  const chairWeightKg = seatWidthVariant === "48" ? 17 : 17.5;
   return {
     status: "candidate",
     headline: "Odlehčený mechanický vozík pro samostatný pohon i doprovod může být kandidátní řešení.",
-    nextStep: "Při nákupu vyberte skutečně potvrzené provedení kol a šířku sedu. Znovu ověřte nosnost, celkovou šířku a nastavení ve svých podmínkách.",
+    nextStep: `Při nákupu požadujte sed ${seatWidthCm} cm (celková šířka ${outerWidthCm} cm) a potvrzené provedení kol. Nosnost a rozměry platí jen pro tuto variantu.`,
     missing: [],
     recommendations: [{
       id: "manual_self_or_companion_candidate",
@@ -267,10 +283,10 @@ export function recommendWheelchair(input = {}) {
       reason: propulsion === "self_manual"
         ? "Uživatel má vozík pohánět rukama a zadní kola mají hnací obruče pro samostatný pohyb."
         : "Využití se má střídat mezi samostatným pohonem a doprovodem.",
-      parameters: ["sed 48 nebo 51 cm", "celková šířka 68 nebo 70 cm", `ověřená varianta: ${variantLabel}`, "hmotnost 17–17,5 kg", "hnací obruče", "bezpečné řízení a zastavení", "parkovací brzda", "brzdy pro doprovod"],
+      parameters: [`sed ${seatWidthCm} cm`, `celková šířka ${outerWidthCm} cm`, `ověřená varianta: ${variantLabel}`, `hmotnost ${chairWeightKg} kg`, "hnací obruče", "bezpečné řízení a zastavení", "parkovací brzda", "brzdy pro doprovod"],
       productCandidateIds: ["unizdrav-p3641"]
     }],
     acquisition: acquisitionFor(duration, false),
-    disclaimer: "Potvrzení platí pouze pro zvolené provedení kol; nepřenášejte jej na jiné provedení. Před dlouhodobým používáním správně nastavte šířku sedu, stupačky a posed."
+    disclaimer: "Potvrzení platí pouze pro zvolenou šířku sedu a provedení kol; nepřenášejte jej na jiné provedení. Před dlouhodobým používáním správně nastavte šířku sedu, stupačky a posed."
   };
 }

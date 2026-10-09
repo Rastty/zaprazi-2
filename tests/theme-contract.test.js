@@ -2382,3 +2382,17 @@ test("main Bathroom Advisor excludes hidden fit-stage fields from required valid
     /if \(previewReady && !event\.target\?\.closest\?\.\("#zp-bathroom-fit-stage"\)\) \{[\s\S]*?previewReady = false;[\s\S]*?fitStage\.hidden = true;[\s\S]*?fitStage\.querySelectorAll\('[^']+'\)[\s\S]*?updateConditionalQuestions\(\);/
   );
 });
+
+
+test("mobile anchored Advisors and model-fit touch controls respect the sticky header and reduced motion", () => {
+  const css=read("style.css");
+  const gate=read("src/mobility/offer-fit-gate.js");
+  assert.match(css,/html\\{scroll-behavior:smooth;scroll-padding-top:96px\\}/);
+  assert.match(css,/scroll-padding-top:140px/);
+  assert.match(css,/scroll-margin-top:140px/);
+  assert.match(css,/prefers-reduced-motion:reduce/);
+  assert.match(css,/\\.zp-mobility-fit-gate>label\\{[^}]*min-height:44px/);
+  assert.match(css,/\\.zp-fit-progress\\{/);
+  assert.match(gate,/data-zp-fit-progress role="status" aria-live="polite"/);
+  assert.match(gate,/Všechna ověření hotová/);
+});

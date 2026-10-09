@@ -54,3 +54,4 @@ jobs:
           php -l page-choditko-na-pojistovnu.php
           php -l page-pujceni-choditka.php
           php -l page-ochrana-soukromi.php
+          php -l page-jak-vznika-doporuceni.php

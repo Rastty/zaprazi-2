@@ -46,21 +46,21 @@ get_header();
           <strong>Po výběru způsobu pohonu ukážeme rozměry kandidáta, které je potřeba ověřit.</strong>
         </div>
 
-        <fieldset class="zp-fieldset" data-zp-wheelchair-required="seatFit">
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="seatFit">
           <legend>Ověřili jste, že šířka sedu kandidáta vyhovuje?</legend>
           <label class="zp-choice"><input type="radio" name="seatFit" value="yes" required><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="seatFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="seatFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-wheelchair-required="widthFit">
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="widthFit">
           <legend>Projde vozík nejužšími dveřmi a je pro něj prostor k otáčení?</legend>
           <label class="zp-choice"><input type="radio" name="widthFit" value="yes" required><span><strong>Ano, změřeno</strong></span></label>
           <label class="zp-choice"><input type="radio" name="widthFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="widthFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte nejužší průchod a místo pro manévrování.</small></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-wheelchair-required="loadFit">
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="loadFit">
           <legend>Ověřili jste, že technická nosnost kandidáta bezpečně stačí?</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong><small>Přesnou hmotnost člověka do poradce nezadávejte.</small></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
@@ -88,8 +88,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <section id="zp-wheelchair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
+        <section id="zp-wheelchair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-wheelchair-fit-title" hidden>
+          <h3 id="zp-wheelchair-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
+          <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
+        </section>
         <div id="zp-wheelchair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-wheelchair-submit">Zjistit vhodný další krok</button>
+        <button class="zp-btn zp-submit" type="button" id="zp-wheelchair-submit">1. Ukázat možný výrobek</button>
         <p id="zp-wheelchair-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do URL a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

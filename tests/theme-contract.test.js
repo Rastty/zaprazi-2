@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.84 deployment integrity contract covers critical runtime files", () => {
+test("0.8.85 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -503,14 +503,14 @@ test("0.8.84 deployment integrity contract covers critical runtime files", () =>
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.84' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.85' );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_84/);
+    assert.match(read(path), /ZP_RELEASE_0_8_85/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.84"));
+  assert.ok(read("style.css").includes("Version: 0.8.85"));
 });
 
 
@@ -2431,4 +2431,14 @@ test("WordPress native custom logo and site icon win over versioned theme fallba
   assert.match(header, /alt="" aria-hidden="true"/);
   assert.match(css, /grid-column:1\/-1;grid-row:2;min-width:0;max-width:100%;width:100%;overflow-x:auto/);
   assert.match(css, /zp-brand-icon/);
+});
+
+
+test("visible logo wordmark is the accessible name of its home link", () => {
+  const header = read("header.php");
+  const logoAnchor = header.match(/<a class="zp-brand"[^>]+>/)?.[0] ?? "";
+  assert.ok(logoAnchor, "brand home link must exist");
+  assert.ok(!logoAnchor.includes("aria-label="), "ARIA name must not hide visible Zápraží slogan");
+  assert.ok(header.includes('<span class="zp-brand-text"><strong>Zápraží</strong><small>Cesta k lepšímu životu</small></span>'));
+  assert.ok(header.includes('alt="" aria-hidden="true"'), "SVG icon must remain decorative beside readable wordmark");
 });

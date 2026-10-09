@@ -1,5 +1,5 @@
 <!doctype html>
-<?php /* ZP_RELEASE_0_8_84 */ ?>
+<?php /* ZP_RELEASE_0_8_85 */ ?>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
@@ -18,7 +18,7 @@
       <?php if ( has_custom_logo() ) : ?>
         <?php the_custom_logo(); ?>
       <?php else : ?>
-        <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>" aria-label="Zápraží – úvodní stránka">
+        <a class="zp-brand" href="<?php echo esc_url(home_url('/')); ?>">
           <img class="zp-brand-icon" src="<?php echo esc_url( get_theme_file_uri( '/assets/brand/zaprazi-icon.svg' ) ); ?>" width="52" height="52" alt="" aria-hidden="true">
           <span class="zp-brand-text"><strong>Zápraží</strong><small>Cesta k lepšímu životu</small></span>
         </a>

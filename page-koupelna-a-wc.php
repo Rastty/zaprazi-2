@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_84 */
+/* ZP_RELEASE_0_8_85 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -144,6 +144,15 @@ get_header();
         <article class="zp-decision-card"><h3>Fit a montáž</h3><p>U nástavce řešíme kompatibilitu s WC a oporu chodidel. U sprchovací židle prostor a stabilní podklad. U madla zase bezpečné kotvení do skutečné konstrukce stěny.</p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Nástavec na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Sprchovací židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/' ) ); ?>">Toaletní židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/' ) ); ?>">Madlo / opora k WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/' ) ); ?>">Sedátko do vany</a></article>
         <article class="zp-decision-card"><h3>Způsob pořízení</h3><p>Koupě, místní půjčovna a hrazená alternativa jsou tři různé cesty. Konkrétní maloobchodní produkt automaticky neoznačujeme za hrazený.</p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje úhrada pomůcek do koupelny</a></article>
       </div>
+    </div>
+  </section>
+
+  <section class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Konkrétní situace doma</p>
+      <h2 class="zp-section-title">Člověk bezpečně dojde k WC ve dne, ale jak je to v noci?</h2>
+      <p>Pokud je problém na cestě z postele k toaletě, nestačí řešit jen výšku sedu nebo madla u WC. Ověřte vstávání z postele, noční světlo, průchody, potřebnou oporu i bezpečný návrat.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Noční cesta z postele na WC: sedmibodová kontrola</a></p>
     </div>
   </section>
 

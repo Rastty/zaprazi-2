@@ -676,6 +676,15 @@ try {
     await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
     await choose(page,"propulsion","companion");
     await checkNoMerchant(page,result);
+    await click(page,"#zp-wheelchair-submit");
+    assert.equal(await visible(page,'#zp-wheelchair-fit-stage [name="wheelType"]'),false,
+      "Basic companion wheelchair must not ask about P3641 wheels");
+    await choose(page,"seatFit","yes");
+    await choose(page,"widthFit","yes");
+    await choose(page,"loadFit","yes");
+    await click(page,"#zp-wheelchair-submit");
+    assert.ok(await count(page,result+' [data-zp-wheelchair-merchant-link]')>0,
+      "Basic companion purchase path should remain available with verified fit");
     console.log("PASS 0.8.71 wheelchair P3641 variant-specific capacity, no bypass and reset");
     await page.close();
   }

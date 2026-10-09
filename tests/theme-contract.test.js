@@ -2365,3 +2365,18 @@ test("core navigation targets are unique", () => {
   assert.ok(targets.includes("/choditka-pro-seniory/"));
   assert.ok(targets.includes("/kompenzacni-pomucky-pro-seniory/"));
 });
+
+
+test("main Bathroom Advisor excludes hidden fit-stage fields from required validation", () => {
+  const app = read("assets/js/bathroom-advisor.js");
+  const page = read("page-koupelna-a-wc.php");
+
+  for (const name of ["loadFit", "toiletFit", "bathFit", "bathBenchFit"]) {
+    assert.ok(page.includes('data-zp-bath-required="' + name + '"'));
+  }
+  assert.ok(app.includes("!fieldset.hidden && !fieldset.closest('[hidden]')"));
+  assert.match(
+    app,
+    /if \(previewReady && !event\.target\?\.closest\?\.\("#zp-bathroom-fit-stage"\)\) \{[\s\S]*?previewReady = false;[\s\S]*?fitStage\.hidden = true;[\s\S]*?fitStage\.querySelectorAll\('[^']+'\)[\s\S]*?updateConditionalQuestions\(\);/
+  );
+});

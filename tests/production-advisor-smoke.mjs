@@ -215,7 +215,171 @@ try {
     await page.close();
   }
 
-  console.log("SUCCESS: 14 advisor entry and no-answer safety checks plus 5 high-value safety/funnel scenarios passed");
+
+  // Five narrow Bathroom flows must preserve the shared two-step safety gate
+  // and never expose a retailer until exact model fit is explicitly confirmed.
+  const bathroomMicroCases = [
+    {
+      slug: "toilet-riser", path: "/nastavec-na-wc-pro-seniory/",
+      initial: [["transferAbility", "independent"]],
+      model: [["toiletFit", "unknown"], ["feetFlatAtRaisedHeight", "yes"], ["loadFit", "yes"]],
+      fix: ["toiletFit", "yes"], offer: "data-zp-toilet-merchant-link"
+    },
+    {
+      slug: "shower-chair", path: "/sprchovaci-zidle-pro-seniory/",
+      initial: [["transferAbility", "independent"], ["floorStable", "yes"]],
+      model: [["spaceFit", "unknown"], ["loadFit", "yes"]],
+      fix: ["spaceFit", "yes"], offer: "data-zp-shower-merchant-link"
+    },
+    {
+      slug: "toilet-chair", path: "/toaletni-zidle-pro-seniory/",
+      initial: [["chairMode", "nearby"], ["transferAbility", "independent"], ["floorStable", "yes"]],
+      model: [["spaceFit", "unknown"], ["loadFit", "yes"]],
+      fix: ["spaceFit", "yes"], offer: "data-zp-chair-merchant-link"
+    },
+    {
+      slug: "bath-transfer", path: "/sedatko-do-vany-pro-seniory/",
+      initial: [["transferAbility", "independent"], ["bathTransferIndependent", "yes"]],
+      model: [["bathFit", "unknown"], ["loadFit", "yes"]],
+      fix: ["bathFit", "yes"], offer: "data-zp-bath-merchant-link"
+    }
+  ];
+
+  for (const scenario of bathroomMicroCases) {
+    const page = await open(scenario.path);
+    const submit = "#zp-" + scenario.slug + "-submit";
+    const preview = "#zp-" + scenario.slug + "-preview";
+    const result = "#zp-" + scenario.slug + "-result";
+    const offer = result + " [" + scenario.offer + "]";
+    for (const [name, value] of scenario.initial) await choose(page, name, value);
+    await click(page, submit);
+    assert.equal(await visible(page, preview), true, "Micro preview absent: " + scenario.slug);
+    await checkPreviewNoCommerce(page, preview);
+    for (const [name, value] of scenario.model) await choose(page, name, value);
+    await click(page, submit);
+    assert.equal(await count(page, offer), 0, "Unverified model showed a merchant: " + scenario.slug);
+    await choose(page, ...scenario.fix);
+    await click(page, submit);
+    assert.ok(await count(page, offer) > 0, "Verified model had no purchase path: " + scenario.slug);
+    await choose(page, "transferAbility", "person_assist");
+    assert.equal(await visible(page, result), false, "Stale micro offer: " + scenario.slug);
+    assert.equal(await count(page, offer), 0, "Old micro merchant link survived: " + scenario.slug);
+    console.log("PASS micro Bathroom stage, fit, merchant and reset", scenario.slug);
+    await page.close();
+  }
+
+  // Daily self-care: a swallowing concern must not route to an aid/merchant,
+  // but an uncomplicated gripping scenario can lead to verified UpCup.
+  {
+    const page = await open("/sobestacnost/");
+    await choose(page, "task", "drink");
+    await choose(page, "mainProblem", "swallowing_or_medical");
+    await click(page, "#zp-adl-submit");
+    assert.equal(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]"), 0);
+    await choose(page, "mainProblem", "grip_or_spill");
+    await click(page, "#zp-adl-submit");
+    assert.ok(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]") > 0,
+      "Self-care straightforward gripping case should offer an evidenced product");
+    await choose(page, "mainProblem", "swallowing_or_medical");
+    assert.equal(await visible(page, "#zp-adl-result"), false);
+    assert.equal(await count(page, "#zp-adl-result [data-zp-adl-merchant-link]"), 0);
+    console.log("PASS self-care medical block and practical product");
+    await page.close();
+  }
+
+  // Footwear: a promising model is not purchase-ready while size and
+  // Velcro operation are unknown. Real positive answers may unlock it.
+  {
+    const page = await open("/obuv-pro-seniory/");
+    await choose(page, "openingNeed", "extra_wide_low");
+    await choose(page, "toe", "closed_needed");
+    await choose(page, "velcroUse", "unknown");
+    await choose(page, "measuredFeet", "unknown");
+    await click(page, "#zp-footwear-submit");
+    assert.equal(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]"), 0);
+    await choose(page, "velcroUse", "yes");
+    await choose(page, "measuredFeet", "yes");
+    await click(page, "#zp-footwear-submit");
+    assert.ok(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]") > 0,
+      "Measured, safely closable footwear should offer the matching model");
+    await choose(page, "measuredFeet", "no");
+    assert.equal(await visible(page, "#zp-footwear-result"), false);
+    assert.equal(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]"), 0);
+    console.log("PASS footwear size and fastener safety");
+    await page.close();
+  }
+
+  // Return from hospital provides an actionable, printable checklist,
+  // not a purchase recommendation; any changed circumstance invalidates it.
+  {
+    const page = await open("/navrat-z-nemocnice/");
+    for (const [name, value] of [
+      ["timing", "within_week"], ["entranceReady", "yes"],
+      ["transferAbility", "independent"], ["walking", "independent"],
+      ["toiletReady", "yes"], ["bedReady", "yes"],
+      ["bathroomReady", "yes"], ["homeCare", "not_needed"]
+    ]) await choose(page, name, value);
+    await click(page, "#zp-return-home-submit");
+    assert.equal(await visible(page, "#zp-return-home-result"), true);
+    assert.ok(await count(page, "#zp-return-home-print") > 0, "Family plan should be printable");
+    assert.equal(await count(page, "#zp-return-home-result .zp-offer"), 0);
+    await choose(page, "entranceReady", "no");
+    assert.equal(await visible(page, "#zp-return-home-result"), false);
+    await click(page, "#zp-return-home-submit");
+    assert.ok(await count(page, "#zp-return-home-result .zp-critical-plan") > 0,
+      "Unsafe entrance must be shown as a discharge blocker");
+    console.log("PASS return-home action plan, blocker, and reset");
+    await page.close();
+  }
+
+  // Indoor walker: a specific model's offer must remain hidden until all
+  // three physical fit checkboxes are confirmed for that exact product.
+  {
+    const page = await open("/choditko-do-bytu-pro-seniory/");
+    await choose(page, "supportNeed", "steady");
+    await choose(page, "canLiftWalker", "yes");
+    await click(page, "#zp-indoor-walker-submit");
+    assert.ok(await count(page, "#zp-indoor-walker-result .zp-mobility-fit-gate") > 0);
+    assert.equal(await visible(page, "#zp-indoor-walker-result .zp-fit-locked-offers"), false);
+    await page.$eval("#zp-indoor-walker-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
+      nodes => nodes.forEach(el => el.click()));
+    const unlocked = await page.$eval("#zp-indoor-walker-result .zp-fit-locked-offers",
+      nodes => nodes.some(el => !el.hidden));
+    assert.equal(unlocked, true, "Indoor walker offer did not unlock after model checks");
+    await choose(page, "supportNeed", "person_assist");
+    assert.equal(await visible(page, "#zp-indoor-walker-result"), false);
+    assert.equal(await count(page, "#zp-indoor-walker-result [data-zp-indoor-merchant-link]"), 0);
+    console.log("PASS indoor walker model fit and safety reset");
+    await page.close();
+  }
+
+  // Rollator: brake control is a real prerequisite and seating adds a
+  // model-specific fourth confirmation, not a merely decorative question.
+  {
+    const page = await open("/rollator-pro-seniory/");
+    await choose(page, "supportNeed", "steady");
+    await choose(page, "handBrakes", "unknown");
+    await click(page, "#zp-rollator-submit");
+    assert.equal(await count(page, "#zp-rollator-result .zp-mobility-fit-gate"), 0);
+    await choose(page, "handBrakes", "yes");
+    await click(page, 'input[name="seatNeeded"]');
+    await click(page, "#zp-rollator-submit");
+    const checks = await count(page, "#zp-rollator-result .zp-mobility-fit-gate [data-zp-mobility-fit-confirm]");
+    assert.ok(checks >= 4, "Rollator seat check missing from the model-fit gate");
+    assert.equal(await visible(page, "#zp-rollator-result .zp-fit-locked-offers"), false);
+    await page.$eval("#zp-rollator-result .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]",
+      nodes => nodes.forEach(el => el.click()));
+    const unlocked = await page.$eval("#zp-rollator-result .zp-fit-locked-offers",
+      nodes => nodes.some(el => !el.hidden));
+    assert.equal(unlocked, true, "Rollator offer remained locked after all model confirmations");
+    await choose(page, "handBrakes", "no");
+    assert.equal(await visible(page, "#zp-rollator-result"), false);
+    assert.equal(await count(page, "#zp-rollator-result [data-zp-rollator-merchant-link]"), 0);
+    console.log("PASS rollator brakes, seat, gated offer and reset");
+    await page.close();
+  }
+
+  console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths");
 } finally {
   await browser.close();
 }

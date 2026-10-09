@@ -19,10 +19,11 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
 
   return `
     <div class="zp-mobility-fit-gate">
-      <h5>Ověření konkrétního modelu před nákupem</h5>
+      <h5>Ověření konkrétního modelu před pořízením</h5>
       <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny relevantní body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
       ${checks.map(([key, label]) => `<label><input type="checkbox" data-zp-mobility-fit-confirm="${key}"> ${label}</label>`).join("")}
-      <p class="zp-muted-copy">Pokud cokoli nevíte nebo nevyhovuje, neotvírejte nabídku ke koupi. Ověřte rozměry a nastavení s prodejcem nebo odbornou výdejnou.</p>
+      <p class="zp-fit-progress" data-zp-fit-progress role="status" aria-live="polite" aria-atomic="true">Potvrzeno 0 z ${checks.length} kontrol. Nabídka je zatím skrytá.</p>
+      <p class="zp-muted-copy">Pokud cokoli nevíte nebo nevyhovuje, neotvírejte nabídku ke koupi či půjčení. Ověřte rozměry a nastavení s prodejcem nebo odbornou výdejnou.</p>
       <div class="zp-fit-locked-offers" hidden>${offersHtml}</div>
     </div>`;
 }
@@ -40,6 +41,12 @@ export function installMobilityProductFitGate(root) {
     if (!gate) return;
     const checks = [...gate.querySelectorAll('[data-zp-mobility-fit-confirm]')];
     const offers = gate.querySelector(".zp-fit-locked-offers");
-    if (offers) offers.hidden = checks.length < 3 || !checks.every(checkbox => checkbox.checked);
+    const completed = checks.filter(checkbox => checkbox.checked).length;
+    const unlocked = checks.length >= 3 && completed === checks.length;
+    if (offers) offers.hidden = !unlocked;
+    const progress = gate.querySelector("[data-zp-fit-progress]");
+    if (progress) progress.textContent = unlocked
+      ? "Všechna ověření hotová. Nyní můžete porovnat dostupnost konkrétního modelu."
+      : `Potvrzeno ${completed} z ${checks.length} kontrol. Nabídka je zatím skrytá.`;
   });
 }

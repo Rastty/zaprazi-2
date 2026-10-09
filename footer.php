@@ -1,4 +1,32 @@
 <?php /* ZP_RELEASE_0_8_57 */ ?>
+<?php
+$zaprazi_editorial_advisor_pages = array(
+  'koupelna-a-wc',
+  'polohovaci-postel',
+  'invalidni-vozik',
+  'navrat-z-nemocnice',
+  'sobestacnost',
+  'obuv-pro-seniory',
+  'nastavec-na-wc-pro-seniory',
+  'sprchovaci-zidle-pro-seniory',
+  'toaletni-zidle-pro-seniory',
+  'madlo-k-wc-pro-seniory',
+  'sedatko-do-vany-pro-seniory',
+  'choditko-do-bytu-pro-seniory',
+  'rollator-pro-seniory',
+);
+if ( is_front_page() || is_page( $zaprazi_editorial_advisor_pages ) ) :
+?>
+<section class="zp-editorial-trust" aria-labelledby="zp-editorial-trust-title">
+  <div class="zp-wrap zp-editorial-trust-inner">
+    <div>
+      <h2 id="zp-editorial-trust-title">Jak ověřujeme doporučení?</h2>
+      <p>Za metodiku odpovídá redakce projektu Zápraží. Vycházíme z praktických bezpečnostních pravidel, technických podkladů výrobců a dostupných oficiálních zdrojů. <strong>Externí odborná revize dosud není doložená.</strong> Doporučené výrobky jsou pouze kandidáti a nenahrazují individuální posouzení.</p>
+    </div>
+    <a class="zp-link-btn" href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Přečíst metodiku a omezení</a>
+  </div>
+</section>
+<?php endif; ?>
 <footer class="zp-footer">
   <div class="zp-wrap zp-footer-inner zp-footer-grid">
     <div>
@@ -56,7 +84,8 @@
       <p><strong>Transparentnost:</strong> Zápraží neposkytuje diagnózu ani individuální zdravotní posouzení. U proměnlivých pravidel a úhrad uvádíme zdroj a datum ověření, pokud je máme.</p>
       <p>Některé odkazy na obchodníky mohou být partnerské. Pokud přes ně nakoupíte, Zápraží může získat provizi. Provize nemění doporučený typ řešení ani pořadí podle vhodnosti.</p>
       <p>
-        <a href="<?php echo esc_url( home_url( '/ochrana-soukromi/' ) ); ?>">Ochrana soukromí</a>
+        <a href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Metodika doporučení</a>
+        · <a href="<?php echo esc_url( home_url( '/ochrana-soukromi/' ) ); ?>">Ochrana soukromí</a>
         · <button id="zp-analytics-settings" class="zp-footer-settings" type="button">Nastavení měření</button>
       </p>
     </div>

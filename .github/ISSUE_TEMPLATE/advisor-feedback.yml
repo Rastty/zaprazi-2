@@ -1,0 +1,80 @@
+name: "Zápraží — připomínka k poradci"
+description: "Nahlásit nelogickou otázku, nejasný výsledek nebo chybu doporučení (bez osobních a zdravotních údajů)"
+title: "[Poradce] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Děkujeme za konkrétní připomínku. **Tato GitHub issue je veřejná.**
+        Nepište jméno člověka, diagnózu, léčbu, přesnou hmotnost, adresu ani jiné osobní či zdravotní údaje.
+        Neuvádějte celé osobní odpovědi z poradce. Vhodné je anonymní obecné zadání typu „chci oporu u WC“.
+        Pokud problém popisujete zde, neklikejte na nákupní odkaz jen kvůli testu.
+  - type: dropdown
+    id: advisor
+    attributes:
+      label: Poradce
+      description: Vyberte stránku, kde se problém projevil.
+      options:
+        - "Hlavní mobilita /"
+        - "Koupelna a WC /koupelna-a-wc/"
+        - "Polohovací postel /polohovaci-postel/"
+        - "Invalidní vozík /invalidni-vozik/"
+        - "Návrat z nemocnice /navrat-z-nemocnice/"
+        - "Soběstačnost /sobestacnost/"
+        - "Obuv /obuv-pro-seniory/"
+        - "Nástavec na WC /nastavec-na-wc-pro-seniory/"
+        - "Sprchovací židle /sprchovaci-zidle-pro-seniory/"
+        - "Toaletní židle /toaletni-zidle-pro-seniory/"
+        - "Madlo k WC /madlo-k-wc-pro-seniory/"
+        - "Sedátko do vany /sedatko-do-vany-pro-seniory/"
+        - "Chodítko do bytu /choditko-do-bytu-pro-seniory/"
+        - "Rollátor /rollator-pro-seniory/"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Typ připomínky
+      options:
+        - "Bezpečnost / chybná nebo neověřená pomůcka"
+        - "Nelze dokončit / nefunkční nákupní odkaz"
+        - "Nelogické větvení otázek"
+        - "Nejasný výsledek nebo další krok"
+        - "Mobilní zobrazení / přístupnost"
+        - "Jiné praktické zlepšení"
+    validations:
+      required: true
+  - type: textarea
+    id: scenario
+    attributes:
+      label: Obecný scénář bez osobních údajů
+      description: Jakou běžnou situaci jste zkoušeli? Neuvádějte údaje o konkrétní osobě.
+      placeholder: "Např. hlavně sprchování vsedě, neznám nosnost konkrétní židle."
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Co se stalo / čemu jste nerozuměli?
+      placeholder: "Otázka se opakovala nebo mi po 'Nevím' doporučila nákup."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Co by mělo být užitečnější?
+      placeholder: "Např. ukázat, co si mám nejdříve změřit, místo nákupního odkazu."
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Prostředí (volitelné)
+      placeholder: "Mobil/desktop, prohlížeč, datum testu; např. iPhone Safari"
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Ochrana soukromí
+      options:
+        - label: "Potvrzuji, že text a případný obrázek neobsahují osobní ani zdravotní údaje."
+          required: true

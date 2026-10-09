@@ -32,7 +32,7 @@ if(form&&result&&submit&&errors){
   });
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
-  const groups=()=>[...form.querySelectorAll("[data-zp-support-required]")];
+  const groups=()=>[...form.querySelectorAll("[data-zp-support-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
   const validate=()=>{
     const missing=groups().filter((g)=>!val(g.dataset.zpSupportRequired));
     groups().forEach((g)=>g.classList.toggle("is-error",!val(g.dataset.zpSupportRequired)));

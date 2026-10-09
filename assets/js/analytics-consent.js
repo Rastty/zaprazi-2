@@ -11,7 +11,8 @@
     "recommendation_view",
     "product_click",
     "merchant_click",
-    "affiliate_click"
+    "affiliate_click",
+    "next_step_click"
   ]);
 
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) {
@@ -20,6 +21,10 @@
 
   let state = "unknown";
   let gaLoaded = false;
+  // Funnel stages mean unique visitors reaching a step on this page render,
+  // not repeated submit clicks after changing answers.
+  const oncePerPage = new Set(["builder_start", "builder_complete", "recommendation_view"]);
+  const sentOnThisPage = new Set();
 
   const readPreference = () => {
     try {
@@ -91,10 +96,12 @@
     if (state !== "granted" || !allowedEvents.has(eventName)) {
       return;
     }
+    if (oncePerPage.has(eventName) && sentOnThisPage.has(eventName)) return;
 
     loadAnalytics();
     ensureGtag();
     window.gtag("event", eventName);
+    if (oncePerPage.has(eventName)) sentOnThisPage.add(eventName);
   };
 
   state = readPreference();
@@ -119,6 +126,23 @@
       return;
     }
     sendEvent("affiliate_click");
+  });
+
+  // Count an actual move from an Advisor result to another *local* page.
+  // No destination, product, problem or selection is ever sent to GA4.
+  // In-page anchors, downloads, external sites and sponsored CTAs are excluded.
+  document.addEventListener("click", (event) => {
+    const link = event?.target?.closest?.('a[href]');
+    if (!link || !link.closest(".zp-result") || link.matches('a[rel~="sponsored"]')) return;
+    const href = link.getAttribute("href");
+    if (!href || href.startsWith("#") || link.hasAttribute("download")) return;
+    let target;
+    try { target = new URL(href, window.location.href); }
+    catch { return; }
+    if (target.origin !== window.location.origin ||
+        target.pathname === window.location.pathname ||
+        target.search || target.hash && target.pathname === window.location.pathname) return;
+    sendEvent("next_step_click");
   });
 
   const initUi = () => {

@@ -113,20 +113,24 @@ export function recommendMobility(input = {}) {
     };
   }
 
-  if ((environment === "outdoor" || environment === "both") && handBrakes !== "yes") {
+  const needsBrakedRollator = seatNeeded || environment === "outdoor" || environment === "both";
+
+  if (needsBrakedRollator && handBrakes !== "yes") {
     return {
       status: "needs_more_info",
-      headline: "Pro venkovní řešení potřebujeme ověřit bezpečné ovládání brzdy.",
+      headline: seatNeeded
+        ? "Pro řešení se sedátkem potřebujeme ověřit bezpečné ovládání brzd."
+        : "Pro venkovní řešení potřebujeme ověřit bezpečné ovládání brzdy.",
       nextStep: handBrakes === "no"
-        ? "Nevolte brzděný rollátor jen podle obrázku nebo ceny. Je potřeba hledat řešení, které člověk dokáže bezpečně ovládat."
-        : "Zjistěte, zda člověk bezpečně zvládne stisknout a používat ruční brzdy.",
+        ? "Nevolte rollátor se sedátkem ani venkovní brzděný rollátor jen podle obrázku nebo ceny. Je potřeba hledat řešení, které člověk dokáže bezpečně ovládat."
+        : "Zjistěte, zda člověk bezpečně zvládne stisknout, použít a zajistit ruční brzdy.",
       missing: handBrakes === "unknown" ? ["handBrakes"] : [],
       recommendations: [],
       acquisition: acquisitionFor(duration)
     };
   }
 
-  if (environment === "indoor" && canLiftWalker === "unknown") {
+  if (environment === "indoor" && !seatNeeded && canLiftWalker === "unknown") {
     return {
       status: "needs_more_info",
       headline: "Pro výběr chodítka domů potřebujeme ještě jednu praktickou informaci.",
@@ -144,8 +148,8 @@ export function recommendMobility(input = {}) {
     "hmotnost a manipulace"
   ];
 
-  if (environment === "outdoor" || environment === "both") {
-    parameters.push("stabilita a způsob bezpečného používání brzd");
+  if (needsBrakedRollator) {
+    parameters.push("stabilita a způsob bezpečného používání i zajištění brzd");
   } else {
     parameters.push("stabilita a způsob posouvání chodítka při chůzi");
   }
@@ -159,7 +163,14 @@ export function recommendMobility(input = {}) {
   let reason;
   let productCandidateIds;
 
-  if (environment === "indoor" && canLiftWalker === "no") {
+  if (seatNeeded) {
+    id = "rollator_candidate";
+    label = "Rollátor se sedátkem jako kandidátní typ řešení";
+    reason = environment === "indoor"
+      ? "Je požadovaná stabilní opora doma i možnost bezpečně si během chůze sednout; ovládání a zajištění ručních brzd je potvrzené."
+      : "Je požadovaná stabilní opora se sedátkem a bezpečné používání ručních brzd je potvrzené.";
+    productCandidateIds = ["meyra-ideal-3061982"];
+  } else if (environment === "indoor" && canLiftWalker === "no") {
     id = "indoor_front_wheel_walker_candidate";
     label = "Dvoukolové chodítko jako kandidátní typ řešení";
     reason = "Zadaná situace vyžaduje stabilní oporu doma, ale bez nutnosti zvedat celé chodítko při každém kroku.";

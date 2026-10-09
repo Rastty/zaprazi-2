@@ -10,7 +10,7 @@ import { previewBathroomCandidates } from "./preview.js";
  * A change in situation invalidates the preview and clears all fit answers.
  */
 export function installBathroomMicroStaging({
-  form, result, submit, errors, key, requiredAttr, fitNames, primaryNeed, alternativeIds = []
+  form, result, submit, errors, key, requiredAttr, fitNames, primaryNeed, alternativeIds = [], conditionalFit = {}
 }) {
   if (!form || !result || !submit || !errors) return false;
   const preview = document.querySelector("#zp-" + key + "-preview");
@@ -22,15 +22,33 @@ export function installBathroomMicroStaging({
     .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
+  const fitGroups = new Map();
   for (const name of fitNames) {
     const radio = form.querySelector('input[name="' + name + '"]');
     const group = radio?.closest("fieldset");
     if (!group) throw new Error("Missing model-specific fit question");
     fitStage.appendChild(group);
+    fitGroups.set(name, group);
   }
 
   const value = (name, fallback = "unknown") =>
     form.querySelector('input[name="' + name + '"]:checked')?.value ?? fallback;
+  // Show only the model checks relevant to the selected construction.
+  // Hidden fit answers are cleared so they cannot be reused after a branch change.
+  const updateConditionalFit = () => {
+    for (const [name, isRelevant] of Object.entries(conditionalFit)) {
+      const group = fitGroups.get(name);
+      if (!group) throw new Error("Conditional fit field not found: " + name);
+      const show = isRelevant(value);
+      group.hidden = !show;
+      if (!show) {
+        group.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+        group.classList.remove("is-error");
+        group.removeAttribute("aria-invalid");
+      }
+    }
+  };
+
   const input = () => ({
     primaryNeed: typeof primaryNeed === "function" ? primaryNeed(value) : primaryNeed,
     transferAbility: value("transferAbility"),
@@ -91,7 +109,12 @@ export function installBathroomMicroStaging({
   };
 
   form.addEventListener("change", event => {
-    if (previewReady && !event.target?.closest?.("#zp-" + key + "-fit-stage")) reset();
+    if (!previewReady) return;
+    if (!event.target?.closest?.("#zp-" + key + "-fit-stage")) {
+      reset();
+      return;
+    }
+    updateConditionalFit();
   });
 
   // capture listener blocks the pre-existing final handler only during stage 1.
@@ -143,6 +166,7 @@ export function installBathroomMicroStaging({
       products.map(product => renderProduct(product, !primary.has(product.id))).join("") +
       '</div><p class="zp-disclaimer">Toto je jen předběžný výběr. Bez ověření v kroku 2 nezobrazujeme žádný odkaz k nákupu.</p>';
     previewReady = true;
+    updateConditionalFit();
     preview.hidden = false;
     fitStage.hidden = false;
     result.hidden = true;

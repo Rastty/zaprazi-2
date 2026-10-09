@@ -1217,6 +1217,9 @@ test("Adjustable bed Advisor is a separate privacy-safe Slice 3 surface", () => 
 
   assert.match(app, /recommendAdjustableBed/);
   assert.match(app, /getAdjustableBedProducts/);
+  assert.match(page, /data-zp-bed-required="userCapacityVerified"/);
+  assert.match(app, /updateCapacityQuestion/);
+  assert.match(read("src/bed/engine.js"), /userCapacityVerified !== "yes"/);
   assert.match(app, /zaprazi:analytics/);
   assert.doesNotMatch(app, /gtag\(/);
   assert.doesNotMatch(app, /new FormData/);

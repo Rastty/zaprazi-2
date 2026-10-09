@@ -48,7 +48,7 @@ get_header();
         </fieldset>
 
         <fieldset class="zp-fieldset">
-          <legend>Pokud sedačka přes okraj nepasuje: vejde se transferová konstrukce 81 × 61 cm?</legend>
+          <legend>Jen pokud sedačka přes okraj nepasuje: vejde se transferová konstrukce 81 × 61 cm?</legend>
           <label class="zp-choice"><input type="radio" name="bathBenchFit" value="yes"><span><strong>Ano</strong><small>Jedna strana může stát ve vaně a druhá na stabilní podlaze mimo vanu.</small></span></label>
           <label class="zp-choice"><input type="radio" name="bathBenchFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="bathBenchFit" value="unknown" checked><span><strong>Nevím</strong></span></label>

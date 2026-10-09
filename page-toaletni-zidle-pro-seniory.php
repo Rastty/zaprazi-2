@@ -67,8 +67,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <section id="zp-toilet-chair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
+        <section id="zp-toilet-chair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-toilet-chair-fit-title" hidden>
+          <h3 id="zp-toilet-chair-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
+          <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
+        </section>
         <div id="zp-toilet-chair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-toilet-chair-submit">Zjistit vhodný další krok</button>
+        <button class="zp-btn zp-submit" type="button" id="zp-toilet-chair-submit">1. Ukázat možný výrobek</button>
         <p id="zp-toilet-chair-privacy" class="zp-privacy-note">Odpovědi zůstávají v prohlížeči. Do affiliate ani analytiky neposíláme kombinaci odpovědí.</p>
       </div>
 

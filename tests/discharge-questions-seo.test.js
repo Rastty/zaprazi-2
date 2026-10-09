@@ -34,7 +34,7 @@ test("discharge article claims are traceable and scoped to Czech official guidan
   ]) assert.ok(page.includes(source),"Missing official evidence "+source);
   assert.match(page,/9\. 10\. 2026/);
   assert.match(page,/České republiky/);
-  assert.match(page,/není.*náhrada individuálních doporučení/);
+  assert.match(page,/Nejsou to pokyny k léčbě ani náhrada individuálních doporučení/);
   assert.match(page,/bez léků|Léčbu sami neměňte|léčbu.*neměňte/);
   assert.match(page,/Nejdůležitější není koupit všechny pomůcky/);
 });

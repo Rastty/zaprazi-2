@@ -47,21 +47,21 @@ get_header();
         </div>
 
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="seatFit">
-          <legend>Ověřili jste, že šířka sedu kandidáta vyhovuje?</legend>
+          <legend>Ověřili jste šířku sedu přesné nabízené varianty vozíku? U odlehčeného modelu existují různé šířky.</legend>
           <label class="zp-choice"><input type="radio" name="seatFit" value="yes" required><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="seatFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="seatFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="widthFit">
-          <legend>Projde vozík nejužšími dveřmi a je pro něj prostor k otáčení?</legend>
+          <legend>Projde právě zvolená rozměrová varianta vozíku nejužšími dveřmi a je pro ni prostor k otáčení?</legend>
           <label class="zp-choice"><input type="radio" name="widthFit" value="yes" required><span><strong>Ano, změřeno</strong></span></label>
           <label class="zp-choice"><input type="radio" name="widthFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="widthFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív změřte nejužší průchod a místo pro manévrování.</small></span></label>
         </fieldset>
 
         <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="loadFit">
-          <legend>Ověřili jste, že technická nosnost kandidáta bezpečně stačí?</legend>
+          <legend>Ověřili jste nosnost přesné varianty? U některých vozíků se limit liší podle provedení kol.</legend>
           <label class="zp-choice"><input type="radio" name="loadFit" value="yes" required><span><strong>Ano</strong><small>Přesnou hmotnost člověka do poradce nezadávejte.</small></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>

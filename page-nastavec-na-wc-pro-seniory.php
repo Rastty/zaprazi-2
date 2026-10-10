@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_96 */
+/* ZP_RELEASE_0_8_97 */
 /*
 Template Name: Zápraží — Nástavec na WC pro seniory
 */

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_98
+// ZP_RELEASE_0_8_99
 const READINESS = new Set(["yes", "no", "unknown"]);
 const TRANSFER = new Set(["independent", "steadying", "person_assist", "unknown"]);
 const WALKING = new Set(["independent", "needs_support", "wheelchair_or_no_walk", "unknown"]);

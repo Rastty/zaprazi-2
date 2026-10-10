@@ -5,7 +5,7 @@ import { recommendWheelchair } from "../src/wheelchair/engine.js";
 test("companion branch returns Basic after fit gates pass", () => {
   const result = recommendWheelchair({
     propulsion: "companion",
-    transferAbility: "steadying",
+    brakeFit: "yes", transferAbility: "steadying",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes",
@@ -22,7 +22,7 @@ test("self-propelled branch returns lightweight manual chair", () => {
     propulsion: "self_manual",
     wheelType: "pneumatic",
     seatWidthVariant: "48",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
@@ -39,7 +39,7 @@ test("mixed manual branch uses the same dual-use chair", () => {
     propulsion: "mixed_manual",
     wheelType: "tubeless",
     seatWidthVariant: "51",
-    transferAbility: "steadying",
+    brakeFit: "yes", transferAbility: "steadying",
     manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
@@ -55,7 +55,7 @@ test("manual propulsion requires practical steering and stopping safety", () => 
   for (const propulsion of ["self_manual", "mixed_manual"]) {
     const unknown = recommendWheelchair({
       propulsion,
-      transferAbility: "independent",
+      brakeFit: "yes", transferAbility: "independent",
       manualControlSafe: "unknown",
       seatFit: "yes",
       widthFit: "yes",
@@ -67,7 +67,7 @@ test("manual propulsion requires practical steering and stopping safety", () => 
 
     const unsafe = recommendWheelchair({
       propulsion,
-      transferAbility: "independent",
+      brakeFit: "yes", transferAbility: "independent",
       manualControlSafe: "no",
       seatFit: "yes",
       widthFit: "yes",
@@ -81,7 +81,7 @@ test("manual propulsion requires practical steering and stopping safety", () => 
 test("powered branch requires practical joystick safety", () => {
   const result = recommendWheelchair({
     propulsion: "powered",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes",
@@ -97,7 +97,7 @@ test("powered branch requires practical joystick safety", () => {
 test("powered branch requires charging setup", () => {
   const result = recommendWheelchair({
     propulsion: "powered",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes",
@@ -112,7 +112,7 @@ test("powered branch requires charging setup", () => {
 test("powered branch returns exact electric chair after all gates pass", () => {
   const result = recommendWheelchair({
     propulsion: "powered",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes",
@@ -130,7 +130,7 @@ test("powered branch returns exact electric chair after all gates pass", () => {
 test("physical assistance transfer remains professional-check only", () => {
   const result = recommendWheelchair({
     propulsion: "companion",
-    transferAbility: "person_assist",
+    brakeFit: "yes", transferAbility: "person_assist",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes"
@@ -145,7 +145,7 @@ test("unknown load fit returns no exact product without asking raw weight", () =
     propulsion: "self_manual",
     wheelType: "pneumatic",
     seatWidthVariant: "48",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     manualControlSafe: "yes",
     seatFit: "yes",
     widthFit: "yes",
@@ -160,7 +160,7 @@ test("unknown load fit returns no exact product without asking raw weight", () =
 test("failed seat fit returns no exact product", () => {
   const result = recommendWheelchair({
     propulsion: "companion",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     seatFit: "no",
     widthFit: "yes",
     loadFit: "yes"
@@ -173,7 +173,7 @@ test("failed seat fit returns no exact product", () => {
 test("short-term acquisition leads with rental", () => {
   const result = recommendWheelchair({
     propulsion: "companion",
-    transferAbility: "independent",
+    brakeFit: "yes", transferAbility: "independent",
     seatFit: "yes",
     widthFit: "yes",
     loadFit: "yes",
@@ -186,7 +186,7 @@ test("short-term acquisition leads with rental", () => {
 
 test("P3641 requires exact wheel type and separately confirmed variant capacity",()=>{
   for(const propulsion of ["self_manual","mixed_manual"]){
-    const input={propulsion,transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes",seatWidthVariant:"48"};
+    const input={propulsion,brakeFit: "yes", transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes",seatWidthVariant:"48"};
     for(const wheelType of ["unknown",undefined]){
       const result=recommendWheelchair({...input,...(wheelType?{wheelType}:{})});
       assert.equal(result.status,"needs_more_info");
@@ -201,10 +201,10 @@ test("P3641 requires exact wheel type and separately confirmed variant capacity"
     assert.match(tubeless.recommendations[0].parameters.join(" "),/bezdušová kola – 136 kg/);
     assert.equal(recommendWheelchair({...input,wheelType:"wrong"}).status,"invalid_input");
   }
-  assert.equal(recommendWheelchair({propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}).status,"candidate");
+  assert.equal(recommendWheelchair({propulsion:"companion",brakeFit: "yes", transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes"}).status,"candidate");
 });
 test("P3641 must identify the 48cm/51cm seat variant before accepting generic fit approvals", () => {
-  const base = { propulsion: "self_manual", transferAbility: "independent",
+  const base = { propulsion: "self_manual", brakeFit: "yes", transferAbility: "independent",
     manualControlSafe: "yes", wheelType: "pneumatic",
     seatFit: "yes", widthFit: "yes", loadFit: "yes" };
   for (const variant of [undefined, "unknown"]) {
@@ -224,5 +224,47 @@ test("P3641 must identify the 48cm/51cm seat variant before accepting generic fi
   assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "47" }).status, "invalid_input");
   assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "48", seatFit: "unknown" }).status, "needs_more_info");
   assert.equal(recommendWheelchair({ ...base, seatWidthVariant: "51", widthFit: "no" }).status, "needs_more_info");
-  assert.equal(recommendWheelchair({ propulsion: "companion", transferAbility: "independent", seatFit: "yes", widthFit: "yes", loadFit: "yes" }).status, "candidate");
+  assert.equal(recommendWheelchair({ propulsion: "companion", brakeFit: "yes", transferAbility: "independent", seatFit: "yes", widthFit: "yes", loadFit: "yes" }).status, "candidate");
+});
+
+test("mechanical wheelchair purchase requires model-specific parking brake fit", () => {
+  const base = {
+    propulsion: "companion", transferAbility: "independent",
+    seatFit: "yes", widthFit: "yes", loadFit: "yes"
+  };
+  for (const brakeFit of ["unknown", "no"]) {
+    const blocked = recommendWheelchair({ ...base, brakeFit });
+    assert.equal(blocked.status, "needs_more_info");
+    assert.deepEqual(blocked.missing, ["brakeFit"]);
+    assert.deepEqual(blocked.recommendations, []);
+  }
+  const approved = recommendWheelchair({ ...base, brakeFit: "yes" });
+  assert.equal(approved.status, "candidate");
+  assert.deepEqual(approved.recommendations[0].productCandidateIds, ["unizdrav-p4384"]);
+});
+
+test("self and mixed manual variants must re-confirm parking brakes", () => {
+  for (const propulsion of ["self_manual", "mixed_manual"]) {
+    const base = {
+      propulsion, transferAbility: "independent", manualControlSafe: "yes",
+      wheelType: "tubeless", seatWidthVariant: "51",
+      seatFit: "yes", widthFit: "yes", loadFit: "yes"
+    };
+    const notChecked = recommendWheelchair(base);
+    assert.equal(notChecked.status, "needs_more_info");
+    assert.deepEqual(notChecked.missing, ["brakeFit"]);
+    assert.deepEqual(notChecked.recommendations, []);
+    assert.equal(recommendWheelchair({ ...base, brakeFit: "yes" }).status, "candidate");
+  }
+});
+
+test("electric wheelchair control remains joystick-based without a mechanical parking brake check", () => {
+  const output = recommendWheelchair({
+    propulsion: "powered", transferAbility: "independent",
+    joystickSafe: "yes", chargingReady: "yes",
+    seatFit: "yes", widthFit: "yes", loadFit: "yes",
+    brakeFit: "unknown"
+  });
+  assert.equal(output.status, "candidate");
+  assert.deepEqual(output.recommendations[0].productCandidateIds, ["unizdrav-p2961"]);
 });

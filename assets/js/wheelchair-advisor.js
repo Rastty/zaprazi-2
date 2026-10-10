@@ -35,7 +35,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const preview = document.querySelector("#zp-wheelchair-preview");
   const fitStage = document.querySelector("#zp-wheelchair-fit-stage");
   let previewReady = false;
-  const fitFields = ["seatWidthVariant","seatFit","widthFit","wheelType","loadFit"];
+  const fitFields = ["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit"];
   if (preview && fitStage) {
     for (const name of fitFields) {
       const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
@@ -48,12 +48,15 @@ if (form && result && submitButton && errorBox && candidateNote) {
 
   // This is relevant only for P3641, not the Basic companion or powered chair.
   const updateVariantQuestions = () => {
-    const manual = ["self_manual", "mixed_manual"].includes(checkedValue("propulsion", "unknown"));
-    for (const name of ["seatWidthVariant", "wheelType"]) {
+    const propulsion = checkedValue("propulsion", "unknown");
+    const manual = ["self_manual", "mixed_manual"].includes(propulsion);
+    const mechanical = manual || propulsion === "companion";
+    for (const name of ["seatWidthVariant", "wheelType", "brakeFit"]) {
       const group = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
       if (!group) continue;
-      group.hidden = !manual;
-      if (!manual) group.querySelectorAll("input").forEach(input => { input.checked = false; });
+      const show = name === "brakeFit" ? mechanical : manual;
+      group.hidden = !show;
+      if (!show) group.querySelectorAll("input").forEach(input => { input.checked = false; });
     }
   };
 
@@ -157,6 +160,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     seatFit: checkedValue("seatFit", "unknown"),
     widthFit: checkedValue("widthFit", "unknown"),
     loadFit: checkedValue("loadFit", "unknown"),
+    brakeFit: checkedValue("brakeFit", "unknown"),
     wheelType: checkedValue("wheelType", "unknown"),
     seatWidthVariant: checkedValue("seatWidthVariant", "unknown"),
     manualControlSafe: checkedValue("manualControlSafe", "unknown"),
@@ -227,7 +231,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     // A different seat size also changes total width (48/68 vs 51/70 cm).
     // Both real-world confirmations belong to the *selected* seat construction.
     if (event.target?.name === "seatWidthVariant") {
-      for (const name of ["seatFit", "widthFit"]) {
+      for (const name of ["seatFit", "widthFit", "brakeFit"]) {
         const group = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
         group?.querySelectorAll("input").forEach(input => { input.checked = false; });
         group?.classList?.remove("is-error");
@@ -236,10 +240,13 @@ if (form && result && submitButton && errorBox && candidateNote) {
     }
     // Selecting a new 125kg/136kg construction invalidates any older approval.
     if (event.target?.name === "wheelType") {
-      const load = form.querySelector('[data-zp-product-fit][data-zp-wheelchair-required="loadFit"]');
-      load?.querySelectorAll("input").forEach(input => { input.checked = false; });
-      load?.classList?.remove("is-error");
-      load?.removeAttribute?.("aria-invalid");
+      // Different wheel construction requires a new capacity and brake check.
+      for (const name of ["loadFit", "brakeFit"]) {
+        const group = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
+        group?.querySelectorAll("input").forEach(input => { input.checked = false; });
+        group?.classList?.remove("is-error");
+        group?.removeAttribute?.("aria-invalid");
+      }
     }
     if (event.target?.name === "propulsion") {
       updateConditional();

@@ -429,12 +429,30 @@ try {
     await choose(page, "velcroUse", "yes");
     await choose(page, "measuredFeet", "yes");
     await click(page, "#zp-footwear-submit");
+    if (releaseAtLeast("0.8.100")) {
+      assert.equal(await visible(page, "#zp-footwear-size-stage"), true, "Model sizing stage must appear");
+      assert.match(await page.$eval("#zp-footwear-size-model", el=>el.textContent), /XAVIER/);
+      await checkNoMerchant(page, "#zp-footwear-result");
+      for (const answer of ["unknown", "no"]) {
+        await choose(page, "sizeChartFit", answer);
+        await click(page, "#zp-footwear-submit");
+        await checkNoMerchant(page, "#zp-footwear-result");
+      }
+      await choose(page, "sizeChartFit", "yes");
+      await click(page, "#zp-footwear-submit");
+    }
     assert.ok(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]") > 0,
-      "Measured, safely closable footwear should offer the matching model");
+      "Verified model-specific footwear size should allow the matching product");
     await assertAffiliateOffers(page, "#zp-footwear-result [data-zp-footwear-merchant-link]");
     await choose(page, "measuredFeet", "no");
     assert.equal(await visible(page, "#zp-footwear-result"), false);
     assert.equal(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]"), 0);
+    if (releaseAtLeast("0.8.100")) {
+      assert.equal(await visible(page, "#zp-footwear-size-stage"), false,
+        "Changing measurements must invalidate the previous model fit");
+      await click(page, "#zp-footwear-submit");
+      await checkNoMerchant(page, "#zp-footwear-result");
+    }
     console.log("PASS footwear size and fastener safety");
     await page.close();
   }

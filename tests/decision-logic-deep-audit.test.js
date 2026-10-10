@@ -25,7 +25,7 @@ test("all 14 live Advisor forms invalidate stale results and outbound links as s
     const start = Math.max(marker, conventional);
     assert.ok(start >= 0, "missing invalidation on " + name);
     const block = source.slice(start, start + 340);
-    assert.match(block, /form\.addEventListener\("change",\s*\(\)\s*=>/);
+    assert.match(block, /form\.addEventListener\("change",\s*\(\s*(?:event)?\s*\)\s*=>/);
     assert.match(block, /result\.hidden = true/);
     assert.match(block, /result\.innerHTML = ""/);
     // No server persistence or personally identifiable event payload.

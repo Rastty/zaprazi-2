@@ -67,6 +67,7 @@ export function chooseEasyFootwear(input = {}) {
   const toe = TOE.has(input.toe) ? input.toe : "unknown";
   const velcroUse = YES_NO_UNKNOWN.has(input.velcroUse) ? input.velcroUse : "unknown";
   const measuredFeet = YES_NO_UNKNOWN.has(input.measuredFeet) ? input.measuredFeet : "unknown";
+  const sizeChartFit = YES_NO_UNKNOWN.has(input.sizeChartFit) ? input.sizeChartFit : "unknown";
 
   if (velcroUse === "no") {
     return result(
@@ -115,18 +116,35 @@ export function chooseEasyFootwear(input = {}) {
   if (measuredFeet !== "yes" || velcroUse !== "yes") {
     return result(
       "needs_fit_check",
-      "Máme vhodný typ kandidáta, ale velikost a ovládání ještě nejsou potvrzené.",
-      "Nejdřív změřte obě chodidla a ověřte práci se suchým zipem. Teprve potom má smysl přejít k nákupu.",
+      "Máme vhodný typ kandidáta, ale měření a zapínání ještě nejsou potvrzené.",
+      "Nejdřív změřte obě chodidla a ověřte práci se suchým zipem. Konkrétní velikost musí odpovídat tabulce tohoto modelu.",
       candidate,
       checks,
       "Výběr je založený na konstrukci boty, ne na diagnóze. Náhlý otok, rána nebo výrazná bolest patří k odbornému posouzení."
     );
   }
 
+  // Measured feet do not prove the *available size of this exact model*
+  // fits. An explicit chart/merchant dimensional check is the final gate.
+  if (sizeChartFit !== "yes") {
+    return result(
+      "needs_fit_check",
+      sizeChartFit === "no"
+        ? "Vybraný model zatím nesedí naměřeným rozměrům."
+        : "Máme vhodnou konstrukci boty, ale konkrétní velikost ještě není ověřená.",
+      sizeChartFit === "no"
+        ? "Tento model neobjednávejte jen podle běžného čísla obuvi. Hledejte jinou dostupnou velikost nebo jiný model s odpovídající délkou a šířkou."
+        : "Porovnejte naměřenou délku i šířku obou chodidel s velikostní tabulkou tohoto konkrétního modelu. Pokud tabulka chybí, ověřte rozměry u prodejce.",
+      candidate,
+      checks,
+      "Zápraží tímto potvrzením neověřuje zdravotní vhodnost obuvi ani dostupnost velikosti."
+    );
+  }
+
   return result(
     "candidate",
-    "Tento model odpovídá zadanému způsobu obouvání.",
-    "Před objednáním ještě porovnejte naměřené hodnoty s tabulkou velikostí konkrétního modelu a zkontrolujte aktuální dostupnost zvolené velikosti.",
+    "Tento model odpovídá způsobu obouvání a vámi potvrzené velikosti.",
+    "U prodejce vyberte právě ověřenou velikost a před dokončením objednávky zkontrolujte její aktuální dostupnost. Pokud velikost nesedí, změňte odpověď.",
     candidate,
     checks,
     "Zápraží neposuzuje zdravotní příčinu potíží s chodidlem a netvrdí, že obuv něco léčí."

@@ -6,6 +6,8 @@ const form = document.querySelector("#zp-footwear-advisor");
 const result = document.querySelector("#zp-footwear-result");
 const submitButton = document.querySelector("#zp-footwear-submit");
 const errorBox = document.querySelector("#zp-footwear-errors");
+const sizeStage = document.querySelector("#zp-footwear-size-stage");
+const sizeModel = document.querySelector("#zp-footwear-size-model");
 const runtime = window.ZaPraziRuntime || { affiliateMap: {} };
 const affiliateMap = runtime.affiliateMap || {};
 let builderStarted = false;
@@ -18,13 +20,21 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
   .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
-if (form && result && submitButton && errorBox) {
+if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
 
   // A result belongs to the exact answers used to produce it.
   // Hide and remove any previous outbound offer as soon as an answer changes.
-  form.addEventListener("change", () => {
+  form.addEventListener("change", (event) => {
     result.hidden = true;
     result.innerHTML = "";
+    // Fit belongs to the exact model and current inputs. Clear it on
+    // changes to any answer used to select a product.
+    if (event.target?.name !== "sizeChartFit") {
+      sizeStage.hidden = true;
+      sizeStage.querySelectorAll("input").forEach(input => { input.checked = false; });
+      sizeStage.classList.remove("is-error");
+      sizeStage.removeAttribute("aria-invalid");
+    }
   });
 
   const checkedValue = (name, fallback = null) =>
@@ -73,7 +83,7 @@ if (form && result && submitButton && errorBox) {
           <h4>${escapeHtml(candidate.product)}</h4>
           <ul class="zp-facts">
             ${candidate.facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("")}
-            <li>Kontrolovaná cena: ${escapeHtml(candidate.listedPriceCzk)} Kč</li>
+            <li>Cena při ověření ${escapeHtml(candidate.checkedAt)}: ${escapeHtml(candidate.listedPriceCzk)} Kč (aktuální cenu zkontrolujte u prodejce)</li>
           </ul>
           ${output.checks?.length ? `<h5>Co ještě ověřit</h5><ul>${output.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
           <details class="zp-sources">
@@ -113,10 +123,20 @@ if (form && result && submitButton && errorBox) {
       openingNeed: checkedValue("openingNeed", "unknown"),
       toe: checkedValue("toe", "unknown"),
       velcroUse: checkedValue("velcroUse", "unknown"),
-      measuredFeet: checkedValue("measuredFeet", "unknown")
+      measuredFeet: checkedValue("measuredFeet", "unknown"),
+      sizeChartFit: checkedValue("sizeChartFit", "unknown")
     });
 
-    if (!["needs_more_context", "invalid_input"].includes(output.status)) track("builder_complete");
+    if (output.candidate) {
+      sizeStage.hidden = false;
+      sizeModel.textContent = output.candidate.product;
+    } else {
+      sizeStage.hidden = true;
+      sizeModel.textContent = "";
+      sizeStage.querySelectorAll("input").forEach(input => { input.checked = false; });
+    }
+
+    if (output.status === "candidate") track("builder_complete");
     if (output.candidate) track("recommendation_view");
 
     result.innerHTML = `
@@ -134,6 +154,9 @@ if (form && result && submitButton && errorBox) {
     });
 
     result.hidden = false;
-    result.focus();
+    // New stage must receive focus on the first step, rather than sending
+    // the user beyond it to a result below the form.
+    if (output.candidate && !checkedValue("sizeChartFit")) sizeStage.focus();
+    else result.focus();
   });
 }

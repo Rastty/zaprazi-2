@@ -10,7 +10,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Snadné obouvání</p>
       <h1>Obuv pro seniory: široké boty na suchý zip podle otevření, šířky a špičky.</h1>
-      <p class="zp-lead">Neřešíme diagnózu. Poradce se ptá jen na to, jak velký otvor pro nazutí je potřeba, zda musí být špička uzavřená, jestli je suchý zip prakticky ovladatelný a zda jsou obě chodidla změřená.</p>
+      <p class="zp-lead">Neřešíme diagnózu. Poradce nejdřív zvolí konstrukci boty podle obouvání a pak pomůže zkontrolovat velikost konkrétního modelu podle obou chodidel.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-obuv">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Řeším bezpečnost doma</a>
@@ -52,6 +52,13 @@ get_header();
           <label class="zp-choice"><input type="radio" name="measuredFeet" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" id="zp-footwear-size-stage" tabindex="-1" hidden>
+          <legend>Odpovídá zvolená velikost tabulce konkrétního modelu?</legend>
+          <p>Vybraný model: <strong id="zp-footwear-size-model"></strong>. Porovnejte naměřenou délku a šířku <strong>obou chodidel</strong> s velikostní tabulkou tohoto modelu. Pokud tabulku nemáte, požádejte prodejce o rozměry. Nestačí pouze běžné číslo obuvi.</p>
+          <label class="zp-choice"><input type="radio" name="sizeChartFit" value="yes"><span><strong>Ano, délka i šířka odpovídají</strong><small>Pro zvolenou velikost konkrétního modelu.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="sizeChartFit" value="no"><span><strong>Ne, rozměry neodpovídají</strong><small>Tuto variantu neobjednávat.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="sizeChartFit" value="unknown"><span><strong>Zatím nevím</strong><small>Nejdřív ověřím tabulku nebo rozměry u prodejce.</small></span></label>
+        </fieldset>
         <div id="zp-footwear-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
         <button class="zp-btn zp-submit" type="button" id="zp-footwear-submit">Zjistit vhodný další krok</button>
         <p id="zp-footwear-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server ani nejsou součástí URL. Do analytiky posíláme jen obecné události bez odpovědí.</p>

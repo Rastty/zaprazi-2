@@ -105,6 +105,7 @@ export function recommendWheelchair(input = {}) {
     widthFit = "unknown",
     loadFit = "unknown",
     brakeFit = "unknown",
+    routeFit = "unknown",
     wheelType = "unknown",
     seatWidthVariant = "unknown",
     manualControlSafe = "unknown",
@@ -115,7 +116,7 @@ export function recommendWheelchair(input = {}) {
 
   if (!PROPULSION.has(propulsion)) return invalid("propulsion");
   if (!TRANSFER.has(transferAbility)) return invalid("transferAbility");
-  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, brakeFit, manualControlSafe, joystickSafe, chargingReady })) {
+  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, brakeFit, routeFit, manualControlSafe, joystickSafe, chargingReady })) {
     if (!FIT.has(value)) return invalid(name);
   }
   if (!DURATION.has(duration)) return invalid("duration");
@@ -247,10 +248,23 @@ export function recommendWheelchair(input = {}) {
       );
     }
 
+    // Width and charging alone cannot approve a powered chair for an unknown route.
+    // P2961's manufacturer lists a safe slope of 6° and forward obstacles up to 5 cm.
+    // Route/terrain fit must be checked against this exact model before an offer.
+    if (routeFit !== "yes") {
+      return needsMoreInfo(
+        "routeFit",
+        "Trasa pro konkrétní elektrický vozík musí být ověřená.",
+        routeFit === "no"
+          ? "Na této trase vozík P2961 zatím nevybírejte. Ověřte bezpečnější trasu nebo jiný model s vhodnými parametry."
+          : "Před nákupem ověřte skutečné sklony, prahy a povrch na plánované trase podle návodu P2961. Výrobce uvádí bezpečný sklon 6° a překážku do 5 cm, což samo o sobě nezaručuje bezpečný průjezd."
+      );
+    }
+
     return {
       status: "candidate",
       headline: "Elektrický vozík s joystickem může být kandidátní řešení.",
-      nextStep: "Ověřte trasu, poloměr otáčení, průchody, sklon, nabíjení a případný převoz vozíku.",
+      nextStep: "Před konečným rozhodnutím zkontrolujte i podmínky konkrétního povrchu, servis a případný převoz 62kg vozíku.",
       missing: [],
       recommendations: [{
         id: "powered_wheelchair_candidate",

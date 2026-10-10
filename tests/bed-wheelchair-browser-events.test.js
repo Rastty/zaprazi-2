@@ -304,3 +304,41 @@ test("powered P2961 route check appears only after preview and gates the merchan
   h.submitButton.click();
   assert.doesNotMatch(h.result.innerHTML, /merchant-link/);
 });
+
+test("P3641 final merchant card shows only the selected model variant, not both catalog alternatives", () => {
+  for (const {seat, wheels, width, capacity, excludedWidth, excludedCapacity} of [
+    {seat:"48", wheels:"pneumatic", width:"68", capacity:"125", excludedWidth:"70", excludedCapacity:"136"},
+    {seat:"51", wheels:"tubeless", width:"70", capacity:"136", excludedWidth:"68", excludedCapacity:"125"}
+  ]) {
+    const h=create("wheelchair");
+    h.form.change("propulsion","self_manual");
+    h.form.change("manualControlSafe","yes");
+    h.submitButton.click();
+    assert.match(h.preview.innerHTML,/48 nebo 51 cm/,"Unverified preview must still show available choices");
+    assert.doesNotMatch(h.preview.innerHTML,/merchant-link|sponsored|href=/);
+    for (const [name,value] of [
+      ["seatWidthVariant",seat],["seatFit","yes"],["widthFit","yes"],
+      ["wheelType",wheels],["loadFit","yes"],["brakeFit","yes"]
+    ]) h.form.change(name,value);
+    h.submitButton.click();
+    assert.match(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);
+    assert.match(h.result.innerHTML,/Zvolená varianta sedu a kol/);
+    const card=h.result.innerHTML.split('<article class="zp-product-card">')[1]?.split("</article>")[0] || "";
+    assert.ok(card.length>0,"Expected final product card");
+    assert.match(card,new RegExp("sed "+seat+" cm"));
+    assert.match(card,new RegExp("celková šířka "+width+" cm"));
+    assert.match(card,new RegExp(capacity+" kg"));
+    assert.doesNotMatch(card,new RegExp("celková šířka "+excludedWidth+" cm"));
+    assert.doesNotMatch(card,new RegExp(excludedCapacity+" kg"));
+    assert.doesNotMatch(card,/48 nebo 51|68 nebo 70|125 kg s pneumatickými \/ 136 kg/);
+  }
+});
+
+test("P3641 catalog preview prints capacity units for both variants without appending invalid trailing kg", () => {
+  const h=create("wheelchair");
+  h.form.change("propulsion","mixed_manual");
+  h.form.change("manualControlSafe","yes");
+  h.submitButton.click();
+  assert.match(h.preview.innerHTML,/125 kg s pneumatickými \/ 136 kg s bezdušovými koly/);
+  assert.doesNotMatch(h.preview.innerHTML,/bezdušovými koly kg/);
+});

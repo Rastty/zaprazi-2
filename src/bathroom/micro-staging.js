@@ -18,6 +18,7 @@ export function installBathroomMicroStaging({
   const fitStage = document.querySelector("#zp-" + key + "-fit-stage");
   if (!preview || !fitStage) return false;
   let previewReady = false;
+  let firstStepAttempted = false;
 
   const esc = value => String(value ?? "")
     .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
@@ -34,6 +35,36 @@ export function installBathroomMicroStaging({
 
   const value = (name, fallback = "unknown") =>
     form.querySelector('input[name="' + name + '"]:checked')?.value ?? fallback;
+  // Keep only the currently visible stage-one questions in validation.
+  // Fit-stage questions are inside a hidden ancestor until a product is shown.
+  const initialRequiredGroups = () =>
+    [...form.querySelectorAll("[" + requiredAttr + "]")]
+      .filter(group => !group.closest("[hidden]"));
+
+  const updateInitialErrors = () => {
+    const missing = [];
+    initialRequiredGroups().forEach(group => {
+      const invalid = !value(group.getAttribute(requiredAttr), "");
+      group.classList.toggle("is-error", invalid);
+      if (invalid) {
+        group.setAttribute("aria-invalid", "true");
+        missing.push(group);
+      } else {
+        group.removeAttribute("aria-invalid");
+      }
+    });
+    if (missing.length) {
+      errors.textContent = missing.length === 1
+        ? "Doplňte prosím zvýrazněnou otázku."
+        : `Doplňte prosím ${missing.length} zvýrazněné otázky.`;
+      errors.hidden = false;
+    } else {
+      errors.textContent = "";
+      errors.hidden = true;
+    }
+    return missing;
+  };
+
   // Show only the model checks relevant to the selected construction.
   // Hidden fit answers are cleared so they cannot be reused after a branch change.
   const updateConditionalFit = () => {
@@ -89,13 +120,23 @@ export function installBathroomMicroStaging({
     fitStage.hidden = true;
     result.hidden = true;
     submit.textContent = "1. Ukázat možný výrobek";
+    firstStepAttempted = false;
+    form.querySelectorAll("[" + requiredAttr + "]").forEach(group => {
+      group.classList.remove("is-error");
+      group.removeAttribute("aria-invalid");
+    });
     fitStage.querySelectorAll('input[type="radio"]').forEach(radio => { radio.checked = false; });
     errors.hidden = true;
     errors.textContent = "";
   };
 
   form.addEventListener("change", event => {
-    if (!previewReady) return;
+    // A corrected answer must remove its error immediately, without another submit.
+    // Do not mark untouched fields before the user first tries to continue.
+    if (!previewReady) {
+      if (firstStepAttempted) updateInitialErrors();
+      return;
+    }
     if (!event.target?.closest?.("#zp-" + key + "-fit-stage")) {
       reset();
       return;
@@ -120,25 +161,14 @@ export function installBathroomMicroStaging({
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    const required = [...form.querySelectorAll("[" + requiredAttr + "]")]
-      .filter(group => !group.closest("[hidden]"));
-    const missing = required.filter(group => {
-      const name = group.getAttribute(requiredAttr);
-      return !value(name, "");
-    });
-    required.forEach(group => {
-      const name = group.getAttribute(requiredAttr);
-      group.classList.toggle("is-error", !value(name, ""));
-    });
+    firstStepAttempted = true;
+    const missing = updateInitialErrors();
     if (missing.length) {
-      errors.textContent = "Doplňte prosím zvýrazněné otázky.";
-      errors.hidden = false;
       missing[0].setAttribute("tabindex", "-1");
       missing[0].focus();
       return;
     }
-    errors.textContent = "";
-    errors.hidden = true;
+    firstStepAttempted = false;
 
     const p = previewBathroomCandidates(input());
     if (p.status !== "unverified_preview") {

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_101 */
+/* ZP_RELEASE_0_8_102 */
 /*
 Template Name: Zápraží — Noční cesta z postele na WC
 */

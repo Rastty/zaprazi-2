@@ -464,7 +464,7 @@ try {
           "Size inquiry must never leak advisor answers");
         await choose(page,"sizeChartFit","unknown");
         await click(page,"#zp-footwear-submit");
-        assert.equal(await count(page,"#zp-footwear-result .zp-product-card li"),5,
+        assert.equal(await count(page,"#zp-footwear-result .zp-product-card .zp-facts li"),5,
           "Unverified sizing card must show only five stable product facts, no price");
       }
       await choose(page, "sizeChartFit", "yes");

@@ -49,7 +49,7 @@ test("engine does not read diagnosis or medication inputs", () => {
 });
 
 test("feet measurements are not enough until this exact model's size chart is checked", () => {
-  for (const sizeChartFit of ["unknown", "no", undefined]) {
+  for (const sizeChartFit of ["unknown", undefined]) {
     const r = chooseEasyFootwear({
       openingNeed:"extra_wide_low", toe:"closed_needed",
       velcroUse:"yes", measuredFeet:"yes", sizeChartFit
@@ -57,6 +57,22 @@ test("feet measurements are not enough until this exact model's size chart is ch
     assert.equal(r.status, "needs_fit_check", String(sizeChartFit));
     assert.equal(r.candidate?.affiliateKey, "zdrava-obuv-cz:xavier");
     assert.match(r.nextStep, /rozměr|šířk|tabulk/i);
+  }
+});
+
+test("explicit model-size mismatch is not a candidate, yet supports safe next-step inquiry", () => {
+  for (const key of [
+    ["wide_opening","open_ok","arsene"],
+    ["extra_wide_low","closed_needed","xavier"],
+    ["full_opening","closed_needed","altitude"]
+  ]) {
+    const output=chooseEasyFootwear({
+      openingNeed:key[0], toe:key[1], velcroUse:"yes",
+      measuredFeet:"yes", sizeChartFit:"no"
+    });
+    assert.equal(output.status,"size_mismatch");
+    assert.equal(output.candidate?.id,"zdrava-obuv-"+key[2]);
+    assert.match(output.nextStep,/neobjednávejte/i);
   }
 });
 

@@ -35,7 +35,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const preview = document.querySelector("#zp-wheelchair-preview");
   const fitStage = document.querySelector("#zp-wheelchair-fit-stage");
   let previewReady = false;
-  const fitFields = ["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit"];
+  const fitFields = ["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit","routeFit"];
   if (preview && fitStage) {
     for (const name of fitFields) {
       const fieldset = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
@@ -51,10 +51,10 @@ if (form && result && submitButton && errorBox && candidateNote) {
     const propulsion = checkedValue("propulsion", "unknown");
     const manual = ["self_manual", "mixed_manual"].includes(propulsion);
     const mechanical = manual || propulsion === "companion";
-    for (const name of ["seatWidthVariant", "wheelType", "brakeFit"]) {
+    for (const name of ["seatWidthVariant", "wheelType", "brakeFit", "routeFit"]) {
       const group = form.querySelector(`[data-zp-product-fit][data-zp-wheelchair-required="${name}"]`);
       if (!group) continue;
-      const show = name === "brakeFit" ? mechanical : manual;
+      const show = name === "brakeFit" ? mechanical : name === "routeFit" ? propulsion === "powered" : manual;
       group.hidden = !show;
       if (!show) group.querySelectorAll("input").forEach(input => { input.checked = false; });
     }
@@ -64,7 +64,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     companion: "Basic: sed 48 cm, celková šířka 65 cm, nosnost 100 kg, hmotnost 18,4 kg.",
     self_manual: "Odlehčený vozík: sed 48 cm → celková šířka 68 cm; sed 51 cm → šířka 70 cm. Nosnost 125/136 kg podle kol.",
     mixed_manual: "Odlehčený vozík: sed 48 cm → šířka 68 cm, sed 51 cm → šířka 70 cm. Hnací obruče a brzdy pro doprovod.",
-    powered: "Elektrický vozík: sed 46 cm, celková šířka 63 cm, nosnost 135 kg, hmotnost s baterií 62 kg, poloměr otáčení 86,5 cm.",
+    powered: "Elektrický vozík: sed 46 cm, celková šířka 63 cm, nosnost 135 kg, hmotnost s baterií 62 kg, poloměr otáčení 86,5 cm, bezpečný sklon dle výrobce 6°, překážka do 5 cm.",
     unknown: "Nejdřív vyberte, kdo má vozík běžně pohánět."
   }[propulsion] || "Nejdřív vyberte, kdo má vozík běžně pohánět.");
 
@@ -108,7 +108,9 @@ if (form && result && submitButton && errorBox && candidateNote) {
       f.chairWeightKg ? `hmotnost vozíku: ${f.chairWeightKg} kg` : null,
       f.chairWeightWithBatteryKg ? `hmotnost s baterií: ${f.chairWeightWithBatteryKg} kg` : null,
       f.maxSpeedKmh ? `max. rychlost: ${f.maxSpeedKmh} km/h` : null,
-      f.turningRadiusCm ? `poloměr otáčení: ${f.turningRadiusCm} cm` : null
+      f.turningRadiusCm ? `poloměr otáčení: ${f.turningRadiusCm} cm` : null,
+      f.safeSlopeDeg ? `bezpečný sklon podle výrobce: ${f.safeSlopeDeg}°` : null,
+      f.obstacleHeightCm ? `uváděná překonatelná překážka: ${f.obstacleHeightCm} cm` : null
     ].filter(Boolean).map((item) => `<li>${escapeHtml(item)}</li>`).join("");
   };
 
@@ -161,6 +163,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     widthFit: checkedValue("widthFit", "unknown"),
     loadFit: checkedValue("loadFit", "unknown"),
     brakeFit: checkedValue("brakeFit", "unknown"),
+    routeFit: checkedValue("routeFit", "unknown"),
     wheelType: checkedValue("wheelType", "unknown"),
     seatWidthVariant: checkedValue("seatWidthVariant", "unknown"),
     manualControlSafe: checkedValue("manualControlSafe", "unknown"),

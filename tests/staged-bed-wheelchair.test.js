@@ -62,7 +62,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
       assert.notEqual(output.status,"candidate");
       assert.deepEqual(output.recommendations,[]);
     }
-    const approved=recommendWheelchair({...input,loadFit:"yes",seatFit:"yes",widthFit:"yes",brakeFit:"yes"});
+    const approved=recommendWheelchair({...input,loadFit:"yes",seatFit:"yes",widthFit:"yes",brakeFit:"yes",routeFit:"yes"});
     assert.equal(approved.status,"candidate");
   }
 });

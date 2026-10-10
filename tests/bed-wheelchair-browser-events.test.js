@@ -13,7 +13,7 @@ function create(kind) {
   const isWheelchair=kind==="wheelchair";
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
   const attr=isWheelchair?"data-zp-wheelchair-required":"data-zp-bed-required";
-  const fitFields=isWheelchair?["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit"]:["loadFit","spaceFit","userCapacityVerified"];
+  const fitFields=isWheelchair?["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit","routeFit"]:["loadFit","spaceFit","userCapacityVerified"];
   const names=isWheelchair?["propulsion","transferAbility","manualControlSafe",...fitFields,"joystickSafe","chargingReady","duration"]:
     ["primaryNeed","transferAbility",...fitFields,"duration"];
   const inputs=new Map(),fields=new Map(),listeners={};
@@ -34,7 +34,7 @@ function create(kind) {
   };
   for(const name of names){
     const group={
-      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady","wheelType","seatWidthVariant","brakeFit"].includes(name) : name==="userCapacityVerified",
+      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady","wheelType","seatWidthVariant","brakeFit","routeFit"].includes(name) : name==="userCapacityVerified",
       dataset:{[requiredAttr]:name},attributes:{},
       classList:{toggle(){},remove(){},add(){}},
       closest(selector){return selector==='[hidden]' && (this.hidden || this.parent?.hidden)?(this.hidden?this:stage):null;},
@@ -276,4 +276,31 @@ test("P3641 unknown seat variant never unlocks merchant URL", () => {
   h.submitButton.click();
   assert.equal(h.result.hidden,false);
   assert.doesNotMatch(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);
+});
+
+test("powered P2961 route check appears only after preview and gates the merchant link", () => {
+  const h = create("wheelchair");
+  h.form.change("propulsion", "powered");
+  h.form.change("joystickSafe", "yes");
+  h.form.change("chargingReady", "yes");
+  h.submitButton.click();
+  assert.equal(h.preview.hidden, false);
+  assert.equal(h.fields.get("routeFit").hidden, false);
+  assert.equal(h.fields.get("brakeFit").hidden, true);
+  for (const name of ["seatFit", "widthFit", "loadFit"]) h.form.change(name, "yes");
+  h.submitButton.click();
+  assert.equal(h.result.hidden, true, "route answer is required");
+  assert.equal(h.errorBox.hidden, false);
+  h.form.change("routeFit", "unknown");
+  h.submitButton.click();
+  assert.equal(h.result.hidden, false);
+  assert.doesNotMatch(h.result.innerHTML, /merchant-link|Zobrazit produkt/);
+  h.form.change("routeFit", "yes");
+  h.submitButton.click();
+  assert.match(h.result.innerHTML, /data-zp-wheelchair-merchant-link/);
+  h.form.change("routeFit", "no");
+  assert.equal(h.result.hidden, true, "stale merchant link disappears after route change");
+  assert.equal(h.result.innerHTML, "");
+  h.submitButton.click();
+  assert.doesNotMatch(h.result.innerHTML, /merchant-link/);
 });

@@ -66,7 +66,7 @@ get_header();
       <div class="zp-grid">
         <article class="zp-card"><h3>Rozměry</h3><p>Výška madel 79–97 cm, šířka 61,5 cm, nosnost 130 kg.</p></article>
         <article class="zp-card"><h3>Brzdy a sedátko</h3><p>Výrobce uvádí přítlačné brzdy s možností aretace, sedátko, podnos a košík.</p></article>
-        <article class="zp-card"><h3>Úhrada</h3><p>Výrobce aktuálně uvádí kód ZP 07-5005963, cenu i úhradu 3 408 Kč a doplatek 0 Kč. Individuální nárok ale Zápraží nepotvrzuje.</p></article>
+        <article class="zp-card"><h3>Úhrada</h3><p>Pro konkrétní model MEYRA Ideal Rollator 3061982 výrobce uvádí kód ZP 07-5005963. Úhradu a případný doplatek je nutné posoudit podle účinného měsíčního seznamu SÚKL a správné cesty výdeje. Údaj o doplatku na stránce výrobce není automatickým potvrzením nároku konkrétní osoby.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit úhradu chodítka</a></p></article>
       </div>
     </div>
   </section>
@@ -76,7 +76,7 @@ get_header();
       <h2 class="zp-section-title">Časté otázky</h2>
       <details><summary>Jak poznat, že je rollátor vhodnější než chodítko bez brzd?</summary><p>Rollátor je určený pro plynulejší pohyb po kolečkách a typicky pro použití venku nebo doma i venku. Podmínkou je bezpečné ovládání ručních brzd.</p></details>
       <details><summary>Musí mít rollátor sedátko?</summary><p>Nemusí, ale sedátko je praktické pro člověka, který při delší chůzi potřebuje odpočívat. Při usedání musí být brzdy podle návodu bezpečně zajištěné.</p></details>
-      <details><summary>Hradí rollátor zdravotní pojišťovna?</summary><p>Některé konkrétní modely ano. MEYRA aktuálně uvádí u modelu Ideal Rollator kód ZP 07-5005963 a plnou úhradu. Individuální nárok a správný postup je ale potřeba ověřit před nákupem.</p></details>
+      <details><summary>Hradí rollátor zdravotní pojišťovna?</summary><p>U některých konkrétních modelů může existovat úhrada podle podmínek pojištění a platného seznamu SÚKL. U modelu MEYRA Ideal Rollator výrobce uvádí kód ZP 07-5005963, ale údaj výrobce sám o sobě nedokládá aktuální úhradu ani výsledný doplatek. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Projděte správný postup před nákupem.</a></p></details>
       <details><summary>Kdy online poradce rollátor nedoporučí?</summary><p>Pokud člověk nezvládá ruční brzdy nebo při chůzi běžně potřebuje fyzickou pomoc druhé osoby.</p></details>
     </div>
   </section>

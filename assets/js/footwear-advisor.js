@@ -8,6 +8,7 @@ const submitButton = document.querySelector("#zp-footwear-submit");
 const errorBox = document.querySelector("#zp-footwear-errors");
 const sizeStage = document.querySelector("#zp-footwear-size-stage");
 const sizeModel = document.querySelector("#zp-footwear-size-model");
+const sizeContact = document.querySelector("#zp-footwear-size-contact");
 const runtime = window.ZaPraziRuntime || { affiliateMap: {} };
 const affiliateMap = runtime.affiliateMap || {};
 let builderStarted = false;
@@ -20,7 +21,7 @@ const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
   .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 
-if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
+if (form && result && submitButton && errorBox && sizeStage && sizeModel && sizeContact) {
 
   // A result belongs to the exact answers used to produce it.
   // Hide and remove any previous outbound offer as soon as an answer changes.
@@ -31,6 +32,7 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
     // changes to any answer used to select a product.
     if (event.target?.name !== "sizeChartFit") {
       sizeStage.hidden = true;
+      sizeContact.removeAttribute("href");
       sizeStage.querySelectorAll("input").forEach(input => { input.checked = false; });
       sizeStage.classList.remove("is-error");
       sizeStage.removeAttribute("aria-invalid");
@@ -68,7 +70,7 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
 
   const renderCandidate = (output) => {
     const candidate = output.candidate;
-    if (!candidate) return "";
+    if (!candidate || output.status === "size_mismatch") return "";
 
     const configured = candidate.affiliateKey ? affiliateMap[candidate.affiliateKey] : null;
     const affiliateUrl = typeof configured === "string" && configured.startsWith("https://") ? configured : null;
@@ -78,12 +80,12 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
 
     return `
       <section class="zp-product-section">
-        <h3>${output.status === "candidate" ? "Ověřený kandidát k porovnání" : "Kandidát po doplnění měření"}</h3>
+        <h3>${output.status === "candidate" ? "Ověřený kandidát k porovnání" : "Možný model k ověření"}</h3>
         <article class="zp-product-card">
           <h4>${escapeHtml(candidate.product)}</h4>
           <ul class="zp-facts">
             ${candidate.facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("")}
-            <li>Cena při ověření ${escapeHtml(candidate.checkedAt)}: ${escapeHtml(candidate.listedPriceCzk)} Kč (aktuální cenu zkontrolujte u prodejce)</li>
+            ${allowOffer ? `<li>Cena při ověření ${escapeHtml(candidate.checkedAt)}: ${escapeHtml(candidate.listedPriceCzk)} Kč (aktuální cenu zkontrolujte u prodejce)</li>` : ""}
           </ul>
           ${output.checks?.length ? `<h5>Co ještě ověřit</h5><ul>${output.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
           <details class="zp-sources">
@@ -136,14 +138,22 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
     if (readyForModelSizing) {
       sizeStage.hidden = false;
       sizeModel.textContent = output.candidate.product;
+      // Only public product identity is included in this voluntary email.
+      // Never append questionnaire answers, foot measurements or diagnoses.
+      const modelName = output.candidate.product;
+      const subject = "Dotaz na velikostní tabulku – " + modelName;
+      const body = "Dobrý den,\nprosím o velikostní tabulku pro tento model včetně délky a šířky pro jednotlivé velikosti:\n" + modelName + "\nDěkuji.";
+      sizeContact.href = "mailto:zdravaobuv@email.cz?subject="
+        + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     } else {
       sizeStage.hidden = true;
       sizeModel.textContent = "";
+      sizeContact.removeAttribute("href");
       sizeStage.querySelectorAll("input").forEach(input => { input.checked = false; });
     }
 
     if (output.status === "candidate") track("builder_complete");
-    if (output.candidate) track("recommendation_view");
+    if (output.candidate && output.status !== "size_mismatch") track("recommendation_view");
 
     result.innerHTML = `
       <h2>${escapeHtml(output.headline)}</h2>

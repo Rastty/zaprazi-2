@@ -61,14 +61,8 @@ function setup() {
     "#zp-toilet-support-fit-stage": fitStage
   };
   const source = fs.readFileSync(new URL("../src/bathroom/micro-staging.js", import.meta.url), "utf8")
-    .replace(/^import .*;\s*$/gm, "");
-  vm.runInNewContext(source + "\n;globalThis._install=installBathroomMicroStaging;", {
-    document: { querySelector(sel) { return nodes[sel] || null; } },
-    previewBathroomCandidates() { return { status: "unverified_preview", productCandidateIds: ["test-chair"] }; },
-    getBathroomProducts() { return [{ id:"test-chair", name:"Kontrolní výrobek", facts:{}, selectionNotes:[], evidence:[] }]; },
-    formatBathroomFacts() { return []; }
-  }, { filename:"micro-staging.js", timeout:1500 });
-  // The VM is re-evaluated with an explicit capture because it has an isolated global.
+    .replace(/^import .*;\s*$/gm, "").replace(/^export\s+/gm, "");
+  // Inject the imported preview/catalogue functions into an isolated browser-like context.
   const realm = {
     document: { querySelector(sel) { return nodes[sel] || null; } },
     previewBathroomCandidates() { return { status:"unverified_preview", productCandidateIds:["test-chair"] }; },

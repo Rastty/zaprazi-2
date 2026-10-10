@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.92' );
+  define( 'ZAPRAZI_RELEASE', '0.8.93' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_92';
+  $marker = 'ZP_RELEASE_0_8_93';
   $files = array(
     'header.php',
     'footer.php',
@@ -63,6 +63,7 @@ function zaprazi_2_release_integrity_ok() {
     'src/return-home/engine.js',
     'src/return-home/checklist.js',
     'src/bathroom/variant-fit.js',
+    'src/bathroom/micro-staging.js',
     'assets/js/runtime-config.js',
     'style.css',
   );

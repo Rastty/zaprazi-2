@@ -825,7 +825,7 @@ try {
       canonical:document.querySelector('link[rel="canonical"]')?.href || "",
       headings:[...document.querySelectorAll("main h1")].map(e=>e.textContent.trim()),
       official:[...document.querySelectorAll("main a[href]")].filter(a=>
-        /nzip\\.cz|vzp\\.cz/.test(a.hostname)).length,
+        ["nzip.cz", "www.nzip.cz", "vzp.cz", "www.vzp.cz"].includes(a.hostname.toLowerCase())).length,
       internal:[...document.querySelectorAll("main a[href]")].map(a=>a.getAttribute("href"))
         .filter(Boolean),
       overflow:document.documentElement.scrollWidth-window.innerWidth

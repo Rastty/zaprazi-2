@@ -1,3 +1,4 @@
+import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const BATHROOM_PRODUCTS = Object.freeze([
   {
     id: "unizdrav-p2868",
@@ -249,5 +250,5 @@ const PRODUCT_INDEX = new Map(BATHROOM_PRODUCTS.map((product) => [product.id, pr
 export function getBathroomProducts(ids = []) {
   return ids
     .map((id) => PRODUCT_INDEX.get(id))
-    .filter((product) => product && product.productionEligible);
+    .filter(isVerifiedProductionProduct);
 }

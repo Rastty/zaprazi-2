@@ -1,4 +1,5 @@
 // ZP_RELEASE_0_8_95
+import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const WHEELCHAIR_PRODUCTS = Object.freeze([
   {
     id: "unizdrav-p4384",
@@ -134,5 +135,5 @@ export const WHEELCHAIR_PRODUCTS = Object.freeze([
 
 export function getWheelchairProducts(ids = []) {
   const wanted = new Set(ids);
-  return WHEELCHAIR_PRODUCTS.filter((item) => wanted.has(item.id) && item.productionEligible);
+  return WHEELCHAIR_PRODUCTS.filter((item) => wanted.has(item.id) && isVerifiedProductionProduct(item));
 }

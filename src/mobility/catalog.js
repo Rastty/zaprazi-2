@@ -1,3 +1,4 @@
+import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const MOBILITY_PRODUCTS = Object.freeze([
   {
     id: "besco-wa17",
@@ -180,5 +181,5 @@ const PRODUCT_INDEX = new Map(MOBILITY_PRODUCTS.map((product) => [product.id, pr
 export function getMobilityProducts(ids = []) {
   return ids
     .map((id) => PRODUCT_INDEX.get(id))
-    .filter((product) => product && product.productionEligible);
+    .filter(isVerifiedProductionProduct);
 }

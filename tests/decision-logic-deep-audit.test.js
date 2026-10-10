@@ -64,9 +64,9 @@ test("manual wheelchair never becomes a candidate without practical control conf
 });
 
 test("wheelchair valid fit is blocked if any individual part is no or unknown", () => {
-  const base = {propulsion:"companion", transferAbility:"independent", loadFit:"yes", widthFit:"yes", seatFit:"yes"};
+  const base = {propulsion:"companion", transferAbility:"independent", loadFit:"yes", widthFit:"yes", seatFit:"yes", brakeFit:"yes"};
   assert.equal(recommendWheelchair(base).status, "candidate");
-  for (const key of ["loadFit","widthFit","seatFit"]) {
+  for (const key of ["loadFit","widthFit","seatFit","brakeFit"]) {
     for (const val of ["no","unknown"]) {
       const output = recommendWheelchair({...base,[key]:val});
       assert.notEqual(output.status,"candidate", key + "=" + val);

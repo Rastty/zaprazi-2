@@ -91,6 +91,14 @@ get_header();
           <label class="zp-choice"><input type="radio" name="loadFit" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="brakeFit" hidden>
+          <legend>Mají parkovací brzdy právě zvoleného mechanického vozíku ověřenou funkčnost a lze je bezpečně zajistit před přesedáním?</legend>
+          <p>Ověřte brzdy konkrétního kusu, nikoli jen údaj v popisu podobného modelu. Při změně rozměrové varianty nebo kol je nutné kontrolu zopakovat.</p>
+          <label class="zp-choice"><input type="radio" name="brakeFit" value="yes"><span><strong>Ano, ověřeno na tomto modelu</strong><small>Brzdy fungují a lze je zajistit před usednutím i při vstávání.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="brakeFit" value="no"><span><strong>Ne</strong><small>Tento vozík zatím nevybírejte.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="brakeFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív ověřte funkčnost a zajištění brzd.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset" data-zp-wheelchair-conditional="powered" data-zp-wheelchair-required="joystickSafe" hidden>
           <legend>Zvládne člověk joystickem spolehlivě rozjet, zatočit, zpomalit a zastavit?</legend>
           <label class="zp-choice"><input type="radio" name="joystickSafe" value="yes"><span><strong>Ano</strong></span></label>

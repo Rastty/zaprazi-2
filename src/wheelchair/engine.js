@@ -104,6 +104,7 @@ export function recommendWheelchair(input = {}) {
     seatFit = "unknown",
     widthFit = "unknown",
     loadFit = "unknown",
+    brakeFit = "unknown",
     wheelType = "unknown",
     seatWidthVariant = "unknown",
     manualControlSafe = "unknown",
@@ -114,7 +115,7 @@ export function recommendWheelchair(input = {}) {
 
   if (!PROPULSION.has(propulsion)) return invalid("propulsion");
   if (!TRANSFER.has(transferAbility)) return invalid("transferAbility");
-  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, manualControlSafe, joystickSafe, chargingReady })) {
+  for (const [name, value] of Object.entries({ seatFit, widthFit, loadFit, brakeFit, manualControlSafe, joystickSafe, chargingReady })) {
     if (!FIT.has(value)) return invalid(name);
   }
   if (!DURATION.has(duration)) return invalid("duration");
@@ -205,6 +206,19 @@ export function recommendWheelchair(input = {}) {
       widthFit === "no"
         ? "Tento kandidát se do potřebných průchodů nevejde; potřebujeme užší model nebo upravit trasu."
         : "Změřte nejužší dveře, chodbu a místo pro otáčení."
+    );
+  }
+
+  // Mechanical wheelchairs must have safe parkable brakes before any exact
+  // candidate is offered. General steering ability is NOT a model-specific
+  // check; this applies to both companion and self-propelled constructions.
+  if (propulsion !== "powered" && brakeFit !== "yes") {
+    return needsMoreInfo(
+      "brakeFit",
+      "Parkovací brzdy konkrétního mechanického vozíku musí být ověřené.",
+      brakeFit === "no"
+        ? "Pokud parkovací brzdy nejsou funkční nebo je nelze bezpečně zajistit, tento vozík nekupujte ani nepoužívejte pro přesedání. Prověřte servis nebo jiný model."
+        : "Před výběrem prakticky ověřte parkovací brzdy vybraného modelu a jejich zajištění při přesunu na vozík i z vozíku. Pokud to nevíte, nákupní nabídku zatím neotvírejte."
     );
   }
 

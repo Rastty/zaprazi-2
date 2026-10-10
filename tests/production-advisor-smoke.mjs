@@ -426,6 +426,15 @@ try {
     await choose(page, "measuredFeet", "unknown");
     await click(page, "#zp-footwear-submit");
     assert.equal(await count(page, "#zp-footwear-result [data-zp-footwear-merchant-link]"), 0);
+    if (releaseAtLeast("0.8.101")) {
+      assert.equal(await visible(page, "#zp-footwear-size-stage"), false,
+        "Sizing stage must not precede foot measurement and safe fastener use");
+      await choose(page, "measuredFeet", "yes");
+      await click(page, "#zp-footwear-submit");
+      assert.equal(await visible(page, "#zp-footwear-size-stage"), false,
+        "Confirmed measurement cannot bypass unknown Velcro operation");
+      await choose(page, "measuredFeet", "unknown");
+    }
     await choose(page, "velcroUse", "yes");
     await choose(page, "measuredFeet", "yes");
     await click(page, "#zp-footwear-submit");
@@ -452,6 +461,10 @@ try {
         "Changing measurements must invalidate the previous model fit");
       await click(page, "#zp-footwear-submit");
       await checkNoMerchant(page, "#zp-footwear-result");
+      if (releaseAtLeast("0.8.101")) {
+        assert.equal(await visible(page, "#zp-footwear-size-stage"), false,
+          "Sizing stage must remain hidden after confirmed measurement is revoked");
+      }
     }
     console.log("PASS footwear size and fastener safety");
     await page.close();

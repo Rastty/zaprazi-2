@@ -127,7 +127,13 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
       sizeChartFit: checkedValue("sizeChartFit", "unknown")
     });
 
-    if (output.candidate) {
+    // A model-specific sizing check is useful only after the visitor has
+    // measured both feet and confirmed that its closure can be operated.
+    // Never ask for final size fit before these prerequisite checks.
+    const readyForModelSizing = Boolean(output.candidate)
+      && checkedValue("velcroUse") === "yes"
+      && checkedValue("measuredFeet") === "yes";
+    if (readyForModelSizing) {
       sizeStage.hidden = false;
       sizeModel.textContent = output.candidate.product;
     } else {
@@ -156,7 +162,7 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel) {
     result.hidden = false;
     // New stage must receive focus on the first step, rather than sending
     // the user beyond it to a result below the form.
-    if (output.candidate && !checkedValue("sizeChartFit")) sizeStage.focus();
+    if (readyForModelSizing && !checkedValue("sizeChartFit")) sizeStage.focus();
     else result.focus();
   });
 }

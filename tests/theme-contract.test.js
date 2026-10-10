@@ -2483,3 +2483,28 @@ test("specialist mobility advisors show, focus and clear required-question error
     assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
   }
 });
+
+test("bathroom WC support and bath transfer specialists focus visible missing required fields", () => {
+  const css=read("style.css");
+  assert.match(css, /\\.zp-fieldset\\.is-error\\{border-color:/);
+  for (const [path, dataName, requiredAttr, page] of [
+    ["assets/js/toilet-support-advisor.js","zpSupportRequired","data-zp-support-required","page-madlo-k-wc-pro-seniory.php"],
+    ["assets/js/bath-transfer-advisor.js","zpBathRequired","data-zp-bath-required","page-sedatko-do-vany-pro-seniory.php"]
+  ]) {
+    const app=read(path);
+    const html=read(page);
+    assert.ok(html.includes(requiredAttr), "missing required question in "+page);
+    assert.match(html, /role="alert" aria-live="assertive" hidden/);
+    assert.ok(app.includes("group.dataset."+dataName));
+    assert.match(app, /!fieldset\\.hidden && !fieldset\\.closest\\('\\[hidden\\]'\\)/);
+    assert.match(app, /group\\.classList\\.toggle\\("is-error",invalid\\)/);
+    assert.match(app, /group\\.setAttribute\\("aria-invalid","true"\\)/);
+    assert.match(app, /missing\\[0\\]\\.setAttribute\\("tabindex","-1"\\)/);
+    assert.match(app, /missing\\[0\\]\\.focus\\(\\)/);
+    assert.match(app, /event\\.target\\?\\.closest\\?/);
+    assert.match(app, /group\\.classList\\.remove\\("is-error"\\)/);
+    assert.match(app, /group\\.removeAttribute\\("aria-invalid"\\)/);
+    assert.match(app, /remaining=groups\\(\\)\\.filter/);
+    assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\\(/);
+  }
+});

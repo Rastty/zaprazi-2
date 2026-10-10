@@ -29,7 +29,7 @@ const scenarios = [
   ["companion wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"companion",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes",brakeFit:"yes"}],
   ["manual wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"self_manual",wheelType:"pneumatic",seatWidthVariant:"48",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes",brakeFit:"yes"}],
   ["mixed wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"mixed_manual",wheelType:"tubeless",seatWidthVariant:"51",transferAbility:"independent",manualControlSafe:"yes",seatFit:"yes",widthFit:"yes",loadFit:"yes",brakeFit:"yes"}],
-  ["powered wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"powered",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes"}]
+  ["powered wheelchair",recommendWheelchair,getWheelchairProducts,{propulsion:"powered",transferAbility:"independent",seatFit:"yes",widthFit:"yes",loadFit:"yes",joystickSafe:"yes",chargingReady:"yes",routeFit:"yes"}]
 ];
 
 test("every commercial engine branch maps to real, eligible, uniquely identified product(s) with evidence",()=>{

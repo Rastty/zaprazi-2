@@ -99,6 +99,14 @@ get_header();
           <label class="zp-choice"><input type="radio" name="brakeFit" value="unknown"><span><strong>Nevím</strong><small>Nejdřív ověřte funkčnost a zajištění brzd.</small></span></label>
         </fieldset>
 
+        <fieldset class="zp-fieldset" data-zp-product-fit="1" data-zp-wheelchair-required="routeFit" hidden>
+          <legend>Ověřili jste sklony, prahy a povrch skutečné trasy podle parametrů elektrického vozíku P2961?</legend>
+          <p>Výrobce uvádí bezpečný sklon 6° a překážku do 5 cm. Tyto hodnoty nejsou příslibem bezpečného průjezdu v každé situaci. Pokud si nejste jistí, nabídku zatím neotvírejte.</p>
+          <label class="zp-choice"><input type="radio" name="routeFit" value="yes"><span><strong>Ano, ověřeno pro P2961</strong><small>Trasa byla porovnána s návodem konkrétního výrobku.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="routeFit" value="no"><span><strong>Ne, trasa nevyhovuje</strong><small>Nejdřív vyřešte trasu nebo zvažte jiný model.</small></span></label>
+          <label class="zp-choice"><input type="radio" name="routeFit" value="unknown"><span><strong>Nevím</strong><small>Prohlédněte prahy, sklony a povrch; nákupní nabídka zůstane uzamčena.</small></span></label>
+        </fieldset>
+
         <fieldset class="zp-fieldset" data-zp-wheelchair-conditional="powered" data-zp-wheelchair-required="joystickSafe" hidden>
           <legend>Zvládne člověk joystickem spolehlivě rozjet, zatočit, zpomalit a zastavit?</legend>
           <label class="zp-choice"><input type="radio" name="joystickSafe" value="yes"><span><strong>Ano</strong></span></label>

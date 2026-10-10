@@ -54,7 +54,7 @@ export const WHEELCHAIR_PRODUCTS = Object.freeze([
       totalLengthCm: 107,
       seatHeightCm: 50,
       chairWeightKg: "17–17.5",
-      maxUserWeightKg: "125 s pneumatickými / 136 s bezdušovými koly",
+      maxUserWeightKg: "125 kg s pneumatickými / 136 kg s bezdušovými koly",
       companionBrakes: true,
       selfPropulsionRims: true
     },

@@ -240,6 +240,7 @@ try {
     await click(page, "#zp-wheelchair-submit");
     assert.equal(await visible(page, "#zp-wheelchair-preview"), true);
     await checkPreviewNoCommerce(page, "#zp-wheelchair-preview");
+    await choose(page, "seatWidthVariant", "48");
     await choose(page, "seatFit", "yes");
     await choose(page, "widthFit", "yes");
     await choose(page, "loadFit", "yes");
@@ -250,6 +251,10 @@ try {
     assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null,
       "Wheel variant selection invalidates earlier generic load confirmation");
     await choose(page, "loadFit", "yes");
+    await choose(page, "brakeFit", "unknown");
+    await click(page, "#zp-wheelchair-submit");
+    await checkNoMerchant(page, "#zp-wheelchair-result");
+    await choose(page, "brakeFit", "yes");
     await click(page, "#zp-wheelchair-submit");
     assert.ok(await count(page, "#zp-wheelchair-result [data-zp-wheelchair-merchant-link]") > 0,
       "Manual wheelchair verified branch needs a specific offer");
@@ -691,6 +696,7 @@ try {
     await click(page,"#zp-wheelchair-submit");
     await checkPreviewNoCommerce(page,"#zp-wheelchair-preview");
     assert.equal(await visible(page,'#zp-wheelchair-fit-stage [name="wheelType"]'),true);
+    await choose(page,"seatWidthVariant","48");
     await choose(page,"seatFit","yes");
     await choose(page,"widthFit","yes");
     await choose(page,"wheelType","unknown");
@@ -700,6 +706,7 @@ try {
     await choose(page,"wheelType","pneumatic");
     assert.equal(await page.$eval('input[name="loadFit"]:checked',el=>el.value).catch(()=>null),null);
     await choose(page,"loadFit","yes");
+    await choose(page,"brakeFit","yes");
     await click(page,"#zp-wheelchair-submit");
     const result="#zp-wheelchair-result";
     assert.match(await page.$eval(result,el=>el.textContent),/pneumatická kola – 125 kg/);
@@ -710,6 +717,7 @@ try {
     await click(page,"#zp-wheelchair-submit");
     assert.equal(await visible(page,"#zp-wheelchair-errors"),true);
     await choose(page,"loadFit","yes");
+    await choose(page,"brakeFit","yes");
     await click(page,"#zp-wheelchair-submit");
     assert.match(await page.$eval(result,el=>el.textContent),/bezdušová kola – 136 kg/);
     await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
@@ -721,10 +729,51 @@ try {
     await choose(page,"seatFit","yes");
     await choose(page,"widthFit","yes");
     await choose(page,"loadFit","yes");
+    await choose(page,"brakeFit","yes");
     await click(page,"#zp-wheelchair-submit");
     assert.ok(await count(page,result+' [data-zp-wheelchair-merchant-link]')>0,
       "Basic companion purchase path should remain available with verified fit");
     console.log("PASS 0.8.71 wheelchair P3641 variant-specific capacity, no bypass and reset");
+    await page.close();
+  }
+
+  // After 0.8.98: powered P2961 model can be previewed, but checkout
+  // requires confirmed real-world slopes, thresholds and surface.
+  if (releaseAtLeast("0.8.98")) {
+    const page = await open("/invalidni-vozik/");
+    const result = "#zp-wheelchair-result";
+    const offer = result + " [data-zp-wheelchair-merchant-link]";
+    await choose(page, "propulsion", "powered");
+    await choose(page, "transferAbility", "independent");
+    await choose(page, "joystickSafe", "yes");
+    await choose(page, "chargingReady", "yes");
+    await click(page, "#zp-wheelchair-submit");
+    assert.equal(await visible(page, "#zp-wheelchair-preview"), true);
+    assert.match(await page.$eval("#zp-wheelchair-preview", el => el.textContent), /P2961/);
+    await checkPreviewNoCommerce(page, "#zp-wheelchair-preview");
+    assert.equal(await visible(page, '#zp-wheelchair-fit-stage [name="routeFit"]'), true,
+      "Powered P2961 needs its own route-fit check");
+    assert.equal(await visible(page, '#zp-wheelchair-fit-stage [name="brakeFit"]'), false,
+      "Powered P2961 must not ask about mechanical parking brakes");
+    for (const name of ["seatFit","widthFit","loadFit"]) await choose(page, name, "yes");
+    await click(page, "#zp-wheelchair-submit");
+    assert.equal(await visible(page, "#zp-wheelchair-errors"), true,
+      "Missing route answer must be highlighted");
+    await checkNoMerchant(page, result);
+    for (const answer of ["unknown", "no"]) {
+      await choose(page, "routeFit", answer);
+      await click(page, "#zp-wheelchair-submit");
+      await checkNoMerchant(page, result);
+    }
+    await choose(page, "routeFit", "yes");
+    await click(page, "#zp-wheelchair-submit");
+    await assertAffiliateOffers(page, offer);
+    await choose(page, "routeFit", "no");
+    assert.equal(await visible(page, result), false, "Changed route must revoke previous offer");
+    await checkNoMerchant(page, result);
+    await click(page, "#zp-wheelchair-submit");
+    await checkNoMerchant(page, result);
+    console.log("PASS 0.8.98 powered P2961 route fit, affiliate lock and answer revocation");
     await page.close();
   }
 
@@ -801,7 +850,7 @@ try {
     console.log("PASS 0.8.73 noncommercial discharge article, SEO metadata, sources and cluster links");
   }
 
-  console.log("SUCCESS: 14 live Advisor forms + incomplete-answer safety + 14 interactive Advisor paths and 2 adaptive-fit branch scenarios");
+  console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();
 }

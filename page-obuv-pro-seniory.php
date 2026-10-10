@@ -55,6 +55,7 @@ get_header();
         <fieldset class="zp-fieldset" id="zp-footwear-size-stage" tabindex="-1" hidden>
           <legend>Odpovídá zvolená velikost tabulce konkrétního modelu?</legend>
           <p>Vybraný model: <strong id="zp-footwear-size-model"></strong>. Porovnejte naměřenou délku a šířku <strong>obou chodidel</strong> s velikostní tabulkou tohoto modelu. Pokud tabulku nemáte, požádejte prodejce o rozměry. Nestačí pouze běžné číslo obuvi.</p>
+          <p><a id="zp-footwear-size-contact">Požádat prodejce o velikostní tabulku tohoto modelu e-mailem</a>. Otevře se vaše e-mailová aplikace s názvem modelu, bez odpovědí z poradce. Neposílejte diagnózu ani jiné citlivé údaje.</p>
           <label class="zp-choice"><input type="radio" name="sizeChartFit" value="yes"><span><strong>Ano, délka i šířka odpovídají</strong><small>Pro zvolenou velikost konkrétního modelu.</small></span></label>
           <label class="zp-choice"><input type="radio" name="sizeChartFit" value="no"><span><strong>Ne, rozměry neodpovídají</strong><small>Tuto variantu neobjednávat.</small></span></label>
           <label class="zp-choice"><input type="radio" name="sizeChartFit" value="unknown"><span><strong>Zatím nevím</strong><small>Nejdřív ověřím tabulku nebo rozměry u prodejce.</small></span></label>

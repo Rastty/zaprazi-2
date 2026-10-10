@@ -40,7 +40,15 @@ function setup(initialTransfer = "independent") {
       name,
       parent: null,
       getAttribute(attr) { return attr === "data-zp-toilet-required" ? name : null; },
-      classList: { toggle() {} },
+      attrs: {},
+      classList: {
+        values:new Set(),
+        toggle(key,active) { active ? this.values.add(key) : this.values.delete(key); },
+        remove(key) { this.values.delete(key); },
+        contains(key) { return this.values.has(key); }
+      },
+      setAttribute(key,value) { this.attrs[key] = value; },
+      removeAttribute(key) { delete this.attrs[key]; },
       closest(selector) { return selector === "[hidden]" && this.parent?.hidden ? stage : null; },
       focus() {}
     };

@@ -272,6 +272,7 @@ test("P3641 unknown seat variant never unlocks merchant URL", () => {
   h.form.change("widthFit","yes");
   h.form.change("wheelType","pneumatic");
   h.form.change("loadFit","yes");
+  h.form.change("brakeFit","yes");
   h.submitButton.click();
   assert.equal(h.result.hidden,false);
   assert.doesNotMatch(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);

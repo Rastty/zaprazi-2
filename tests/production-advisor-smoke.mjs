@@ -447,6 +447,26 @@ try {
         await click(page, "#zp-footwear-submit");
         await checkNoMerchant(page, "#zp-footwear-result");
       }
+      if (releaseAtLeast("0.8.102")) {
+        await choose(page, "sizeChartFit", "no");
+        await click(page, "#zp-footwear-submit");
+        const mismatchText=await page.$eval("#zp-footwear-result", el=>el.textContent);
+        assert.match(mismatchText,/neodpovídá naměřeným rozměrům/);
+        assert.equal(await count(page,"#zp-footwear-result .zp-product-card"),0,
+          "Mismatched size must not show a purchase-preview product card or price");
+        assert.equal(await count(page,"#zp-footwear-result [data-zp-footwear-merchant-link]"),0);
+        assert.equal(await visible(page,"#zp-footwear-size-stage"),true,
+          "Model identity and sizing contact must remain available to correct a mismatch");
+        const contact=await page.$eval("#zp-footwear-size-contact", el=>el.getAttribute("href"));
+        assert.ok(contact.startsWith("mailto:zdravaobuv@email.cz?"));
+        assert.ok(decodeURIComponent(contact).includes("XAVIER"));
+        assert.ok(!/measuredFeet|sizeChartFit|velcroUse|diagnos|health=/i.test(contact),
+          "Size inquiry must never leak advisor answers");
+        await choose(page,"sizeChartFit","unknown");
+        await click(page,"#zp-footwear-submit");
+        assert.equal(await count(page,"#zp-footwear-result .zp-product-card li"),5,
+          "Unverified sizing card must show only five stable product facts, no price");
+      }
       await choose(page, "sizeChartFit", "yes");
       await click(page, "#zp-footwear-submit");
     }

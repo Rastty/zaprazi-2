@@ -111,7 +111,7 @@ test("powered branch requires charging setup", () => {
 
 test("powered branch returns exact electric chair after all gates pass", () => {
   const result = recommendWheelchair({
-    propulsion: "powered",
+    routeFit: "yes", propulsion: "powered",
     brakeFit: "yes", transferAbility: "independent",
     seatFit: "yes",
     widthFit: "yes",
@@ -260,11 +260,33 @@ test("self and mixed manual variants must re-confirm parking brakes", () => {
 
 test("electric wheelchair control remains joystick-based without a mechanical parking brake check", () => {
   const output = recommendWheelchair({
-    propulsion: "powered", transferAbility: "independent",
+    routeFit: "yes", propulsion: "powered", transferAbility: "independent",
     joystickSafe: "yes", chargingReady: "yes",
     seatFit: "yes", widthFit: "yes", loadFit: "yes",
     brakeFit: "unknown"
   });
   assert.equal(output.status, "candidate");
   assert.deepEqual(output.recommendations[0].productCandidateIds, ["unizdrav-p2961"]);
+});
+
+test("powered P2961 must not unlock an offer before route and terrain fit is confirmed", () => {
+  const base = {
+    propulsion: "powered", transferAbility: "independent",
+    seatFit: "yes", widthFit: "yes", loadFit: "yes",
+    joystickSafe: "yes", chargingReady: "yes"
+  };
+  for (const routeFit of ["unknown", "no"]) {
+    const blocked = recommendWheelchair({ ...base, routeFit });
+    assert.equal(blocked.status, "needs_more_info");
+    assert.deepEqual(blocked.missing, ["routeFit"]);
+    assert.deepEqual(blocked.recommendations, []);
+    assert.deepEqual(blocked.acquisition, []);
+  }
+  assert.equal(recommendWheelchair({ ...base }).status, "needs_more_info");
+  assert.equal(recommendWheelchair({ ...base, routeFit: "yes" }).status, "candidate");
+  assert.equal(recommendWheelchair({ ...base, routeFit: "maybe" }).status, "invalid_input");
+  // Irrelevant new field must never restrict a verified mechanical model.
+  const companion = { propulsion: "companion", transferAbility: "independent",
+    brakeFit: "yes", seatFit: "yes", widthFit: "yes", loadFit: "yes" };
+  assert.equal(recommendWheelchair({ ...companion, routeFit: "unknown" }).status, "candidate");
 });

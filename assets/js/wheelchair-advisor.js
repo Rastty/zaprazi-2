@@ -131,12 +131,16 @@ if (form && result && submitButton && errorBox && candidateNote) {
             const facts = selected
               ? selected.parameters.slice(0, 5).map((item) => `<li>${escapeHtml(item)}</li>`).join("")
               : factsFor(product);
+            const notes = selected ? [
+              "Při objednávce ověřte u prodejce právě uvedenou šířku sedu, celkovou šířku, druh kol a nosnost. Nezaměňujte varianty.",
+              "Zkontrolujte stupačky, možnost složení a bezpečné zajištění parkovacích brzd před přesedáním."
+            ] : product.selectionNotes;
             return `
               <article class="zp-product-card">
                 <h4>${escapeHtml(product.name)}</h4>
                 ${selected ? '<p class="zp-muted-copy">Zvolená varianta sedu a kol — u prodejce ověřte přesně stejné provedení. Jiné provedení může mít odlišnou šířku a nosnost.</p>' : ""}
                 <ul class="zp-facts">${facts}</ul>
-                <details><summary>Co ještě ověřit</summary><ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul></details>
+                <details><summary>Co ještě ověřit</summary><ul>${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul></details>
                 <details class="zp-sources"><summary>Zdroje a datum ověření</summary><ul>${product.evidence.map((source) => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a> <small>ověřeno ${escapeHtml(source.checkedAt)}</small></li>`).join("")}</ul></details>
                 <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
                   <strong>${escapeHtml(offer.merchantName)}</strong>

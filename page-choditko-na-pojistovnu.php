@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_92 */
+/* ZP_RELEASE_0_8_93 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */

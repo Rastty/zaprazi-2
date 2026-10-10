@@ -21,7 +21,15 @@ function runFinalStep(kind, choices, hiddenNames = []) {
   const fields = required.map(name => ({
     hidden: hidden.has(name),
     dataset: { [attr]: name },
-    classList: { toggle() {} },
+    attributes: {},
+    classList: {
+      values: new Set(),
+      toggle(name, enabled) { if (enabled) this.values.add(name); else this.values.delete(name); },
+      remove(name) { this.values.delete(name); },
+      contains(name) { return this.values.has(name); }
+    },
+    setAttribute(name, value) { this.attributes[name] = value; },
+    removeAttribute(name) { delete this.attributes[name]; },
     closest(selector) {
       return selector === "[hidden]" && this.hidden ? this : null;
     },
@@ -102,6 +110,11 @@ test("bath bench branch still requires its own visible fit confirmation", () => 
   const blocked = runFinalStep("bath-transfer", base);
   assert.equal(blocked.errors.hidden, false);
   assert.equal(blocked.result.hidden, true);
+  const firstMissing = blocked.fields.find(field => field.dataset.zpBathRequired === "bathBenchFit");
+  assert.equal(firstMissing?.focused, true, "focus must reach visible missing fit check");
+  assert.equal(firstMissing?.attributes.tabindex, "-1");
+  assert.equal(firstMissing?.attributes["aria-invalid"], "true");
+  assert.equal(firstMissing?.classList.contains("is-error"), true);
 
   const verified = runFinalStep("bath-transfer", {
     ...base, bathBenchFit: "yes"
@@ -132,6 +145,11 @@ test("WC floor support requires fit if wall cannot be safely verified", () => {
   const blocked = runFinalStep("toilet-support", base);
   assert.equal(blocked.errors.hidden, false);
   assert.equal(blocked.result.hidden, true);
+  const missingFrameFit = blocked.fields.find(field => field.dataset.zpSupportRequired === "supportFrameFit");
+  assert.equal(missingFrameFit?.focused, true, "focus must reach visible unconfirmed floor frame");
+  assert.equal(missingFrameFit?.attributes.tabindex, "-1");
+  assert.equal(missingFrameFit?.attributes["aria-invalid"], "true");
+  assert.equal(missingFrameFit?.classList.contains("is-error"), true);
 
   const verified = runFinalStep("toilet-support", {
     ...base, supportFrameFit: "yes"

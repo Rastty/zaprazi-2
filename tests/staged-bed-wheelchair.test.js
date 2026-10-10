@@ -62,7 +62,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
       assert.notEqual(output.status,"candidate");
       assert.deepEqual(output.recommendations,[]);
     }
-    const approved=recommendWheelchair({...input,loadFit:"yes",seatFit:"yes",widthFit:"yes"});
+    const approved=recommendWheelchair({...input,loadFit:"yes",seatFit:"yes",widthFit:"yes",brakeFit:"yes"});
     assert.equal(approved.status,"candidate");
   }
 });
@@ -70,7 +70,7 @@ test("wheelchair models preview without fit claims and strict checkout gates sta
 test("bed and wheelchair Advisor UI renders factual preview before fit, without merchant links",()=>{
   for(const [slug,engine,prefix,fitFields] of [
     ["bed","previewAdjustableBed","bed",["loadFit","spaceFit","userCapacityVerified"]],
-    ["wheelchair","previewWheelchair","wheelchair",["seatWidthVariant","seatFit","widthFit","wheelType","loadFit"]]
+    ["wheelchair","previewWheelchair","wheelchair",["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit"]]
   ]) {
     const page=read(slug==="bed"?"page-polohovaci-postel.php":"page-invalidni-vozik.php");
     const script=read("assets/js/"+slug+"-advisor.js");

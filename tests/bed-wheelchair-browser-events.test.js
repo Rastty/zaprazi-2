@@ -13,7 +13,7 @@ function create(kind) {
   const isWheelchair=kind==="wheelchair";
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
   const attr=isWheelchair?"data-zp-wheelchair-required":"data-zp-bed-required";
-  const fitFields=isWheelchair?["seatWidthVariant","seatFit","widthFit","wheelType","loadFit"]:["loadFit","spaceFit","userCapacityVerified"];
+  const fitFields=isWheelchair?["seatWidthVariant","seatFit","widthFit","wheelType","loadFit","brakeFit"]:["loadFit","spaceFit","userCapacityVerified"];
   const names=isWheelchair?["propulsion","transferAbility","manualControlSafe",...fitFields,"joystickSafe","chargingReady","duration"]:
     ["primaryNeed","transferAbility",...fitFields,"duration"];
   const inputs=new Map(),fields=new Map(),listeners={};
@@ -34,7 +34,7 @@ function create(kind) {
   };
   for(const name of names){
     const group={
-      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady","wheelType","seatWidthVariant"].includes(name) : name==="userCapacityVerified",
+      parent:null,hidden:isWheelchair ? ["manualControlSafe","joystickSafe","chargingReady","wheelType","seatWidthVariant","brakeFit"].includes(name) : name==="userCapacityVerified",
       dataset:{[requiredAttr]:name},attributes:{},
       classList:{toggle(){},remove(){},add(){}},
       closest(selector){return selector==='[hidden]' && (this.hidden || this.parent?.hidden)?(this.hidden?this:stage):null;},
@@ -212,11 +212,14 @@ test("P3641 changing rear-wheel variant revokes load approval and removes mercha
   assert.doesNotMatch(h.result.innerHTML,/merchant-link/,"unknown wheels cannot approve 125kg/136kg");
   h.form.change("wheelType","pneumatic");
   assert.equal(h.inputs.get("loadFit").checked,false);
+  assert.equal(h.inputs.get("brakeFit").checked,false);
   h.form.change("loadFit","yes");
+  h.form.change("brakeFit","yes");
   h.submitButton.click();
   assert.match(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);
   h.form.change("wheelType","tubeless");
   assert.equal(h.inputs.get("loadFit").checked,false,"old variant load approval must clear");
+  assert.equal(h.inputs.get("brakeFit").checked,false,"old variant brake confirmation must clear");
   assert.equal(h.result.hidden,true);
   assert.doesNotMatch(h.result.innerHTML,/merchant-link/);
   h.submitButton.click();
@@ -234,11 +237,13 @@ test("P3641 switching between 48 and 51cm seats revokes seat and door-width appr
   h.form.change("widthFit","yes");
   h.form.change("wheelType","pneumatic");
   h.form.change("loadFit","yes");
+  h.form.change("brakeFit","yes");
   h.submitButton.click();
   assert.match(h.result.innerHTML,/data-zp-wheelchair-merchant-link/);
   assert.match(h.result.innerHTML,/sed 48 cm/);
   assert.match(h.result.innerHTML,/68 cm/);
   h.form.change("seatWidthVariant","51");
+  assert.equal(h.inputs.get("brakeFit").checked,false,"changing chair variant revokes brake check");
   assert.equal(h.inputs.get("seatFit").checked,false);
   assert.equal(h.inputs.get("widthFit").checked,false);
   assert.equal(h.result.hidden,true);
@@ -248,6 +253,9 @@ test("P3641 switching between 48 and 51cm seats revokes seat and door-width appr
   assert.equal(h.result.hidden,true);
   h.form.change("seatFit","yes");
   h.form.change("widthFit","yes");
+  h.submitButton.click();
+  assert.doesNotMatch(h.result.innerHTML,/merchant-link/,"old brake approval must not unlock new variant");
+  h.form.change("brakeFit","yes");
   h.submitButton.click();
   assert.match(h.result.innerHTML,/sed 51 cm/);
   assert.match(h.result.innerHTML,/70 cm/);

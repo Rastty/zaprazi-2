@@ -124,17 +124,27 @@ export function chooseEasyFootwear(input = {}) {
     );
   }
 
+  // An explicitly mismatched size is NOT a viable offer, even as a
+  // purchase-preview card. Keep its model identity for the independent
+  // size-chart contact step, but never treat it as an offer.
+  if (sizeChartFit === "no") {
+    return result(
+      "size_mismatch",
+      "Zvolená velikost tohoto modelu neodpovídá naměřeným rozměrům.",
+      "Tuto velikost neobjednávejte. Ověřte u prodejce jinou velikost tohoto modelu nebo hledejte jiný model s odpovídající délkou i šířkou obou chodidel.",
+      candidate,
+      checks,
+      "Rozhodnutí je pouze orientační; Zápraží nepotvrzuje individuální vhodnost obuvi."
+    );
+  }
+
   // Measured feet do not prove the *available size of this exact model*
   // fits. An explicit chart/merchant dimensional check is the final gate.
   if (sizeChartFit !== "yes") {
     return result(
       "needs_fit_check",
-      sizeChartFit === "no"
-        ? "Vybraný model zatím nesedí naměřeným rozměrům."
-        : "Máme vhodnou konstrukci boty, ale konkrétní velikost ještě není ověřená.",
-      sizeChartFit === "no"
-        ? "Tento model neobjednávejte jen podle běžného čísla obuvi. Hledejte jinou dostupnou velikost nebo jiný model s odpovídající délkou a šířkou."
-        : "Porovnejte naměřenou délku i šířku obou chodidel s velikostní tabulkou tohoto konkrétního modelu. Pokud tabulka chybí, ověřte rozměry u prodejce.",
+      "Máme vhodnou konstrukci boty, ale konkrétní velikost ještě není ověřená.",
+      "Porovnejte naměřenou délku i šířku obou chodidel s velikostní tabulkou tohoto konkrétního modelu. Pokud tabulka chybí, ověřte rozměry u prodejce.",
       candidate,
       checks,
       "Zápraží tímto potvrzením neověřuje zdravotní vhodnost obuvi ani dostupnost velikosti."

@@ -10,6 +10,11 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
     ["width", "Šířka tohoto modelu bezpečně projde všemi potřebnými místy."],
     ["height", "Výšku madel lze nastavit pro bezpečné používání."]
   ];
+  // A generic answer about hand strength is not a check of this exact model.
+  // This is required even when no seat or transport is requested.
+  if (options.requireBrakeFit) {
+    checks.push(["brakes", "Ruční brzdy tohoto konkrétního rollátoru spolehlivě fungují a člověk je zvládne použít při zastavení i bezpečně zajistit."]);
+  }
   if (options.requireSeatFit) {
     checks.push(["seat", "Sedátko je pro člověka prakticky použitelné a před usednutím umí bezpečně zajistit brzdy."]);
   }

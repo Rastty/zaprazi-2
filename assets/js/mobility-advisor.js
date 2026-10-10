@@ -194,7 +194,7 @@ if (form && result && submitButton && errorBox) {
               </details>
               ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [])}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
-              ${renderMobilityProductFitGate(renderOffers(product.offers) + renderRentalOffers(product.id, duration), fitOptions)}
+              ${renderMobilityProductFitGate(renderOffers(product.offers) + renderRentalOffers(product.id, duration), { ...fitOptions, requireBrakeFit: product.solutionFamily === "rollator" })}
             </article>
           `).join("")}
         </div>

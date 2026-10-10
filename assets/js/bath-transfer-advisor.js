@@ -34,11 +34,27 @@ if(form&&result&&submit&&errors){
 
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
   const groups=()=>[...form.querySelectorAll("[data-zp-bath-required]")].filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
+  // Invalid required questions stay visible and keyboard-focusable, even on mobile.
   const validate=()=>{
-    const missing=groups().filter((g)=>!val(g.dataset.zpBathRequired));
-    groups().forEach((g)=>g.classList.toggle("is-error",!val(g.dataset.zpBathRequired)));
+    const missing=[];
+    groups().forEach((group)=>{
+      const invalid=!val(group.dataset.zpBathRequired);
+      group.classList.toggle("is-error",invalid);
+      if(invalid){
+        group.setAttribute("aria-invalid","true");
+        missing.push(group);
+      }else{
+        group.removeAttribute("aria-invalid");
+      }
+    });
     if(!missing.length){errors.hidden=true;errors.textContent="";return true;}
-    errors.textContent="Doplňte prosím všechny zvýrazněné otázky.";errors.hidden=false;missing[0].focus();return false;
+    errors.textContent=missing.length===1
+      ?"Doplňte prosím zvýrazněnou otázku."
+      :`Doplňte prosím ${missing.length} zvýrazněné otázky.`;
+    errors.hidden=false;
+    missing[0].setAttribute("tabindex","-1");
+    missing[0].focus();
+    return false;
   };
   const render=(p,allow)=>{
     const offer=p.offers?.[0]; if(!offer) return "";
@@ -48,7 +64,20 @@ if(form&&result&&submit&&errors){
     const facts=formatBathroomFacts(p.facts).map(fact=>`<li>${esc(fact)}</li>`).join("");
     return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts">${facts}</ul><details><summary>Co ještě ověřit</summary><ul>${p.selectionNotes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></details>${allow?`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-bath-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`:'<p class="zp-disclaimer">Nejdřív dokončete bezpečnostní a rozměrovou kontrolu.</p>'}</article>`;
   };
-  form.addEventListener("change",()=>{if(!started){started=true;track("builder_start");}});
+  form.addEventListener("change",(event)=>{
+    const group=event.target?.closest?.("[data-zp-bath-required]");
+    if(group&&val(group.dataset.zpBathRequired)){
+      group.classList.remove("is-error");
+      group.removeAttribute("aria-invalid");
+    }
+    // Hidden fit-stage questions cannot leave a stale validation error.
+    const remaining=groups().filter(item=>item.classList.contains("is-error"));
+    if(!remaining.length){errors.hidden=true;errors.textContent="";}
+    else errors.textContent=remaining.length===1
+      ?"Doplňte prosím zvýrazněnou otázku."
+      :`Doplňte prosím ${remaining.length} zvýrazněné otázky.`;
+    if(!started){started=true;track("builder_start");}
+  });
   submit.addEventListener("click",()=>{
     if(!validate()) return;
     const out=recommendBathroom({

@@ -1032,7 +1032,18 @@ try {
     await click(page,"#zp-mobility-submit");
     assert.ok(await count(page,"#zp-mobility-result .zp-mobility-fit-gate")>0,
       "Steady seat path must still show a product fit gate");
-    await checkNoMerchant(page,"#zp-mobility-result");
+    const stagedOffers = await page.$eval("#zp-mobility-result", root => {
+      const eligibleLinks = [...root.querySelectorAll(
+        "[data-zp-merchant-link], [data-zp-mobility-rental-link]"
+      )];
+      return eligibleLinks.map(link => ({
+        locked: link.closest(".zp-fit-locked-offers")?.hidden === true,
+        visible: Boolean(link.getClientRects().length)
+      }));
+    });
+    assert.ok(stagedOffers.length > 0,"Steady seat candidate must have at least one staged offer");
+    assert.ok(stagedOffers.every(item => item.locked && !item.visible),
+      "Before confirming the concrete model, all staged commercial offers must stay hidden");
 
     await choose(page,"supportNeed","unknown");
     assert.equal(await visible(page,indoor),false);
@@ -1082,9 +1093,10 @@ try {
         required:"handBrakes", yes:"yes", error:"#zp-rollator-errors", fieldName:"data-zp-roll-condition"}
     ]) {
       const page=await open(spec.path);
-      const sections=await page.$eval("["+spec.fieldName+"]",nodes=>
+      const sections=await page.$$eval("["+spec.fieldName+"]",nodes=>
         nodes.map(node=>({hidden:node.hidden,count:node.querySelectorAll("input").length})));
       assert.ok(sections.length>=3, "Specialist model questions must be conditional: "+spec.path);
+      assert.ok(sections.every(item=>item.count>0),"Conditional groups contain actual answer controls");
       assert.ok(sections.every(x=>x.hidden),"Model questions start hidden: "+spec.path);
       await choose(page,"supportNeed","light");
       assert.equal(await visible(page,'['+spec.fieldName+']'),false);
@@ -1102,7 +1114,7 @@ try {
       await click(page,spec.submit);
       assert.ok(await count(page,spec.result+" .zp-mobility-fit-gate")>0,
         "Stable support keeps the actual model-fit safety gate");
-      const locked=await page.$eval(spec.result+" .zp-fit-locked-offers",
+      const locked=await page.$$eval(spec.result+" .zp-fit-locked-offers",
         nodes=>nodes.every(el=>el.hidden));
       assert.equal(locked,true,"Merchant links stay hidden before model-specific fit checks");
 

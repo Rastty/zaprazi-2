@@ -114,6 +114,19 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="walker-rental">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Než oslovíte půjčovnu</p>
+      <h2 class="zp-section-title">Nevíte, které chodítko vůbec hledat?</h2>
+      <p>Nejdřív vyberte typ opory podle skutečného prostředí a schopnosti pomůcku bezpečně používat. Až potom porovnávejte nabídky půjčoven. Cena pronájmu neověřuje vhodnost konkrétního modelu.</p>
+      <nav aria-label="Výběr typu chodítka před půjčením">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nevím, co vybrat — začít domácím poradcem</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Potřebuji chodítko do bytu</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Potřebuji rollátor pro chůzi venku</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section zp-section-dark">
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Před objednáním</p>

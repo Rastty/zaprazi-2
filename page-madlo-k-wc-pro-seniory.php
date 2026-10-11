@@ -87,6 +87,17 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="toilet-support">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když toto řešení nestačí</p>
+      <h2 class="zp-section-title">Potřebujete vyřešit i jiný problém u WC?</h2>
+      <p>Opora rukama a výška sedu jsou odlišné věci. Pokud ještě není jasné, co přesně ztěžuje používání toalety, začněte přehledem situací a nevybírejte madlo jen podle ceny.</p>
+      <nav aria-label="Související bezpečné kroky">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Začít výběrem problému v koupelně a u WC</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

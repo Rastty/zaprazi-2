@@ -93,6 +93,17 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="bath-transfer">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když toto řešení nestačí</p>
+      <h2 class="zp-section-title">Nejste si jistí, zda je problém ve vaně, nebo při přesunu?</h2>
+      <p>Sedátko přes okraj vany a sprchovací židle řeší jiné situace. Nejdřív určete, kde člověk potřebuje oporu a zda přesun zvládá bez fyzického zvedání druhou osobou.</p>
+      <nav aria-label="Související bezpečné kroky">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Vybrat vhodnou cestu v koupelně</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

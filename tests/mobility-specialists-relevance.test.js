@@ -27,5 +27,15 @@ for(const spec of [
     // Product fit and merchant gates remain in place even for steady support.
     assert.match(js,/renderMobilityProductFitGate\(/);
     assert.match(js,/installMobilityProductFitGate\(result\)/);
+    // A no-product reason must fit the actual situation, without inventing
+    // brake failure or need for human assistance on the light-support branch.
+    assert.match(js,/const blockedReason = out.status==="outside_current_slice"/);
+    assert.match(js,/out.status==="professional_check"/);
+    assert.match(js,/out.missing\\?\\.includes\\("supportNeed"\\)/);
+    assert.match(js,/esc\\(blockedReason\\)/);
+    assert.match(js,/questionName=val\\("supportNeed"\\)==="steady"\\?/);
+    assert.match(js,/if\\(target&&!target.closest\\("\\[hidden\\]"\\)\\) target.focus\\(\\)/);
+    assert.doesNotMatch(js,/input\\[name="handBrakes"\\]'\\)\\?\\.focus\\(\\)/);
+
   });
 }

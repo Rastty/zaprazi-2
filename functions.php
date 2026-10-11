@@ -72,6 +72,7 @@ function zaprazi_2_release_integrity_ok() {
     'src/decision/product-identity-gate.js',
     'src/mobility/offer-fit-gate.js',
     'assets/js/runtime-config.js',
+    'src/seo/https-sitemaps.php',
     'style.css',
   );
 
@@ -104,6 +105,13 @@ function zaprazi_2_release_integrity_admin_notice() {
   echo '<div class="notice notice-error"><p><strong>Zápraží deployment partial.</strong> Některý kritický runtime soubor neodpovídá release ' . esc_html( ZAPRAZI_RELEASE ) . '. Nespouštějte další změny, dokud se neprovede úplný Deploy z větve dev.</p></div>';
 }
 add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
+
+// Narrow sitemap protocol fix; intentionally never alters WordPress admin URLs.
+$zp_https_sitemaps_file = get_template_directory() . '/src/seo/https-sitemaps.php';
+if ( is_readable( $zp_https_sitemaps_file ) ) {
+  require_once $zp_https_sitemaps_file;
+}
+
 
 
 

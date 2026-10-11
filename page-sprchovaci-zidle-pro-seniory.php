@@ -106,6 +106,18 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="shower-chair">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když toto řešení nestačí</p>
+      <h2 class="zp-section-title">Co když nejde o sprchový kout?</h2>
+      <p>Židle do sprchy není automaticky vhodná pro přesun přes okraj vany. Pro vanu je nutné zvlášť prověřit způsob přesunu a rozměry; při nejistotě o bezpečnosti přesunu je dalším krokem odborné posouzení.</p>
+      <nav aria-label="Související bezpečné kroky">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana' ) ); ?>">Řešit bezpečný přesun u vany</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Vrátit se k výběru podle situace</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

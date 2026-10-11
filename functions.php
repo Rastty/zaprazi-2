@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.110' );
+  define( 'ZAPRAZI_RELEASE', '0.8.111' );
 }
 
 function zaprazi_2_release_integrity_ok() {

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_110 */
+/* ZP_RELEASE_0_8_111 */
 /*
 Template Name: Zápraží — Rollátor pro seniory
 */
@@ -68,6 +68,35 @@ get_header();
         <article class="zp-card"><h3>Brzdy a sedátko</h3><p>Výrobce uvádí přítlačné brzdy s možností aretace, sedátko, podnos a košík.</p></article>
         <article class="zp-card"><h3>Úhrada</h3><p>Pro konkrétní model MEYRA Ideal Rollator 3061982 výrobce uvádí kód ZP 07-5005963. Úhradu a případný doplatek je nutné posoudit podle účinného měsíčního seznamu SÚKL a správné cesty výdeje. Údaj o doplatku na stránce výrobce není automatickým potvrzením nároku konkrétní osoby.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit úhradu chodítka</a></p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="bezpecne-pouziti-rollatoru" class="zp-section" data-zp-editorial-guide="rollator">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Brzdy, sedátko a cesta ven</p>
+      <h2 class="zp-section-title">Před prvním použitím rollátoru ověřte tyto čtyři situace.</h2>
+      <p>Brzděný rollátor není totéž co běžné dvoukolové chodítko. U konkrétního modelu musí člověk zvládnout nejen zpomalování za chůze, ale také zajistit parkovací brzdu před odpočinkem. Samotné označení „má brzdy“ nestačí.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Rozdíl mezi zpomalením a parkovací brzdou</h3>
+          <p>U modelu MEYRA Ideal Rollator 3061982 výrobce popisuje brzdové páčky před madly: přitažením se brzdí při pohybu a stlačením dolů se brzda zajistí pro stání. Ovládání jiného modelu se může lišit. Pokud člověk oba úkony nezvládá spolehlivě, nejde o ověřeného kandidáta.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Usedání na sedátko</h3>
+          <p>Před odpočinkem musí být rollátor plně rozložený, stabilní a podle návodu zabrzděný v parkovací poloze. Nepoužívejte sedátko jako invalidní vozík pro převážení druhou osobou. Když je bezpečný přesun nejistý, přizvěte odborníka; nejde to vyřešit pouhou volbou sedátka.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Skutečná venkovní trasa</h3>
+          <p>Zvažte nerovný povrch, prudký sklon, vysoké obrubníky, mokré dlaždice a překážky. Návod k modelu MEYRA 3061982 omezuje používání na rovný povrch a upozorňuje na nebezpečí prudkých svahů a schodů. To, že má pomůcka čtyři kola, neznamená, že zvládne jakýkoli chodník.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Kontrola před použitím</h3>
+          <p>Ověřte účinek obou brzd, zajištění konstrukce proti složení, stabilitu madel a stav kol podle návodu výrobce. Pokud některá brzda nefunguje správně, rollátor se nemá používat před odborným seřízením nebo opravou.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Změřit šířku trasy, výšku madel a prostor pro bezpečné otočení</a></p>
+      <p class="zp-disclaimer">Nejde o individuální posouzení bezpečnosti. Doporučení modelu se smí zobrazit teprve po ověření zvládání brzd, použití a dalších parametrů; pokud odpovědi nejsou jisté, konkrétní nákup nemá být výchozím řešením.</p>
+      <p class="zp-muted-copy">Zdroje ověřeny 11. 10. 2026: <a href="https://www.meyra.cz/ctyrkolove-choditko-rollator.html" target="_blank" rel="noopener">MEYRA — Ideal Rollator 3061982, parametry</a> a <a href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf" target="_blank" rel="noopener">návod výrobce k modelu 3061982 (verze 02/2018)</a>; <a href="https://www.mayoclinic.org/healthy-lifestyle/healthy-aging/in-depth/walker/art-20546805" target="_blank" rel="noopener">Mayo Clinic — typy chodítek a ovládání</a>. Před použitím platí aktuální návod k dodané variantě; nejde o odbornou individuální revizi.</p>
     </div>
   </section>
 

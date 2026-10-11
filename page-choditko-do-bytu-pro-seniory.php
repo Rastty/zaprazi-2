@@ -76,6 +76,31 @@ get_header();
     </div>
   </section>
 
+  <section id="bezpecne-pouziti-choditka" class="zp-section" data-zp-editorial-guide="indoor-walker">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktické použití doma</p>
+      <h2 class="zp-section-title">Tři situace, které si u chodítka do bytu ověřit ještě před nákupem.</h2>
+      <p>Nejde jen o to, zda rám projde dveřmi. Rozhoduje také způsob vstávání, bezpečná chůze mezi místnostmi a stav opěrných částí. Pokud si člověk není jistý postupem nebo potřebuje fyzickou pomoc, nezkoušejte náročný přesun o samotě; požádejte o posouzení fyzioterapeuta.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Vstávání a usedání u křesla</h3>
+          <p>Chodítko nemá sloužit jako madlo, za které se člověk vytahuje z křesla. Nejdřív je nutné mít bezpečný způsob vstávání a stabilní sedací plochu. Pokud je třeba fyzická pomoc při přesunu, nepovažujte samotný nákup chodítka za řešení.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Roh chodby, práh a cesta na WC</h3>
+          <p>Změřte průchozí šířku s otevřenými dveřmi, místo pro otočení a překážky v hlavní trase. Čtyřbodový rám se při posunu nadzvedává; dvoukolový se posouvá předními koly. Ani jeden není určený k improvizovanému překonávání schodů. Volné koberečky a mokré podlahy zvyšují riziko.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Sedm rozměrů a kontrol před výběrem</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Gumové koncovky a upevnění</h3>
+          <p>Před používáním ověřte podle návodu, že jsou všechny části řádně zajištěné, gumové koncovky nejsou opotřebené a dvoukolové provedení má pevně upevněná kola. Při poškození nebo viklání se pomůcka nemá používat, dokud závadu nevyřeší kvalifikovaný dodavatel.</p>
+        </article>
+      </div>
+      <p class="zp-disclaimer">Praktický seznam nenahrazuje posouzení bezpečné chůze. Konkrétní pomůcka musí vyhovovat rozměry, správnému použití a návodu výrobce; při nejistotě musí doporučení zůstat otevřené.</p>
+      <p class="zp-muted-copy">Zdroje ověřeny 11. 10. 2026: <a href="https://www.southtees.nhs.uk/resources/how-to-use-a-walking-frame-or-wheeled-walking-frame/" target="_blank" rel="noopener">South Tees Hospitals NHS — použití chodítka a bezpečnostní kontroly</a>; <a href="https://www.mayoclinic.org/healthy-lifestyle/healthy-aging/in-depth/walker/art-20546805" target="_blank" rel="noopener">Mayo Clinic — rozdíly mezi typy chodítek</a>. Jde o redakční návod, bez doložené individuální odborné revize.</p>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <h2 class="zp-section-title">Časté otázky</h2>

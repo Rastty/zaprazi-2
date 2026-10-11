@@ -1207,6 +1207,87 @@ try {
     }
   }
 
+  // 0.8.107: do not ask secondary model/purchase questions until the
+  // decisive brake/lift safety prerequisite has been answered. Switching it
+  // must wipe stale form values and immediately revoke the rendered offer.
+  if (releaseAtLeast("0.8.107")) {
+    for (const spec of [
+      { path: "/choditko-do-bytu-pro-seniory/", gate: "canLiftWalker",
+        condition: "data-zp-indoor-condition",
+        result: "#zp-indoor-walker-result", submit: "#zp-indoor-walker-submit",
+        blocked: "unknown" },
+      { path: "/rollator-pro-seniory/", gate: "handBrakes",
+        condition: "data-zp-roll-condition",
+        result: "#zp-rollator-result", submit: "#zp-rollator-submit",
+        blocked: "no" }
+    ]) {
+      const page = await open(spec.path);
+      const fields = async () => page.evaluate(({ condition, gate }) =>
+        [...document.querySelectorAll("fieldset[" + condition + "]")].map(fieldset => ({
+          gate: Boolean(fieldset.querySelector('input[name="' + gate + '"]')),
+          hidden: fieldset.hidden,
+          chosen: [...fieldset.querySelectorAll("input:checked")].map(input => input.name)
+        })), { condition: spec.condition, gate: spec.gate });
+      let state = await fields();
+      assert.ok(state.length >= 3 && state.every(s => s.hidden),
+        "Initially hide all product questions: " + spec.path);
+      await choose(page, "supportNeed", "steady");
+      state = await fields();
+      assert.equal(state.filter(s => s.gate && !s.hidden).length, 1,
+        "Show just the decisive model-safety question");
+      assert.ok(state.filter(s => !s.gate).every(s => s.hidden),
+        "Do not show secondary questions before the safety answer");
+
+      await choose(page, spec.gate, spec.blocked);
+      state = await fields();
+      assert.ok(state.filter(s => !s.gate).every(s => s.hidden),
+        "Blocked model branch still must not ask secondary questions");
+      await click(page, spec.submit);
+      await checkNoMerchant(page, spec.result);
+      assert.equal(await count(page, spec.result + " .zp-mobility-fit-gate"), 0);
+
+      await choose(page, spec.gate, "yes");
+      state = await fields();
+      assert.ok(state.filter(s => !s.gate).every(s => !s.hidden),
+        "Show secondary preferences only after safe model prerequisite");
+      await choose(page, "duration", "long_term");
+      await click(page, 'input[name="transportNeed"]');
+      if (spec.gate === "handBrakes") await click(page, 'input[name="seatNeeded"]');
+      await click(page, spec.submit);
+      assert.ok(await count(page, spec.result + " .zp-mobility-fit-gate") > 0,
+        "Safe model must still have an independent physical fit gate");
+      assert.equal(await visible(page, spec.result + " .zp-fit-locked-offers"), false,
+        "Offer locked until product-specific fit checks");
+
+      await choose(page, spec.gate, spec.blocked);
+      state = await fields();
+      assert.ok(state.filter(s => !s.gate).every(s => s.hidden),
+        "A failed safety answer hides every dependent question");
+      assert.deepEqual(state.filter(s => !s.gate).flatMap(s => s.chosen), [],
+        "A failed safety answer clears duration, transport and seat preferences");
+      assert.equal(await visible(page, spec.result), false,
+        "Switching safety answer immediately invalidates old result");
+      await checkNoMerchant(page, spec.result);
+      await click(page, spec.submit);
+      await checkNoMerchant(page, spec.result);
+
+      await choose(page, spec.gate, "yes");
+      state = await fields();
+      assert.ok(state.filter(s => !s.gate).every(s => !s.hidden));
+      assert.deepEqual(state.filter(s => !s.gate).flatMap(s => s.chosen), [],
+        "Returning to safe branch cannot restore stale decisions");
+      await choose(page, "supportNeed", "light");
+      state = await fields();
+      assert.ok(state.every(s => s.hidden));
+      assert.deepEqual(state.flatMap(s => s.chosen), [],
+        "Leaving stable support clears old safety approvals");
+      await click(page, spec.submit);
+      await checkNoMerchant(page, spec.result);
+      console.log("PASS 0.8.107 relevance, stale answers and merchant lock:", spec.path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

@@ -1032,7 +1032,18 @@ try {
     await click(page,"#zp-mobility-submit");
     assert.ok(await count(page,"#zp-mobility-result .zp-mobility-fit-gate")>0,
       "Steady seat path must still show a product fit gate");
-    await checkNoMerchant(page,"#zp-mobility-result");
+    const stagedOffers = await page.$eval("#zp-mobility-result", root => {
+      const eligibleLinks = [...root.querySelectorAll(
+        "[data-zp-merchant-link], [data-zp-mobility-rental-link]"
+      )];
+      return eligibleLinks.map(link => ({
+        locked: link.closest(".zp-fit-locked-offers")?.hidden === true,
+        visible: Boolean(link.getClientRects().length)
+      }));
+    });
+    assert.ok(stagedOffers.length > 0,"Steady seat candidate must have at least one staged offer");
+    assert.ok(stagedOffers.every(item => item.locked && !item.visible),
+      "Before confirming the concrete model, all staged commercial offers must stay hidden");
 
     await choose(page,"supportNeed","unknown");
     assert.equal(await visible(page,indoor),false);

@@ -998,6 +998,78 @@ try {
     console.log("PASS 0.8.104 guide WCAG muted contrast and privacy-safe printable checklist");
   }
 
+  // 0.8.105: only visitors needing a specific stable-support walker
+  // are asked to lift a frame, use brakes or choose equipment preferences.
+  // Old answers and stale merchant links must disappear on branch change.
+  if (releaseAtLeast("0.8.105")) {
+    const page = await open("/");
+    const indoor = '[data-zp-conditional="indoor"]';
+    const outdoor = '[data-zp-conditional="outdoor"]';
+    const equipment = '[data-zp-conditional="equipment"]';
+    await choose(page,"environment","indoor");
+    await choose(page,"supportNeed","light");
+    assert.equal(await visible(page,indoor),false,"Light support must not ask how to lift a walker");
+    assert.equal(await visible(page,outdoor),false,"Light support must not ask for rollator brakes");
+    assert.equal(await visible(page,equipment),false,"Light support must not ask product-specific preferences");
+    await click(page,"#zp-mobility-submit");
+    const light = await page.$eval("#zp-mobility-result",el=>el.textContent);
+    assert.match(light,/Lehká opora neznamená automaticky/);
+    assert.ok(await count(page,'#zp-mobility-result a[href="/bezpecny-byt-pro-seniora/"]')===1,
+      "Light support should provide a free actionable safety guide");
+    await checkNoMerchant(page,"#zp-mobility-result");
+
+    await choose(page,"supportNeed","steady");
+    assert.equal(await visible(page,indoor),true,"Steady indoor support needs lifting question");
+    assert.equal(await visible(page,equipment),true,"Steady support should expose equipment preferences");
+    await choose(page,"canLiftWalker","yes");
+    await page.$eval('input[name="seatNeeded"]',el=>el.click());
+    assert.equal(await visible(page,indoor),false,"Seat selection invalidates lifting branch");
+    assert.equal(await visible(page,outdoor),true,"Seat needs separate brake ability question");
+    const liftingReset=await page.$eval('input[name="canLiftWalker"]:checked',el=>el.value).catch(()=>null);
+    assert.equal(liftingReset,null,"Hidden lifting answer must reset");
+    await choose(page,"handBrakes","yes");
+    await choose(page,"duration","long_term");
+    await click(page,"#zp-mobility-submit");
+    assert.ok(await count(page,"#zp-mobility-result .zp-mobility-fit-gate")>0,
+      "Steady seat path must still show a product fit gate");
+    await checkNoMerchant(page,"#zp-mobility-result");
+
+    await choose(page,"supportNeed","unknown");
+    assert.equal(await visible(page,indoor),false);
+    assert.equal(await visible(page,outdoor),false);
+    assert.equal(await visible(page,equipment),false);
+    const leftover=await page.evaluate(()=>[...document.querySelectorAll(
+      '[data-zp-conditional="equipment"] input:checked,[data-zp-conditional="outdoor"] input:checked,[data-zp-conditional="indoor"] input:checked'
+    )].map(el=>el.name));
+    assert.deepEqual(leftover,[],"Irrelevant preferences and safety confirmations must reset");
+    assert.equal(await visible(page,"#zp-mobility-result"),false,"Branch change must hide prior product result");
+    await click(page,"#zp-mobility-submit");
+    assert.ok(await count(page,'#zp-mobility-result a[href="/bezpecny-byt-pro-seniora/"]')===1);
+    await checkNoMerchant(page,"#zp-mobility-result");
+
+    await choose(page,"supportNeed","person_assist");
+    assert.equal(await visible(page,equipment),false);
+    await click(page,"#zp-mobility-submit");
+    const professional=await page.$eval("#zp-mobility-result",el=>el.textContent);
+    assert.match(professional,/se zdravotníkem nebo odbornou výdejnou/);
+    await checkNoMerchant(page,"#zp-mobility-result");
+
+    await choose(page,"supportNeed","steady");
+    assert.equal(await visible(page,indoor),true);
+    const stale=await page.evaluate(()=>({
+      lift:document.querySelector('input[name="canLiftWalker"]:checked')?.value ?? null,
+      seat:document.querySelector('input[name="seatNeeded"]').checked,
+      duration:document.querySelector('input[name="duration"]:checked')?.value ?? null
+    }));
+    assert.deepEqual(stale,{lift:null,seat:false,duration:null},
+      "Switching back must not reuse previous fit and acquisition answers");
+    await click(page,"#zp-mobility-submit");
+    assert.equal(await visible(page,"#zp-advisor-errors"),true,"Lifting question must be re-answered");
+    await checkNoMerchant(page,"#zp-mobility-result");
+    console.log("PASS 0.8.105 Mobility relevance, safe next steps and branch answer reset");
+    await page.close();
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

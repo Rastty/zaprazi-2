@@ -174,3 +174,23 @@ test("professional-check branch never returns products or acquisition prompts", 
   assert.deepEqual(result.acquisition, []);
   assert.match(result.nextStep, /online poradce tady nemá vybírat konkrétní chodítko/i);
 });
+
+
+test("light mobility need gives useful no-purchase action instead of a product or promise of future work", () => {
+  for (const environment of ["indoor", "outdoor", "both"]) {
+    const result = recommendMobility({environment, supportNeed:"light",duration:"short_term"});
+    assert.equal(result.status, "outside_current_slice");
+    assert.deepEqual(result.recommendations, []);
+    assert.match(result.nextStep, /Začněte kontrolou bezpečnosti tras/);
+    assert.match(result.nextStep, /fyzioterapeutem nebo odbornou výdejnou/);
+    assert.doesNotMatch(result.nextStep, /Rozšíříme poradce|připravujeme/i);
+  }
+});
+
+test("unknown need explains a practical first step without recommending a product", () => {
+  const result = recommendMobility({ environment:"both", supportNeed:"unknown" });
+  assert.equal(result.status, "needs_more_info");
+  assert.deepEqual(result.recommendations, []);
+  assert.match(result.nextStep,/bezpečně rozlišit/);
+  assert.match(result.nextStep,/bezpečný typ opory|vhodný typ opory/);
+});

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_111 */
+/* ZP_RELEASE_0_8_112 */
 /*
 Template Name: Zápraží — Sedátko do vany pro seniory
 */
@@ -101,6 +101,35 @@ get_header();
       <nav aria-label="Související bezpečné kroky">
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Vybrat vhodnou cestu v koupelně</a></p>
       </nav>
+    </div>
+  </section>
+
+  <section id="kontrola-presunu-do-vany" class="zp-section" data-zp-editorial-guide="bath-transfer">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Před volbou sedačky nebo lavice</p>
+      <h2 class="zp-section-title">Čtyři kontroly přesunu do vany, které nelze nahradit rozměrem sedátka.</h2>
+      <p>Rozhodujte podle způsobu usednutí a přenesení nohou, rozměrů vany i podlahy. Sedačka přes okraj vany a transferová lavice stojící částečně vně vany jsou odlišné konstrukce. Pokud člověk není schopen přesun bezpečně provést, samotná sedačka nemusí být vhodným řešením.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Usednout a přenést nohy bez nebezpečného vstávání</h3>
+          <p>U pomůcek pro mytí nad vanou obvykle sed předchází přesunu nohou přes okraj. Nepokoušejte se o první složitý přesun bez bezpečného způsobu asistence. Pokud je potřeba fyzické zvedání druhou osobou, online poradce konkrétní výrobek nevybírá; je na místě odborné posouzení.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Změřit vanu a volnou podlahu</h3>
+          <p>U sedátka uchyceného na okraj ověřte skutečnou vnitřní šířku vany, způsob zajištění a tvar okrajů. Transferová lavice vyžaduje navíc volnou stabilní plochu mimo vanu, bez kolize s WC, dveřmi nebo nábytkem. Rozměry jedné konstrukce nelze zaměnit za jinou.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Protiskluz a stabilita před použitím</h3>
+          <p>Zkontrolujte, zda sedačka nebo lavice po správné instalaci nemůže nechtěně sklouznout. Podlaha musí být suchá, neklouzavá a stabilní; u provedení s nohami ověřte jejich správné usazení podle návodu. Jakékoli viklání nebo nedostatečné zajištění je důvod pomůcku nepoužít do odstranění závady.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Když se při přesunu ukáže nový problém</h3>
+          <p>Užitečné může být jiné uspořádání koupelny, bezpečnější způsob hygieny nebo odborné doporučení. Nepředpokládejte, že větší sedačka automaticky vyřeší omezený prostor či nejistý přesun. A neporovnávejte nosnost 100 kg u jedné varianty s 110 kg u druhé bez nového ověření.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Nejste si jistí typem řešení? Projděte celý poradce koupelnou</a></p>
+      <p class="zp-disclaimer">Není to návod k samostatnému nácviku rizikového přesunu. Když je potřeba fyzická pomoc, chybí prostor pro bezpečné použití nebo je nejistá stabilita pomůcky, výběr zastavte a domluvte odborné posouzení.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 11. 10. 2026: <a href="https://www.guysandstthomas.nhs.uk/health-information/daily-tasks-using-1-hand" target="_blank" rel="noopener">Guy's and St Thomas' NHS — bezpečnější mytí, protiskluz a sedátka</a>; <a href="https://www.nhs.uk/social-care-and-support/practical-tips-if-you-care-for-someone/how-to-move-lift-and-handle-someone-else/" target="_blank" rel="noopener">NHS — odborné posouzení pomůcek pro přesun</a>; <a href="https://www.nzip.cz/clanek/1285-demence-pecujici-osobni-hygiena" target="_blank" rel="noopener">NZIP — odstranění koupelnových bariér</a>. Jde o praktická bezpečnostní vodítka, nikoli individuální klinicky ověřené doporučení; externí odborná revize není doložená.</p>
     </div>
   </section>
 

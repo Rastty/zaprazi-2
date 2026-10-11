@@ -1544,6 +1544,42 @@ try {
     }
   }
 
+  // Release 0.8.112: two practical Bathroom/WC articles gain safety
+  // explainers only; exact Advisor forms and merchant-fit gates remain unchanged.
+  if (releaseAtLeast("0.8.112")) {
+    for (const [path, guide, key, formId, h3count] of [
+      ["/madlo-k-wc-pro-seniory/", "wc-support", "Ověřit skutečný nosný podklad", "zp-toilet-support-advisor", 5],
+      ["/sedatko-do-vany-pro-seniory/", "bath-transfer", "Protiskluz a stabilita", "zp-bath-transfer-advisor", 4]
+    ]) {
+      const page = await open(path);
+      const result = await page.evaluate(({guide, formId}) => {
+        const section=document.querySelector('main [data-zp-editorial-guide="'+guide+'"]');
+        const anchor=section?.querySelector('a[href*="#poradce-"]')?.href || "";
+        return {
+          present:Boolean(section),
+          text:section?.textContent || "",
+          heading:section?.querySelector("h2")?.textContent || "",
+          h3:[...(section?.querySelectorAll("h3")||[])].map(x=>x.textContent),
+          sources:[...(section?.querySelectorAll('a[target="_blank"][rel~="noopener"]')||[])].map(x=>x.href),
+          internal:anchor,
+          unsafeCommerce:section?.querySelectorAll(".zp-offer, [data-zp-merchant-link]")?.length || 0,
+          advisorExists:Boolean(document.getElementById(formId)),
+          horizontalOverflow:document.documentElement.scrollWidth-innerWidth
+        };
+      }, {guide, formId});
+      assert.ok(result.present && result.heading.length>35, "Safety article missing "+path);
+      assert.equal(result.h3.length,h3count,"Expected distinct safety checks "+path);
+      assert.ok(result.h3.some(s=>s.includes(key)),"Practical guide drift "+path);
+      assert.ok(result.sources.length>=3,"Expected three independent safety references "+path);
+      assert.ok(result.internal.includes("#poradce-"),"Context link must return to Advisor "+path);
+      assert.equal(result.unsafeCommerce,0,"Safety guide cannot bypass fit gate "+path);
+      assert.equal(result.advisorExists,true,"Original Advisor disappeared "+path);
+      assert.ok(result.horizontalOverflow<=2,"New guide exceeds mobile viewport "+path);
+      console.log("PASS 0.8.112 practical Bathroom guidance:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

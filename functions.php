@@ -6,7 +6,7 @@ if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_106';
+  $marker = 'ZP_RELEASE_' . str_replace( '.', '_', ZAPRAZI_RELEASE );
   $files = array(
     'header.php',
     'footer.php',

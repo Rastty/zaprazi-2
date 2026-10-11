@@ -465,6 +465,7 @@ test("0.8.107 deployment integrity contract covers critical runtime files", () =
     "page-sobestacnost.php",
     "page-kompenzacni-pomucky-pro-seniory.php",
     "page-bezpecny-byt-pro-seniora.php",
+    "page-nocni-cesta-z-postele-na-wc.php",
     "page-obuv-pro-seniory.php",
     "page-jak-zmerit-chodidlo-pro-vyber-obuvi.php",
     "assets/js/footwear-measurement-print.js",
@@ -514,6 +515,14 @@ test("0.8.107 deployment integrity contract covers critical runtime files", () =
   ];
 
   assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.107' );"));
+  // The production runtime set and the regression set must be identical,
+  // otherwise a new template can silently miss its version marker.
+  const runtimeMatch = functions.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
+  assert.ok(runtimeMatch, "Runtime integrity file list not found");
+  const runtimeFiles = [...runtimeMatch[1].matchAll(/'([^']+)'/g)].map(m => m[1]);
+  assert.deepEqual([...runtimeFiles].sort(), [...critical].sort(), "Runtime and test protected-file lists differ");
+  // Derive the marker from the release constant, never pin a stale version.
+  assert.ok(functions.includes("$marker = 'ZP_RELEASE_' . str_replace( '.', '_', ZAPRAZI_RELEASE );"));
   assert.match(functions, /zaprazi_2_release_integrity_ok/);
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {

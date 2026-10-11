@@ -935,6 +935,45 @@ try {
     console.log("PASS 0.8.103 footwear measurement guide SEO, sources, cross-links, privacy and mobile");
   }
 
+  // 0.8.104: paper checklist and page-level color contrast are real user
+  // affordances, not just CSS contracts. No measurement values are collected.
+  if (releaseAtLeast("0.8.104")) {
+    const guide = await open("/jak-zmerit-chodidlo-pro-vyber-obuvi/");
+    const contrast = await guide.evaluate(() => {
+      const text = document.querySelector(".zp-footwear-print-checklist .zp-muted-copy");
+      const section = document.querySelector(".zp-footwear-print-checklist");
+      const fg = getComputedStyle(text).color;
+      const bg = getComputedStyle(section).backgroundColor;
+      const linear = v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+      const luminance = rgb => {
+        const c = rgb.match(/\d+(?:\.\d+)?/g).slice(0,3).map(s=>linear(Number(s)/255));
+        return c[0]*0.2126+c[1]*0.7152+c[2]*0.0722;
+      };
+      const ratios = [luminance(fg),luminance(bg)].sort((a,b)=>b-a);
+      return {fg,bg,ratio:(ratios[0]+0.05)/(ratios[1]+0.05)};
+    });
+    assert.ok(contrast.ratio >= 4.5,
+      "Guide note text must meet 4.5:1 even on soft sections: "+JSON.stringify(contrast));
+    const printButton = "#zp-footwear-measurement-print";
+    assert.equal(await visible(guide,printButton),true,"Print control must be visible");
+    await guide.evaluate(() => {
+      window.__zpPrintCalls = 0;
+      window.print = () => { window.__zpPrintCalls += 1; };
+    });
+    await click(guide,printButton);
+    const state=await guide.evaluate(() => ({
+      calls:window.__zpPrintCalls,
+      enabled:document.body.classList.contains("zp-footwear-print-mode")
+    }));
+    assert.equal(state.calls,1,"Printing must be a direct, user-triggered action");
+    assert.equal(state.enabled,true,"Printing must activate paper-only layout");
+    await guide.evaluate(() => window.dispatchEvent(new Event("afterprint")));
+    assert.equal(await guide.evaluate(() => document.body.classList.contains("zp-footwear-print-mode")),
+      false,"Print mode must clean up after native print");
+    await guide.close();
+    console.log("PASS 0.8.104 guide WCAG muted contrast and privacy-safe printable checklist");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

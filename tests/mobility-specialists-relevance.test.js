@@ -15,7 +15,7 @@ for(const spec of [
     assert.match(page,new RegExp(condition+'="steady" hidden>\\s*<legend>'));
     assert.match(page,new RegExp('data-zp-'+(spec.key==="indoor"?"indoor-required":"roll-required")+'="'+spec.mustShow+'"[^>]*'+condition+'="steady" hidden'));
     assert.match(js,/const updateProductQuestions=/);
-    assert.match(js,/name="supportNeed":checked/);
+    assert.match(js,/name="supportNeed"\]:checked/);
     assert.match(js,/event\.target\?\.name==="supportNeed"\) updateProductQuestions\(\)/);
     assert.match(js,/section\.hidden=!steady/);
     assert.match(js,/querySelectorAll\('input\[type="radio"\],input\[type="checkbox"\]'\)/);

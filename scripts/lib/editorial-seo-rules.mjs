@@ -35,7 +35,7 @@ export function summarizeEditorialPages(pages, site = "https://zaprazi.cz") {
     for (const href of p.mainContentLinks || []) {
       let linked;
       try { linked = new URL(href, site); } catch { continue; }
-      if (linked.origin !== site) continue;
+      if (linked.hostname !== new URL(site).hostname) continue;
       if (linked.protocol !== "https:") add(warnings, p.path, "HTTP_INTERNAL_LINK", href);
       const target = byPath.get(linked.pathname);
       if (!target) continue;

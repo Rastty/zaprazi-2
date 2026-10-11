@@ -160,6 +160,39 @@ try {
     const page = await open(path);
     assert.ok(await page.$(formSelector), "Advisor missing: " + path);
     assert.ok(await page.$(resultSelector), "Result container missing: " + path);
+    // Brand consistency is part of mobile trust: reject the 2016 favicon
+    // that WordPress used even after the theme got its approved SVG mark.
+    if (path === "/") {
+      const brand = await page.evaluate(() => ({
+        text: document.querySelector(".zp-brand-text")?.textContent ?? "",
+        pictogram: document.querySelector(".zp-brand-icon")?.getAttribute("src") ?? "",
+        icons: [...document.querySelectorAll('head link[rel="icon"]')].map(link => ({
+          href: link.href, size: link.getAttribute("sizes") || ""
+        })),
+        touch: [...document.querySelectorAll('head link[rel="apple-touch-icon"]')]
+          .map(link => link.href)
+      }));
+      assert.match(brand.text, /Zápraží[\s\S]*Cesta k lepšímu životu/,
+        "Approved wordmark and claim must appear in header");
+      assert.match(brand.pictogram, /\/assets\/brand\/zaprazi-icon\.svg$/,
+        "Header must use approved house/path icon");
+      assert.ok(brand.icons.some(item => item.size === "32x32") &&
+        brand.icons.some(item => item.size === "192x192"),
+        "Desktop favicons should declare small and high-density variants");
+      assert.ok(brand.touch.length >= 1, "Apple touch icon missing");
+      for (const iconUrl of [...brand.icons.map(item => item.href), ...brand.touch]) {
+        const url = new URL(iconUrl);
+        assert.equal(url.host, new URL(base).host, "Favicon must be served from Zápraží");
+        assert.ok(/\.png$/i.test(url.pathname), "Registered WordPress favicon must use PNG");
+        assert.ok(!/cropped-fl1|\/2016\/04\//i.test(url.pathname),
+          "Legacy 2016 favicon must not override new brand");
+      }
+      const iconResponse = await fetch(brand.icons[0].href);
+      assert.equal(iconResponse.status, 200, "WordPress favicon media is not publicly accessible");
+      assert.match(iconResponse.headers.get("content-type") || "", /image\/png/,
+        "Favicon media should be delivered as PNG");
+      console.log("PASS official Zápraží logo, 32/192px browser favicon and Apple touch icon");
+    }
     // Accessibility sanity audit on each real 390px page (not jsdom):
     // prevent sideways scrolling and input controls without a readable name.
     const mobileA11y = await page.evaluate(selector => {

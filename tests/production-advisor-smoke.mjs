@@ -44,8 +44,10 @@ const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-read
 assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
 const readiness = await readinessResponse.json();
 assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
-assert.equal(readiness.release, "0.8.111",
-  "Version 0.8.111 reported deployed, but live WordPress serves a different release");
+if (sourceRelease === "0.8.111") {
+  assert.equal(readiness.release, sourceRelease,
+    "Version 0.8.111 reported deployed, but live WordPress serves a different release");
+}
 // Explicit post-deploy acceptance for 0.8.110. Pull-request QA normally
 // targets whatever version is live; this release is now reported deployed.
 if (sourceRelease === "0.8.110") {

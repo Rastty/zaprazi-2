@@ -1321,6 +1321,106 @@ try {
     }
   }
 
+  // Release 0.8.108: follow-up content paths are navigable real HTML, not
+  // JavaScript-only widgets and never a backdoor around a blocked merchant offer.
+  if (releaseAtLeast("0.8.108")) {
+    const routes = [
+      ["/nastavec-na-wc-pro-seniory/", "toilet-riser", [
+        "/madlo-k-wc-pro-seniory/#poradce-opora-wc",
+        "/koupelna-a-wc/#poradce-koupelna"
+      ]],
+      ["/madlo-k-wc-pro-seniory/", "toilet-support", [
+        "/koupelna-a-wc/#poradce-koupelna"
+      ]],
+      ["/sprchovaci-zidle-pro-seniory/", "shower-chair", [
+        "/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana",
+        "/koupelna-a-wc/#poradce-koupelna"
+      ]],
+      ["/sedatko-do-vany-pro-seniory/", "bath-transfer", [
+        "/koupelna-a-wc/#poradce-koupelna"
+      ]],
+      ["/toaletni-zidle-pro-seniory/", "toilet-chair", [
+        "/navrat-z-nemocnice/#plan-navratu",
+        "/koupelna-a-wc/#poradce-koupelna"
+      ]],
+      ["/pujceni-choditka/", "walker-rental", [
+        "/#poradce",
+        "/choditko-do-bytu-pro-seniory/#poradce-choditko-byt",
+        "/rollator-pro-seniory/#poradce-rollator"
+      ]]
+    ];
+    const destinations = new Map();
+    for (const [path, key, expected] of routes) {
+      const page = await open(path);
+      const seo = await page.evaluate(key => {
+        const section = document.querySelector('main [data-zp-context-links="' + key + '"]');
+        return {
+          section: Boolean(section),
+          heading: section?.querySelector("h2")?.textContent.trim() || "",
+          nav: section?.querySelector("nav[aria-label]")?.getAttribute("aria-label") || "",
+          links: [...(section?.querySelectorAll("a[href]") || [])].map(a => a.href),
+          canonical: document.querySelector('link[rel="canonical"]')?.href || "",
+          robots: document.querySelector('meta[name="robots"]')?.content || "",
+          overflow: document.documentElement.scrollWidth - innerWidth,
+          affiliate: Boolean(section?.querySelector(".zp-offer, [data-zp-merchant-link], a[href*='ehub.cz']"))
+        };
+      }, key);
+      assert.equal(seo.section, true, "Missing new contextual section on " + path);
+      assert.ok(seo.heading.length > 10 && seo.nav.length > 4, "Context needs a meaningful heading and accessible navigation");
+      assert.equal(new URL(seo.canonical).pathname, path, "Wrong self-canonical: " + path);
+      assert.doesNotMatch(seo.robots, /noindex/i, "Published decision page must not be noindexed");
+      assert.ok(seo.overflow <= 2, "Horizontal mobile overflow on " + path);
+      assert.equal(seo.affiliate, false, "Context navigation bypasses a fit-locked merchant offer");
+      const paths = seo.links.map(href => new URL(href).pathname + new URL(href).hash);
+      assert.deepEqual(paths, expected, "Live navigation differs from the six reviewed SEO routes: " + path);
+      for (const url of paths) {
+        const dest = new URL(url, base);
+        const slug = dest.pathname;
+        if (!destinations.has(slug)) destinations.set(slug, new Set());
+        if (dest.hash) destinations.get(slug).add(decodeURIComponent(dest.hash.slice(1)));
+      }
+      console.log("PASS 0.8.108 contextual SEO links, canonical, mobile UX and no merchant bypass:", path);
+      await page.close();
+    }
+    // Every fragment must point to a *live* DOM id after JS has initialized.
+    for (const [slug, anchors] of destinations) {
+      const target = await open(slug);
+      const matched = await target.evaluate(anchors => anchors.map(anchor =>
+        Boolean(document.getElementById(anchor))), [...anchors]);
+      assert.ok(matched.every(Boolean), "Missing live in-page target on " + slug);
+      await target.close();
+    }
+    console.log("PASS 0.8.108 contextual destinations and in-page anchors:", destinations.size);
+
+    // SEO baseline is diagnostic. Never claim Google indexation from a sitemap
+    // response alone; XML/robots publication and Search Console are distinct.
+    for (const path of ["/robots.txt", "/sitemap_index.xml", "/wp-sitemap.xml"]) {
+      try {
+        const response = await fetch(base + path, {
+          signal: AbortSignal.timeout(12000),
+          headers: { Accept: "text/plain, application/xml, text/xml, */*" }
+        });
+        const body = (await response.text()).slice(0, 120000);
+        const loc = [...body.matchAll(/<loc>([^<]+)<\/loc>/gi)].map(m => m[1]);
+        const info = {
+          path, status: response.status,
+          type: response.headers.get("content-type"),
+          bytesRead: body.length, sitemapEntries: loc.length,
+          firstEntries: loc.slice(0, 8),
+          index: /<sitemapindex\b/i.test(body),
+          urlset: /<urlset\b/i.test(body),
+          sitemapDirectives: path === "/robots.txt" ?
+            body.split(/\r?\n/).filter(line => /^Sitemap:/i.test(line.trim())).slice(0, 8) : []
+        };
+        console.log("SEO_OBSERVATION", JSON.stringify(info));
+      } catch (error) {
+        console.log("SEO_OBSERVATION", JSON.stringify({
+          path, status: "fetch_error", reason: String(error).slice(0, 200)
+        }));
+      }
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

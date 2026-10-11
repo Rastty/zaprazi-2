@@ -29,6 +29,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
+    'assets/js/footwear-measurement-print.js',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
@@ -962,6 +963,26 @@ function zaprazi_2_assets() {
     }
   }
 }
+/**
+ * Load the local, no-tracking print control only on the educational guide.
+ * This is deliberately separate from the affiliate decision engine.
+ */
+function zaprazi_2_footwear_guide_print_asset() {
+  if ( ! zaprazi_2_is_footwear_measurement_page() ) {
+    return;
+  }
+  $dir = get_template_directory();
+  $uri = get_template_directory_uri();
+  wp_enqueue_script(
+    'zaprazi-footwear-measurement-print',
+    $uri . '/assets/js/footwear-measurement-print.js',
+    array(),
+    file_exists( $dir . '/assets/js/footwear-measurement-print.js' ) ? filemtime( $dir . '/assets/js/footwear-measurement-print.js' ) : null,
+    true
+  );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_footwear_guide_print_asset', 20 );
+
 add_action('wp_enqueue_scripts', 'zaprazi_2_assets');
 
 

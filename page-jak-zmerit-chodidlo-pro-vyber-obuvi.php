@@ -40,10 +40,14 @@ get_header();
     </div>
   </section>
 
-  <section class="zp-section zp-section-soft">
+  <section class="zp-section zp-section-soft zp-footwear-print-checklist">
     <div class="zp-wrap">
       <p class="zp-kicker">Bez ukládání údajů</p>
       <h2 class="zp-section-title">Co si zapsat na papír?</h2>
+      <div class="zp-footwear-print-actions">
+        <button type="button" class="zp-link-btn" id="zp-footwear-measurement-print">Vytisknout prázdný seznam měření</button>
+        <p class="zp-muted-copy">Vytiskne se pouze seznam pro ruční vyplnění. Nic neodesíláme a nic neukládáme.</p>
+      </div>
       <div class="zp-check-grid">
         <div><span>01</span><strong>Pravé chodidlo</strong><p>Délka: ______ mm · šířka: ______ mm</p></div>
         <div><span>02</span><strong>Levé chodidlo</strong><p>Délka: ______ mm · šířka: ______ mm</p></div>

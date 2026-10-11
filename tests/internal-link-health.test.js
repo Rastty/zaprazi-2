@@ -13,7 +13,7 @@ test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>
     {path:"/navrat-z-nemocnice/",sources:["/"]}
   ]);
   assert.ok(result.excluded.some(x=>x.why==="http_internal"));
-  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,4);
+  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,5);
 });
 
 test("GET probe does not follow redirects and classifies broken pages",async()=>{

@@ -16,8 +16,20 @@ for(const spec of [
     assert.match(page,new RegExp('data-zp-'+(spec.key==="indoor"?"indoor-required":"roll-required")+'="'+spec.mustShow+'"[^>]*'+condition+'="steady" hidden'));
     assert.match(js,/const updateProductQuestions=/);
     assert.match(js,/name="supportNeed"\]:checked/);
-    assert.match(js,/event\.target\?\.name==="supportNeed"\) updateProductQuestions\(\)/);
-    assert.match(js,/section\.hidden=!steady/);
+    const gate=spec.mustShow;
+    assert.ok(js.includes('["supportNeed","'+gate+'"].includes(event.target?.name)'),"Recalculate on gate change");
+    assert.ok(js.includes('const gateValue=steady'),"Gate input read only in the safe branch");
+    assert.ok(js.includes('const detailsAllowed=steady&&'),"Secondary questions depend on safe model selection");
+    assert.ok(js.includes('const isGateQuestion=!!section.querySelector(\'input[name="'+gate+'"]\')'));
+    assert.match(js,/const show=steady&&\(isGateQuestion\|\|detailsAllowed\)/);
+    assert.match(js,/section\.hidden=!show/);
+    assert.ok(js.includes('if(!show||(gateChanged&&!isGateQuestion))'),"Hide and clear obsolete question answers");
+    assert.match(js,/previousGateValue=gateValue/);
+    if(spec.key==="indoor"){
+      assert.ok(js.includes('gateValue==="yes"||gateValue==="no"'),"Indoor model details require knowing whether full walker can be lifted");
+    }else{
+      assert.ok(js.includes('gateValue==="yes"'),"Rollator model details require verified safe hand brakes");
+    }
     assert.match(js,/querySelectorAll\('input\[type="radio"\],input\[type="checkbox"\]'\)/);
     assert.match(js,/input\.checked=false/);
     assert.match(js,/const freeGuide=/);

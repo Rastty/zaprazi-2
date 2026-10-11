@@ -1,0 +1,27 @@
+name: Public SEO Sitemap Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-public-sitemap.mjs"
+      - "tests/public-sitemap-audit.test.js"
+      - ".github/workflows/public-seo-sitemap-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-sitemap:
+    name: Read-only public XML inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Unit tests for safe sitemap parser
+        run: node --test tests/public-sitemap-audit.test.js
+      - name: Inspect live public sitemap (no WordPress writes or GSC claims)
+        run: node scripts/audit-public-sitemap.mjs

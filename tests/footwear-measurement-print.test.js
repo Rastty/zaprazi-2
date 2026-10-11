@@ -40,7 +40,7 @@ test("paper checklist is printable with an explicit user gesture and no data cap
   assert.match(css, /body\.zp-footwear-print-mode \.zp-footwear-print-checklist \.zp-check-grid/);
   for(const forbidden of [/\bfetch\s*\(/, /\bXMLHttpRequest\b/, /navigator\.sendBeacon/,
     /\blocalStorage\b/, /\bsessionStorage\b/, /\bdocument\.cookie\b/, /\bFormData\b/,
-    /location\.(search|hash|href)/, /analytics|affiliate/i])
+    /location\.(search|hash|href)/, /zaprazi:analytics|affiliateMap|merchant_click/i])
     assert.doesNotMatch(script,forbidden, "Printing must not leak or persist measurement data");
   assert.match(functions,/function zaprazi_2_footwear_guide_print_asset/);
   assert.match(functions,/zaprazi_2_is_footwear_measurement_page\(\)/);

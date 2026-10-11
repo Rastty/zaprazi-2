@@ -44,6 +44,13 @@ const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-read
 assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
 const readiness = await readinessResponse.json();
 assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
+// Explicit post-deploy acceptance for 0.8.110. Pull-request QA normally
+// targets whatever version is live; this release is now reported deployed.
+if (sourceRelease === "0.8.110") {
+  assert.equal(readiness.release, sourceRelease,
+    "The 0.8.110 release is not yet live despite confirmed deploy");
+}
+
 assert.ok(releaseAtLeast("0.8.109"),
   "0.8.109 Pull+Deploy is not yet live. Do not treat pre-deploy QA as acceptance of HTTPS sitemap fix.");
 assert.equal(readiness.integrity, "ok", "Deployment integrity is partial");

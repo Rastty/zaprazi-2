@@ -23,8 +23,24 @@ if(form&&result&&submit&&errors){
 
   installMobilityProductFitGate(result);
 
+  // Product-selection questions only make sense for stable support.
+  // On every branch change, erase hidden confirmations and preferences.
+  const updateProductQuestions=()=>{
+    const steady=form.querySelector('input[name="supportNeed"]:checked')?.value==="steady";
+    form.querySelectorAll("[data-zp-indoor-condition]").forEach(section=>{
+      section.hidden=!steady;
+      if(!steady){
+        section.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(input=>{input.checked=false;});
+        section.classList.remove("is-error");
+        section.removeAttribute("aria-invalid");
+      }
+    });
+  };
+  updateProductQuestions();
+
   let builderStarted=false;
   form.addEventListener("change",(event)=>{
+    if(event.target?.name==="supportNeed") updateProductQuestions();
     const group=event.target?.closest?.("[data-zp-indoor-required]");
     if(group&&val(group.dataset.zpIndoorRequired)){
       group.classList.remove("is-error");
@@ -83,11 +99,13 @@ if(form&&result&&submit&&errors){
     const ids=out.recommendations.flatMap(r=>r.productCandidateIds??[]);
     const products=getMobilityProducts(ids);
 
+    const freeGuide=(out.status==="outside_current_slice"||(out.status==="needs_more_info"&&out.missing?.includes("supportNeed")))
+      ? '<p class="zp-disclaimer">Pokud jde spíš o lehkou oporu nebo si nejste jistí typem pomůcky, začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít bezpečnost trasy doma</a>.</p>' : "";
     const next = getMobilityNextSteps(out);
     const nextMarkup = next.canCompareAcquisition
       ? '<section class="zp-acquisition-summary"><h3>Jak chodítko získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
       : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>Dokud nejsou splněné podmínky, nepřecházejte k nákupu konkrétní pomůcky.</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${nextMarkup}`;
+    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${nextMarkup}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
       form.querySelector('input[name="supportNeed"]')?.focus();

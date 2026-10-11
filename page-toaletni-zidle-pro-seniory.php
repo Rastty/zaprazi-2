@@ -133,6 +133,18 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="toilet-chair">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když toto řešení nestačí</p>
+      <h2 class="zp-section-title">Nejdřív bezpečná cesta k toaletě</h2>
+      <p>Při obtížném přesunu a cestě z lůžka na WC může být důležitější uspořádání bytu a plán pomoci než samotný nákup židle. Pokud řešíte návrat domů z nemocnice, začněte plánem pro první noc.</p>
+      <nav aria-label="Související bezpečné kroky">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#plan-navratu' ) ); ?>">Sestavit plán návratu domů</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Porovnat další řešení u WC</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

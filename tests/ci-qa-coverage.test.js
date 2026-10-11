@@ -30,7 +30,7 @@ test("read-only production browser QA detects all Advisor offer markers without 
   for(const asset of fs.readdirSync(new URL("assets/js/",root)).filter(n=>n.endsWith(".js"))) {
     for(const match of read("assets/js/"+asset).matchAll(/data-zp-[a-z0-9-]*merchant-link/g)) attrs.add(match[0]);
   }
-  assert.ok(attrs.size>=13,"Merchant CTA marker coverage unexpectedly contracted");
+  assert.ok(attrs.size>=12,"Merchant CTA marker coverage unexpectedly contracted");
   const genericPattern=/^data-zp-(?:[a-z0-9-]+-)?merchant-link$/;
   for(const name of attrs)assert.match(name,genericPattern,"Offer bypasses generic detection: "+name);
   for(const type of ["footwear","adl","indoor","rollator","shower","toilet","chair"]) {

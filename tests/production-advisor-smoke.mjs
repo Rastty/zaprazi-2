@@ -1070,6 +1070,67 @@ try {
     await page.close();
   }
 
+  // 0.8.105: specialized Mobility paths must not demand brake/lift
+  // questions for light, unknown, or person-assisted walking support.
+  if (releaseAtLeast("0.8.105")) {
+    for (const spec of [
+      {path:"/choditko-do-bytu-pro-seniory/", key:"indoor", form:"#zp-indoor-walker-advisor",
+        result:"#zp-indoor-walker-result", submit:"#zp-indoor-walker-submit",
+        required:"canLiftWalker", yes:"yes", error:"#zp-indoor-walker-errors", fieldName:"data-zp-indoor-condition"},
+      {path:"/rollator-pro-seniory/", key:"rollator", form:"#zp-rollator-advisor",
+        result:"#zp-rollator-result", submit:"#zp-rollator-submit",
+        required:"handBrakes", yes:"yes", error:"#zp-rollator-errors", fieldName:"data-zp-roll-condition"}
+    ]) {
+      const page=await open(spec.path);
+      const sections=await page.$eval("["+spec.fieldName+"]",nodes=>
+        nodes.map(node=>({hidden:node.hidden,count:node.querySelectorAll("input").length})));
+      assert.ok(sections.length>=3, "Specialist model questions must be conditional: "+spec.path);
+      assert.ok(sections.every(x=>x.hidden),"Model questions start hidden: "+spec.path);
+      await choose(page,"supportNeed","light");
+      assert.equal(await visible(page,'['+spec.fieldName+']'),false);
+      await click(page,spec.submit);
+      assert.equal(await visible(page,spec.result),true);
+      assert.ok(await count(page,spec.result+' a[href="/bezpecny-byt-pro-seniora/"]')===1,
+        "Light support should get a free, noncommercial next step");
+      await checkNoMerchant(page,spec.result);
+
+      await choose(page,"supportNeed","steady");
+      assert.equal(await visible(page,'['+spec.fieldName+']'),true);
+      await click(page,spec.submit);
+      assert.equal(await visible(page,spec.error),true,"Relevant safety question is required");
+      await choose(page,spec.required,spec.yes);
+      await click(page,spec.submit);
+      assert.ok(await count(page,spec.result+" .zp-mobility-fit-gate")>0,
+        "Stable support keeps the actual model-fit safety gate");
+      const locked=await page.$eval(spec.result+" .zp-fit-locked-offers",
+        nodes=>nodes.every(el=>el.hidden));
+      assert.equal(locked,true,"Merchant links stay hidden before model-specific fit checks");
+
+      await choose(page,"supportNeed","unknown");
+      assert.equal(await visible(page,'['+spec.fieldName+']'),false);
+      assert.equal(await visible(page,spec.result),false,"Change hides previous recommendation");
+      const stale=await page.evaluate(name=>({
+        required:document.querySelector('input[name="'+name+'"]:checked')?.value??null,
+        selected:[...document.querySelectorAll('['+(name==="canLiftWalker"?"data-zp-indoor-condition":"data-zp-roll-condition")+'] input:checked')]
+          .map(x=>x.name)
+      }),spec.required);
+      assert.equal(stale.required,null,"Old model safety answer must be cleared");
+      assert.deepEqual(stale.selected,[],"All previously hidden model preferences must be cleared");
+      await click(page,spec.submit);
+      assert.ok(await count(page,spec.result+' a[href="/bezpecny-byt-pro-seniora/"]')===1);
+      await checkNoMerchant(page,spec.result);
+
+      await choose(page,"supportNeed","person_assist");
+      assert.equal(await visible(page,'['+spec.fieldName+']'),false);
+      await click(page,spec.submit);
+      await checkNoMerchant(page,spec.result);
+      assert.ok(await count(page,spec.result+" .zp-mobility-fit-gate")===0,
+        "Professional-review branch must not show product fit gates");
+      console.log("PASS specialist Mobility conditional questions, reset and safe next step:",spec.path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

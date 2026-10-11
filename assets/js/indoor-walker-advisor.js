@@ -25,22 +25,32 @@ if(form&&result&&submit&&errors){
 
   // Product-selection questions only make sense for stable support.
   // On every branch change, erase hidden confirmations and preferences.
+  let previousGateValue=null;
   const updateProductQuestions=()=>{
     const steady=form.querySelector('input[name="supportNeed"]:checked')?.value==="steady";
+    const gateValue=steady
+      ? form.querySelector('input[name="canLiftWalker"]:checked')?.value??null
+      : null;
+    const detailsAllowed=steady&&(gateValue==="yes"||gateValue==="no");
+    const gateChanged=previousGateValue!==gateValue;
     form.querySelectorAll("[data-zp-indoor-condition]").forEach(section=>{
-      section.hidden=!steady;
-      if(!steady){
+      const isGateQuestion=!!section.querySelector('input[name="canLiftWalker"]');
+      const show=steady&&(isGateQuestion||detailsAllowed);
+      section.hidden=!show;
+      // A new support or gate answer must not reuse confirmations for another route.
+      if(!show||(gateChanged&&!isGateQuestion)){
         section.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(input=>{input.checked=false;});
         section.classList.remove("is-error");
         section.removeAttribute("aria-invalid");
       }
     });
+    previousGateValue=gateValue;
   };
   updateProductQuestions();
 
   let builderStarted=false;
   form.addEventListener("change",(event)=>{
-    if(event.target?.name==="supportNeed") updateProductQuestions();
+    if(["supportNeed","canLiftWalker"].includes(event.target?.name)) updateProductQuestions();
     const group=event.target?.closest?.("[data-zp-indoor-required]");
     if(group&&val(group.dataset.zpIndoorRequired)){
       group.classList.remove("is-error");

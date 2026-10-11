@@ -118,6 +118,18 @@ get_header();
     </div>
   </section>
 
+  <section class="zp-section zp-section-soft" data-zp-context-links="toilet-riser">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když toto řešení nestačí</p>
+      <h2 class="zp-section-title">Když zvýšení WC nestačí</h2>
+      <p>Pokud je hlavní obtíž bezpečný úchop při sedání a vstávání, samotný vyšší sed nemusí stačit. Nejdřív si ujasněte, zda je potřeba stabilní opora a zda lze bezpečně ověřit kotvení.</p>
+      <nav aria-label="Související bezpečné kroky">
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Porovnat madlo a toaletní oporu</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Vybrat podle problému u WC</a></p>
+      </nav>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

@@ -28,6 +28,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-bezpecny-byt-pro-seniora.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
+    'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
@@ -1995,6 +1996,42 @@ function zaprazi_2_is_walker_measurements_page() {
   return is_page( 'co-zmerit-pred-vyberem-choditka' );
 }
 
+/**
+ * New, source-backed, noncommercial footwear measuring guide. It must not
+ * overwrite an existing WordPress page or migrate an unrelated legacy URL.
+ */
+function zaprazi_2_ensure_footwear_measurement_page() {
+  if ( '1' === get_option( 'zaprazi_footwear_measurement_page_v1' ) ) {
+    return;
+  }
+  $slug = 'jak-zmerit-chodidlo-pro-vyber-obuvi';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type'    => 'page',
+      'post_status'  => 'publish',
+      'post_title'   => 'Jak změřit chodidlo před výběrem obuvi pro seniora',
+      'post_name'    => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Šest bezpečných kroků: změřte délku a šířku obou chodidel, vyberte správnou velikost podle tabulky modelu a vraťte se k poradci.',
+      'meta_input'   => array(
+        '_wp_page_template' => 'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
+      ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_footwear_measurement_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_footwear_measurement_page', 35 );
+
+function zaprazi_2_is_footwear_measurement_page() {
+  return is_page( 'jak-zmerit-chodidlo-pro-vyber-obuvi' );
+}
+
 function zaprazi_2_ensure_night_wc_page() {
   if ( '1' === get_option( 'zaprazi_night_wc_page_v1' ) ) {
     return;
@@ -2057,6 +2094,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_footwear_measurement_page() ) {
+    return 'Jak změřit chodidlo pro výběr obuvi | Zápraží';
+  }
   if ( zaprazi_2_is_walker_measurements_page() ) {
     return 'Co změřit před výběrem chodítka a rollátoru | Zápraží';
   }
@@ -2096,6 +2136,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_footwear_measurement_page() ) {
+    return 'Jak správně změřit délku a šířku obou chodidel před výběrem bot pro seniora. Šest kroků doma, kontrola velikosti konkrétního modelu a praktický poradce.';
+  }
   if ( zaprazi_2_is_walker_measurements_page() ) {
     return 'Co změřit doma před pořízením chodítka nebo rollátoru: výška madel, dveře, otočení, brzdy, nosnost, sed a složení. Praktický seznam a bezpečné poradce.';
   }
@@ -2144,6 +2187,15 @@ function zaprazi_2_discharge_questions_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
 }
 add_action( 'wp_head', 'zaprazi_2_discharge_questions_meta_fallback', 5 );
+
+/** No duplicate description tag when Yoast SEO is installed. */
+function zaprazi_2_footwear_measurement_meta_fallback() {
+  if ( ! zaprazi_2_is_footwear_measurement_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_footwear_measurement_meta_fallback', 5 );
 
 /** Only when Yoast is inactive, do not emit a duplicate description tag. */
 function zaprazi_2_walker_measurements_meta_fallback() {

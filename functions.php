@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.109' );
+  define( 'ZAPRAZI_RELEASE', '0.8.110' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -2166,6 +2166,10 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  // Editorial transparency page must provide its own useful search snippet.
+  if ( is_page( 'jak-vznika-doporuceni' ) ) {
+    return 'Jak Zápraží vybírá pomůcky: praktické otázky, bezpečnostní omezení, zdroje údajů i rozdíl mezi nákupem, půjčením a ověřením úhrady.';
+  }
   if ( zaprazi_2_is_footwear_measurement_page() ) {
     return 'Jak správně změřit délku a šířku obou chodidel před výběrem bot pro seniora. Šest kroků doma, kontrola velikosti konkrétního modelu a praktický poradce.';
   }
@@ -2205,6 +2209,15 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+
+/** One description without Yoast, but never duplicate the active Yoast tag. */
+function zaprazi_2_methodology_meta_fallback() {
+  if ( ! is_page( 'jak-vznika-doporuceni' ) || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_methodology_meta_fallback', 5 );
 
 /**
  * Descriptive meta fallback when Yoast is absent. Do not emit duplicate tags.

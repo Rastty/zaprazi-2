@@ -1481,6 +1481,29 @@ try {
     }));
   }
 
+  // 0.8.110: production proof that methodology (an important trust page)
+  // gets one truthful meta description, without replacing a Yoast tag twice.
+  if (releaseAtLeast("0.8.110")) {
+    const page=await open("/jak-vznika-doporuceni/");
+    const seo=await page.evaluate(() => ({
+      descriptions:[...document.querySelectorAll('head meta[name="description"]')]
+        .map(el => el.content.trim()),
+      h1:[...document.querySelectorAll("main h1")].map(el => el.textContent.trim()),
+      canonical:document.querySelector('link[rel="canonical"]')?.href||"",
+      hasLimits:(document.querySelector("main")?.textContent||"").includes("Externí odborná revize"),
+      merchants:document.querySelectorAll("main .zp-offer, main [data-zp-merchant-link]").length
+    }));
+    assert.equal(seo.descriptions.length,1,"One Yoast/fallback description only");
+    assert.match(seo.descriptions[0],/bezpečnostní omezení/);
+    assert.match(seo.descriptions[0],/zdroje údajů/);
+    assert.equal(seo.h1.length,1);
+    assert.equal(new URL(seo.canonical).pathname,"/jak-vznika-doporuceni/");
+    assert.equal(seo.hasLimits,true,"Methodology must disclose lack of external review");
+    assert.equal(seo.merchants,0,"Methodology page cannot offer a product without fit gate");
+    await page.close();
+    console.log("PASS 0.8.110 methodology meta description, disclosure and no commerce bypass");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

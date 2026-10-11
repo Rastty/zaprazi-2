@@ -84,7 +84,7 @@ export function recommendMobility(input = {}) {
     return {
       status: "needs_more_info",
       headline: "Potřebujeme ještě upřesnit, jak velkou oporu při chůzi člověk potřebuje.",
-      nextStep: "Vyberte, zda jde spíš o lehkou oporu, stabilní oporu při většině kroků, nebo fyzickou pomoc další osoby.",
+      nextStep: "Pokud nedokážete bezpečně rozlišit lehkou oporu, stabilní oporu nebo potřebu fyzické pomoci, nezkoušejte volit chodítko podle fotografie. Zkontrolujte místo, kde se chodí, a vhodný typ opory ověřte s fyzioterapeutem nebo jiným příslušným odborníkem.",
       missing: ["supportNeed"],
       recommendations: [],
       acquisition: acquisitionFor(duration)
@@ -105,8 +105,8 @@ export function recommendMobility(input = {}) {
   if (supportNeed === "light") {
     return {
       status: "outside_current_slice",
-      headline: "Lehká opora může vyžadovat jiný typ řešení než chodítko nebo rollátor.",
-      nextStep: "V první verzi ZaPrazi nebudeme předstírat přesný výběr. Rozšíříme poradce o lehčí opory až s ověřenými pravidly.",
+      headline: "Lehká opora neznamená automaticky potřebu chodítka.",
+      nextStep: "Začněte kontrolou bezpečnosti tras, na kterých člověk chodí: světlo, kluzké plochy, volné koberce a překážky. Pokud potřebuje pomůcku k chůzi, její typ, správnou výšku a způsob používání ověřte s fyzioterapeutem nebo odbornou výdejnou. Bez toho nebudeme doporučovat konkrétní model.",
       missing: [],
       recommendations: [],
       acquisition: acquisitionFor(duration)

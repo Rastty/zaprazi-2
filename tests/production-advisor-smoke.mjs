@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { accessSync, constants, readFileSync } from "node:fs";
 import puppeteer from "puppeteer-core";
+import { auditPublicSitemap, requiredDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
 
 const base = process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz";
 const sourceRelease = readFileSync(new URL("../style.css", import.meta.url), "utf8").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
@@ -43,6 +44,8 @@ const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-read
 assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
 const readiness = await readinessResponse.json();
 assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
+assert.ok(releaseAtLeast("0.8.109"),
+  "0.8.109 Pull+Deploy is not yet live. Do not treat pre-deploy QA as acceptance of HTTPS sitemap fix.");
 assert.equal(readiness.integrity, "ok", "Deployment integrity is partial");
 assert.ok(readiness.slot_total >= 25, "An expected affiliate slot was removed");
 assert.equal(readiness.configured_total, readiness.slot_total, "Not all affiliate slots are configured");
@@ -1446,6 +1449,36 @@ try {
       }
       console.log("PASS 0.8.109 public sitemap HTTPS invariant:", path);
     }
+  }
+
+  // Full post-deploy SEO gate. Prior QA only sampled the index and page XML;
+  // this checks every advertised leaf sitemap and all critical page paths.
+  // It is read-only and never treats XML inclusion as Google indexation.
+  if (releaseAtLeast("0.8.109")) {
+    const sitemap = await auditPublicSitemap();
+    assert.ok(sitemap.index.total >= 7, "Unexpected reduction in public sitemap count");
+    assert.equal(sitemap.index.http, 0, "Yoast index still advertises HTTP child XML");
+    assert.ok(sitemap.robots_sitemaps.length >= 1, "No sitemap advertised by robots.txt");
+    assert.ok(sitemap.robots_sitemaps.every(url =>
+      url === "https://zaprazi.cz/sitemap_index.xml"),
+      "robots.txt still advertises stale or multiple sitemap hosts");
+    assert.equal(sitemap.leaf_sitemaps.filter(leaf => leaf.http > 0).length, 0,
+      "One or more leaf sitemaps contain HTTP content URLs");
+    assert.equal(sitemap.duplicate_paths_sample.length, 0, "Duplicate canonical URL path in XML");
+    assert.equal(sitemap.required_decision_paths_missing.length, 0,
+      "Public sitemap omitted critical Advisor pages: " +
+      sitemap.required_decision_paths_missing.join(", "));
+    assert.equal(sitemap.required_decision_paths_present.length, requiredDecisionPaths.length);
+    assert.equal(sitemap.html_pages_indexed_by_google, "unknown",
+      "Public sitemap inventory must not imply Google indexation");
+    console.log("PASS live release >=0.8.109 full sitemap:", JSON.stringify({
+      sitemap_count: sitemap.index.total,
+      child_http: sitemap.index.http,
+      url_count: sitemap.total_url_entries,
+      unique: sitemap.unique_paths,
+      advisors_present: sitemap.required_decision_paths_present.length,
+      robots_sitemaps: sitemap.robots_sitemaps
+    }));
   }
 
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");

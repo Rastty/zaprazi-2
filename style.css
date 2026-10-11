@@ -11,7 +11,7 @@ Text Domain: zaprazi-2
   --zp-bg:#f6f3ed;
   --zp-paper:#fffdf8;
   --zp-ink:#20251f;
-  --zp-muted:#687169;
+  --zp-muted:#59625a;
   --zp-line:#d9ddd6;
   --zp-accent:#355d4b;
   --zp-accent-2:#e8efe9;
@@ -383,3 +383,34 @@ a{color:inherit}
 .zp-fit-progress{padding:.65rem .75rem;border-radius:10px;background:var(--zp-accent-2);font-weight:750}
 .zp-mobility-fit-gate>label input{min-width:20px;min-height:20px;flex-shrink:0;margin-top:.1rem}
 .zp-mobility-fit-gate>h5{margin:0 0 .5rem;font-size:1.05rem}
+
+
+/* Printable local checklist for footwear measurements. No answers are
+   collected, transmitted or persisted: the visitor fills the paper copy. */
+@media print {
+  body.zp-footwear-print-mode { background:#fff!important;color:#111!important; }
+  body.zp-footwear-print-mode > :not(main) { display:none!important; }
+  body.zp-footwear-print-mode main > :not(.zp-footwear-print-checklist) { display:none!important; }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist {
+    display:block!important;padding:0!important;border:0!important;
+    background:#fff!important;color:#111!important;
+  }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-wrap {
+    width:100%!important;max-width:none!important;
+  }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-kicker,
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-disclaimer,
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-btn,
+  body.zp-footwear-print-mode .zp-footwear-print-actions { display:none!important; }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-check-grid {
+    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px!important;
+  }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-check-grid>div {
+    background:#fff!important;border:1px solid #777!important;
+    padding:20px!important;break-inside:avoid;page-break-inside:avoid;
+  }
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-check-grid p,
+  body.zp-footwear-print-mode .zp-footwear-print-checklist .zp-check-grid span {
+    color:#222!important;
+  }
+}

@@ -31,26 +31,26 @@ get_header();
           <label class="zp-choice"><input type="radio" name="supportNeed" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-indoor-required="canLiftWalker">
+        <fieldset class="zp-fieldset" data-zp-indoor-required="canLiftWalker" data-zp-indoor-condition="steady" hidden>
           <legend>Zvládne při každém kroku lehce nadzvednout a posunout celé chodítko?</legend>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="yes" required><span><strong>Ano</strong><small>Čtyřbodové chodítko může být kandidát.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="no"><span><strong>Ne</strong><small>Dává větší smysl dvoukolové provedení.</small></span></label>
           <label class="zp-choice"><input type="radio" name="canLiftWalker" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-indoor-condition="steady" hidden>
           <legend>Jsou doma úzké průchody nebo málo místa?</legend>
           <label class="zp-choice"><input type="radio" name="homeSpace" value="tight"><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="homeSpace" value="standard"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="homeSpace" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-indoor-condition="steady" hidden>
           <legend>Je důležité časté převážení autem?</legend>
           <label class="zp-choice"><input type="checkbox" name="transportNeed"><span><strong>Ano, skládání a hmotnost jsou důležité.</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-indoor-condition="steady" hidden>
           <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="duration" value="short_term"><span><strong>Spíš dočasně</strong></span></label>
           <label class="zp-choice"><input type="radio" name="duration" value="long_term"><span><strong>Spíš dlouhodobě</strong></span></label>

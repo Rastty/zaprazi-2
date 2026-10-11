@@ -101,14 +101,25 @@ if(form&&result&&submit&&errors){
 
     const freeGuide=(out.status==="outside_current_slice"||(out.status==="needs_more_info"&&out.missing?.includes("supportNeed")))
       ? '<p class="zp-disclaimer">Pokud jde spíš o lehkou oporu nebo si nejste jistí typem pomůcky, začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít bezpečnost trasy doma</a>.</p>' : "";
+    // The next action belongs to the actual unanswered or blocked question.
+    const blockedReason = out.status==="outside_current_slice"
+      ? "Lehká opora nemusí vyžadovat chodítko. Nejprve prověřte bezpečnost chůze doma a případnou pomůcku konzultujte s odborníkem."
+      : out.status==="professional_check"
+        ? "Pokud při chůzi běžně pomáhá druhá osoba, konkrétní chodítko nevybírejte pouze online. Nejdřív ověřte vhodnou podporu s odborníkem."
+        : out.missing?.includes("supportNeed")
+          ? "Nejdřív zjistěte, jakou oporu člověk potřebuje. Bez této informace nelze bezpečně vybrat typ chodítka."
+          : "Nejdřív ověřte, zda člověk zvládne při každém kroku nadzvednout celé chodítko. Podle toho se liší vhodný typ konstrukce.";
     const next = getMobilityNextSteps(out);
     const nextMarkup = next.canCompareAcquisition
       ? '<section class="zp-acquisition-summary"><h3>Jak chodítko získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
-      : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>Dokud nejsou splněné podmínky, nepřecházejte k nákupu konkrétní pomůcky.</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
+      : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>' + esc(blockedReason) + '</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
     result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${nextMarkup}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
-      form.querySelector('input[name="supportNeed"]')?.focus();
+      const questionName=val("supportNeed")==="steady"?"canLiftWalker":"supportNeed";
+      const selected=form.querySelector('input[name="'+questionName+'"]:checked');
+      const target=selected||form.querySelector('input[name="'+questionName+'"]');
+      if(target&&!target.closest("[hidden]")) target.focus();
     });
     result.querySelectorAll("[data-zp-indoor-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     track("builder_complete");

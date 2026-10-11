@@ -102,14 +102,28 @@ if(form&&result&&submit&&errors){
     const freeGuide=(out.status==="outside_current_slice"||(out.status==="needs_more_info"&&out.missing?.includes("supportNeed")))
       ? '<p class="zp-disclaimer">U lehké nebo nejasné potřeby opory začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít kontrolu bezpečné domácnosti</a>.</p>'
       : "";
+    // Explain the *actual* reason this branch did not select a product.
+    // Light support is not evidence of a brake problem or physical assistance.
+    const blockedReason = out.status==="outside_current_slice"
+      ? "Lehká opora sama o sobě není důvodem k výběru rollátoru. Nejdřív ověřte, jaký druh opory člověk skutečně potřebuje."
+      : out.status==="professional_check"
+        ? "Pokud při chůzi běžně pomáhá další osoba, nejprve ověřte vhodný způsob pohybu s odborníkem. Rollátor nevybírejte jen podle ceny."
+        : out.missing?.includes("supportNeed")
+          ? "Nejdřív upřesněte, kolik opory člověk potřebuje. Dokud to není jasné, konkrétní model nevybíráme."
+          : val("handBrakes")==="no"
+            ? "Pokud člověk ruční brzdy bezpečně nezvládá, brzděný rollátor není vhodné vybírat bez odborného posouzení jiné možnosti."
+            : "Nejdřív ověřte, že člověk bezpečně zvládá používat a zajistit brzdy. Bez tohoto potvrzení konkrétní rollátor nevybíráme.";
     const next = getMobilityNextSteps(out);
     const nextMarkup = next.canCompareAcquisition
       ? '<section class="zp-acquisition-summary"><h3>Jak rollátor získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
-      : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>Pokud nejde bezpečně ovládat brzdy nebo je potřebná fyzická pomoc, online výběr konkrétního rollátoru není vhodný.</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
+      : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>' + esc(blockedReason) + '</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
     result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.status==="candidate"?'<p><a class="zp-text-link" href="/choditko-na-pojistovnu/">Prověřit cestu přes pojišťovnu</a></p>':""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${nextMarkup}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
-      form.querySelector('input[name="handBrakes"]')?.focus();
+      const questionName=val("supportNeed")==="steady"?"handBrakes":"supportNeed";
+      const selected=form.querySelector('input[name="'+questionName+'"]:checked');
+      const target=selected||form.querySelector('input[name="'+questionName+'"]');
+      if(target&&!target.closest("[hidden]")) target.focus();
     });
     result.querySelectorAll("[data-zp-rollator-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     track("builder_complete");

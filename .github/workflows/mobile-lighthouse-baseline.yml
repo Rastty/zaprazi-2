@@ -1,0 +1,47 @@
+name: Live Mobile Lighthouse Baseline
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-lighthouse-metrics.mjs"
+      - "tests/lighthouse-metrics.test.js"
+      - ".github/workflows/mobile-lighthouse-baseline.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lab-performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test report data extraction
+        run: node --test tests/lighthouse-metrics.test.js
+      - name: Install pinned Lighthouse lab tool (no repository changes)
+        run: npm install --no-save --no-package-lock lighthouse@13.5.0
+      - name: Measure three public page types, one mobile run each
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+          CI: "1"
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zp-lighthouse
+          for spec in             "home|https://zaprazi.cz/"             "bathroom|https://zaprazi.cz/koupelna-a-wc/"             "article|https://zaprazi.cz/nocni-cesta-z-postele-na-wc/"
+          do
+            name="${spec%%|*}"
+            url="${spec#*|}"
+            ./node_modules/.bin/lighthouse "$url"               --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"               --only-categories=performance               --output=json               --output-path="/tmp/zp-lighthouse/${name}.json"               --quiet
+          done
+          node scripts/audit-lighthouse-metrics.mjs /tmp/zp-lighthouse/home.json /tmp/zp-lighthouse/bathroom.json /tmp/zp-lighthouse/article.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zaprazi-mobile-lighthouse-lab
+          path: /tmp/zp-lighthouse/*.json
+          if-no-files-found: ignore
+          retention-days: 7

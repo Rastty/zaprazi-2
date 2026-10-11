@@ -27,15 +27,16 @@ for(const spec of [
     // Product fit and merchant gates remain in place even for steady support.
     assert.match(js,/renderMobilityProductFitGate\(/);
     assert.match(js,/installMobilityProductFitGate\(result\)/);
-    // A no-product reason must fit the actual situation, without inventing
-    // brake failure or need for human assistance on the light-support branch.
-    assert.match(js,/const blockedReason = out.status==="outside_current_slice"/);
-    assert.match(js,/out.status==="professional_check"/);
-    assert.match(js,/out.missing\\?\\.includes\\("supportNeed"\\)/);
-    assert.match(js,/esc\\(blockedReason\\)/);
-    assert.match(js,/questionName=val\\("supportNeed"\\)==="steady"\\?/);
-    assert.match(js,/if\\(target&&!target.closest\\("\\[hidden\\]"\\)\\) target.focus\\(\\)/);
-    assert.doesNotMatch(js,/input\\[name="handBrakes"\\]'\\)\\?\\.focus\\(\\)/);
+    // No-product messages must represent the real branch. The edit action
+    // should never focus a model question hidden for non-steady support.
+    assert.ok(js.includes('const blockedReason = out.status==="outside_current_slice"'));
+    assert.ok(js.includes('out.status==="professional_check"'));
+    assert.ok(js.includes('out.missing?.includes("supportNeed")'));
+    assert.ok(js.includes("esc(blockedReason)"));
+    assert.ok(js.includes('questionName=val("supportNeed")==="steady"?'));
+    assert.ok(js.includes('if(target&&!target.closest("[hidden]")) target.focus();'));
+    assert.ok(!js.includes("form.querySelector('input[name=\"handBrakes\"]')?.focus();"));
+
 
   });
 }

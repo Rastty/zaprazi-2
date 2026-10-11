@@ -1,0 +1,31 @@
+name: Live Internal Link Health Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-internal-links.mjs"
+      - "scripts/lib/internal-link-health.mjs"
+      - "tests/internal-link-health.test.js"
+      - ".github/workflows/live-internal-link-health.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  link-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Unit-test bounded first-party link checker
+        run: node --test tests/internal-link-health.test.js
+      - name: Install read-only browser adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify live internal HTML links from 27 pages
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-internal-links.mjs

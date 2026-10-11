@@ -1,0 +1,73 @@
+/**
+ * Read-only, exact-host internal HTML link checker for curated core pages.
+ * Never follow redirects, merchant click routes or authenticated endpoints.
+ * HTTP read requests are GET with redirect:'manual'; no writes are performed.
+ */
+
+const blockedPath = /^\/(?:wp-|wp\/|go(?:\/|-|$)|out(?:\/|-|$)|click(?:\/|-|$)|affiliate(?:\/|-|$)|redirect(?:\/|-|$)|visit(?:\/|-|$)|track(?:\/|-|$))/i;
+
+export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
+  if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
+  const targets=new Map(), excluded=[];
+  for (const page of sourcePages) {
+    for (const href of page.links || []) {
+      let u;
+      try {u=new URL(href,origin+page.path);} catch {
+        excluded.push({source:page.path,why:"invalid_url"});continue;
+      }
+      if (u.hostname!=="zaprazi.cz" || u.protocol==="mailto:" || u.protocol==="tel:") continue;
+      if (u.protocol!=="https:" && u.protocol!=="http:") {
+        excluded.push({source:page.path,why:"unsafe_protocol"});continue;
+      }
+      if (u.protocol==="http:") excluded.push({source:page.path,why:"http_internal",href:u.href});
+      const path=u.pathname;
+      // Only benign page-like paths. Do not request search, REST, routes
+      // for click tracking or files that might trigger downloads.
+      if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
+          !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(path)) {
+        excluded.push({source:page.path,why:"not_safe_public_page",href:u.href});
+        continue;
+      }
+      if (!targets.has(path))targets.set(path,new Set());
+      targets.get(path).add(page.path);
+    }
+  }
+  return {targets:[...targets].map(([path,sources])=>({path,sources:[...sources].sort()})),
+    excluded:excluded.slice(0,60)};
+}
+
+export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {
+  if (origin!=="https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
+  if (targets.length>120)throw new Error("Refusing unbounded crawl");
+  const checked=[];
+  // Small batches avoid hammering a production WP instance.
+  for(let offset=0;offset<targets.length;offset+=4){
+    const batch=targets.slice(offset,offset+4);
+    const rows=await Promise.all(batch.map(async item=>{
+      if(!/^\/(?:[a-z0-9%_-]+\/)*$/i.test(item.path) || blockedPath.test(item.path))
+        throw new Error("Unsafe path selected for GET: "+item.path);
+      try{
+        const response=await fetcher(origin+item.path,{
+          method:"GET",redirect:"manual",signal:AbortSignal.timeout(16000),
+          headers:{Accept:"text/html"}
+        });
+        const status=response.status;
+        const location=response.headers?.get("location") || "";
+        const type=response.headers?.get("content-type") || "";
+        if(response.body?.cancel)await response.body.cancel();
+        return {path:item.path,sources:item.sources,status,redirect:location,type,
+          outcome:status===200?"ok":status>=300&&status<400?"redirect":"bad_status"};
+      }catch(error){
+        return {path:item.path,sources:item.sources,status:null,outcome:"network_error",
+          reason:String(error).slice(0,180)};
+      }
+    }));
+    checked.push(...rows);
+  }
+  return {
+    checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
+    broken:checked.filter(x=>["bad_status","network_error"].includes(x.outcome)),
+    redirects:checked.filter(x=>x.outcome==="redirect"), checked_paths:checked,
+    limitations:"Only hrefs in main of 27 selected pages, read-only GET, redirects not followed. Not an audit of 4,360 legacy post bodies or external backlinks."
+  };
+}

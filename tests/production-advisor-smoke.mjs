@@ -112,22 +112,46 @@ async function visible(page, selector) {
 async function count(page, selector) {
   return page.$$eval(selector, nodes => nodes.length);
 }
+// A single invariant across all 14 Advisor families. Older smoke checks
+// listed only five hard-coded attributes and missed ADL, footwear and several
+// Bathroom/Mobility micro-advisors. Detect all present and future markers.
+async function detectCommerce(page, selector) {
+  return page.$eval(selector, root => {
+    const offerMarker = /^data-zp-(?:[a-z0-9-]+-)?merchant-link$/;
+    const markedOffers = [...root.querySelectorAll("*")].filter(element =>
+      [...element.attributes].some(attribute => offerMarker.test(attribute.name))
+    ).map(element => element.outerHTML.slice(0, 180));
+    const approvedAffiliateHosts = new Set([
+      "ehub.cz", "awin1.com", "kqzyfj.com", "dpbolvw.net",
+      "anrdoezrs.net", "tkqlhce.com", "jdoqocy.com"
+    ]);
+    const trackingLinks = [...root.querySelectorAll("a[href]")].map(link => link.href)
+      .filter(href => {
+        try {
+          const u = new URL(href);
+          const host = u.hostname.toLowerCase().replace(/^www\./, "");
+          return [...approvedAffiliateHosts].some(domain =>
+            host === domain || host.endsWith("." + domain));
+        } catch { return false; }
+      });
+    return { markedOffers, trackingLinks };
+  });
+}
+
 async function checkPreviewNoCommerce(page, selector) {
-  const state = await page.$eval(selector, root => ({
-    offers: root.querySelectorAll(".zp-offer, [data-zp-merchant-link], [data-zp-bath-merchant-link], [data-zp-wheelchair-merchant-link], [data-zp-bed-merchant-link], [data-zp-support-merchant-link]").length,
-    trackingLinks: [...root.querySelectorAll("a[href]")].map(a => a.href)
-      .filter(url => /ehub\.cz\/system\/scripts\/click|awin1\.com\/cread|anrdoezrs\.net|tkqlhce\.com|jdoqocy\.com/.test(url))
-  }));
-  assert.equal(state.offers, 0, "Unverified preview contains a commercial offer");
-  assert.deepEqual(state.trackingLinks, [], "Unverified preview contains a commission-tracking link");
+  const state = await detectCommerce(page, selector);
+  const renderedOffers = await count(page, selector + " .zp-offer");
+  assert.equal(renderedOffers, 0, "Unverified preview contains a commercial offer card");
+  assert.deepEqual(state.markedOffers, [], "Unverified preview contains merchant CTA markers");
+  assert.deepEqual(state.trackingLinks, [], "Unverified preview contains tracking links");
 }
 
 async function checkNoMerchant(page, resultSelector) {
-  assert.equal(await count(page, resultSelector + ' [data-zp-merchant-link], ' +
-    resultSelector + ' [data-zp-bath-merchant-link], ' +
-    resultSelector + ' [data-zp-wheelchair-merchant-link], ' +
-    resultSelector + ' [data-zp-bed-merchant-link], ' +
-    resultSelector + ' [data-zp-support-merchant-link]'), 0, "Offer escaped safety gate");
+  const state = await detectCommerce(page, resultSelector);
+  assert.deepEqual(state.markedOffers, [],
+    "Offer escaped safety gate through an Advisor-specific merchant CTA");
+  assert.deepEqual(state.trackingLinks, [],
+    "Affiliate tracking URL escaped an Advisor safety gate");
 }
 
 try {

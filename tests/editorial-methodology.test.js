@@ -50,5 +50,6 @@ test("each core Advisor has an honest method disclosure without implying clinici
   assert.match(footer, /aria-labelledby="zp-editorial-trust-title"/);
   assert.match(footer, /\/jak-vznika-doporuceni\//);
   assert.match(style, /\.zp-editorial-trust-inner/);
-  assert.match(read(".github/workflows/ci.yml"), /php -l page-jak-vznika-doporuceni\.php/);
+  assert.match(read(".github/workflows/ci.yml"), /git ls-files -z -- '\\*\\.php' \\| xargs -0 -r -n1 php -l/);
+  assert.match(read("page-jak-vznika-doporuceni.php"), /Template Name: Zápraží/);
 });

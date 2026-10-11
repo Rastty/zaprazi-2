@@ -2,11 +2,11 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.104' );
+  define( 'ZAPRAZI_RELEASE', '0.8.105' );
 }
 
 function zaprazi_2_release_integrity_ok() {
-  $marker = 'ZP_RELEASE_0_8_104';
+  $marker = 'ZP_RELEASE_0_8_105';
   $files = array(
     'header.php',
     'footer.php',
@@ -67,6 +67,7 @@ function zaprazi_2_release_integrity_ok() {
     'src/bathroom/variant-fit.js',
     'src/bathroom/micro-staging.js',
     'src/bathroom/catalog.js',
+    'src/mobility/engine.js',
     'src/mobility/catalog.js',
     'src/decision/product-identity-gate.js',
     'src/mobility/offer-fit-gate.js',

@@ -1143,6 +1143,70 @@ try {
     }
   }
 
+  // 0.8.106: if no model can safely be proposed, tell the user the
+  // *actual* reason and return keyboard focus to a visible relevant answer.
+  if (releaseAtLeast("0.8.106")) {
+    for (const spec of [
+      {path:"/choditko-do-bytu-pro-seniory/", result:"#zp-indoor-walker-result",
+        button:"#zp-indoor-walker-submit", specific:"canLiftWalker", needs:"unknown"},
+      {path:"/rollator-pro-seniory/", result:"#zp-rollator-result",
+        button:"#zp-rollator-submit", specific:"handBrakes", needs:"no"}
+    ]) {
+      const page=await open(spec.path);
+      await choose(page,"supportNeed","light");
+      await click(page,spec.button);
+      const light=await page.$eval(spec.result,node=>node.textContent);
+      assert.match(light,/Lehká opora/,"Light support needs a reason relevant to light support");
+      if (spec.specific === "handBrakes") {
+        assert.doesNotMatch(light,/Pokud nejde bezpečně ovládat brzdy nebo je potřebná fyzická pomoc/,
+          "Light support must not falsely suggest failed brakes or physical assistance");
+      }
+      await click(page,spec.result+' [data-zp-edit-answers]');
+      let focus=await page.evaluate(()=>({
+        name:document.activeElement?.name,
+        value:document.activeElement?.value,
+        hidden:Boolean(document.activeElement?.closest("[hidden]")),
+        visible:Boolean(document.activeElement?.getClientRects().length)
+      }));
+      assert.deepEqual(focus,{name:"supportNeed",value:"light",hidden:false,visible:true},
+        "Edit response must focus the selected visible light-support question");
+      await checkNoMerchant(page,spec.result);
+
+      await choose(page,"supportNeed","person_assist");
+      await click(page,spec.button);
+      const person=await page.$eval(spec.result,node=>node.textContent);
+      assert.match(person,/pomáhá|pomoc/i,"Physical assistance needs its real explanation");
+      await click(page,spec.result+' [data-zp-edit-answers]');
+      focus=await page.evaluate(()=>({
+        name:document.activeElement?.name,
+        value:document.activeElement?.value,
+        hidden:Boolean(document.activeElement?.closest("[hidden]")),
+        visible:Boolean(document.activeElement?.getClientRects().length)
+      }));
+      assert.deepEqual(focus,{name:"supportNeed",value:"person_assist",hidden:false,visible:true});
+      await checkNoMerchant(page,spec.result);
+
+      await choose(page,"supportNeed","steady");
+      await choose(page,spec.specific,spec.needs);
+      await click(page,spec.button);
+      const blocked=await page.$eval(spec.result,node=>node.textContent);
+      assert.match(blocked,spec.specific==="handBrakes"?/brzdy/:/nadzvednout/,
+        "Specific safety blocker must mention that exact unknown or failed control");
+      await click(page,spec.result+' [data-zp-edit-answers]');
+      focus=await page.evaluate(()=>({
+        name:document.activeElement?.name,
+        value:document.activeElement?.value,
+        hidden:Boolean(document.activeElement?.closest("[hidden]")),
+        visible:Boolean(document.activeElement?.getClientRects().length)
+      }));
+      assert.deepEqual(focus,{name:spec.specific,value:spec.needs,hidden:false,visible:true},
+        "Edit response must target the relevant visible model-fit question");
+      await checkNoMerchant(page,spec.result);
+      console.log("PASS 0.8.106 noncommercial result reason and keyboard edit focus",spec.path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

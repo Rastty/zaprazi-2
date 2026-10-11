@@ -292,18 +292,22 @@ if (form && result && submitButton && errorBox) {
 
   const updateConditionalQuestions = () => {
     const environment = checkedValue("environment", "");
-    const seatNeeded = isChecked("seatNeeded");
+    const specificWalkerSelection = checkedValue("supportNeed", "") === "steady";
+    const seatNeeded = specificWalkerSelection && isChecked("seatNeeded");
     form.querySelectorAll("[data-zp-conditional]").forEach((section) => {
       const condition = section.dataset.zpConditional;
-      const show = condition === "indoor"
-        ? environment === "indoor" && !seatNeeded
-        : condition === "outdoor"
-          ? environment === "outdoor" || environment === "both" || seatNeeded
-          : true;
-
+      // Never ask about lifting a frame, braking or product preferences unless
+      // the visitor actually needs stable support and a specific walker type.
+      const show = specificWalkerSelection && (
+        condition === "indoor"
+          ? environment === "indoor" && !seatNeeded
+          : condition === "outdoor"
+            ? environment === "outdoor" || environment === "both" || seatNeeded
+            : condition === "equipment"
+      );
       section.hidden = !show;
       if (!show) {
-        section.querySelectorAll('input[type="radio"]').forEach((input) => {
+        section.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach((input) => {
           input.checked = false;
         });
         section.classList.remove("is-error");
@@ -315,7 +319,7 @@ if (form && result && submitButton && errorBox) {
   updateConditionalQuestions();
 
   form.addEventListener("change", (event) => {
-    if (["environment", "seatNeeded"].includes(event.target?.name)) {
+    if (["environment", "supportNeed", "seatNeeded"].includes(event.target?.name)) {
       updateConditionalQuestions();
     }
 
@@ -378,6 +382,13 @@ if (form && result && submitButton && errorBox) {
       track("recommendation_view");
     }
 
+    // Non-commercial next step for visitors outside the model-selection slice.
+    // It cannot unlock an offer or infer a medical/product recommendation.
+    const environmentGuide = output.status === "outside_current_slice" ||
+      (output.status === "needs_more_info" && output.missing?.includes("supportNeed"))
+      ? `<p class="zp-disclaimer">Začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít kontrolu bezpečných tras a domácího prostředí</a>.</p>`
+      : "";
+
     const hasSpecificAcquisition = getReimbursementGuidance(ids).length > 0 || getRentalGuidance(ids).length > 0;
 
     const acquisition = output.status === "candidate" && output.acquisition.length && !hasSpecificAcquisition
@@ -398,6 +409,7 @@ if (form && result && submitButton && errorBox) {
       ${renderProducts(products, fitOptions, duration)}
       ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
+      ${environmentGuide}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

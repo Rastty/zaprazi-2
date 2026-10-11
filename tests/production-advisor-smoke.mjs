@@ -1085,6 +1085,7 @@ try {
       const sections=await page.$eval("["+spec.fieldName+"]",nodes=>
         nodes.map(node=>({hidden:node.hidden,count:node.querySelectorAll("input").length})));
       assert.ok(sections.length>=3, "Specialist model questions must be conditional: "+spec.path);
+      assert.ok(sections.every(item=>item.count>0),"Conditional groups contain actual answer controls");
       assert.ok(sections.every(x=>x.hidden),"Model questions start hidden: "+spec.path);
       await choose(page,"supportNeed","light");
       assert.equal(await visible(page,'['+spec.fieldName+']'),false);

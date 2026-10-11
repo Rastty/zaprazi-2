@@ -25,22 +25,32 @@ if(form&&result&&submit&&errors){
 
   // Hide model-specific questions outside the stable-support branch.
   // Old model answers must never be reused after the situation changes.
+  let previousGateValue=null;
   const updateProductQuestions=()=>{
     const steady=form.querySelector('input[name="supportNeed"]:checked')?.value==="steady";
+    const gateValue=steady
+      ? form.querySelector('input[name="handBrakes"]:checked')?.value??null
+      : null;
+    const detailsAllowed=steady&&(gateValue==="yes");
+    const gateChanged=previousGateValue!==gateValue;
     form.querySelectorAll("[data-zp-roll-condition]").forEach(section=>{
-      section.hidden=!steady;
-      if(!steady){
+      const isGateQuestion=!!section.querySelector('input[name="handBrakes"]');
+      const show=steady&&(isGateQuestion||detailsAllowed);
+      section.hidden=!show;
+      // A new support or gate answer must not reuse confirmations for another route.
+      if(!show||(gateChanged&&!isGateQuestion)){
         section.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(input=>{input.checked=false;});
         section.classList.remove("is-error");
         section.removeAttribute("aria-invalid");
       }
     });
+    previousGateValue=gateValue;
   };
   updateProductQuestions();
 
   let builderStarted=false;
   form.addEventListener("change",(event)=>{
-    if(event.target?.name==="supportNeed") updateProductQuestions();
+    if(["supportNeed","handBrakes"].includes(event.target?.name)) updateProductQuestions();
     const group=event.target?.closest?.("[data-zp-roll-required]");
     if(group&&val(group.dataset.zpRollRequired)){
       group.classList.remove("is-error");

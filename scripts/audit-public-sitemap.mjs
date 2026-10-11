@@ -7,6 +7,7 @@
  * Fetches only the exact Zápraží host; no WordPress credentials or mutations.
  */
 import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
 export const requiredDecisionPaths = Object.freeze([
   "/choditka-pro-seniory/", "/koupelna-a-wc/",
@@ -104,7 +105,6 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     .filter(s => /^Sitemap:/i.test(s)).map(s => s.replace(/^Sitemap:\s*/i, ""));
   const httpIndexCount = indexUrls.filter(u => new URL(u).protocol === "http:").length;
   const total = reports.reduce((sum, r) => sum + r.entries, 0);
-  const duplicates = reports.reduce((sum, r) => sum + r.entries - (r.entries - r.duplicate_paths.length), 0);
   return {
     observed_at_utc: new Date().toISOString(),
     site: origin,
@@ -121,7 +121,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
   };
 }
 
-if (process.argv[1] && fileURLToPath(import.meta.url) === fileURLToPath(new URL("file://" + process.argv[1]))) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   auditPublicSitemap()
     .then(result => { process.stdout.write(JSON.stringify(result, null, 2) + "\n"); })
     .catch(error => { process.stderr.write("SITEMAP_AUDIT_FAILED: " + error.message + "\n"); process.exitCode = 1; });

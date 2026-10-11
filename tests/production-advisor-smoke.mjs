@@ -901,6 +901,40 @@ try {
     console.log("PASS 0.8.73 noncommercial discharge article, SEO metadata, sources and cluster links");
   }
 
+  // 0.8.103: ensure a genuinely published, discoverable practical guide
+  // unblocks the "unmeasured feet" branch without adding a second engine.
+  if (releaseAtLeast("0.8.103")) {
+    const path = "/jak-zmerit-chodidlo-pro-vyber-obuvi/";
+    const page = await open(path);
+    const checks = await page.evaluate(() => ({
+      title: document.title,
+      description: document.querySelector('meta[name="description"]')?.content || "",
+      canonical: document.querySelector('link[rel="canonical"]')?.href || "",
+      h1: [...document.querySelectorAll("main h1")].map(e => e.textContent.trim()),
+      official: [...document.querySelectorAll("main a[href]")].filter(a =>
+        ["www.lpft.nhs.uk", "www.bdct.nhs.uk", "www.southtees.nhs.uk"].includes(a.hostname.toLowerCase())).length,
+      links: [...document.querySelectorAll("main a[href]")].map(a=>a.getAttribute("href")),
+      overflow: document.documentElement.scrollWidth - window.innerWidth
+    }));
+    assert.equal(checks.h1.length,1,"Footwear measurement guide must have one H1");
+    assert.match(checks.h1[0],/Jak změřit chodidlo/);
+    assert.match(checks.title,/Jak změřit chodidlo pro výběr obuvi/);
+    assert.match(checks.description,/délku a šířku obou chodidel/);
+    assert.equal(new URL(checks.canonical).pathname,path);
+    assert.ok(checks.official>=3,"Footwear measurements must expose three NHS references");
+    assert.ok(checks.links.some(x=>x?.includes("/obuv-pro-seniory/#poradce-obuv")),
+      "No way back to footwear Advisor");
+    assert.ok(checks.overflow<=2,"Guide has mobile horizontal overflow");
+    assert.equal(await count(page,"main .zp-offer, main [data-zp-footwear-merchant-link]"),0,
+      "Noncommercial measuring guide cannot bypass model-size purchase gate");
+    await page.close();
+    const advisor=await open("/obuv-pro-seniory/");
+    assert.ok(await count(advisor,'a[href*="/jak-zmerit-chodidlo-pro-vyber-obuvi/"]')>0,
+      "Footwear Advisor should link to the measurement guide");
+    await advisor.close();
+    console.log("PASS 0.8.103 footwear measurement guide SEO, sources, cross-links, privacy and mobile");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

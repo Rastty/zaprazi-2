@@ -1421,6 +1421,33 @@ try {
     }
   }
 
+  // 0.8.109: temporary exact-host HTTPS output shim. A visible homepage
+  // canonical is not enough: both robots and the Yoast leaf URLs must be secure.
+  if (releaseAtLeast("0.8.109")) {
+    for (const path of ["/robots.txt", "/sitemap_index.xml", "/page-sitemap.xml"]) {
+      const response = await fetch(base + path, {signal: AbortSignal.timeout(16000)});
+      assert.equal(response.status, 200, "SEO endpoint must be public: " + path);
+      const body = await response.text();
+      if (path === "/robots.txt") {
+        const directives = body.split(/\r?\n/).filter(line => /^Sitemap:/i.test(line.trim()));
+        assert.ok(directives.length >= 1, "robots.txt lost its Yoast sitemap directive");
+        assert.ok(directives.every(line => /^Sitemap:\s+https:\/\/zaprazi\.cz\/sitemap_index\.xml\s*$/i.test(line.trim())),
+          "robots.txt still advertises HTTP sitemap: " + directives.join("; "));
+      } else {
+        const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/gi)].map(m => m[1]);
+        assert.ok(locs.length >= (path === "/sitemap_index.xml" ? 7 : 12),
+          "Unexpectedly empty sitemap: " + path);
+        assert.ok(locs.every(loc => loc.startsWith("https://zaprazi.cz/")),
+          "Sitemap contains non-HTTPS or offsite loc: " + JSON.stringify(locs.filter(s => !s.startsWith("https://zaprazi.cz/")).slice(0, 5)));
+        if (path === "/page-sitemap.xml") {
+          assert.ok(locs.some(loc => loc.includes("/koupelna-a-wc/")),
+            "Decision pages disappeared from the sitemap");
+        }
+      }
+      console.log("PASS 0.8.109 public sitemap HTTPS invariant:", path);
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

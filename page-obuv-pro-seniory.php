@@ -45,6 +45,8 @@ get_header();
           <label class="zp-choice"><input type="radio" name="velcroUse" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        <p class="zp-section-note">Nemáte obě chodidla změřená? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-zmerit-chodidlo-pro-vyber-obuvi/' ) ); ?>">Šest kroků: jak změřit délku i šířku před výběrem velikosti</a>. Návod neukládá žádné rozměry.</p>
+
         <fieldset class="zp-fieldset" data-zp-footwear-required="measuredFeet">
           <legend>Jsou obě chodidla změřená podle aktuální velikosti?</legend>
           <label class="zp-choice"><input type="radio" name="measuredFeet" value="yes" required><span><strong>Ano</strong></span></label>

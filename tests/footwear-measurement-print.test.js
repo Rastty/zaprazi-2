@@ -45,7 +45,7 @@ test("paper checklist is printable with an explicit user gesture and no data cap
   assert.match(functions,/function zaprazi_2_footwear_guide_print_asset/);
   assert.match(functions,/zaprazi_2_is_footwear_measurement_page\(\)/);
   assert.match(functions,/assets\/js\/footwear-measurement-print\.js/);
-  const version=read("style.css").match(/^Version:\\s*([\\d.]+)/m)?.[1];
+  const version=read("style.css").match(/^Version:\s*([\d.]+)/m)?.[1];
   assert.ok(version, "Theme version missing");
   assert.ok(script.includes("ZP_RELEASE_" + version.replaceAll(".", "_")),"Print asset marker must match theme release");
 });

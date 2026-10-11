@@ -37,21 +37,8 @@ jobs:
             echo "Lift safety answer must not be preselected."
             exit 1
           fi
-      - name: Lint WordPress PHP
+      - name: Lint all tracked WordPress theme PHP files
         run: |
-          php -l functions.php
-          php -l header.php
-          php -l footer.php
-          php -l front-page.php
-          php -l index.php
-          php -l archive.php
-          php -l search.php
-          php -l 404.php
-          php -l woocommerce.php
-          php -l woocommerce/single-product/add-to-cart/external.php
-          php -l single.php
-          php -l page.php
-          php -l page-choditko-na-pojistovnu.php
-          php -l page-pujceni-choditka.php
-          php -l page-ochrana-soukromi.php
-          php -l page-jak-vznika-doporuceni.php
+          # New advisor templates must be linted automatically; never rely on
+          # a hand-maintained list that omits most production PHP files.
+          git ls-files -z -- '*.php' | xargs -0 -r -n1 php -l

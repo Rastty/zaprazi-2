@@ -90,14 +90,14 @@
           <label class="zp-choice"><input type="radio" name="handBrakes" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-conditional="equipment" hidden>
           <legend>Co je pro vás prakticky důležité?</legend>
           <label class="zp-choice"><input type="checkbox" name="seatNeeded"><span><strong>Možnost si při chůzi odpočinout</strong></span></label>
           <label class="zp-choice"><input type="checkbox" name="transportNeed"><span><strong>Časté převážení autem</strong></span></label>
           <label class="zp-choice"><input type="checkbox" name="tightSpace"><span><strong>Úzké průchody nebo málo prostoru při používání</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-conditional="equipment" hidden>
           <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="duration" value="short_term"><span><strong>Spíš dočasně</strong></span></label>
           <label class="zp-choice"><input type="radio" name="duration" value="long_term"><span><strong>Spíš dlouhodobě</strong></span></label>

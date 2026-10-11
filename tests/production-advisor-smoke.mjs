@@ -1511,6 +1511,35 @@ try {
     console.log("PASS 0.8.110 methodology meta description, disclosure and no commerce bypass");
   }
 
+  if (releaseAtLeast("0.8.111")) {
+    for (const [path,guide,titleKey,gateKey] of [
+      ["/choditko-do-bytu-pro-seniory/","indoor-walker","Vstávání a usedání","zp-indoor-walker-advisor"],
+      ["/rollator-pro-seniory/","rollator","Rozdíl mezi zpomalením","zp-rollator-advisor"]
+    ]) {
+      const page=await open(path);
+      const content=await page.evaluate(({guide,gateKey})=>{
+        const section=document.querySelector('main section[data-zp-editorial-guide="'+guide+'"]');
+        return {section:Boolean(section),
+          heading:section?.querySelector("h2")?.textContent||"",
+          subheads:[...(section?.querySelectorAll("h3")||[])].map(h=>h.textContent),
+          sources:[...(section?.querySelectorAll('a[href^="https://"]')||[])].map(a=>a.href),
+          measured:section?.querySelector('a[href*="/co-zmerit-pred-vyberem-choditka/"]')?.href||"",
+          inlineMerchant:section?.querySelectorAll(".zp-offer,[data-zp-merchant-link]")?.length||0,
+          advisorExists:Boolean(document.getElementById(gateKey)),
+          overflow:document.documentElement.scrollWidth-innerWidth};
+      },{guide,gateKey});
+      assert.ok(content.section,"Missing specialist editorial content "+path);
+      assert.ok(content.subheads.some(s=>s.includes(titleKey)),"Missing practical source-backed guidance "+path);
+      assert.ok(content.sources.length>=2,"Missing source citations "+path);
+      assert.ok(content.measured.includes("/co-zmerit-pred-vyberem-choditka/#co-zmerit"));
+      assert.equal(content.inlineMerchant,0,"Editorial safety guidance must not embed an affiliate");
+      assert.equal(content.advisorExists,true,"The original Advisor must remain functional");
+      assert.ok(content.overflow<=2,"Mobile viewport overflows in "+path);
+      console.log("PASS 0.8.111 Mobility source-backed guidance:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

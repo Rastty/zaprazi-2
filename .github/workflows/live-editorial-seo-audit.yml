@@ -1,0 +1,31 @@
+name: Live Editorial SEO Browser Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-editorial-seo.mjs"
+      - "scripts/lib/editorial-seo-rules.mjs"
+      - "tests/editorial-seo-rules.test.js"
+      - ".github/workflows/live-editorial-seo-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  editorial-seo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify read-only SEO rules
+        run: node --test tests/editorial-seo-rules.test.js
+      - name: Install Chrome browser adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Inspect live homepage and 26 critical editorial URLs
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-editorial-seo.mjs

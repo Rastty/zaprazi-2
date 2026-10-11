@@ -31,20 +31,20 @@ get_header();
           <label class="zp-choice"><input type="radio" name="supportNeed" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset" data-zp-roll-required="handBrakes">
+        <fieldset class="zp-fieldset" data-zp-roll-required="handBrakes" data-zp-roll-condition="steady" hidden>
           <legend>Zvládne bezpečně stisknout a používat ruční brzdy?</legend>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="yes" required><span><strong>Ano</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="no"><span><strong>Ne</strong></span></label>
           <label class="zp-choice"><input type="radio" name="handBrakes" value="unknown"><span><strong>Nevím</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-roll-condition="steady" hidden>
           <legend>Co je prakticky důležité?</legend>
           <label class="zp-choice"><input type="checkbox" name="seatNeeded"><span><strong>Sedátko pro odpočinek</strong></span></label>
           <label class="zp-choice"><input type="checkbox" name="transportNeed"><span><strong>Časté převážení autem</strong></span></label>
         </fieldset>
 
-        <fieldset class="zp-fieldset">
+        <fieldset class="zp-fieldset" data-zp-roll-condition="steady" hidden>
           <legend>Jak dlouho bude řešení pravděpodobně potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="duration" value="short_term"><span><strong>Spíš dočasně</strong></span></label>
           <label class="zp-choice"><input type="radio" name="duration" value="long_term"><span><strong>Spíš dlouhodobě</strong></span></label>

@@ -98,6 +98,39 @@ get_header();
     </div>
   </section>
 
+  <section id="kontrola-opory-u-wc" class="zp-section" data-zp-editorial-guide="wc-support">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická kontrola před pořízením</p>
+      <h2 class="zp-section-title">Pět kontrol, které rozhodnou, zda je madlo nebo toaletní rám doma použitelné.</h2>
+      <p>Samotné slovo „bezpečnostní madlo“ neříká, zda se o něj lze opřít při vstávání z vašeho WC. Nejdřív ověřte způsob přesunu, místo úchopu a instalaci. Pokud člověk potřebuje fyzické zvedání druhou osobou, výběr jednoduchého madla nenahrazuje odborné posouzení přesunu.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Kde člověk potřebuje úchop?</h3>
+          <p>Sledujte místo, kam člověk při sedání a vstávání přirozeně dosáhne. Úchop musí být dostupný bez nebezpečného naklánění. Poloha madla u sousedního WC nemusí vyhovovat jinému člověku ani jiné dispozici místnosti.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Ověřit skutečný nosný podklad</h3>
+          <p>U nástěnného madla rozhoduje nejen výrobek, ale také konstrukce zdi a způsob upevnění. Dlaždice samy o sobě nejsou důkaz bezpečného kotvení. Pokud podklad a vhodné kotvy nejsou odborně ověřené, nepředpokládejte, že se madlo při zatížení udrží.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Samostatný rám musí pasovat k WC</h3>
+          <p>U rámové toaletní opory zkontrolujte skutečný prostor vedle mísy, upevňovací body, přívody a místo pro nohy. Volně stojící konstrukce není automaticky bezpečná: nerovná podlaha, překážející nohy rámu nebo silné naklánění na jednu stranu mohou vytvořit nové riziko.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Ověřit nosnost konkrétní sestavy</h3>
+          <p>Deklarovaná nosnost madla nenahrazuje kontrolu montáže. U rámu ověřte nosnost právě dané varianty a stabilitu v prostoru. Neodhadujte vhodnost jen z fotografie ani nepřebírejte parametry jiného modelu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>5. Zkouška pouze bezpečným způsobem</h3>
+          <p>Po odborně správné instalaci se řiďte návodem výrobce. Pokud není jasné, zda člověk přesun zvládne, nezkoušejte ho bez bezpečné asistence. U opakovaných potíží má smysl posouzení fyzioterapeutem nebo ergoterapeutem.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">Když je hlavní problém výška WC, řešte raději nástavec</a></p>
+      <p class="zp-disclaimer">Tento seznam nezaručuje bezpečný přesun a neurčuje univerzální výšku ani nosnost montáže. Když nejsou instalační a funkční podmínky ověřené, nekupujte konkrétní oporu jen podle výsledku internetového výběru.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 11. 10. 2026: <a href="https://www.kentcht.nhs.uk/service/technician-service-occupational-therapy/" target="_blank" rel="noopener">Kent Community Health NHS — odborná instalace madel a ověření podkladu</a>; <a href="https://www.kingstonandrichmond.nhs.uk/patients-and-families/patient-leaflets/toilet-frame" target="_blank" rel="noopener">Kingston and Richmond NHS — rizika samostatných toaletních rámů</a>; <a href="https://www.nzip.cz/clanek/1285-demence-pecujici-osobni-hygiena" target="_blank" rel="noopener">NZIP — orientace a úpravy koupelny</a>. Zahraniční zdroje slouží pro bezpečnostní principy, nikoli pro české úhrady; individuální odborná revize Zápraží není doložená.</p>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

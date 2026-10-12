@@ -44,6 +44,14 @@ const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-read
 assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
 const readiness = await readinessResponse.json();
 assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
+// Exact 0.8.120 postdeploy acceptance. PR browser workflows may set
+// ZP_RELEASE to the previously live version for predeploy verification;
+// that override must never be mistaken for proof of the new rental planner.
+if (sourceRelease === "0.8.120") {
+  assert.equal(readiness.release, sourceRelease,
+    "0.8.120 has not been deployed: live WordPress release is different");
+}
+
 if (sourceRelease === "0.8.119") {
   assert.equal(readiness.release, sourceRelease,
     "0.8.119 reported deployed but live WordPress release differs");

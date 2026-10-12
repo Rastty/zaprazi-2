@@ -14,7 +14,7 @@ test("rental planner uses only sourced monthly prices and stops when evidence is
   assert.match(page,/data-monthly-price="360"/);
   assert.match(page,/data-monthly-price="300"/);
   assert.match(page,/data-monthly-price="600"/);
-  assert.match(page,/Vratná kauce, doprava/);
+  assert.match(page,/Výsledek neobsahuje vratnou kauci, dopravu/);
   assert.ok(page.includes("https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek"));
   assert.ok(page.includes("https://www.meyra.cz/cenik-meyra.html"));
   assert.match(fn,/function zaprazi_2_walker_rental_budget_asset/);

@@ -2128,6 +2128,34 @@ try {
     console.log("PASS 0.8.127 blocked Mobility states cannot offer acquisition paths");
   }
 
+  // 0.8.128: unusable WC or bed must be an explicit first-night blocker
+  // without inserting commercial offers or promising medical discharge.
+  if (releaseAtLeast("0.8.128")) {
+    for (const blocked of ["toiletReady", "bedReady"]) {
+      const page=await open("/navrat-z-nemocnice/");
+      for (const [name,value] of [
+        ["timing","today_or_tomorrow"],
+        ["entranceReady","yes"],
+        ["transferAbility","independent"],
+        ["walking","independent"],
+        ["toiletReady",blocked==="toiletReady"?"no":"yes"],
+        ["bedReady",blocked==="bedReady"?"no":"yes"],
+        ["bathroomReady","yes"],
+        ["homeCare","not_needed"]
+      ]) await choose(page,name,value);
+      await click(page,"#zp-return-home-submit");
+      const result="#zp-return-home-result";
+      assert.equal(await visible(page,result+" .zp-critical-plan"),true,
+        "Unusable "+blocked+" must show a critical readiness blocker");
+      const wording=await page.$eval(result,el=>el.textContent);
+      assert.match(wording,/Před návratem domů|bezpečnostní překážky/i);
+      assert.match(wording,blocked==="toiletReady"?/WC zatím není bezpečně použitelné/:/Postel není připravená/);
+      assert.equal(await count(page,result+" .zp-offer, "+result+" [data-zp-merchant-link]"),0);
+      await page.close();
+    }
+    console.log("PASS 0.8.128 first-night WC and bed safety blockers");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

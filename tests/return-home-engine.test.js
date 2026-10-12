@@ -165,9 +165,13 @@ test("unprepared WC and bed must not sound like a ready-to-go discharge", () => 
     homeCare: "not_needed"
   });
 
-  assert.equal(result.status, "action_plan");
-  assert.match(result.headline, /zbývá ověřit nebo zajistit/i);
-  assert.match(result.nextStep, /není potvrzení bezpečného návratu/i);
+  assert.equal(result.status, "blocked_before_discharge");
+  assert.match(result.headline, /kritických bodů/i);
+  assert.match(result.nextStep, /kritické překážky/i);
+  assert.ok(result.blockers.some(x => x.id === "toilet_not_ready"));
+  assert.ok(result.blockers.some(x => x.id === "bed_not_ready"));
+  assert.ok(result.dischargeActions.some(x => x.id === "resolve_toilet_before_discharge"));
+  assert.ok(result.dischargeActions.some(x => x.id === "resolve_bed_before_discharge"));
   assert.ok(result.routes.some((item) => item.id === "toilet"));
   assert.ok(result.routes.some((item) => item.id === "bed"));
 });
@@ -269,4 +273,30 @@ test("independent transfers and walking do not introduce false support requireme
   });
   assert.equal(result.status, "ready_basic");
   assert.ok(!result.dischargeActions.some((item) => /confirm_(transfer|walking)_support/.test(item.id)));
+});
+
+test("explicit WC or bed failure blocks the first-night plan; unknown remains verification", () => {
+  const base = {
+    timing: "today_or_tomorrow", entranceReady: "yes", transferAbility: "independent",
+    walking: "independent", toiletReady: "yes", bedReady: "yes",
+    bathroomReady: "yes", homeCare: "not_needed"
+  };
+  for (const [field, id, actionId] of [
+    ["toiletReady", "toilet_not_ready", "resolve_toilet_before_discharge"],
+    ["bedReady", "bed_not_ready", "resolve_bed_before_discharge"]
+  ]) {
+    const bad = buildReturnHomePlan({...base,[field]:"no"});
+    assert.equal(bad.status,"blocked_before_discharge",field);
+    assert.ok(bad.blockers.some(x=>x.id===id));
+    assert.ok(bad.dischargeActions.some(x=>x.id===actionId));
+    assert.ok(bad.routes.some(x=>x.href.startsWith(field==="toiletReady"?"/koupelna-a-wc/":"/polohovaci-postel/")));
+    assert.doesNotMatch(bad.nextStep,/nakupte|objednejte/i);
+    const unknown = buildReturnHomePlan({...base,[field]:"unknown"});
+    assert.equal(unknown.status,"action_plan");
+    assert.ok(!unknown.blockers.some(x=>x.id===id));
+    assert.match(unknown.nextStep,/není potvrzení bezpečného návratu/i);
+  }
+  const bathroomOnly = buildReturnHomePlan({...base,bathroomReady:"no"});
+  assert.equal(bathroomOnly.status,"action_plan",
+    "A nonurgent bathroom change should not be misrepresented as a first-night WC or bed blocker");
 });

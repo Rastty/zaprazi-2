@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_126
+// ZP_RELEASE_0_8_127
 const ENVIRONMENTS = new Set(["indoor", "outdoor", "both"]);
 const SUPPORT_NEEDS = new Set(["light", "steady", "person_assist", "unknown"]);
 const BRAKE_USE = new Set(["yes", "no", "unknown"]);
@@ -93,7 +93,7 @@ export function recommendMobility(input = {}) {
       nextStep: "Pokud nedokážete bezpečně rozlišit lehkou oporu, stabilní oporu nebo potřebu fyzické pomoci, nezkoušejte volit chodítko podle fotografie. Zkontrolujte místo, kde se chodí, a vhodný typ opory ověřte s fyzioterapeutem nebo jiným příslušným odborníkem.",
       missing: ["supportNeed"],
       recommendations: [],
-      acquisition: acquisitionFor(duration)
+      acquisition: []
     };
   }
 
@@ -115,7 +115,7 @@ export function recommendMobility(input = {}) {
       nextStep: "Začněte kontrolou bezpečnosti tras, na kterých člověk chodí: světlo, kluzké plochy, volné koberce a překážky. Pokud potřebuje pomůcku k chůzi, její typ, správnou výšku a způsob používání ověřte s fyzioterapeutem nebo odbornou výdejnou. Bez toho nebudeme doporučovat konkrétní model.",
       missing: [],
       recommendations: [],
-      acquisition: acquisitionFor(duration)
+      acquisition: []
     };
   }
 
@@ -134,7 +134,7 @@ export function recommendMobility(input = {}) {
         : "Zjistěte, zda člověk bezpečně zvládne stisknout, použít a zajistit ruční brzdy.",
       missing: handBrakes === "unknown" ? ["handBrakes"] : [],
       recommendations: [],
-      acquisition: handBrakes === "no" ? [] : acquisitionFor(duration)
+      acquisition: []
     };
   }
 
@@ -145,7 +145,7 @@ export function recommendMobility(input = {}) {
       nextStep: "Zjistěte, zda člověk při každém kroku zvládne lehce nadzvednout a posunout celé chodítko. Čtyřbodové chodítko s pevnými nohami tento pohyb vyžaduje.",
       missing: ["canLiftWalker"],
       recommendations: [],
-      acquisition: acquisitionFor(duration)
+      acquisition: []
     };
   }
 

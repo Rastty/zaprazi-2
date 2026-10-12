@@ -63,3 +63,13 @@ test("0.8.123 three-advisor smoke enumerates all informational acquisition links
   assert.ok(smoke.includes('if (releaseAtLeast("0.8.124"))'),
     "Missing live acceptance for blocked Homepage edit controls");
 });
+
+test("no single-element Puppeteer eval may treat its argument as a collection", () => {
+  const smoke = read("tests/production-advisor-smoke.mjs");
+  // The 0.8.122, 0.8.123 and 0.8.126 post-deploy failures all came from
+  // using page.$eval(selector, nodes => nodes.map(...)) instead of $$eval.
+  // Check every release-gated block, not just one hard-coded selector.
+  assert.doesNotMatch(smoke, /page\.\$eval\([^;]{0,300}\b(nodes|elements|els)\s*=>\s*\1\.map\(/,
+    "A single DOM element cannot be .map()'d: use page.$$eval to enumerate nodes");
+  assert.ok(smoke.includes('const ins=await page.$$eval(\'#zp-rollator-result a[href="/choditko-na-pojistovnu/"]\''));
+});

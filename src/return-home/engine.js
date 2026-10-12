@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_127
+// ZP_RELEASE_0_8_128
 const READINESS = new Set(["yes", "no", "unknown"]);
 const TRANSFER = new Set(["independent", "steadying", "person_assist", "unknown"]);
 const WALKING = new Set(["independent", "needs_support", "wheelchair_or_no_walk", "unknown"]);
@@ -152,6 +152,23 @@ export function buildReturnHomePlan(input = {}) {
     });
   }
 
+  // Explicitly unusable WC is a first-night readiness blocker, not just
+  // another advisor link. Unknown availability still requires verification.
+  if (toiletReady === "no") {
+    blockers.push({
+      id: "toilet_not_ready",
+      label: "WC zatím není bezpečně použitelné pro první dny doma.",
+      reason: "Než člověk odjede z nemocnice, ověřte s nemocničním týmem bezpečný způsob použití WC, přesun, dostupnou pomoc nebo vhodnou alternativu. Samotný nákup pomůcky bezpečné použití nepotvrzuje.",
+      priority: 1
+    });
+    dischargeActions.push(action(
+      "resolve_toilet_before_discharge",
+      "Před odjezdem vyřešit bezpečný přístup a použití WC",
+      "Projděte s nemocničním týmem reálnou cestu na WC, vstávání, potřebnou oporu a dostupnou pomoc pro první noc doma.",
+      1
+    ));
+  }
+
   if (toiletReady !== "yes") {
     routes.push(route(
       "toilet",
@@ -179,6 +196,23 @@ export function buildReturnHomePlan(input = {}) {
       reason: "Ověřte vstup do sprchy/vany, možnost sedu, opory a prostor pro případný doprovod.",
       priority: 3
     });
+  }
+
+  // A bed confirmed unsafe for lying down, getting up or necessary care
+  // cannot be deferred to a generic equipment-shopping follow-up.
+  if (bedReady === "no") {
+    blockers.push({
+      id: "bed_not_ready",
+      label: "Postel není připravená pro bezpečné uléhání nebo vstávání.",
+      reason: "Před návratem domů je potřeba vyřešit bezpečné místo pro spaní, přesun z postele a případnou potřebnou pomoc s nemocničním týmem. Výběr elektrické postele sám o sobě tuto kontrolu nenahrazuje.",
+      priority: 1
+    });
+    dischargeActions.push(action(
+      "resolve_bed_before_discharge",
+      "Před odjezdem ověřit bezpečné uléhání, vstávání a pomoc u postele",
+      "S nemocničním týmem ověřte způsob přesunu u lůžka, dostupnou pomoc a praktické řešení první noci. Samotný odkaz na poradce není potvrzení bezpečného zajištění.",
+      1
+    ));
   }
 
   if (bedReady !== "yes") {
@@ -253,7 +287,7 @@ export function buildReturnHomePlan(input = {}) {
           ? "Máte plán dalších kroků pro návrat domů."
           : "Podle zadaných praktických bodů je základní domácí připravenost potvrzená.",
     nextStep: hasBlocker
-      ? "Nezačínejte nákupem dalších produktů. Nejdřív vyřešte blokující vstup nebo fyzicky asistovaný přesun a návaznou péči."
+      ? "Nezačínejte nákupem dalších produktů. Nejdřív s nemocničním týmem vyřešte uvedené kritické překážky pro první noc doma. Samotná nabídka pomůcky nepotvrzuje bezpečný návrat."
       : hasUnresolvedEssentials
         ? "Tento plán není potvrzení bezpečného návratu. Nejasné nebo nezajištěné důležité body projděte s nemocničním týmem ještě před odjezdem. Odkazy níže slouží k orientaci, ne k posouzení vhodnosti propuštění."
         : hasAnyWork

@@ -1621,6 +1621,40 @@ try {
     await page.close();
   }
 
+  // Release 0.8.114: two high-intent WC entrances gain source-backed
+  // practical checks; neither may bypass original model-fit controls.
+  if (releaseAtLeast("0.8.114")) {
+    for (const [path,guide,advisor,anchor,checkedFact] of [
+      ["/nastavec-na-wc-pro-seniory/","toilet-riser","zp-toilet-riser-advisor","#poradce-nastavec-wc","11,5 cm"],
+      ["/toaletni-zidle-pro-seniory/","toilet-chair","zp-toilet-chair-advisor","#poradce-toaletni-zidle","36–60 cm"]
+    ]) {
+      const page=await open(path);
+      const data=await page.evaluate(({guide,advisor,anchor})=>{
+        const el=document.querySelector('main [data-zp-editorial-guide="'+guide+'"]');
+        return {
+          found:!!el,
+          steps:el?.querySelectorAll("h3").length||0,
+          sources:el?.querySelectorAll('a[href^="https://"][rel~="noopener"]').length||0,
+          text:el?.textContent||"",
+          originalAdvisor:!!document.getElementById(advisor),
+          linkedBack:!!el?.querySelector('a[href*="'+anchor+'"]'),
+          merchantBypass:el?.querySelectorAll(".zp-offer,[data-zp-merchant-link]").length||0,
+          overflow:document.documentElement.scrollWidth-innerWidth
+        };
+      },{guide,advisor,anchor});
+      assert.equal(data.found,true,"Missing practical WC guide "+path);
+      assert.equal(data.steps,5,"Practical WC guide lost a safety step "+path);
+      assert.ok(data.sources>=3,"Practical WC guide missing sources "+path);
+      assert.ok(data.text.includes(checkedFact),"Model-specific dimension lost "+path);
+      assert.equal(data.originalAdvisor,true,"Existing Advisor missing "+path);
+      assert.equal(data.linkedBack,true,"No return to original Advisor "+path);
+      assert.equal(data.merchantBypass,0,"Editorial content cannot unlock commerce "+path);
+      assert.ok(data.overflow<=2,"WC guide overflows mobile viewport "+path);
+      await page.close();
+      console.log("PASS 0.8.114 practical WC advice:",path);
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

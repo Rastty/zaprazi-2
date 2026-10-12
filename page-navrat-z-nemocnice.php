@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_116 */
+/* ZP_RELEASE_0_8_117 */
 /*
 Template Name: Zápraží — Návrat z nemocnice
 */
@@ -137,6 +137,7 @@ get_header();
       <p>Od 1. ledna 2026 je standardem elektronický ePoukaz na zdravotnické prostředky. To ale neznamená, že každý retail produkt lze automaticky vydat nebo proplatit přes pojišťovnu.</p>
       <p>Zápraží proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>
       <p>Pokud ještě neznáte pokyny nemocničního týmu, začněte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">seznamem otázek před propuštěním</a>. Tento poradce řeší až praktický plán domácnosti.</p>
+      <p>Teprve když je jasný bezpečný typ a potřebné parametry pomůcky, lze porovnat cesty pořízení: <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">půjčení chodítka</a>, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">půjčení nebo úhradu polohovací postele</a> či <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">půjčení nebo úhradu vozíku</a>. U všech tří kategorií jde o samostatné podmínky, nikoli o jeden univerzální nárok.</p>
       <a class="zp-link-btn" href="https://sukl.gov.cz/media/tiskove-zpravy/poukaz-na-zdravotnicke-prostredky-od-1-ledna-2026-uz-jen-elektronicky/" target="_blank" rel="noopener">Ověřit pravidla ePoukazu u SÚKL</a>
     </div>
   </section>

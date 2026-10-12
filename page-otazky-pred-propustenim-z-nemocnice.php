@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_116 */
+/* ZP_RELEASE_0_8_117 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_117 */
+/* ZP_RELEASE_0_8_118 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#otazky-pred-propustenim">Projít otázky</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Sestavit plán první noci doma</a>
+              <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
       </div>
     </div>
   </section>
@@ -114,6 +115,25 @@ get_header();
         <li><a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/kdo-ma-narok-na-hrazenou-domaci-peci" target="_blank" rel="noopener">VZP, 23. 2. 2026: Kdo má nárok na hrazenou domácí péči</a> — obecná pravidla úhrad bez individuálního příslibu.</li>
       </ul>
       <p class="zp-muted-copy">Zápraží neposkytuje zdravotní služby, nepotvrzuje nárok na úhradu a nevyžaduje sdělení zdravotních nebo osobních informací.</p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="hospital-discharge" aria-label="Prázdný tiskový seznam">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list pro ruční vyplnění</p>
+      <h2 class="zp-section-title">Otázky před propuštěním z nemocnice — pracovní list</h2>
+      <p class="zp-muted-copy">Prázdný seznam pro vlastní poznámky. Nic nezadáváte do webu a nic se neodesílá.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Jaké dokumenty a pokyny dostaneme?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Co musí doma fungovat hned první den?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Kdo zajistí návaznou zdravotní a ošetřovatelskou péči?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Jaké pokyny k lékům a kontrolám máme vyjasnit?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Jak proběhne bezpečná cesta domů a přesun?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>6. Jaké pomůcky a pomoc jsou skutečně potřebné?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>7. Koho kontaktovat, pokud péče doma není zajištěna?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer">Seznam je podklad k rozhovoru s ošetřujícím týmem. Nenahrazuje propouštěcí zprávu, plán léčby ani domluvu bezpečné návazné péče.</p>
+      <p class="zp-muted-copy">Zápraží.cz · výchozí návod a jeho zdroje zůstávají na této stránce. Seznam nezaručuje bezpečné použití pomůcky ani individuální vhodnost.</p>
     </div>
   </section>
 </main>

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_117 */
+/* ZP_RELEASE_0_8_118 */
 /*
 Template Name: Zápraží — Noční cesta z postele na WC
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#nocni-audit">Projít sedmibodovou kontrolu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Celý audit bezpečného bytu</a>
+              <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
       </div>
       <p class="zp-muted-copy">Praktický kontrolní seznam · aktualizováno 9. 10. 2026. Není to test zdravotní způsobilosti ani záruka, že k pádu nedojde.</p>
     </div>
@@ -144,6 +145,25 @@ get_header();
       </ul>
       <p class="zp-muted-copy">Zdroje zkontrolovány 9. 10. 2026. Odborná individuální revize tohoto seznamu není doložená. Pomůcky nevybíráme podle provize a netvrdíme, že samotné úpravy domácnosti odstraní všechna rizika.</p>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Metodika, odpovědnost a omezení Zápraží</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="night-wc" aria-label="Prázdný tiskový seznam">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list pro ruční vyplnění</p>
+      <h2 class="zp-section-title">Noční cesta z postele na WC — seznam pro rodinu</h2>
+      <p class="zp-muted-copy">Prázdný seznam pro vlastní poznámky. Nic nezadáváte do webu a nic se neodesílá.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Vstávání z postele</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Světlo před prvním krokem</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Volná cesta mezi nábytkem</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Prahy, zatáčky a podlaha</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Jistá opora při chůzi</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>6. Bezpečné usednutí a vstávání na WC</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>7. Návrat k posteli a přivolání pomoci</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer">Nezkoušejte nebezpečný přesun bez pomoci. Pokud nelze bezpečně vstát nebo dojít na WC, domluvte vhodný postup asistence ještě před nocí.</p>
+      <p class="zp-muted-copy">Zápraží.cz · výchozí návod a jeho zdroje zůstávají na této stránce. Seznam nezaručuje bezpečné použití pomůcky ani individuální vhodnost.</p>
     </div>
   </section>
 </main>

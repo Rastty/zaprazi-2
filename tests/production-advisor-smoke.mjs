@@ -44,6 +44,12 @@ const readinessResponse = await fetch(base + "/wp-json/zaprazi/v1/affiliate-read
 assert.equal(readinessResponse.status, 200, "Public affiliate readiness endpoint unavailable");
 const readiness = await readinessResponse.json();
 assert.equal(readiness.release, requiredVersion, "Readiness version differs from deploy");
+// One-time exact live acceptance of deployed 0.8.112. A PR's predeploy
+// override must not silently turn an older live release into a PASS.
+if (sourceRelease === "0.8.112") {
+  assert.equal(readiness.release, sourceRelease,
+    "0.8.112 was reported deployed but the live WordPress release differs");
+}
 if (sourceRelease === "0.8.111") {
   assert.equal(readiness.release, sourceRelease,
     "Version 0.8.111 reported deployed, but live WordPress serves a different release");

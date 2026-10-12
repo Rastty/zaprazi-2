@@ -53,3 +53,13 @@ test("0.8.122 production QA enumerates Homepage acquisition links rather than tr
   assert.doesNotMatch(smoke, /const candidateLinks = await page\.\$eval\(/);
   assert.ok(smoke.includes('if (releaseAtLeast("0.8.123"))'));
 });
+
+test("0.8.123 three-advisor smoke enumerates all informational acquisition links", () => {
+  const smoke = read("tests/production-advisor-smoke.mjs");
+  assert.ok(smoke.includes("const urls=await page.$$eval(spec.result+' .zp-acquisition-summary a[href]'"),
+    "0.8.123 test must not pass one ElementHandle to nodes.map");
+  assert.doesNotMatch(smoke,/const urls=await page\.\$eval\(spec\.result/,
+    "0.8.123 browser QA must not regress to $eval");
+  assert.ok(smoke.includes('if (releaseAtLeast("0.8.124"))'),
+    "Missing live acceptance for blocked Homepage edit controls");
+});

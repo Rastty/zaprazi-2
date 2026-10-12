@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_120 */
+/* ZP_RELEASE_0_8_121 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -94,6 +94,8 @@ get_header();
           <h3>Půjčit</h3>
           <p>U krátkodobé nebo nejisté potřeby může být půjčení praktičtější.</p>
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení chodítka: ceny a kauce</a></p>
+          <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/pujceni-choditka/#rozpocet-pujceni-choditka' ) ); ?>">Spočítat půjčovné na 1, 3 nebo 6 měsíců</a></p>
+          <p>Orientační výpočet neobsahuje kauci, dopravu ani potvrzení vhodnosti pomůcky.</p>
         </article>
         <article>
           <h3>Pojišťovna</h3>

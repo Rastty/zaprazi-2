@@ -114,7 +114,7 @@ test("long-term rollator journey never shows an obsolete short-term rental CTA",
 test("unsafe brake handling blocks model, purchase and rental routes", () => {
   const h = createMobility({ handBrakes: "no", seatNeeded: true });
   h.submitButton.click();
-  assert.match(h.result.innerHTML, /bezpečné ovládání brzd/);
+  assert.match(h.result.innerHTML, /Ruční brzdy nelze bezpečně ovládat/);
   assert.doesNotMatch(h.result.innerHTML, /zp-fit-locked-offers|data-zp-merchant-link|data-zp-mobility-rental-link|www.rehakomp.cz/);
 });
 

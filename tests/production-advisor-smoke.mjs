@@ -1977,6 +1977,37 @@ try {
     console.log("PASS 0.8.121 Mobility to rental budget and locked offers");
   }
 
+  // 0.8.122: the homepage Advisor must connect a safe candidate to the
+  // same two non-commercial acquisition explanations as its specialists.
+  // Any change/uncertainty must revoke the candidate result immediately.
+  if (releaseAtLeast("0.8.122")) {
+    const page = await open("/");
+    await choose(page, "environment", "indoor");
+    await choose(page, "supportNeed", "steady");
+    await choose(page, "canLiftWalker", "yes");
+    await click(page, "#zp-mobility-submit");
+    const candidateLinks = await page.$eval("#zp-mobility-result .zp-acquisition-summary a[href]",
+      nodes => nodes.map(node => ({href:node.getAttribute("href"),text:node.textContent.trim()})));
+    assert.deepEqual(candidateLinks.map(link => link.href), [
+      "/pujceni-choditka/#rozpocet-pujceni-choditka",
+      "/choditko-na-pojistovnu/"
+    ], "Homepage must render only the engine-approved informational acquisition paths");
+    assert.match(candidateLinks[0].text, /půjčovné/, "Rental action must explain the cost estimate");
+    assert.ok(await count(page, "#zp-mobility-result .zp-fit-locked-offers") > 0,
+      "Candidate must still have an independent physical-fit gate");
+    assert.equal(await visible(page, "#zp-mobility-result .zp-fit-locked-offers"), false,
+      "Product offers must remain locked despite the informational links");
+    await choose(page, "supportNeed", "person_assist");
+    assert.equal(await visible(page, "#zp-mobility-result"), false,
+      "Editing safety input must immediately hide the old acquisition paths");
+    await click(page, "#zp-mobility-submit");
+    assert.equal(await count(page, "#zp-mobility-result .zp-acquisition-summary a[href]"), 0,
+      "Professional-check result must not expose the candidate acquisition path");
+    await checkNoMerchant(page, "#zp-mobility-result");
+    await page.close();
+    console.log("PASS 0.8.122 Homepage advisor rent/reimbursement paths and safe revocation");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

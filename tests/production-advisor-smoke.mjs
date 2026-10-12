@@ -1774,6 +1774,52 @@ try {
     }
   }
 
+  // Release 0.8.118: three blank printable family worksheets must work
+  // with a user click, and print must not include the live Advisor or header.
+  if (releaseAtLeast("0.8.118")) {
+    for (const [path,sheetId] of [
+      ["/nocni-cesta-z-postele-na-wc/","night-wc"],
+      ["/otazky-pred-propustenim-z-nemocnice/","hospital-discharge"],
+      ["/co-zmerit-pred-vyberem-choditka/","walker-measurements"]
+    ]) {
+      const page=await open(path);
+      await page.emulateMediaType("print");
+      const before=await page.evaluate(sheetId=>{
+        const sheet=document.querySelector('main [data-zp-paper-checklist="'+sheetId+'"]');
+        const button=document.querySelector('main [data-zp-paper-print]');
+        return {sheet:!!sheet,entries:sheet?.querySelectorAll('ol li').length||0,
+          blankLines:sheet?.querySelectorAll('.zp-paper-note-line').length||0,
+          ready:!!button&&!button.hidden,overflow:document.documentElement.scrollWidth-innerWidth};
+      },sheetId);
+      assert.equal(before.sheet,true,"Missing printable family list "+path);
+      assert.equal(before.entries,7,"Printable list must contain seven questions "+path);
+      assert.equal(before.blankLines,14,"Missing blank lines for handwriting "+path);
+      assert.equal(before.ready,true,"User print control is not ready "+path);
+      assert.ok(before.overflow<=2,"Paper list causes mobile overflow "+path);
+      await page.evaluate(()=>{window.print=()=>{window.__zpPrintInvoked=(window.__zpPrintInvoked||0)+1};});
+      await page.click("main [data-zp-paper-print]");
+      const during=await page.evaluate(()=>{
+        const paper=document.querySelector("main .zp-paper-checklist");
+        const hero=document.querySelector("main .zp-hero");
+        return {
+          printed:window.__zpPrintInvoked,
+          printMode:document.body.classList.contains("zp-paper-print-mode"),
+          paperDisplay:getComputedStyle(paper).display,
+          heroDisplay:getComputedStyle(hero).display
+        };
+      });
+      assert.equal(during.printed,1,"Print button did not call browser print "+path);
+      assert.equal(during.printMode,true,"Print mode was not enabled "+path);
+      assert.notEqual(during.paperDisplay,"none","Worksheet disappeared during printing "+path);
+      assert.equal(during.heroDisplay,"none","Website hero leaked into print "+path);
+      await page.evaluate(()=>window.dispatchEvent(new Event("afterprint")));
+      const reset=await page.evaluate(()=>!document.body.classList.contains("zp-paper-print-mode"));
+      assert.equal(reset,true,"Print mode did not reset "+path);
+      console.log("PASS 0.8.118 local printable paper worksheet:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

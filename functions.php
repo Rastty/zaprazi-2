@@ -30,6 +30,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
     'assets/js/footwear-measurement-print.js',
+    'assets/js/family-checklist-print.js',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
@@ -991,6 +992,31 @@ function zaprazi_2_footwear_guide_print_asset() {
   );
 }
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_footwear_guide_print_asset', 20 );
+
+/**
+ * Three blank family worksheets; no forms, storage, analytics or network I/O.
+ * The print button is hidden until its local JavaScript action is available.
+ */
+function zaprazi_2_family_checklist_print_asset() {
+  if ( ! is_page( array(
+    'nocni-cesta-z-postele-na-wc',
+    'otazky-pred-propustenim-z-nemocnice',
+    'co-zmerit-pred-vyberem-choditka',
+  ) ) ) {
+    return;
+  }
+  $dir = get_template_directory();
+  $uri = get_template_directory_uri();
+  wp_enqueue_script(
+    'zaprazi-family-checklist-print',
+    $uri . '/assets/js/family-checklist-print.js',
+    array(),
+    file_exists( $dir . '/assets/js/family-checklist-print.js' ) ? filemtime( $dir . '/assets/js/family-checklist-print.js' ) : null,
+    true
+  );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_family_checklist_print_asset', 20 );
+
 
 add_action('wp_enqueue_scripts', 'zaprazi_2_assets');
 

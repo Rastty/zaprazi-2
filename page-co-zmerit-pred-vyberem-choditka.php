@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív rozlišit typ chodítka</a>
+              <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
       </div>
       <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
     </div>
@@ -127,6 +128,25 @@ get_header();
       </ul>
       <p class="zp-muted-copy">Zdroje ověřeny 9. 10. 2026. Jde o praktický redakční seznam; externí individuální odborná revize není doložená. Nejde o diagnostiku ani příslib bezpečnosti. Před nákupem se řiďte návodem výrobce a případným doporučením odborníka.</p>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Jak Zápraží připravuje doporučení a jaká má omezení</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="walker-measurements" aria-label="Prázdný tiskový seznam">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list pro ruční vyplnění</p>
+      <h2 class="zp-section-title">Před výběrem chodítka — měřicí a kontrolní list</h2>
+      <p class="zp-muted-copy">Prázdný seznam pro vlastní poznámky. Nic nezadáváte do webu a nic se neodesílá.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Kde se bude chodit: doma, venku nebo obojí?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Výška madel: ověřit bezpečné nastavení</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Nejužší průchody, dveře a místo pro otočení</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Prahy, nerovnosti a stav podlahy</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. U rollátoru brzdy a bezpečné použití sedátka</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>6. Nosnost a vhodnost rozměrů přesné varianty</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>7. Skládání, převoz a každodenní manipulace</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer">Měření prostoru nepotvrzuje vhodnost pomůcky. Pokud je chůze nejistá nebo vyžaduje fyzickou pomoc, neurčujte bezpečný typ pouze podle tohoto listu.</p>
+      <p class="zp-muted-copy">Zápraží.cz · výchozí návod a jeho zdroje zůstávají na této stránce. Seznam nezaručuje bezpečné použití pomůcky ani individuální vhodnost.</p>
     </div>
   </section>
 </main>

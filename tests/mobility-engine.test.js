@@ -194,3 +194,13 @@ test("unknown need explains a practical first step without recommending a produc
   assert.match(result.nextStep,/bezpečně rozlišit/);
   assert.match(result.nextStep,/bezpečný typ opory|vhodný typ opory/);
 });
+
+test("unknown acquisition duration never selects one route or infers eligibility", () => {
+  const result = recommendMobility({
+    environment: "indoor", supportNeed: "steady", canLiftWalker: "yes", duration: "unknown"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(result.acquisition.map(x => x.id), ["compare_acquisition", "check_reimbursement"]);
+  assert.match(result.acquisition[1].reason, /konkrétním zdravotnickém prostředku/);
+  assert.match(result.disclaimer, /není diagnóza/);
+});

@@ -204,3 +204,24 @@ test("unknown acquisition duration never selects one route or infers eligibility
   assert.match(result.acquisition[1].reason, /konkrétním zdravotnickém prostředku/);
   assert.match(result.disclaimer, /není diagnóza/);
 });
+
+test("known unsafe rollator brakes are a safety limitation, not an unanswered question", () => {
+  for (const seatNeeded of [false, true]) {
+    const result = recommendMobility({
+      environment: "both", supportNeed: "steady",
+      handBrakes: "no", seatNeeded, duration: "short_term"
+    });
+    assert.equal(result.status, "needs_more_info");
+    assert.deepEqual(result.missing, []);
+    assert.deepEqual(result.recommendations, []);
+    assert.deepEqual(result.acquisition, []);
+    assert.match(result.headline, /nelze bezpečně ovládat/);
+    assert.match(result.nextStep, /odbornou výdejnou/);
+    assert.doesNotMatch(result.headline, /potřebujeme.*ověřit/);
+  }
+  const unknown = recommendMobility({
+    environment: "outdoor", supportNeed: "steady", handBrakes: "unknown"
+  });
+  assert.deepEqual(unknown.missing, ["handBrakes"]);
+  assert.match(unknown.nextStep, /Zjistěte/);
+});

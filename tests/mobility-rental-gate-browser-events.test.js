@@ -114,7 +114,7 @@ test("long-term rollator journey never shows an obsolete short-term rental CTA",
 test("unsafe brake handling blocks model, purchase and rental routes", () => {
   const h = createMobility({ handBrakes: "no", seatNeeded: true });
   h.submitButton.click();
-  assert.match(h.result.innerHTML, /bezpečné ovládání brzd/);
+  assert.match(h.result.innerHTML, /Ruční brzdy nelze bezpečně ovládat/);
   assert.doesNotMatch(h.result.innerHTML, /zp-fit-locked-offers|data-zp-merchant-link|data-zp-mobility-rental-link|www.rehakomp.cz/);
 });
 
@@ -158,4 +158,14 @@ test("Homepage candidate never confuses a completed recommendation with a blocke
   h.submitButton.click();
   assert.match(h.result.innerHTML, /Ověřené výrobky k porovnání/);
   assert.doesNotMatch(h.result.innerHTML, /data-zp-edit-answers="1"/);
+});
+
+test("known unsafe brakes explain a blocking result without false missing-answer label", () => {
+  const h = createMobility({handBrakes:"no",seatNeeded:true,duration:"short_term"});
+  h.submitButton.click();
+  assert.match(h.result.innerHTML, /Bezpečnostní omezení: je potřeba jiné řešení/);
+  assert.match(h.result.innerHTML, /brzděný rollátor teď nevybírejte/);
+  assert.doesNotMatch(h.result.innerHTML, /Ještě potřebujeme jednu informaci/);
+  assert.doesNotMatch(h.result.innerHTML, /zp-fit-locked-offers|data-zp-merchant-link/);
+  assert.doesNotMatch(h.result.innerHTML, /href="\/choditko-na-pojistovnu\//);
 });

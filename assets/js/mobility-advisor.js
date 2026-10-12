@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_124
+// ZP_RELEASE_0_8_125
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
@@ -68,13 +68,18 @@ if (form && result && submitButton && errorBox) {
     rollator: "Čtyřkolový rollátor"
   }[family] || family);
 
-  const statusLabel = (status) => ({
+  const statusLabel = (status, missing = []) => {
+    if (status === "needs_more_info" && missing.length === 0) {
+      return "Bezpečnostní omezení: je potřeba jiné řešení";
+    }
+    return ({
     candidate: "Vhodný směr k porovnání",
     needs_more_info: "Ještě potřebujeme jednu informaci",
     professional_check: "Nejdřív ověřit s odborníkem",
     outside_current_slice: "Tady zatím nechceme hádat",
     invalid_input: "Zkontrolujte odpovědi"
   }[status] || "");
+  };
 
   const formatCheckedAt = (value) => {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
@@ -427,7 +432,7 @@ if (form && result && submitButton && errorBox) {
       : "";
 
     result.innerHTML = `
-      ${statusLabel(output.status) ? `<p class="zp-result-status">${escapeHtml(statusLabel(output.status))}</p>` : ""}
+      ${statusLabel(output.status, output.missing) ? `<p class="zp-result-status">${escapeHtml(statusLabel(output.status, output.missing))}</p>` : ""}
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}

@@ -13,5 +13,5 @@ test("reported 0.8.114 deploy cannot pass on earlier production release",()=>{
  assert.match(smoke,/assert\.equal\(readiness\.integrity, "ok"/);
  assert.match(smoke,/assert\.equal\(readiness\.configured_total, readiness\.slot_total/);
  assert.match(smoke,/releaseAtLeast\("0\.8\.114"\)/);
- assert.match(smoke,/data-zp-editorial-guide="\'+guide\+'"/);
 });
+

@@ -12,9 +12,11 @@ test("safe indoor candidate offers both rental and insurer guidance, respecting 
   const next = getMobilityNextSteps(result);
   assert.equal(next.canCompareAcquisition, true);
   assert.deepEqual(next.items.map(x => x.href), [
-    "/pujceni-choditka/", "/choditko-na-pojistovnu/"
+    "/pujceni-choditka/#rozpocet-pujceni-choditka", "/choditko-na-pojistovnu/"
   ]);
   assert.match(next.items[0].label, /půjčení/);
+  assert.match(next.items[0].action, /půjčovné/);
+  assert.ok(next.items.every(item => !item.href.includes("?")), "Advice must never put answers in URLs");
 });
 
 test("long-term candidate preserves the actual engine acquisition ordering", () => {
@@ -25,7 +27,7 @@ test("long-term candidate preserves the actual engine acquisition ordering", () 
   const next = getMobilityNextSteps(result);
   assert.equal(next.canCompareAcquisition, true);
   assert.deepEqual(next.items.map(x => x.href), [
-    "/pujceni-choditka/", "/choditko-na-pojistovnu/"
+    "/pujceni-choditka/#rozpocet-pujceni-choditka", "/choditko-na-pojistovnu/"
   ]);
 });
 

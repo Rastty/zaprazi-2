@@ -1,7 +1,8 @@
+// ZP_RELEASE_0_8_121
 const ACQUISITION_DESTINATIONS = Object.freeze({
-  compare_rent_buy: { href: "/pujceni-choditka/", action: "Zjistit možnosti půjčení" },
-  compare_buy_rent: { href: "/pujceni-choditka/", action: "Porovnat s půjčením" },
-  compare_acquisition: { href: "/pujceni-choditka/", action: "Prozkoumat půjčení" },
+  compare_rent_buy: { href: "/pujceni-choditka/#rozpocet-pujceni-choditka", action: "Spočítat orientační půjčovné" },
+  compare_buy_rent: { href: "/pujceni-choditka/#rozpocet-pujceni-choditka", action: "Porovnat orientační půjčovné" },
+  compare_acquisition: { href: "/pujceni-choditka/#rozpocet-pujceni-choditka", action: "Spočítat půjčovné a ověřit podmínky" },
   check_reimbursement: { href: "/choditko-na-pojistovnu/", action: "Ověřit cestu přes pojišťovnu" }
 });
 

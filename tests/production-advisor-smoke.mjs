@@ -1937,6 +1937,38 @@ try {
     await page.close();
   }
 
+  // 0.8.121: a verified Mobility candidate links straight to the existing
+  // local, privacy-safe rental budget, without unlocking specific offers.
+  if (releaseAtLeast("0.8.121")) {
+    for (const spec of [
+      {path:"/choditko-do-bytu-pro-seniory/",gate:"canLiftWalker",
+        submit:"#zp-indoor-walker-submit",result:"#zp-indoor-walker-result"},
+      {path:"/rollator-pro-seniory/",gate:"handBrakes",
+        submit:"#zp-rollator-submit",result:"#zp-rollator-result"}
+    ]) {
+      const page=await open(spec.path);
+      await choose(page,"supportNeed","steady");
+      await choose(page,spec.gate,"yes");
+      await click(page,spec.submit);
+      const links=await page.$eval(spec.result+' .zp-acquisition-summary a[href]',nodes=>
+        nodes.map(node=>({href:node.getAttribute("href"),text:node.textContent.trim()})));
+      const budget=links.find(link=>link.href?.startsWith("/pujceni-choditka/"));
+      assert.equal(budget?.href,"/pujceni-choditka/#rozpocet-pujceni-choditka",
+        "Candidate must link to rental estimate "+spec.path);
+      assert.ok(budget.text.includes("půjčovné"),"Rental action must be clear");
+      assert.ok(await count(page,spec.result+" .zp-fit-locked-offers")>0,
+        "Rental budget context must not bypass product-fit gates");
+      assert.equal(await visible(page,spec.result+" .zp-fit-locked-offers"),false,
+        "Merchant offers must remain locked by model fit");
+      await page.close();
+    }
+    const hub=await open("/choditka-pro-seniory/");
+    assert.ok(await count(hub,'a[href*="/pujceni-choditka/#rozpocet-pujceni-choditka"]')>0,
+      "Walker selection hub must expose budget explanation");
+    await hub.close();
+    console.log("PASS 0.8.121 Mobility to rental budget and locked offers");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

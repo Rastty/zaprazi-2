@@ -13,7 +13,7 @@ get_header();
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Na co se zeptat před propuštěním</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek k vytištění před propuštěním</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
       </div>
     </div>

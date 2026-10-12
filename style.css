@@ -416,6 +416,9 @@ a{color:inherit}
 }
 
 
+/* Release 0.8.119: hide printable duplicate worksheets during ordinary reading. */
+.zp-paper-checklist{display:none}
+
 /* Release 0.8.118: blank, voluntary paper worksheets for family preparation.
    Keep page content unchanged until the visitor activates the print control. */
 .zp-paper-checklist .zp-paper-questions{max-width:860px;margin:20px 0 26px;padding-left:24px}

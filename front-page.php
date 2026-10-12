@@ -38,12 +38,12 @@
         <article class="zp-decision-card">
           <h3>Před propuštěním z nemocnice</h3>
           <p>Na co se zeptat lékaře, sestry a sociálního pracovníka, než se člověk vrátí domů.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm důležitých otázek pro nemocnici</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek s pracovním listem k vytisknutí</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Noční cesta z postele na WC</h3>
           <p>Ověřte světlo, překážky, vstávání, oporu a možnost přivolat pomoc ještě před první nocí.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodová kontrola noční cesty</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedm kontrol s pracovním listem k vytisknutí</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Bezpečnější byt bez velkých úprav</h3>
@@ -51,6 +51,7 @@
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Praktický audit bezpečného bytu</a></p>
         </article>
       </div>
+      <p class="zp-section-note">Připravujete výběr chodítka? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Otevřít sedm měření a prázdný tiskový seznam</a>. U nejisté chůze nejdřív ověřte bezpečný postup s odborníkem.</p>
     </div>
   </section>
 

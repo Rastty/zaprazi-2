@@ -118,6 +118,39 @@ get_header();
     </div>
   </section>
 
+  <section id="kontrola-polohovaci-postele" class="zp-section" data-zp-editorial-guide="adjustable-bed">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická kontrola před pořízením</p>
+      <h2 class="zp-section-title">Pět kroků před výběrem polohovací postele: průchod, matrace a bezpečnost jsou stejně důležité jako cena.</h2>
+      <p>U elektrické postele je nutné ověřit nejen funkce polohování, ale celou sestavu v reálném bytě. Pokud je při přesunu potřeba fyzická pomoc, lůžko samo o sobě nezaručuje bezpečný způsob vstávání ani péče. Nejdřív si ujasněte, co je třeba odborně posoudit a co lze doma změřit.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Změřit trasu pro dopravu a montáž</h3>
+          <p>U přesného modelu UNIZDRAV P2777 CLASSIC je vnější půdorys 102,5 × 212 cm, zatímco plocha pro matraci má 90 × 200 cm. Změřte nejužší dveře, chodbu, zatáčky, místo montáže a přístup pečující osoby z potřebných stran. Rozměr matrace není rozměr celé postele; možnosti transportu rozložených částí potvrzuje dodavatel.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Ověřit způsob přesunu a nastavení výšky</h3>
+          <p>Elektricky nastavitelná výška P2777 činí podle výrobce 38,6–80,6 cm. To ale nepotvrzuje, že konkrétní člověk bezpečně usedne, vstane nebo přejde z vozíku. Je-li potřeba fyzické zvedání nebo není znám bezpečný postup, je nutné individuální odborné posouzení a případně jiné pomůcky.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Nesplést maximální hmotnost s pracovním zatížením</h3>
+          <p>Výrobce pro P2777 odděluje maximální hmotnost uživatele 178 kg a pracovní zatížení lůžka 215 kg. Tyto dvě hodnoty nejsou zaměnitelné. Ověřte zatížení podle návodu konkrétního výrobku včetně případného příslušenství; neodvozujte použitelnost z většího čísla a nezadávejte osobní hmotnost do webu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Matrace a boční zábrany musí tvořit kompatibilní sestavu</h3>
+          <p>Matrace není u P2777 součástí základního balení. Boční zábrany nelze automaticky považovat za bezpečné pro každého: u nevhodné matrace, mezer nebo jiného příslušenství hrozí zaklínění mezi zábranou, matrací a rámem. Britský regulátor MHRA požaduje individuální posouzení rizik, kompatibility a montáže. Výběr, použití a nastavení zábran proto konzultujte s kompetentní osobou, neřešte je jen online nákupem.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>5. Ověřit montáž, napájení a způsob získání</h3>
+          <p>Před pořízením zjistěte dostupnost elektrické zásuvky, bezpečné vedení kabelu mimo trasu chůze, dopravu a odbornou montáž. U nejisté nebo dočasné potřeby může být vhodnější prověřit půjčovnu; u delší potřeby nejdřív i podmínky možné úhrady. Výsledkem má být bezpečný plán, nikoli automatický nákup postele.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Ověřit konkrétní model v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">Půjčení, úhrada nebo nákup</a></p>
+      <p class="zp-disclaimer">Praktická kontrola nenahrazuje individuální posouzení přesunu, rizika pádu či používání bočních zábran. Není-li ověřená nosnost, prostor, kompatibilita matrace a bezpečný způsob použití, konkrétní obchodní nabídka nesmí obejít bezpečnostní podmínky poradce.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 12. 10. 2026: <a href="https://unizdrav.cz/zbozi/2777/elektricka-polohovaci-postel-classic" target="_blank" rel="noopener">UNIZDRAV — rozměry, nosnosti, výška a příslušenství P2777 CLASSIC</a>; <a href="https://www.gov.uk/guidance/bed-rails-management-and-safe-use" target="_blank" rel="noopener">MHRA — bezpečné používání bočních zábran a kompatibilita matrací</a>; <a href="https://www.england.nhs.uk/long-read/patient-entrapment-in-beds-bed-rails-and-related-devices/" target="_blank" rel="noopener">NHS England — závažná rizika zaklínění při nekompatibilním vybavení</a>. Zahraniční bezpečnostní zdroje neurčují českou úhradu; nezávislá odborná revize Zápraží není doložena.</p>
+    </div>
+  </section>
+
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>

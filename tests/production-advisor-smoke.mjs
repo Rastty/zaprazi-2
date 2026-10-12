@@ -2117,7 +2117,7 @@ try {
       const page=await open(spec.path);
       if (spec.environment) await choose(page,"environment","indoor");
       await choose(page,"supportNeed","light");
-      await choose(page,"duration","short_term");
+      // Duration is deliberately hidden and reset for light support;\n      // never force an invisible question in the production browser.
       await click(page,spec.submit);
       assert.equal(await count(page,spec.result+" .zp-acquisition-summary a[href]"),0,
         "Light support must not create an acquisition path "+spec.path);

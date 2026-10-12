@@ -101,6 +101,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Půjčit</h3>
           <p>U krátkodobé, nejisté nebo přechodné potřeby může být půjčovna praktičtější než okamžitá koupě. Dostupnost a podmínky se liší podle konkrétní půjčovny.</p>
+          <p>Praktický příklad odlišných cen, kaucí a variant najdete v <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">průvodci půjčením chodítka</a>. Zvolený typ ale musí nejprve projít bezpečnostními podmínkami poradce.</p>
         </article>
         <article class="zp-decision-card">
           <h3>Prověřit pojišťovnu</h3>

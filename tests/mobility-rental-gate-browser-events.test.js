@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
 import { recommendMobility } from "../src/mobility/engine.js";
+import { getMobilityNextSteps } from "../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../src/mobility/offer-fit-gate.js";
 import { canLinkEvidence } from "../src/decision/evidence-links.js";
@@ -63,7 +64,7 @@ function createMobility(overrides = {}) {
     }},
     window: { ZaPraziRuntime: { affiliateMap: {} }, dispatchEvent() {} },
     CustomEvent: class { constructor(type, options) { this.detail = options.detail; } },
-    recommendMobility, getMobilityProducts,
+    recommendMobility, getMobilityNextSteps, getMobilityProducts,
     renderMobilityProductFitGate, installMobilityProductFitGate,
     canLinkEvidence, getRentalGuidance, getReimbursementGuidance,
     EVIDENCE_FRESHNESS_DAYS, evidenceFreshness
@@ -110,4 +111,22 @@ test("unsafe brake handling blocks model, purchase and rental routes", () => {
   h.submitButton.click();
   assert.match(h.result.innerHTML, /bezpečné ovládání brzd/);
   assert.doesNotMatch(h.result.innerHTML, /zp-fit-locked-offers|data-zp-merchant-link|data-zp-mobility-rental-link|www.rehakomp.cz/);
+});
+
+test("safe Homepage Mobility offer is accompanied only by non-commercial acquisition links", () => {
+  const h = createMobility({duration:"short_term"});
+  h.submitButton.click();
+  const html = h.result.innerHTML;
+  assert.match(html, /href="\/pujceni-choditka\/#rozpocet-pujceni-choditka"/);
+  assert.match(html, /href="\/choditko-na-pojistovnu\/"/);
+  assert.match(html, /zp-fit-locked-offers" hidden/);
+  assert.match(html, /potvrzením vhodnosti či nároku/);
+  assert.equal(html.split(RENTAL_URL).length-1,1,
+    "Existing model-specific rental provider stays behind its individual fit gate");
+});
+
+test("blocked Homepage Mobility journey has no acquisition navigation", () => {
+  const h = createMobility({handBrakes:"no",seatNeeded:true});
+  h.submitButton.click();
+  assert.doesNotMatch(h.result.innerHTML, /zp-acquisition-summary|href="\/pujceni-choditka\/|href="\/choditko-na-pojistovnu\//);
 });

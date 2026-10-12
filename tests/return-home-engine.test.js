@@ -302,7 +302,7 @@ test("explicit WC or bed failure blocks the first-night plan; unknown remains ve
 
 test("confirmed need for home care without an arrangement is a first-night blocker", () => {
   const base = {
-    timing:"today_or_tomorrow",entranceReady:"yes",transferAbility:"independent",
+    timing:"later",entranceReady:"yes",transferAbility:"independent",
     walking:"independent",toiletReady:"yes",bedReady:"yes",bathroomReady:"yes",
     homeCare:"not_needed"
   };

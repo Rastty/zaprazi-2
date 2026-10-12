@@ -64,3 +64,30 @@ test("both standalone journeys show safety-gated next steps and a way to edit an
     assert.doesNotMatch(script, /sendBeacon|localStorage|fetch\(/);
   }
 });
+
+test("main Homepage Advisor uses the same safe acquisition paths as specialist Advisors", () => {
+  const app = fs.readFileSync(new URL("../assets/js/mobility-advisor.js", import.meta.url), "utf8");
+  assert.match(app, /import \{ getMobilityNextSteps \}/);
+  assert.match(app, /const next = getMobilityNextSteps\(output\)/);
+  assert.match(app, /const acquisition = next\.items\.length/);
+  assert.match(app, /escapeHtml\(item\.href\)/);
+  assert.match(app, /escapeHtml\(item\.action\)/);
+  assert.match(app, /renderMobilityProductFitGate/);
+  assert.match(app, /installMobilityProductFitGate/);
+  assert.doesNotMatch(app, /localStorage|sendBeacon|new URLSearchParams/);
+});
+
+test("main Homepage Advisor acquisition paths remain blocked for unsafe or undecided input", () => {
+  for (const input of [
+    { environment: "outdoor", supportNeed: "steady", handBrakes: "unknown" },
+    { environment: "outdoor", supportNeed: "steady", handBrakes: "no" },
+    { environment: "indoor", supportNeed: "steady", canLiftWalker: "unknown" },
+    { environment: "both", supportNeed: "person_assist" },
+    { environment: "indoor", supportNeed: "unknown" },
+    { environment: "indoor", supportNeed: "light" }
+  ]) {
+    const result = recommendMobility(input);
+    assert.notEqual(result.status, "candidate");
+    assert.deepEqual(getMobilityNextSteps(result).items, []);
+  }
+});

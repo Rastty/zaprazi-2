@@ -1586,6 +1586,36 @@ try {
     }
   }
 
+  // Release 0.8.113: a source-backed shower-chair safety guide must be
+  // readable on a 390px phone and never expose an offer outside the Advisor.
+  if (releaseAtLeast("0.8.113")) {
+    const page=await open("/sprchovaci-zidle-pro-seniory/");
+    const guide=await page.evaluate(()=>{
+      const el=document.querySelector('main [data-zp-editorial-guide="shower-chair"]');
+      return {
+        found:!!el,
+        steps:el?.querySelectorAll("h3").length||0,
+        sourceLinks:el?.querySelectorAll('a[href^="https://"][rel~="noopener"]').length||0,
+        text:el?.textContent||"",
+        originalAdvisor:!!document.getElementById("zp-shower-chair-advisor"),
+        unsafeOffers:el?.querySelectorAll(".zp-offer, [data-zp-merchant-link]").length||0,
+        anchor:el?.querySelector('a[href*="#poradce-sprchovaci-zidle"]')?.href||"",
+        overflow:document.documentElement.scrollWidth-innerWidth
+      };
+    });
+    assert.ok(guide.found,"Missing source-backed shower-chair checklist");
+    assert.equal(guide.steps,5,"Shower-chair guide lost a safety step");
+    assert.ok(guide.sourceLinks>=3,"Shower-chair checklist needs three source references");
+    assert.ok(guide.text.includes("136 kg")&&guide.text.includes("38–50,5 cm"),
+      "Exact P2062 dimensions or load missing");
+    assert.equal(guide.originalAdvisor,true,"Existing shower-chair Advisor missing");
+    assert.equal(guide.unsafeOffers,0,"Editorial guide bypasses model-fit merchant gate");
+    assert.ok(guide.anchor.includes("#poradce-sprchovaci-zidle"),"Missing guided handoff");
+    assert.ok(guide.overflow<=2,"Shower-chair checklist causes horizontal overflow");
+    console.log("PASS 0.8.113 practical shower-chair guide, mobile and no commerce bypass");
+    await page.close();
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

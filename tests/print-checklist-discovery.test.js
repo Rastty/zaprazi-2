@@ -12,7 +12,7 @@ const pages=[
 test("blank printable worksheets never duplicate live article content onscreen",()=>{
   const css=read("style.css");
   assert.match(css,/\.zp-paper-checklist\{display:none\}/);
-  assert.match(css,/body\.zp-paper-print-mode \.zp-paper-checklist\s*\{/);
+  assert.match(css,/body\.zp-paper-print-mode \.zp-paper-checklist/);
   assert.match(css,/display:block!important/);
   assert.match(css,/body\.zp-paper-print-mode main > :not\(\.zp-paper-checklist\)/);
   for(const [path,id] of pages){

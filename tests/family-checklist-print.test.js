@@ -46,5 +46,7 @@ test("paper print is explicit user gesture, local-only and keeps existing footwe
     /\blocalStorage\b/, /\bsessionStorage\b/, /\bdocument\.cookie\b/, /\bFormData\b/,
     /\blocation\.(search|hash|href)/, /zaprazi:analytics|affiliateMap|merchant_click/i])
     assert.doesNotMatch(js,forbidden);
-  assert.match(js,/ZP_RELEASE_0_8_118/);
+  const release=css.match(/^Version:\\s*([\\d.]+)\\s*$/m)?.[1];
+  assert.ok(release,"Theme release missing");
+  assert.ok(js.includes("ZP_RELEASE_"+release.replaceAll(".","_")),"Family print marker differs from current release");
 });

@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.120' );
+  define( 'ZAPRAZI_RELEASE', '0.8.121' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -73,6 +73,7 @@ function zaprazi_2_release_integrity_ok() {
     'src/mobility/catalog.js',
     'src/decision/product-identity-gate.js',
     'src/mobility/offer-fit-gate.js',
+    'src/mobility/next-steps.js',
     'assets/js/runtime-config.js',
     'src/seo/https-sitemaps.php',
     'style.css',

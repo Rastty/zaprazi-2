@@ -37,3 +37,12 @@ test("read-only production browser QA detects all Advisor offer markers without 
     assert.ok(attrs.has("data-zp-"+type+"-merchant-link"),"Previous QA gap not covered: "+type);
   }
 });
+
+test("0.8.121 production QA inspects all candidate acquisition links",()=>{
+  const qa=read("tests/production-advisor-smoke.mjs");
+  // Puppeteer's $eval returns one element; its .map() call would fail only
+  // after deployment because this assertion is release-gated.
+  assert.ok(qa.includes("const links=await page.$$eval(spec.result+' .zp-acquisition-summary a[href]'"),
+    "Rental budget verification must enumerate links with $$eval");
+  assert.doesNotMatch(qa,/const links=await page\.\$eval\(spec\.result\+' \.zp-acquisition-summary a\[href\]'/);
+});

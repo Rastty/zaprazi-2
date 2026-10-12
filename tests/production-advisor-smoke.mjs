@@ -2094,7 +2094,7 @@ try {
     await choose(page,"supportNeed","steady");
     await choose(page,"handBrakes","yes");
     await click(page,"#zp-rollator-submit");
-    const ins=await page.$eval('#zp-rollator-result a[href="/choditko-na-pojistovnu/"]',
+    const ins=await page.$$eval('#zp-rollator-result a[href="/choditko-na-pojistovnu/"]',
       nodes=>nodes.map(node=>node.textContent.trim()));
     assert.equal(ins.length,1,"Rollator must not repeat insurer CTA outside shared acquisition steps");
     assert.match(ins[0],/pojišťovnu/);

@@ -1950,7 +1950,7 @@ try {
       await choose(page,"supportNeed","steady");
       await choose(page,spec.gate,"yes");
       await click(page,spec.submit);
-      const links=await page.$eval(spec.result+' .zp-acquisition-summary a[href]',nodes=>
+      const links=await page.$$eval(spec.result+' .zp-acquisition-summary a[href]',nodes=>
         nodes.map(node=>({href:node.getAttribute("href"),text:node.textContent.trim()})));
       const budget=links.find(link=>link.href?.startsWith("/pujceni-choditka/"));
       assert.equal(budget?.href,"/pujceni-choditka/#rozpocet-pujceni-choditka",

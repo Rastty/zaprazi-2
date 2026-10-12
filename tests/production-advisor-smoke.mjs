@@ -1699,6 +1699,38 @@ try {
     }
   }
 
+  // Release 0.8.116: visitors can choose evidence-first instead of
+  // beginning a purchase-oriented Advisor. Verify real #fragment navigation.
+  if (releaseAtLeast("0.8.116")) {
+    for (const [path,target] of [
+      ["/polohovaci-postel/","kontrola-polohovaci-postele"],
+      ["/invalidni-vozik/","bezpecne-pouzivani-voziku"],
+      ["/nastavec-na-wc-pro-seniory/","kontrola-nastavce-na-wc"]
+    ]) {
+      const page=await open(path);
+      const before=await page.evaluate(target=>{
+        const hero=document.querySelector(".zp-hero");
+        const link=hero?.querySelector('a[href="#'+target+'"]');
+        const section=document.getElementById(target);
+        return {
+          href:link?.getAttribute("href")||"",
+          targetFound:!!section&&section.hasAttribute("data-zp-editorial-guide"),
+          anchorCount:document.querySelectorAll('a[href="#'+target+'"]').length,
+          pageOverflow:document.documentElement.scrollWidth-innerWidth
+        };
+      },target);
+      assert.equal(before.href,"#"+target,"Hero safety guide link missing "+path);
+      assert.equal(before.targetFound,true,"Safety guide target missing "+path);
+      assert.equal(before.anchorCount,1,"Duplicate safety guide link "+path);
+      assert.ok(before.pageOverflow<=2,"Mobile guide hero overflows "+path);
+      await page.click('.zp-hero a[href="#'+target+'"]');
+      await page.waitForFunction(target=>location.hash==="#"+target,{timeout:2000},target);
+      assert.ok(new URL(page.url()).hash==="#"+target,"Guide anchor failed to navigate "+path);
+      console.log("PASS 0.8.116 guide entry from hero:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_115 */
+/* ZP_RELEASE_0_8_116 */
 /*
 Template Name: Zápraží — Sprchovací židle pro seniory
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-sprchovaci-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
+        <a class="zp-text-link" href="#bezpecne-sprchovani-v-sede">Co ověřit před výběrem</a>
       </div>
     </div>
   </section>

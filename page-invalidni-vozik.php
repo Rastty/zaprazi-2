@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_115 */
+/* ZP_RELEASE_0_8_116 */
 /*
 Template Name: Zápraží — Invalidní vozík
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-vozik">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
+        <a class="zp-text-link" href="#bezpecne-pouzivani-voziku">Co ověřit před výběrem</a>
       </div>
     </div>
   </section>

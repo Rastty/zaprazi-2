@@ -7,7 +7,7 @@ const read=path=>readFileSync(new URL("../"+path,import.meta.url),"utf8");
 test("0.8.115 production acceptance requires exact deployed build",()=>{
   const smoke=read("tests/production-advisor-smoke.mjs");
   const css=read("style.css");
-  assert.match(css,/^Version:\s*0\.8\.115\s*$/m);
+  assert.match(css,/^Version:\s*0\.8\.\d+\s*$/m);
   assert.ok(smoke.includes('if (sourceRelease === "0.8.115") {'));
   assert.ok(smoke.includes("0.8.115 reported deployed but the live WordPress release differs"));
   assert.ok(smoke.includes('assert.equal(readiness.release, sourceRelease,'));

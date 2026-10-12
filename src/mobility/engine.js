@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_124
+// ZP_RELEASE_0_8_125
 const ENVIRONMENTS = new Set(["indoor", "outdoor", "both"]);
 const SUPPORT_NEEDS = new Set(["light", "steady", "person_assist", "unknown"]);
 const BRAKE_USE = new Set(["yes", "no", "unknown"]);
@@ -124,15 +124,17 @@ export function recommendMobility(input = {}) {
   if (needsBrakedRollator && handBrakes !== "yes") {
     return {
       status: "needs_more_info",
-      headline: seatNeeded
-        ? "Pro řešení se sedátkem potřebujeme ověřit bezpečné ovládání brzd."
-        : "Pro venkovní řešení potřebujeme ověřit bezpečné ovládání brzdy.",
+      headline: handBrakes === "no"
+        ? "Ruční brzdy nelze bezpečně ovládat: brzděný rollátor teď nevybírejte."
+        : seatNeeded
+          ? "Pro řešení se sedátkem potřebujeme ověřit bezpečné ovládání brzd."
+          : "Pro venkovní řešení potřebujeme ověřit bezpečné ovládání brzd.",
       nextStep: handBrakes === "no"
-        ? "Nevolte rollátor se sedátkem ani venkovní brzděný rollátor jen podle obrázku nebo ceny. Je potřeba hledat řešení, které člověk dokáže bezpečně ovládat."
+        ? "Když člověk ruční brzdy bezpečně nezvládá, nevybírejte brzděný rollátor jen podle obrázku nebo ceny. Jinou možnost bezpečné opory ověřte s fyzioterapeutem nebo odbornou výdejnou."
         : "Zjistěte, zda člověk bezpečně zvládne stisknout, použít a zajistit ruční brzdy.",
       missing: handBrakes === "unknown" ? ["handBrakes"] : [],
       recommendations: [],
-      acquisition: acquisitionFor(duration)
+      acquisition: handBrakes === "no" ? [] : acquisitionFor(duration)
     };
   }
 

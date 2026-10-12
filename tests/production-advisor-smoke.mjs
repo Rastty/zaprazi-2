@@ -2022,7 +2022,7 @@ try {
       await choose(page,"supportNeed","steady");
       await choose(page,spec.gate,"yes");
       await click(page,spec.submit);
-      const urls=await page.$eval(spec.result+' .zp-acquisition-summary a[href]',
+      const urls=await page.$$eval(spec.result+' .zp-acquisition-summary a[href]',
         nodes=>nodes.map(node=>node.getAttribute("href")));
       assert.deepEqual(urls,[
         "/pujceni-choditka/#rozpocet-pujceni-choditka",
@@ -2035,6 +2035,31 @@ try {
       await page.close();
     }
     console.log("PASS 0.8.123 all 3 mobility advisors: unknown duration still offers insurer route safely");
+  }
+
+  // 0.8.124: a blocked Homepage result has a direct keyboard-friendly
+  // correction path. The button must choose the actual unsafe/unknown gate.
+  if (releaseAtLeast("0.8.124")) {
+    for (const spec of [
+      { environment:"both",support:"steady",gate:"handBrakes",value:"no",focus:"handBrakes" },
+      { environment:"indoor",support:"steady",gate:"canLiftWalker",value:"unknown",focus:"canLiftWalker" },
+      { environment:"indoor",support:"person_assist",gate:null,focus:"supportNeed" }
+    ]) {
+      const page=await open("/");
+      await choose(page,"environment",spec.environment);
+      await choose(page,"supportNeed",spec.support);
+      if (spec.gate) await choose(page,spec.gate,spec.value);
+      await click(page,"#zp-mobility-submit");
+      assert.ok(await visible(page,"#zp-mobility-result [data-zp-edit-answers]"),
+        "Blocked Homepage path has no edit CTA "+spec.focus);
+      assert.equal(await count(page,"#zp-mobility-result .zp-acquisition-summary a[href]"),0,
+        "Blocked Homepage path leaks acquisition navigation "+spec.focus);
+      await click(page,"#zp-mobility-result [data-zp-edit-answers]");
+      const focused=await page.evaluate(()=>document.activeElement?.name||"");
+      assert.equal(focused,spec.focus,"Edit button must focus the relevant safety gate");
+      await page.close();
+    }
+    console.log("PASS 0.8.124 blocked Homepage offers keyboard-safe edit answer");
   }
 
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");

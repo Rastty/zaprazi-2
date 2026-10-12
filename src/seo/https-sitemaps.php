@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_123 */
+/* ZP_RELEASE_0_8_124 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }

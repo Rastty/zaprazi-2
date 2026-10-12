@@ -25,17 +25,20 @@ function createMobility(overrides = {}) {
     ...overrides
   };
   const handlers = {};
+  const focusActions = { focused: null, scrolled: false };
   const form = {
     addEventListener(type, callback) { (handlers[type] ||= []).push(callback); },
+    scrollIntoView() { focusActions.scrolled = true; },
     querySelector(selector) {
       if (selector === ".zp-fieldset.is-error") return null;
-      const match = selector.match(/^input\[name="([^"]+)"\]:checked$/);
+      const match = selector.match(/^input\[name="([^"]+)"\](?::checked)?$/);
       if (!match) throw Error("Unknown form selector: " + selector);
       const name = match[1];
       const value = state[name];
-      return value === true || (typeof value === "string" && value !== "")
-        ? { name, value: value === true ? "on" : value, checked: true }
-        : null;
+      const checked = value === true || (typeof value === "string" && value !== "");
+      if (!checked && selector.endsWith(":checked")) return null;
+      return { name, value: checked ? (value === true ? "on" : value) : "",
+        checked, closest() { return null; }, focus() { focusActions.focused = name; } };
     },
     querySelectorAll(selector) {
       if (selector === "[data-zp-conditional]") return [];
@@ -73,7 +76,9 @@ function createMobility(overrides = {}) {
   const script = fs.readFileSync(new URL("../" + file, import.meta.url), "utf8")
     .replace(/^import .*;\s*$/gm, "");
   vm.runInNewContext(script, globals, { filename: file, timeout: 1500 });
-  return { form, result, submitButton, errorBox, state };
+  return { form, result, submitButton, errorBox, state, focusActions,
+    editAnswers() { const onClick = handlers['result:click']?.at(-1); assert.ok(onClick);
+      onClick({target: {closest(selector) {return selector === '[data-zp-edit-answers]' ? {} : null;}}}); } };
 }
 
 test("exact rollator rental URL is present only in the hidden model-fit-gated acquisition section", () => {
@@ -129,4 +134,28 @@ test("blocked Homepage Mobility journey has no acquisition navigation", () => {
   const h = createMobility({handBrakes:"no",seatNeeded:true});
   h.submitButton.click();
   assert.doesNotMatch(h.result.innerHTML, /zp-acquisition-summary|href="\/pujceni-choditka\/|href="\/choditko-na-pojistovnu\//);
+});
+
+test("blocked Homepage result offers a keyboard-safe return to the relevant question", () => {
+  for (const spec of [
+    {state:{environment:"indoor",supportNeed:"unknown"},focus:"supportNeed"},
+    {state:{environment:"both",supportNeed:"person_assist"},focus:"supportNeed"},
+    {state:{environment:"indoor",supportNeed:"steady",seatNeeded:false,canLiftWalker:"unknown"},focus:"canLiftWalker"},
+    {state:{environment:"outdoor",supportNeed:"steady",seatNeeded:false,handBrakes:"no"},focus:"handBrakes"}
+  ]) {
+    const h = createMobility(spec.state);
+    h.submitButton.click();
+    assert.match(h.result.innerHTML, /data-zp-edit-answers="1"/);
+    assert.doesNotMatch(h.result.innerHTML, /zp-fit-locked-offers|data-zp-merchant-link="1"/);
+    h.editAnswers();
+    assert.equal(h.focusActions.focused, spec.focus);
+    assert.equal(h.focusActions.scrolled, true);
+  }
+});
+
+test("Homepage candidate never confuses a completed recommendation with a blocked retry", () => {
+  const h = createMobility({environment:"indoor",supportNeed:"steady",canLiftWalker:"yes",seatNeeded:false});
+  h.submitButton.click();
+  assert.match(h.result.innerHTML, /Ověřené výrobky k porovnání/);
+  assert.doesNotMatch(h.result.innerHTML, /data-zp-edit-answers="1"/);
 });

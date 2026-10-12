@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_123
+// ZP_RELEASE_0_8_124
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
@@ -31,6 +31,24 @@ if (form && result && submitButton && errorBox) {
   });
 
   installMobilityProductFitGate(result);
+
+  // A blocked result must provide a practical way back to the question
+  // which decides whether we can safely continue. Keep all old offers
+  // hidden until the person deliberately makes a new choice.
+  result.addEventListener("click", (event) => {
+    if (!event.target?.closest?.("[data-zp-edit-answers]")) return;
+    const environment = form.querySelector('input[name="environment"]:checked')?.value;
+    const support = form.querySelector('input[name="supportNeed"]:checked')?.value;
+    const seat = Boolean(form.querySelector('input[name="seatNeeded"]:checked'));
+    const question = !environment ? "environment"
+      : support !== "steady" ? "supportNeed"
+        : seat || environment === "outdoor" || environment === "both"
+          ? "handBrakes" : "canLiftWalker";
+    form.scrollIntoView({ block: "start" });
+    const target = form.querySelector(`input[name="${question}"]:checked`) ||
+      form.querySelector(`input[name="${question}"]`);
+    if (target && !target.closest("[hidden]")) target.focus();
+  });
 
   const checkedValue = (name, fallback = null) =>
     form.querySelector(`input[name="${name}"]:checked`)?.value ?? fallback;
@@ -417,6 +435,7 @@ if (form && result && submitButton && errorBox) {
       ${acquisition}
       ${renderAcquisitionEvidence(ids, duration)}
       ${environmentGuide}
+      ${output.status !== "candidate" ? '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></p>' : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

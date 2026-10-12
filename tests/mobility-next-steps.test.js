@@ -91,3 +91,21 @@ test("main Homepage Advisor acquisition paths remain blocked for unsafe or undec
     assert.deepEqual(getMobilityNextSteps(result).items, []);
   }
 });
+
+test("unknown duration offers both independent acquisition checks across safe walker families", () => {
+  for (const input of [
+    { environment: "indoor", supportNeed: "steady", canLiftWalker: "yes", duration: "unknown" },
+    { environment: "both", supportNeed: "steady", handBrakes: "yes", duration: "unknown" }
+  ]) {
+    const result = recommendMobility(input);
+    assert.equal(result.status, "candidate");
+    assert.deepEqual(result.acquisition.map(item => item.id), ["compare_acquisition", "check_reimbursement"]);
+    const next = getMobilityNextSteps(result);
+    assert.equal(next.canCompareAcquisition, true);
+    assert.deepEqual(next.items.map(item => item.href), [
+      "/pujceni-choditka/#rozpocet-pujceni-choditka",
+      "/choditko-na-pojistovnu/"
+    ]);
+    assert.ok(next.items.every(item => !item.href.includes("?")));
+  }
+});

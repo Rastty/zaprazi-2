@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_122
+// ZP_RELEASE_0_8_123
 const ENVIRONMENTS = new Set(["indoor", "outdoor", "both"]);
 const SUPPORT_NEEDS = new Set(["light", "steady", "person_assist", "unknown"]);
 const BRAKE_USE = new Set(["yes", "no", "unknown"]);
@@ -51,8 +51,13 @@ function acquisitionFor(duration) {
   return [
     {
       id: "compare_acquisition",
-      label: "Porovnat koupi, půjčení a možnost úhrady",
-      reason: "Bez informace o délce používání zatím nedává smysl jednu cestu upřednostnit."
+      label: "Porovnat půjčení a koupi",
+      reason: "Bez informace o délce používání zatím nedává smysl jednu cestu upřednostnit. Kalkulačka ukáže orientační půjčovné; nákup i půjčení vyžadují ověření konkrétního výrobku."
+    },
+    {
+      id: "check_reimbursement",
+      label: "Prověřit možnost úhrady",
+      reason: "Možnost úhrady přes pojišťovnu závisí na konkrétním zdravotnickém prostředku a platných pravidlech, ne na tom, zda už víme délku používání."
     }
   ];
 }

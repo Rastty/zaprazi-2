@@ -1987,7 +1987,7 @@ try {
     await choose(page, "canLiftWalker", "yes");
     await choose(page, "duration", "short_term");
     await click(page, "#zp-mobility-submit");
-    const candidateLinks = await page.$eval("#zp-mobility-result .zp-acquisition-summary a[href]",
+    const candidateLinks = await page.$$eval("#zp-mobility-result .zp-acquisition-summary a[href]",
       nodes => nodes.map(node => ({href:node.getAttribute("href"),text:node.textContent.trim()})));
     assert.deepEqual(candidateLinks.map(link => link.href), [
       "/pujceni-choditka/#rozpocet-pujceni-choditka",
@@ -2007,6 +2007,34 @@ try {
     await checkNoMerchant(page, "#zp-mobility-result");
     await page.close();
     console.log("PASS 0.8.122 Homepage advisor rent/reimbursement paths and safe revocation");
+  }
+
+  // 0.8.123: leaving the duration at the default "Nevím" must not
+  // silently omit independent health-insurance verification.
+  if (releaseAtLeast("0.8.123")) {
+    for (const spec of [
+      {path:"/",gate:"canLiftWalker",submit:"#zp-mobility-submit",result:"#zp-mobility-result"},
+      {path:"/choditko-do-bytu-pro-seniory/",gate:"canLiftWalker",submit:"#zp-indoor-walker-submit",result:"#zp-indoor-walker-result"},
+      {path:"/rollator-pro-seniory/",gate:"handBrakes",submit:"#zp-rollator-submit",result:"#zp-rollator-result"}
+    ]) {
+      const page=await open(spec.path);
+      if (spec.path === "/") await choose(page,"environment","indoor");
+      await choose(page,"supportNeed","steady");
+      await choose(page,spec.gate,"yes");
+      await click(page,spec.submit);
+      const urls=await page.$eval(spec.result+' .zp-acquisition-summary a[href]',
+        nodes=>nodes.map(node=>node.getAttribute("href")));
+      assert.deepEqual(urls,[
+        "/pujceni-choditka/#rozpocet-pujceni-choditka",
+        "/choditko-na-pojistovnu/"
+      ],"Uncertain duration must show rental and insurer verification "+spec.path);
+      assert.ok(await count(page,spec.result+" .zp-fit-locked-offers")>0,
+        "An uncertain duration must not bypass a candidate's product-fit gate");
+      assert.equal(await visible(page,spec.result+" .zp-fit-locked-offers"),false,
+        "Uncertain duration must not unlock concrete merchant offers");
+      await page.close();
+    }
+    console.log("PASS 0.8.123 all 3 mobility advisors: unknown duration still offers insurer route safely");
   }
 
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");

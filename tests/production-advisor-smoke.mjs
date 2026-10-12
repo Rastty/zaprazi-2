@@ -1736,6 +1736,39 @@ try {
     }
   }
 
+  // Release 0.8.117: connect advice-led editorial journeys to relevant
+  // sizing and acquisition resources, without skipping the original Advisor.
+  if (releaseAtLeast("0.8.117")) {
+    for (const [path,expected] of [
+      ["/bezpecny-byt-pro-seniora/",["/jak-zmerit-chodidlo-pro-vyber-obuvi/"]],
+      ["/navrat-z-nemocnice/",["/pujceni-choditka/","/polohovaci-postel-na-pojistovnu/","/invalidni-vozik-na-pojistovnu/"]],
+      ["/kompenzacni-pomucky-pro-seniory/",["/pujceni-choditka/"]]
+    ]) {
+      const page=await open(path);
+      const result=await page.evaluate(expected=>{
+        const links=[...document.querySelectorAll("main a[href]")].map(el=>{
+          const href=new URL(el.getAttribute("href"),location.href);
+          return {path:href.pathname, text:(el.textContent||"").trim()};
+        });
+        return {
+          destinations:expected.map(target=>links.filter(link=>link.path===target)),
+          main:!!document.querySelector("main"),
+          h1s:document.querySelectorAll("main h1").length,
+          overflow:document.documentElement.scrollWidth-innerWidth
+        };
+      },expected);
+      assert.equal(result.main,true,"Editorial page lost main "+path);
+      assert.equal(result.h1s,1,"Editorial page has ambiguous heading "+path);
+      for (const [i,target] of expected.entries()) {
+        assert.ok(result.destinations[i]?.some(link=>link.text.length>=8),
+          "Missing meaningful contextual link "+path+" to "+target);
+      }
+      assert.ok(result.overflow<=2,"Contextual link breaks mobile width "+path);
+      console.log("PASS 0.8.117 contextual guide to Advisor-linked resource:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

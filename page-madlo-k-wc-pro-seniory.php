@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-opora-wc">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Řeším spíš nízké WC</a>
+        <a class="zp-text-link" href="#kontrola-opory-u-wc">Co ověřit před výběrem</a>
       </div>
     </div>
   </section>

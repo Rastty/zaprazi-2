@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-sedatko-vana">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Řeším sprchový kout</a>
+        <a class="zp-text-link" href="#kontrola-presunu-do-vany">Co ověřit před výběrem</a>
       </div>
     </div>
   </section>

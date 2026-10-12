@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-toaletni-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
+        <a class="zp-text-link" href="#kontrola-toaletni-zidle">Co ověřit před výběrem</a>
       </div>
     </div>
   </section>

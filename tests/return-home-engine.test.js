@@ -310,7 +310,8 @@ test("confirmed need for home care without an arrangement is a first-night block
   assert.equal(notArranged.status,"blocked_before_discharge");
   assert.ok(notArranged.blockers.some(b=>b.id==="required_home_care_not_arranged"));
   assert.ok(notArranged.dischargeActions.some(a=>a.id==="arrange_home_health"));
-  assert.match(notArranged.nextStep,/návaznou péči/);
+  assert.match(notArranged.nextStep,/kritické překážky/);
+  assert.match(notArranged.blockers.find(x=>x.id==="required_home_care_not_arranged").reason,/nemocnice/);
   assert.deepEqual(notArranged.routes,[],"Unarranged medical care should never imply an equipment purchase");
   for (const homeCare of ["not_needed","arranged"]) {
     const safe = buildReturnHomePlan({...base,homeCare});

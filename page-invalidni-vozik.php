@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_114 */
+/* ZP_RELEASE_0_8_115 */
 /*
 Template Name: Zápraží — Invalidní vozík
 */
@@ -167,6 +167,39 @@ get_header();
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje mechanické vozíky jako hrazenou kategorii při splnění podmínek a uvádí, že většina vozíků zůstává majetkem pojišťovny a pacientovi se půjčuje.</p></article>
         <article><h3>Koupit</h3><p>Přímý nákup dává smysl až po potvrzení sedu, průchodů, nosnosti a způsobu používání.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="bezpecne-pouzivani-voziku" class="zp-section" data-zp-editorial-guide="wheelchair">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická kontrola před výběrem</p>
+      <h2 class="zp-section-title">Pět kontrol invalidního vozíku: šířka, přesun, brzdy a konkrétní varianta.</h2>
+      <p>Rozměr sedadla není rozměr celého vozíku a parkovací brzda není provozní brzda pro zpomalování jízdy. Než porovnáte cenu, ověřte způsob pohonu, skutečné průchody doma a bezpečný přesun. Pokud člověk potřebuje fyzické zvedání druhou osobou, výběr konkrétního vozíku nesmí nahrazovat odborné posouzení.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Kdo bude vozík skutečně pohánět?</h3>
+          <p>Jinou konstrukci potřebuje člověk s doprovodem, jinou ten, kdo vozík sám pohání hnacími obručemi, a jinou uživatel elektrického joysticku. UNIZDRAV P3641 má obruče pro samostatný pohon i brzdy pro doprovod. Tato výbava neprokazuje individuální schopnost samostatně bezpečně řídit a zastavit.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Sedadlo a celková šířka nejsou totéž</h3>
+          <p>U P3641 lze podle výrobce vybrat sed 48 nebo 51 cm; tomu odpovídá celková šířka 68 nebo 70 cm. Je třeba samostatně ověřit vhodnost sedu pro člověka a průchod skutečnými dveřmi, včetně zatáčení a místa pro přesun. Neměřte jen nejširší část dveří; prakticky rozhoduje nejužší průjezd.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Při přesunu nejdřív zablokovat pohyb vozíku</h3>
+          <p>NHS doporučuje před usednutím a vstáváním aktivovat parkovací brzdy a odsunout stupačky z cesty; na stupačky se při vstávání nestoupá, protože se vozík může překlopit. Parkovací zámky neslouží k brzdění za jízdy. Pokud se člověk nepřesune bezpečně bez fyzického zvedání druhou osobou, postup musí určit odborník.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Nosnost vždy podle konkrétních kol a varianty</h3>
+          <p>UNIZDRAV uvádí u P3641 nosnost 125 kg s pneumatickými koly, ale 136 kg s bezdušovými. Tyto hodnoty není správné zaměňovat; platí jen pro odpovídající konfiguraci. Stejně ověřte správné nastavení stupaček, zajištění opěrek a stav brzd a pneumatik podle návodu dodaného vozíku.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>5. Ověřit reálnou trasu a způsob pořízení</h3>
+          <p>Zvažte prahy, sklon chodníku, bezpečné otáčení a možnost složení pro převoz. U elektrického vozíku se navíc musí ověřit bezpečné ovládání, dostatečný manévrovací prostor a nabíjení. U dočasné potřeby stojí za zvážení půjčení; před dlouhodobým nákupem také cesta přes zdravotní pojišťovnu. Žádný rozměr ani údaj výrobce sám o sobě nepotvrzuje bezpečné použití.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Vybrat vhodný typ v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Jak ověřit půjčení a úhradu</a></p>
+      <p class="zp-disclaimer">Vozík je nutné posoudit jako celek včetně přesunu, nastavení sedu, pohonu, brzd a konkrétní nosnosti. Při nejistotě nebo fyzicky asistovaném přesunu online poradce nezaručuje individuální vhodnost a nesmí odemknout nákup bez potřebných kontrol.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 12. 10. 2026: <a href="https://unizdrav.cz/zbozi/3641/invalidni-vozik-odlehceny-s-brzdami-pro-doprovod" target="_blank" rel="noopener">UNIZDRAV — varianty P3641 a jejich skutečné rozměry a nosnost</a>; <a href="https://www.fhft.nhs.uk/patients-and-visitors/patient-information-library/wheelchair-safety-information-standard-wheelchairs" target="_blank" rel="noopener">Frimley Health NHS — bezpečný přesun a stupačky</a>; <a href="https://www.merseycare.nhs.uk/our-services/knowsley/wheelchair-service" target="_blank" rel="noopener">Mersey Care NHS — parkovací brzdy a bezpečnostní hranice</a>; <a href="https://www.merseycare.nhs.uk/wheelchair-measurement-guide" target="_blank" rel="noopener">Mersey Care NHS — měření a nastavení sedu</a>. Návody mají obecný charakter a nejsou českým úhradovým předpisem; individuální odborná revize Zápraží není doložena.</p>
     </div>
   </section>
 

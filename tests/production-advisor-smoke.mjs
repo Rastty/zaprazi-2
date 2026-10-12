@@ -1660,6 +1660,40 @@ try {
     }
   }
 
+  // Release 0.8.115: practical safety guides for two high-ticket routes
+  // augment, but never replace, the sole Bed/Wheelchair fit-gated engines.
+  if (releaseAtLeast("0.8.115")) {
+    for (const [path,guide,advisor,anchor,facts] of [
+      ["/polohovaci-postel/","adjustable-bed","zp-bed-advisor","#poradce-postel",["178 kg","215 kg","zaklínění"]],
+      ["/invalidni-vozik/","wheelchair","zp-wheelchair-advisor","#poradce-vozik",["125 kg","136 kg","parkovací"]]
+    ]) {
+      const page=await open(path);
+      const result=await page.evaluate(({guide,advisor,anchor})=>{
+        const section=document.querySelector('main [data-zp-editorial-guide="'+guide+'"]');
+        return {
+          found:!!section,
+          steps:section?.querySelectorAll("h3").length||0,
+          sources:section?.querySelectorAll('a[href^="https://"][rel~="noopener"]').length||0,
+          content:section?.textContent||"",
+          oldAdvisor:!!document.getElementById(advisor),
+          returnLink:!!section?.querySelector('a[href*="'+anchor+'"]'),
+          merchantBypass:section?.querySelectorAll(".zp-offer,[data-zp-merchant-link]").length||0,
+          mobileOverflow:document.documentElement.scrollWidth-innerWidth
+        };
+      },{guide,advisor,anchor});
+      assert.equal(result.found,true,"Source-backed guide missing "+path);
+      assert.equal(result.steps,5,"Practical guide lost a safety check "+path);
+      assert.ok(result.sources>=3,"Missing source citations "+path);
+      assert.ok(facts.every(fact=>result.content.includes(fact)),"Model-specific evidence missing "+path);
+      assert.equal(result.oldAdvisor,true,"Original high-ticket Advisor missing "+path);
+      assert.equal(result.returnLink,true,"Guide lacks original Advisor link "+path);
+      assert.equal(result.merchantBypass,0,"Editorial content bypasses purchase fit gate "+path);
+      assert.ok(result.mobileOverflow<=2,"Practical guide overflows at 390px "+path);
+      console.log("PASS 0.8.115 high-ticket practical guide:",path);
+      await page.close();
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

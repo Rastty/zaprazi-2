@@ -1985,6 +1985,7 @@ try {
     await choose(page, "environment", "indoor");
     await choose(page, "supportNeed", "steady");
     await choose(page, "canLiftWalker", "yes");
+    await choose(page, "duration", "short_term");
     await click(page, "#zp-mobility-submit");
     const candidateLinks = await page.$eval("#zp-mobility-result .zp-acquisition-summary a[href]",
       nodes => nodes.map(node => ({href:node.getAttribute("href"),text:node.textContent.trim()})));

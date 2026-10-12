@@ -1,54 +1,27 @@
-# ZaPrazi 2.0 deployment path
+# Zápraží 2.0 — cesta nasazení WordPress tématu
 
-## Primary path
+## Aktuální architektura
 
-The intended deployment path mirrors Solar Expert:
+`GitHub Rastty/zaprazi-2 → main (schválené změny) → dev (deploy branch) → WordPress Deployer for Git → aktivní téma → přísná produkční QA`
 
-`GitHub repo → dev branch → Deployer for Git → inactive/test WordPress theme → manual activation after smoke`
+- `main` je stabilní větev; `dev` musí být po releasu synchronizovaná se stejným commitem.
+- WordPress přebírá **kořen repozitáře**, nikoliv vnořenou složku. V kořeni jsou `style.css`, `functions.php`, `header.php`, `footer.php` a ostatní WordPress šablony.
+- **Deployer for Git** je primární Pull + Deploy mechanismus; WPVibe slouží nanejvýš k diagnostice a readback, nikoli jako nutná podmínka vydání.
+- Ke dni 12. 10. 2026 GitHub API vrací repozitář jako **public**. Staré tvrzení „repo je private, free Deployer potřebuje Pro“ už neplatí pro aktuálně ověřený stav. Při budoucí změně viditelnosti znovu ověřit licenční podmínky pluginu.
+- Neukládat GitHub tokeny, WordPress přístupové údaje ani affiliate partnerské URL obsahující tajné parametry do veřejného repozitáře.
 
-WPVibe is not the primary deployment mechanism. It is optional diagnostics/readback.
+## Postup při nové verzi
 
-## Repository layout
+1. Implementaci připravit v PR, ověřit testy, CI a požadovanou přednasazovací kontrolu živého webu.
+2. Merge do `main`; `dev` fast-forward na **stejný commit**. Očekávané číslo release je v `style.css` a PHP konstantě `ZAPRAZI_RELEASE`.
+3. Správce WordPressu provede Pull + Deploy z `dev`. Git merge sám o sobě **není** nasazení.
+4. Zkontrolovat přesný release, integritu a konfigurované affiliate pozice; poté spustit ruční GitHub Actions `Production Advisor Browser QA` a ověřit všech **14 poradců**.
+5. Neúspěšné/částečné nasazení nepovažovat za dokončené, další vydání pozastavit do nápravy.
 
-The repository root is a valid classic WordPress theme:
-- `style.css`
-- `functions.php`
-- `header.php`
-- `footer.php`
-- `front-page.php`
-- `index.php`
-- `single.php`
-- `page.php`
+**Jednotný provozní checklist:** [NEXT_DEPLOY_SMOKE.md](./NEXT_DEPLOY_SMOKE.md). Tento soubor neobsahuje pevné číslo verze; testuje se vždy přesně ta, kterou skutečně vydává `main=dev`.
 
-This allows Deployer for Git to install the **repository root** as a theme, matching the Solar Expert setup.
+## Bezpečnost změn
 
-## Branches
-
-- `main` — stable reviewed code
-- `dev` — WordPress deployment/testing branch
-
-Do not point the deployment plugin at a nested theme folder. Repository path/root should be `/` or `.`.
-
-## Safety
-
-Current production Flatsome remains untouched until:
-1. ZaPrazi 2.0 theme is installed separately,
-2. preview/staging smoke passes,
-3. relevant legacy rendering is checked,
-4. user deliberately activates the new theme.
-
-Never overwrite Flatsome in place.
-
-## Deployer for Git
-
-The WordPress.org plugin supports GitHub and does not require Git installed on the server.
-
-Important licensing boundary as of 2026-10-06:
-- public repository: free version can be used,
-- private repository: plugin documentation says Pro is required.
-
-ZaPrazi repo is currently private. Therefore exact free Solar Expert-style deployment requires either:
-- changing `Rastty/zaprazi-2` to public, or
-- using Deployer for Git Pro while keeping it private.
-
-Do not commit tokens or WordPress credentials into this repository.
+- Automatické změny databáze, přesměrování starého obsahu a přemapování affiliate nejsou součástí obyčejného Pull + Deploy.
+- Je-li potřeba zásah do WordPress administrace, záloha a návratový plán jsou odděleným úkolem; neničit původní obsah kvůli deploymentu tématu.
+- Technická produkční QA není prohlášení o lékařské vhodnosti výrobků ani o schváleném affiliate příjmu.

@@ -277,13 +277,28 @@ try {
 
     assert.equal(await visible(page, resultSelector), false, "Result should be initially hidden: " + path);
     await checkNoMerchant(page, resultSelector);
-    await page.$eval(formSelector, root => {
+    // Exercise the actual keyboard path on all 14 advisors. A DOM .click()
+    // alone cannot establish that a keyboard user can reach or activate Submit.
+    const submit = await page.$eval(formSelector, root => {
       const button = root.querySelector('button[id$="-submit"]');
       if (!button) throw new Error("Advisor submit button missing");
-      button.click();
+      return {
+        disabled: button.disabled,
+        tabIndex: button.tabIndex,
+        name: (button.getAttribute("aria-label") || button.textContent || "").trim()
+      };
     });
+    assert.equal(submit.disabled, false, "Submit disabled for keyboard users: " + path);
+    assert.ok(submit.tabIndex >= 0, "Submit absent from keyboard order: " + path);
+    assert.ok(submit.name.length > 0, "Submit has no accessible name: " + path);
+    await page.$eval(formSelector, root => root.querySelector('button[id$="-submit"]').focus());
+    assert.equal(await page.evaluate(() => document.activeElement?.id.endsWith("-submit")), true,
+      "Keyboard focus cannot reach Advisor Submit: " + path);
+    await page.keyboard.press("Enter");
+    assert.equal(new URL(page.url()).pathname, path,
+      "Empty-answer keyboard submit navigated away from Advisor: " + path);
     await checkNoMerchant(page, resultSelector);
-    console.log("PASS boot, mobile layout, labeled controls and empty-answer safety", path, formSelector);
+    console.log("PASS boot, mobile labels, keyboard submit and empty-answer safety", path, formSelector);
     await page.close();
   }
 

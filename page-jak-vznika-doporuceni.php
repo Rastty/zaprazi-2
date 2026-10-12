@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_126 */
+/* ZP_RELEASE_0_8_127 */
 /*
 Template Name: Zápraží — Jak vzniká doporučení
 */

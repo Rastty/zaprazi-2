@@ -46,3 +46,10 @@ test("0.8.121 production QA inspects all candidate acquisition links",()=>{
     "Rental budget verification must enumerate links with $$eval");
   assert.doesNotMatch(qa,/const links=await page\.\$eval\(spec\.result\+' \.zp-acquisition-summary a\[href\]'/);
 });
+
+test("0.8.122 production QA enumerates Homepage acquisition links rather than treating one DOM element as an array", () => {
+  const smoke = read("tests/production-advisor-smoke.mjs");
+  assert.ok(smoke.includes('const candidateLinks = await page.$$eval("#zp-mobility-result .zp-acquisition-summary a[href]"'));
+  assert.doesNotMatch(smoke, /const candidateLinks = await page\.\$eval\(/);
+  assert.ok(smoke.includes('if (releaseAtLeast("0.8.123"))'));
+});

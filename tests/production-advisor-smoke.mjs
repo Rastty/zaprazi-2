@@ -1877,6 +1877,43 @@ try {
     await home.close();
   }
 
+  // Release 0.8.120: the voluntary rental budget shows sourced monthly
+  // arithmetic, with refundable deposits and shipping excluded from costs.
+  if (releaseAtLeast("0.8.120")) {
+    const page=await open("/pujceni-choditka/");
+    const before=await page.evaluate(()=>{
+      const form=document.getElementById("zp-walker-rental-budget");
+      const stale=[...document.querySelectorAll("#rozpocet-pujceni-choditka .zp-stale-evidence")].some(el=>el.textContent.includes("Přepočet není k dispozici"));
+      return {section:!!document.getElementById("rozpocet-pujceni-choditka"),
+        active:!!form&&!form.hidden,stale,
+        text:document.getElementById("zp-rental-budget-result")?.textContent||"",
+        overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert.equal(before.section,true,"Missing walker-rental calculation explainer");
+    assert.ok(before.overflow<=2,"Rental budget causes mobile horizontal overflow");
+    if (before.active) {
+      assert.ok(before.text.includes("360")||before.text.includes("360 "),
+        "Initial 360 Kč monthly figure not calculated");
+      assert.ok(before.text.includes("Vratná kauce"),
+        "Refundable deposit not explicitly excluded");
+      await page.select("#zp-rental-budget-months","3");
+      const three=await page.$eval("#zp-rental-budget-result",el=>el.textContent);
+      assert.ok(three.replace(/\s/g,"").includes("1080"),
+        "Three RehaKomp monthly periods should be 1080 Kč");
+      await page.select("#zp-rental-budget-model","meyra-walker");
+      await page.select("#zp-rental-budget-months","6");
+      const six=await page.$eval("#zp-rental-budget-result",el=>el.textContent);
+      assert.ok(six.replace(/\s/g,"").includes("3600"),
+        "Six MEYRA monthly periods should be 3600 Kč");
+      assert.ok(six.includes("doprava"),"Delivery costs must not disappear");
+    } else {
+      assert.equal(before.stale,true,
+        "Stale source prices must suppress the calculator rather than extrapolate");
+    }
+    console.log("PASS 0.8.120 local rental calculation and stale-evidence gate");
+    await page.close();
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_113 */
+/* ZP_RELEASE_0_8_114 */
 /*
 Template Name: Zápraží — Nástavec na WC pro seniory
 */
@@ -127,6 +127,39 @@ get_header();
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Porovnat madlo a toaletní oporu</a></p>
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Vybrat podle problému u WC</a></p>
       </nav>
+    </div>
+  </section>
+
+  <section id="kontrola-nastavce-na-wc" class="zp-section" data-zp-editorial-guide="toilet-riser">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Před pořízením a montáží</p>
+      <h2 class="zp-section-title">Pět kontrol nástavce na WC: správná výška nestačí bez bezpečného uchycení.</h2>
+      <p>Nástavec zvyšuje sed, ale nepomůže každému, kdo má potíže vstát. Pokud je potřeba fyzické zvedání druhou osobou nebo stabilní opora, kterou nástavec nezajišťuje, nejdřív prověřte bezpečný způsob přesunu a odlišný typ řešení. Nevybírejte výrobek jen podle počtu centimetrů.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Vyšší sed, nebo také opora rukou?</h3>
+          <p>Je-li obtížné především usednutí na nízké WC, může pomoci nástavec. Když člověk potřebuje při vstávání bezpečný úchop, samotný nástavec bez opěr není totéž co varianta s madly. Fyzická pomoc druhé osoby už vyžaduje individuální posouzení přesunu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Změřte mísu a přístup ke šroubům</h3>
+          <p>UNIZDRAV P2868 má vnější rozměry 36 × 40 cm, otvor 21 × 26 cm a boční šrouby pro upevnění. Změřte skutečný tvar a okraj WC mísy, okolní prostor a možnost dotažení. Označení „univerzální“ není důkazem bezpečné kompatibility s konkrétní mísou.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Výsledná výška a chodidla na podlaze</h3>
+          <p>P2868 přidává 15 cm, zatímco BESCO BS15 s odnímatelnými madly 11,5 cm. Po přidání nástavce musí chodidla při sedu stabilně dosáhnout na podlahu; pokud nedosáhnou, nástavec nepoužívejte. Vyšší sed není automaticky bezpečnější.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Uchycení bez pohybu</h3>
+          <p>Řiďte se přesným návodem dodaného modelu. U nástavce s bočními úchyty je nutné správně dotáhnout upevnění a před usednutím ověřit, že se konstrukce neposouvá. Pokud tvar mísy pevné uchycení neumožní nebo se úchyty časem povolí, nástavec neberte jako bezpečně použitelný.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>5. Nosnost konkrétní varianty a údržba</h3>
+          <p>U P2868 a BS15 je v ověřených produktových podkladech deklarovaná nosnost 100 kg. Nejde o univerzální limit všech nástavců; musí být zkontrolována konkrétní varianta i její správné připevnění. Po čištění znovu ověřte stabilitu uchycení podle výrobce.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">Projít bezpečný výběr nástavce</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Pokud je hlavní problém opora, porovnat madlo a rám</a></p>
+      <p class="zp-disclaimer">Jde o obecný kontrolní postup, ne o individuální potvrzení vhodnosti. Když není ověřená kompatibilita, opora chodidel, přesun, nosnost nebo uchycení, online poradce konkrétní nákup neodemkne. Nástavec nepoužívejte, pokud nesplňuje podmínky bezpečného použití.</p>
+      <p class="zp-muted-copy">Podklady zkontrolovány 12. 10. 2026: <a href="https://www.kingstonandrichmond.nhs.uk/patients-and-families/patient-leaflets/raised-toilet-seat" target="_blank" rel="noopener">Kingston and Richmond NHS — kdy nástavec nepoužívat a opora chodidel</a>; <a href="https://www.worcsacute.nhs.uk/leaflets/how-to-fit-your-raised-toilet-seat/" target="_blank" rel="noopener">Worcestershire NHS — principy bezpečného upevnění</a>; <a href="https://unizdrav.cz/zbozi/2868/zvysovac-wc-s-priklopem-unizdrav-15-cm" target="_blank" rel="noopener">UNIZDRAV — parametry P2868</a>; <a href="https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/" target="_blank" rel="noopener">RehabilitačníPomůcky — parametry BES-BS15</a>. Zahraniční návody nenahrazují pokyny přesného modelu ani české podmínky úhrady; individuální odborné posouzení není doloženo.</p>
     </div>
   </section>
 

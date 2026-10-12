@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_113 */
+/* ZP_RELEASE_0_8_114 */
 /*
 Template Name: Zápraží — Toaletní židle pro seniory
 */
@@ -142,6 +142,39 @@ get_header();
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#plan-navratu' ) ); ?>">Sestavit plán návratu domů</a></p>
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Porovnat další řešení u WC</a></p>
       </nav>
+    </div>
+  </section>
+
+  <section id="kontrola-toaletni-zidle" class="zp-section" data-zp-editorial-guide="toilet-chair">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Před výběrem toaletní židle</p>
+      <h2 class="zp-section-title">Pět kontrol toaletní židle u lůžka: důležitější než blízkost postele je bezpečný přesun.</h2>
+      <p>Samostatná židle s nádobou může zkrátit cestu na toaletu, ale nevylučuje riziko pádu při vstávání. Při nutnosti fyzického zvedání druhou osobou nebo nejistém způsobu přesunu nejprve zajistěte odborné posouzení, ne automatický výběr výrobku.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Samostatná židle, nebo provedení 4v1?</h3>
+          <p>Statická židle řeší toaletu poblíž lůžka. Konstrukce 4v1 může být určená i do sprchy nebo nad WC, ale každá poloha použití musí být výslovně povolená návodem přesného modelu. Není správné předpokládat, že každá toaletní židle je sprchovací.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Umístění bez nové překážky</h3>
+          <p>Vyberte prostor s rovnou pevnou podlahou, dostatkem místa pro nohy a bezpečný přístup. Zkontrolujte noční osvětlení a zda židle nepřekáží v cestě z postele. U statického provedení ověřte podle návodu i možnost pevné opory za židlí proti převržení.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Stejně nastavené nohy a jistý sed</h3>
+          <p>Všechny nastavitelné nohy musí být ve stejné výšce a pojistky správně zajištěné, gumové koncovky nepoškozené. Výška sedu má umožnit stabilní dosednutí i oporu chodidel. Pokud člověk potřebuje aktivní fyzickou pomoc při přesunu, židli nevybírejte pouze přes online formulář.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>4. Rozměry a nosnost konkrétního P2807</h3>
+          <p>UNIZDRAV P2807 má celkovou šířku i délku 60 cm, výšku sedu 36–60 cm a deklarovanou nosnost 100 kg. Tyto údaje patří tomuto statickému modelu a nesmějí být automaticky přeneseny na variantu 4v1. Počítejte i s místem potřebným pro přístup k odnímatelné nádobě.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>5. Hygiena a plán pomoci</h3>
+          <p>U P2807 výrobce popisuje vyjímatelnou nádobu a čištění po použití. Předem promyslete, kdo a jak nádobu bezpečně vyjme, vyčistí a vrátí, aniž by zablokoval cestu kolem lůžka. Je-li přesun nejistý nebo člověk doma nemůže bezpečně přivolat pomoc, samotná židle situaci neřeší.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Porovnat konkrétní provedení v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Prověřit celou noční cestu na WC</a></p>
+      <p class="zp-disclaimer">Tento návod negarantuje bezpečný přesun a nenahrazuje individuální posouzení. Při nestabilním podkladu, chybějícím prostoru, neověřené nosnosti nebo nutnosti fyzického zvedání druhou osobou nesmí být nabídka považována za ověřenou.</p>
+      <p class="zp-muted-copy">Podklady zkontrolovány 12. 10. 2026: <a href="https://www.kingstonandrichmond.nhs.uk/patients-and-families/patient-leaflets/commode" target="_blank" rel="noopener">Kingston and Richmond NHS — stabilita a seřízení statické toaletní židle</a>; <a href="https://www.nhs.uk/social-care-and-support/practical-tips-if-you-care-for-someone/how-to-move-lift-and-handle-someone-else/" target="_blank" rel="noopener">NHS — bezpečná manipulace a hranice asistovaného přesunu</a>; <a href="https://unizdrav.cz/zbozi/2807/toaletni-zidle-vyskove-nastavitelna-unizdrav" target="_blank" rel="noopener">UNIZDRAV — rozměry, nosnost a údržba statického P2807</a>. Údaje cizí NHS pomůcky, včetně její vyšší nosnosti, neplatí pro P2807. Individuální externí odborné posouzení Zápraží není doloženo.</p>
     </div>
   </section>
 

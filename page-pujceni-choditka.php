@@ -19,6 +19,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Aktuální příklady cen</a>
+        <a class="zp-text-link" href="#rozpocet-pujceni-choditka">Spočítat orientační půjčovné</a>
       </div>
     </div>
   </section>

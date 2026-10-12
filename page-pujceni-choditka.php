@@ -92,6 +92,40 @@ get_header();
     </div>
   </section>
 
+  <section id="rozpocet-pujceni-choditka" class="zp-section" data-zp-rental-budget>
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rozpočet bez zadávání osobních údajů</p>
+      <h2 class="zp-section-title">Kolik může stát půjčení na jeden, tři nebo šest měsíců?</h2>
+      <p>Porovnejte násobek ověřené měsíční sazby pro konkrétní kategorii pomůcky. Nejde o cenovou nabídku ani automatické doporučení typu chodítka: ten musí nejprve projít <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">bezpečným výběrem</a>. Výsledek neobsahuje vratnou kauci, dopravu ani případné individuální slevy.</p>
+      <?php if ( $zp_rental_is_fresh ) : ?>
+        <form id="zp-walker-rental-budget" class="zp-rental-budget" hidden>
+          <div class="zp-rental-budget-fields">
+            <label for="zp-rental-budget-model"><strong>Příklad sazby půjčovny</strong>
+              <select id="zp-rental-budget-model" name="model">
+                <option value="rehakomp-rollator" data-monthly-price="360" data-provider="RehaKomp" data-model="Čtyřkolové venkovní chodítko">RehaKomp · čtyřkolové venkovní · 360 Kč/měsíc</option>
+                <option value="rehakomp-fixed" data-monthly-price="300" data-provider="RehaKomp" data-model="Pevné čtyřbodové chodítko">RehaKomp · pevné čtyřbodové · 300 Kč/měsíc</option>
+                <option value="meyra-walker" data-monthly-price="600" data-provider="MEYRA" data-model="Chodítko — kategorie půjčovny">MEYRA · chodítko v půjčovně · 600 Kč/měsíc</option>
+              </select>
+            </label>
+            <label for="zp-rental-budget-months"><strong>Jak dlouho přibližně?</strong>
+              <select id="zp-rental-budget-months" name="months">
+                <option value="1">1 měsíc</option>
+                <option value="3">3 měsíce</option>
+                <option value="6">6 měsíců</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit" class="zp-btn">Spočítat orientační půjčovné</button>
+          <output id="zp-rental-budget-result" class="zp-rental-budget-result" role="status" aria-live="polite"></output>
+        </form>
+        <noscript><p class="zp-disclaimer">Pro orientační přepočet je potřeba JavaScript. Ověřené měsíční sazby jsou uvedené výše, takže ceníky a odkazy zůstávají dostupné i bez něj.</p></noscript>
+      <?php else : ?>
+        <p class="zp-stale-evidence"><strong>Přepočet není k dispozici:</strong> podkladové sazby jsme naposledy ověřili 6. 10. 2026. Po uplynutí ověřovacího období je nejprve potřeba znovu prověřit skutečné ceny přímo u půjčoven; zastaralé částky nechceme násobit.</p>
+      <?php endif; ?>
+      <p class="zp-muted-copy">Sazby ověřené 6. 10. 2026: <a href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">RehaKomp</a> a <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">MEYRA</a>. Násobek měsíční sazby je pouze orientační; půjčovna může uplatnit minimální účtování, individuální dlouhodobé podmínky či dopravu. Kauce je samostatný dočasný výdaj, nikoliv automaticky cena pronájmu. Před objednáním ověřte aktuální termín, model a konečnou částku u poskytovatele.</p>
+    </div>
+  </section>
+
   <section class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Rozhodnutí</p>

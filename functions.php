@@ -31,6 +31,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
     'assets/js/footwear-measurement-print.js',
     'assets/js/family-checklist-print.js',
+    'assets/js/walker-rental-budget.js',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
@@ -1016,6 +1017,27 @@ function zaprazi_2_family_checklist_print_asset() {
   );
 }
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_family_checklist_print_asset', 20 );
+
+/**
+ * Rental budget estimates are based only on time-limited, explicitly sourced
+ * monthly prices. No personal details or server requests are collected.
+ */
+function zaprazi_2_walker_rental_budget_asset() {
+  if ( ! is_page( 'pujceni-choditka' ) ) {
+    return;
+  }
+  $dir = get_template_directory();
+  $uri = get_template_directory_uri();
+  wp_enqueue_script(
+    'zaprazi-walker-rental-budget',
+    $uri . '/assets/js/walker-rental-budget.js',
+    array(),
+    file_exists( $dir . '/assets/js/walker-rental-budget.js' ) ? filemtime( $dir . '/assets/js/walker-rental-budget.js' ) : null,
+    true
+  );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_walker_rental_budget_asset', 20 );
+
 
 
 add_action('wp_enqueue_scripts', 'zaprazi_2_assets');

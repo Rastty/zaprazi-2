@@ -457,3 +457,14 @@ a{color:inherit}
     border:1px solid #aaa!important;font-size:9pt!important
   }
 }
+
+
+/* Local, voluntary rental budget from sourced monthly figures (0.8.120). */
+.zp-rental-budget{margin-top:20px;padding:20px;border:1px solid var(--zp-line);border-radius:var(--zp-radius);background:var(--zp-paper)}
+.zp-rental-budget-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
+.zp-rental-budget-fields label{display:block;font-size:.95rem}
+.zp-rental-budget-fields strong{display:block;margin-bottom:7px}
+.zp-rental-budget-fields select{display:block;width:100%;max-width:100%;min-height:46px;padding:8px 10px;border:1px solid #788879;border-radius:10px;color:var(--zp-ink);background:#fff}
+.zp-rental-budget-result:not(:empty){display:block;margin-top:16px;padding:16px;border-radius:12px;background:var(--zp-accent-2);font-weight:650}
+.zp-rental-budget-result strong{font-size:1.35rem}
+@media(max-width:700px){.zp-rental-budget-fields{grid-template-columns:minmax(0,1fr)}.zp-rental-budget{padding:16px}}

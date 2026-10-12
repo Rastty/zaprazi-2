@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_114 */
+/* ZP_RELEASE_0_8_115 */
 /*
 Template Name: Zápraží — Madlo k WC pro seniory
 */

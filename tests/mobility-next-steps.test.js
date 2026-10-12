@@ -109,3 +109,17 @@ test("unknown duration offers both independent acquisition checks across safe wa
     assert.ok(next.items.every(item => !item.href.includes("?")));
   }
 });
+
+test("rollator candidate renders one insurer route from the shared whitelist only", () => {
+  const script = fs.readFileSync(new URL("../assets/js/rollator-advisor.js", import.meta.url), "utf8");
+  assert.match(script, /getMobilityNextSteps\(out\)/);
+  assert.match(script, /next\.items\.map\(item/);
+  assert.doesNotMatch(script, /\$\{out\.status==="candidate"\?.*\/choditko-na-pojistovnu\//,
+    "Obsolete independent insurer CTA would duplicate the whitelisted acquisition link");
+  const result = recommendMobility({
+    environment: "both", supportNeed: "steady", handBrakes: "yes", duration: "unknown"
+  });
+  assert.equal(result.status, "candidate");
+  assert.deepEqual(getMobilityNextSteps(result).items.filter(x=>x.href==="/choditko-na-pojistovnu/").map(x=>x.id),
+    ["check_reimbursement"]);
+});

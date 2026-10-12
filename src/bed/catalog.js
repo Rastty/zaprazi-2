@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_125
+// ZP_RELEASE_0_8_126
 export const ADJUSTABLE_BED_PRODUCTS = Object.freeze([
   {
     id: "unizdrav-p2777",

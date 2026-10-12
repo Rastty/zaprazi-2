@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_128
+// ZP_RELEASE_0_8_129
 const READINESS = new Set(["yes", "no", "unknown"]);
 const TRANSFER = new Set(["independent", "steadying", "person_assist", "unknown"]);
 const WALKING = new Set(["independent", "needs_support", "wheelchair_or_no_walk", "unknown"]);
@@ -228,6 +228,15 @@ export function buildReturnHomePlan(input = {}) {
   }
 
   if (homeCare === "needed_not_arranged") {
+    // A family reporting necessary but unarranged home health care has a
+    // real first-night dependency. A checklist task alone must not imply the
+    // discharge plan is ready. Clinical discharge decisions stay with staff.
+    blockers.push({
+      id: "required_home_care_not_arranged",
+      label: "Potřebná domácí zdravotní péče zatím není zajištěná.",
+      reason: "Před odjezdem z nemocnice sdělte týmu, že domluvená péče chybí. Požádejte o konkrétní plán návaznosti, odpovědnost a kontakt pro první dny. Samotný seznam pomůcek tuto mezeru nevyřeší.",
+      priority: 1
+    });
     dischargeActions.push(action(
       "arrange_home_health",
       "Ještě před propuštěním řešit domácí zdravotní péči",

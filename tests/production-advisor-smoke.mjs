@@ -2156,6 +2156,28 @@ try {
     console.log("PASS 0.8.128 first-night WC and bed safety blockers");
   }
 
+  // 0.8.129: necessary home nursing without an arranged provider must not
+  // be presented as a completed discharge readiness plan.
+  if (releaseAtLeast("0.8.129")) {
+    const page=await open("/navrat-z-nemocnice/");
+    for (const [name,value] of [
+      ["timing","today_or_tomorrow"],["entranceReady","yes"],
+      ["transferAbility","independent"],["walking","independent"],
+      ["toiletReady","yes"],["bedReady","yes"],["bathroomReady","yes"],
+      ["homeCare","needed_not_arranged"]
+    ]) await choose(page,name,value);
+    await click(page,"#zp-return-home-submit");
+    const result="#zp-return-home-result";
+    const text=await page.$eval(result,el=>el.textContent);
+    assert.equal(await visible(page,result+" .zp-critical-plan"),true,
+      "Missing essential home care must show a visible critical blocker");
+    assert.match(text,/Potřebná domácí zdravotní péče zatím není zajištěná/);
+    assert.match(text,/Ještě před propuštěním řešit domácí zdravotní péči/);
+    assert.equal(await count(page,result+" .zp-offer, "+result+" [data-zp-merchant-link]"),0);
+    await page.close();
+    console.log("PASS 0.8.129 necessary unarranged home care is a first-night blocker");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

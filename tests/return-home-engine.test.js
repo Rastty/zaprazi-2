@@ -181,8 +181,7 @@ test("uncertain transfer, mobility or home-care arrangements never imply readine
     { transferAbility: "unknown" },
     { walking: "unknown" },
     { walking: "wheelchair_or_no_walk", wheelchairReady: "no" },
-    { homeCare: "unknown" },
-    { homeCare: "needed_not_arranged" }
+    { homeCare: "unknown" }
   ];
   const known = {
     timing: "later",
@@ -299,4 +298,28 @@ test("explicit WC or bed failure blocks the first-night plan; unknown remains ve
   const bathroomOnly = buildReturnHomePlan({...base,bathroomReady:"no"});
   assert.equal(bathroomOnly.status,"action_plan",
     "A nonurgent bathroom change should not be misrepresented as a first-night WC or bed blocker");
+});
+
+test("confirmed need for home care without an arrangement is a first-night blocker", () => {
+  const base = {
+    timing:"later",entranceReady:"yes",transferAbility:"independent",
+    walking:"independent",toiletReady:"yes",bedReady:"yes",bathroomReady:"yes",
+    homeCare:"not_needed"
+  };
+  const notArranged = buildReturnHomePlan({...base,homeCare:"needed_not_arranged"});
+  assert.equal(notArranged.status,"blocked_before_discharge");
+  assert.ok(notArranged.blockers.some(b=>b.id==="required_home_care_not_arranged"));
+  assert.ok(notArranged.dischargeActions.some(a=>a.id==="arrange_home_health"));
+  assert.match(notArranged.nextStep,/kritické překážky/);
+  assert.match(notArranged.blockers.find(x=>x.id==="required_home_care_not_arranged").reason,/nemocnice/);
+  assert.deepEqual(notArranged.routes,[],"Unarranged medical care should never imply an equipment purchase");
+  for (const homeCare of ["not_needed","arranged"]) {
+    const safe = buildReturnHomePlan({...base,homeCare});
+    assert.equal(safe.status,"ready_basic",homeCare);
+    assert.equal(safe.blockers.length,0);
+  }
+  const notKnown = buildReturnHomePlan({...base,homeCare:"unknown"});
+  assert.equal(notKnown.status,"action_plan");
+  assert.equal(notKnown.blockers.length,0);
+  assert.ok(notKnown.dischargeActions.some(a=>a.id==="ask_home_health"));
 });

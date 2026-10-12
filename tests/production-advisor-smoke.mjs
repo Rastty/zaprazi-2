@@ -2062,6 +2062,31 @@ try {
     console.log("PASS 0.8.124 blocked Homepage offers keyboard-safe edit answer");
   }
 
+  // 0.8.125: explicitly unsafe brakes are a KNOWN safety limitation,
+  // not a request to supply a missing answer or an excuse to sell.
+  if (releaseAtLeast("0.8.125")) {
+    for (const spec of [
+      {path:"/",environment:true,submit:"#zp-mobility-submit",result:"#zp-mobility-result"},
+      {path:"/rollator-pro-seniory/",environment:false,submit:"#zp-rollator-submit",result:"#zp-rollator-result"}
+    ]) {
+      const page=await open(spec.path);
+      if (spec.environment) await choose(page,"environment","both");
+      await choose(page,"supportNeed","steady");
+      await choose(page,"handBrakes","no");
+      await click(page,spec.submit);
+      const text=await page.$eval(spec.result,el=>el.textContent);
+      assert.ok(text.includes("Ruční brzdy nelze bezpečně ovládat"),
+        "Confirmed brake inability must have an explicit safety explanation "+spec.path);
+      assert.ok(!text.includes("Ještě potřebujeme jednu informaci"),
+        "Known brake inability must not ask for missing answers "+spec.path);
+      assert.equal(await count(page,spec.result+" .zp-acquisition-summary a[href]"),0,
+        "Unsafe brake handling must not offer an acquisition shortcut "+spec.path);
+      await checkNoMerchant(page,spec.result);
+      await page.close();
+    }
+    console.log("PASS 0.8.125 explicit unsafe brake limitation, no merchant routes");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

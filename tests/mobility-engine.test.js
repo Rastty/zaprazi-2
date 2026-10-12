@@ -225,3 +225,26 @@ test("known unsafe rollator brakes are a safety limitation, not an unanswered qu
   assert.deepEqual(unknown.missing, ["handBrakes"]);
   assert.match(unknown.nextStep, /Zjistěte/);
 });
+
+test("only a valid Mobility candidate can contain acquisition proposals in engine data", () => {
+  const unsafe = [
+    {environment:"indoor",supportNeed:"unknown",duration:"short_term"},
+    {environment:"indoor",supportNeed:"light",duration:"long_term"},
+    {environment:"outdoor",supportNeed:"person_assist",handBrakes:"yes",duration:"long_term"},
+    {environment:"outdoor",supportNeed:"steady",handBrakes:"unknown",duration:"short_term"},
+    {environment:"both",supportNeed:"steady",handBrakes:"no",duration:"long_term"},
+    {environment:"indoor",supportNeed:"steady",canLiftWalker:"unknown",duration:"short_term"},
+    {environment:"bogus",supportNeed:"steady",duration:"long_term"}
+  ];
+  for (const input of unsafe) {
+    const result = recommendMobility(input);
+    assert.notEqual(result.status, "candidate", JSON.stringify(input));
+    assert.deepEqual(result.acquisition, [], "Blocked engine output must not carry even informational acquisition choices: "+JSON.stringify(input));
+    assert.deepEqual(result.recommendations, []);
+  }
+  for (const duration of ["short_term","long_term","unknown"]) {
+    const candidate = recommendMobility({environment:"indoor",supportNeed:"steady",canLiftWalker:"yes",duration});
+    assert.equal(candidate.status,"candidate");
+    assert.equal(candidate.acquisition.length,2,"Safe candidates retain rental and insurer guidance");
+  }
+});

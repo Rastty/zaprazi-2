@@ -2106,6 +2106,27 @@ try {
     console.log("PASS 0.8.126 rollator insurer CTA deduplicated safely");
   }
 
+  // 0.8.127: blocked Mobility journeys must never surface a purchase,
+  // rental or insurer CTA even when a duration was supplied.
+  if (releaseAtLeast("0.8.127")) {
+    for (const spec of [
+      {path:"/",result:"#zp-mobility-result",submit:"#zp-mobility-submit",environment:true},
+      {path:"/choditko-do-bytu-pro-seniory/",result:"#zp-indoor-walker-result",submit:"#zp-indoor-walker-submit",environment:false},
+      {path:"/rollator-pro-seniory/",result:"#zp-rollator-result",submit:"#zp-rollator-submit",environment:false}
+    ]) {
+      const page=await open(spec.path);
+      if (spec.environment) await choose(page,"environment","indoor");
+      await choose(page,"supportNeed","light");
+      await choose(page,"duration","short_term");
+      await click(page,spec.submit);
+      assert.equal(await count(page,spec.result+" .zp-acquisition-summary a[href]"),0,
+        "Light support must not create an acquisition path "+spec.path);
+      await checkNoMerchant(page,spec.result);
+      await page.close();
+    }
+    console.log("PASS 0.8.127 blocked Mobility states cannot offer acquisition paths");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

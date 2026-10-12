@@ -2087,6 +2087,25 @@ try {
     console.log("PASS 0.8.125 explicit unsafe brake limitation, no merchant routes");
   }
 
+  // 0.8.126: a confirmed rollator candidate exposes one (not two)
+  // information links to the same official insurer explainer.
+  if (releaseAtLeast("0.8.126")) {
+    const page=await open("/rollator-pro-seniory/");
+    await choose(page,"supportNeed","steady");
+    await choose(page,"handBrakes","yes");
+    await click(page,"#zp-rollator-submit");
+    const ins=await page.$eval('#zp-rollator-result a[href="/choditko-na-pojistovnu/"]',
+      nodes=>nodes.map(node=>node.textContent.trim()));
+    assert.equal(ins.length,1,"Rollator must not repeat insurer CTA outside shared acquisition steps");
+    assert.match(ins[0],/pojišťovnu/);
+    assert.equal(await count(page,'#zp-rollator-result .zp-acquisition-summary a[href="/choditko-na-pojistovnu/"]'),1,
+      "Remaining insurer CTA must stay in shared whitelisted acquisition section");
+    assert.equal(await visible(page,"#zp-rollator-result .zp-fit-locked-offers"),false,
+      "Simpler results must never unlock merchant links");
+    await page.close();
+    console.log("PASS 0.8.126 rollator insurer CTA deduplicated safely");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

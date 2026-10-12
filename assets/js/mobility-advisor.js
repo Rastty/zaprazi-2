@@ -1,5 +1,6 @@
-// ZP_RELEASE_0_8_121
+// ZP_RELEASE_0_8_122
 import { recommendMobility } from "../../src/mobility/engine.js";
+import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
@@ -389,16 +390,22 @@ if (form && result && submitButton && errorBox) {
       ? `<p class="zp-disclaimer">Začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít kontrolu bezpečných tras a domácího prostředí</a>.</p>`
       : "";
 
-    const hasSpecificAcquisition = getReimbursementGuidance(ids).length > 0 || getRentalGuidance(ids).length > 0;
-
-    const acquisition = output.status === "candidate" && output.acquisition.length && !hasSpecificAcquisition
-      ? `<section class="zp-acquisition-summary"><h3>Obecně k způsobu získání</h3>
-         <div>${output.acquisition.map((item) => `
-           <article>
-             <h4>${escapeHtml(item.label)}</h4>
-             <p>${escapeHtml(item.reason)}</p>
-           </article>
-         `).join("")}</div></section>`
+    // The shared engine has already checked the practical safety prerequisites.
+    // Only its candidate acquisition paths can reach these non-commercial pages.
+    // These links never unlock an individual product, rental or merchant offer.
+    const next = getMobilityNextSteps(output);
+    const acquisition = next.items.length
+      ? `<section class="zp-acquisition-summary" aria-label="Možnosti pořízení chodítka">
+          <h3>Jak pokračovat: půjčit, nebo prověřit úhradu?</h3>
+          <p>Nejdřív ověřte typ a parametry konkrétní pomůcky. Výpočet půjčovného ani informace o pojišťovně nejsou potvrzením vhodnosti či nároku.</p>
+          <div>${next.items.map((item) => `
+            <article>
+              <h4>${escapeHtml(item.label)}</h4>
+              <p>${escapeHtml(item.reason)}</p>
+              <a class="zp-link-btn" href="${escapeHtml(item.href)}">${escapeHtml(item.action)}</a>
+            </article>
+          `).join("")}</div>
+        </section>`
       : "";
 
     result.innerHTML = `
@@ -407,8 +414,8 @@ if (form && result && submitButton && errorBox) {
       <p>${escapeHtml(output.nextStep)}</p>
       ${recommendations}
       ${renderProducts(products, fitOptions, duration)}
-      ${renderAcquisitionEvidence(ids, duration)}
       ${acquisition}
+      ${renderAcquisitionEvidence(ids, duration)}
       ${environmentGuide}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;

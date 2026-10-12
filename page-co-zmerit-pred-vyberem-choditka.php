@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_118 */
+/* ZP_RELEASE_0_8_119 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */

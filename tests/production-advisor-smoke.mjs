@@ -1825,6 +1825,53 @@ try {
     }
   }
 
+  // Release 0.8.119: paper worksheets are isolated to print, not duplicated
+  // beneath three already complete source-backed editorial articles.
+  if (releaseAtLeast("0.8.119")) {
+    for(const [path,id] of [
+      ["/nocni-cesta-z-postele-na-wc/","night-wc"],
+      ["/otazky-pred-propustenim-z-nemocnice/","hospital-discharge"],
+      ["/co-zmerit-pred-vyberem-choditka/","walker-measurements"]
+    ]) {
+      const page=await open(path);
+      await page.emulateMediaType("screen");
+      const before=await page.evaluate(id=>{
+        const sheet=document.querySelector('main [data-zp-paper-checklist="'+id+'"]');
+        const button=document.querySelector("main [data-zp-paper-print]");
+        return {display:sheet?getComputedStyle(sheet).display:"missing",
+          printReady:!!button&&!button.hidden,
+          articleVisible:!!document.querySelector("main .zp-hero")&&getComputedStyle(document.querySelector("main .zp-hero")).display!=="none",
+          overflow:document.documentElement.scrollWidth-innerWidth};
+      },id);
+      assert.equal(before.display,"none","Duplicate print-only worksheet visible to visitors "+path);
+      assert.equal(before.printReady,true,"User print control was lost "+path);
+      assert.equal(before.articleVisible,true,"Source article invisible in screen mode "+path);
+      assert.ok(before.overflow<=2,"Print UI causes mobile overflow "+path);
+      await page.emulateMediaType("print");
+      await page.evaluate(()=>window.print=()=>{window.__zpPrinted=true});
+      await page.click("main [data-zp-paper-print]");
+      const after=await page.evaluate(id=>{
+        const sheet=document.querySelector('main [data-zp-paper-checklist="'+id+'"]');
+        return {display:getComputedStyle(sheet).display,printed:window.__zpPrinted===true};
+      },id);
+      assert.notEqual(after.display,"none","Requested paper worksheet is hidden during printing "+path);
+      assert.equal(after.printed,true,"Printing didn't execute "+path);
+      console.log("PASS 0.8.119 screen-hidden worksheet and click-to-print:",path);
+      await page.close();
+    }
+    const home=await open("/");
+    const data=await home.evaluate(()=>{
+      const links=[...document.querySelectorAll("#prakticke-kontroly a, #prakticke-kontroly + p a")];
+      return {text:document.getElementById("prakticke-kontroly")?.textContent||"",
+        hrefs:[...document.querySelectorAll('#prakticke-kontroly a')].map(a=>new URL(a.href).pathname),
+        overflow:document.documentElement.scrollWidth-innerWidth};
+    });
+    assert.ok(data.text.includes("k vytisknutí"),"Home page does not surface printed lists");
+    assert.ok(data.hrefs.includes("/co-zmerit-pred-vyberem-choditka/"),"Walker's paper list not linked from homepage");
+    assert.ok(data.overflow<=2,"Homepage checklist links overflow mobile");
+    await home.close();
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

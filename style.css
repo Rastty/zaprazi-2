@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.118
+Version: 0.8.119
 Text Domain: zaprazi-2
 */
 
@@ -307,7 +307,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_118 */
+/* ZP_RELEASE_0_8_119 */
 
 
 .zp-affiliate-policy {
@@ -415,6 +415,9 @@ a{color:inherit}
   }
 }
 
+
+/* Release 0.8.119: hide printable duplicate worksheets during ordinary reading. */
+.zp-paper-checklist{display:none}
 
 /* Release 0.8.118: blank, voluntary paper worksheets for family preparation.
    Keep page content unchanged until the visitor activates the print control. */

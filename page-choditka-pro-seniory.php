@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_118 */
+/* ZP_RELEASE_0_8_119 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -14,7 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-typu">Vybrat typ chodítka</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit celý poradce pro chůzi</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit před výběrem chodítka</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a>
       </div>
     </div>
   </section>

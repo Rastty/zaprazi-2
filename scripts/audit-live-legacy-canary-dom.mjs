@@ -54,7 +54,7 @@ try{
           "filtered_doctype"=>preg_match_all("/<!doctype\\b/i",$out),
           "filtered_html"=>preg_match_all("/<html\\b/i",$out),
           "filtered_end"=>substr(strip_tags($out),-170)
-        ],JSON_UNESCAPED_UNICODE);`;
+        ],JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_SUBSTITUTE);`;
       const phpRun=spawnSync("php",["-r",php],{
         input:json.content.rendered,encoding:"utf8",timeout:10000
       });
@@ -67,6 +67,31 @@ try{
         rawRegionHref:(rawRegion.match(/\bhref=["']/gi)||[]).length,
         sanitizer:JSON.parse(phpRun.stdout)
       }));
+      if(item.id!==6801){
+        const htmlRun=spawnSync("php",["-r",`define("ABSPATH",1);
+          require "src/seo/legacy-document-shell.php";
+          $in=stream_get_contents(STDIN);
+          echo zaprazi_2_strip_legacy_document_shell($in);`],{
+          input:json.content.rendered,encoding:"utf8",timeout:10000
+        });
+        if(htmlRun.status!==0)throw new Error("PHP clean HTML failed: "+htmlRun.stderr);
+        const sandbox=await browser.newPage();
+        await sandbox.setContent('<div id="test-legacy-body">'+htmlRun.stdout+'</div>',{waitUntil:"domcontentloaded"});
+        const sanitized=await sandbox.$eval("#test-legacy-body",el=>({
+          text:el.innerText, links:el.querySelectorAll("a[href]").length,
+          imgs:el.querySelectorAll("img[src]").length
+        }));
+        console.log("LEGACY_CANARY_OFFLINE_RENDER",JSON.stringify({
+          id:item.id,sourceWords:words(cleanText(json.content.rendered)),
+          afterCleanerWords:words(cleanText(htmlRun.stdout)),
+          offlineDomWords:words(cleanText(sanitized.text)),
+          offlineDomLinks:sanitized.links,offlineDomImages:sanitized.imgs,
+          rawServerHasLaterContent:rawPage.includes(cleanText(json.content.rendered).slice(-60)),
+          rawServerDoctypes:(rawPage.match(/<!doctype/gi)||[]).length,
+          rawServerHTMLheads:(rawPage.match(/<head/gi)||[]).length
+        }));
+        await sandbox.close();
+      }
       const sourceText=cleanText(json.content.rendered);
       const observedText=cleanText(actual.text);
       const expectedWords=words(sourceText),domWords=words(observedText);

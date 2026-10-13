@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_130
+// ZP_RELEASE_0_8_131
 import { buildReturnHomePlan } from "../../src/return-home/engine.js";
 import { buildReturnHomeChecklist } from "../../src/return-home/checklist.js";
 
@@ -71,6 +71,17 @@ if (form && result && submitButton && errorBox) {
     return false;
   };
 
+  // Each blocker points to the exact practical answer that triggered it.
+  // Names are internal allowlisted field names, never derived from user input.
+  const blockerQuestion = Object.freeze({
+    entrance_not_ready: "entranceReady",
+    assisted_transfer: "transferAbility",
+    required_wheelchair_not_ready: "wheelchairReady",
+    toilet_not_ready: "toiletReady",
+    bed_not_ready: "bedReady",
+    required_home_care_not_arranged: "homeCare"
+  });
+
   const renderItems = (title, items, className = "") => {
     if (!items?.length) return "";
     return `
@@ -82,6 +93,9 @@ if (form && result && submitButton && errorBox) {
               <article>
                 <h4>${escapeHtml(item.label)}</h4>
                 <p>${escapeHtml(item.reason)}</p>
+                ${className === "zp-critical-plan" && blockerQuestion[item.id]
+                  ? `<button type="button" class="zp-link-btn" data-zp-return-edit="${escapeHtml(blockerQuestion[item.id])}" aria-label="${escapeHtml("Upravit odpověď: " + item.label)}">Upravit odpověď</button>`
+                  : ""}
               </article>
             `).join("")}
           </div>
@@ -137,6 +151,18 @@ if (form && result && submitButton && errorBox) {
   });
 
   result.addEventListener("click", (event) => {
+    const editButton = event.target?.closest?.("[data-zp-return-edit]");
+    if (editButton) {
+      const field = editButton.dataset.zpReturnEdit;
+      if (!Object.values(blockerQuestion).includes(field)) return;
+      const group = visibleRequiredGroups().find(
+        (fieldset) => fieldset.dataset.zpReturnRequired === field
+      );
+      if (!group) return;
+      group.setAttribute("tabindex", "-1");
+      group.focus();
+      return;
+    }
     if (!event.target?.closest?.("#zp-return-home-print")) return;
     if (typeof window.print !== "function") return;
     document.body.classList.add("zp-return-print-mode");

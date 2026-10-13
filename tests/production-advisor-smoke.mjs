@@ -2207,6 +2207,36 @@ try {
     console.log("PASS 0.8.130 required wheelchair availability first-night gate");
   }
 
+  // 0.8.131: multiple blocked first-night issues must offer a keyboard
+  // route to the specific answer; stale critical results disappear on edit.
+  if (releaseAtLeast("0.8.131")) {
+    const page = await open("/navrat-z-nemocnice/");
+    for (const [name, value] of [
+      ["timing", "today_or_tomorrow"], ["entranceReady", "no"],
+      ["transferAbility", "independent"], ["walking", "independent"],
+      ["toiletReady", "yes"], ["bedReady", "no"],
+      ["bathroomReady", "yes"], ["homeCare", "needed_not_arranged"]
+    ]) await choose(page, name, value);
+    await click(page, "#zp-return-home-submit");
+    const selector = "#zp-return-home-result";
+    assert.equal(await count(page, selector + " .zp-critical-plan [data-zp-return-edit]"), 3,
+      "Each critical issue must have its own editable answer");
+    for (const field of ["entranceReady", "bedReady", "homeCare"]) {
+      await click(page, selector + ' [data-zp-return-edit="' + field + '"]');
+      const focus = await page.evaluate(() =>
+        document.activeElement?.dataset?.zpReturnRequired);
+      assert.equal(focus, field, "Edit action must focus the matching question");
+    }
+    await choose(page, "bedReady", "yes");
+    assert.equal(await visible(page, selector), false,
+      "Changing a previously blocked answer must invalidate the old result");
+    assert.equal(await page.$eval(selector, el => el.innerHTML), "",
+      "Stale critical result must be removed after answer correction");
+    await checkNoMerchant(page, selector);
+    await page.close();
+    console.log("PASS 0.8.131 blocked return-home edit-focus and stale-result invalidation");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

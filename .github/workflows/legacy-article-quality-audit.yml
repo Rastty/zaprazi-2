@@ -1,0 +1,28 @@
+name: Legacy Article Quality Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-legacy-content.mjs"
+      - "scripts/lib/legacy-content-quality.mjs"
+      - "tests/legacy-content-quality.test.js"
+      - ".github/workflows/legacy-article-quality-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan-legacy:
+    name: Read-only public article body quality scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate heuristics and guardrails
+        run: node --test tests/legacy-content-quality.test.js
+      - name: Inspect all published public legacy posts (read-only REST)
+        run: node scripts/audit-live-legacy-content.mjs

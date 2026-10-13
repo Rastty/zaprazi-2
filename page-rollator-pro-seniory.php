@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_131 */
+/* ZP_RELEASE_0_8_132 */
 /*
 Template Name: Zápraží — Rollátor pro seniory
 */
@@ -97,6 +97,19 @@ get_header();
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Změřit šířku trasy, výšku madel a prostor pro bezpečné otočení</a></p>
       <p class="zp-disclaimer">Nejde o individuální posouzení bezpečnosti. Doporučení modelu se smí zobrazit teprve po ověření zvládání brzd, použití a dalších parametrů; pokud odpovědi nejsou jisté, konkrétní nákup nemá být výchozím řešením.</p>
       <p class="zp-muted-copy">Zdroje ověřeny 11. 10. 2026: <a href="https://www.meyra.cz/ctyrkolove-choditko-rollator.html" target="_blank" rel="noopener">MEYRA — Ideal Rollator 3061982, parametry</a> a <a href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf" target="_blank" rel="noopener">návod výrobce k modelu 3061982 (verze 02/2018)</a>; <a href="https://www.mayoclinic.org/healthy-lifestyle/healthy-aging/in-depth/walker/art-20546805" target="_blank" rel="noopener">Mayo Clinic — typy chodítek a ovládání</a>. Před použitím platí aktuální návod k dodané variantě; nejde o odbornou individuální revizi.</p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft" data-zp-context-links="rollator-acquisition">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Jak pomůcku získat</p>
+      <h2 class="zp-section-title">Rollátor: půjčit, koupit, nebo ověřit úhradu?</h2>
+      <p>Při krátkodobém používání lze nejdřív prověřit půjčení brzděného rollátoru v odpovídající velikosti. Pro dlouhodobé použití má smysl porovnat vlastní nákup a postup u zdravotní pojišťovny. Všechny tři cesty předpokládají, že člověk bezpečně zvládne brzdy, přesuny a skutečnou trasu.</p>
+      <nav aria-label="Možnosti získání rollátor" class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Kdy dává smysl půjčení a co stojí</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit možnost úhrady od pojišťovny</a>
+      </nav>
+      <p class="zp-disclaimer">Informace o půjčení a úhradě nenahrazují ověření bezpečného typu, rozměrů a způsobu používání. Samotný odkaz není doporučením konkrétního výrobku ani potvrzením nároku na úhradu.</p>
     </div>
   </section>
 

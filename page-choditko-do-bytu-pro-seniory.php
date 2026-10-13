@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_131 */
+/* ZP_RELEASE_0_8_132 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */
@@ -98,6 +98,19 @@ get_header();
       </div>
       <p class="zp-disclaimer">Praktický seznam nenahrazuje posouzení bezpečné chůze. Konkrétní pomůcka musí vyhovovat rozměry, správnému použití a návodu výrobce; při nejistotě musí doporučení zůstat otevřené.</p>
       <p class="zp-muted-copy">Zdroje ověřeny 11. 10. 2026: <a href="https://www.southtees.nhs.uk/resources/how-to-use-a-walking-frame-or-wheeled-walking-frame/" target="_blank" rel="noopener">South Tees Hospitals NHS — použití chodítka a bezpečnostní kontroly</a>; <a href="https://www.mayoclinic.org/healthy-lifestyle/healthy-aging/in-depth/walker/art-20546805" target="_blank" rel="noopener">Mayo Clinic — rozdíly mezi typy chodítek</a>. Jde o redakční návod, bez doložené individuální odborné revize.</p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft" data-zp-context-links="indoor-walker-acquisition">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Jak pomůcku získat</p>
+      <h2 class="zp-section-title">Chodítko do bytu: půjčit, koupit, nebo ověřit úhradu?</h2>
+      <p>Při dočasné potřebě ověřte, zda půjčovna nabízí správnou konstrukci a potřebné rozměry. Pro dlouhodobé používání porovnejte cenu nákupu s podmínkami a možnostmi úhrady. Nejdřív ale dokončete kontrolu typu a bezpečného používání v poradci; půjčení nevhodného modelu problém nevyřeší.</p>
+      <nav aria-label="Možnosti získání chodítko do bytu" class="zp-hero-actions">
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Kdy dává smysl půjčení a co stojí</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit možnost úhrady od pojišťovny</a>
+      </nav>
+      <p class="zp-disclaimer">Informace o půjčení a úhradě nenahrazují ověření bezpečného typu, rozměrů a způsobu používání. Samotný odkaz není doporučením konkrétního výrobku ani potvrzením nároku na úhradu.</p>
     </div>
   </section>
 

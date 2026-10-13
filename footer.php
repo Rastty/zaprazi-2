@@ -1,4 +1,4 @@
-<?php /* ZP_RELEASE_0_8_131 */ ?>
+<?php /* ZP_RELEASE_0_8_132 */ ?>
 <?php
 $zaprazi_editorial_advisor_pages = array(
   'koupelna-a-wc',

@@ -2233,8 +2233,22 @@ try {
     assert.equal(await page.$eval(selector, el => el.innerHTML), "",
       "Stale critical result must be removed after answer correction");
     await checkNoMerchant(page, selector);
+    // Recalculate only after the corrected answer is explicitly submitted.
+    // No stale bed blocker or old edit button may survive the new result.
+    await click(page, "#zp-return-home-submit");
+    assert.equal(await visible(page, selector + " .zp-critical-plan"), true,
+      "Other unresolved first-night blockers must remain visible after editing");
+    const afterCorrection = await page.$eval(selector, el => el.textContent);
+    assert.match(afterCorrection, /Vstup do domu\/bytu není bezpečně vyřešený/);
+    assert.match(afterCorrection, /Potřebná domácí zdravotní péče zatím není zajištěná/);
+    assert.doesNotMatch(afterCorrection, /Postel není připravená pro bezpečné uléhání/);
+    assert.equal(await count(page, selector + " .zp-critical-plan [data-zp-return-edit]"), 2,
+      "Only still-critical answers must retain edit controls");
+    assert.equal(await count(page, selector + ' [data-zp-return-edit="bedReady"]'), 0,
+      "Resolved bed blocker must not leave behind an edit action");
+    await checkNoMerchant(page, selector);
     await page.close();
-    console.log("PASS 0.8.131 blocked return-home edit-focus and stale-result invalidation");
+    console.log("PASS 0.8.131 blocked return-home edit-focus, invalidation, recalculation");
   }
 
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");

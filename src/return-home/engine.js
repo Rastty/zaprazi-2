@@ -138,7 +138,7 @@ export function buildReturnHomePlan(input = {}) {
       // A person who cannot cover necessary home distances on foot and
       // explicitly has no usable wheelchair has an unresolved first-night
       // mobility dependency. An unanswered readiness check remains a task
-      // to verify, never a fabricated diagnosis or forced product purchase.
+      // to verify, never an individual medical verdict or forced product purchase.
       if (wheelchairReady === "no") {
         blockers.push({
           id: "required_wheelchair_not_ready",

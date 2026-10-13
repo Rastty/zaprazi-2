@@ -349,7 +349,7 @@ test("missing required wheelchair blocks first-night readiness without suggestin
   assert.notEqual(arranged.status, "blocked_before_discharge");
   assert.ok(arranged.priorities.some(x => x.id === "wheelchair_verify"));
 
-  const walker = buildReturnHomePlan({ ...baseline, walking: "independent", wheelchairReady: "no" });
+  const walker = buildReturnHomePlan({ ...baseline, timing: "later", walking: "independent", wheelchairReady: "no" });
   assert.equal(walker.status, "ready_basic",
     "Irrelevant wheelchair answer must not block an independently walking user");
   assert.ok(!walker.blockers.some(x => x.id === "required_wheelchair_not_ready"));

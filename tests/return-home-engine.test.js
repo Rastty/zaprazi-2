@@ -180,7 +180,7 @@ test("uncertain transfer, mobility or home-care arrangements never imply readine
   const scenarios = [
     { transferAbility: "unknown" },
     { walking: "unknown" },
-    { walking: "wheelchair_or_no_walk", wheelchairReady: "no" },
+    { walking: "wheelchair_or_no_walk", wheelchairReady: "unknown" },
     { homeCare: "unknown" }
   ];
   const known = {
@@ -322,4 +322,35 @@ test("confirmed need for home care without an arrangement is a first-night block
   assert.equal(notKnown.status,"action_plan");
   assert.equal(notKnown.blockers.length,0);
   assert.ok(notKnown.dischargeActions.some(a=>a.id==="ask_home_health"));
+});
+
+test("missing required wheelchair blocks first-night readiness without suggesting a purchase", () => {
+  const baseline = {
+    timing: "today_or_tomorrow", entranceReady: "yes",
+    transferAbility: "independent", walking: "wheelchair_or_no_walk",
+    toiletReady: "yes", bathroomReady: "yes", bedReady: "yes",
+    homeCare: "not_needed"
+  };
+  const missing = buildReturnHomePlan({ ...baseline, wheelchairReady: "no" });
+  assert.equal(missing.status, "blocked_before_discharge");
+  assert.ok(missing.blockers.some(x => x.id === "required_wheelchair_not_ready"));
+  assert.ok(missing.dischargeActions.some(x => x.id === "resolve_wheelchair_mobility_before_discharge"));
+  assert.ok(missing.routes.some(x => x.id === "wheelchair" && x.href === "/invalidni-vozik/#poradce-vozik"));
+  assert.match(missing.nextStep, /Nezačínejte nákupem/i);
+  assert.doesNotMatch(missing.nextStep, /nakupte|objednejte|kupte ihned/i);
+
+  const uncertain = buildReturnHomePlan({ ...baseline, wheelchairReady: "unknown" });
+  assert.equal(uncertain.status, "action_plan");
+  assert.deepEqual(uncertain.blockers, []);
+  assert.ok(uncertain.priorities.some(x => x.id === "verify_wheelchair_availability"));
+  assert.ok(uncertain.routes.some(x => x.id === "wheelchair"));
+
+  const arranged = buildReturnHomePlan({ ...baseline, wheelchairReady: "yes" });
+  assert.notEqual(arranged.status, "blocked_before_discharge");
+  assert.ok(arranged.priorities.some(x => x.id === "wheelchair_verify"));
+
+  const walker = buildReturnHomePlan({ ...baseline, walking: "independent", wheelchairReady: "no" });
+  assert.equal(walker.status, "ready_basic",
+    "Irrelevant wheelchair answer must not block an independently walking user");
+  assert.ok(!walker.blockers.some(x => x.id === "required_wheelchair_not_ready"));
 });

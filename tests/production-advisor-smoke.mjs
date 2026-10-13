@@ -2178,6 +2178,35 @@ try {
     console.log("PASS 0.8.129 necessary unarranged home care is a first-night blocker");
   }
 
+  // 0.8.130: wheelchair unavailable is a critical first-night dependency;
+  // uncertainty needs verification but must not invent a hard blocker.
+  if (releaseAtLeast("0.8.130")) {
+    for (const wheelchairReady of ["no", "unknown"]) {
+      const page = await open("/navrat-z-nemocnice/");
+      for (const [name, value] of [
+        ["timing", "today_or_tomorrow"], ["entranceReady", "yes"],
+        ["transferAbility", "independent"], ["walking", "wheelchair_or_no_walk"],
+        ["wheelchairReady", wheelchairReady], ["toiletReady", "yes"],
+        ["bathroomReady", "yes"], ["bedReady", "yes"], ["homeCare", "not_needed"]
+      ]) await choose(page, name, value);
+      await click(page, "#zp-return-home-submit");
+      const root = "#zp-return-home-result";
+      const body = await page.$eval(root, el => el.textContent);
+      assert.match(body, /Vyřešit invalidní vozík|Otevřít navazujícího poradce/);
+      if (wheelchairReady === "no") {
+        assert.equal(await visible(page, root + " .zp-critical-plan"), true);
+        assert.match(body, /není zajištěný bezpečný způsob pohybu/);
+        assert.match(body, /Ještě před odjezdem vyřešit bezpečné domácí přesuny/);
+      } else {
+        assert.equal(await count(page, root + " .zp-critical-plan"), 0);
+        assert.match(body, /Ověřit dostupnost a použití vozíku/);
+      }
+      await checkNoMerchant(page, root);
+      await page.close();
+    }
+    console.log("PASS 0.8.130 required wheelchair availability first-night gate");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

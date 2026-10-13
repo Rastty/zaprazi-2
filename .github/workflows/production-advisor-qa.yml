@@ -32,3 +32,18 @@ jobs:
             export ZP_RELEASE="$LIVE_VERSION"
           fi
           node tests/production-advisor-smoke.mjs
+
+  editorial-seo-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only browser audit dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Audit all core decision pages for SEO and internal link health
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-editorial-seo.mjs

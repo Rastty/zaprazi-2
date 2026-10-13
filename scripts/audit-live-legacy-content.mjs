@@ -11,7 +11,7 @@ const origin = "https://zaprazi.cz";
 const arg = process.argv.slice(2);
 if (arg.some(a => !/^--pages=\d+$/.test(a))) throw new Error("Only --pages=N supported");
 const limitPages = arg.length ? Number(arg[0].split("=")[1]) : Infinity;
-if (limitPages < 1 || limitPages > 60) throw new Error("Invalid page count");
+if (Number.isFinite(limitPages) && (limitPages < 1 || limitPages > 60)) throw new Error("Invalid page count");
 const all = [], seenIds = new Set();
 let expected = null, pages = 0, totalPages = null;
 const pageSize = 100;

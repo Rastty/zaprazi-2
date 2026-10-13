@@ -2261,8 +2261,8 @@ try {
       const page = await open(path);
       const section = 'section[data-zp-context-links="' + id + '"]';
       assert.equal(await visible(page, section), true, "Acquisition guidance must be visible on " + path);
-      const hrefs = await page.$eval(section + " nav a[href]",
-        links => links.map(a => new URL(a.href).pathname).sort());
+      const hrefs = await page.$eval(section,
+        root => [...root.querySelectorAll("nav a[href]")].map(a => new URL(a.href).pathname).sort());
       assert.deepEqual(hrefs, ["/choditko-na-pojistovnu/", "/pujceni-choditka/"].sort(),
         "Exactly the two existing resource pages should be linked on " + path);
       assert.equal(await count(page, section + " a[data-zp-merchant-link], " +

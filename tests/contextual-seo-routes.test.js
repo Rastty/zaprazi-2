@@ -25,13 +25,19 @@ const paths = [
   { file: "page-pujceni-choditka.php", id: "walker-rental", links: [
     "/#poradce", "/choditko-do-bytu-pro-seniory/#poradce-choditko-byt",
     "/rollator-pro-seniory/#poradce-rollator"
+  ] },
+  { file: "page-choditko-do-bytu-pro-seniory.php", id: "indoor-walker-acquisition", links: [
+    "/pujceni-choditka/", "/choditko-na-pojistovnu/"
+  ] },
+  { file: "page-rollator-pro-seniory.php", id: "rollator-acquisition", links: [
+    "/pujceni-choditka/", "/choditko-na-pojistovnu/"
   ] }
 ];
 
 const fileBySlug = (slug) =>
   slug === "" ? "front-page.php" : "page-" + slug + ".php";
 
-test("six useful research pages have distinct contextual routes into existing Advisors", () => {
+test("eight useful pages have distinct contextual routes into existing Advisors or acquisition guides", () => {
   const unique = new Set();
   for (const { file, id, links } of paths) {
     assert.ok(!unique.has(file), "Duplicate source: " + file);
@@ -76,4 +82,24 @@ test("top-level Bathroom and Mobility hubs still link to their product-specific 
   assert.ok(walkers.includes("/pujceni-choditka/"), "Walker hub missing rental");
   assert.ok(walkers.includes("/rollator-pro-seniory/"), "Walker hub missing rollator");
   assert.ok(walkers.includes("/choditko-do-bytu-pro-seniory/"), "Walker hub missing indoor walker");
+});
+
+test("specialist walker acquisition links remain informational and cannot bypass the fit gate", () => {
+  for (const file of ["page-choditko-do-bytu-pro-seniory.php", "page-rollator-pro-seniory.php"]) {
+    const html = read(file);
+    const match = html.match(/<section class="zp-section zp-section-soft" data-zp-context-links="(?:indoor-walker|rollator)-acquisition">([\s\S]*?)<\/section>/);
+    assert.ok(match, file + " must have a visible dedicated acquisition explanation");
+    assert.match(match[1], /<nav aria-label="Možnosti získání/);
+    assert.match(match[1], /půjčení|Půjčení/i);
+    assert.match(match[1], /pojišťovny/);
+    assert.match(match[1], /nenahrazují ověření bezpečného typu/);
+    assert.match(match[1], /není doporučením konkrétního výrobku/);
+    assert.doesNotMatch(match[1], /data-zp-merchant-link|affiliateKey|onclick=|target="_blank"|https?:\/\//);
+    assert.equal((match[1].match(/home_url\(/g)||[]).length,2);
+    const advisor = html.indexOf("class=\"zp-advisor-form\"");
+    const guide = html.indexOf("data-zp-editorial-guide=");
+    const acquire = html.indexOf("data-zp-context-links=");
+    assert.ok(advisor > 0 && guide > advisor && acquire > guide,
+      "Safe advisor and use guidance must precede acquisition suggestions");
+  }
 });

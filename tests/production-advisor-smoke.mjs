@@ -2313,6 +2313,43 @@ try {
     }
   }
 
+  // 0.8.134: content fidelity, not merely absent doctype. The earlier
+  // priority-3 legacy filter used to truncate everything after first DOCTYPE.
+  if (releaseAtLeast("0.8.134")) {
+    for (const entry of [
+      {id:8105,path:"/solarni-panely-v-praxi-inspirace-pro-zemedelce/"},
+      {id:8106,path:"/solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu/"}
+    ]) {
+      const response = await fetch(base + "/wp-json/wp/v2/posts/" + entry.id +
+        "?_fields=id,content", {headers:{Accept:"application/json"}});
+      assert.equal(response.status,200,"Live full-body REST source absent: "+entry.id);
+      const rest = await response.json();
+      assert.equal(rest.id,entry.id);
+      const original = rest.content.rendered;
+      const domPage = await open(entry.path);
+      const rendered = await domPage.$eval(".zp-legacy-body", el => ({
+        text:el.innerText, html:el.innerHTML,
+        links:el.querySelectorAll("a[href]").length,
+        images:el.querySelectorAll("img[src]").length
+      }));
+      const countWords = s => (s.match(/[\p{L}\p{N}]+/gu) || []).length;
+      const sourceWords = countWords(original.replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, " ")
+        .replace(/<[^>]*>/g," "));
+      const domWords = countWords(rendered.text);
+      assert.ok(domWords >= sourceWords * .8,
+        "Visible canary text lost after rendering: "+entry.id+" "+domWords+"/"+sourceWords);
+      const hrefTotal = [...original.matchAll(/<a\b[^>]*href\s*=\s*["'][^"']+["']/gi)].length;
+      const imageTotal = [...original.matchAll(/<img\b[^>]*src\s*=\s*["'][^"']+["']/gi)].length;
+      assert.ok(rendered.links>=hrefTotal,
+        "Legacy canary links dropped "+entry.id+" "+rendered.links+"/"+hrefTotal);
+      assert.ok(rendered.images>=imageTotal,
+        "Legacy canary images dropped "+entry.id+" "+rendered.images+"/"+imageTotal);
+      assert.doesNotMatch(rendered.html,/<!doctype|<\/?(?:html|head|body|title|meta)\b/i);
+      await domPage.close();
+      console.log("PASS 0.8.134 complete visible historical content: " + entry.id);
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

@@ -33,13 +33,16 @@ yes( strpos( $clean, 'Fotovoltaika v AKCI' ) !== false, 'Existing CTA text retai
 yes( strpos( $clean, 'https://zaprazi.cz/fotovoltaika' ) !== false, 'Legacy merchant route retained' );
 yes( strpos( $clean, 'https://zaprazi.cz/media.jpg' ) !== false, 'Media target retained' );
 yes( strpos( $clean, 'id="old-article"' ) !== false, 'Article anchor retained' );
+yes( zaprazi_2_legacy_document_canary_active(), 'Canary 8106 must bypass earlier truncation' );
 eq( zaprazi_2_legacy_document_canary( $raw ), $clean, 'Canary ID 8106 transforms' );
 $GLOBALS['zp_canary_post_id'] = 8105;
 eq( zaprazi_2_legacy_document_canary( $raw ), $clean, 'Canary ID 8105 transforms' );
 $GLOBALS['zp_canary_post_id'] = 42;
+yes( ! zaprazi_2_legacy_document_canary_active(), 'Noncanary not bypassed' );
 eq( zaprazi_2_legacy_document_canary( $raw ), $raw, 'Other posts untouched' );
 $GLOBALS['zp_canary_post_id'] = 8106;
 $GLOBALS['zp_canary_main'] = false;
+yes( ! zaprazi_2_legacy_document_canary_active(), 'Other queries not bypassed' );
 eq( zaprazi_2_legacy_document_canary( $raw ), $raw, 'Non-main queries untouched' );
 eq( zaprazi_2_strip_legacy_document_shell( '<p>Platný návod</p>' ),
   '<p>Platný návod</p>', 'Normal article left unchanged' );

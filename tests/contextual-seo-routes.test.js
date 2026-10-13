@@ -46,7 +46,7 @@ test("eight useful pages have distinct contextual routes into existing Advisors 
     const section = content.match(new RegExp('<section[^>]*data-zp-context-links="' + id + '"[^>]*>([\\s\\S]*?)<\\/section>'));
     assert.ok(section, "Missing contextual next-step section: " + file);
     assert.match(section[1], /<h2\b[^>]*>[^<]+<\/h2>/, "No section heading");
-    assert.match(section[1], /<nav aria-label="[^"]+">/, "Missing named nav");
+    assert.match(section[1], /<nav aria-label="[^"]+"[^>]*>/, "Missing named nav");
     assert.doesNotMatch(section[1], /data-zp-merchant-link|affiliateKey|data-zp-\w+-merchant-link|target="_blank"/,
       "Context navigation must never become an unverified merchant shortcut");
     assert.equal((section[1].match(/home_url\(/g) || []).length, links.length,

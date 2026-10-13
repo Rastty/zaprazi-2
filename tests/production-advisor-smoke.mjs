@@ -2286,6 +2286,33 @@ try {
     console.log("PASS 0.8.132 contextual rent and reimbursement links");
   }
 
+  // 0.8.133: only the two historical canary articles should render without
+  // nested HTML documents. Their original CTA, image and text stay intact.
+  if (releaseAtLeast("0.8.133")) {
+    for (const path of [
+      "/solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu/",
+      "/solarni-panely-v-praxi-inspirace-pro-zemedelce/"
+    ]) {
+      const response = await fetch(base + path, {headers:{Accept:"text/html"}});
+      assert.equal(response.status, 200, "Canary post not HTTP 200: " + path);
+      const html = await response.text();
+      const start = html.indexOf('<div class="zp-legacy-body">');
+      const end = html.indexOf('<nav class="zp-post-nav"', start);
+      assert.ok(start >= 0 && end > start,
+        "Legacy post body boundaries missing in canary " + path);
+      const body = html.slice(start, end);
+      assert.doesNotMatch(body, /<!doctype|<\/?(?:html|head|body|meta|title)\b/i,
+        "Nested HTML document shell still present in canary " + path);
+      assert.match(body, /Fotovoltaika v AKCI/,
+        "Original visible CTA text unexpectedly lost");
+      assert.match(body, /https:\/\/zaprazi\.cz\/fotovoltaika/,
+        "Original link destination unexpectedly removed");
+      assert.match(body, /https:\/\/zaprazi\.cz\/wp-content\/uploads\//,
+        "Legacy embedded image source unexpectedly removed");
+      console.log("PASS 0.8.133 canary-only legacy HTML shell repair: " + path);
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

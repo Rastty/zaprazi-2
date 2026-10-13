@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.132' );
+  define( 'ZAPRAZI_RELEASE', '0.8.133' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -76,6 +76,7 @@ function zaprazi_2_release_integrity_ok() {
     'src/mobility/next-steps.js',
     'assets/js/runtime-config.js',
     'src/seo/https-sitemaps.php',
+    'src/seo/legacy-document-shell.php',
     'style.css',
   );
 
@@ -113,6 +114,12 @@ add_action( 'admin_notices', 'zaprazi_2_release_integrity_admin_notice' );
 $zp_https_sitemaps_file = get_template_directory() . '/src/seo/https-sitemaps.php';
 if ( is_readable( $zp_https_sitemaps_file ) ) {
   require_once $zp_https_sitemaps_file;
+}
+
+// Canary-only display repair for malformed archived post HTML.
+$zp_legacy_shell_file = get_template_directory() . '/src/seo/legacy-document-shell.php';
+if ( is_readable( $zp_legacy_shell_file ) ) {
+  require_once $zp_legacy_shell_file;
 }
 
 

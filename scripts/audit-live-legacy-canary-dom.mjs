@@ -4,6 +4,7 @@
  * HTML-shell removal alone preserves content in the browser's repaired DOM.
  */
 import puppeteer from "puppeteer-core";
+import { spawnSync } from "node:child_process";
 
 const origin = "https://zaprazi.cz";
 const cases = [
@@ -37,6 +38,34 @@ try{
         text:el.innerText,innerHTML:el.innerHTML,
         hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
         imgs:[...el.querySelectorAll("img[src]")].map(a=>a.src)
+      }));
+      const sourceResponse=await fetch(target,{signal:AbortSignal.timeout(25000)});
+      const rawPage=await sourceResponse.text();
+      const rawStart=rawPage.indexOf('<div class="zp-legacy-body">');
+      const rawEnd=rawPage.indexOf('<nav class="zp-post-nav"',rawStart);
+      const rawRegion=rawStart>=0?rawPage.slice(rawStart,rawEnd>rawStart?rawEnd:undefined):"";
+      const php=String.raw`define("ABSPATH",1);
+        require "src/seo/legacy-document-shell.php";
+        $in=stream_get_contents(STDIN);
+        $out=zaprazi_2_strip_legacy_document_shell($in);
+        echo json_encode([
+          "changed"=>($in!==$out),
+          "raw_len"=>strlen($in),"filtered_len"=>strlen($out),
+          "filtered_doctype"=>preg_match_all("/<!doctype\\b/i",$out),
+          "filtered_html"=>preg_match_all("/<html\\b/i",$out),
+          "filtered_end"=>substr(strip_tags($out),-170)
+        ],JSON_UNESCAPED_UNICODE);`;
+      const phpRun=spawnSync("php",["-r",php],{
+        input:json.content.rendered,encoding:"utf8",timeout:10000
+      });
+      if(phpRun.status!==0)throw new Error("PHP canary diagnostic failed: "+phpRun.stderr);
+      console.log("LEGACY_CANARY_SOURCE",JSON.stringify({
+        id:item.id,rawPageLen:rawPage.length,rawRegionLen:rawRegion.length,
+        rawRegionDoctype:(rawRegion.match(/<!doctype/gi)||[]).length,
+        rawRegionHtml:(rawRegion.match(/<html\b/gi)||[]).length,
+        rawRegionH2:(rawRegion.match(/<h2\b/gi)||[]).length,
+        rawRegionHref:(rawRegion.match(/\bhref=["']/gi)||[]).length,
+        sanitizer:JSON.parse(phpRun.stdout)
       }));
       const sourceText=cleanText(json.content.rendered);
       const observedText=cleanText(actual.text);

@@ -1,0 +1,26 @@
+name: Legacy Canary DOM Fidelity
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-legacy-canary-dom.mjs"
+      - ".github/workflows/legacy-canary-dom.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-dom-fidelity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Compare full published article with browser-visible body
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-legacy-canary-dom.mjs

@@ -1,0 +1,59 @@
+/**
+ * Non-mutating production check: compare visible live legacy article content
+ * with the *published* WP REST HTML for the same post. Do not assume that
+ * HTML-shell removal alone preserves content in the browser's repaired DOM.
+ */
+import puppeteer from "puppeteer-core";
+
+const origin = "https://zaprazi.cz";
+const cases = [
+  { id:8105,slug:"solarni-panely-v-praxi-inspirace-pro-zemedelce" },
+  { id:8106,slug:"solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu" },
+  { id:6801,slug:"efektivni-solarni-system-minimalizace-ztrat-prenosu" }
+];
+const cleanText=s=>String(s).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi," ")
+  .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi," ")
+  .replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi," ")
+  .replace(/<[^>]*>/g," ")
+  .replace(/&(?:nbsp|amp|quot|lt|gt|mdash|hellip);/gi," ")
+  .replace(/&#(?:x[0-9a-f]+|\d+);/gi," ")
+  .replace(/\s+/g," ").trim();
+const words=s=>(String(s).match(/[\p{L}\p{N}]+/gu)||[]).length;
+const chrome=process.env.CHROME_BIN||"/usr/bin/google-chrome";
+const browser=await puppeteer.launch({executablePath:chrome,headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]});
+let failed=0;
+try{
+  for(const item of cases){
+    const rest=await fetch(origin+"/wp-json/wp/v2/posts/"+item.id+"?_fields=id,slug,content",{signal:AbortSignal.timeout(25000)});
+    if(rest.status!==200)throw new Error("REST unavailable for id "+item.id+": "+rest.status);
+    const json=await rest.json();
+    if(json.id!==item.id||json.slug!==item.slug||!json.content?.rendered)throw new Error("REST record mismatch "+item.id);
+    const page=await browser.newPage();
+    try{
+      const target=origin+"/"+item.slug+"/";
+      const pageResponse=await page.goto(target,{waitUntil:"domcontentloaded",timeout:25000});
+      if(pageResponse?.status()!==200)throw new Error("Live page failed "+target);
+      const actual=await page.$eval(".zp-legacy-body",el=>({
+        text:el.innerText,innerHTML:el.innerHTML,
+        hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
+        imgs:[...el.querySelectorAll("img[src]")].map(a=>a.src)
+      }));
+      const sourceText=cleanText(json.content.rendered);
+      const observedText=cleanText(actual.text);
+      const expectedWords=words(sourceText),domWords=words(observedText);
+      const expectedLinks=[...json.content.rendered.matchAll(/<a\b[^>]*href\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
+      const expectedImages=[...json.content.rendered.matchAll(/<img\b[^>]*src\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
+      const ratio=Number((domWords/Math.max(expectedWords,1)).toFixed(3));
+      const details={id:item.id,canary:item.id!==6801,rest_words:expectedWords,dom_words:domWords,
+        dom_to_rest_ratio:ratio,rest_links:expectedLinks.length,dom_links:actual.hrefs.length,
+        rest_imgs:expectedImages.length,dom_imgs:actual.imgs.length,
+        dom_nested_doctype:/<!doctype/i.test(actual.innerHTML),
+        source_ending:sourceText.slice(-140),dom_ending:observedText.slice(-140)};
+      console.log("LEGACY_CANARY_DOM",JSON.stringify(details));
+      // 6801 is deliberately untouched: informative negative control only.
+      if(item.id!==6801 && (ratio<0.8 || actual.hrefs.length<expectedLinks.length ||
+            actual.imgs.length<expectedImages.length))failed++;
+    }finally{await page.close();}
+  }
+}finally{await browser.close();}
+if(failed){console.error("CANARY_DOM_REGRESSION: "+failed+" canary post(s) show partial rendered content");process.exitCode=1;}

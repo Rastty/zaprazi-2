@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.133 deployment integrity contract covers critical runtime files", () => {
+test("0.8.134 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -519,7 +519,7 @@ test("0.8.133 deployment integrity contract covers critical runtime files", () =
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.133' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.134' );"));
   // The production runtime set and the regression set must be identical,
   // otherwise a new template can silently miss its version marker.
   const runtimeMatch = functions.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
@@ -532,9 +532,9 @@ test("0.8.133 deployment integrity contract covers critical runtime files", () =
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_133/);
+    assert.match(read(path), /ZP_RELEASE_0_8_134/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.133"));
+  assert.ok(read("style.css").includes("Version: 0.8.134"));
 });
 
 
@@ -2551,4 +2551,18 @@ test("critical return-home issues link back to their own visible question withou
   assert.match(app, /group\.focus\(\)/);
   assert.match(app, /result\.innerHTML = ""/);
   assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
+});
+
+test("old legacy early filter must not truncate the two full-content canaries", () => {
+  const source = read("functions.php");
+  const start = source.indexOf("function zaprazi_2_sanitize_legacy_document_markup(");
+  const end = source.indexOf("add_filter( 'the_content', 'zaprazi_2_sanitize_legacy_document_markup'",start);
+  assert.ok(start>0 && end>start,"Legacy filter must be registered");
+  const filter = source.slice(start,end);
+  assert.ok(filter.includes("zaprazi_2_legacy_document_canary_active()"),
+    "Historical first-DOCTYPE truncate must explicitly bypass canaries");
+  assert.ok(filter.indexOf("zaprazi_2_legacy_document_canary_active()") <
+    filter.indexOf("return rtrim( $prefix );"),"Skip must happen before irreversible prefix truncate");
+  assert.ok(read("src/seo/legacy-document-shell.php").includes("add_filter( 'the_content', 'zaprazi_2_legacy_document_canary', 99 )"),
+    "Full-content canary cleaner must run after legacy early filter");
 });

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_133 */
+/* ZP_RELEASE_0_8_134 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
@@ -58,9 +58,13 @@ function zaprazi_2_strip_legacy_document_shell( $html ) {
  * Carefully scoped live canary only. Expand after public before/after QA;
  * 4,360 legacy post bodies remain unmodified in WordPress.
  */
+function zaprazi_2_legacy_document_canary_active() {
+  return is_singular( 'post' ) && in_the_loop() && is_main_query() &&
+    in_array( get_the_ID(), array( 8105, 8106 ), true );
+}
+
 function zaprazi_2_legacy_document_canary( $html ) {
-  if ( ! is_singular( 'post' ) || ! in_the_loop() || ! is_main_query() ||
-       ! in_array( get_the_ID(), array( 8105, 8106 ), true ) ) {
+  if ( ! zaprazi_2_legacy_document_canary_active() ) {
     return $html;
   }
   return zaprazi_2_strip_legacy_document_shell( $html );

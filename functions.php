@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.133' );
+  define( 'ZAPRAZI_RELEASE', '0.8.134' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -1781,6 +1781,12 @@ function zaprazi_2_sanitize_legacy_document_markup( $content ) {
     false === stripos( $content, '<head' ) &&
     false === stripos( $content, '<body' )
   ) {
+    return $content;
+  }
+
+  // Preserve both canary posts in full so the guarded late renderer can
+  // clean document wrappers without losing all content after the first DOCTYPE.
+  if ( zaprazi_2_legacy_document_canary_active() ) {
     return $content;
   }
 

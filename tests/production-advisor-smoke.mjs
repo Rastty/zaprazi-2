@@ -2269,6 +2269,20 @@ try {
         section + " [data-zp-merchant-link]"), 0, "No offer shortcut in SEO content");
       await page.close();
     }
+    // Verify the two real published destinations, not only their hrefs.
+    // This catches links to an unassigned page template, redirects or 404s
+    // that source-only tests cannot detect.
+    for (const [path, intent] of [
+      ["/pujceni-choditka/", /půjčení|půjčit/i],
+      ["/choditko-na-pojistovnu/", /pojišťovnu|úhrada/i]
+    ]) {
+      const destination = await open(path);
+      const h1 = await destination.$eval("main h1", el => el.textContent.trim());
+      assert.match(h1, intent, "Published destination must match the link intent: " + path);
+      const canonical = await destination.$eval('link[rel="canonical"]', el => el.href);
+      assert.equal(canonical, base + path, "Expected stable self-canonical on " + path);
+      await destination.close();
+    }
     console.log("PASS 0.8.132 contextual rent and reimbursement links");
   }
 

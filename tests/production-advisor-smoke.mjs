@@ -2251,6 +2251,27 @@ try {
     console.log("PASS 0.8.131 blocked return-home edit-focus, invalidation, recalculation");
   }
 
+  // 0.8.132: the two specialized walking landings provide direct, non-
+  // commercial routes to the existing rental and insurance instructions.
+  if (releaseAtLeast("0.8.132")) {
+    for (const [path, id] of [
+      ["/choditko-do-bytu-pro-seniory/", "indoor-walker-acquisition"],
+      ["/rollator-pro-seniory/", "rollator-acquisition"]
+    ]) {
+      const page = await open(path);
+      const section = 'section[data-zp-context-links="' + id + '"]';
+      assert.equal(await visible(page, section), true, "Acquisition guidance must be visible on " + path);
+      const hrefs = await page.$eval(section + " nav a[href]",
+        links => links.map(a => new URL(a.href).pathname).sort());
+      assert.deepEqual(hrefs, ["/choditko-na-pojistovnu/", "/pujceni-choditka/"].sort(),
+        "Exactly the two existing resource pages should be linked on " + path);
+      assert.equal(await count(page, section + " a[data-zp-merchant-link], " +
+        section + " [data-zp-merchant-link]"), 0, "No offer shortcut in SEO content");
+      await page.close();
+    }
+    console.log("PASS 0.8.132 contextual rent and reimbursement links");
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

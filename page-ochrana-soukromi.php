@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_130 */
+/* ZP_RELEASE_0_8_131 */
 /*
 Template Name: Zápraží — Ochrana soukromí
 */

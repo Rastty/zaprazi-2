@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.130 deployment integrity contract covers critical runtime files", () => {
+test("0.8.131 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -518,7 +518,7 @@ test("0.8.130 deployment integrity contract covers critical runtime files", () =
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.130' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.131' );"));
   // The production runtime set and the regression set must be identical,
   // otherwise a new template can silently miss its version marker.
   const runtimeMatch = functions.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
@@ -531,9 +531,9 @@ test("0.8.130 deployment integrity contract covers critical runtime files", () =
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_130/);
+    assert.match(read(path), /ZP_RELEASE_0_8_131/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.130"));
+  assert.ok(read("style.css").includes("Version: 0.8.131"));
 });
 
 
@@ -2528,4 +2528,26 @@ test("bathroom WC support and bath transfer specialists focus visible missing re
     assert.match(app, /remaining=groups\(\)\.filter/);
     assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
   }
+});
+
+test("critical return-home issues link back to their own visible question without submitting private answers", () => {
+  const app = read("assets/js/return-home-advisor.js");
+  for (const [blocker, field] of [
+    ["entrance_not_ready","entranceReady"],
+    ["assisted_transfer","transferAbility"],
+    ["required_wheelchair_not_ready","wheelchairReady"],
+    ["toilet_not_ready","toiletReady"],
+    ["bed_not_ready","bedReady"],
+    ["required_home_care_not_arranged","homeCare"]
+  ]) {
+    assert.match(app, new RegExp(blocker + ': "' + field + '"'));
+  }
+  assert.match(app, /data-zp-return-edit/);
+  assert.match(app, /className === "zp-critical-plan"/);
+  assert.match(app, /editButton\.dataset\.zpReturnEdit/);
+  assert.match(app, /Object\.values\(blockerQuestion\)\.includes\(field\)/);
+  assert.match(app, /group\.setAttribute\("tabindex", "-1"\)/);
+  assert.match(app, /group\.focus\(\)/);
+  assert.match(app, /result\.innerHTML = ""/);
+  assert.doesNotMatch(app, /localStorage|sessionStorage|sendBeacon|FormData|fetch\(/);
 });

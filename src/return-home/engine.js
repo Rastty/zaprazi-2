@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_129
+// ZP_RELEASE_0_8_130
 const READINESS = new Set(["yes", "no", "unknown"]);
 const TRANSFER = new Set(["independent", "steadying", "person_assist", "unknown"]);
 const WALKING = new Set(["independent", "needs_support", "wheelchair_or_no_walk", "unknown"]);
@@ -135,6 +135,31 @@ export function buildReturnHomePlan(input = {}) {
         priority: 2
       });
     } else {
+      // A person who cannot cover necessary home distances on foot and
+      // explicitly has no usable wheelchair has an unresolved first-night
+      // mobility dependency. An unanswered readiness check remains a task
+      // to verify, never an individual medical verdict or forced product purchase.
+      if (wheelchairReady === "no") {
+        blockers.push({
+          id: "required_wheelchair_not_ready",
+          label: "Pro potřebné přesuny doma zatím není zajištěný bezpečný způsob pohybu.",
+          reason: "Člověk nezvládne potřebné přesuny chůzí a připravený vozík chybí. Před odjezdem s nemocničním týmem ověřte bezpečný způsob přesunů, pomoc druhé osoby a skutečně dostupné řešení pro první noc.",
+          priority: 1
+        });
+        dischargeActions.push(action(
+          "resolve_wheelchair_mobility_before_discharge",
+          "Ještě před odjezdem vyřešit bezpečné domácí přesuny",
+          "Spolu s nemocničním týmem ověřte cestu od vstupu domů k posteli a WC, vhodnou pomoc a potřebné pomůcky. Samotný výběr vozíku na webu bezpečné používání nepotvrzuje.",
+          1
+        ));
+      } else {
+        priorities.push({
+          id: "verify_wheelchair_availability",
+          label: "Ověřit dostupnost a použití vozíku pro první noc",
+          reason: "Není potvrzené, že existuje bezpečný způsob přesunů doma. Před návratem zkontrolujte s nemocničním týmem skutečnou dostupnost vozíku a případné pomoci.",
+          priority: 1
+        });
+      }
       routes.push(route(
         "wheelchair",
         "Vyřešit invalidní vozík",

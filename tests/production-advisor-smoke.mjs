@@ -2350,6 +2350,46 @@ try {
     }
   }
 
+  // 0.8.135 staged rollout: inspect a formerly truncated control plus a
+  // fixed sample of the newest publicly listed 1/8-cohort posts. Compare
+  // published REST content vs actual rendered DOM: fail on truncated text,
+  // lost links/media or a broken page. This does not alter WordPress.
+  if (releaseAtLeast("0.8.135")) {
+    const response = await fetch(base + "/wp-json/wp/v2/posts?status=publish&per_page=100&page=1&_fields=id,slug,content",
+      {headers:{Accept:"application/json"}});
+    assert.equal(response.status, 200, "Public recent-posts API unavailable");
+    const posts = await response.json();
+    const cohort = posts.filter(p => p.id > 0 && p.id % 8 === 0 &&
+      typeof p.slug === "string" && typeof p.content?.rendered === "string").slice(0, 8);
+    assert.ok(cohort.length >= 6, "Expected a reproducible cohort sample");
+    const special = await fetch(base + "/wp-json/wp/v2/posts/6801?_fields=id,slug,content",
+      {headers:{Accept:"application/json"}});
+    assert.equal(special.status, 200);
+    const fixed = await special.json();
+    assert.equal(fixed.id,6801);
+    for (const post of [fixed,...cohort]) {
+      const page = await open("/" + post.slug + "/");
+      const body = await page.$eval(".zp-legacy-body", el => ({
+        text:el.innerText, html:el.innerHTML,
+        links:el.querySelectorAll("a[href]").length,
+        images:el.querySelectorAll("img[src]").length
+      }));
+      const countWords = s => (s.match(/[\p{L}\p{N}]+/gu)||[]).length;
+      const src = post.content.rendered.replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi," ")
+        .replace(/<[^>]*>/g," ");
+      const sourceWords=countWords(src), liveWords=countWords(body.text);
+      assert.ok(liveWords >= sourceWords * .8,
+        "0.8.135 truncated post "+post.id+" "+liveWords+"/"+sourceWords);
+      const links=[...post.content.rendered.matchAll(/<a\b[^>]*href\s*=\s*["'][^"']+["']/gi)].length;
+      const imgs=[...post.content.rendered.matchAll(/<img\b[^>]*src\s*=\s*["'][^"']+["']/gi)].length;
+      assert.ok(body.links >= links && body.images >= imgs,
+        "0.8.135 lost content links/media at post "+post.id);
+      assert.doesNotMatch(body.html,/<!doctype|<\/?(?:html|head|body)\b/i);
+      await page.close();
+      console.log("PASS 0.8.135 staged legacy-content fidelity: "+post.id);
+    }
+  }
+
   console.log("SUCCESS: 14 live Advisor forms + updated mechanical brakes/variants and 0.8.98 powered route-fit verification");
 } finally {
   await browser.close();

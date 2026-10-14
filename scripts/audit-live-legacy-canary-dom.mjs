@@ -35,8 +35,8 @@ try{
       const pageResponse=await page.goto(target,{waitUntil:"domcontentloaded",timeout:25000});
       if(pageResponse?.status()!==200)throw new Error("Live page failed "+target);
       const version=await page.$eval('meta[name="zaprazi-release"]',el=>el.content);
-      if(item.id!==6801 && version!=="0.8.134")
-        throw new Error("QA expects live 0.8.134, observed "+version);
+      if(version!=="0.8.135")
+        throw new Error("QA expects live 0.8.135, observed "+version);
       const actual=await page.$eval(".zp-legacy-body",el=>({
         text:el.innerText,innerHTML:el.innerHTML,
         hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
@@ -70,7 +70,7 @@ try{
         rawRegionHref:(rawRegion.match(/\bhref=["']/gi)||[]).length,
         sanitizer:JSON.parse(phpRun.stdout)
       }));
-      if(item.id!==6801){
+      {
         const htmlRun=spawnSync("php",["-r",`define("ABSPATH",1);
           require "src/seo/legacy-document-shell.php";
           $in=stream_get_contents(STDIN);
@@ -105,16 +105,16 @@ try{
       const linksMatch=JSON.stringify(actual.hrefs.slice().sort())===JSON.stringify(expectedResolvedLinks);
       const imagesMatch=JSON.stringify(actual.imgs.slice().sort())===JSON.stringify(expectedResolvedImages);
       const ratio=Number((domWords/Math.max(expectedWords,1)).toFixed(3));
-      const details={id:item.id,canary:item.id!==6801,rest_words:expectedWords,dom_words:domWords,
+      const details={id:item.id,canary:true,rest_words:expectedWords,dom_words:domWords,
         dom_to_rest_ratio:ratio,rest_links:expectedLinks.length,dom_links:actual.hrefs.length,
         rest_imgs:expectedImages.length,dom_imgs:actual.imgs.length,
         exact_links_match:linksMatch,exact_images_match:imagesMatch,
         dom_nested_doctype:/<!doctype/i.test(actual.innerHTML),
         source_ending:sourceText.slice(-140),dom_ending:observedText.slice(-140)};
       console.log("LEGACY_CANARY_DOM",JSON.stringify(details));
-      // 6801 is deliberately untouched: informative negative control only.
-      if(item.id!==6801 && (ratio<0.95 || !linksMatch || !imagesMatch ||
-            /<!doctype|<\/?(?:html|head|body)\b/i.test(actual.innerHTML)))failed++;
+      // 6801 was restored in 0.8.135 and must pass the same strict gate.
+      if(ratio<0.95 || !linksMatch || !imagesMatch ||
+            /<!doctype|<\/?(?:html|head|body)\b/i.test(actual.innerHTML))failed++;
     }finally{await page.close();}
   }
 }finally{await browser.close();}

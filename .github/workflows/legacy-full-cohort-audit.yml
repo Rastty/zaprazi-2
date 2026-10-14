@@ -1,0 +1,27 @@
+name: Complete Legacy Cohort Fidelity Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-full-legacy-cohort.mjs"
+      - ".github/workflows/legacy-full-cohort-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-entire-current-cohort:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install non-writing Chrome adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Compare every selected historical post with isolated browser DOM
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-full-legacy-cohort.mjs

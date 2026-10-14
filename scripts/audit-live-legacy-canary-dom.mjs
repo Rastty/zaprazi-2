@@ -34,6 +34,9 @@ try{
       const target=origin+"/"+item.slug+"/";
       const pageResponse=await page.goto(target,{waitUntil:"domcontentloaded",timeout:25000});
       if(pageResponse?.status()!==200)throw new Error("Live page failed "+target);
+      const version=await page.$eval('meta[name="zaprazi-release"]',el=>el.content);
+      if(item.id!==6801 && version!=="0.8.134")
+        throw new Error("QA expects live 0.8.134, observed "+version);
       const actual=await page.$eval(".zp-legacy-body",el=>({
         text:el.innerText,innerHTML:el.innerHTML,
         hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
@@ -97,16 +100,21 @@ try{
       const expectedWords=words(sourceText),domWords=words(observedText);
       const expectedLinks=[...json.content.rendered.matchAll(/<a\b[^>]*href\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
       const expectedImages=[...json.content.rendered.matchAll(/<img\b[^>]*src\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
+      const expectedResolvedLinks=expectedLinks.map(href=>new URL(href,origin).href).sort();
+      const expectedResolvedImages=expectedImages.map(src=>new URL(src,origin).href).sort();
+      const linksMatch=JSON.stringify(actual.hrefs.slice().sort())===JSON.stringify(expectedResolvedLinks);
+      const imagesMatch=JSON.stringify(actual.imgs.slice().sort())===JSON.stringify(expectedResolvedImages);
       const ratio=Number((domWords/Math.max(expectedWords,1)).toFixed(3));
       const details={id:item.id,canary:item.id!==6801,rest_words:expectedWords,dom_words:domWords,
         dom_to_rest_ratio:ratio,rest_links:expectedLinks.length,dom_links:actual.hrefs.length,
         rest_imgs:expectedImages.length,dom_imgs:actual.imgs.length,
+        exact_links_match:linksMatch,exact_images_match:imagesMatch,
         dom_nested_doctype:/<!doctype/i.test(actual.innerHTML),
         source_ending:sourceText.slice(-140),dom_ending:observedText.slice(-140)};
       console.log("LEGACY_CANARY_DOM",JSON.stringify(details));
       // 6801 is deliberately untouched: informative negative control only.
-      if(item.id!==6801 && (ratio<0.8 || actual.hrefs.length<expectedLinks.length ||
-            actual.imgs.length<expectedImages.length))failed++;
+      if(item.id!==6801 && (ratio<0.95 || !linksMatch || !imagesMatch ||
+            /<!doctype|<\/?(?:html|head|body)\b/i.test(actual.innerHTML)))failed++;
     }finally{await page.close();}
   }
 }finally{await browser.close();}

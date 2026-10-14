@@ -100,8 +100,8 @@ try{
       const expectedWords=words(sourceText),domWords=words(observedText);
       const expectedLinks=[...json.content.rendered.matchAll(/<a\b[^>]*href\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
       const expectedImages=[...json.content.rendered.matchAll(/<img\b[^>]*src\s*=\s*["']([^"']+)["']/gi)].map(x=>x[1]);
-      const expectedResolvedLinks=expectedLinks.map(href=>new URL(href,origin).href).sort();
-      const expectedResolvedImages=expectedImages.map(src=>new URL(src,origin).href).sort();
+      const expectedResolvedLinks=expectedLinks.map(href=>new URL(href,target).href).sort();
+      const expectedResolvedImages=expectedImages.map(src=>new URL(src,target).href).sort();
       const linksMatch=JSON.stringify(actual.hrefs.slice().sort())===JSON.stringify(expectedResolvedLinks);
       const imagesMatch=JSON.stringify(actual.imgs.slice().sort())===JSON.stringify(expectedResolvedImages);
       if (!linksMatch) console.warn("LEGACY_LINK_MISMATCH",JSON.stringify({

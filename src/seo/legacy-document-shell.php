@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_134 */
+/* ZP_RELEASE_0_8_135 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
@@ -55,21 +55,27 @@ function zaprazi_2_strip_legacy_document_shell( $html ) {
 }
 
 /**
- * Carefully scoped live canary only. Expand after public before/after QA;
- * 4,360 legacy post bodies remain unmodified in WordPress.
+ * Bounded stage-1 display repair for a stable 1/8 ID cohort and three
+ * confirmed control posts. All WordPress post bodies remain unmodified.
  */
-function zaprazi_2_legacy_document_canary_active() {
-  return is_singular( 'post' ) && in_the_loop() && is_main_query() &&
-    in_array( get_the_ID(), array( 8105, 8106 ), true );
+function zaprazi_2_legacy_document_repair_active() {
+  // Stable cohort (about 1/8 of published post IDs) plus confirmed canaries.
+  // No query parameter, cookie, database writes, taxonomy or SEO impact.
+  if ( ! is_singular( 'post' ) || ! in_the_loop() || ! is_main_query() ) {
+    return false;
+  }
+  $id = (int) get_the_ID();
+  return in_array( $id, array( 8105, 8106, 6801 ), true ) ||
+    ( $id > 0 && 0 === $id % 8 );
 }
 
-function zaprazi_2_legacy_document_canary( $html ) {
-  if ( ! zaprazi_2_legacy_document_canary_active() ) {
+function zaprazi_2_legacy_document_repair( $html ) {
+  if ( ! zaprazi_2_legacy_document_repair_active() ) {
     return $html;
   }
   return zaprazi_2_strip_legacy_document_shell( $html );
 }
 
 if ( function_exists( 'add_filter' ) ) {
-  add_filter( 'the_content', 'zaprazi_2_legacy_document_canary', 99 );
+  add_filter( 'the_content', 'zaprazi_2_legacy_document_repair', 99 );
 }

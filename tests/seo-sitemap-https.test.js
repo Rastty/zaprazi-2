@@ -5,8 +5,8 @@ import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../src/seo/https-sitemaps.php", import.meta.url), "utf8");
 
-test("Sitemap HTTPS fix is limited to three public SEO output filters", () => {
-  for (const name of ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt"]) {
+test("Public SEO scheme fix is output-only and restricted to five Yoast/robots filters", () => {
+  for (const name of ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url"]) {
     assert.ok(source.includes("add_filter( '" + name + "'"), "Missing filter: " + name);
   }
   assert.doesNotMatch(source, /add_filter\(\s*'(home_url|site_url|option_home|option_siteurl)'/);
@@ -43,8 +43,11 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
   assert.match(result.robots, /^Sitemap: https:\/\/zaprazi.cz\/sitemap_index\.xml$/m);
   assert.match(result.robots, /^Sitemap: http:\/\/other\.example\/sitemap\.xml$/m);
   assert.deepEqual(Object.keys(result.registered).sort(),
-    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt"].sort());
+    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url"].sort());
   assert.equal(result.registered.robots_txt[2], 2);
+  assert.equal(result.registered.wpseo_canonical[0], "zaprazi_2_https_sitemap_url");
+  assert.equal(result.registered.wpseo_opengraph_url[0], "zaprazi_2_https_sitemap_url");
+  assert.equal(result.registered.wpseo_canonical[1], 9223372036854776000);
   assert.equal(result.false_entry, false);
   assert.equal(result.false_index, false);
 });

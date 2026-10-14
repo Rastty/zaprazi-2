@@ -75,8 +75,8 @@ try{
       const output=php.stdout;
       if(output===raw)unchanged++;else changed++;
       try{
-        await page.setContent("<!doctype html><html><head><base href=\\""+url+
-          "\\"></head><body><main id=\\"legacy\\">"+output+"</main></body></html>",
+        await page.setContent("<!doctype html><html><head><base href='"+url+
+          "'></head><body><main id='legacy'>"+output+"</main></body></html>",
           {waitUntil:"domcontentloaded",timeout:15000});
         const rendered=await page.$eval("#legacy",el=>({
           text:el.innerText, html:el.innerHTML,

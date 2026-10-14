@@ -28,4 +28,7 @@ jobs:
       - name: Inspect live homepage and 26 critical editorial URLs
         env:
           CHROME_BIN: /usr/bin/google-chrome
+          # Only the known 0.8.134 HTTP-canonical bug may be nonfatal in PR
+          # predeploy; manual postdeploy dispatch remains strict.
+          ZP_ALLOW_CANONICAL_HTTP_ON_0_8_134: ${{ github.event_name == 'pull_request' }}
         run: node scripts/audit-live-editorial-seo.mjs

@@ -20,6 +20,14 @@ function zaprazi_2_https_sitemap_url( $url ) {
   return preg_replace( '~^http://zaprazi\.cz(?=/|$|[?#])~i', 'https://zaprazi.cz', $url, 1 );
 }
 
+/**
+ * Yoast page canonical and og:url are sometimes HTTP due to upstream
+ * WordPress site address configuration. Repair only exact own host.
+ * Keep permanent cross-domain canonicals and false/empty values untouched.
+ */
+add_filter( 'wpseo_canonical', 'zaprazi_2_https_sitemap_url', PHP_INT_MAX );
+add_filter( 'wpseo_opengraph_url', 'zaprazi_2_https_sitemap_url', PHP_INT_MAX );
+
 /** Yoast root sitemap index: retain providers, entries, metadata and order. */
 function zaprazi_2_https_sitemap_index_links( $links ) {
   if ( ! is_array( $links ) ) {

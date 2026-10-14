@@ -43,11 +43,12 @@ jobs:
           node-version: 20
       - name: Install read-only browser audit dependency
         run: npm install --no-save --no-package-lock puppeteer-core@24
-      - name: Audit all core decision pages for SEO and internal link health
-        env:
-          CHROME_BIN: /usr/bin/google-chrome
-        run: node scripts/audit-live-editorial-seo.mjs
       - name: Preflight render of real cohort article bodies (no WordPress writes)
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-legacy-cohort-preflight.mjs
+      - name: Audit all core decision pages for SEO and internal link health
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_ALLOW_CANONICAL_HTTP_ON_0_8_134: ${{ github.event_name == 'pull_request' }}
+        run: node scripts/audit-live-editorial-seo.mjs

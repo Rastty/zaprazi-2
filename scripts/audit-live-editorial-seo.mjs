@@ -44,6 +44,7 @@ try{
           h1:[...(content?.querySelectorAll("h1")||[])].map(h=>h.textContent.trim()),
           description:meta?.content||"",
           canonical:canon?.href||"",
+          ogUrl:document.querySelector('meta[property="og:url"]')?.content||"",
           release:document.querySelector('meta[name="zaprazi-release"]')?.content||"",
           robots:robots?.content||"",
           ids:[...document.querySelectorAll("[id]")].map(x=>x.id),
@@ -68,6 +69,15 @@ try{
   }
 }finally{await browser.close();}
 const report=summarizeEditorialPages(observed);
+for (const page of observed) {
+  // Yoast sometimes emitted HTTP og:url alongside an HTTP canonical.
+  // Check it separately; absence may be intentional for a specific template.
+  if (page.status !== 200 || !page.ogUrl) continue;
+  const expected=base+page.path;
+  if (page.ogUrl!==expected) {
+    report.errors.push({path:page.path,code:"OG_URL_MISMATCH",details:page.ogUrl});
+  }
+}
 const knownOldCanonical=process.env.ZP_ALLOW_CANONICAL_HTTP_ON_0_8_134==="true" &&
   observed.every(page=>page.release==="0.8.134") &&
   report.errors.every(e=>e.code==="CANONICAL_MISMATCH" &&

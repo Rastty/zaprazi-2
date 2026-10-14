@@ -43,7 +43,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
   assert.match(result.robots, /^Sitemap: https:\/\/zaprazi.cz\/sitemap_index\.xml$/m);
   assert.match(result.robots, /^Sitemap: http:\/\/other\.example\/sitemap\.xml$/m);
   assert.deepEqual(Object.keys(result.registered).sort(),
-    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt"].sort());
+    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url"].sort());
   assert.equal(result.registered.robots_txt[2], 2);
   assert.equal(result.registered.wpseo_canonical[0], "zaprazi_2_https_sitemap_url");
   assert.equal(result.registered.wpseo_opengraph_url[0], "zaprazi_2_https_sitemap_url");

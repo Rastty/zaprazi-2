@@ -47,3 +47,7 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-editorial-seo.mjs
+      - name: Preflight render of real cohort article bodies (no WordPress writes)
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-legacy-cohort-preflight.mjs

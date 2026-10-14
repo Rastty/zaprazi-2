@@ -104,6 +104,9 @@ try{
       const expectedResolvedImages=expectedImages.map(src=>new URL(src,origin).href).sort();
       const linksMatch=JSON.stringify(actual.hrefs.slice().sort())===JSON.stringify(expectedResolvedLinks);
       const imagesMatch=JSON.stringify(actual.imgs.slice().sort())===JSON.stringify(expectedResolvedImages);
+      if (!linksMatch) console.warn("LEGACY_LINK_MISMATCH",JSON.stringify({
+        id:item.id,expected:expectedResolvedLinks,rendered:actual.hrefs.slice().sort()
+      }));
       const ratio=Number((domWords/Math.max(expectedWords,1)).toFixed(3));
       const details={id:item.id,canary:true,rest_words:expectedWords,dom_words:domWords,
         dom_to_rest_ratio:ratio,rest_links:expectedLinks.length,dom_links:actual.hrefs.length,

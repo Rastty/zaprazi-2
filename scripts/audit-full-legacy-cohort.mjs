@@ -41,7 +41,7 @@ const page=await browser.newPage();
 await page.setJavaScriptEnabled(false);
 await page.setRequestInterception(true);
 page.on("request",request=>request.abort());
-const seen=new Set(), failures=[], highRisk=[];
+const seen=new Set(), failures=[], highRisk=[], liveFailures=[];
 let total=null,totalPages=null,published=0,eligible=0,changed=0,unchanged=0,checked=0;
 try{
   for(let pageNo=1;pageNo<=Math.min(totalPages??hardCap,hardCap);pageNo++){
@@ -100,10 +100,57 @@ try{
             cleaner_changed:output!==raw};
           failures.push(row);
           if(highRisk.length<18)highRisk.push(row);
+          // A WordPress page runs its own priority-3 / priority-99 filters,
+          // shortcodes and wpautop. Fragment-only HTML5 parsing can be
+          // misleading. Confirm each offline flag on REAL live HTML before
+          // treating it as a production incident.
+          const live=await browser.newPage();
+          try{
+            await live.setJavaScriptEnabled(false);
+            await live.setRequestInterception(true);
+            live.on("request",req=>{
+              if(req.isNavigationRequest() && req.url()===url)req.continue();
+              else req.abort();
+            });
+            const response=await live.goto(url,{waitUntil:"domcontentloaded",timeout:25000});
+            if(response?.status()!==200)throw Error("Public HTML not 200: "+response?.status());
+            const actual=await live.$eval(".zp-legacy-body",el=>({
+              text:el.innerText,html:el.innerHTML,
+              hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
+              images:[...el.querySelectorAll("img[src]")].map(a=>a.src)
+            }));
+            const restWords=countWords(strip(raw));
+            const liveRatio=restWords?countWords(actual.text)/restWords:1;
+            const covers=(expected,observed)=>{
+              const available=observed.slice();
+              for(const target of expected){
+                const i=available.indexOf(target);
+                if(i===-1)return false;
+                available.splice(i,1);
+              }
+              return true;
+            };
+            const liveLinksOk=covers(expectedLinks,actual.hrefs);
+            const liveImagesOk=covers(expectedImages,actual.images);
+            const liveShell=/<\/?(?:html|head|body)\b|<!doctype/i.test(actual.html);
+            if(liveRatio<.9 || !liveLinksOk || !liveImagesOk || liveShell){
+              liveFailures.push({...row,live_ratio:Number(liveRatio.toFixed(3)),
+                live_links:actual.hrefs.length,live_images:actual.images.length,
+                live_links_ok:liveLinksOk,live_images_ok:liveImagesOk,
+                live_shell:liveShell});
+            }
+            console.log("COHORT_FLAG_LIVE",JSON.stringify({id:post.id,
+              offline_ratio:row.ratio,live_ratio:Number(liveRatio.toFixed(3)),
+              live_links_ok:liveLinksOk,live_images_ok:liveImagesOk,
+              live_shell:liveShell}));
+          }catch(error){
+            liveFailures.push({...row,live_error:String(error).slice(0,180)});
+          }finally{await live.close();}
         }
       }catch(error){
         const row={id:post.id,error:String(error).slice(0,150)};
         failures.push(row);
+        liveFailures.push({...row,reason:"Unexpected offline preflight failure; live status unverified"});
         if(highRisk.length<18)highRisk.push(row);
       }
       checked++;
@@ -117,10 +164,12 @@ try{
 if(published!==total||seen.size!==total||checked!==eligible)
   throw Error("Incomplete corpus or selected cohort "+published+"/"+total+" eligible "+eligible);
 const summary={
-  published,eligible,checked,changed,unchanged,failed:failures.length,
-  failing_examples:highRisk,
-  source:"Public REST post.content.rendered, PHP cleaning and isolated browser DOM",
-  limitations:"No live HTML GET for every post, no GSC performance/indexing claims. No WordPress write."
+  published,eligible,checked,changed,unchanged,
+  offline_flags:failures.length,live_verified_flags:failures.length,
+  confirmed_live_failures:liveFailures.length,
+  offline_examples:highRisk,confirmed_live_examples:liveFailures.slice(0,18),
+  source:"Complete public REST, PHP formatter, isolated Chromium, targeted live verification of all offline flags",
+  limitations:"Only offline passes sampled on live, no GSC performance/indexing claims. No WordPress write."
 };
 console.log("COHORT_FULL_SUMMARY",JSON.stringify(summary));
-if(failures.length)process.exitCode=1;
+if(liveFailures.length)process.exitCode=1;

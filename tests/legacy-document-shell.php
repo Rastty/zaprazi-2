@@ -61,6 +61,7 @@ eq( zaprazi_2_strip_legacy_document_shell( $unsafe ), $unsafe,
 
 // Real source-bound regression: unclosed English editorial note hides the
 // second valid article; restore text, original media and link but not the note.
+$GLOBALS['zp_canary_main'] = true;
 $GLOBALS['zp_canary_post_id'] = 5448;
 yes( zaprazi_2_legacy_document_repair_active(), '5448 belongs to stable cohort' );
 $generated_note = '<!-- The above HTML code represents a blog post in Czech about the influence of pump performance on the efficiency of garden irrigation. It includes H2 and H3 headings according to the given instructions. The SEO rules are followed by using semantic HTML tags.';

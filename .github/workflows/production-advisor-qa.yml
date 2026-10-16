@@ -5,6 +5,7 @@ on:
     paths:
       - "tests/production-advisor-smoke.mjs"
       - "scripts/audit-live-night-wc-navigation.mjs"
+      - "scripts/audit-live-walker-hub.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -38,6 +39,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-night-wc-navigation.mjs
+      - name: Verify live walker problem-to-advisor decision routing and reciprocal links
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-walker-hub.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

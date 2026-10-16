@@ -133,6 +133,34 @@ try{
             const liveLinksOk=covers(expectedLinks,actual.hrefs);
             const liveImagesOk=covers(expectedImages,actual.images);
             const liveShell=/<\/?(?:html|head|body)\b|<!doctype/i.test(actual.html);
+            // Diagnostic evidence for the confirmed production exceptions only.
+            // Keep raw links/HTML bounded; public article content, no user data.
+            if ([5448,4072,3496,3248,3176,3128].includes(post.id)) {
+              const missing=(expected,observed)=>{
+                const remaining=observed.slice();
+                return expected.filter(target=>{
+                  const at=remaining.indexOf(target);
+                  if(at===-1)return true;
+                  remaining.splice(at,1);
+                  return false;
+                });
+              };
+              console.log("COHORT_LIVE_DIAGNOSTIC",JSON.stringify({
+                id:post.id,
+                source_length:raw.length,cleaner_changed:raw!==output,
+                source_document_prefix:raw.slice(0,600),
+                cleaner_document_prefix:output.slice(0,600),
+                first_doctype:raw.toLowerCase().indexOf("<!doctype"),
+                shell_with_attributes:[...raw.matchAll(/<(?:html|head|body)\\b[^>]*>/gi)]
+                  .slice(0,6).map(m=>m[0].slice(0,250)),
+                source_ending:strip(raw).slice(-240),
+                live_ending:actual.text.slice(-240),
+                missing_links:missing(expectedLinks,actual.hrefs).slice(0,8),
+                unexpected_links:missing(actual.hrefs,expectedLinks).slice(0,8),
+                missing_images:missing(expectedImages,actual.images).slice(0,8),
+                unexpected_images:missing(actual.images,expectedImages).slice(0,8)
+              }));
+            }
             if(liveRatio<.9 || !liveLinksOk || !liveImagesOk || liveShell){
               liveFailures.push({...row,live_ratio:Number(liveRatio.toFixed(3)),
                 live_links:actual.hrefs.length,live_images:actual.images.length,

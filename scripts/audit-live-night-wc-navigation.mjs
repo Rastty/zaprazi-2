@@ -1,0 +1,78 @@
+/**
+ * Read-only, postdeploy browser contract for the specific night WC problem.
+ * Must not create analytic events, submit advisor answers or follow a merchant.
+ * Run after 0.8.137 when both safe specialist links are live.
+ */
+import assert from "node:assert/strict";
+import puppeteer from "puppeteer-core";
+const origin="https://zaprazi.cz",expectedVersion="0.8.137";
+const night="/nocni-cesta-z-postele-na-wc/";
+const riser="/nastavec-na-wc-pro-seniory/";
+const support="/madlo-k-wc-pro-seniory/";
+const riserTarget=origin+riser+"#poradce-nastavec-wc";
+const supportTarget=origin+support+"#poradce-opora-wc";
+const fallback=origin+"/koupelna-a-wc/";
+const expectedHome=origin+night;
+const response=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{signal:AbortSignal.timeout(30000)});
+assert.equal(response.status,200,"Release readiness endpoint unavailable");
+const ready=await response.json();
+assert.equal(ready.release,expectedVersion,"Version not yet deployed");
+assert.equal(ready.integrity,"ok","Partial deploy");
+assert.equal(ready.configured_total,25,"Missing affiliate configuration");
+const browser=await puppeteer.launch({executablePath:process.env.CHROME_BIN||"/usr/bin/google-chrome",
+  headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]});
+const inspected=[];
+async function openPage(path){
+  const page=await browser.newPage();
+  await page.setJavaScriptEnabled(false);
+  await page.setRequestInterception(true);
+  page.on("request",req=>req.isNavigationRequest()&&req.url()===origin+path?req.continue():req.abort());
+  const r=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:30000});
+  assert.equal(r?.status(),200,"HTTP failure: "+path);
+  const data=await page.evaluate(()=>({
+    release:document.querySelector('meta[name="zaprazi-release"]')?.content,
+    integrity:document.querySelector('meta[name="zaprazi-integrity"]')?.content,
+    canonical:document.querySelector('link[rel="canonical"]')?.href,
+    h1s:document.querySelectorAll("main h1").length,
+    idList:[...document.querySelectorAll("[id]")].map(n=>n.id),
+    anchors:[...document.querySelectorAll("main a[href]")].map(a=>({href:a.href,text:a.textContent?.trim()||""})),
+    issueCards:[...document.querySelectorAll(".zp-decision-card")].map(card=>({
+      heading:card.querySelector("h3")?.textContent?.trim()||"",
+      text:card.textContent?.trim()||"",
+      links:[...card.querySelectorAll("a[href]")].map(a=>a.href)
+    })),
+    text:document.querySelector("main")?.textContent||""
+  }));
+  assert.equal(data.release,expectedVersion,"Page uses outdated theme: "+path);
+  assert.equal(data.integrity,"ok","Page integrity check failed: "+path);
+  assert.equal(data.h1s,1,"Wrong H1 count: "+path);
+  assert.equal(data.canonical,origin+path,"Wrong canonical: "+path);
+  inspected.push(path);
+  await page.close();
+  return data;
+}
+try{
+  const overview=await openPage(night);
+  const issue=overview.issueCards.find(c=>c.heading.includes("Člověk dojde, ale WC je příliš nízké"));
+  assert.ok(issue,"Night article has no scenario-specific decision card");
+  for(const expected of [riserTarget,supportTarget,fallback])
+    assert.ok(issue.links.includes(expected),"Missing specialist/fallback in issue card: "+expected);
+  assert.equal(issue.links.length,3,"Unexpected links or merchant destination in WC issue card");
+  assert.match(issue.text,/Nástavec, toaletní rám a pevné madlo nejsou zaměnitelné/);
+  const riserPage=await openPage(riser);
+  const supportPage=await openPage(support);
+  for(const [path,data,anchor] of [
+    [riser,riserPage,"poradce-nastavec-wc"],
+    [support,supportPage,"poradce-opora-wc"]
+  ]){
+    assert.ok(data.idList.includes(anchor),"Missing live advisor anchor on "+path);
+    const back=data.anchors.find(a=>a.href===expectedHome&&a.text.includes("Projít celou noční trasu"));
+    assert.ok(back,"No reciprocal contextual link from "+path);
+    assert.match(data.text,/samotná pomůcka nemusí stačit/);
+  }
+  console.log("LIVE_NIGHT_WC_NAVIGATION",JSON.stringify({
+    release:expectedVersion,integrity:ready.integrity,affiliate_slots:ready.configured_total,
+    pages:inspected,issue_card_links:issue.links,riser_anchor:"poradce-nastavec-wc",
+    support_anchor:"poradce-opora-wc",both_return_links:true,merchant_links_followed:0
+  }));
+}finally{await browser.close();}

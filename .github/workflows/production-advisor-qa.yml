@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "scripts/audit-live-night-wc-navigation.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -33,6 +34,10 @@ jobs:
             export ZP_RELEASE="$LIVE_VERSION"
           fi
           node tests/production-advisor-smoke.mjs
+      - name: Check night-toilet issue routing and reciprocal links in deployed DOM
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-night-wc-navigation.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

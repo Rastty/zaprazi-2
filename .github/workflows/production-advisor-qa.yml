@@ -6,6 +6,7 @@ on:
       - "tests/production-advisor-smoke.mjs"
       - "scripts/audit-live-night-wc-navigation.mjs"
       - "scripts/audit-live-walker-hub.mjs"
+      - "scripts/audit-live-bed-cost.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -43,6 +44,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-walker-hub.mjs
+      - name: Verify deployed bed rent-vs-buy calculator and privacy in real browser
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-bed-cost.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

@@ -471,6 +471,7 @@ test("0.8.138 deployment integrity contract covers critical runtime files", () =
     "assets/js/footwear-measurement-print.js",
     "assets/js/family-checklist-print.js",
     "assets/js/walker-rental-budget.js",
+    "assets/js/bed-cost-comparison.js",
     "page-nastavec-na-wc-pro-seniory.php",
     "page-sprchovaci-zidle-pro-seniory.php",
     "page-toaletni-zidle-pro-seniory.php",

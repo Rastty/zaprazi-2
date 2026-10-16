@@ -32,6 +32,7 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/footwear-measurement-print.js',
     'assets/js/family-checklist-print.js',
     'assets/js/walker-rental-budget.js',
+    'assets/js/bed-cost-comparison.js',
     'page-nastavec-na-wc-pro-seniory.php',
     'page-sprchovaci-zidle-pro-seniory.php',
     'page-toaletni-zidle-pro-seniory.php',
@@ -1047,6 +1048,23 @@ function zaprazi_2_walker_rental_budget_asset() {
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_walker_rental_budget_asset', 20 );
 
 
+
+/** Voluntary bed rent/buy calculator only on its acquisition guidance page. */
+function zaprazi_2_bed_cost_comparison_asset() {
+  if ( ! is_page( 'polohovaci-postel-na-pojistovnu' ) ) {
+    return;
+  }
+  $dir = get_template_directory();
+  $uri = get_template_directory_uri();
+  wp_enqueue_script(
+    'zaprazi-bed-cost-comparison',
+    $uri . '/assets/js/bed-cost-comparison.js',
+    array(),
+    file_exists( $dir . '/assets/js/bed-cost-comparison.js' ) ? filemtime( $dir . '/assets/js/bed-cost-comparison.js' ) : null,
+    true
+  );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_bed_cost_comparison_asset', 20 );
 
 add_action('wp_enqueue_scripts', 'zaprazi_2_assets');
 

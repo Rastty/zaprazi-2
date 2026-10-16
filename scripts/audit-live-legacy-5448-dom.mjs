@@ -1,11 +1,11 @@
 /**
- * 0.8.138 POSTDEPLOY, read-only real DOM fidelity. 5448 was truncated by
+ * 0.8.140 POSTDEPLOY, read-only real DOM fidelity. 5448 was truncated by
  * an open English AI/editor note. Compare exact links/media and content
  * after excluding that proven non-reader note. No WP or merchant writes.
  */
 import puppeteer from "puppeteer-core";
 import assert from "node:assert/strict";
-const origin="https://zaprazi.cz",id=5448,expectedVersion="0.8.138";
+const origin="https://zaprazi.cz",id=5448,expectedVersion="0.8.140";
 const marker="<!-- The above HTML code represents a blog post in Czech about the influence of pump performance on the efficiency of garden irrigation.";
 const readinessRes=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
   signal:AbortSignal.timeout(30000),headers:{Accept:"application/json"}
@@ -79,7 +79,7 @@ const summary={
   exact_links_ok:linksOk,exact_images_ok:imagesOk,nested_shell:shell,editor_note_visible:noteVisible,
   restored_tail_visible:actual.text.includes("Kategorie - čerpadla a vodárny")
 };
-console.log("LIVE_0_8_138_POST_5448",JSON.stringify(summary));
+console.log("LIVE_0_8_140_POST_5448",JSON.stringify(summary));
 assert.ok(ratio>=.95,"Live article still has missing content");
 assert.ok(linksOk&&imagesOk,"Lost or changed original href/src destinations");
 assert.ok(!shell&&!noteVisible,"Unclosed editor note or document shell remains");

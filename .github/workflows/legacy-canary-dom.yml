@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "scripts/audit-live-legacy-canary-dom.mjs"
+      - "scripts/audit-live-legacy-5448-dom.mjs"
       - ".github/workflows/legacy-canary-dom.yml"
   workflow_dispatch:
 
@@ -24,3 +25,7 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-legacy-canary-dom.mjs
+      - name: Confirm exact restored post 5448 against published REST
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-legacy-5448-dom.mjs

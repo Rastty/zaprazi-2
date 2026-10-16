@@ -58,4 +58,37 @@ eq( zaprazi_2_strip_legacy_document_shell( '<p>Platný návod</p>' ),
 $unsafe = '<body id="hero"><p>Počkejte</p></body>';
 eq( zaprazi_2_strip_legacy_document_shell( $unsafe ), $unsafe,
   'Unknown ID on shell must not be stripped' );
+
+// Real source-bound regression: unclosed English editorial note hides the
+// second valid article; restore text, original media and link but not the note.
+$GLOBALS['zp_canary_post_id'] = 5448;
+yes( zaprazi_2_legacy_document_repair_active(), '5448 belongs to stable cohort' );
+$generated_note = '<!-- The above HTML code represents a blog post in Czech about the influence of pump performance on the efficiency of garden irrigation. It includes H2 and H3 headings according to the given instructions. The SEO rules are followed by using semantic HTML tags.';
+$broken = '<p>Začátek článku o čerpadlech.</p>'
+  . '<!DOCTYPE html><html><head><title>Duplikát</title></head><body><p>První část.</p></body></html>'
+  . $generated_note . "\n\n"
+  . '<img class="aligncenter" src="https://zaprazi.cz/wp-content/uploads/2023/06/Screenshot_878.png" alt="zahrada" />'
+  . '<!DOCTYPE html><html><head><title>Druhý dokument</title></head><body>'
+  . '<h2>Druhá část</h2><p>Skutečný konec celého článku.</p>'
+  . '<a href="https://zaprazi.cz/category/zahrada/cerpadla-a-domaci-vodarny/">Kategorie</a></body></html>';
+$repaired = zaprazi_2_legacy_document_repair( $broken );
+yes( false === strpos( $repaired, $generated_note ), 'Never render generated editorial note' );
+yes( false === stripos( $repaired, '<!doctype' ), 'No nested document shell after repair' );
+yes( false === stripos( $repaired, '<html' ), 'No nested html after repair' );
+yes( false !== strpos( $repaired, 'První část.' ), 'Earlier genuine text retained' );
+yes( false !== strpos( $repaired, 'Skutečný konec celého článku.' ), 'Later genuine text retained' );
+yes( false !== strpos( $repaired, 'Screenshot_878.png' ), 'Original image retained' );
+yes( false !== strpos( $repaired, '/category/zahrada/cerpadla-a-domaci-vodarny/' ), 'Original link retained' );
+yes( false !== strpos( $repaired, '<h2>Druhá část</h2>' ), 'Heading retained' );
+$unsafe_note = str_replace( 'It includes H2 and H3 headings',
+  '<a href="https://example.com">Important</a> It includes H2 and H3 headings', $broken );
+eq( zaprazi_2_remove_5448_unclosed_editor_note( $unsafe_note ), $unsafe_note,
+  'Fail closed on any anchor inside note' );
+$unexpected = str_replace( 'Screenshot_878.png', 'different-image.png', $broken );
+eq( zaprazi_2_remove_5448_unclosed_editor_note( $unexpected ), $unexpected,
+  'Fail closed on unrecognized media boundary' );
+$GLOBALS['zp_canary_post_id'] = 5449;
+eq( zaprazi_2_legacy_document_repair( $broken ), $broken,
+  'Other historical post untouched by targeted editorial note handling' );
+
 echo "PASS: canary-only reversible legacy HTML shell normalizer\n";

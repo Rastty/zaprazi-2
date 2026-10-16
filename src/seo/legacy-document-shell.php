@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_135 */
+/* ZP_RELEASE_0_8_136 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
@@ -54,6 +54,46 @@ function zaprazi_2_strip_legacy_document_shell( $html ) {
   return $clean;
 }
 
+
+/**
+ * Historical post 5448 has a proven unclosed AI-editor HTML comment.
+ * The browser then hides the rest of a genuine second article block.
+ * Remove only this known non-reader note during rendering, never from DB.
+ */
+function zaprazi_2_remove_5448_unclosed_editor_note( $html ) {
+  $marker = '<!-- The above HTML code represents a blog post in Czech about the influence of pump performance on the efficiency of garden irrigation.';
+  if ( ! is_string( $html ) || strlen( $html ) > 2500000 ||
+       1 !== substr_count( $html, '<!--' ) ||
+       false !== strpos( $html, '-->' ) ) {
+    return $html;
+  }
+  $start = strpos( $html, $marker );
+  if ( false === $start ) { return $html; }
+  $image_start = stripos( $html, '<img', $start + strlen( $marker ) );
+  if ( false === $image_start || $image_start - $start > 1500 ) {
+    return $html;
+  }
+  $image_end = strpos( $html, '>', $image_start );
+  if ( false === $image_end || $image_end - $image_start > 1200 ||
+       false === strpos(
+         substr( $html, $image_start, $image_end - $image_start ),
+         'Screenshot_878.png'
+       ) ) {
+    return $html;
+  }
+  $note = substr( $html, $start, $image_start - $start );
+  // WP may add paragraph/break tags while formatting, but no real content
+  // element, anchor, media or source ID may be removed with the note.
+  $plain_note = preg_replace( '/<\/?p\b[^>]*>|<br\s*\/?>/i', '', substr( $note, 4 ) );
+  if ( ! is_string( $plain_note ) ||
+       false !== strpos( $plain_note, '<' ) ||
+       false !== strpos( $plain_note, '>' ) ||
+       preg_match( '/\b(?:href|src|id)\s*=/i', $note ) ) {
+    return $html;
+  }
+  return substr( $html, 0, $start ) . substr( $html, $image_start );
+}
+
 /**
  * Bounded stage-1 display repair for a stable 1/8 ID cohort and three
  * confirmed control posts. All WordPress post bodies remain unmodified.
@@ -72,6 +112,9 @@ function zaprazi_2_legacy_document_repair_active() {
 function zaprazi_2_legacy_document_repair( $html ) {
   if ( ! zaprazi_2_legacy_document_repair_active() ) {
     return $html;
+  }
+  if ( 5448 === (int) get_the_ID() ) {
+    $html = zaprazi_2_remove_5448_unclosed_editor_note( $html );
   }
   return zaprazi_2_strip_legacy_document_shell( $html );
 }

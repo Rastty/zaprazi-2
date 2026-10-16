@@ -1,0 +1,28 @@
+name: Legacy 5448 Predeploy Fidelity
+
+on:
+  pull_request:
+    paths:
+      - "src/seo/legacy-document-shell.php"
+      - "scripts/legacy-5448-predeploy.mjs"
+      - ".github/workflows/legacy-5448-predeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare-real-published-source-with-proposed-theme:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install isolated browser adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify exact real post 5448 with next release before deploy
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/legacy-5448-predeploy.mjs

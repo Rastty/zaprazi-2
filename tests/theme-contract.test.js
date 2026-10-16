@@ -481,6 +481,8 @@ test("0.8.140 deployment integrity contract covers critical runtime files", () =
     "page-rollator-pro-seniory.php",
     "page-choditka-pro-seniory.php",
     "page-co-zmerit-pred-vyberem-choditka.php",
+    "page-projede-invalidni-vozik-dvermi.php",
+    "assets/js/wheelchair-doorway-check.js",
     "assets/js/analytics-consent.js",
     "assets/js/mobility-advisor.js",
     "assets/js/bathroom-advisor.js",

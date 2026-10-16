@@ -16,6 +16,7 @@ export const requiredDecisionPaths = Object.freeze([
   "/pujceni-choditka/", "/choditko-na-pojistovnu/",
   "/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/",
   "/invalidni-vozik/", "/invalidni-vozik-na-pojistovnu/",
+  "/projede-invalidni-vozik-dvermi/",
   "/sobestacnost/", "/obuv-pro-seniory/",
   "/jak-zmerit-chodidlo-pro-vyber-obuvi/",
   "/co-zmerit-pred-vyberem-choditka/",

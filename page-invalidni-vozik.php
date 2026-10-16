@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_140 */
+/* ZP_RELEASE_0_8_141 */
 /*
 Template Name: Zápraží — Invalidní vozík
 */
@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-vozik">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
         <a class="zp-text-link" href="#bezpecne-pouzivani-voziku">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit dveře pro invalidní vozík</a>
       </div>
     </div>
   </section>
@@ -198,7 +199,7 @@ get_header();
           <p>Zvažte prahy, sklon chodníku, bezpečné otáčení a možnost složení pro převoz. U elektrického vozíku se navíc musí ověřit bezpečné ovládání, dostatečný manévrovací prostor a nabíjení. U dočasné potřeby stojí za zvážení půjčení; před dlouhodobým nákupem také cesta přes zdravotní pojišťovnu. Žádný rozměr ani údaj výrobce sám o sobě nepotvrzuje bezpečné použití.</p>
         </article>
       </div>
-      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Vybrat vhodný typ v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Jak ověřit půjčení a úhradu</a></p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Vybrat vhodný typ v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit dveře a prostor pro otočení</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Jak ověřit půjčení a úhradu</a></p>
       <p class="zp-disclaimer">Vozík je nutné posoudit jako celek včetně přesunu, nastavení sedu, pohonu, brzd a konkrétní nosnosti. Při nejistotě nebo fyzicky asistovaném přesunu online poradce nezaručuje individuální vhodnost a nesmí odemknout nákup bez potřebných kontrol.</p>
       <p class="zp-muted-copy">Podklady ověřeny 12. 10. 2026: <a href="https://unizdrav.cz/zbozi/3641/invalidni-vozik-odlehceny-s-brzdami-pro-doprovod" target="_blank" rel="noopener">UNIZDRAV — varianty P3641 a jejich skutečné rozměry a nosnost</a>; <a href="https://www.fhft.nhs.uk/patients-and-visitors/patient-information-library/wheelchair-safety-information-standard-wheelchairs" target="_blank" rel="noopener">Frimley Health NHS — bezpečný přesun a stupačky</a>; <a href="https://www.merseycare.nhs.uk/our-services/knowsley/wheelchair-service" target="_blank" rel="noopener">Mersey Care NHS — parkovací brzdy a bezpečnostní hranice</a>; <a href="https://www.merseycare.nhs.uk/wheelchair-measurement-guide" target="_blank" rel="noopener">Mersey Care NHS — měření a nastavení sedu</a>. Návody mají obecný charakter a nejsou českým úhradovým předpisem; individuální odborná revize Zápraží není doložena.</p>
     </div>

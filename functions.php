@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.140' );
+  define( 'ZAPRAZI_RELEASE', '0.8.141' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -42,6 +42,8 @@ function zaprazi_2_release_integrity_ok() {
     'page-rollator-pro-seniory.php',
     'page-choditka-pro-seniory.php',
     'page-co-zmerit-pred-vyberem-choditka.php',
+    'page-projede-invalidni-vozik-dvermi.php',
+    'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
     'assets/js/bathroom-advisor.js',
@@ -2142,6 +2144,57 @@ function zaprazi_2_is_footwear_measurement_page() {
   return is_page( 'jak-zmerit-chodidlo-pro-vyber-obuvi' );
 }
 
+/**
+ * Standalone physical-doorway guide; never overwrite a pre-existing CMS URL.
+ * New page has a different problem intent from the wheelchair type advisor.
+ */
+function zaprazi_2_ensure_wheelchair_doorway_page() {
+  if ( '1' === get_option( 'zaprazi_wheelchair_doorway_page_v1' ) ) {
+    return;
+  }
+  $slug = 'projede-invalidni-vozik-dvermi';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_title' => 'Projde invalidní vozík dveřmi? Jak změřit průchod',
+      'post_name' => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Změřte skutečný volný průchod, celkovou šířku vozíku a místo pro otočení. Orientační přepočet bez potvrzení bezpečnosti.',
+      'meta_input' => array( '_wp_page_template' => 'page-projede-invalidni-vozik-dvermi.php' ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_wheelchair_doorway_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_wheelchair_doorway_page', 36 );
+
+function zaprazi_2_is_wheelchair_doorway_page() {
+  return is_page( 'projede-invalidni-vozik-dvermi' );
+}
+
+/** No API calls or persisted questionnaire / body measurements. */
+function zaprazi_2_wheelchair_doorway_asset() {
+  if ( ! zaprazi_2_is_wheelchair_doorway_page() ) {
+    return;
+  }
+  $dir = get_template_directory();
+  $uri = get_template_directory_uri();
+  wp_enqueue_script(
+    'zaprazi-wheelchair-doorway-check',
+    $uri . '/assets/js/wheelchair-doorway-check.js',
+    array(),
+    file_exists( $dir . '/assets/js/wheelchair-doorway-check.js' ) ? filemtime( $dir . '/assets/js/wheelchair-doorway-check.js' ) : null,
+    true
+  );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_wheelchair_doorway_asset', 20 );
+
 function zaprazi_2_ensure_night_wc_page() {
   if ( '1' === get_option( 'zaprazi_night_wc_page_v1' ) ) {
     return;
@@ -2204,6 +2257,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_wheelchair_doorway_page() ) {
+    return 'Projde invalidní vozík dveřmi? Měření průchodu | Zápraží';
+  }
   if ( zaprazi_2_is_footwear_measurement_page() ) {
     return 'Jak změřit chodidlo pro výběr obuvi | Zápraží';
   }
@@ -2246,6 +2302,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_wheelchair_doorway_page() ) {
+    return 'Jak změřit skutečnou šířku dveří pro invalidní vozík: otevřené křídlo, celková šířka vozíku, práh a zatáčení. Orientační výpočet a poradce.';
+  }
   // Editorial transparency page must provide its own useful search snippet.
   if ( is_page( 'jak-vznika-doporuceni' ) ) {
     return 'Jak Zápraží vybírá pomůcky: praktické otázky, bezpečnostní omezení, zdroje údajů i rozdíl mezi nákupem, půjčením a ověřením úhrady.';
@@ -2328,6 +2387,15 @@ function zaprazi_2_walker_measurements_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_walker_measurements_meta_fallback', 5 );
+
+/** Narrow meta description if Yoast SEO is not active. */
+function zaprazi_2_wheelchair_doorway_meta_fallback() {
+  if ( ! zaprazi_2_is_wheelchair_doorway_page() || defined( 'WPSEO_VERSION' ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_wheelchair_doorway_meta_fallback', 5 );
 
 /** Only when Yoast is inactive: one non-duplicated descriptive tag. */
 function zaprazi_2_night_wc_meta_fallback() {

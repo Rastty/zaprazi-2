@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_138 */
+/* ZP_RELEASE_0_8_139 */
 /*
 Template Name: Zápraží — Polohovací postel na pojišťovnu
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Nejdřív vybrat vhodný typ postele</a>
         <a class="zp-text-link" href="#rychle-rozhodnuti">Půjčit vs. pojišťovna vs. koupit</a>
+        <a class="zp-text-link" href="#porovnani-pujceni-postele">Spočítat půjčení vs. nákup</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
     </div>
@@ -93,6 +94,35 @@ get_header();
       </div>
 
       <p class="zp-disclaimer"><strong>Nejdůležitější:</strong> půjčovna je vhodná jen tehdy, když konkrétní postel svými rozměry, nosností a funkcemi odpovídá praktické potřebě. Nízká cena sama o sobě není důvod k použití nevhodného lůžka.</p>
+    </div>
+  </section>
+
+  <section id="porovnani-pujceni-postele" class="zp-section" aria-labelledby="zp-bed-cost-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická pomůcka · Bez odesílání údajů</p>
+      <h2 id="zp-bed-cost-title" class="zp-section-title">Půjčení, nebo koupě polohovací postele? Spočítejte obě nabídky.</h2>
+      <p>Zadejte částky z <strong>vlastních ověřených nabídek</strong> na srovnatelně vhodnou postel. Nepředvyplňujeme ceny půjčoven ani e-shopů: k měsíční sazbě mohou patřit doprava, montáž, vyzvednutí, matrace či jiné služby. Výpočet je jen orientační finanční porovnání, nikoli doporučení vhodnosti lůžka.</p>
+      <form id="zp-bed-cost-comparison" class="zp-rental-budget" hidden>
+        <div class="zp-rental-budget-fields">
+          <label for="zp-bed-cost-months"><strong>Jak dlouhé období porovnáváte? (měsíce)</strong>
+            <input id="zp-bed-cost-months" type="number" min="1" max="60" step="1" inputmode="numeric" required placeholder="Například 6">
+          </label>
+          <label for="zp-bed-cost-monthly"><strong>Měsíční půjčovné podle konkrétní nabídky (Kč)</strong>
+            <input id="zp-bed-cost-monthly" type="number" min="1" max="1000000" step="1" inputmode="numeric" required placeholder="Z ceníku půjčovny">
+          </label>
+          <label for="zp-bed-cost-rental-extras"><strong>Další nevratné náklady půjčení dohromady (Kč)</strong>
+            <input id="zp-bed-cost-rental-extras" type="number" min="0" max="10000000" step="1" inputmode="numeric" placeholder="Doprava, montáž, svoz – jinak 0">
+          </label>
+          <label for="zp-bed-cost-purchase"><strong>Celková cena koupě včetně nezbytných služeb (Kč)</strong>
+            <input id="zp-bed-cost-purchase" type="number" min="1" max="10000000" step="1" inputmode="numeric" required placeholder="Postel, matrace, doprava, montáž">
+          </label>
+        </div>
+        <button class="zp-btn" type="submit">Porovnat celkové náklady</button>
+        <p id="zp-bed-cost-result" class="zp-rental-budget-result" aria-live="polite" aria-atomic="true" role="status"></p>
+      </form>
+      <noscript><p class="zp-disclaimer">Pro místní přepočet je potřeba JavaScript. Můžete ale ručně spočítat: měsíční nájem × počet měsíců + nevratné poplatky a porovnat s celkovou cenou nákupu.</p></noscript>
+      <p class="zp-disclaimer"><strong>Důležité:</strong> vratná kauce není konečný náklad, ale může ovlivnit částku potřebnou při převzetí. Výpočet nezohledňuje budoucí servis, zbytkovou hodnotu při prodeji ani změnu cen. Nezahrnuje možnou úhradu pojišťovnou — tu je nutné řešit zvlášť. Pokud chybí bezpečný přesun, správná nosnost, kompatibilní matrace nebo bezpečné používání zábran, nepovažujte cenově výhodnější možnost automaticky za vhodnou.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Nejdřív ověřit typ a bezpečnostní parametry postele v poradci</a></p>
     </div>
   </section>
 

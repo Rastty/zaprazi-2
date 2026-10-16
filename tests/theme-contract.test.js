@@ -444,7 +444,7 @@ test("wheelchair main page builds SEO authority without a second decision engine
 });
 
 
-test("0.8.138 deployment integrity contract covers critical runtime files", () => {
+test("0.8.139 deployment integrity contract covers critical runtime files", () => {
   const functions = read("functions.php");
   const critical = [
     "header.php",
@@ -471,6 +471,7 @@ test("0.8.138 deployment integrity contract covers critical runtime files", () =
     "assets/js/footwear-measurement-print.js",
     "assets/js/family-checklist-print.js",
     "assets/js/walker-rental-budget.js",
+    "assets/js/bed-cost-comparison.js",
     "page-nastavec-na-wc-pro-seniory.php",
     "page-sprchovaci-zidle-pro-seniory.php",
     "page-toaletni-zidle-pro-seniory.php",
@@ -519,7 +520,7 @@ test("0.8.138 deployment integrity contract covers critical runtime files", () =
     "style.css"
   ];
 
-  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.138' );"));
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '0.8.139' );"));
   // The production runtime set and the regression set must be identical,
   // otherwise a new template can silently miss its version marker.
   const runtimeMatch = functions.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
@@ -532,9 +533,9 @@ test("0.8.138 deployment integrity contract covers critical runtime files", () =
   assert.match(functions, /zaprazi-integrity/);
   for (const path of critical) {
     assert.ok(functions.includes(path), `integrity list missing ${path}`);
-    assert.match(read(path), /ZP_RELEASE_0_8_138/);
+    assert.match(read(path), /ZP_RELEASE_0_8_139/);
   }
-  assert.ok(read("style.css").includes("Version: 0.8.138"));
+  assert.ok(read("style.css").includes("Version: 0.8.139"));
 });
 
 

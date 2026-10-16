@@ -15,7 +15,7 @@ const countWords = s => (String(s).match(/[\p{L}\p{N}]+/gu) || []).length;
 const strip = s => String(s).replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi," ")
   .replace(/<(?:script|style)\b[^>]*>[\s\S]*?<\/(?:script|style)>/gi," ")
   .replace(/<[^>]*>/g," ");
-const decodeBasic = s => s.replace(/&amp;|&#38;|&#x26;/gi,"&")
+const decodeBasic = s => s.replace(/&amp;|&#0*38;|&#x0*26;/gi,"&")
   .replace(/&quot;|&#34;/gi,'"').replace(/&#39;|&apos;/gi,"'");
 function links(html, tag, attr) {
   const re=new RegExp("<"+tag+"\\b[^>]*\\b"+attr+"\\s*=\\s*([\\\"'])(.*?)\\1","gi");
@@ -150,6 +150,13 @@ try{
                 source_length:raw.length,cleaner_changed:raw!==output,
                 source_document_prefix:raw.slice(0,600),
                 cleaner_document_prefix:output.slice(0,600),
+                clean_doctypes:(output.match(/<!doctype/gi)||[]).length,
+                clean_heads:(output.match(/<head\\b/gi)||[]).length,
+                clean_bodies:(output.match(/<body\\b/gi)||[]).length,
+                clean_html_tags:(output.match(/<html\\b/gi)||[]).length,
+                cleaner_document_middle:post.id===5448?output.slice(1350,2650):undefined,
+                cleaner_document_ending:post.id===5448?output.slice(-1100):undefined,
+                live_html_ending:post.id===5448?actual.html.slice(-1100):undefined,
                 first_doctype:raw.toLowerCase().indexOf("<!doctype"),
                 shell_with_attributes:[...raw.matchAll(/<(?:html|head|body)\\b[^>]*>/gi)]
                   .slice(0,6).map(m=>m[0].slice(0,250)),

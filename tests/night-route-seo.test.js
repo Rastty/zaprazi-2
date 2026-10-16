@@ -100,3 +100,24 @@ test("Long night route has a conditional, fit-gated toilet-chair option with a r
   assert.ok(editorial.includes("/nocni-cesta-z-postele-na-wc/"));
   assert.doesNotMatch(editorial, /https?:/i);
 });
+
+test("Night-time low-WC and missing-grip scenarios have direct fit-gated links and reciprocal context", () => {
+  const night = read("page-nocni-cesta-z-postele-na-wc.php");
+  const riser = read("page-nastavec-na-wc-pro-seniory.php");
+  const support = read("page-madlo-k-wc-pro-seniory.php");
+  for (const path of [
+    "/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc",
+    "/madlo-k-wc-pro-seniory/#poradce-opora-wc",
+    "/koupelna-a-wc/"
+  ]) assert.ok(night.includes("home_url( '" + path + "' )"), "Missing scenario-specific safe route: " + path);
+  assert.match(night, /WC je příliš nízké — prověřit nástavec/);
+  assert.match(night, /Chybí stabilní opora — prověřit madlo nebo rám/);
+  assert.match(night, /Není jasné, v čem je problém — přejít na obecného poradce WC/);
+  for (const page of [riser,support]) {
+    assert.ok(page.includes("home_url( '/nocni-cesta-z-postele-na-wc/' )"));
+    assert.match(page, /samotná pomůcka nemusí stačit/);
+  }
+  assert.match(riser, /id="poradce-nastavec-wc"/);
+  assert.match(support, /id="poradce-opora-wc"/);
+  assert.doesNotMatch(night, /data-zp-merchant-link|affiliateMap/);
+});

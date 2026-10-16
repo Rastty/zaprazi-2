@@ -84,7 +84,9 @@ get_header();
         <article class="zp-decision-card">
           <h3>Člověk dojde, ale WC je příliš nízké nebo chybí opora</h3>
           <p>Řešte samotné dosednutí a vstávání. Nástavec, toaletní rám a pevné madlo nejsou zaměnitelné a každý má jiné bezpečnostní podmínky.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">WC je příliš nízké — prověřit nástavec</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Chybí stabilní opora — prověřit madlo nebo rám</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Není jasné, v čem je problém — přejít na obecného poradce WC</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>WC je příliš daleko, ale přesednutí může být samostatné</h3>

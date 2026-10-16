@@ -16,6 +16,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Řeším spíš nízké WC</a>
         <a class="zp-text-link" href="#kontrola-opory-u-wc">Co ověřit před výběrem</a>
       </div>
+      <p class="zp-muted-copy">Pokud se potíže objevují hlavně při noční cestě z postele na WC, samotná pomůcka nemusí stačit. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Projít celou noční trasu a kontrolní seznam</a>.</p>
     </div>
   </section>
 

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_137 */
+/* ZP_RELEASE_0_8_138 */
 /*
 Template Name: Zápraží — Rollátor pro seniory
 */
@@ -12,7 +12,7 @@ get_header();
       <h1>Rollátor pro seniory: kdy dává smysl čtyřkolové chodítko s brzdami?</h1>
       <p class="zp-lead">Rollátor dává smysl jen tehdy, když člověk bezpečně zvládá ruční brzdy. Vedle šířky a výšky řešte také sedátko, skládání, nosnost a prostor pro bezpečné otáčení.</p>
       <a class="zp-btn" href="#poradce-rollator">Spustit poradce</a>
-      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a></p>
+      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
     </div>
   </section>
 

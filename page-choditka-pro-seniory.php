@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_137 */
+/* ZP_RELEASE_0_8_138 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -27,12 +27,12 @@ get_header();
         <article class="zp-decision-card">
           <h3>Hlavně doma</h3>
           <p>Řešte hlavně stabilitu, schopnost chodítko posouvat a šířku dveří. Rozdíl mezi čtyřbodovým a dvoukolovým provedením je zásadní.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Poradce pro chodítko do bytu</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Poradce pro chodítko do bytu</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Venku nebo doma i venku</h3>
           <p>Čtyřkolový rollátor umožňuje plynulejší chůzi, ale vyžaduje bezpečné ovládání ručních brzd.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Poradce pro rollátor</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Poradce pro rollátor</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Při chůzi běžně pomáhá druhá osoba</h3>
@@ -64,6 +64,32 @@ get_header();
           <p><strong>Ověřený příklad:</strong> MEYRA Ideal 3061982 — šířka 61,5 cm, nosnost 130 kg.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Situace, které rozhodují</p>
+      <h2 class="zp-section-title">Co když chodítko nejde nadzvednout, brzdy nejsou jisté nebo doma není prostor?</h2>
+      <p>Typ chodítka neurčuje jen místo používání. Před výběrem si ověřte, <strong>jak člověk pomůcku skutečně ovládá</strong> a zda se s ní bezpečně pohybuje na své obvyklé trase.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Chodítko doma nejde při kroku nadzvednout</h3>
+          <p>Nekupujte automaticky pevný čtyřbodový rám. Dvoukolové provedení se může posouvat bez zvedání celého rámu, ale i ono musí odpovídat potřebné opoře, síle, průchodům a způsobu chůze.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit čtyřbodové nebo dvoukolové chodítko</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Venku by se hodila kolečka, ale brzdy nejsou jisté</h3>
+          <p>Čtyřkolový rollátor nevybírejte jen proto, že se s ním snadno pohybuje. Musí být možné bezpečně zpomalit, zastavit a podle návodu zajistit parkovací brzdy. Při nejistotě nejdřív ověřte vhodný způsob chůze s odborníkem.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Prověřit ovládání rollátoru v poradci</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Nejužší dveře, práh nebo otočení na chodbě jsou problém</h3>
+          <p>Než porovnáte výrobky, změřte průchody v místě, kde se chodítko používá, a prostor na otočení. Zkontrolujte také nastavení madel a nosnost konkrétního modelu. Pokud běžně pomáhá další člověk fyzicky, samotné změření nestačí.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít sedm měření a tiskový seznam</a></p>
+        </article>
+      </div>
+      <p class="zp-disclaimer">Při nejistém přesunu, opakovaných pádech nebo potřebě fyzické pomoci nevybírejte konkrétní výrobek jen podle online článku. Poradce může doporučení pozastavit a nasměrovat na odborné ověření.</p>
     </div>
   </section>
 

@@ -30,7 +30,9 @@ test("cost worksheet never persists, transmits, invents rates or logs health-rel
   /affiliateMap|merchant_click|zaprazi:analytics|dataLayer/,
   /\bconsole\./,/\binnerHTML\b/,/\bsubmit\(\)/])
   assert.doesNotMatch(src,forbidden,"Calculator must be local and data-minimal");
- assert.match(src,/ZP_RELEASE_0_8_139/);
+ const release=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
+ assert.ok(release&&src.includes("ZP_RELEASE_"+release.replaceAll(".","_")),
+   "Calculator must match deployed runtime version");
  const code=src+"\nglobalThis.bedCalc=compareBedCosts;";
  const ctx={document:{querySelector:()=>null},Intl,Number};
  vm.runInNewContext(code,ctx);

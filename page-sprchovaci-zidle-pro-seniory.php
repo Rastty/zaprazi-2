@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_135 */
+/* ZP_RELEASE_0_8_136 */
 /*
 Template Name: Zápraží — Sprchovací židle pro seniory
 */

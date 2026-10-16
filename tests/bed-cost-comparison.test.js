@@ -74,3 +74,33 @@ test("cost form handles submission locally, keyboard form and only safe text out
  els.months.value="0";submit();
  assert.match(els.result.textContent,/Vyplňte platné celé částky/);
 });
+
+
+test("invalid HTML5 entry instantly invalidates a previously calculated result without submitting",()=>{
+ const src=read("assets/js/bed-cost-comparison.js");
+ const listeners={};
+ const fields={months:{value:"6"},monthly:{value:"900"},
+   "rental-extras":{value:"500"},purchase:{value:"12000"},result:{textContent:""}};
+ const form={hidden:true,querySelector:id=>fields[id.replace("#zp-bed-cost-","")]??null,
+   checkValidity:()=>Number(fields.months.value)>=1&&Number(fields.months.value)<=60&&
+     Number(fields.monthly.value)>0&&Number(fields.purchase.value)>0,
+   addEventListener:(type,fn)=>{listeners[type]=fn}};
+ const ctx={document:{querySelector:id=>id==="#zp-bed-cost-comparison"?form:null},
+   Intl,Number};
+ vm.runInNewContext(src,ctx);
+ assert.equal(form.hidden,false);
+ assert.equal(typeof listeners.input,"function");
+ assert.equal(typeof listeners.change,"function");
+ listeners.submit({preventDefault(){}});
+ assert.match(fields.result.textContent,/půjčení 5\s?900/);
+ fields.months.value="0";
+ listeners.input();
+ assert.match(fields.result.textContent,/Vyplňte platné celé částky/);
+ assert.doesNotMatch(fields.result.textContent,/5\s?900/,"Old comparison cannot remain visible");
+ fields.months.value="24";
+ listeners.change();
+ assert.match(fields.result.textContent,/Údaje byly změněny/);
+ assert.doesNotMatch(fields.result.textContent,/5\s?900/);
+ listeners.submit({preventDefault(){}});
+ assert.match(fields.result.textContent,/24 měsíců/);
+});

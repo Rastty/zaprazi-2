@@ -26,6 +26,16 @@ if(form){
   const result=find("zp-bed-cost-result");
   const money=n=>new Intl.NumberFormat("cs-CZ",{style:"currency",currency:"CZK",maximumFractionDigits:0}).format(n);
   form.hidden=false;
+  // Native HTML5 validation prevents submit on an invalid value. Invalidate the
+  // previous comparison immediately on editing so stale totals never remain.
+  const invalidate=()=>{
+    const valid=typeof form.checkValidity!=="function"||form.checkValidity();
+    result.textContent=valid
+      ?"Údaje byly změněny. Pro nové srovnání stiskněte Porovnat celkové náklady."
+      :"Vyplňte platné celé částky v Kč a období od 1 do 60 měsíců. Bez úplných údajů nemůžeme nabídky porovnat.";
+  };
+  form.addEventListener("input",invalidate);
+  form.addEventListener("change",invalidate);
   form.addEventListener("submit",event=>{
     event.preventDefault();
     const x=compareBedCosts({

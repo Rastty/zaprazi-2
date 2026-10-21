@@ -1,11 +1,12 @@
 /**
- * Read-only 0.8.142 acceptance: real optional rent-vs-buy calculation, no
+ * Read-only active-theme acceptance: real optional rent-vs-buy calculation, no
  * WP writes, no form transmission, no invented pricing or merchant click.
  * Purely fabricated amounts are test inputs, not user-facing price claims.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
-const origin="https://zaprazi.cz",version="0.8.142";
+import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
+const origin="https://zaprazi.cz",version=EXPECTED_LIVE_RELEASE;
 const acquisition="/polohovaci-postel-na-pojistovnu/";
 const advisor="/polohovaci-postel/";
 const readyResponse=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
@@ -13,7 +14,7 @@ const readyResponse=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness"
 });
 assert.equal(readyResponse.status,200,"Readiness route is unavailable");
 const ready=await readyResponse.json();
-assert.equal(ready.release,version,"Live WordPress version does not match 0.8.142");
+assert.equal(ready.release,version,"Live WordPress version differs from checked-out theme");
 assert.equal(ready.integrity,"ok","Theme deployment incomplete");
 assert.equal(ready.configured_total,25,"Affiliate setup unexpectedly changed");
 assert.equal(ready.slot_total,25,"Affiliate slot inventory unexpectedly changed");
@@ -128,7 +129,7 @@ try{
         "Bed advisor missing calculator link");
     }finally{await bed.close();}
     assert.deepEqual(jsErrors,[],"JavaScript errors on real calculator page");
-    console.log("LIVE_BED_COST_0_8_142",JSON.stringify({
+    console.log("LIVE_BED_COST",JSON.stringify({
       version,integrity:ready.integrity,affiliate_slots:ready.configured_total,
       page:acquisition,advisor,calculator_fields:fieldCount,
       scenarios:["rent_cheaper","buy_cheaper","equal","invalid_input_clears_stale_result","native_validation_blocks_submit","corrected_input_requires_recalculation"],

@@ -1,11 +1,12 @@
 /**
- * Read-only PROD 0.8.142 walker hub integration: live problem-to-advisor paths,
+ * Read-only walker hub integration: live problem-to-advisor paths,
  * safe next steps, real anchor targets, no merchant requests or user answers.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
+import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
 
-const origin="https://zaprazi.cz",version="0.8.142";
+const origin="https://zaprazi.cz",version=EXPECTED_LIVE_RELEASE;
 const paths={
   hub:"/choditka-pro-seniory/",
   indoor:"/choditko-do-bytu-pro-seniory/",
@@ -24,7 +25,7 @@ const req=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
 });
 assert.equal(req.status,200,"No public affiliate/readiness endpoint");
 const readiness=await req.json();
-assert.equal(readiness.release,version,"0.8.142 is not deployed");
+assert.equal(readiness.release,version,"Checked-out theme version is not deployed");
 assert.equal(readiness.integrity,"ok","Incomplete release deployment");
 assert.equal(readiness.configured_total,25,"Affiliate slots missing");
 assert.equal(readiness.slot_total,25,"Affiliate slot contract changed");
@@ -91,7 +92,7 @@ try{
   }
   const measure=await inspect(paths.measuring);
   assert.ok(measure.ids.includes("co-zmerit"),"Measurement anchor absent");
-  console.log("LIVE_WALKER_HUB_0_8_138",JSON.stringify({
+  console.log("LIVE_WALKER_HUB",JSON.stringify({
     release:version,integrity:readiness.integrity,affiliate_slots:readiness.configured_total,
     pages:results,safe_advisor_paths:[endpoints.indoor,endpoints.outdoor],
     measurements:endpoints.measuring,return_links:2,invalid_merchant_redirects:0

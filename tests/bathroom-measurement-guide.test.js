@@ -5,7 +5,7 @@ const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
 
 test("bathroom measurement resource answers a distinct problem with real, scoped sources",()=>{
  const p=read("page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php");
- assert.match(p,/ZP_RELEASE_0_8_142/);
+ assert.match(p,/ZP_RELEASE_0_8_143/);
  assert.match(p,/<h1>Co změřit v koupelně před výběrem pomůcky pro seniora\?/);
  for(const id of ["vyberte-misto","mereni-wc","mereni-sprcha","mereni-vana","kontrolni-list-koupelna"])
   assert.match(p,new RegExp('id="'+id+'"'));
@@ -31,7 +31,8 @@ test("bathroom measuring guide is linked from decision hubs without exposing pro
   "page-sprchovaci-zidle-pro-seniory.php",
   "page-nastavec-na-wc-pro-seniory.php",
   "page-madlo-k-wc-pro-seniory.php",
-  "page-sedatko-do-vany-pro-seniory.php"
+  "page-sedatko-do-vany-pro-seniory.php",
+  "page-toaletni-zidle-pro-seniory.php"
  ];
  for(const p of pages)assert.ok(read(p).includes(url),"Missing contextual guide link from "+p);
  const fn=read("functions.php");

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_142 */
+/* ZP_RELEASE_0_8_143 */
 /*
 Template Name: Zápraží — Co změřit v koupelně před výběrem pomůcky
 */
@@ -10,7 +10,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Koupelna a WC · Měření před výběrem</p>
       <h1>Co změřit v koupelně před výběrem pomůcky pro seniora?</h1>
-      <p class="zp-lead">Nástavec na WC, madlo, sprchovací židle a sedátko do vany řeší různé problémy. Než vyberete výrobek, zapište si rozměry <strong>skutečně použitelného prostoru</strong>, způsob bezpečného přesunu a podmínky upevnění. Návod vám pomůže připravit správné otázky pro poradce, nikoli rozhodnout o zdravotní vhodnosti.</p>
+      <p class="zp-lead">Nástavec na WC, madlo, samostatná toaletní židle, sprchovací židle a sedátko do vany řeší různé problémy. Než vyberete výrobek, zapište si rozměry <strong>skutečně použitelného prostoru</strong>, způsob bezpečného přesunu a podmínky upevnění. Návod vám pomůže připravit správné otázky pro poradce, nikoli rozhodnout o zdravotní vhodnosti.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyberte-misto">Vybrat místo, které řešíte</a>
         <a class="zp-text-link" href="#kontrolni-list-koupelna">Kontrolní list před objednávkou</a>
@@ -45,6 +45,10 @@ get_header();
           <h3>Problém je překročení okraje vany</h3>
           <p>Vnitřní rozměr vany nestačí. Změřte okraj, přístup a suchou podlahu pro případnou část transferové lavice.</p>
           <p><a class="zp-text-link" href="#mereni-vana">Co změřit u vany</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana' ) ); ?>">Poradce sedátka</a></p>
+        </article>
+        <article class="zp-decision-card"><h3>Je obtížné dojít až na WC</h3>
+          <p>U toaletní židle postavené blíž k místu pobytu změřte rovnou volnou plochu, průchod a prostor pro bezpečné přesednutí. Rozměr sedáku nestačí – porovnávejte celou konstrukci přesné varianty. Pokud přesun vyžaduje fyzické zvedání, pomůcku bez odborného posouzení nevybírejte.</p>
+          <p><a class="zp-text-link" href="#kontrolni-list-koupelna">Kontrolní list prostoru a přesunu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Poradce toaletní židle</a></p>
         </article>
       </div>
     </div>

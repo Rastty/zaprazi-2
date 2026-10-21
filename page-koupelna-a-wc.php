@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_142 */
+/* ZP_RELEASE_0_8_143 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -124,6 +124,7 @@ get_header();
         <section id="zp-bathroom-preview" class="zp-result zp-bathroom-preview" aria-live="polite" tabindex="-1" hidden></section>
         <section id="zp-bathroom-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bathroom-fit-title" hidden>
           <h3 id="zp-bathroom-fit-title">2. Ověřte parametry zobrazené pomůcky</h3>
+          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, co doma změřit? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto' ) ); ?>">Praktický kontrolní návod</a> vám pomůže připravit rozměry WC, sprchy a vany. Samotné rozměry nezaručují bezpečné použití.</p>
           <p>Teď už znáte konkrétní výrobek, jeho maximální nosnost a rozměry. Porovnejte je s realitou doma. Pokud si nejste jistí, zvolte <strong>Nevím</strong> – takový výrobek neoznačíme za ověřený.</p>
         </section>
         <div id="zp-bathroom-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>

@@ -1,10 +1,10 @@
 /**
- * Production-only read acceptance for deployed 0.8.141 wheelchair doorway guide.
+ * Production-only read acceptance for deployed 0.8.142 wheelchair doorway guide.
  * No CMS writes, product purchase, affiliate click or personal-data upload.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
-const origin="https://zaprazi.cz",version="0.8.141";
+const origin="https://zaprazi.cz",version="0.8.142";
 const article="/projede-invalidni-vozik-dvermi/",advisor="/invalidni-vozik/";
 const readiness=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
   headers:{Accept:"application/json"},signal:AbortSignal.timeout(30000)
@@ -114,7 +114,7 @@ try{
     try{assert.ok(meta.links.includes(needed),"Missing reciprocal, useful path from "+path);}
     finally{await page.close();}
   }
-  console.log("LIVE_WHEELCHAIR_DOORWAY_0_8_141",JSON.stringify({
+  console.log("LIVE_WHEELCHAIR_DOORWAY_0_8_142",JSON.stringify({
     version,integrity:ready.integrity,affiliate_slots:ready.configured_total,
     page:article,advisor,steps:6,inputs:2,scenarios:[
       "positive_margin_without_safety_clearance","negative_margin_block",

@@ -1,11 +1,11 @@
 /**
- * Read-only PROD 0.8.140 walker hub integration: live problem-to-advisor paths,
+ * Read-only PROD 0.8.141 walker hub integration: live problem-to-advisor paths,
  * safe next steps, real anchor targets, no merchant requests or user answers.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
 
-const origin="https://zaprazi.cz",version="0.8.140";
+const origin="https://zaprazi.cz",version="0.8.141";
 const paths={
   hub:"/choditka-pro-seniory/",
   indoor:"/choditko-do-bytu-pro-seniory/",
@@ -24,7 +24,7 @@ const req=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
 });
 assert.equal(req.status,200,"No public affiliate/readiness endpoint");
 const readiness=await req.json();
-assert.equal(readiness.release,version,"0.8.140 is not deployed");
+assert.equal(readiness.release,version,"0.8.141 is not deployed");
 assert.equal(readiness.integrity,"ok","Incomplete release deployment");
 assert.equal(readiness.configured_total,25,"Affiliate slots missing");
 assert.equal(readiness.slot_total,25,"Affiliate slot contract changed");

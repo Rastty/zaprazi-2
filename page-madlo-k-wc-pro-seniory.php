@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_143 */
+/* ZP_RELEASE_0_8_144 */
 /*
 Template Name: Zápraží — Madlo k WC pro seniory
 */
@@ -68,7 +68,7 @@ get_header();
         <section id="zp-toilet-support-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-toilet-support-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-toilet-support-fit-title" hidden>
           <h3 id="zp-toilet-support-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
-          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, co změřit pro oporu u WC a jak prověřit podklad? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Praktický kontrolní návod</a>. Rozměry samy o sobě nezaručují bezpečné použití.</p>
+          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, co změřit pro oporu u WC a jak prověřit podklad? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>" target="_blank" rel="noopener noreferrer">Praktický kontrolní návod (nová karta)</a>. Rozměry samy o sobě nezaručují bezpečné použití.</p>
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-toilet-support-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>

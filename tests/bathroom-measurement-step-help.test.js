@@ -22,6 +22,11 @@ test("all six Bathroom product-fit stages link a scoped measurement guide, with 
     const fit = page.slice(start, end);
     assert.match(fit, /hidden>/);
     assert.match(fit, /zp-fit-measurement-help/);
+    // The exact measurement instructions must not navigate away from the in-progress
+    // form: answers are intentionally browser-only and would be lost on same-tab navigation.
+    assert.match(fit, /target="_blank" rel="noopener noreferrer"/);
+    assert.match(fit, /Praktický kontrolní návod \(nová karta\)/);
+    assert.doesNotMatch(fit, /onclick=|javascript:|window\.location/);
     assert.ok(fit.includes("/co-zmerit-v-koupelne-pred-vyberem-pomucky/#"+anchor), path);
     assert.ok(guide.includes('id="'+anchor+'"'), "Missing guide anchor: "+anchor);
     assert.doesNotMatch(fit, /data-zp-bath-merchant-link|nofollow sponsored|desturl=/);

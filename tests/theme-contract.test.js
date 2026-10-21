@@ -455,6 +455,7 @@ test("0.8.141 deployment integrity contract covers critical runtime files", () =
     "page-ochrana-soukromi.php",
     "page-jak-vznika-doporuceni.php",
     "page-koupelna-a-wc.php",
+    "page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php",
     "page-pomucky-do-koupelny-na-pojistovnu.php",
     "page-polohovaci-postel.php",
     "page-polohovaci-postel-na-pojistovnu.php",

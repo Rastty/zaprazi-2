@@ -12,6 +12,7 @@ import { resolve } from "node:path";
 export const requiredDecisionPaths = Object.freeze([
   "/choditka-pro-seniory/", "/koupelna-a-wc/",
   "/navrat-z-nemocnice/", "/bezpecny-byt-pro-seniora/",
+  "/co-zmerit-v-koupelne-pred-vyberem-pomucky/",
   "/nocni-cesta-z-postele-na-wc/", "/otazky-pred-propustenim-z-nemocnice/",
   "/pujceni-choditka/", "/choditko-na-pojistovnu/",
   "/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/",

@@ -1,11 +1,12 @@
 /**
  * Read-only, postdeploy browser contract for the specific night WC problem.
  * Must not create analytic events, submit advisor answers or follow a merchant.
- * Run after 0.8.142 when both safe specialist links are live.
+ * Run against the checked-out theme release.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
-const origin="https://zaprazi.cz",expectedVersion="0.8.142";
+import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
+const origin="https://zaprazi.cz",expectedVersion=EXPECTED_LIVE_RELEASE;
 const night="/nocni-cesta-z-postele-na-wc/";
 const riser="/nastavec-na-wc-pro-seniory/";
 const support="/madlo-k-wc-pro-seniory/";

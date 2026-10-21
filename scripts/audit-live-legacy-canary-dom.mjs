@@ -4,6 +4,7 @@
  * HTML-shell removal alone preserves content in the browser's repaired DOM.
  */
 import puppeteer from "puppeteer-core";
+import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
 import { spawnSync } from "node:child_process";
 
 const origin = "https://zaprazi.cz";
@@ -35,8 +36,8 @@ try{
       const pageResponse=await page.goto(target,{waitUntil:"domcontentloaded",timeout:25000});
       if(pageResponse?.status()!==200)throw new Error("Live page failed "+target);
       const version=await page.$eval('meta[name="zaprazi-release"]',el=>el.content);
-      if(version!=="0.8.142")
-        throw new Error("QA expects live 0.8.142, observed "+version);
+      if(version!==EXPECTED_LIVE_RELEASE)
+        throw new Error("QA expects live "+EXPECTED_LIVE_RELEASE+", observed "+version);
       const actual=await page.$eval(".zp-legacy-body",el=>({
         text:el.innerText,innerHTML:el.innerHTML,
         hrefs:[...el.querySelectorAll("a[href]")].map(a=>a.href),
@@ -115,7 +116,7 @@ try{
         dom_nested_doctype:/<!doctype/i.test(actual.innerHTML),
         source_ending:sourceText.slice(-140),dom_ending:observedText.slice(-140)};
       console.log("LEGACY_CANARY_DOM",JSON.stringify(details));
-      // 6801 was restored in 0.8.142 and must pass the same strict gate.
+      // 6801 was previously restored and must pass the same strict gate.
       if(ratio<0.95 || !linksMatch || !imagesMatch ||
             /<!doctype|<\/?(?:html|head|body)\b/i.test(actual.innerHTML))failed++;
     }finally{await page.close();}

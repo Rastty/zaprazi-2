@@ -1,12 +1,13 @@
 /**
- * Production acceptance of educational bathroom measuring page 0.8.142.
+ * Production acceptance of educational bathroom measuring page.
  * Read-only; no user personal or health data; never initiates affiliate clicks.
  */
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
+import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
 
 const origin="https://zaprazi.cz";
-const version="0.8.142";
+const version=EXPECTED_LIVE_RELEASE;
 const route="/co-zmerit-v-koupelne-pred-vyberem-pomucky/";
 const expectedInbound=[
   ["/koupelna-a-wc/","#vyberte-misto"],
@@ -98,7 +99,7 @@ try{
   }
   assert.deepEqual(jsErrors,[],"Runtime JS errors");
   assert.ok(!methods.some(m=>m!=="GET"),"The audit attempted a write");
-  console.log("LIVE_BATHROOM_MEASUREMENTS_0_8_142",JSON.stringify({
+  console.log("LIVE_BATHROOM_MEASUREMENTS",JSON.stringify({
     version,integrity:readiness.integrity,affiliate_slots:readiness.configured_total,
     article:route,checklist_items:7,inbound_routes:expectedInbound.length,
     advisor_and_support_links:expectedOutbound.length,forms:0,post_requests:0,

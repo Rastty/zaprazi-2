@@ -11,6 +11,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-koupelna">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní poradce</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto' ) ); ?>">Co před výběrem změřit v koupelně</a>
       </div>
     </div>
   </section>

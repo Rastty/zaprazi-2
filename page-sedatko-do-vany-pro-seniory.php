@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-sedatko-vana">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Řeším sprchový kout</a>
         <a class="zp-text-link" href="#kontrola-presunu-do-vany">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana' ) ); ?>">Změřit vanu a okolí</a>
       </div>
     </div>
   </section>

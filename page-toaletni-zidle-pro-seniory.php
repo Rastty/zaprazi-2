@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_143 */
+/* ZP_RELEASE_0_8_144 */
 /*
 Template Name: Zápraží — Toaletní židle pro seniory
 */
@@ -72,7 +72,7 @@ get_header();
         <section id="zp-toilet-chair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-toilet-chair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-toilet-chair-fit-title" hidden>
           <h3 id="zp-toilet-chair-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
-          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, jak prověřit prostor, stabilní podlahu a přesun? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#kontrolni-list-koupelna' ) ); ?>">Praktický kontrolní návod</a>. Rozměry samy o sobě nezaručují bezpečné použití.</p>
+          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, jak prověřit prostor, stabilní podlahu a přesun? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#kontrolni-list-koupelna' ) ); ?>"target="_blank" rel="noopener noreferrer">Praktický kontrolní návod (nová karta)</a>. Rozměry samy o sobě nezaručují bezpečné použití.</p>
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-toilet-chair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>

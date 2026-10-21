@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_143 */
+/* ZP_RELEASE_0_8_144 */
 /*
 Template Name: Zápraží — Sedátko do vany pro seniory
 */
@@ -73,7 +73,7 @@ get_header();
         <section id="zp-bath-transfer-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-bath-transfer-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bath-transfer-fit-title" hidden>
           <h3 id="zp-bath-transfer-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
-          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, jak změřit vanu, její okraj a prostor vedle ní? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana' ) ); ?>">Praktický kontrolní návod</a>. Rozměry samy o sobě nezaručují bezpečný přesun.</p>
+          <p class="zp-muted-copy zp-fit-measurement-help">Nevíte, jak změřit vanu, její okraj a prostor vedle ní? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana' ) ); ?>" target="_blank" rel="noopener noreferrer">Praktický kontrolní návod (nová karta)</a>. Rozměry samy o sobě nezaručují bezpečný přesun.</p>
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-bath-transfer-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>

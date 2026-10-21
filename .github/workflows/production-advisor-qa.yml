@@ -7,6 +7,7 @@ on:
       - "scripts/audit-live-night-wc-navigation.mjs"
       - "scripts/audit-live-walker-hub.mjs"
       - "scripts/audit-live-bed-cost.mjs"
+      - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -44,10 +45,14 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-walker-hub.mjs
-      - name: Confirm 0.8.140 bed-cost calculator clears obsolete result on invalid input
+      - name: Confirm deployed bed-cost calculator clears obsolete result on invalid input
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-bed-cost.mjs
+      - name: Verify wheelchair doorway measuring guide and private width checker
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-wheelchair-doorway.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

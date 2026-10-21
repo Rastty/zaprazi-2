@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_141 */
+/* ZP_RELEASE_0_8_142 */
 /*
 Template Name: Zápraží — Sprchovací židle pro seniory
 */
@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-sprchovaci-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#bezpecne-sprchovani-v-sede">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha' ) ); ?>">Změřit sprchový kout pro židli</a>
       </div>
     </div>
   </section>

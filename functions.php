@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.141' );
+  define( 'ZAPRAZI_RELEASE', '0.8.142' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -16,6 +16,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-ochrana-soukromi.php',
     'page-jak-vznika-doporuceni.php',
     'page-koupelna-a-wc.php',
+    'page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php',
     'page-pomucky-do-koupelny-na-pojistovnu.php',
     'page-polohovaci-postel.php',
     'page-polohovaci-postel-na-pojistovnu.php',
@@ -2195,6 +2196,28 @@ function zaprazi_2_wheelchair_doorway_asset() {
 }
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_wheelchair_doorway_asset', 20 );
 
+/** Safe, non-destructive publication of a separate bathroom measuring resource. */
+function zaprazi_2_ensure_bathroom_measurements_page() {
+  if ( '1' === get_option( 'zaprazi_bathroom_measurements_page_v1' ) ) return;
+  $slug = 'co-zmerit-v-koupelne-pred-vyberem-pomucky';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page', 'post_status' => 'publish',
+      'post_title' => 'Co změřit v koupelně před výběrem pomůcky pro seniora',
+      'post_name' => $slug, 'post_content' => '',
+      'post_excerpt' => 'Praktické měření kolem WC, ve sprše a u vany: sed, prostor, bezpečná opora, uchycení a cesta do odpovídajícího poradce.',
+      'meta_input' => array( '_wp_page_template' => 'page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php' ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_bathroom_measurements_page_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_bathroom_measurements_page', 37 );
+function zaprazi_2_is_bathroom_measurements_page() {
+  return is_page( 'co-zmerit-v-koupelne-pred-vyberem-pomucky' );
+}
+
 function zaprazi_2_ensure_night_wc_page() {
   if ( '1' === get_option( 'zaprazi_night_wc_page_v1' ) ) {
     return;
@@ -2257,6 +2280,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit v koupelně před výběrem pomůcky | Zápraží';
   if ( zaprazi_2_is_wheelchair_doorway_page() ) {
     return 'Projde invalidní vozík dveřmi? Měření průchodu | Zápraží';
   }
@@ -2302,6 +2326,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit před nákupem pomůcky k WC, do sprchy nebo do vany? Praktický seznam rozměrů, kontrola uchycení a navazující poradce.';
   if ( zaprazi_2_is_wheelchair_doorway_page() ) {
     return 'Jak změřit skutečnou šířku dveří pro invalidní vozík: otevřené křídlo, celková šířka vozíku, práh a zatáčení. Orientační výpočet a poradce.';
   }
@@ -2396,6 +2421,13 @@ function zaprazi_2_wheelchair_doorway_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_wheelchair_doorway_meta_fallback', 5 );
+
+/** No duplicate meta when Yoast is active. */
+function zaprazi_2_bathroom_measurements_meta_fallback() {
+  if ( ! zaprazi_2_is_bathroom_measurements_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_bathroom_measurements_meta_fallback', 5 );
 
 /** Only when Yoast is inactive: one non-duplicated descriptive tag. */
 function zaprazi_2_night_wc_meta_fallback() {

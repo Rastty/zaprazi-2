@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_141 */
+/* ZP_RELEASE_0_8_142 */
 /*
 Template Name: Zápraží — Nástavec na WC pro seniory
 */
@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-nastavec-wc">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#kontrola-nastavce-na-wc">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit WC před nákupem nástavce</a>
       </div>
       <p class="zp-muted-copy">Pokud se potíže objevují hlavně při noční cestě z postele na WC, samotná pomůcka nemusí stačit. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Projít celou noční trasu a kontrolní seznam</a>.</p>
     </div>

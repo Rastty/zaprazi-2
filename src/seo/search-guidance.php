@@ -11,6 +11,28 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     return array();
   }
   $query = substr( $query, 0, 160 );
+
+  // A request for a grab bar near a bath/shower is not a request for a
+  // seat. Avoid routing it to the product-specific seat/chair Advisors.
+  // If the user explicitly mentions a chair or a seat, the usual product
+  // intent rules below remain authoritative.
+  $grip_intent = preg_match( '/\b(?:madl[a-z]*|opor[a-z]*|drzadl[a-z]*)\b/', $query );
+  $seat_intent = preg_match( '/\b(?:zidl[a-z]*|sedatk[a-z]*)\b/', $query );
+  if ( $grip_intent && ! $seat_intent ) {
+    if ( preg_match( '/\bvan[a-z]*\b/', $query ) ) {
+      return array(
+        array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro bezpečnější koupelnu', 'Madlo a sedátko do vany nejsou zaměnitelné. Nejdřív ověřte přesun a způsob bezpečného uchycení.' ),
+        array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana', 'Co ověřit u vany', 'Změřte prostor a ověřte podklad; samotné rozměry bezpečné kotvení nepotvrzují.' ),
+      );
+    }
+    if ( preg_match( '/\bsprch[a-z]*\b/', $query ) ) {
+      return array(
+        array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro bezpečnější koupelnu', 'Madlo a sprchovací židle řeší odlišné potřeby. Ověřte možnost bezpečného úchopu a kotvení.' ),
+        array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha', 'Co ověřit ve sprše', 'Změřte prostor a ověřte podklad; samotné rozměry bezpečné kotvení nepotvrzují.' ),
+      );
+    }
+  }
+
   $groups = array(
     array( '/\btoalet[a-z]*\s+zidl[a-z]*\b/', array(
       array( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle', 'Poradce pro toaletní židli', 'Nejdřív ověřte bezpečný přesun, stabilitu a prostor.' ),

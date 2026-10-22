@@ -1,5 +1,5 @@
 /**
- * Production browser acceptance for 0.8.146 search rescue.
+ * Production browser acceptance for 0.8.146–0.8.148 search rescue.
  * Read-only GET; no form submission, merchant navigation or health answers.
  */
 import assert from "node:assert/strict";
@@ -29,6 +29,37 @@ const checks=[
   {query:"noční cesta na WC",links:[
     "/nocni-cesta-z-postele-na-wc/#nocni-audit",
     "/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle"
+  ]},
+  {query:"madlo do vany",links:[
+    "/koupelna-a-wc/#poradce-koupelna",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana"
+  ],gripSafety:true},
+  {query:"madlo do sprchy",links:[
+    "/koupelna-a-wc/#poradce-koupelna",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha"
+  ],gripSafety:true},
+  {query:"opora ve sprše",links:[
+    "/koupelna-a-wc/#poradce-koupelna",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha"
+  ],gripSafety:true},
+  {query:"sprchovací židle s madly",links:[
+    "/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle",
+    "/koupelna-a-wc/#poradce-koupelna",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha"
+  ]},
+  {query:"sedátko do vany s madly",links:[
+    "/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana"
+  ]},
+  {query:"madlo k WC",links:[
+    "/madlo-k-wc-pro-seniory/#poradce-opora-wc",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc",
+    "/koupelna-a-wc/#poradce-koupelna"
+  ]},
+  {query:"nástavec na WC",links:[
+    "/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc",
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc",
+    "/koupelna-a-wc/#poradce-koupelna"
   ]},
   {query:"fotovoltaika",links:[],expectLegacy:true}
 ];
@@ -79,7 +110,9 @@ try{
           oldExists:!!old,
           oldAfterGuidance:!guided||!old||Boolean(guided.compareDocumentPosition(old)&Node.DOCUMENT_POSITION_FOLLOWING),
           oldCount:old?.querySelectorAll(".zp-archive-card").length||0,
-          pagination:!!main?.querySelector(".zp-pagination")
+          pagination:!!main?.querySelector(".zp-pagination"),
+          wronglyClaimsNoResults:!!guided&&!!main?.querySelector(".zp-system-empty")&&
+            main.querySelector(".zp-system-empty").textContent.includes("Pro tento dotaz jsme nic nenašli.")
         };
       });
       assert.equal(data.release,EXPECTED_LIVE_RELEASE,"Unexpected per-page release");
@@ -94,6 +127,17 @@ try{
       assert.ok(data.links.every(a=>a.href.startsWith(origin+"/")&&!a.href.includes("?")&&
         !/ehub|awin|merchant|desturl|click\.php|affiliate/i.test(a.href)),
         "Guide must not directly link merchants or echo search terms");
+      if(check.gripSafety) {
+        const forbidden=[
+          "/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana",
+          "/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle",
+          "/madlo-k-wc-pro-seniory/#poradce-opora-wc"
+        ].map(x=>origin+x);
+        assert.ok(data.links.every(a=>!forbidden.includes(a.href)),
+          "Searching for shower/bath support cannot substitute a seat or WC bar: "+check.query);
+      }
+      assert.equal(data.wronglyClaimsNoResults,false,
+        "A contextual match must not simultaneously claim nothing was found: "+check.query);
       assert.equal(data.oldAfterGuidance,true,"Old search results must remain below guidance");
       if(check.expectLegacy)assert.ok(data.oldCount>0,
         "Existing legacy search results were removed for "+check.query);

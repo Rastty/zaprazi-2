@@ -49,6 +49,11 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Poradce pro chůzi</a></p>
         </article>
         <article class="zp-decision-card">
+          <h3>7. Vstávání z křesla a židle</h3>
+          <p>Zkontrolujte nízký nebo hluboký sed, pevnost područek a možnost bezpečného postavení. Ne každý problém řeší elektrické zvedací křeslo.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo' ) ); ?>">Co prověřit, když senior nemůže vstát z křesla</a></p>
+        </article>
+        <article class="zp-decision-card">
           <h3>6. Postel a okolí</h3>
           <p>Ověřte výšku lůžka, prostor pro vstávání a případnou pomoc pečující osoby. U dlouhodobější péče může být zásadní přístup z více stran.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p>

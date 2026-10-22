@@ -23,7 +23,7 @@ get_header();
   <section id="situace" class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Co potřebujete vyřešit?</p>
-      <h2 class="zp-section-title">Šest různých situací potřebuje šest různých rozhodovacích cest.</h2>
+      <h2 class="zp-section-title">Sedm různých situací potřebuje sedm různých rozhodovacích cest.</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
           <h3>Chůze a opora</h3>
@@ -41,6 +41,12 @@ get_header();
           <h3>Polohovací postel</h3>
           <p>U postele jsou zásadní prostor, přístup pečující osoby, technické parametry a očekávaná délka používání. U dočasné potřeby může dávat smysl půjčovna.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p>
+        </article>
+
+        <article class="zp-decision-card">
+          <h3>Vstávání z křesla nebo pohovky</h3>
+          <p>Hluboký sed, slabá opora a potřeba fyzického zvedání znamenají různé postupy. Nejdřív ověřte bezpečný transfer, potom případné zvedací křeslo.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo' ) ); ?>">Poradce pro vstávání z křesla</a></p>
         </article>
 
         <article class="zp-decision-card">

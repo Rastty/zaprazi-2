@@ -28,6 +28,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-kompenzacni-pomucky-pro-seniory.php',
     'page-bezpecny-byt-pro-seniora.php',
     'page-schody-pro-seniora-doma.php',
+    'page-vstavani-z-kresla-pro-seniora.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
@@ -2276,6 +2277,27 @@ function zaprazi_2_ensure_stairs_page() {
 }
 add_action( 'init', 'zaprazi_2_ensure_stairs_page', 34 );
 
+/** Create one new problem-guide URL without overwriting legacy WP content. */
+function zaprazi_2_ensure_chair_rise_page() {
+  $slug = 'vstavani-z-kresla-pro-seniora';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-vstavani-z-kresla-pro-seniora.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior nemůže vstát z křesla: co pomůže bezpečně',
+      'post_excerpt' => 'Problém s vstáváním z hlubokého křesla: stabilní sed, područky, sedm kontrol a kdy dává smysl konzultovat elektrické zvedací křeslo.',
+      'post_content' => '',
+      'meta_input' => array('_wp_page_template'=>'page-vstavani-z-kresla-pro-seniora.php'),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_chair_rise_page', 35 );
+
+
 
 function zaprazi_2_is_night_wc_page() {
   return is_page( 'nocni-cesta-z-postele-na-wc' );
@@ -2311,6 +2333,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Senior nemůže vstát z křesla: co pomůže bezpečně | Zápraží';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior nezvládá schody doma: jak vyřešit přístup | Zápraží';
   if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit v koupelně před výběrem pomůcky | Zápraží';
   if ( zaprazi_2_is_wheelchair_doorway_page() ) {
@@ -2358,6 +2381,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Obtížné vstávání z křesla? Rozlište nízký sed, oporu, bezpečný přesun a zvedací mechanismus. Sedm kontrol před koupí a odborné zdroje.';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior doma nezvládá schody? Co udělat hned, sedm kontrol schodiště, sedačka vs. plošina vs. schodolez a jak ověřit příspěvek u Úřadu práce.';
   if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit před nákupem pomůcky k WC, do sprchy nebo do vany? Praktický seznam rozměrů, kontrola uchycení a navazující poradce.';
   if ( zaprazi_2_is_wheelchair_doorway_page() ) {
@@ -2406,6 +2430,13 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+/** Preserve exactly one description on the new guide without Yoast. */
+function zaprazi_2_chair_rise_description_fallback() {
+  if ( ! is_page( 'vstavani-z-kresla-pro-seniora' ) || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_chair_rise_description_fallback', 5 );
+
 
 /** SEO description for the stairs guide only if Yoast is unavailable. */
 function zaprazi_2_stairs_meta_fallback() {

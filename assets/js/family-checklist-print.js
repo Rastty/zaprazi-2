@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_147
+// ZP_RELEASE_0_8_148
 // A user-initiated, ephemeral print action: no data entry, persistence,
 // analytics, network requests, URL changes or personalized information.
 const button = document.querySelector("[data-zp-paper-print]");

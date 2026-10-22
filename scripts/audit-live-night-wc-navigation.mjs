@@ -71,9 +71,50 @@ try{
     assert.ok(back,"No reciprocal contextual link from "+path);
     assert.match(data.text,/samotná pomůcka nemusí stačit/);
   }
+  // 0.8.145: the pre-discharge checklist must lead to a practical first-night
+  // problem and back without bypassing a safe product-selection stage.
+  const discharge="/otazky-pred-propustenim-z-nemocnice/";
+  const returnHome="/navrat-z-nemocnice/";
+  const chair="/toaletni-zidle-pro-seniory/";
+  const hospital=await openPage(discharge);
+  assert.ok(hospital.idList.includes("wc-prvni-noc"),
+    "Pre-discharge first-night WC section missing");
+  const wcQuestions=hospital.issueCards.find(c=>c.heading==="Noční cesta z postele na WC");
+  assert.ok(wcQuestions,"Hospital checklist lacks first-night WC questions");
+  const routeTargets=[
+    origin+night+"#nocni-audit",
+    origin+chair+"#poradce-toaletni-zidle"
+  ];
+  assert.deepEqual(wcQuestions.links,routeTargets,
+    "First-night WC section must link only to existing safety checklist and specialized Advisor");
+  assert.match(wcQuestions.text,/fyzické zvedání|přesun nejistý/);
+  assert.match(wcQuestions.text,/Samotná toaletní židle neřeší nebezpečný přesun/);
+
+  const entry=origin+discharge+"#wc-prvni-noc";
+  assert.ok(overview.idList.includes("nocni-audit"),"Night route checklist anchor missing");
+  const unsafe=overview.issueCards.find(c=>c.heading==="Samostatná cesta na WC není bezpečná");
+  assert.ok(unsafe&&unsafe.links.includes(entry),
+    "Unsafe night-WC branch must link back to the hospital question");
+  assert.match(unsafe.text,/Proberte bezpečný transfer/);
+  const possibleChair=overview.issueCards.find(c=>c.heading.includes("WC je příliš daleko"));
+  assert.ok(possibleChair&&possibleChair.links.includes(routeTargets[1]),
+    "Potential bedside-chair branch must lead to the exact Advisor");
+
+  const returnPage=await openPage(returnHome);
+  const toiletPriority=returnPage.issueCards.find(c=>c.heading==="2. WC a postel");
+  assert.ok(toiletPriority&&toiletPriority.links.includes(entry),
+    "Return-home priority must link to the pre-discharge WC question");
+  assert.match(toiletPriority.text,/Ještě před propuštěním/);
+
+  const chairPage=await openPage(chair);
+  assert.ok(chairPage.idList.includes("poradce-toaletni-zidle"),
+    "Specialist destination no longer has the correct Advisor anchor");
+
   console.log("LIVE_NIGHT_WC_NAVIGATION",JSON.stringify({
     release:expectedVersion,integrity:ready.integrity,affiliate_slots:ready.configured_total,
     pages:inspected,issue_card_links:issue.links,riser_anchor:"poradce-nastavec-wc",
-    support_anchor:"poradce-opora-wc",both_return_links:true,merchant_links_followed:0
+    support_anchor:"poradce-opora-wc",both_return_links:true,
+    discharge_routes:routeTargets.length,reciprocal_hospital_links:2,
+    bedside_chair_fit_advisor:true,merchant_links_followed:0
   }));
 }finally{await browser.close();}

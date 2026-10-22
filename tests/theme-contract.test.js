@@ -1770,7 +1770,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   const footer = read("footer.php");
 
   assert.match(page, /Kompenzační pomůcky pro seniory: začněte problémem, ne katalogem/);
-  assert.match(page, /Šest různých situací potřebuje šest různých rozhodovacích cest/);
+  assert.match(page, /Sedm různých situací potřebuje sedm různých rozhodovacích cest/);
 
   for (const path of [
     "/choditka-pro-seniory/",

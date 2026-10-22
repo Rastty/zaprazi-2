@@ -10,7 +10,7 @@ const search=read("src/seo/search-guidance.php");
 
 test("stairs topic owns one distinct problem-focused page and 7 practical checks",()=>{
   assert.match(page,/Template Name: Zápraží — Schody pro seniora doma/);
-  assert.match(page,/ZP_RELEASE_0_8_149/);
+  assert.match(page,/ZP_RELEASE_0_8_150/);
   assert.equal((page.match(/<h1[\s>]/g)||[]).length,1);
   for(const id of ["plan-schody","situace-schody","co-zmerit-schody","prispevek-schody","zdroje-schody"])
     assert.ok(page.includes('id="'+id+'"'),"Missing jump target "+id);
@@ -63,5 +63,5 @@ test("auto-registration is one-slug only, does not overwrite other WP pages, has
   assert.doesNotMatch(block,/wp_update_post|wp_delete_post|wp_trash_post|wp_set_post_terms/);
   assert.ok(functions.includes("is_page( 'schody-pro-seniora-doma' )"));
   assert.ok(functions.includes("zaprazi_2_stairs_meta_fallback"));
-  assert.match(functions,/ZAPRAZI_RELEASE', '0\.8\.149'/);
+  assert.match(functions,/ZAPRAZI_RELEASE', '0\.8\.150'/);
 });

@@ -65,7 +65,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Člověk potřebuje vozík i během přepravy</h3>
           <p>Schodišťová sedačka a šikmá či svislá plošina nejsou totéž. Pro vozík je třeba samostatně prověřit kompatibilitu přesného modelu, nosnost celé sestavy, bezpečné nastupování, prostor a stavební možnosti. Nelze automaticky předpokládat vhodnost každé plošiny ani každého vozíku.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Prověřit potřebu a parametry vozíku</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projde-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit průchody</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Prověřit potřebu a parametry vozíku</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit průchody</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Krátkodobá potřeba a dopomoc druhé osoby</h3>
@@ -82,7 +82,7 @@ get_header();
       <h2 class="zp-section-title">Sedm věcí, které zjistit před výběrem sedačky, plošiny nebo jiného řešení.</h2>
       <p>Tyto údaje si můžete zapsat na papír pro odbornou konzultaci. <strong>Nevkládáte je na web a samotná kontrola neznamená schválení bezpečnosti.</strong></p>
       <div class="zp-decision-grid">
-        <article class="zp-decision-card"><h3>01 · Kde přesně je překážka?</h3><p>Jde o práh, dva venkovní schody, schodiště do patra nebo cestu přes společné prostory domu? Uveďte všechny místa, která je potřeba projít.</p></article>
+        <article class="zp-decision-card"><h3>01 · Kde přesně je překážka?</h3><p>Jde o práh, dva venkovní schody, schodiště do patra nebo cestu přes společné prostory domu? Uveďte všechna místa, která je potřeba projít.</p></article>
         <article class="zp-decision-card"><h3>02 · Schodiště a podesty</h3><p>Zapište počet stupňů, orientační výšku stupňů a skutečně volnou šířku. Uveďte zatáčky, mezipodesty a prostor na obou koncích. Projektant musí vše přesně doměřit.</p></article>
         <article class="zp-decision-card"><h3>03 · Dveře a nástup</h3><p>Ověřte dveře, kliky, otevírání křídel, práh a volný prostor pro bezpečný nástup, výstup a případné otočení vozíku.</p></article>
         <article class="zp-decision-card"><h3>04 · Povrch a kotvení</h3><p>Vnitřní, nebo venkovní prostředí? Jaký je stav stupňů, podlaha, stěna a skutečný nosný podklad? Madla a technické vybavení musí mít ověřené upevnění, nikoli jen pěknou fotografii.</p></article>

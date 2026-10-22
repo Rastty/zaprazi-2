@@ -43,7 +43,8 @@ test("problem guide is linked from two distinct existing editorial contexts and 
   for(const path of ["/bezpecny-byt-pro-seniora/#audit-bytu",
                      "/navrat-z-nemocnice/#plan-navratu",
                      "/otazky-pred-propustenim-z-nemocnice/",
-                     "/invalidni-vozik/#poradce-vozik"])
+                     "/invalidni-vozik/#poradce-vozik",
+                     "/projede-invalidni-vozik-dvermi/#mereni-pruchodu"])
     assert.ok(page.includes(path),"Missing relevant journey link "+path);
   assert.match(search, /'\/schody-pro-seniora-doma\/#plan-schody'/);
 });

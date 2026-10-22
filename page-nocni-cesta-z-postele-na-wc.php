@@ -97,6 +97,7 @@ get_header();
           <h3>Samostatná cesta na WC není bezpečná</h3>
           <p>Nezkoušejte ji „jen s novým chodítkem“. Proberte bezpečný transfer, potřebnou pomoc a případně blízké toaletní řešení s ošetřujícím týmem. Vlastní nákup problém nemusí vyřešit.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Zajistit bezpečný návrat a přesuny doma</a></p>
+          <p>Pokud návrat domů teprve plánujete, vyjasněte si bezpečný přesun ještě na oddělení: <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/#wc-prvni-noc' ) ); ?>">konkrétní otázky k noční cestě na WC před propuštěním</a>.</p>
         </article>
       </div>
     </div>

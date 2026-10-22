@@ -5,7 +5,7 @@ const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
 
 test("bathroom measurement resource answers a distinct problem with real, scoped sources",()=>{
  const p=read("page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php");
- assert.match(p,/ZP_RELEASE_0_8_148/);
+ assert.match(p,/ZP_RELEASE_0_8_149/);
  assert.match(p,/<h1>Co změřit v koupelně před výběrem pomůcky pro seniora\?/);
  for(const id of ["vyberte-misto","mereni-wc","mereni-sprcha","mereni-vana","kontrolni-list-koupelna"])
   assert.match(p,new RegExp('id="'+id+'"'));

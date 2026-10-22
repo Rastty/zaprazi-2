@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_148 */
+/* ZP_RELEASE_0_8_149 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */
@@ -29,7 +29,7 @@ get_header();
         <article class="zp-decision-card"><h3>2. Co je nutné zajistit hned doma?</h3><p>Ověřte bezpečný příchod, přesuny mezi postelí a WC, stravu, pití, hygienu a možnost přivolat pomoc.</p></article>
         <article class="zp-decision-card"><h3>3. Kdo zajistí další zdravotní péči?</h3><p>Zeptejte se, zda je potřeba domácí zdravotní péče, kdo ji indikuje, kdy začne a kdo naváže po úvodním období.</p></article>
         <article class="zp-decision-card"><h3>4. Jak mají probíhat léky a kontroly?</h3><p>Nechte si objasnit předaný seznam léků, praktické pokyny, objednané kontroly a kontakt pro dotazy. Léčbu sami neměňte.</p></article>
-        <article class="zp-decision-card"><h3>5. Jak se člověk bezpečně dostane domů?</h3><p>Proberte dopravu, schody, přenášení a potřebný doprovod. Zdravotnický transport hrazený pojišťovnou závisí na posouzení lékaře.</p></article>
+        <article class="zp-decision-card"><h3>5. Jak se člověk bezpečně dostane domů?</h3><p>Proberte dopravu, schody, přenášení a potřebný doprovod. Zdravotnický transport hrazený pojišťovnou závisí na posouzení lékaře.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/schody-pro-seniora-doma/#plan-schody' ) ); ?>">Co řešit, když se člověk přes schody bezpečně nedostane</a></p></article>
         <article class="zp-decision-card"><h3>6. Jaké pomůcky mají smysl?</h3><p>Nejdřív zjistěte skutečnou potřebu a bezpečné použití. U případné pomůcky rozlišujte půjčení, nákup a ověření úhrady.</p></article>
         <article class="zp-decision-card"><h3>7. Co když doma péče není zajištěna?</h3><p>Řekněte to nemocničnímu týmu ještě před propuštěním. Požádejte o kontakt na sociálního pracovníka a o koordinaci dostupné pomoci.</p></article>
       </div>

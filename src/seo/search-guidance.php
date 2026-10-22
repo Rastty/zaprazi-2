@@ -94,6 +94,11 @@ function zaprazi_2_search_guidance_for_query( $query ) {
       array( '/sobestacnost/', 'Poradce pro každodenní soběstačnost', 'Pomůcky vybírejte podle konkrétního úkonu doma.' ),
       array( '/bezpecny-byt-pro-seniora/', 'Audit bezpečného bytu', 'Projděte situaci v jednotlivých místnostech.' ),
     ) ),
+    array( '/\b(?:schod[a-z]*|schodist[a-z]*|schodolez[a-z]*)\b/', array(
+      array( '/schody-pro-seniora-doma/#plan-schody', 'Co dělat, když senior nezvládá schody', 'Nejdřív bezpečný přístup a sedm věcí, které ověřit před výběrem zařízení.' ),
+      array( '/schody-pro-seniora-doma/#prispevek-schody', 'Schodišťová sedačka, plošina a příspěvek', 'Případný příspěvek ověřujte u Úřadu práce podle konkrétní situace.' ),
+      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Bezpečný domov bez zbytečných rizik', 'Prověřte i vstupní práh, WC, noční trasu a běžný pohyb doma.' ),
+    ) ),
     array( '/\b(?:pojistov[a-z]*|epoukaz[a-z]*|uhrad[a-z]*)\b/', array(
       array( '/kompenzacni-pomucky-pro-seniory/#pojistovna', 'Jak ověřit úhradu pomůcky', 'Podmínky a nárok se liší podle konkrétního prostředku.' ),
       array( '/choditko-na-pojistovnu/', 'Chodítko na pojišťovnu', 'Aktuální postup a ověření v evidenci SÚKL.' ),

@@ -72,6 +72,13 @@ check_route('vozik','/invalidni-vozik/',3);
 check_route('polohovaci postel','/polohovaci-postel/',2);
 check_route('nemocnice','/navrat-z-nemocnice/#plan-navratu',2);
 check_route('schody','/schody-pro-seniora-doma/#plan-schody',3);
+check_route('kreslo','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
+check_route('zvedaci kreslo','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
+check_route('polohovaci kreslo','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
+check_route('vstavani ze zidle','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
+check_route('toaletni zidle','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
+check_route('sprchovaci zidle','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
+
 check_route('schodolez','/schody-pro-seniora-doma/#plan-schody',3);
 check_route('schodistova sedacka','/schody-pro-seniora-doma/#plan-schody',3);
 check_route('schody u vchodu','/schody-pro-seniora-doma/#plan-schody',3);

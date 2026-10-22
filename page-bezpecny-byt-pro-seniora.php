@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_149 */
+/* ZP_RELEASE_0_8_150 */
 /*
 Template Name: Zápraží — Bezpečný byt pro seniora
 */
@@ -47,6 +47,11 @@ get_header();
           <h3>5. Chůze po bytě</h3>
           <p>Změřte nejužší průchod a sledujte, zda se člověk přidržuje nábytku. Pokud potřebuje pravidelnou oporu, má smysl řešit správný typ chodítka, ne jen přidávat další židle.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Poradce pro chůzi</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>7. Vstávání z křesla a židle</h3>
+          <p>Zkontrolujte nízký nebo hluboký sed, pevnost područek a možnost bezpečného postavení. Ne každý problém řeší elektrické zvedací křeslo.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo' ) ); ?>">Co prověřit, když senior nemůže vstát z křesla</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>6. Postel a okolí</h3>

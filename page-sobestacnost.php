@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_149 */
+/* ZP_RELEASE_0_8_150 */
 /*
 Template Name: Zápraží — Soběstačnost
 */

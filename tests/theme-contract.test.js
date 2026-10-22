@@ -467,6 +467,7 @@ test("current deployment integrity contract covers critical runtime files", () =
     "page-kompenzacni-pomucky-pro-seniory.php",
     "page-bezpecny-byt-pro-seniora.php",
     "page-schody-pro-seniora-doma.php",
+    "page-vstavani-z-kresla-pro-seniora.php",
     "page-nocni-cesta-z-postele-na-wc.php",
     "page-obuv-pro-seniory.php",
     "page-jak-zmerit-chodidlo-pro-vyber-obuvi.php",
@@ -1769,7 +1770,7 @@ test("compensatory aids SEO hub routes to all six decision journeys", () => {
   const footer = read("footer.php");
 
   assert.match(page, /Kompenzační pomůcky pro seniory: začněte problémem, ne katalogem/);
-  assert.match(page, /Šest různých situací potřebuje šest různých rozhodovacích cest/);
+  assert.match(page, /Sedm různých situací potřebuje sedm různých rozhodovacích cest/);
 
   for (const path of [
     "/choditka-pro-seniory/",

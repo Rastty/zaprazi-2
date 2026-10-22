@@ -78,6 +78,11 @@ function zaprazi_2_search_guidance_for_query( $query ) {
       array( '/projede-invalidni-vozik-dvermi/', 'Projede vozík dveřmi?', 'Jak změřit průchod před výběrem modelu.' ),
       array( '/invalidni-vozik-na-pojistovnu/', 'Vozík a zdravotní pojišťovna', 'Oddělte schválený prostředek od maloobchodní nabídky.' ),
     ) ),
+    array( '/\bkresl[a-z]*\b|\bvstav[a-z]*\b.{0,50}\bzidl[a-z]*\b|\bzidl[a-z]*\b.{0,50}\bvstav[a-z]*\b/', array(
+      array( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo', 'Senior nemůže vstát z křesla', 'Nejdřív bezpečný přesun, výška sedu a pevnost opěrek.' ),
+      array( '/vstavani-z-kresla-pro-seniora/#mereni-kresla', 'Co změřit před výběrem křesla', 'Sedm kontrol před koupí i před odborným posouzením.' ),
+      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Prověřit bezpečnost bytu', 'Další rizika pádů, chůze a cesty z postele na WC.' ),
+    ) ),
     array( '/\b(?:postel[a-z]*|luzk[a-z]*|polohovac[a-z]*)\b/', array(
       array( '/polohovaci-postel/', 'Poradce pro polohovací postel', 'Ověřte potřebu, rozměry, péči a způsob pořízení.' ),
       array( '/polohovaci-postel-na-pojistovnu/', 'Postel: půjčení, nákup a úhrada', 'Nejdřív zjistěte podmínky pro konkrétní řešení.' ),

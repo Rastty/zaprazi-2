@@ -1,0 +1,74 @@
+<?php
+/**
+ * Contextual search rescue for the old mixed-topic Zápraží archive.
+ * Only static, approved internal destinations; search terms never enter a
+ * recommendation, tracking, merchant URL, or persistent profile.
+ *
+ * Call with lower-case ASCII words separated by spaces.
+ */
+function zaprazi_2_search_guidance_for_query( $query ) {
+  if ( ! is_string( $query ) || '' === $query ) {
+    return array();
+  }
+  $query = substr( $query, 0, 160 );
+  $groups = array(
+    array( '/\btoalet[a-z]*\s+zidl[a-z]*\b/', array(
+      array( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle', 'Poradce pro toaletní židli', 'Nejdřív ověřte bezpečný přesun, stabilitu a prostor.' ),
+      array( '/nocni-cesta-z-postele-na-wc/#nocni-audit', 'Noční cesta z postele na WC', 'Sedm praktických bodů před výběrem pomůcky.' ),
+    ) ),
+    array( '/\bnocn[a-z]*\b.*\b(?:wc|toalet[a-z]*)\b/', array(
+      array( '/nocni-cesta-z-postele-na-wc/#nocni-audit', 'Kontrola noční cesty na WC', 'Projděte světlo, průchody, vstávání a bezpečný návrat.' ),
+      array( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle', 'Prověřit toaletní židli', 'Pouze pokud je bezpečný přesun možné zvládnout.' ),
+    ) ),
+    array( '/\bsprch[a-z]*\b/', array(
+      array( '/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle', 'Poradce pro sprchovací židli', 'Ověřte, zda je sed vhodné řešení, i rozměry a stabilitu.' ),
+      array( '/koupelna-a-wc/#poradce-koupelna', 'Obecný poradce pro koupelnu', 'Rozliší problém u WC, sprchy i vany.' ),
+      array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha', 'Co změřit ve sprše', 'Připravte rozměry před kontrolou konkrétního výrobku.' ),
+    ) ),
+    array( '/\bvan[a-z]*\b/', array(
+      array( '/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana', 'Poradce pro sedátko do vany', 'Nejdřív prověřte přesun přes okraj a kompatibilitu.' ),
+      array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana', 'Co změřit u vany', 'Rozměry pomáhají při kontrole modelu, nejsou potvrzením bezpečnosti.' ),
+    ) ),
+    array( '/\b(?:wc|toalet[a-z]*|nastavc[a-z]*|madl[a-z]*|koupeln[a-z]*)\b/', array(
+      array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro koupelnu a WC', 'Vyberte, zda je problém v dosednutí, opoře, chůzi nebo hygieně.' ),
+      array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto', 'Co doma změřit', 'Praktické rozměry pro WC, sprchu a vanu.' ),
+      array( '/pomucky-do-koupelny-na-pojistovnu/', 'Pomůcky a zdravotní pojišťovna', 'Případnou úhradu ověřujte pro konkrétní prostředek.' ),
+    ) ),
+    array( '/\b(?:choditk[a-z]*|rolator[a-z]*|rollator[a-z]*|chuz[a-z]*)\b/', array(
+      array( '/choditka-pro-seniory/', 'Poradce pro chůzi a chodítka', 'Rozliší potřebu opory a vhodný typ pomůcky.' ),
+      array( '/co-zmerit-pred-vyberem-choditka/', 'Co změřit před výběrem chodítka', 'Průchody, výšku a použití ověřte před konkrétní nabídkou.' ),
+      array( '/pujceni-choditka/', 'Půjčit, nebo koupit chodítko?', 'Délka používání ovlivní cestu pořízení.' ),
+    ) ),
+    array( '/\b(?:vozik[a-z]*|invalidn[a-z]*)\b/', array(
+      array( '/invalidni-vozik/', 'Poradce pro invalidní vozík', 'Nejdřív vyjasněte praktický způsob používání a bezpečný přesun.' ),
+      array( '/projede-invalidni-vozik-dvermi/', 'Projede vozík dveřmi?', 'Jak změřit průchod před výběrem modelu.' ),
+      array( '/invalidni-vozik-na-pojistovnu/', 'Vozík a zdravotní pojišťovna', 'Oddělte schválený prostředek od maloobchodní nabídky.' ),
+    ) ),
+    array( '/\b(?:postel[a-z]*|luzk[a-z]*|polohovac[a-z]*)\b/', array(
+      array( '/polohovaci-postel/', 'Poradce pro polohovací postel', 'Ověřte potřebu, rozměry, péči a způsob pořízení.' ),
+      array( '/polohovaci-postel-na-pojistovnu/', 'Postel: půjčení, nákup a úhrada', 'Nejdřív zjistěte podmínky pro konkrétní řešení.' ),
+    ) ),
+    array( '/\b(?:nemocnic[a-z]*|propust[a-z]*|navrat[a-z]*)\b/', array(
+      array( '/navrat-z-nemocnice/#plan-navratu', 'Plán návratu z nemocnice', 'Co připravit na první hodiny a noc doma.' ),
+      array( '/otazky-pred-propustenim-z-nemocnice/', 'Otázky pro nemocniční tým', 'Praktický seznam před odchodem z oddělení.' ),
+    ) ),
+    array( '/\b(?:obuv[a-z]*|bot[a-z]*|chodidl[a-z]*)\b/', array(
+      array( '/obuv-pro-seniory/', 'Poradce pro obuv', 'Praktická volba obuvi začíná potřebou a bezpečností.' ),
+      array( '/jak-zmerit-chodidlo-pro-vyber-obuvi/', 'Jak změřit chodidlo', 'Co doma změřit, než vyberete velikost.' ),
+    ) ),
+    array( '/\b(?:sobestac[a-z]*|uchop[a-z]*)\b/', array(
+      array( '/sobestacnost/', 'Poradce pro každodenní soběstačnost', 'Pomůcky vybírejte podle konkrétního úkonu doma.' ),
+      array( '/bezpecny-byt-pro-seniora/', 'Audit bezpečného bytu', 'Projděte situaci v jednotlivých místnostech.' ),
+    ) ),
+    array( '/\b(?:pojistov[a-z]*|epoukaz[a-z]*|uhrad[a-z]*)\b/', array(
+      array( '/kompenzacni-pomucky-pro-seniory/#pojistovna', 'Jak ověřit úhradu pomůcky', 'Podmínky a nárok se liší podle konkrétního prostředku.' ),
+      array( '/choditko-na-pojistovnu/', 'Chodítko na pojišťovnu', 'Aktuální postup a ověření v evidenci SÚKL.' ),
+    ) ),
+  );
+  foreach ( $groups as $group ) {
+    if ( preg_match( $group[0], $query ) ) {
+      return $group[1];
+    }
+  }
+  return array();
+}

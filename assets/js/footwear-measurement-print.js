@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_146
+// ZP_RELEASE_0_8_147
 // Only a voluntary local print action. No persistence, URLs, analytics or
 // visitor measurements ever leave this page.
 const button = document.querySelector("#zp-footwear-measurement-print");

@@ -19,6 +19,29 @@ function check_route($term,$first,$count) {
 check_route('sprcha','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
 check_route('koupelna','/koupelna-a-wc/#poradce-koupelna',3);
 check_route('wc','/koupelna-a-wc/#poradce-koupelna',3);
+check_route('nastavec na wc','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
+check_route('wc nastavec','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
+check_route('zvyseni wc','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
+check_route('zvyseni toalety','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
+check_route('madlo k wc','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
+check_route('wc madlo','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
+check_route('opora u wc','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
+check_route('toaletni ram','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
+check_route('zachodove madlo','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
+check_route('madlo','/koupelna-a-wc/#poradce-koupelna',3);
+check_route('madlo do vany','/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',2);
+check_route('toaletni zidle s madly','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
+foreach (array('madlo k wc'=>'/madlo-k-wc-pro-seniory/#poradce-opora-wc',
+               'nastavec na wc'=>'/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc') as $query=>$expected) {
+  $routes=zaprazi_2_search_guidance_for_query($query);
+  if(($routes[0][0]??'')!==$expected ||
+     ($routes[1][0]??'')!=='/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ||
+     ($routes[2][0]??'')!=='/koupelna-a-wc/#poradce-koupelna'){
+    fwrite(STDERR,"Wrong specialist / measuring / fallback order: ".$query."\n");
+    exit(1);
+  }
+}
+
 check_route('vana','/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',2);
 check_route('toaletni zidle','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
 check_route('nocni cesta na wc','/nocni-cesta-z-postele-na-wc/#nocni-audit',2);

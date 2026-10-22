@@ -29,6 +29,18 @@ function zaprazi_2_search_guidance_for_query( $query ) {
       array( '/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana', 'Poradce pro sedátko do vany', 'Nejdřív prověřte přesun přes okraj a kompatibilitu.' ),
       array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana', 'Co změřit u vany', 'Rozměry pomáhají při kontrole modelu, nejsou potvrzením bezpečnosti.' ),
     ) ),
+    // Named WC aids outrank the generic bathroom route. A toilet seat riser
+    // does not solve a missing handhold; wall bars require verified anchoring.
+    array( '/\b(?:nastav(?:ec|c[a-z]*)|zvys[a-z]*)\b.{0,48}\b(?:wc|toalet[a-z]*)\b|\b(?:wc|toalet[a-z]*)\b.{0,48}\b(?:nastav(?:ec|c[a-z]*)|zvys[a-z]*)\b/', array(
+      array( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc', 'Poradce pro nástavec na WC', 'Vyšší sed pomůže jen při vhodné výšce, stabilitě a bezpečném přesunu.' ),
+      array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc', 'Co změřit u WC', 'Ověřte výšku sedu, tvar mísy, uchycení a prostor.' ),
+      array( '/koupelna-a-wc/#poradce-koupelna', 'Nevíte, zda je problém ve výšce, nebo v opoře?', 'Obecný poradce rozliší různé situace u WC.' ),
+    ) ),
+    array( '/\b(?:madl[a-z]*|opor[a-z]*|ram[a-z]*)\b.{0,48}\b(?:wc|toalet[a-z]*)\b|\b(?:wc|toalet[a-z]*)\b.{0,48}\b(?:madl[a-z]*|opor[a-z]*|ram[a-z]*)\b|\bzachodov[a-z]*\s+madl[a-z]*\b/', array(
+      array( '/madlo-k-wc-pro-seniory/#poradce-opora-wc', 'Poradce pro madlo a oporu u WC', 'Nejdřív ověřte místo úchopu, bezpečné kotvení nebo stabilitu samostatné opory.' ),
+      array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc', 'Co změřit u WC', 'Prověřte prostor pro vstávání a skutečný podklad pro uchycení.' ),
+      array( '/koupelna-a-wc/#poradce-koupelna', 'Jde o nízké WC, nebo chybějící oporu?', 'Poradce pomůže odlišit různé příčiny potíží.' ),
+    ) ),
     array( '/\b(?:wc|toalet[a-z]*|nastavc[a-z]*|madl[a-z]*|koupeln[a-z]*)\b/', array(
       array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro koupelnu a WC', 'Vyberte, zda je problém v dosednutí, opoře, chůzi nebo hygieně.' ),
       array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto', 'Co doma změřit', 'Praktické rozměry pro WC, sprchu a vanu.' ),

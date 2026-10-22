@@ -41,8 +41,12 @@ get_header();
     <nav class="zp-pagination" aria-label="Stránkování výsledků"><?php the_posts_pagination(); ?></nav>
   <?php else : ?>
     <div class="zp-system-empty">
-      <p>Pro tento dotaz jsme nic nenašli.</p>
-      <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Zkusit Domácí poradce</a>
+      <?php if ( $zaprazi_guided_results ) : ?>
+        <p>Ve starším archivu nemáme další odpovídající článek. Využijte praktické návody a poradce výše.</p>
+      <?php else : ?>
+        <p>Pro tento dotaz jsme nic nenašli.</p>
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Zkusit Domácí poradce</a>
+      <?php endif; ?>
     </div>
   <?php endif; ?>
 </main>

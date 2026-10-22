@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_144 */
+/* ZP_RELEASE_0_8_145 */
 /*
 Template Name: Zápraží — Jak změřit chodidlo před výběrem obuvi
 */

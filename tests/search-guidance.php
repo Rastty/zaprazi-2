@@ -71,6 +71,11 @@ check_route('rollator','/choditka-pro-seniory/',3);
 check_route('vozik','/invalidni-vozik/',3);
 check_route('polohovaci postel','/polohovaci-postel/',2);
 check_route('nemocnice','/navrat-z-nemocnice/#plan-navratu',2);
+check_route('schody','/schody-pro-seniora-doma/#plan-schody',3);
+check_route('schodolez','/schody-pro-seniora-doma/#plan-schody',3);
+check_route('schodistova sedacka','/schody-pro-seniora-doma/#plan-schody',3);
+check_route('schody u vchodu','/schody-pro-seniora-doma/#plan-schody',3);
+
 check_route('obuv','/obuv-pro-seniory/',2);
 check_route('sobestacnost','/sobestacnost/',2);
 check_route('epoukaz','/kompenzacni-pomucky-pro-seniory/#pojistovna',2);

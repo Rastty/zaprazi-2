@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_144 */
+/* ZP_RELEASE_0_8_145 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */
@@ -99,6 +99,12 @@ get_header();
         <article class="zp-decision-card"><h3>Cesta a chůze</h3><p>Jakou oporu potřebuje člověk uvnitř bytu a jaké jsou průchody?</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Průvodce chodítky a rollátory</a></p></article>
         <article class="zp-decision-card"><h3>WC a sprchování</h3><p>Je problém ve výšce sedu, bezpečné opoře, prostoru nebo přesunu?</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a></p></article>
         <article class="zp-decision-card"><h3>Postel a uléhání</h3><p>Nejdřív ověřte bezpečný přístup, potřebné nastavení a způsob pomoci.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p></article>
+        <article class="zp-decision-card" id="wc-prvni-noc">
+          <h3>Noční cesta z postele na WC</h3>
+          <p>Ještě před propuštěním se zeptejte, zda člověk zvládne v noci bezpečně vstát, projít k toaletě, usednout a vrátit se. Pokud je potřeba fyzické zvedání nebo je přesun nejistý, domluvte postup a pomoc s nemocničním týmem. Samotná toaletní židle neřeší nebezpečný přesun.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/#nocni-audit' ) ); ?>">Sedm kontrol noční cesty na WC</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Prověřit toaletní židli pouze při bezpečném přesunu</a></p>
+        </article>
       </div>
     </div>
   </section>

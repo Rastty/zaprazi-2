@@ -29,7 +29,28 @@ check_route('opora u wc','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
 check_route('toaletni ram','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
 check_route('zachodove madlo','/madlo-k-wc-pro-seniory/#poradce-opora-wc',3);
 check_route('madlo','/koupelna-a-wc/#poradce-koupelna',3);
-check_route('madlo do vany','/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',2);
+check_route('madlo do vany','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('vanove madlo','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('opora do vany','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('drzadlo do vany','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('madlo do sprchy','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('sprchove madlo','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('opora ve sprse','/koupelna-a-wc/#poradce-koupelna',2);
+check_route('sprchovaci zidle s madly','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
+check_route('sedatko do vany s madly','/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',2);
+foreach (array(
+  'madlo do vany'=>'/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana',
+  'madlo do sprchy'=>'/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha'
+) as $query=>$expectedMeasure) {
+  $paths=array_column(zaprazi_2_search_guidance_for_query($query),0);
+  if(($paths[1]??'')!==$expectedMeasure ||
+     in_array('/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',$paths,true) ||
+     in_array('/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',$paths,true) ||
+     in_array('/madlo-k-wc-pro-seniory/#poradce-opora-wc',$paths,true)) {
+    fwrite(STDERR,"Bathroom grip must not shortcut to unrelated products: ".$query."\n");
+    exit(1);
+  }
+}
 check_route('toaletni zidle s madly','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
 foreach (array('madlo k wc'=>'/madlo-k-wc-pro-seniory/#poradce-opora-wc',
                'nastavec na wc'=>'/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc') as $query=>$expected) {

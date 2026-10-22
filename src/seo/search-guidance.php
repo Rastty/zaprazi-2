@@ -25,7 +25,7 @@ function zaprazi_2_search_guidance_for_query( $query ) {
         array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana', 'Co ověřit u vany', 'Změřte prostor a ověřte podklad; samotné rozměry bezpečné kotvení nepotvrzují.' ),
       );
     }
-    if ( preg_match( '/\bsprch[a-z]*\b/', $query ) ) {
+    if ( preg_match( '/\b(?:sprch[a-z]*|sprs[a-z]*)\b/', $query ) ) {
       return array(
         array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro bezpečnější koupelnu', 'Madlo a sprchovací židle řeší odlišné potřeby. Ověřte možnost bezpečného úchopu a kotvení.' ),
         array( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha', 'Co ověřit ve sprše', 'Změřte prostor a ověřte podklad; samotné rozměry bezpečné kotvení nepotvrzují.' ),

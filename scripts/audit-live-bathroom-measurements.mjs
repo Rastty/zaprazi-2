@@ -114,7 +114,7 @@ try{
       assert.equal(help.hidden,true,"Fit stage should initially be hidden: "+path);
       assert.equal(help.href,origin+route+hash,"Wrong fit help target on "+path);
       assert.equal(help.target,"_blank","Fit help would abandon answers on "+path);
-      assert.deepEqual(help.rel.split(/\\s+/).sort(),["noopener","noreferrer"].sort(),
+      assert.deepEqual(help.rel.split(/\s+/).sort(),["noopener","noreferrer"].sort(),
         "New-tab link must not expose window.opener: "+path);
       assert.match(help.label,/nová karta/,"New-tab behavior is not explained: "+path);
       assert.equal(help.offerMarkers,0,"Help link must never contain a merchant action: "+path);

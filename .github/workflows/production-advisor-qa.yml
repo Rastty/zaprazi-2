@@ -9,6 +9,7 @@ on:
       - "scripts/audit-live-bed-cost.mjs"
       - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-bathroom-measurements.mjs"
+      - "scripts/audit-live-search-guidance.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -42,6 +43,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-night-wc-navigation.mjs
+      - name: Verify search rescue on deployed multilingual and multiword queries
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-search-guidance.mjs
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:
           CHROME_BIN: /usr/bin/google-chrome

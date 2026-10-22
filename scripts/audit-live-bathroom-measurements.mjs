@@ -125,11 +125,22 @@ try{
         await page.waitForNetworkIdle({idleTime:400,timeout:15000});
         await page.$eval('input[name="primaryNeed"][value="raise_toilet"]',x=>x.click());
         await page.$eval('input[name="transferAbility"][value="independent"]',x=>x.click());
-        await page.click("#zp-bathroom-submit");
+        await page.$eval('input[name="duration"][value="long_term"]',x=>x.click());
+        await page.$eval("#zp-bathroom-submit",x=>x.click());
         await page.waitForFunction(
           ()=>document.querySelector("#zp-bathroom-fit-stage")?.hidden===false,
-          {timeout:12000}
-        );
+          {timeout:5500}
+        ).catch(async ()=>{
+          const diagnostic=await page.evaluate(()=>({
+            checked:[...document.querySelectorAll("#zp-bathroom-advisor input:checked")].map(x=>x.name+"="+x.value),
+            previewHidden:document.querySelector("#zp-bathroom-preview")?.hidden,
+            stageHidden:document.querySelector("#zp-bathroom-fit-stage")?.hidden,
+            errorText:document.querySelector("#zp-bathroom-errors")?.textContent?.trim(),
+            resultText:document.querySelector("#zp-bathroom-result")?.textContent?.slice(0,250),
+            button:document.querySelector("#zp-bathroom-submit")?.textContent
+          }));
+          throw new Error("Bathroom stage-one smoke did not advance: "+JSON.stringify(diagnostic));
+        });
         const popupPromise=new Promise((resolve,reject)=>{
           const timer=setTimeout(()=>reject(new Error("Measurement help did not open a new tab")),12000);
           page.once("popup",tab=>{clearTimeout(timer);resolve(tab);});

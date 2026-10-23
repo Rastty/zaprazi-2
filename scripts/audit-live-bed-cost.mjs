@@ -108,8 +108,21 @@ try{
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Vyplňte platné celé částky/);
     assert.doesNotMatch(result,/obě cesty finančně stejně/);
-    // Returning to valid input must not reuse an old result automatically.
-    await populate({months:"12",monthly:"900",extras:"",purchase:"10000"});
+    // Recover through native typing and blur, as a person actually corrects
+    // an invalid numeric field. Programmatic value assignments plus synthetic
+    // input alone do not simulate the browser's number-input focus/change
+    // lifecycle reliably after native constraint validation blocks a submit.
+    await entry.focus("#zp-bed-cost-months");
+    await entry.keyboard.press("ControlOrMeta+A");
+    await entry.keyboard.type("12");
+    await entry.keyboard.press("Tab");
+    const restored=await entry.$eval("#zp-bed-cost-comparison",el=>({
+      valid:el.checkValidity(),
+      invalid:[...el.querySelectorAll("input")].filter(x=>!x.validity.valid)
+        .map(x=>({id:x.id,value:x.value,reason:x.validationMessage}))
+    }));
+    assert.equal(restored.valid,true,
+      "Corrected input should restore native validity: "+JSON.stringify(restored.invalid));
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Údaje byly změněny/);
     assert.doesNotMatch(result,/Za 10 měsíců|obě cesty finančně stejně/);

@@ -2,10 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const expectedRelease=read("style.css").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
+const expectedMarker="ZP_RELEASE_"+expectedRelease.replaceAll(".","_");
 
 test("bathroom measurement resource answers a distinct problem with real, scoped sources",()=>{
  const p=read("page-co-zmerit-v-koupelne-pred-vyberem-pomucky.php");
- assert.match(p,/ZP_RELEASE_0_8_151/);
+ assert.ok(p.includes(expectedMarker),"Guide release marker differs from stylesheet");
  assert.match(p,/<h1>Co změřit v koupelně před výběrem pomůcky pro seniora\?/);
  for(const id of ["vyberte-misto","mereni-wc","mereni-sprcha","mereni-vana","kontrolni-list-koupelna"])
   assert.match(p,new RegExp('id="'+id+'"'));

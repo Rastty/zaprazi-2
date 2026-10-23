@@ -1,9 +1,10 @@
-// ZP_RELEASE_0_8_151
+// ZP_RELEASE_0_8_152
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../../src/bathroom/measurement-next-step.js";
 import { formatBathroomFacts } from "../../src/bathroom/product-facts-display.js";
+import { renderBathroomProductEvidence } from "../../src/bathroom/source-transparency.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form=document.querySelector("#zp-toilet-support-advisor");
@@ -62,7 +63,7 @@ if(form&&result&&submit&&errors){
     const affiliateUrl=typeof configured==="string"&&configured.startsWith("https://")?configured:null;
     const url=affiliateUrl||offer.url;
     const facts=formatBathroomFacts(p.facts).map(fact=>`<li>${esc(fact)}</li>`).join("");
-    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts">${facts}</ul><details><summary>Co ještě ověřit</summary><ul>${p.selectionNotes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></details>${allow?`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-support-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`:'<p class="zp-disclaimer">Nejdřív dokončete bezpečnostní kontrolu.</p>'}</article>`;
+    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts">${facts}</ul><details><summary>Co ještě ověřit</summary><ul>${p.selectionNotes.map(n=>`<li>${esc(n)}</li>`).join("")}</ul></details>${renderBathroomProductEvidence(p,esc)}${allow?`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-support-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a>${affiliateUrl?'<small class="zp-affiliate-label">Partnerský odkaz</small>':""}</div>`:'<p class="zp-disclaimer">Nejdřív dokončete bezpečnostní kontrolu.</p>'}</article>`;
   };
   form.addEventListener("change",(event)=>{
     const group=event.target?.closest?.("[data-zp-support-required]");

@@ -7,6 +7,7 @@ import { recommendBathroom } from "../src/bathroom/engine.js";
 import { getBathroomProducts } from "../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../src/bathroom/measurement-next-step.js";
+import { renderBathroomProductEvidence } from "../src/bathroom/source-transparency.js";
 import { formatBathroomFacts } from "../src/bathroom/product-facts-display.js";
 
 // Exercise each actual advisor's final click handler, not just a source regex.
@@ -79,7 +80,7 @@ function runFinalStep(kind, choices, hiddenNames = []) {
     },
     CustomEvent: class { constructor(_type, init) { this.detail = init.detail; } },
     recommendBathroom, getBathroomProducts, renderBathroomAcquisition,
-    formatBathroomFacts, renderBathroomMeasurementNextStep,
+    formatBathroomFacts, renderBathroomMeasurementNextStep, renderBathroomProductEvidence,
     installBathroomMicroStaging() { return true; }
   }, { filename, timeout: 1500 });
 

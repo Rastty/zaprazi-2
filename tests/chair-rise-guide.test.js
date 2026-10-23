@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const read=(p)=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const expectedRelease=read("style.css").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
+const expectedMarker="ZP_RELEASE_"+expectedRelease.replaceAll(".","_");
 const page=read("page-vstavani-z-kresla-pro-seniora.php");
 const fn=read("functions.php");
 const home=read("page-bezpecny-byt-pro-seniora.php");
@@ -9,7 +11,7 @@ const hub=read("page-kompenzacni-pomucky-pro-seniory.php");
 const search=read("src/seo/search-guidance.php");
 test("chair-rise guide is distinct, actionable and safety-first",()=>{
   assert.match(page,/Template Name: Zápraží — Vstávání z křesla pro seniora/);
-  assert.match(page,/ZP_RELEASE_0_8_151/);
+  assert.ok(page.includes(expectedMarker),"Guide release marker differs from stylesheet");
   assert.equal((page.match(/<h1(?:\s|>)/g)||[]).length,1);
   for(const anchor of ["jak-postupovat-kreslo","porovnani-kresel","mereni-kresla","zpusob-porizeni-kresla","zdroje-kreslo"])assert.ok(page.includes('id="'+anchor+'"'));
   for(let i=1;i<=7;i++)assert.ok(page.includes("0"+i+" ·"));
@@ -44,5 +46,5 @@ test("one-slug non-destructive WordPress auto publication with SEO and protected
   assert.doesNotMatch(seed,/wp_update_post|wp_delete_post|wp_trash_post/);
   assert.match(seed,/'page-vstavani-z-kresla-pro-seniora.php'/);
   assert.match(fn,/zaprazi_2_chair_rise_description_fallback/);
-  assert.match(fn,/ZAPRAZI_RELEASE', '0\.8\.151'/);
+  assert.ok(fn.includes("define( 'ZAPRAZI_RELEASE', '"+expectedRelease+"' );"),"Theme release differs");
 });

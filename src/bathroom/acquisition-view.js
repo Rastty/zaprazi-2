@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_153
+// ZP_RELEASE_0_8_154
 /**
  * Shared acquisition guidance for the main Bathroom Advisor and five focused
  * Bathroom/WC Advisors. Recommendation data is deterministic engine output.
@@ -18,7 +18,8 @@ const rentalHowTo = `
   </details>`;
 
 const reimbursementLinks = `
-  <p><a class="zp-text-link" href="/pomucky-do-koupelny-na-pojistovnu/">Jak ověřit možnosti úhrady</a></p>
+  <p><a class="zp-text-link" href="/pomucky-do-koupelny-na-pojistovnu/" target="_blank" rel="noopener noreferrer">Jak ověřit možnosti úhrady (otevře se v nové kartě)</a></p>
+  <p class="zp-muted-copy">Rozpracované odpovědi zůstanou v původní kartě poradce.</p>
   <p><a class="zp-text-link" href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Aktuální seznam SÚKL</a>
   · <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener">Zdroj VZP</a></p>`;
 

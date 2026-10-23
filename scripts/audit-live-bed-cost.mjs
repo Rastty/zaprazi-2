@@ -55,6 +55,16 @@ async function pageFor(path,js){
 try{
   const {page:entry,metadata:summary}=await pageFor(acquisition,true);
   try{
+    // First-visit consent is a fixed footer overlay. A user must choose
+    // Allow or Without measurement before tapping controls beneath it.
+    // Exercise the privacy-preserving "Without measurement" path explicitly
+    // instead of letting a simulated tap hit the consent text.
+    const consentShown=await entry.$eval("#zp-analytics-consent",el=>!el.hidden);
+    if(consentShown){
+      await entry.click("#zp-analytics-deny");
+      assert.equal(await entry.$eval("#zp-analytics-consent",el=>el.hidden),true,
+        "Without-measurement choice must dismiss the consent overlay");
+    }
     assert.ok(summary.ids.includes("porovnani-pujceni-postele"),"No anchor for calculator");
     assert.ok(summary.links.some(a=>a.href===origin+advisor+"#poradce-postel"),
       "Acquisition page no longer links to the fit-gated bed advisor");
@@ -108,8 +118,23 @@ try{
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Vyplňte platné celé částky/);
     assert.doesNotMatch(result,/obě cesty finančně stejně/);
-    // Returning to valid input must not reuse an old result automatically.
-    await populate({months:"12",monthly:"900",extras:"",purchase:"10000"});
+    // Recover through native typing and blur, as a person actually corrects
+    // an invalid numeric field. Programmatic value assignments plus synthetic
+    // input alone do not simulate the browser's number-input focus/change
+    // lifecycle reliably after native constraint validation blocks a submit.
+    await entry.focus("#zp-bed-cost-months");
+    await entry.keyboard.down("Control");
+    await entry.keyboard.press("A");
+    await entry.keyboard.up("Control");
+    await entry.keyboard.type("12");
+    await entry.keyboard.press("Tab");
+    const restored=await entry.$eval("#zp-bed-cost-comparison",el=>({
+      valid:el.checkValidity(),
+      invalid:[...el.querySelectorAll("input")].filter(x=>!x.validity.valid)
+        .map(x=>({id:x.id,value:x.value,reason:x.validationMessage}))
+    }));
+    assert.equal(restored.valid,true,
+      "Corrected input should restore native validity: "+JSON.stringify(restored.invalid));
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Údaje byly změněny/);
     assert.doesNotMatch(result,/Za 10 měsíců|obě cesty finančně stejně/);
@@ -128,6 +153,8 @@ try{
         a.href===origin+acquisition+"#porovnani-pujceni-postele"),
         "Bed advisor missing calculator link");
     }finally{await bed.close();}
+    assert.ok(!activity.some(x=>/googletagmanager\.com|google-analytics\.com/.test(x.url)),
+      "Declining analytics must not load the Google Analytics runtime");
     assert.deepEqual(jsErrors,[],"JavaScript errors on real calculator page");
     console.log("LIVE_BED_COST",JSON.stringify({
       version,integrity:ready.integrity,affiliate_slots:ready.configured_total,

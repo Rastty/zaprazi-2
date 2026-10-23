@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {execFileSync} from "node:child_process";
 import {parseThemeRelease,EXPECTED_LIVE_RELEASE} from "../scripts/lib/live-release.mjs";
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
 const scripts=[
@@ -32,4 +33,22 @@ test("live acceptance scripts all derive the expected version and keep their saf
  for(const path of scripts.slice(0,4))
   assert.match(read(path),/readiness\.release|ready\.release|readyResponse/,
    "Live version comparison missing in "+path);
+});
+
+test("PR predeploy override is explicit and never weakens manually dispatched QA",()=>{
+ const helper=new URL("../scripts/lib/live-release.mjs",import.meta.url).href;
+ const cmd="import {EXPECTED_LIVE_RELEASE} from "+JSON.stringify(helper)+
+   "; process.stdout.write(EXPECTED_LIVE_RELEASE);";
+ const probe=(event,override)=>execFileSync(process.execPath,["--input-type=module","-e",cmd],{
+   env:{...process.env,GITHUB_EVENT_NAME:event,ZP_RELEASE:override},
+   encoding:"utf8"
+ }).trim();
+ assert.equal(probe("pull_request","0.8.149"),"0.8.149",
+   "A PR may audit the actual earlier deployed release");
+ assert.equal(probe("workflow_dispatch","0.8.149"),EXPECTED_LIVE_RELEASE,
+   "Manual postdeploy QA must enforce the source release despite override");
+ assert.equal(probe("push","0.8.149"),EXPECTED_LIVE_RELEASE,
+   "A push must not bypass source-release checks");
+ const workflow=read(".github/workflows/production-advisor-qa.yml");
+ assert.match(workflow,/echo "ZP_RELEASE=\$LIVE_VERSION" >> "\$GITHUB_ENV"/);
 });

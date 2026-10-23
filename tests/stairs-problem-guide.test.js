@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 const read = path => readFileSync(new URL("../" + path, import.meta.url), "utf8");
+const expectedRelease=read("style.css").match(/^Version:\s*([\d.]+)\s*$/m)?.[1];
+const expectedMarker="ZP_RELEASE_"+expectedRelease.replaceAll(".","_");
 const page=read("page-schody-pro-seniora-doma.php");
 const site=read("page-bezpecny-byt-pro-seniora.php");
 const discharge=read("page-otazky-pred-propustenim-z-nemocnice.php");
@@ -10,7 +12,7 @@ const search=read("src/seo/search-guidance.php");
 
 test("stairs topic owns one distinct problem-focused page and 7 practical checks",()=>{
   assert.match(page,/Template Name: Zápraží — Schody pro seniora doma/);
-  assert.match(page,/ZP_RELEASE_0_8_151/);
+  assert.ok(page.includes(expectedMarker),"Guide release marker differs from stylesheet");
   assert.equal((page.match(/<h1[\s>]/g)||[]).length,1);
   for(const id of ["plan-schody","situace-schody","co-zmerit-schody","prispevek-schody","zdroje-schody"])
     assert.ok(page.includes('id="'+id+'"'),"Missing jump target "+id);
@@ -63,5 +65,5 @@ test("auto-registration is one-slug only, does not overwrite other WP pages, has
   assert.doesNotMatch(block,/wp_update_post|wp_delete_post|wp_trash_post|wp_set_post_terms/);
   assert.ok(functions.includes("is_page( 'schody-pro-seniora-doma' )"));
   assert.ok(functions.includes("zaprazi_2_stairs_meta_fallback"));
-  assert.match(functions,/ZAPRAZI_RELEASE', '0\.8\.151'/);
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '"+expectedRelease+"' );"),"Theme release differs");
 });

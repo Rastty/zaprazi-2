@@ -28,10 +28,17 @@ if(!atLeast(ready.release,"0.8.152")){
 const scenarios=[
  {path:"/madlo-k-wc-pro-seniory/",key:"toilet-support",
   initial:{transferAbility:"steadying",wallFixing:"unverified",duration:"long_term"},
-  fit:{supportFrameFit:"yes",loadFit:"yes"},sourceLinks:0},
+  fit:{supportFrameFit:"yes",loadFit:"yes"},product:/UNIZDRAV P2015/,sourceLinks:0},
+ {path:"/madlo-k-wc-pro-seniory/",key:"toilet-support",
+  initial:{transferAbility:"steadying",wallFixing:"verified",duration:"long_term"},
+  fit:{loadFit:"yes"},product:/UNIZDRAV P2131/,sourceLinks:1},
  {path:"/sedatko-do-vany-pro-seniory/",key:"bath-transfer",
   initial:{transferAbility:"independent",bathTransferIndependent:"yes",duration:"long_term"},
-  fit:{bathFit:"yes",loadFit:"yes"},sourceLinks:2}
+  fit:{bathFit:"yes",loadFit:"yes"},product:/BESCO BES-BS008/,sourceLinks:2},
+ {path:"/sedatko-do-vany-pro-seniory/",key:"bath-transfer",
+  initial:{transferAbility:"independent",bathTransferIndependent:"yes",duration:"long_term"},
+  fit:{bathFit:"no",bathBenchFit:"yes",loadFit:"yes"},
+  product:/UNIZDRAV P2203/,sourceLinks:1}
 ];
 const browser=await puppeteer.launch({
  executablePath:process.env.CHROME_BIN||"/usr/bin/google-chrome",
@@ -77,6 +84,7 @@ try{
      sponsor:el.querySelectorAll(".zp-offer .zp-affiliate-label").length
     };
    });
+   assert.match(inspected.product,scenario.product,"Wrong candidate/source card for "+scenario.key);
    assert.match(inspected.heading,/Odkud máme parametry výrobku/);
    assert.equal(inspected.checked,true,"Source date missing "+scenario.key);
    assert.equal(inspected.caution,true,"No stale-data disclaimer "+scenario.key);
@@ -87,12 +95,32 @@ try{
      src.rel.includes("noopener")&&src.rel.includes("noreferrer")));
    assert.ok(inspected.merchant>0,"No actual candidate offer");
    assert.equal(inspected.sponsor,1,"Affiliate disclosure missing: "+scenario.key);
-   console.log("PASS source provenance: "+scenario.key+" "+inspected.product);
+   // The client must discard a previously approved product card and links
+   // immediately when a critical fit answer is changed, not only after submit.
+   for(const fit of ["unknown","no"]){
+     await choose("loadFit",fit);
+     const invalidated=await page.$eval(id+"-result",el=>({
+       hidden:el.hidden,
+       offerCount:el.querySelectorAll(".zp-offer a[href]").length,
+       provenanceCount:el.querySelectorAll(".zp-sources").length
+     }));
+     assert.equal(invalidated.hidden,true,"Stale result remains visible after "+fit);
+     await page.$eval(id+"-submit",button=>button.click());
+     const blocked=await page.$eval(id+"-result",el=>({
+       hidden:el.hidden,
+       offerCount:el.querySelectorAll(".zp-offer a[href]").length,
+       provenanceCount:el.querySelectorAll(".zp-sources").length
+     }));
+     assert.equal(blocked.hidden,false,"No explanation for "+fit);
+     assert.equal(blocked.offerCount,0,"Unverified load unlocked an offer for "+scenario.key);
+     assert.equal(blocked.provenanceCount,0,"Obsolete product sources remained for "+scenario.key);
+   }
+   console.log("PASS 0.8.152 four-route provenance and invalidation: "+scenario.key+" "+inspected.product);
   }finally{await page.close();}
  }
  assert.deepEqual(failures,[]);
  console.log("PRODUCT_EVIDENCE_0_8_152",JSON.stringify({
-  release:ready.release,cards:scenarios.length,integrity:ready.integrity,
+  release:ready.release,cards:scenarios.length,fit_recheck_cases:scenarios.length*2,integrity:ready.integrity,
   affiliate_slots:ready.configured_total,merchant_clicks:0
  }));
 }finally{await browser.close();}

@@ -1,5 +1,5 @@
 /**
- * Read-only browser audit of the 26 key decision/resource URLs and homepage.
+ * Read-only browser audit of key decision/resource URLs and homepage.
  * Produces a diagnostic report, never changes content/merchant data.
  * Requires Chrome plus puppeteer-core (installed only by GitHub workflow).
  */
@@ -9,9 +9,11 @@ import { resolve } from "node:path";
 import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
 import { summarizeEditorialPages } from "./lib/editorial-seo-rules.mjs";
+import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
 
 const base="https://zaprazi.cz";
-const paths=["/",...requiredDecisionPaths];
+const paths=["/",...requiredDecisionPaths,
+  "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/"];
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
   .find(path => {try {accessSync(path,constants.X_OK);return true;}catch{return false;}});
 if(!chrome)throw new Error("Chrome/Chromium required for public DOM audit");
@@ -51,7 +53,8 @@ try{
           mainWords:(content?.innerText||"").split(/\s+/).filter(Boolean).length,
           mainContentLinks:[...(content?.querySelectorAll("a[href]")||[])]
             .map(safeHref).filter(Boolean),
-          mobileOverflow:document.documentElement.scrollWidth-window.innerWidth
+          mobileOverflow:document.documentElement.scrollWidth-window.innerWidth,
+          yoastSchema:document.querySelector("script.yoast-schema-graph")?.textContent || ""
         };
       });
       observed.push({path,status:response?.status(),...result});
@@ -62,7 +65,7 @@ try{
       }));
     }catch(error){
       observed.push({path,status:"fetch_error",h1:[],title:"",description:"",
-        canonical:"",robots:"",ids:[],mainWords:0,mainContentLinks:[],
+        canonical:"",robots:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
         error:String(error).slice(0,300)});
       console.error("PAGE_AUDIT_FAILURE",path,String(error).slice(0,300));
     }finally{await page.close();}
@@ -77,6 +80,14 @@ for (const page of observed) {
   if (page.ogUrl!==expected) {
     report.errors.push({path:page.path,code:"OG_URL_MISMATCH",details:page.ogUrl});
   }
+}
+// Fail on a mixed-scheme Yoast WebSite graph, even when individual page
+// canonical and og:url tags have already been rewritten to HTTPS. Read-only
+// verification of actual published HTML, including the latest two guides.
+for(const page of observed){
+  if(page.status!==200)continue;
+  for(const issue of yoastHttpsGraphErrors(page.yoastSchema,page.path,base))
+    report.errors.push({path:page.path,...issue});
 }
 const knownOldCanonical=process.env.ZP_ALLOW_CANONICAL_HTTP_ON_0_8_134==="true" &&
   observed.every(page=>page.release==="0.8.134") &&

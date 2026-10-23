@@ -10,6 +10,8 @@ on:
       - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-bathroom-measurements.mjs"
       - "scripts/audit-live-search-guidance.mjs"
+      - "scripts/audit-live-editorial-seo.mjs"
+      - "scripts/lib/yoast-https-graph.mjs"
       - "scripts/audit-live-problem-guides.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"

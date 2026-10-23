@@ -26,7 +26,7 @@ jobs:
           node-version: 20
       - name: Install read-only browser smoke dependency
         run: npm install --no-save --no-package-lock puppeteer-core@24
-      - name: Run safety and purchase-gate QA against deployed production
+      - name: Resolve current production release for PR-only checks
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
           CHROME_BIN: /usr/bin/google-chrome
@@ -40,7 +40,16 @@ jobs:
             export ZP_RELEASE="$LIVE_VERSION"
             echo "ZP_RELEASE=$LIVE_VERSION" >> "$GITHUB_ENV"
           fi
-          node tests/production-advisor-smoke.mjs
+
+      - name: Confirm deployed bed-cost calculator clears obsolete result on invalid input
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-bed-cost.mjs
+      - name: Run safety and purchase-gate QA against deployed production
+        env:
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node tests/production-advisor-smoke.mjs
       - name: Check night-toilet issue routing and reciprocal links in deployed DOM
         env:
           CHROME_BIN: /usr/bin/google-chrome
@@ -58,10 +67,6 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-walker-hub.mjs
-      - name: Confirm deployed bed-cost calculator clears obsolete result on invalid input
-        env:
-          CHROME_BIN: /usr/bin/google-chrome
-        run: node scripts/audit-live-bed-cost.mjs
       - name: Verify wheelchair doorway measuring guide and private width checker
         env:
           CHROME_BIN: /usr/bin/google-chrome

@@ -9,6 +9,7 @@ on:
       - "scripts/audit-live-bed-cost.mjs"
       - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-bathroom-measurements.mjs"
+      - "scripts/audit-live-bathroom-result-handoff.mjs"
       - "src/bathroom/measurement-next-step.js"
       - "assets/js/toilet-riser-advisor.js"
       - "assets/js/toilet-support-advisor.js"
@@ -83,6 +84,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-bathroom-measurements.mjs
+      - name: Verify real blocked and approved bathroom results route correctly
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-bathroom-result-handoff.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

@@ -10,6 +10,8 @@ on:
       - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-bathroom-measurements.mjs"
       - "scripts/audit-live-bathroom-result-handoff.mjs"
+      - "scripts/audit-live-bathroom-product-provenance.mjs"
+      - "src/bathroom/source-transparency.js"
       - "src/bathroom/measurement-next-step.js"
       - "assets/js/toilet-riser-advisor.js"
       - "assets/js/toilet-support-advisor.js"
@@ -88,6 +90,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-bathroom-result-handoff.mjs
+      - name: Check live product source dates and affiliate transparency after release
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-bathroom-product-provenance.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

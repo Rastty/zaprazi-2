@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_151
+// ZP_RELEASE_0_8_152
 // A blocked fit answer must lead to useful measurement guidance, never to
 // a merchant. All links are fixed public Zápraží destinations. No user
 // answers, product identity, health information or analytics are transmitted.

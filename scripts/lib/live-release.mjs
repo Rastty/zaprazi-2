@@ -8,6 +8,17 @@ export function parseThemeRelease(css){
  if(!m)throw new Error("Missing or malformed WordPress theme Version header");
  return m[1];
 }
-export const EXPECTED_LIVE_RELEASE=parseThemeRelease(
+export const SOURCE_THEME_RELEASE=parseThemeRelease(
  readFileSync(new URL("../../style.css",import.meta.url),"utf8")
 );
+
+// Pull-request checks run BEFORE the user deploys the next theme release.
+// The workflow validates and publishes the actual production version into
+// GITHUB_ENV. Only a pull_request may use it. workflow_dispatch and local
+// postdeploy checks always insist on the checked-out source release.
+const predeployVersion=process.env.GITHUB_EVENT_NAME==="pull_request"
+  ? process.env.ZP_RELEASE : undefined;
+if(predeployVersion && !/^\d+\.\d+\.\d+$/.test(predeployVersion)){
+ throw new Error("Malformed predeploy release");
+}
+export const EXPECTED_LIVE_RELEASE=predeployVersion || SOURCE_THEME_RELEASE;

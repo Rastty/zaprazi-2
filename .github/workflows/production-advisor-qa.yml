@@ -38,6 +38,7 @@ jobs:
             test -n "$LIVE_VERSION"
             echo "::notice::Pre-deploy QA runs against currently deployed release $LIVE_VERSION. Manually dispatch this workflow after the new version is deployed."
             export ZP_RELEASE="$LIVE_VERSION"
+            echo "ZP_RELEASE=$LIVE_VERSION" >> "$GITHUB_ENV"
           fi
           node tests/production-advisor-smoke.mjs
       - name: Check night-toilet issue routing and reciprocal links in deployed DOM

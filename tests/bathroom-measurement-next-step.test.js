@@ -19,6 +19,9 @@ test("Blocked bathroom product fit links to a relevant local measuring guide wit
   const html=renderBathroomMeasurementNextStep(blocked(field),topic);
   assert.ok(html.includes(root+"#"+anchor),topic+"/"+field);
   assert.match(html,/Samotné měření nenahrazuje posouzení přesunu/);
+  assert.match(html,/target="_blank" rel="noopener noreferrer"/);
+  assert.match(html,/otevře se v nové kartě/);
+  assert.match(html,/Rozpracované odpovědi zůstanou v této kartě/);
   assert.doesNotMatch(html,/data-zp-.*merchant|https?:\/\/|affiliate|desturl|click\.php/i);
  }
 });

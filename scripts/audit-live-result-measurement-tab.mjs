@@ -122,13 +122,17 @@ try{
       checked:Object.fromEntries(Object.keys(args.answers).map(name=>[
         name,document.querySelector('input[name="'+name+'"]:checked')?.value
       ])),
+      fitChecked:Object.fromEntries(Object.keys(args.fit).map(name=>[
+        name,document.querySelector('input[name="'+name+'"]:checked')?.value
+      ])),
       loadFit:document.querySelector('input[name="loadFit"]:checked')?.value,
       commerce:document.querySelectorAll(args.root+"-result .zp-offer a[href]").length
-    }),{root,answers:spec.first});
+    }),{root,answers:spec.first,fit:spec.fit});
     assert.equal(kept.path,spec.path);
     assert.equal(kept.resultVisible,true);
     assert.equal(kept.stageVisible,true);
     assert.deepEqual(kept.checked,spec.first,"Stage-one answers were lost after opening guide");
+    assert.deepEqual(kept.fitChecked,spec.fit,"Fit-stage answers were lost after opening guide");
     assert.equal(kept.loadFit,"unknown");
     assert.equal(kept.commerce,0);
    }finally{await popup.close();}

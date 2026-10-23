@@ -128,7 +128,26 @@ try{
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Údaje byly změněny/);
     assert.doesNotMatch(result,/Za 10 měsíců|obě cesty finančně stejně/);
+    await entry.evaluate(()=>{
+      window.__zpBedEventTrace=[];
+      const form=document.querySelector("#zp-bed-cost-comparison");
+      for(const type of ["click","input","change","invalid","submit"]){
+        form.addEventListener(type,event=>{
+          window.__zpBedEventTrace.push({
+            type:event.type,target:event.target.id||event.target.type,
+            valid:form.matches(":valid"),
+            months:form.querySelector("#zp-bed-cost-months").value,
+            result:form.querySelector("#zp-bed-cost-result").textContent.slice(0,120)
+          });
+        },true);
+      }
+    });
     result=await submit();
+    console.log("BED_COST_RECOVERY_TRACE",JSON.stringify(await entry.evaluate(()=>({
+      events:window.__zpBedEventTrace,
+      result:document.querySelector("#zp-bed-cost-result").textContent,
+      valid:document.querySelector("#zp-bed-cost-comparison").checkValidity()
+    }))));
     assert.match(result,/Za 12 měsíců/);
     assert.match(result,/půjčení 10 ?800/);
     assert.match(result,/nákup 10 ?000/);

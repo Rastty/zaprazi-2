@@ -142,6 +142,12 @@ try{
         },true);
       }
     });
+    console.log("BED_COST_BEFORE_CLICK",JSON.stringify(await entry.evaluate(()=>{
+      const button=document.querySelector("#zp-bed-cost-comparison button[type=submit]");
+      const r=button.getBoundingClientRect();
+      const el=document.elementFromPoint(Math.max(0,Math.min(innerWidth-1,r.left+r.width/2)),Math.max(0,Math.min(innerHeight-1,r.top+r.height/2)));
+      return {button:{text:button.textContent,disabled:button.disabled,rect:{x:r.x,y:r.y,w:r.width,h:r.height}},hit:el?.outerHTML?.slice(0,450),scrollY,active:document.activeElement?.outerHTML?.slice(0,200)};
+    }))));
     result=await submit();
     console.log("BED_COST_RECOVERY_TRACE",JSON.stringify(await entry.evaluate(()=>({
       events:window.__zpBedEventTrace,

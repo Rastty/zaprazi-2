@@ -55,6 +55,16 @@ async function pageFor(path,js){
 try{
   const {page:entry,metadata:summary}=await pageFor(acquisition,true);
   try{
+    // First-visit consent is a fixed footer overlay. A user must choose
+    // Allow or Without measurement before tapping controls beneath it.
+    // Exercise the privacy-preserving "Without measurement" path explicitly
+    // instead of letting a simulated tap hit the consent text.
+    const consentShown=await entry.$eval("#zp-analytics-consent",el=>!el.hidden);
+    if(consentShown){
+      await entry.click("#zp-analytics-deny");
+      assert.equal(await entry.$eval("#zp-analytics-consent",el=>el.hidden),true,
+        "Without-measurement choice must dismiss the consent overlay");
+    }
     assert.ok(summary.ids.includes("porovnani-pujceni-postele"),"No anchor for calculator");
     assert.ok(summary.links.some(a=>a.href===origin+advisor+"#poradce-postel"),
       "Acquisition page no longer links to the fit-gated bed advisor");
@@ -128,32 +138,7 @@ try{
     result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
     assert.match(result,/Údaje byly změněny/);
     assert.doesNotMatch(result,/Za 10 měsíců|obě cesty finančně stejně/);
-    await entry.evaluate(()=>{
-      window.__zpBedEventTrace=[];
-      const form=document.querySelector("#zp-bed-cost-comparison");
-      for(const type of ["click","input","change","invalid","submit"]){
-        form.addEventListener(type,event=>{
-          window.__zpBedEventTrace.push({
-            type:event.type,target:event.target.id||event.target.type,
-            valid:form.matches(":valid"),
-            months:form.querySelector("#zp-bed-cost-months").value,
-            result:form.querySelector("#zp-bed-cost-result").textContent.slice(0,120)
-          });
-        },true);
-      }
-    });
-    console.log("BED_COST_BEFORE_CLICK",JSON.stringify(await entry.evaluate(()=>{
-      const button=document.querySelector("#zp-bed-cost-comparison button[type=submit]");
-      const r=button.getBoundingClientRect();
-      const el=document.elementFromPoint(Math.max(0,Math.min(innerWidth-1,r.left+r.width/2)),Math.max(0,Math.min(innerHeight-1,r.top+r.height/2)));
-      return {button:{text:button.textContent,disabled:button.disabled,rect:{x:r.x,y:r.y,w:r.width,h:r.height}},hit:el?.outerHTML?.slice(0,450),scrollY,active:document.activeElement?.outerHTML?.slice(0,200)};
-    })));
     result=await submit();
-    console.log("BED_COST_RECOVERY_TRACE",JSON.stringify(await entry.evaluate(()=>({
-      events:window.__zpBedEventTrace,
-      result:document.querySelector("#zp-bed-cost-result").textContent,
-      valid:document.querySelector("#zp-bed-cost-comparison").checkValidity()
-    }))));
     assert.match(result,/Za 12 měsíců/);
     assert.match(result,/půjčení 10 ?800/);
     assert.match(result,/nákup 10 ?000/);
@@ -168,6 +153,8 @@ try{
         a.href===origin+acquisition+"#porovnani-pujceni-postele"),
         "Bed advisor missing calculator link");
     }finally{await bed.close();}
+    assert.ok(!activity.some(x=>/googletagmanager\.com|google-analytics\.com/.test(x.url)),
+      "Declining analytics must not load the Google Analytics runtime");
     assert.deepEqual(jsErrors,[],"JavaScript errors on real calculator page");
     console.log("LIVE_BED_COST",JSON.stringify({
       version,integrity:ready.integrity,affiliate_slots:ready.configured_total,

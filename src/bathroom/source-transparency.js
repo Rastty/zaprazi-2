@@ -44,9 +44,10 @@ export function renderBathroomProductEvidence(product,escapeHtml){
     const checked=dateLabel(item?.checkedAt);
     const src=safeSourceUrl(item?.url);
     const isCommerce=/merchant_product_page/.test(item?.type||"");
+    const isTrustedDocument=/^(independent_|manufacturer_)/.test(item?.type||"");
     const text=escapeHtml(label);
     // Never create a second merchant link under "technical sources".
-    const main=src&&!isCommerce
+    const main=src&&isTrustedDocument&&!isCommerce
       ? '<a href="'+escapeHtml(src)+'" target="_blank" rel="noopener noreferrer">'+text+'</a>'
       : text;
     return "<li>"+main+" <small>("+escapeHtml(checked)+")</small></li>";

@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.151' );
+  define( 'ZAPRAZI_RELEASE', '0.8.152' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -63,6 +63,7 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/indoor-walker-advisor.js',
     'assets/js/rollator-advisor.js',
     'src/bathroom/product-facts-display.js',
+    'src/bathroom/source-transparency.js',
     'src/bathroom/acquisition-view.js',
     'src/bathroom/measurement-next-step.js',
     'src/bed/engine.js',

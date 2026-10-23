@@ -1,7 +1,8 @@
-// ZP_RELEASE_0_8_150
+// ZP_RELEASE_0_8_151
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
+import { renderBathroomMeasurementNextStep } from "../../src/bathroom/measurement-next-step.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 
 const form = document.querySelector("#zp-toilet-riser-advisor");
@@ -135,6 +136,7 @@ if (form && result && submitButton && errorBox) {
     result.innerHTML = `
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
+      ${renderBathroomMeasurementNextStep(output, "toilet")}
       ${output.recommendations.map((item) => `<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${escapeHtml(item.reason)}</p></section>`).join("")}
       ${renderBathroomAcquisition(output.status === "candidate" ? output.acquisition : [], escapeHtml)}
       ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}

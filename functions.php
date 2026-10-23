@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.150' );
+  define( 'ZAPRAZI_RELEASE', '0.8.151' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -64,6 +64,7 @@ function zaprazi_2_release_integrity_ok() {
     'assets/js/rollator-advisor.js',
     'src/bathroom/product-facts-display.js',
     'src/bathroom/acquisition-view.js',
+    'src/bathroom/measurement-next-step.js',
     'src/bed/engine.js',
     'src/bed/catalog.js',
     'src/decision/product-preview.js',

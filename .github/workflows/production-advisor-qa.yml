@@ -10,6 +10,7 @@ on:
       - "scripts/audit-live-wheelchair-doorway.mjs"
       - "scripts/audit-live-bathroom-measurements.mjs"
       - "scripts/audit-live-search-guidance.mjs"
+      - "scripts/audit-live-problem-guides.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -47,6 +48,11 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-search-guidance.mjs
+      - name: Check latest published problem guides, SEO, safety and real inbound links
+        env:
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-problem-guides.mjs
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:
           CHROME_BIN: /usr/bin/google-chrome

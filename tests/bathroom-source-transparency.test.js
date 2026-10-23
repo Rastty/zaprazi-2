@@ -33,10 +33,10 @@ test("Untrusted evidence cannot become script or merchant shortcut",()=>{
       {type:'<script>alert(1)</script>',url:"https://example.test/manual",checkedAt:"2026-10-07"}
     ]
   },escapeHtml);
-  assert.equal((html.match(/<a href=/g)||[]).length,2);
+  assert.equal((html.match(/<a href=/g)||[]).length,1);
   assert.doesNotMatch(html,/href="javascript:|<script>|<img/);
   assert.match(html,/datum nezjištěno/);
-  assert.doesNotMatch(html,/href="https:\/\/example\.test\/offer"/);
+  assert.doesNotMatch(html,/href="https:\/\/example\.test\/(offer|manual)"/);
 });
 
 test("Specialist UI cards include the helper and affiliate disclosure without altering candidate gating",()=>{

@@ -37,7 +37,8 @@ const guides = [
     checks: "#co-zmerit-schody .zp-decision-card",
     danger: /nezkoušejte riskantní přesun ani přenášení po schodech/i,
     source: "https://mpsv.gov.cz/prispevek-na-zvlastni-pomucku",
-    parents: ["/bezpecny-byt-pro-seniora/", "/otazky-pred-propustenim-z-nemocnice/"]
+    parents: ["/bezpecny-byt-pro-seniora/", "/otazky-pred-propustenim-z-nemocnice/"],
+    outbound: ["/invalidni-vozik/", "/projede-invalidni-vozik-dvermi/", "/otazky-pred-propustenim-z-nemocnice/"]
   },
   {
     release: "0.8.150",
@@ -47,7 +48,8 @@ const guides = [
     checks: "#mereni-kresla .zp-decision-card",
     danger: /nezkoušejte jej vytahovat za paže/i,
     source: "https://www.cuh.nhs.uk/patient-information/seating-and-ergonomics/",
-    parents: ["/bezpecny-byt-pro-seniora/", "/kompenzacni-pomucky-pro-seniory/"]
+    parents: ["/bezpecny-byt-pro-seniora/", "/kompenzacni-pomucky-pro-seniory/"],
+    outbound: ["/bezpecny-byt-pro-seniora/", "/kompenzacni-pomucky-pro-seniory/", "/navrat-z-nemocnice/", "/jak-vznika-doporuceni/"]
   }
 ];
 
@@ -119,7 +121,14 @@ try {
       await inbound.close();
       assert.ok(linked, "Missing real inbound link from " + parent + " to " + guide.path);
     }
-    console.log("PASS " + guide.release + " live guide SEO, safety, 7 checks and inbound links: " + guide.path);
+    for (const destination of guide.outbound) {
+      const outbound = await open(destination);
+      const canonical = await outbound.$eval('link[rel="canonical"]', node => node.href);
+      assert.equal(canonical, origin + destination,
+        "Related page must resolve with canonical HTTPS: " + destination);
+      await outbound.close();
+    }
+    console.log("PASS " + guide.release + " live guide SEO, safety, 7 checks, inbound and resolved outbound links: " + guide.path);
   }
   console.log("PASS live problem-guide coverage at " + readiness.release);
 } finally {

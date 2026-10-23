@@ -11,6 +11,8 @@ on:
       - "scripts/audit-live-bathroom-measurements.mjs"
       - "scripts/audit-live-bathroom-result-handoff.mjs"
       - "scripts/audit-live-result-measurement-tab.mjs"
+      - "scripts/audit-live-reimbursement-tab.mjs"
+      - "src/bathroom/acquisition-view.js"
       - "scripts/audit-live-bathroom-product-provenance.mjs"
       - "src/bathroom/source-transparency.js"
       - "src/bathroom/measurement-next-step.js"
@@ -95,6 +97,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-result-measurement-tab.mjs
+      - name: Check reimbursement help preserves five completed bathroom results
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-reimbursement-tab.mjs
       - name: Check live product source dates and affiliate transparency after release
         env:
           CHROME_BIN: /usr/bin/google-chrome

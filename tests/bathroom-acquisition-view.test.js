@@ -34,6 +34,9 @@ test("all five narrow Bathroom Advisors actually show different next steps for s
       assert.match(html,/Jak pomůcku získat/);
       assert.match(html,/Jak ověřit možnosti úhrady/);
       assert.match(html,/href="\/pomucky-do-koupelny-na-pojistovnu\/"/);
+      assert.match(html,/href="\/pomucky-do-koupelny-na-pojistovnu\/" target="_blank" rel="noopener noreferrer"/);
+      assert.match(html,/otevře se v nové kartě/);
+      assert.match(html,/Rozpracované odpovědi zůstanou v původní kartě poradce/);
       assert.doesNotMatch(html,/ehub\.cz|merchant-link|affiliate/,"Acquisition block is not an offer bypass");
     }
   }

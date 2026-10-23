@@ -503,6 +503,7 @@ test("current deployment integrity contract covers critical runtime files", () =
     "assets/js/rollator-advisor.js",
     "src/bathroom/product-facts-display.js",
     "src/bathroom/acquisition-view.js",
+    "src/bathroom/measurement-next-step.js",
     "src/bed/engine.js",
     "src/bed/catalog.js",
     "src/decision/product-preview.js",

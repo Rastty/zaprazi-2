@@ -113,7 +113,9 @@ try{
     // input alone do not simulate the browser's number-input focus/change
     // lifecycle reliably after native constraint validation blocks a submit.
     await entry.focus("#zp-bed-cost-months");
-    await entry.keyboard.press("Control+A");
+    await entry.keyboard.down("Control");
+    await entry.keyboard.press("A");
+    await entry.keyboard.up("Control");
     await entry.keyboard.type("12");
     await entry.keyboard.press("Tab");
     const restored=await entry.$eval("#zp-bed-cost-comparison",el=>({

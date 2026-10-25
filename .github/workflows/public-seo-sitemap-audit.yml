@@ -4,9 +4,13 @@ on:
   pull_request:
     paths:
       - "scripts/audit-public-sitemap.mjs"
+      - "scripts/check-acquisition-sitemap.mjs"
       - "tests/public-sitemap-audit.test.js"
+      - "tests/acquisition-sitemap-gate.test.js"
       - ".github/workflows/public-seo-sitemap-audit.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "23 5 * * *"
 
 permissions:
   contents: read
@@ -22,6 +26,8 @@ jobs:
         with:
           node-version: 20
       - name: Unit tests for safe sitemap parser
-        run: node --test tests/public-sitemap-audit.test.js
+        run: node --test tests/public-sitemap-audit.test.js tests/acquisition-sitemap-gate.test.js
       - name: Inspect live public sitemap (no WordPress writes or GSC claims)
         run: node scripts/audit-public-sitemap.mjs
+      - name: Verify latest acquisition guide discovered after actual deploy
+        run: node scripts/check-acquisition-sitemap.mjs

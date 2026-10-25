@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_154 */
+/* ZP_RELEASE_0_8_155 */
 /*
 Template Name: Zápraží — Noční cesta z postele na WC
 */
@@ -30,6 +30,7 @@ get_header();
           <h3>1. Vstání z postele</h3>
           <p>Je postel ve výšce, ze které lze vstávat podle dosavadních bezpečných návyků? Dosáhnou při sedu chodidla na zem? Nehýbe se postel nebo podložka? Je na vstávání potřeba druhá osoba?</p>
           <p><strong>Pokud nevíte:</strong> nezačínejte výběrem postele podle fotografie. Vyjasněte s odborníkem či ošetřujícím týmem samotný způsob přesunu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli' ) ); ?>">Vstávání z postele: madlo, hrazda, nebo jiné řešení?</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>2. Světlo ještě před prvním krokem</h3>

@@ -8,8 +8,8 @@ import { resolve } from "node:path";
 import { auditPublicSitemap } from "./audit-public-sitemap.mjs";
 
 export const newGuide = Object.freeze({
-  path: "/senior-nemuze-vstat-z-postele/",
-  release: "0.8.155"
+  path: "/senior-spadl-doma/",
+  release: "0.8.156"
 });
 
 export function compareRelease(left, right) {

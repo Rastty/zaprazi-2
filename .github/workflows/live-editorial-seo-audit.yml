@@ -3,6 +3,7 @@ name: Live Editorial SEO Browser Audit
 on:
   pull_request:
     paths:
+      - "scripts/audit-public-sitemap.mjs"
       - "scripts/audit-live-editorial-seo.mjs"
       - "scripts/lib/editorial-seo-rules.mjs"
       - "tests/editorial-seo-rules.test.js"

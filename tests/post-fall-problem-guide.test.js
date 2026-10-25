@@ -11,7 +11,7 @@ const search = read("src/seo/search-guidance.php");
 const version = read("style.css").match(/^Version:\s*([\d.]+)$/m)?.[1];
 
 test("Post-fall guide has unique problem intent and clear acute safety boundary", () => {
-  assert.equal(version, "0.8.156");
+  assert.match(version, /^0\\.8\\.\\d+$/);\n  assert.ok(Number(version.split(".")[2]) >= 156, "Post-fall page exists from 0.8.156 onward");
   assert.ok(article.includes("ZP_RELEASE_" + version.replaceAll(".", "_")));
   assert.match(article, /Template Name: Zápraží — Senior spadl doma/);
   assert.equal((article.match(/<h1(?:\s|>)/g) || []).length, 1);

@@ -68,6 +68,11 @@ check_route('toaletni zidle','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidl
 check_route('nocni cesta na wc','/nocni-cesta-z-postele-na-wc/#nocni-audit',2);
 check_route('choditko','/choditka-pro-seniory/',3);
 check_route('rollator','/choditka-pro-seniory/',3);
+check_route('rollator se sedatkem','/rollator-pro-seniory/#rollator-se-sedatkem',3);
+check_route('choditko se sedatkem','/rollator-pro-seniory/#rollator-se-sedatkem',3);
+check_route('sedatko na rollator','/rollator-pro-seniory/#rollator-se-sedatkem',3);
+check_route('sedatko do vany','/sedatko-do-vany-pro-seniory/#poradce-sedatko-vana',2);
+
 check_route('vozik','/invalidni-vozik/',3);
 check_route('polohovaci postel','/polohovaci-postel/',2);
 check_route('nemocnice','/navrat-z-nemocnice/#plan-navratu',2);

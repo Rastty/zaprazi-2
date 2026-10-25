@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.156' );
+  define( 'ZAPRAZI_RELEASE', '0.8.157' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -1125,7 +1125,7 @@ function zaprazi_2_front_title( $title ) {
     return 'Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové? | Zápraží';
   }
   if ( zaprazi_2_is_rollator_page() ) {
-    return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
+    return 'Rollátor se sedátkem pro seniory: brzdy a výběr | Zápraží';
   }
   if ( zaprazi_2_is_mobility_hub_page() ) {
     return 'Chodítka pro seniory: jak vybrat správný typ | Zápraží';
@@ -1181,7 +1181,7 @@ function zaprazi_2_wpseo_title( $title ) {
     return 'Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové? | Zápraží';
   }
   if ( zaprazi_2_is_rollator_page() ) {
-    return 'Rollátor pro seniory: jak vybrat čtyřkolové chodítko | Zápraží';
+    return 'Rollátor se sedátkem pro seniory: brzdy a výběr | Zápraží';
   }
   if ( zaprazi_2_is_mobility_hub_page() ) {
     return 'Chodítka pro seniory: jak vybrat správný typ | Zápraží';
@@ -1238,7 +1238,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Jak vybrat chodítko do bytu pro seniora: čtyřbodové nebo dvoukolové podle potřebné opory, schopnosti chodítko nadzvednout, šířky průchodů a hmotnosti.';
   }
   if ( zaprazi_2_is_rollator_page() ) {
-    return 'Jak vybrat rollátor pro seniora: ruční brzdy, výška madel, šířka, sedátko, skládání, nosnost a možnost úhrady konkrétního modelu.';
+    return 'Rollátor se sedátkem pro seniory: kdy lze bezpečně odpočívat, jak vybrat brzdy a rozměry a kdy půjčit, koupit nebo prověřit úhradu.';
   }
   if ( zaprazi_2_is_mobility_hub_page() ) {
     return 'Průvodce chodítky pro seniory: rozdíl mezi čtyřbodovým, dvoukolovým chodítkem a rollátorem, parametry před nákupem, půjčení a pojišťovna.';

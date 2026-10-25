@@ -57,6 +57,16 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // Specific seated-rollator intent must precede generic "choditko"
+  // routing, but never hijack an unrelated bathtub seat query.
+  if ( preg_match( '/\b(?:roll?ator[a-z]*|choditk[a-z]*)\b.{0,45}\bsedatk[a-z]*\b|\bsedatk[a-z]*\b.{0,45}\b(?:roll?ator[a-z]*|choditk[a-z]*)\b/', $query ) ) {
+    return array(
+      array( '/rollator-pro-seniory/#rollator-se-sedatkem', 'Rollátor se sedátkem: kdy je vhodný?', 'Bezpečné usedání, parkovací brzdy, skutečná trasa a rozdíl od přepravního vozíku.' ),
+      array( '/rollator-pro-seniory/#poradce-rollator', 'Prověřit ruční brzdy v poradci', 'Nejdřív bezpečný způsob používání, teprve potom vhodný kandidát a způsob pořízení.' ),
+      array( '/pujceni-choditka/#rozpocet-pujceni-choditka', 'Půjčení rollátoru: příklady nákladů', 'Půjčení porovnejte až po výběru vhodného typu; ceníky a dostupnost ověřte.' ),
+    );
+  }
+
   $groups = array(
     array( '/\btoalet[a-z]*\s+zidl[a-z]*\b/', array(
       array( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle', 'Poradce pro toaletní židli', 'Nejdřív ověřte bezpečný přesun, stabilitu a prostor.' ),

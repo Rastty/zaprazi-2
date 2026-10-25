@@ -134,6 +134,7 @@ get_header();
       </details>
       <details><summary>Kdy už nestačí kontrola bytu?</summary>
         <p>Pokud nejsou jasné samotné přesuny nebo se opakují pády, přidejte odborné posouzení. Při akutních závažných potížích řešte pomoc bez odkladu.</p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Když senior už spadl: co udělat hned a kdy volat 155</a></p>
       </details>
     </div>
   </section>

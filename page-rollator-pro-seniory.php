@@ -82,7 +82,7 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat jiné typy opory</a></p>
         </article>
       </div>
-      <p><strong>Než se rozhodnete:</strong> změřte nejmenší průchod, ověřte rozsah výšky madel, povolené zatížení a prostor, kde lze rollátor bezpečně zaparkovat. U ověřeného modelu MEYRA Ideal 3061982 je šířka 61,5 cm; tato hodnota sama nepotvrzuje použitelnost v konkrétním bytě.</p>
+      <p><strong>Než se rozhodnete:</strong> změřte nejmenší průchod, ověřte rozsah výšky madel, povolené zatížení a prostor, kde lze rollátor bezpečně zaparkovat. U ověřeného modelu MEYRA Ideal 3061982 výrobce uvádí celkovou šířku 61,5 cm, šířku sedu 42 cm a výšku sedátka 61 cm. To jsou technické rozměry, nikoli potvrzení, že člověk bezpečně dosáhne chodidly na zem, usedne a vstane.</p>
       <div class="zp-hero-actions" aria-label="Další kroky po kontrole bezpečnosti rollátoru">
         <a class="zp-btn" href="#poradce-rollator">Zjistit vhodný další krok</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Sedm měření před výběrem</a>
@@ -96,7 +96,7 @@ get_header();
     <div class="zp-wrap">
       <h2 class="zp-section-title">Ověřený kandidát: MEYRA Ideal Rollator 3061982.</h2>
       <div class="zp-grid">
-        <article class="zp-card"><h3>Rozměry</h3><p>Výška madel 79–97 cm, šířka 61,5 cm, nosnost 130 kg.</p></article>
+        <article class="zp-card"><h3>Rozměry</h3><p>Výška madel 79–97 cm, celková šířka 61,5 cm, nosnost 130 kg. Sedátko má podle výrobce šířku 42 cm a výšku 61 cm; jeho vhodnost a bezpečné používání nejsou dané samotným rozměrem.</p></article>
         <article class="zp-card"><h3>Brzdy a sedátko</h3><p>Výrobce uvádí přítlačné brzdy s možností aretace, sedátko, podnos a košík.</p></article>
         <article class="zp-card"><h3>Úhrada</h3><p>Pro konkrétní model MEYRA Ideal Rollator 3061982 výrobce uvádí kód ZP 07-5005963. Úhradu a případný doplatek je nutné posoudit podle účinného měsíčního seznamu SÚKL a správné cesty výdeje. Údaj o doplatku na stránce výrobce není automatickým potvrzením nároku konkrétní osoby.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit úhradu chodítka</a></p></article>
       </div>

@@ -32,7 +32,7 @@ const atLeast = (version, minimum) => {
 // Require the real WordPress readiness marker before checking the new SEO journey.
 const expectedLiveRelease = process.env.ZP_REQUIRED_LIVE_RELEASE;
 if (expectedLiveRelease) {
-  assert.match(expectedLiveRelease, /^\\d+\\.\\d+\\.\\d+$/, "Invalid required release");
+  assert.match(expectedLiveRelease, /^\d+\.\d+\.\d+$/, "Invalid required release");
   assert.ok(atLeast(readiness.release, expectedLiveRelease),
     "Expected production release " + expectedLiveRelease + ", observed " + readiness.release);
 }

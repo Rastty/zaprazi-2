@@ -110,6 +110,17 @@ try{
    try{
     await popup.waitForFunction(path=>location.pathname===path,
       {timeout:16000},reimbursement);
+    const destination=await popup.evaluate(()=>({
+      path:location.pathname,
+      query:location.search,
+      hash:location.hash,
+      title:document.querySelector("h1")?.textContent?.trim()||""
+    }));
+    assert.equal(destination.path,reimbursement);
+    assert.equal(destination.query,"","Private answers must never appear in destination query");
+    assert.equal(destination.hash,"","Private answers must never appear in destination fragment");
+    assert.match(destination.title,/Pomůcky do koupelny.*na pojišťovnu/i,
+      "Opened an unrelated or missing reimbursement article");
     const after=await page.evaluate(({root,first,fit})=>({
       path:location.pathname,
       resultVisible:document.querySelector(root+"-result")?.hidden===false,

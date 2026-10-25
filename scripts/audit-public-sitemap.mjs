@@ -26,7 +26,9 @@ export const requiredDecisionPaths = Object.freeze([
   "/nastavec-na-wc-pro-seniory/", "/sprchovaci-zidle-pro-seniory/",
   "/toaletni-zidle-pro-seniory/", "/madlo-k-wc-pro-seniory/",
   "/sedatko-do-vany-pro-seniory/", "/choditko-do-bytu-pro-seniory/",
-  "/rollator-pro-seniory/", "/jak-vznika-doporuceni/"
+  "/rollator-pro-seniory/", "/jak-vznika-doporuceni/",
+  "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/",
+  "/senior-nemuze-vstat-z-postele/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {
@@ -93,7 +95,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
       const localPath = sitePath(value);
       schemes[new URL(value).protocol.replace(":", "")]++;
       if (seenPages.has(localPath)) duplicates.push(localPath);
-      else seenPages.set(localPath, path);
+      else seenPages.set(localPath, { sitemap: path, url: value });
     }
     reports.push({
       name: path.replace(/^\//, ""),
@@ -119,6 +121,8 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     duplicate_paths_sample: reports.flatMap(r => r.duplicate_paths).slice(0, 20),
     required_decision_paths_present: requiredDecisionPaths.filter(p => seenPages.has(p)),
     required_decision_paths_missing: requiredDecisionPaths.filter(p => !seenPages.has(p)),
+    required_decision_path_locations: Object.fromEntries(requiredDecisionPaths
+      .filter(p => seenPages.has(p)).map(p => [p, seenPages.get(p)])),
     html_pages_indexed_by_google: "unknown"
   };
 }

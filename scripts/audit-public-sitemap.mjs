@@ -28,7 +28,8 @@ export const requiredDecisionPaths = Object.freeze([
   "/sedatko-do-vany-pro-seniory/", "/choditko-do-bytu-pro-seniory/",
   "/rollator-pro-seniory/", "/jak-vznika-doporuceni/",
   "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/",
-  "/senior-nemuze-vstat-z-postele/"
+  "/senior-nemuze-vstat-z-postele/",
+  "/senior-spadl-doma/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

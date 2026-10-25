@@ -76,7 +76,7 @@ jobs:
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
           CHROME_BIN: /usr/bin/google-chrome
-          ZP_REQUIRED_LIVE_RELEASE: "0.8.155"
+          ZP_REQUIRED_LIVE_RELEASE: "0.8.156"
         run: node scripts/audit-live-problem-guides.mjs
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:

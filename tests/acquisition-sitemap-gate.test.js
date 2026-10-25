@@ -7,8 +7,8 @@ const root = "https://zaprazi.cz";
 const location = { sitemap: "/page-sitemap.xml", url: root + newGuide.path };
 const report = { required_decision_path_locations: { [newGuide.path]: location } };
 
-test("Newest three practical guides are included in required public sitemap inventory", () => {
-  for (const path of ["/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/", newGuide.path]) {
+test("Newest practical guides are included in required public sitemap inventory", () => {
+  for (const path of ["/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/", "/senior-nemuze-vstat-z-postele/", newGuide.path]) {
     assert.ok(requiredDecisionPaths.includes(path), "Missing new acquisition route: " + path);
   }
   assert.equal(requiredDecisionPaths.length, new Set(requiredDecisionPaths).size);
@@ -26,10 +26,12 @@ test("Merged release must not be mistaken for deployed public content", () => {
   const result = assessAcquisitionDiscovery({ release: "0.8.154", integrity: "ok" }, {});
   assert.equal(result.status, "awaiting_deploy");
   assert.equal(result.path, newGuide.path);
+  assert.equal(result.expected_after, "0.8.156");
+  assert.equal(assessAcquisitionDiscovery({ release: "0.8.155", integrity: "ok" }, {}).status, "awaiting_deploy");
 });
 
-test("After 0.8.155 the guide must exist in the exact clean HTTPS page sitemap", () => {
-  const live = { release: "0.8.155", integrity: "ok" };
+test("After 0.8.156 the guide must exist in the exact clean HTTPS page sitemap", () => {
+  const live = { release: "0.8.156", integrity: "ok" };
   assert.equal(assessAcquisitionDiscovery(live, report).status, "discovered");
   assert.throws(() => assessAcquisitionDiscovery(live, {}), /missing from public sitemap/);
   assert.throws(() => assessAcquisitionDiscovery(live, {
@@ -38,7 +40,7 @@ test("After 0.8.155 the guide must exist in the exact clean HTTPS page sitemap",
   assert.throws(() => assessAcquisitionDiscovery(live, {
     required_decision_path_locations: {[newGuide.path]: {...location, sitemap: "/post-sitemap.xml"}}
   }), /page sitemap/);
-  assert.throws(() => assessAcquisitionDiscovery({release: "0.8.155", integrity: "partial"}, report), /integrity/);
+  assert.throws(() => assessAcquisitionDiscovery({release: "0.8.156", integrity: "partial"}, report), /integrity/);
 });
 
 test("Sitemap audit exposes the exact location of a page without changing WordPress", async () => {
@@ -59,7 +61,7 @@ test("Sitemap audit exposes the exact location of a page without changing WordPr
 
 test("End-to-end read-only gate checks readiness and public XML without redirecting to another host", async () => {
   const bodies = {
-    [root + "/wp-json/zaprazi/v1/affiliate-readiness"]: JSON.stringify({release: "0.8.155", integrity:"ok"}),
+    [root + "/wp-json/zaprazi/v1/affiliate-readiness"]: JSON.stringify({release: "0.8.156", integrity:"ok"}),
     [root + "/robots.txt"]: "Sitemap: https://zaprazi.cz/sitemap_index.xml",
     [root + "/sitemap_index.xml"]: "<sitemapindex><loc>https://zaprazi.cz/page-sitemap.xml</loc></sitemapindex>",
     [root + "/page-sitemap.xml"]: "<urlset><loc>" + root + newGuide.path + "</loc></urlset>"

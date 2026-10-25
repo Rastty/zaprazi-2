@@ -4,7 +4,7 @@ import fs from "node:fs";
 
 const homepage = fs.readFileSync(new URL("../front-page.php", import.meta.url), "utf8");
 const resources = [
-  "/senior-nemuze-vstat-z-postele/",
+  "/senior-nemuze-vstat-z-postele/#co-delat-postel",
   "/otazky-pred-propustenim-z-nemocnice/",
   "/nocni-cesta-z-postele-na-wc/",
   "/bezpecny-byt-pro-seniora/"

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_154 */
+/* ZP_RELEASE_0_8_155 */
 /*
 Template Name: Zápraží — Polohovací postel
 */
@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-postel">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
         <a class="zp-text-link" href="#kontrola-polohovaci-postele">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli' ) ); ?>">Člověk nemůže vstát z postele – typy pomůcek</a>
       </div>
     </div>
   </section>

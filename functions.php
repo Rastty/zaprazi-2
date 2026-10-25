@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.154' );
+  define( 'ZAPRAZI_RELEASE', '0.8.155' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -29,6 +29,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-bezpecny-byt-pro-seniora.php',
     'page-schody-pro-seniora-doma.php',
     'page-vstavani-z-kresla-pro-seniora.php',
+    'page-senior-nemuze-vstat-z-postele.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
@@ -2301,6 +2302,26 @@ add_action( 'init', 'zaprazi_2_ensure_chair_rise_page', 35 );
 
 
 
+/** Non-destructive first publication of the bed-rising problem guide. */
+function zaprazi_2_ensure_bed_rise_page() {
+  $slug = 'senior-nemuze-vstat-z-postele';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-senior-nemuze-vstat-z-postele.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior nemůže vstát z postele: madlo, hrazda, nebo polohovací postel?',
+      'post_excerpt' => 'Bezpečný postup při obtížném vstávání z postele, sedm kontrol, rozdíl mezi madlem, hrazdou a zábranou i návaznost na poradce pro polohovací postel.',
+      'post_content' => '',
+      'meta_input' => array('_wp_page_template'=>'page-senior-nemuze-vstat-z-postele.php'),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_bed_rise_page', 36 );
+
 function zaprazi_2_is_night_wc_page() {
   return is_page( 'nocni-cesta-z-postele-na-wc' );
 }
@@ -2335,6 +2356,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nemůže vstát z postele: co pomůže? | Zápraží';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Senior nemůže vstát z křesla: co pomůže bezpečně | Zápraží';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior nezvládá schody doma: jak vyřešit přístup | Zápraží';
   if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit v koupelně před výběrem pomůcky | Zápraží';
@@ -2383,6 +2405,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nedokáže vstát z postele? Rozlište problém s posazením a postavením, rizika madel a zábran, sedm kontrol i vhodnou cestu k poradci.';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Obtížné vstávání z křesla? Rozlište nízký sed, oporu, bezpečný přesun a zvedací mechanismus. Sedm kontrol před koupí a odborné zdroje.';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior doma nezvládá schody? Co udělat hned, sedm kontrol schodiště, sedačka vs. plošina vs. schodolez a jak ověřit příspěvek u Úřadu práce.';
   if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit před nákupem pomůcky k WC, do sprchy nebo do vany? Praktický seznam rozměrů, kontrola uchycení a navazující poradce.';
@@ -2432,6 +2455,13 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+/** One unique description if Yoast SEO is not available. */
+function zaprazi_2_bed_rise_description_fallback() {
+  if ( ! is_page( 'senior-nemuze-vstat-z-postele' ) || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_bed_rise_description_fallback', 5 );
+
 /** Preserve exactly one description on the new guide without Yoast. */
 function zaprazi_2_chair_rise_description_fallback() {
   if ( ! is_page( 'vstavani-z-kresla-pro-seniora' ) || defined( 'WPSEO_VERSION' ) ) return;

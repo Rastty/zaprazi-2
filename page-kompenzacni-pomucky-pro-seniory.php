@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_154 */
+/* ZP_RELEASE_0_8_155 */
 /*
 Template Name: Zápraží — Kompenzační pomůcky pro seniory
 */
@@ -40,7 +40,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Polohovací postel</h3>
           <p>U postele jsou zásadní prostor, přístup pečující osoby, technické parametry a očekávaná délka používání. U dočasné potřeby může dávat smysl půjčovna.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#co-delat-postel' ) ); ?>">Senior nemůže vstát z postele: bezpečný první krok</a></p>
         </article>
 
         <article class="zp-decision-card">

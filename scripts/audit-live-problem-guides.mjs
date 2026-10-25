@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {accessSync, constants} from "node:fs";
 import puppeteer from "puppeteer-core";
 
-// Live-only, read-only acceptance for the two problem-focused SEO entries.
+// Live-only, read-only acceptance for problem-focused SEO entries.
 // Never infer that a merged theme version was deployed. The REST value is the
 // authoritative live gate; PR workflows may run against the previous release.
 const origin = (process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz").replace(/\/$/, "");
@@ -39,6 +39,17 @@ const guides = [
     source: "https://mpsv.gov.cz/prispevek-na-zvlastni-pomucku",
     parents: ["/bezpecny-byt-pro-seniora/", "/otazky-pred-propustenim-z-nemocnice/"],
     outbound: ["/invalidni-vozik/", "/projede-invalidni-vozik-dvermi/", "/otazky-pred-propustenim-z-nemocnice/"]
+  },
+  {
+    release: "0.8.155",
+    path: "/senior-nemuze-vstat-z-postele/",
+    heading: /senior nemůže vstát z postele/i,
+    anchorIds: ["co-delat-postel", "pomucky-k-posteli", "kontroly-postele", "co-dal-postel", "faq-postel-vstavani", "zdroje-postel-vstavani"],
+    checks: "#kontroly-postele .zp-decision-card",
+    danger: /bez odborného posouzení neurčuje konkrétní výrobek/i,
+    source: "https://www.gov.uk/guidance/bed-rails-management-and-safe-use",
+    parents: ["/", "/polohovaci-postel/", "/kompenzacni-pomucky-pro-seniory/", "/nocni-cesta-z-postele-na-wc/"],
+    outbound: ["/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/", "/nocni-cesta-z-postele-na-wc/", "/navrat-z-nemocnice/", "/jak-vznika-doporuceni/"]
   },
   {
     release: "0.8.150",

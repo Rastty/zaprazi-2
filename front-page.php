@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_154 */ get_header(); ?>
+/* ZP_RELEASE_0_8_155 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
@@ -39,6 +39,11 @@
           <h3>Před propuštěním z nemocnice</h3>
           <p>Na co se zeptat lékaře, sestry a sociálního pracovníka, než se člověk vrátí domů.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek s pracovním listem k vytisknutí</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Senior nemůže vstát z postele</h3>
+          <p>Madlo, hrazda a polohovací lůžko neřeší stejnou situaci. Projděte bezpečný přesun a sedm technických kontrol před výběrem.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#co-delat-postel' ) ); ?>">Jak bezpečně řešit vstávání z postele</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Noční cesta z postele na WC</h3>

@@ -3,6 +3,7 @@ name: Live Internal Link Health Audit
 on:
   pull_request:
     paths:
+      - "scripts/audit-public-sitemap.mjs"
       - "scripts/audit-live-internal-links.mjs"
       - "scripts/lib/internal-link-health.mjs"
       - "tests/internal-link-health.test.js"

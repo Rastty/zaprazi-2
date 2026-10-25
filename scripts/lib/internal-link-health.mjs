@@ -68,6 +68,6 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
     checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
     broken:checked.filter(x=>["bad_status","network_error"].includes(x.outcome)),
     redirects:checked.filter(x=>x.outcome==="redirect"), checked_paths:checked,
-    limitations:"Only hrefs in main of 27 selected pages, read-only GET, redirects not followed. Not an audit of 4,360 legacy post bodies or external backlinks."
+    limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };
 }

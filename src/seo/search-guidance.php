@@ -35,7 +35,7 @@ function zaprazi_2_search_guidance_for_query( $query ) {
 
   // Specific mobility-in-bed question takes precedence over generic bed purchase.
   // Do not recommend an unverified bed handle or rail as a merchant product.
-  if ( preg_match( '/\b(?:vstav[a-z]*|vstan[a-z]*|madl[a-z]*|hrazd[a-z]*)\b.{0,55}\b(?:postel[a-z]*|luzk[a-z]*)\b|\b(?:postel[a-z]*|luzk[a-z]*)\b.{0,55}\b(?:vstav[a-z]*|vstan[a-z]*|madl[a-z]*|hrazd[a-z]*)\b/', $query ) ) {
+  if ( preg_match( '/\b(?:vstav[a-z]*|vstan[a-z]*|vstat[a-z]*|madl[a-z]*|hrazd[a-z]*)\b.{0,55}\b(?:postel[a-z]*|luzk[a-z]*)\b|\b(?:postel[a-z]*|luzk[a-z]*)\b.{0,55}\b(?:vstav[a-z]*|vstan[a-z]*|vstat[a-z]*|madl[a-z]*|hrazd[a-z]*)\b/', $query ) ) {
     return array(
       array( '/senior-nemuze-vstat-z-postele/#co-delat-postel', 'Když člověk nevstane z postele', 'Rozlišit posazení, postavení, bezpečný přesun a typ opory bez neověřeného nákupu.' ),
       array( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli', 'Madlo, hrazda, nebo zábrana?', 'Tyto výrobky mají různý účel a rizika; ověřte kompatibilitu lůžka a matrace.' ),

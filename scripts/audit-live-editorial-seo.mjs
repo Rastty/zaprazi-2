@@ -12,8 +12,8 @@ import { summarizeEditorialPages } from "./lib/editorial-seo-rules.mjs";
 import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
 
 const base="https://zaprazi.cz";
-const paths=["/",...requiredDecisionPaths,
-  "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/"];
+// All current decision/problem URLs, including the newest bed-rise guide, exactly once.
+const paths=["/",...requiredDecisionPaths];
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
   .find(path => {try {accessSync(path,constants.X_OK);return true;}catch{return false;}});
 if(!chrome)throw new Error("Chrome/Chromium required for public DOM audit");

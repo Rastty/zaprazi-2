@@ -28,6 +28,15 @@ const atLeast = (version, minimum) => {
   return true;
 };
 
+// In explicit post-deploy QA, a matching repository release is not proof of deployment.
+// Require the real WordPress readiness marker before checking the new SEO journey.
+const expectedLiveRelease = process.env.ZP_REQUIRED_LIVE_RELEASE;
+if (expectedLiveRelease) {
+  assert.match(expectedLiveRelease, /^\d+\.\d+\.\d+$/, "Invalid required release");
+  assert.ok(atLeast(readiness.release, expectedLiveRelease),
+    "Expected production release " + expectedLiveRelease + ", observed " + readiness.release);
+}
+
 const guides = [
   {
     release: "0.8.149",
@@ -49,7 +58,14 @@ const guides = [
     danger: /bez odborného posouzení neurčuje konkrétní výrobek/i,
     source: "https://www.gov.uk/guidance/bed-rails-management-and-safe-use",
     parents: ["/", "/polohovaci-postel/", "/kompenzacni-pomucky-pro-seniory/", "/nocni-cesta-z-postele-na-wc/"],
-    outbound: ["/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/", "/nocni-cesta-z-postele-na-wc/", "/navrat-z-nemocnice/", "/jak-vznika-doporuceni/"]
+    outbound: ["/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/", "/nocni-cesta-z-postele-na-wc/", "/navrat-z-nemocnice/", "/jak-vznika-doporuceni/"],
+    // Conversion-critical deep links must open the intended action, not merely a 200 page.
+    outboundAnchors: {
+      "/polohovaci-postel/": "poradce-postel",
+      "/polohovaci-postel-na-pojistovnu/": "porovnani-pujceni-postele",
+      "/nocni-cesta-z-postele-na-wc/": "nocni-audit",
+      "/navrat-z-nemocnice/": "plan-navratu"
+    }
   },
   {
     release: "0.8.150",
@@ -104,7 +120,8 @@ try {
         checkCount: document.querySelectorAll(spec.checks).length,
         text: main?.innerText || "",
         sourcePresent: links.some(a => a.href === spec.source),
-        prematureOffers: main?.querySelectorAll(".zp-offer, [data-zp-merchant-link], [data-zp-affiliate-target]").length || 0
+        prematureOffers: main?.querySelectorAll(".zp-offer, [data-zp-merchant-link], [data-zp-affiliate-target]").length || 0,
+        firstPartyLinks: links.filter(a => a.origin === location.origin).map(a => a.href)
       };
     }, guide);
 
@@ -137,6 +154,13 @@ try {
       const canonical = await outbound.$eval('link[rel="canonical"]', node => node.href);
       assert.equal(canonical, origin + destination,
         "Related page must resolve with canonical HTTPS: " + destination);
+      const anchor = guide.outboundAnchors?.[destination];
+      if (anchor) {
+        assert.ok(snapshot.firstPartyLinks.includes(origin + destination + "#" + anchor),
+          "Guide is missing the conversion-targeted deep link: " + destination + "#" + anchor);
+        assert.ok(await outbound.evaluate(id => !!document.getElementById(id), anchor),
+          "Conversion target anchor missing on real destination: " + destination + "#" + anchor);
+      }
       await outbound.close();
     }
     console.log("PASS " + guide.release + " live guide SEO, safety, 7 checks, inbound and resolved outbound links: " + guide.path);

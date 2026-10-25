@@ -62,6 +62,9 @@ export async function checkAcquisitionDiscovery(fetcher = fetch, origin = "https
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   checkAcquisitionDiscovery().then(result => {
     console.log("ACQUISITION_SITEMAP_GATE", JSON.stringify(result));
+    if (process.env.ZP_REQUIRE_DISCOVERY === "1" && result.status !== "discovered") {
+      throw new Error("Expected deployed guide in HTTPS page sitemap; observed: " + result.status);
+    }
   }).catch(error => {
     console.error("ACQUISITION_SITEMAP_GATE_FAILED", error.message);
     process.exitCode = 1;

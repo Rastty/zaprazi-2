@@ -1,5 +1,5 @@
 /**
- * Read-only link audit: 27 core decision/resource entry pages -> all public
+ * Read-only link audit: homepage plus all required decision/problem pages -> all public
  * first-party HTML path targets. Never clicks commerce, never follows redirects.
  */
 import { accessSync, constants } from "node:fs";
@@ -27,7 +27,7 @@ try{
 }finally{await browser.close();}
 const ready=prepareInternalLinks(pages);
 const checked=await auditInternalTargets(ready.targets);
-const result={source_pages:pages.length,links_total:pages.reduce((a,p)=>a+p.links.length,0),
+const result={source_pages:pages.length, audited_source_paths:pages.map(p=>p.path),links_total:pages.reduce((a,p)=>a+p.links.length,0),
   unique_safe_targets:ready.targets.length,excluded:ready.excluded,...checked};
 const {checked_paths,...summary}=result;
 console.log("LINK_HEALTH_SUMMARY",JSON.stringify(summary));

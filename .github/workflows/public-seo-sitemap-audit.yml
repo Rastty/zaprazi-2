@@ -30,4 +30,6 @@ jobs:
       - name: Inspect live public sitemap (no WordPress writes or GSC claims)
         run: node scripts/audit-public-sitemap.mjs
       - name: Verify latest acquisition guide discovered after actual deploy
+        env:
+          ZP_REQUIRE_DISCOVERY: "1"
         run: node scripts/check-acquisition-sitemap.mjs

@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.155' );
+  define( 'ZAPRAZI_RELEASE', '0.8.156' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -30,6 +30,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-schody-pro-seniora-doma.php',
     'page-vstavani-z-kresla-pro-seniora.php',
     'page-senior-nemuze-vstat-z-postele.php',
+    'page-senior-spadl-doma.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
@@ -2322,6 +2323,26 @@ function zaprazi_2_ensure_bed_rise_page() {
 }
 add_action( 'init', 'zaprazi_2_ensure_bed_rise_page', 36 );
 
+/** One-time non-destructive WordPress publication. Never mutate existing posts. */
+function zaprazi_2_ensure_post_fall_page() {
+  $slug = 'senior-spadl-doma';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-senior-spadl-doma.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior spadl doma: co dělat a jak předejít dalšímu pádu?',
+      'post_excerpt' => 'Co dělat hned po pádu seniora, kdy volat 155, jak přivolat pomoc a sedm bodů pro bezpečnější domácnost a další odborné posouzení.',
+      'post_content' => '',
+      'meta_input' => array('_wp_page_template' => 'page-senior-spadl-doma.php'),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_post_fall_page', 37 );
+
 function zaprazi_2_is_night_wc_page() {
   return is_page( 'nocni-cesta-z-postele-na-wc' );
 }
@@ -2356,6 +2377,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma: co dělat, kdy volat 155 | Zápraží';
   if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nemůže vstát z postele: co pomůže? | Zápraží';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Senior nemůže vstát z křesla: co pomůže bezpečně | Zápraží';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior nezvládá schody doma: jak vyřešit přístup | Zápraží';
@@ -2405,6 +2427,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma? Jak poznat, kdy volat 155, čemu se vyhnout při zvedání, sedm kroků pro rodinu a odkazy na praktické poradce pro bezpečnější byt.';
   if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nedokáže vstát z postele? Rozlište problém s posazením a postavením, rizika madel a zábran, sedm kontrol i vhodnou cestu k poradci.';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Obtížné vstávání z křesla? Rozlište nízký sed, oporu, bezpečný přesun a zvedací mechanismus. Sedm kontrol před koupí a odborné zdroje.';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior doma nezvládá schody? Co udělat hned, sedm kontrol schodiště, sedačka vs. plošina vs. schodolez a jak ověřit příspěvek u Úřadu práce.';
@@ -2455,6 +2478,13 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+/** Post-fall guide without Yoast: one unique description, no duplicate tag. */
+function zaprazi_2_post_fall_description_fallback() {
+  if ( ! is_page( 'senior-spadl-doma' ) || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_post_fall_description_fallback', 5 );
+
 /** One unique description if Yoast SEO is not available. */
 function zaprazi_2_bed_rise_description_fallback() {
   if ( ! is_page( 'senior-nemuze-vstat-z-postele' ) || defined( 'WPSEO_VERSION' ) ) return;

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_155 */
+/* ZP_RELEASE_0_8_156 */
 /*
 Template Name: Zápraží — Bezpečný byt pro seniora
 */
@@ -64,6 +64,7 @@ get_header();
 
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
+      <p><strong>Už se pád stal?</strong> Nejdřív řešte případné zranění; prevenci a výběr pomůcek až následně. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Praktický postup po pádu seniora doma</a>.</p>
       <p class="zp-kicker">Prevence pádů</p>
       <h2 class="zp-section-title">Prevence pádů seniorů doma: nejdřív odstraňte rizika bez drahé rekonstrukce.</h2>
       <div class="zp-check-grid">

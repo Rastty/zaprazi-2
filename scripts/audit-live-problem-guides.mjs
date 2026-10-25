@@ -39,6 +39,28 @@ if (expectedLiveRelease) {
 
 const guides = [
   {
+    release: "0.8.156",
+    path: "/senior-spadl-doma/",
+    heading: /senior spadl doma/i,
+    anchorIds: ["prvni-krok-pad", "plan-po-padu", "dalsi-krok-pad", "faq-pad", "zdroje-pad"],
+    checks: "#plan-po-padu .zp-decision-card",
+    danger: /násilně nezvedejte/i,
+    source: "https://www.nzip.cz/clanek/205-zdravotnicka-zachranna-sluzba",
+    parents: ["/", "/bezpecny-byt-pro-seniora/", "/nocni-cesta-z-postele-na-wc/"],
+    outbound: [
+      "/choditka-pro-seniory/", "/nocni-cesta-z-postele-na-wc/",
+      "/vstavani-z-kresla-pro-seniora/", "/koupelna-a-wc/",
+      "/senior-nemuze-vstat-z-postele/", "/bezpecny-byt-pro-seniora/"
+    ],
+    outboundAnchors: {
+      "/nocni-cesta-z-postele-na-wc/": "nocni-audit",
+      "/vstavani-z-kresla-pro-seniora/": "jak-postupovat-kreslo",
+      "/koupelna-a-wc/": "poradce-koupelna",
+      "/senior-nemuze-vstat-z-postele/": "co-delat-postel",
+      "/bezpecny-byt-pro-seniora/": "audit-bytu"
+    }
+  },
+  {
     release: "0.8.149",
     path: "/schody-pro-seniora-doma/",
     heading: /senior nezvládá schody/i,

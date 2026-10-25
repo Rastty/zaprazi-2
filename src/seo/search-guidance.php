@@ -43,6 +43,20 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // An actual fall is an urgent life-situation intent, not a product name.
+  // Require an explicit person/home context so "spadl vykon" or "cerpadla"
+  // cannot hijack unrelated historical archive searches.
+  if (
+    preg_match( '/\b(?:spadl[a-z]*|upadl[a-z]*|pad[a-z]*|zakopl[a-z]*)\b/', $query ) &&
+    preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|clovek[a-z]*|osob[a-z]*|doma|bytu|chodbe)\b/', $query )
+  ) {
+    return array(
+      array( '/senior-spadl-doma/#prvni-krok-pad', 'Senior spadl doma: co udělat hned', 'Nejdřív rozpoznat naléhavost a přivolat potřebnou pomoc. Výběr pomůcek až později.' ),
+      array( '/senior-spadl-doma/#plan-po-padu', 'Sedm kroků po pádu pro rodinu', 'Praktický plán po zajištění bezpečí, včetně odborného posouzení a domácích rizik.' ),
+      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Prevence dalšího pádu doma', 'Prověřte překážky, osvětlení a nebezpečné přesuny v domácnosti.' ),
+    );
+  }
+
   $groups = array(
     array( '/\btoalet[a-z]*\s+zidl[a-z]*\b/', array(
       array( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle', 'Poradce pro toaletní židli', 'Nejdřív ověřte bezpečný přesun, stabilitu a prostor.' ),

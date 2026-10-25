@@ -79,6 +79,21 @@ check_route('vstavani ze zidle','/vstavani-z-kresla-pro-seniora/#jak-postupovat-
 check_route('toaletni zidle','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
 check_route('sprchovaci zidle','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
 
+// A genuine fall gets safety-first help; unrelated solar/pump searches must not match.
+check_route('senior spadl doma','/senior-spadl-doma/#prvni-krok-pad',3);
+check_route('maminka upadla v bytu','/senior-spadl-doma/#prvni-krok-pad',3);
+check_route('pad seniora','/senior-spadl-doma/#prvni-krok-pad',3);
+check_route('opakovane pady doma','/senior-spadl-doma/#prvni-krok-pad',3);
+foreach (array('cerpadla','spadl vykon solarnich panelu','pad napeti') as $unrelated) {
+  $routes = zaprazi_2_search_guidance_for_query($unrelated);
+  foreach ($routes as $route) {
+    if (str_starts_with($route[0] ?? '', '/senior-spadl-doma/')) {
+      fwrite(STDERR, "Unrelated term falsely matched a senior fall: ".$unrelated."\n");
+      exit(1);
+    }
+  }
+}
+
 check_route('schodolez','/schody-pro-seniora-doma/#plan-schody',3);
 check_route('schodistova sedacka','/schody-pro-seniora-doma/#plan-schody',3);
 check_route('schody u vchodu','/schody-pro-seniora-doma/#plan-schody',3);

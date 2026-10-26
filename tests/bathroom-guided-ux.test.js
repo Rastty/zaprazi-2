@@ -20,7 +20,7 @@ test("five complex bathroom product-advisors receive one coherent two-step UX, n
   assert.ok(read(page).includes('id="zp-'+key+'-fit-stage"'),key);
  }
  assert.match(micro,/document[.]createElement[(]"section"[)]/);
- assert.match(micro,/aria-label="Postup poradcem"/);
+ assert.ok(micro.includes('progress.setAttribute("aria-label", "Postup poradcem")'));
  assert.match(micro,/data-zp-progress-phase="situation"/);
  assert.match(micro,/data-zp-progress-phase="fit"/);
  assert.match(micro,/role="progressbar"/);
@@ -50,7 +50,7 @@ test("unsafe or unknown answers lead to safe action plan, no merchant in prelimi
  assert.match(blocked,/Nejdřív bezpečný další krok/);
  assert.match(blocked,/Bez splnění bezpečnostních podmínek/);
  assert.match(blocked,/Co můžete udělat teď[?]/);
- assert.match(blocked,/esc[(]guidePath[)]/);
+ assert.match(blocked,/esc[(]guideLabel[)]/);
  assert.doesNotMatch(blocked,/affiliateMap|merchant-link|target="_blank"|[.]offers/);
  assert.match(micro,/event[.]stopImmediatePropagation[(][)]/);
  assert.match(micro,/if \(previewReady\)/);

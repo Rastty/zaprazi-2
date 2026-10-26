@@ -31,6 +31,8 @@ function zaprazi_2_release_integrity_ok() {
     'page-vstavani-z-kresla-pro-seniora.php',
     'page-senior-nemuze-vstat-z-postele.php',
     'page-senior-spadl-doma.php',
+    'page-prahy-pro-choditko-a-vozik.php',
+    'page-sprchova-zidle-maly-kout-80x80.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
@@ -2324,6 +2326,49 @@ function zaprazi_2_ensure_bed_rise_page() {
 add_action( 'init', 'zaprazi_2_ensure_bed_rise_page', 36 );
 
 /** One-time non-destructive WordPress publication. Never mutate existing posts. */
+/**
+ * Two source-backed, non-destructive long-tail editorial entries.
+ * Published only if their exact slugs are unused; no legacy article is altered.
+ */
+function zaprazi_2_ensure_problem_articles_v159() {
+  $articles = array(
+    'prahy-pro-choditko-a-vozik' => array(
+      'title' => 'Vysoký práh a chodítko: jak upravit průchod pro seniora nebo vozík?',
+      'excerpt' => 'Sedm měření prahu a dveří, rozhodnutí mezi úpravou a rampou, bezpečnost a vazba na chodítko či vozík.',
+      'template' => 'page-prahy-pro-choditko-a-vozik.php',
+    ),
+    'sprchova-zidle-maly-kout-80x80' => array(
+      'title' => 'Sprchová židle do koutu 80 × 80 cm: co změřit před nákupem?',
+      'excerpt' => 'Sedm kontrol skutečného prostoru, otevření dveří, vaničky, bezpečného sedu a volby sprchové židle.',
+      'template' => 'page-sprchova-zidle-maly-kout-80x80.php',
+    ),
+  );
+  foreach ( $articles as $slug => $info ) {
+    if ( get_page_by_path( $slug, OBJECT, 'page' ) ) continue;
+    if ( ! file_exists( get_theme_file_path( '/' . $info['template'] ) ) ) continue;
+    wp_insert_post(
+      array(
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'post_name' => $slug,
+        'post_title' => $info['title'],
+        'post_excerpt' => $info['excerpt'],
+        'post_content' => '',
+        'meta_input' => array( '_wp_page_template' => $info['template'] ),
+      ),
+      true
+    );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_problem_articles_v159', 38 );
+
+function zaprazi_2_problem_articles_meta_fallback() {
+  if ( defined( 'WPSEO_VERSION' ) ) return;
+  if ( ! is_page( array( 'prahy-pro-choditko-a-vozik', 'sprchova-zidle-maly-kout-80x80' ) ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_problem_articles_meta_fallback', 5 );
+
 function zaprazi_2_ensure_post_fall_page() {
   $slug = 'senior-spadl-doma';
   if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
@@ -2377,6 +2422,8 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Vysoký práh a chodítko: 7 kontrol před úpravou | Zápraží';
+  if ( is_page( 'sprchova-zidle-maly-kout-80x80' ) ) return 'Sprchová židle do koutu 80×80: co změřit | Zápraží';
   if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma: co dělat, kdy volat 155 | Zápraží';
   if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nemůže vstát z postele: co pomůže? | Zápraží';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Senior nemůže vstát z křesla: co pomůže bezpečně | Zápraží';
@@ -2427,6 +2474,8 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Chodítko nebo vozík naráží do vysokého prahu? Sedm měření, rozdíl mezi lištou a rampou, bezpečnostní rizika a cesta k vhodnému poradci.';
+  if ( is_page( 'sprchova-zidle-maly-kout-80x80' ) ) return 'Vejde se sprchová židle do koutu 80 × 80 cm? Sedm kontrol skutečné šířky, vstupu, vaničky, opory a bezpečného usedání před nákupem.';
   if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma? Jak poznat, kdy volat 155, čemu se vyhnout při zvedání, sedm kroků pro rodinu a odkazy na praktické poradce pro bezpečnější byt.';
   if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nedokáže vstát z postele? Rozlište problém s posazením a postavením, rizika madel a zábran, sedm kontrol i vhodnou cestu k poradci.';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Obtížné vstávání z křesla? Rozlište nízký sed, oporu, bezpečný přesun a zvedací mechanismus. Sedm kontrol před koupí a odborné zdroje.';

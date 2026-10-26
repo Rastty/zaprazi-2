@@ -33,31 +33,36 @@ get_header();
           <h3>2. Postel → WC</h3>
           <p>Projďte trasu večer i v noci. Odstraňte volné kabely, koberečky a překážky, ověřte světlo a místa, kde se člověk instinktivně přidržuje.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodový návod a seznam k vytisknutí</a></p>
+                  <p>Pokud není bezpečná ani samotná cesta k WC, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#rozhodovaci-matice-zidle-postel' ) ); ?>">co ověřit před umístěním toaletní židle u postele</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>3. WC</h3>
           <p>Ověřte výšku sedu, prostor pro vstávání, stabilní oporu a případnou pomoc druhé osoby. Nevhodně umístěné madlo může být horší než žádné.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Poradce pro koupelnu a WC</a></p>
+                  <p>Když člověk potřebuje hlavně oporu při sedání a vstávání, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#rozhodnuti-opora-wc' ) ); ?>">jak rozhodnout mezi madlem a toaletním rámem</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>4. Koupelna</h3>
           <p>Kluzký povrch, vysoký vstup do vany nebo sprchy a málo místa pro asistenci jsou časté problémy. Ověřte protiskluzové řešení, sed a bezpečný transfer.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu</a></p>
+                  <p>Máte malý sprchový kout 80 × 80 cm? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#rozhodovaci-tabulka-sprcha' ) ); ?>">jak ověřit místo pro židli i bezpečný přesun</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>5. Chůze po bytě</h3>
           <p>Změřte nejužší průchod a sledujte, zda se člověk přidržuje nábytku. Pokud potřebuje pravidelnou oporu, má smysl řešit správný typ chodítka, ne jen přidávat další židle.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Poradce pro chůzi</a></p>
-        </article>
-        <article class="zp-decision-card">
-          <h3>7. Vstávání z křesla a židle</h3>
-          <p>Zkontrolujte nízký nebo hluboký sed, pevnost područek a možnost bezpečného postavení. Ne každý problém řeší elektrické zvedací křeslo.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo' ) ); ?>">Co prověřit, když senior nemůže vstát z křesla</a></p>
+                  <p>Jestli vybíráte pevné nebo dvoukolové chodítko do bytu, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#rozhodnuti-choditko-byt' ) ); ?>">praktický postup před výběrem typu chodítka</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>6. Postel a okolí</h3>
           <p>Ověřte výšku lůžka, prostor pro vstávání a případnou pomoc pečující osoby. U dlouhodobější péče může být zásadní přístup z více stran.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p>
+                  <p>Pokud problém spočívá přímo ve vstávání z lůžka, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#rozhodnuti-vstavani-postel' ) ); ?>">co udělat podle fáze, ve které vstávání selhává</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>7. Vstávání z křesla a židle</h3>
+          <p>Zkontrolujte nízký nebo hluboký sed, pevnost područek a možnost bezpečného postavení. Ne každý problém řeší elektrické zvedací křeslo.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo' ) ); ?>">Co prověřit, když senior nemůže vstát z křesla</a></p>
         </article>
       </div>
     </div>

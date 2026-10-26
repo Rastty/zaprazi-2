@@ -13,6 +13,7 @@ get_header();
 <div class="zp-hero-actions">
 <a class="zp-btn" href="#mereni-pruchodu">Změřit průchod v šesti krocích</a>
 <a class="zp-text-link" href="#porovnani-sirek">Porovnat šířky</a>
+<a class="zp-text-link" href="#modelove-situace-pruchod">Dveře 70 cm: příklady</a>
 <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Poradce invalidního vozíku</a>
 </div>
 <p class="zp-muted-copy">Návod pro rodinu · 16. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
@@ -104,6 +105,16 @@ get_header();
 <noscript><p class="zp-disclaimer">Bez JavaScriptu: odečtěte celkovou šířku vozíku od skutečné volné šířky průchodu. Nulový či záporný rozdíl nestačí ani fyzicky; kladný rozdíl nikdy automaticky nepotvrzuje bezpečné použití.</p></noscript>
 <p class="zp-disclaimer"><strong>Důležité:</strong> i při kladném rozdílu je nutné zvlášť ověřit boční rezervu, zatáčení, práh, způsob pohonu, otevření dveří a bezpečnost přesunu. Přepočet není individuální posouzení, česká stavební norma ani záruka průjezdu.</p>
 </div></section>
+<section id="otazky-prujezd-dvermi" class="zp-section" aria-labelledby="faq-dvere-nadpis"><div class="zp-wrap zp-faq">
+<p class="zp-kicker">Často hledané otázky</p>
+<h2 id="faq-dvere-nadpis" class="zp-section-title">Invalidní vozík a úzké dveře: rychlé odpovědi.</h2>
+<details><summary>Projde invalidní vozík dveřmi 70 cm?</summary><p>Jen z údaje „dveře 70 cm“ to nelze určit. Změřte skutečně volný otvor při otevřených dveřích, zjistěte celkovou šířku konkrétní varianty vozíku a ověřte bezpečné zatáčení, ovládání i případnou pomoc. Ani kladný rozdíl šířek není potvrzením bezpečného průjezdu.</p></details>
+<details><summary>Stačí v bytě dveře 80 cm nebo 90 cm?</summary><p>Širší otvor obvykle poskytne více prostoru, ale žádná samotná hodnota nezaručuje průjezd konkrétního vozíku. Záleží také na skutečně volné šířce, průjezdu s rukama nebo doprovodem, prahu a prostoru pro manévr. Čísla z obecných příruček nejsou individuální technické schválení ani automaticky český právní limit.</p></details>
+<details><summary>Jak měřit posuvné dveře nebo dveře otevírané dovnitř?</summary><p>U posuvných dveří měřte skutečnou volnou šířku mezi vysunutou hranou křídla a protější překážkou. U otočných dveří změřte průchod s křídlem v poloze, ve které bude při jízdě opravdu stát. V obou případech zvlášť prověřte spodní vedení, práh a prostor před dveřmi i za nimi.</p></details>
+<details><summary>Mohu vybrat užší vozík jen kvůli dveřím?</summary><p>Ne bez dalšího posouzení. Vozík musí zároveň odpovídat člověku, bezpečnému sedu, nosnosti, způsobu pohonu a potřebné podpoře. Samotná šířka průchodu nesmí převážit nad individuální vhodností vozíku.</p></details>
+<details><summary>Co když vozík dveřmi projede rovně, ale neotočí se na WC?</summary><p>Pak není vyřešená celá cesta. Sepište rozměry prostoru před WC, polohu dveří, bezpečné místo pro zastavení a způsob přesunu. Další variantu průchodu, stavební úpravu nebo vhodný způsob pomoci nechte ověřit s odborníkem. Rizikový pokus s člověkem není bezpečný test.</p></details>
+</div></section>
+
 <section class="zp-section"><div class="zp-wrap">
 <h2 class="zp-section-title">Co dál s naměřenými údaji?</h2>
 <p>Sepište si nejužší průchod, celkovou šířku přesné varianty vozíku, práh, prostor pro otočení a způsob pomoci. Před konkrétní nabídkou je potřeba ověřit také sed, nosnost, ovládání a bezpečný přesun.</p>
@@ -112,7 +123,7 @@ get_header();
 <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Bezpečný byt</a>
 <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Půjčit, koupit nebo ověřit úhradu</a>
 </div>
-<p class="zp-muted-copy">Metodická inspirace: <a href="https://www.access-board.gov/ada/guides/chapter-4-entrances-doors-and-gates/" target="_blank" rel="noopener">U.S. Access Board — skutečná průchozí šířka dveří a prostor pro manévrování</a> (ověřeno 16. 10. 2026). Americké pokyny nejsou automaticky použitelný český právní limit. Zápraží netvrdí univerzální schvalovací šířku a nenahrazuje odborné posouzení.</p>
+<p class="zp-muted-copy">Metodická inspirace: <a href="https://www.access-board.gov/ada/guides/chapter-4-entrances-doors-and-gates/" target="_blank" rel="noopener">U.S. Access Board — skutečná průchozí šířka dveří a prostor pro manévrování</a> (ověřeno 16. 10. 2026); <a href="https://www.dmapraha.cz/data/files/Bydleni_bez_barier_Liga_vozic.pdf" target="_blank" rel="noopener noreferrer">Liga vozíčkářů — Bydlení bez bariér</a> (ilustrační doporučení k dispozici průchodů a prostoru pro manipulaci). Americké pokyny ani starší příručka nejsou automaticky použitelný český právní limit. Zápraží netvrdí univerzální schvalovací šířku a nenahrazuje odborné posouzení.</p>
 </div></section>
 </main>
 <?php get_footer(); ?>

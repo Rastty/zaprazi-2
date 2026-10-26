@@ -26,7 +26,7 @@ test("Two independent narrow buyer-problem articles have safety-first standalone
   for(const source of spec.source)assert.ok(body.includes(source),"Missing evidence link "+source);
   assert.doesNotMatch(body,/<form\b|data-zp-merchant-link|data-zp-affiliate-target|desturl=|ehub[.]cz|Koupit nyní/i);
   assert.match(body,/nezávisl[áé]|nezávisle/i,"Review transparency missing");
- });
+ }
 });
 test("Each new article has three already-established editorial entry points",()=>{
  for(const spec of pages){

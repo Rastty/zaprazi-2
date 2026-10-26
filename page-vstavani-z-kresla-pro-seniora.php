@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Samostatnost doma · Křeslo a židle</p>
       <h1>Senior nemůže vstát z křesla: co zkontrolovat a kdy pomůže zvedací křeslo?</h1>
       <p class="zp-lead">Pokud člověk do hlubokého křesla zapadne, problém nemusí vyřešit drahé elektrické polohování. Rozhoduje skutečná výška sedu, pevné opěrky, stabilita, schopnost přenést váhu na nohy a bezpečné dosednutí. <strong>Začněte řešením situace, ne nákupem výrobku.</strong></p>
+      <p class="zp-muted-copy">Stejné potíže se sedáním mohou vzniknout i u nízkého autosedadla. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Co pomůže při nastupování seniora do auta</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#jak-postupovat-kreslo">Co udělat jako první</a>
         <a class="zp-text-link" href="#mereni-kresla">Sedm věcí k ověření</a>

@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Invalidní vozík · Přeprava autem</p>
       <h1>Vejde se invalidní vozík do kufru auta? Co změřit před koupí.</h1>
       <p class="zp-lead">Skládací vozík může být do auta praktický — jenže údaj „složitelný“ nestačí. Potřebujete znát <strong>rozměry složené varianty, skutečný otvor kufru, hmotnost nejtěžší části</strong> a bezpečný způsob naložení a upevnění. Připravili jsme postup, který lze projít s rodinou i prodejcem.</p>
+      <p class="zp-muted-copy">Změřit kufr nestačí, pokud člověk nedokáže bezpečně přesednout z vozíku na autosedadlo. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Průvodce přesunem člověka do auta</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#rozhodnuti-vozik-auto">Co udělat podle situace</a>
         <a class="zp-text-link" href="#mereni-kufru-vozik">Sedm měření auta a vozíku</a>

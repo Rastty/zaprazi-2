@@ -58,6 +58,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-myti-vlasu-na-luzku.php',
     'page-oblekani-ponozek-a-kalhot-bez-ohybani.php',
     'page-hygiena-leziciho-seniora-doma.php',
+    'page-nastupovani-seniora-do-auta.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2257,6 +2258,28 @@ add_action( 'init', 'zaprazi_2_ensure_bedbound_hygiene_page', 52 );
 function zaprazi_2_is_bedbound_hygiene_page() {
   return is_page( 'hygiena-leziciho-seniora-doma' );
 }
+/** Non-destructive publication of senior passenger car access decision guide. */
+function zaprazi_2_ensure_senior_car_access_page() {
+  if ( '1' === get_option( 'zaprazi_senior_car_access_v1' ) ) return;
+  $slug = 'nastupovani-seniora-do-auta';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Jak pomoci seniorovi nastoupit a vystoupit z auta: bezpečný postup a pomůcky',
+      'post_content' => '',
+      'post_excerpt' => 'Otočný podsedák, přenosné madlo nebo pomoc s přesunem nohou? Čtyři situace, rizika při jízdě, sedm kontrol a doporučení odborníků.',
+      'meta_input' => array( '_wp_page_template' => 'page-nastupovani-seniora-do-auta.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_senior_car_access_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_senior_car_access_page', 53 );
+function zaprazi_2_is_senior_car_access_page() {
+  return is_page( 'nastupovani-seniora-do-auta' );
+}
 function zaprazi_2_ensure_dressing_without_bending_page() {
   if ( '1' === get_option( 'zaprazi_dressing_without_bending_v1' ) ) return;
   $slug = 'oblekani-ponozek-a-kalhot-bez-ohybani';
@@ -2699,6 +2722,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_senior_car_access_page() ) return 'Nastupování seniora do auta: bezpečné pomůcky | Zápraží';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: praktický postup | Zápraží';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Ponožky a kalhoty bez ohýbání: pomůcky | Zápraží';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku: bezpečný postup a pomůcky | Zápraží';
@@ -2756,6 +2780,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_senior_car_access_page() ) return 'Jak senior bezpečně nastoupí a vystoupí z auta: otočný sedák, madlo, pomůcka pro nohy, 7 kontrol a kdy je potřeba pomoc terapeuta.';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: jak na bezpečné mytí na lůžku, péči o kůži, inkontinenci, pomůcky a kdy požádat o pomoc.';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Jak obléct ponožky a kalhoty bez předklonu: navlékač, podavač, bezpečný nácvik, 7 kontrol a pravidla po operaci kyčle.';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku doma: nafukovací vanička, bezoplachová čepice, bezpečný postup, sedm kontrol a kdy požádat o pomoc sestru.';
@@ -2930,3 +2955,10 @@ function zaprazi_2_bedbound_hygiene_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_bedbound_hygiene_meta_fallback', 5 );
+
+/** Description for senior car access when Yoast is unavailable. */
+function zaprazi_2_senior_car_access_meta_fallback() {
+  if ( ! zaprazi_2_is_senior_car_access_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_senior_car_access_meta_fallback', 5 );

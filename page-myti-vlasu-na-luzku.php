@@ -91,7 +91,7 @@ get_header();
   <section id="postup-myti-vlasu" class="zp-section zp-section-soft"><div class="zp-wrap">
     <p class="zp-kicker">Praktický postup · jen když je poloha předem bezpečně ověřená</p>
     <h2 class="zp-section-title">Mytí vlasů na lůžku krok za krokem</h2>
-    <ol class="zp-steps">
+    <ol class="zp-guide-steps">
       <li><strong>Vysvětlete, co budete dělat.</strong> Zeptejte se na souhlas, přání a citlivost pokožky. Zajistěte soukromí a teplou místnost.</li>
       <li><strong>Připravte pomůcky na dosah.</strong> Nepropustná savá podložka, vanička dle návodu, voda vhodné teploty, šampon, nádoba k oplachu, ručníky, hřeben a prostředky pro bezpečné vysušení.</li>
       <li><strong>Zkontrolujte podložení a odtok.</strong> Chraňte matraci, ověřte stabilitu nádoby na odpadní vodu a zkoušku odtoku bez člověka. Zkontrolujte teplotu vody a podle možností se zeptejte na její příjemnost.</li>
@@ -106,7 +106,7 @@ get_header();
   <section id="kontrolni-seznam-vlasy" class="zp-section"><div class="zp-wrap">
     <p class="zp-kicker">Kontrolní seznam rodiny</p>
     <h2 class="zp-section-title">Sedm věcí, které ověřit před prvním mytím</h2>
-    <ol class="zp-checklist">
+    <ol class="zp-guide-steps zp-guide-checklist">
       <li>Je poloha hlavy, krku a trupu bezpečná a schválená pro tohoto člověka?</li>
       <li>Souhlasí člověk s postupem a rozumí tomu, co se bude dít?</li>
       <li>Dokážeme připravit vaničku a odtok bez nebezpečného zvedání?</li>
@@ -130,7 +130,7 @@ get_header();
   <section id="faq-myti-vlasu" class="zp-section zp-section-soft"><div class="zp-wrap">
     <p class="zp-kicker">Časté otázky</p>
     <h2 class="zp-section-title">Na co se rodiny při mytí vlasů ptají?</h2>
-    <div class="zp-faq-list">
+    <div class="zp-faq">
       <details><summary>Jak často umývat vlasy ležícímu seniorovi?</summary><p>Záleží na pohodlí, pocení, stavu pokožky a preferencích člověka. Ošetřovatelská příručka Opory Diakonie uvádí přibližně jednou týdně podle potřeby; při potížích s pokožkou se řiďte doporučením zdravotníka.</p></details>
       <details><summary>Je lepší bezoplachová čepice než nafukovací umyvadlo?</summary><p>Jde o různé metody. Čepice může usnadnit rychlou hygienu bez vody, vanička umožní běžné umytí s oplachem. Rozhoduje bezpečná poloha, snášenlivost a možnost péči provést.</p></details>
       <details><summary>Dá se umýt hlava jen jedním pečujícím?</summary><p>Někdy ano, ale ne vždy bezpečně. Pokud je potřeba současně držet hlavu, manipulovat s člověkem nebo řídit odtok, je namístě odborné posouzení, zaučení a případně druhá osoba.</p></details>

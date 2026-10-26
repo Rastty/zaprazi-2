@@ -28,6 +28,7 @@ get_header();
           <p>Zkontrolujte schody, práh, madlo, prostor před dveřmi a možnost bezpečně otočit chodítko nebo vozík. Pokud je vstup kritický, řešte ho dřív než vybavení uvnitř.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">Sedm měření prahu a bezpečných přechodů pro chodítko či vozík</a></p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/schody-pro-seniora-doma/#plan-schody' ) ); ?>">Když senior nezvládá schody: bezpečný postup a co ověřit</a></p>
+          <p>Jediný schod u vstupu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/najezdova-rampa-na-jeden-schod/#vypocet-sklonu-rampy' ) ); ?>">Jak měřit délku a sklon případné nájezdové rampy</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>2. Postel → WC</h3>
@@ -45,6 +46,7 @@ get_header();
           <h3>4. Koupelna</h3>
           <p>Kluzký povrch, vysoký vstup do vany nebo sprchy a málo místa pro asistenci jsou časté problémy. Ověřte protiskluzové řešení, sed a bezpečný transfer.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu</a></p>
+          <p>Uvažujete o madlu na přísavku? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prisavne-madlo-do-koupelny-bez-vrtani/#rozhodnuti-madlo-bez-vrtani' ) ); ?>">Co je bezpečná opora při vstávání bez vrtání</a>.</p>
                   <p>Máte malý sprchový kout 80 × 80 cm? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#rozhodovaci-tabulka-sprcha' ) ); ?>">jak ověřit místo pro židli i bezpečný přesun</a>.</p>
         </article>
         <article class="zp-decision-card">

@@ -53,6 +53,8 @@ function zaprazi_2_release_integrity_ok() {
     'page-co-zmerit-pred-vyberem-choditka.php',
     'page-projede-invalidni-vozik-dvermi.php',
     'page-invalidni-vozik-do-auta.php',
+    'page-najezdova-rampa-na-jeden-schod.php',
+    'page-prisavne-madlo-do-koupelny-bez-vrtani.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
@@ -1093,6 +1095,12 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
   }
+  if ( zaprazi_2_is_one_step_ramp_page() ) {
+    return 'Nájezdová rampa na jeden schod: délka a sklon | Zápraží';
+  }
+  if ( zaprazi_2_is_suction_grab_bar_page() ) {
+    return 'Madlo do koupelny bez vrtání: přísavka nestačí? | Zápraží';
+  }
   if ( zaprazi_2_is_wheelchair_car_guide() ) {
     return 'Invalidní vozík do auta: vejde se do kufru? | Zápraží';
   }
@@ -1151,6 +1159,12 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
+  }
+  if ( zaprazi_2_is_one_step_ramp_page() ) {
+    return 'Nájezdová rampa na jeden schod: délka a sklon | Zápraží';
+  }
+  if ( zaprazi_2_is_suction_grab_bar_page() ) {
+    return 'Madlo do koupelny bez vrtání: přísavka nestačí? | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_car_guide() ) {
     return 'Invalidní vozík do auta: vejde se do kufru? | Zápraží';
@@ -1211,6 +1225,12 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
+  }
+  if ( zaprazi_2_is_one_step_ramp_page() ) {
+    return 'Jak vybrat nájezdovou rampu na jeden schod: výška překážky, délka, sklon, nosnost, bezpečné podesty a měření pro vozík i chodítko.';
+  }
+  if ( zaprazi_2_is_suction_grab_bar_page() ) {
+    return 'Přísavné madlo do koupelny bez vrtání: proč nestačí jako nosná opora, jak bezpečně řešit vstávání z WC či vany a co ověřit před koupí.';
   }
   if ( zaprazi_2_is_wheelchair_car_guide() ) {
     return 'Jak vybrat skládací invalidní vozík do kufru auta: měření otvoru, složené rozměry, hmotnost, bezpečné naložení a sedmibodový pracovní list.';
@@ -2170,6 +2190,64 @@ function zaprazi_2_is_footwear_measurement_page() {
  * New page has a different problem intent from the wheelchair type advisor.
  */
 /** Create the focused car-boot guide once, without changing any existing content. */
+/** Non-destructively publish the specialized one-step ramp SEO guide. */
+function zaprazi_2_ensure_one_step_ramp_page() {
+  if ( '1' === get_option( 'zaprazi_one_step_ramp_page_v1' ) ) {
+    return;
+  }
+  $slug = 'najezdova-rampa-na-jeden-schod';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $id = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Nájezdová rampa na jeden schod: délka, sklon a bezpečný výběr',
+      'post_content' => '',
+      'post_excerpt' => 'Jeden schod před domem: čtyři rozhodovací scénáře, příklady sklonu, sedm měření a osmibodový pracovní list.',
+      'meta_input' => array( '_wp_page_template' => 'page-najezdova-rampa-na-jeden-schod.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $id ) && $id ) {
+    update_option( 'zaprazi_one_step_ramp_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_one_step_ramp_page', 47 );
+function zaprazi_2_is_one_step_ramp_page() {
+  return is_page( 'najezdova-rampa-na-jeden-schod' );
+}
+
+/** Non-destructively publish the suction grab-bar safety decision guide. */
+function zaprazi_2_ensure_suction_grab_bar_page() {
+  if ( '1' === get_option( 'zaprazi_suction_grab_bar_page_v1' ) ) {
+    return;
+  }
+  $slug = 'prisavne-madlo-do-koupelny-bez-vrtani';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $id = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Madlo do koupelny bez vrtání: přísavné madlo a bezpečné alternativy',
+      'post_content' => '',
+      'post_excerpt' => 'Kdy je přísavné madlo nevhodné, jak zvolit bezpečnou oporu bez vrtání a co změřit před výběrem.',
+      'meta_input' => array( '_wp_page_template' => 'page-prisavne-madlo-do-koupelny-bez-vrtani.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $id ) && $id ) {
+    update_option( 'zaprazi_suction_grab_bar_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_suction_grab_bar_page', 48 );
+function zaprazi_2_is_suction_grab_bar_page() {
+  return is_page( 'prisavne-madlo-do-koupelny-bez-vrtani' );
+}
+
 function zaprazi_2_ensure_wheelchair_car_guide() {
   if ( '1' === get_option( 'zaprazi_wheelchair_car_guide_v1' ) ) {
     return;

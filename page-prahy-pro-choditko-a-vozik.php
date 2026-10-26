@@ -82,6 +82,7 @@ get_header();
           <h3>3. Větší rozdíl výšek, schod nebo málo prostoru</h3>
           <p><strong>Odborný návrh přístupu</strong> je vhodnější než improvizovaná přenosná rampa. Je třeba řešit délku a sklon, krajní ochranu, šířku, podestu, počasí, zatížení i způsob doprovodu. Krátká příkrá deska přes schod může být horší než původní překážka.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/schody-pro-seniora-doma/#plan-schody' ) ); ?>">Když nejde o práh, ale o schody</a></p>
+          <p>Pokud jde konkrétně o jediný schod před vstupem, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/najezdova-rampa-na-jeden-schod/#rozhodnuti-rampa-schod' ) ); ?>">ověřte délku, sklon a bezpečné použití rampy na jeden schod</a>.</p>
         </article>
       </div>
     </div>

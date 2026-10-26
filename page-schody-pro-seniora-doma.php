@@ -56,6 +56,7 @@ get_header();
           <h3>Několik stupňů u vstupních dveří</h3>
           <p>Zapište počet a rozměry stupňů, místo před dveřmi, podklad, počasí a potřebný způsob pohybu. Zábradlí, technicky navržená rampa či plošina mohou řešit jiné potřeby. <strong>Neurčujte délku ani sklon rampy odhadem</strong> a neprovádějte neověřenou instalaci pro vozík.</p>
           <p><a class="zp-text-link" href="#co-zmerit-schody">Připravit technické podklady</a></p>
+          <p>Je překážkou jediný stupeň u vstupních dveří? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/najezdova-rampa-na-jeden-schod/#mereni-rampy-schod' ) ); ?>">Sedm měření a příklady sklonu pro konkrétní rampu</a>.</p>
         </article>
         <article class="zp-decision-card">
           <h3>Každý den do patra domu</h3>

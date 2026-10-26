@@ -14,7 +14,8 @@ test("bed exit reader has direct hero route to four actionable states",()=>{
  assert.match(b,/155 či 112/);
  assert.match(b,/nezkoušejte jej sami/);
  assert.match(b,/nepodkládejte postel/);
- assert.match(b,/přesun odborně ověřen/);
+ assert.match(b,/bezpečný postup přesunu/);
+ assert.match(b,/odborně ověřen/);
  assert.doesNotMatch(b,/data-zp-merchant-link|data-zp-affiliate-target|desturl=|Koupit nyní/i);
 });
 test("existing article keeps single H1 and seven checks",()=>{

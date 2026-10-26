@@ -142,6 +142,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>4. Matrace a boční zábrany musí tvořit kompatibilní sestavu</h3>
           <p>Matrace není u P2777 součástí základního balení. Boční zábrany nelze automaticky považovat za bezpečné pro každého: u nevhodné matrace, mezer nebo jiného příslušenství hrozí zaklínění mezi zábranou, matrací a rámem. Britský regulátor MHRA požaduje individuální posouzení rizik, kompatibility a montáže. Výběr, použití a nastavení zábran proto konzultujte s kompetentní osobou, neřešte je jen online nákupem.</p>
+        <p>Pokud řešíte specializovanou matraci, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#rozmery-kompatibilita-matrace' ) ); ?>">projděte osm kontrol rozměrů, roštu, zábran a systému s kompresorem</a> před výběrem produktu.</p>
         </article>
         <article class="zp-decision-card">
           <h3>5. Ověřit montáž, napájení a způsob získání</h3>

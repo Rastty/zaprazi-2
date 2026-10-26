@@ -10,7 +10,8 @@ get_header();
     <p class="zp-kicker">Zápraží · Hygiena doma · Péče na lůžku</p>
     <h1>Jak umýt vlasy ležícímu člověku doma? Bezpečný postup na lůžku a pomůcky</h1>
     <p class="zp-lead">Člověk nemůže do sprchy, ale potřebuje umýt vlasy? <strong>Nejdřív ověřte, zda může bezpečně zůstat ve vhodné poloze.</strong> Potom zvolte buď mytí s vodou pomocí vaničky na lůžko, bezoplachovou mycí čepici, nebo pomoc pečovatelské služby. Není nutné začínat koupí drahé pomůcky.</p>
-    <div class="zp-hero-actions">
+    <p class="zp-muted-copy">Vlasy jsou jen část péče na lůžku. Pokud řešíte také <strong>mytí těla, inkontinenci a prevenci podráždění pokožky</strong>, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">průvodce celkovou domácí hygienou</a>.</p>
+      <div class="zp-hero-actions">
       <a class="zp-btn" href="#vyber-myti-vlasu">Najít vhodný postup</a>
       <a class="zp-text-link" href="#postup-myti-vlasu">Postup krok za krokem</a>
       <a class="zp-text-link" href="#kontrolni-seznam-vlasy">Kontrolní seznam</a>

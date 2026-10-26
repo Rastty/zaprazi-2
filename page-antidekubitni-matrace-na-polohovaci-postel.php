@@ -10,7 +10,8 @@ get_header();
     <p class="zp-kicker">Zápraží · Péče u lůžka · Matrace</p>
     <h1>Antidekubitní matrace na polohovací postel: pěnová, nebo s kompresorem?</h1>
     <p class="zp-lead">Potřebujete vybrat matraci pro člověka s omezeným pohybem? <strong>Nejdřív ověřte potřeby člověka a kompatibilitu celé postele</strong>, teprve potom typ a cenu. Rozlišujeme speciální pěnovou matraci, vzduchovou podložku a aktivní systém se střídavým tlakem — nejsou automaticky zaměnitelné.</p>
-    <div class="zp-hero-actions">
+    <p class="zp-muted-copy">Při prevenci poškození kůže záleží také na hygieně a suché pokožce, nikoliv jen na typu matrace. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Co bezpečně zvládnout při hygieně na lůžku</a>.</p>
+      <div class="zp-hero-actions">
       <a class="zp-btn" href="#rozhodnuti-antidekubitni-matrace">Jaký další krok je bezpečný?</a>
       <a class="zp-text-link" href="#typy-antidekubitnich-matraci">Srovnat druhy matrací</a>
       <a class="zp-text-link" href="#rozmery-kompatibilita-matrace">Osm kontrol před koupí</a>

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_157 */
+/* ZP_RELEASE_0_8_158 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -40,6 +40,7 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Projít bezpečnostní poradce</a></p>
         </article>
       </div>
+      <p class="zp-muted-copy">Pokud vybíráte <strong>chodítko se sedátkem na odpočinek</strong>, záleží i na bezpečném zabrzdění, usednutí a vstávání; samotná čtyři kolečka nestačí. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Kdy dává smysl rollátor se sedátkem</a>.</p>
     </div>
   </section>
 

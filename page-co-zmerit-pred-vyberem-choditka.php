@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_157 */
+/* ZP_RELEASE_0_8_158 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */
@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Mobilita · Praktický kontrolní seznam</p>
       <h1>Co změřit před výběrem chodítka nebo rollátoru? Sedm věcí doma.</h1>
       <p class="zp-lead">Než vyberete konkrétní model, zkontrolujte výšku madel, nejužší průchody, prostor pro otočení, podlahu a způsob používání. U rollátoru navíc brzdy a sedátko. Většinu údajů získáte doma s metrem a papírem; bezpečnost chůze ale samotné měření nepotvrdí.</p>
+      <p class="zp-muted-copy">Hledáte <strong>chodítko se sedátkem</strong>? Výška sedu, parkovací brzdy a možnost bezpečně vstát jsou další samostatné kontroly. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Jak vybrat rollátor se sedátkem pro odpočinek</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív rozlišit typ chodítka</a>

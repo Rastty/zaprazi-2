@@ -13,7 +13,7 @@ get_header();
     <div class="zp-hero-actions">
       <a class="zp-btn" href="#situace-nastupovani-auto">Najít řešení podle problému</a>
       <a class="zp-text-link" href="#bezpecny-postup-auto">Postup před cestou</a>
-      <a class="zp-text-link" href="#checklist-nastupovani-auto">Sedm kontrol</a>
+      <a class="zp-text-link" href="#sedm-mereni-auto">Sedm kontrol</a>
       <a class="zp-text-link" href="#srovnani-pomucek-auto">Srovnání pomůcek</a>
     </div>
     <p class="zp-muted-copy">Praktický průvodce pro rodiny · odborné podklady prověřeny 26. 10. 2026 · bez ukládání odpovědí a neověřených produktových doporučení.</p>

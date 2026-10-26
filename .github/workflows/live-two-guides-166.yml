@@ -1,0 +1,25 @@
+name: Live 0.8.166 Two-Guide Acceptance
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-two-problem-guides-166.mjs"
+      - ".github/workflows/live-two-guides-166.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-deployed-guides:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check read-only verification syntax
+        run: node --check scripts/audit-live-two-problem-guides-166.mjs
+      - name: Verify real production pages, indexes and internal links
+        run: node scripts/audit-live-two-problem-guides-166.mjs

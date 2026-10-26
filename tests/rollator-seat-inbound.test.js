@@ -29,8 +29,8 @@ test("Walker hub decision cards preserve exact one-link gate",()=>{
   assert.equal((card.match(/<a\b/g)||[]).length,1,"Do not replace generic outdoor gate with purchase link");
   assert.match(card,/\/rollator-pro-seniory\/#poradce-rollator/);
   const seat=hub.indexOf("home_url( '"+href+"' )");
-  const after=hub.indexOf("</article>",hub.indexOf("<h3>Při chůzi běžně pomáhá další osoba"));
-  assert.ok(seat>after,"The additional editorial link must sit outside decision cards");
+  const after=hub.indexOf("</article>",hub.indexOf("<h3>Při chůzi běžně pomáhá druhá osoba"));
+  assert.ok(after > 0 && seat > after,"The additional editorial link must sit outside decision cards");
 });
 
 test("No new product identity, reimbursement claim or separate canonical created",()=>{

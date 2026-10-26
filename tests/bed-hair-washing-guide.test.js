@@ -79,5 +79,7 @@ test("page discovery routes are contextual and new URL is sitemap-staged, not pr
   assert.ok(staged.includes('"/myti-vlasu-na-luzku/"'));
   const required=sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0];
   assert.ok(!required.includes('"/myti-vlasu-na-luzku/"'));
-  assert.match(page, /ZP_RELEASE_0_8_167/);
+  const version = read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
+  assert.ok(version, "Theme version not defined");
+  assert.ok(page.includes("ZP_RELEASE_" + version.replaceAll(".", "_")));
 });

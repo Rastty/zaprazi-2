@@ -1,0 +1,21 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+const page=readFileSync(new URL("../page-madlo-k-wc-pro-seniory.php",import.meta.url),"utf8");
+test("WC support guide offers four gated next-step decisions and accessible links",()=>{
+ const start=page.indexOf('id="rozhodnuti-opora-wc"'),end=page.indexOf('id="kontrola-opory-u-wc"',start);
+ assert.ok(start>0&&end>start);
+ const b=page.slice(start,end);
+ assert.equal((b.match(/<article class="zp-decision-card">/g)||[]).length,4);
+ assert.equal((b.match(/<li>/g)||[]).length,5);
+ assert.match(b,/Výběr madla pozastavte/);
+ assert.match(b,/Neinstalujte nástěnné madlo naslepo/);
+ assert.match(b,/Prověřte výšku sedu/);
+ assert.match(b,/bezpečně ověřený/);
+ assert.match(b,/nosnost/);
+ assert.doesNotMatch(b,/data-zp-merchant-link|data-zp-affiliate-target|Koupit nyní/i);
+ const hero=page.slice(page.indexOf('<section class="zp-hero">'),page.indexOf('</section>'));
+ assert.ok(hero.includes('href="#rozhodnuti-opora-wc"'));
+ assert.ok(hero.includes('href="#kontrola-opory-u-wc"'));
+ assert.equal((page.match(/<h1\b/g)||[]).length,1);
+});

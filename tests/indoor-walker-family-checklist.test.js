@@ -8,7 +8,7 @@ test("indoor walker has four safe next-step branches and a useful measurement wo
  const block=page.slice(start,end);
  assert.equal((block.match(/<article class="zp-decision-card">/g)||[]).length,4);
  assert.equal((block.match(/<li>/g)||[]).length,6);
- for(const term of ["fyzickou pomoc","Manipulace je nejistá","neznáte rozměry bytu","ověřené","odborným posouzením"])assert.ok(block.includes(term),term);
+ for(const term of ["fyzickou pomoc","Manipulace je nejistá","neznáte rozměry bytu","ověřené","odborného posouzení"])assert.ok(block.includes(term),term);
  assert.ok(block.includes('href="#poradce-choditko-byt"'));
  assert.doesNotMatch(block,/data-zp-merchant-link|data-zp-affiliate-target|Koupit nyní/i);
  const hero=page.slice(page.indexOf('<section class="zp-hero">'),page.indexOf('</section>'));

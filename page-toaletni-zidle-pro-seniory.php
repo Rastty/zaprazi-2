@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-toaletni-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#kontrola-toaletni-zidle">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">Toaletní židle vedle postele: 7 měření</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#kontrolni-list-koupelna' ) ); ?>">Kontrolní list měření</a>
       </div>
     </div>

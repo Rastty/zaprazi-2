@@ -1,0 +1,23 @@
+name: Dressing 0.8.169 Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/dressing-169-postdeploy.yml"
+      - "scripts/audit-live-dressing-169.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  postdeploy-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify live 0.8.169 and guide SEO, decision paths, canonical, inbound links and sitemap
+        run: node scripts/audit-live-dressing-169.mjs

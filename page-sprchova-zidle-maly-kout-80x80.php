@@ -13,7 +13,7 @@ get_header();
       <p class="zp-lead">Máte doma malý sprchový kout a člověk už nevydrží bezpečně stát? Nápis „sprchový kout 80 × 80“ neříká, jak velká židle se dovnitř vejde. Záleží na skutečném vstupu, tvaru vaničky, nohách židle, místě pro chodidla i schopnosti bezpečně usednout a vstát. Projděte sedm kontrol dřív, než cokoli objednáte.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#sedm-mereni-sprchy">Sedm měření pro malý kout</a>
-        <a class="zp-text-link" href="#rozhodnuti-maly-kout">Kdy židle nestačí</a>
+        <a class="zp-text-link" href="#rozhodovaci-tabulka-sprcha">Co udělat dál podle situace</a>
         <a class="zp-text-link" href="#list-maly-kout">Připravit rozměry pro prodejnu</a>
       </div>
       <p class="zp-muted-copy">Praktický návod · zpracováno 26. 10. 2026. Nejde o odborné posouzení bezpečného přesunu ani o automatické potvrzení kompatibility židle s konkrétním koutem.</p>

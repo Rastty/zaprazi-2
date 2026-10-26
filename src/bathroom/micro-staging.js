@@ -190,8 +190,9 @@ export function installBathroomMicroStaging({
       '</p><div class="zp-micro-next"><h3>Co můžete udělat teď?</h3>' +
       '<ol><li>Pokud je přesun nejistý nebo vyžaduje fyzické zvedání, ověřte bezpečný postup s odborníkem.</li>' +
       '<li>Projděte rozměry, nosnost a podmínky instalace. Při nejistotě nezkoušejte rizikový přesun.</li></ol>' +
-      '<p><a class="zp-text-link" href="' + esc(guidePath) + '">' + esc(guideLabel) +
-      '</a></p></div><p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
+      '<p><strong>Co si připravit:</strong> ' + esc(guideLabel) +
+      '. Kontrolní návod najdete nad tímto poradcem v odkazech k měření.</p></div>' +
+      '<p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
     updateProgress("paused");
     result.hidden = false;
     errors.hidden = true;
@@ -289,8 +290,8 @@ export function installBathroomMicroStaging({
       '<ol><li>Projděte uvedené rozměry a nosnost konkrétního modelu.</li>' +
       '<li>Změřte doma skutečný prostor a ověřte bezpečný způsob přesunu.</li>' +
       '<li>Teprve pak v kroku 2 potvrďte, co opravdu víte. Jinak zvolte Nevím.</li></ol>' +
-      '<p><a class="zp-text-link" href="' + esc(guidePath) + '" target="_blank" rel="noopener noreferrer">' +
-      esc(guideLabel) + ' (nová karta)</a></p></div>' +
+      '<p><strong>Co si připravit:</strong> ' + esc(guideLabel) +
+      '. Praktický kontrolní návod je dostupný v druhém kroku nad otázkami k rozměrům.</p></div>' +
       '<p class="zp-disclaimer">Toto je jen předběžný výběr. Bez ověření v kroku 2 nezobrazujeme žádný odkaz k nákupu.</p>';
     previewReady = true;
     updateConditionalFit();

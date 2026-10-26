@@ -40,10 +40,13 @@ export function installBathroomMicroStaging({
 
   // Shared, privacy-preserving progress overview for all five narrow advisors.
   // These labels are generated from the currently VISIBLE required fields only.
-  const progress = document.createElement("section");
-  progress.className = "zp-micro-progress";
-  progress.setAttribute("aria-label", "Postup poradcem");
-  progress.innerHTML = `
+  const supportsProgress = typeof document.createElement === "function" &&
+    typeof form.insertBefore === "function";
+  const progress = supportsProgress ? document.createElement("section") : null;
+  if (progress) {
+    progress.className = "zp-micro-progress";
+    progress.setAttribute("aria-label", "Postup poradcem");
+    progress.innerHTML = `
     <p class="zp-micro-progress__kicker">Dva kroky k bezpečnějšímu rozhodnutí</p>
     <ol class="zp-micro-progress__steps" aria-label="Fáze výběru">
       <li data-zp-progress-phase="situation" aria-current="step"><span>1</span><strong>Co člověk potřebuje</strong></li>
@@ -55,11 +58,12 @@ export function installBathroomMicroStaging({
     </div>
     <p class="zp-micro-progress__help" data-zp-progress-help>Nevíte-li odpověď, zvolte Nevím. Poradce vás nezavede k neověřenému nákupu.</p>
   `;
-  form.insertBefore(progress, form.firstChild);
-  const phaseItems = [...progress.querySelectorAll("[data-zp-progress-phase]")];
-  const progressText = progress.querySelector("[data-zp-progress-label]");
-  const progressHelp = progress.querySelector("[data-zp-progress-help]");
-  const progressBar = progress.querySelector('[role="progressbar"]');
+    form.insertBefore(progress, form.firstChild);
+  }
+  const phaseItems = progress ? [...progress.querySelectorAll("[data-zp-progress-phase]")] : [];
+  const progressText = progress?.querySelector("[data-zp-progress-label]");
+  const progressHelp = progress?.querySelector("[data-zp-progress-help]");
+  const progressBar = progress?.querySelector('[role="progressbar"]');
 
   const fitGroups = new Map();
   for (const name of fitNames) {
@@ -78,6 +82,8 @@ export function installBathroomMicroStaging({
     : initialRequiredGroups();
 
   const updateProgress = (phase = previewReady ? "fit" : "situation") => {
+    // Do not alter or block fit-gate behavior in limited DOM test/fallback hosts.
+    if (!progressBar) return;
     const required = phase === "finished" ? [] : phaseRequiredGroups(phase);
     const answered = required.filter(group => !!group.querySelector('input[type="radio"]:checked')).length;
     const percent = phase === "finished" ? 100 : required.length ? Math.round(100 * answered / required.length) : 0;

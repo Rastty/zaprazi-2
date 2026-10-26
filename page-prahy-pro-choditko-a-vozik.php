@@ -148,7 +148,7 @@ get_header();
       <h2 class="zp-section-title">Z čeho tento postup vychází.</h2>
       <ul>
         <li><a class="zp-text-link" href="https://oporadiakonie.cz/rada/jak-predchazet-padum-u-senioru-prevence-a-privolani-pomoci-po-padu/" target="_blank" rel="noopener noreferrer">Opora Diakonie: prevence pádů seniorů doma</a> — osvětlení, prahy, překážky a vhodná opora.</li>
-        <li><a class="zp-text-link" href="https://dev.livingmadeeasy.org.uk/dlf-factsheets/adapting-your-home-access-into-and-around-your-home" target="_blank" rel="noopener noreferrer">Living Made Easy (DLF): úpravy vstupů a prahů</a> — rozdíl mezi úpravou prahu, nájezdem a ochranou proti počasí (anglicky).</li>
+        <li><a class="zp-text-link" href="https://livingmadeeasy.org.uk/dlf-factsheets/adapting-your-home-access-into-and-around-your-home" target="_blank" rel="noopener noreferrer">Living Made Easy (DLF): úpravy vstupů a prahů</a> — rozdíl mezi úpravou prahu, nájezdem a ochranou proti počasí (anglicky).</li>
         <li><a class="zp-text-link" href="https://www.sensorytrust.org.uk/resources/guidance/ramps-and-steps" target="_blank" rel="noopener noreferrer">Sensory Trust: bezpečné plánování ramp</a> — souvislost sklonu, délky, povrchu a místa (anglicky; nelze jej použít jako automatický český stavební předpis).</li>
         <li><a class="zp-text-link" href="https://osobni-asistence.cz/jak-upravit-byt-pro-seniory" target="_blank" rel="noopener noreferrer">Maltézská pomoc: jak upravit byt pro seniory</a> — praktická česká inspirace pro odstranění bariér.</li>
       </ul>

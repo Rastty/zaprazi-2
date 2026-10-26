@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Polohovací postel</p>
       <h1>Polohovací postel pro seniory: jak vybrat elektrickou postel a jak ji získat?</h1>
       <p class="zp-lead">Začínáme tím, co má postel doma prakticky vyřešit. Neptáme se na diagnózu ani přesnou hmotnost člověka. Poradce oddělí standardní domácí postel, robustnější variantu a náročnější péči na lůžku — a až potom způsob pořízení.</p>
+      <p class="zp-muted-copy">Řešíte také hygienu a mytí vlasů člověka na lůžku? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak bezpečně umýt vlasy na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-postel">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>

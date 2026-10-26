@@ -502,3 +502,11 @@ a{color:inherit}
   .zp-micro-next{padding:14px}
 }
 @media(prefers-reduced-motion:reduce){.zp-micro-progress__bar span{transition:none}}
+
+/* Practical long-tail problem guides: readable, numbered bedside-care steps. */
+.zp-guide-steps{list-style:none;counter-reset:zp-guide-step;display:grid;gap:14px;max-width:900px;margin:24px 0 30px;padding:0}
+.zp-guide-steps>li{counter-increment:zp-guide-step;position:relative;min-width:0;padding:18px 22px 18px 74px;background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:16px;line-height:1.65}
+.zp-guide-steps>li::before{content:counter(zp-guide-step);position:absolute;left:18px;top:18px;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;background:var(--zp-accent);color:#fff;font-weight:800;font-variant-numeric:tabular-nums}
+.zp-guide-checklist>li{border-left:4px solid var(--zp-accent)}
+.zp-faq summary:focus-visible{outline:3px solid var(--zp-accent);outline-offset:4px;border-radius:4px}
+@media(max-width:600px){.zp-guide-steps>li{padding:58px 18px 18px}.zp-guide-steps>li::before{left:18px;top:14px}}

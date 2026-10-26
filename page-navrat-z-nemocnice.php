@@ -12,6 +12,7 @@ get_header();
       <h1>Návrat z nemocnice domů: co zařídit před propuštěním a pro první noc?</h1>
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
       <p class="zp-muted-copy">Pokud má být toaleta dočasně přímo vedle postele, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">nejdřív změřte prostor pro bezpečné umístění toaletní židle</a>, ne pouze její sedák.</p>
+      <p class="zp-muted-copy">Při péči o ležícího člověka potřebujete umýt vlasy mimo koupelnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak vybrat bezpečný způsob mytí vlasů na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek k vytištění před propuštěním</a>

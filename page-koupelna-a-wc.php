@@ -10,6 +10,7 @@ get_header();
       <p class="zp-lead">Poradce pomůže rozlišit, zda dává smysl zvýšit WC, přidat oporu, použít toaletní židli nebo sedět při sprchování. Neptá se na diagnózu a při nejasném přesunu raději konkrétní výrobek nevybere.</p>
       <p class="zp-muted-copy">Madlo chcete upevnit na sádrokartonovou předstěnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Nejdřív ověřit nosný podklad a alternativy</a>. Obecná nosnost výrobku sama o sobě bezpečnost montáže nepotvrzuje.</p>
       <p class="zp-muted-copy">Madlo bez vrtání na přísavky? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prisavne-madlo-do-koupelny-bez-vrtani/#rozdily-madel-bez-vrtani' ) ); ?>">Nejdřív rozlišit nenosný úchop od bezpečné opory při vstávání</a>.</p>
+      <p class="zp-muted-copy">Člověk se kvůli hygieně vlasů nedostane do sprchy? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Srovnání mytí vlasů na lůžku a bezoplachové čepice</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-koupelna">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní poradce</a>

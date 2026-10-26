@@ -55,8 +55,9 @@ test("Staged car guide is reported when present, without changing old required U
   assert.ok(stagedDecisionPaths.includes("/najezdova-rampa-na-jeden-schod/"));
   assert.ok(stagedDecisionPaths.includes("/prisavne-madlo-do-koupelny-bez-vrtani/"));
   assert.ok(stagedDecisionPaths.includes("/antidekubitni-matrace-na-polohovaci-postel/"));
+  assert.ok(stagedDecisionPaths.includes("/myti-vlasu-na-luzku/"));
   assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/"].sort());
+  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/"].sort());
   // The two newly staged guides remain unpublished in this isolated fixture.
   assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });

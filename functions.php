@@ -55,6 +55,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-invalidni-vozik-do-auta.php',
     'page-najezdova-rampa-na-jeden-schod.php',
     'page-prisavne-madlo-do-koupelny-bez-vrtani.php',
+    'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
@@ -1095,6 +1096,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
   }
+  if ( zaprazi_2_is_pressure_relief_mattress_page() ) {
+    return 'Antidekubitní matrace na polohovací postel | Zápraží';
+  }
   if ( zaprazi_2_is_one_step_ramp_page() ) {
     return 'Nájezdová rampa na jeden schod: délka a sklon | Zápraží';
   }
@@ -1159,6 +1163,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
+  }
+  if ( zaprazi_2_is_pressure_relief_mattress_page() ) {
+    return 'Antidekubitní matrace na polohovací postel | Zápraží';
   }
   if ( zaprazi_2_is_one_step_ramp_page() ) {
     return 'Nájezdová rampa na jeden schod: délka a sklon | Zápraží';
@@ -1225,6 +1232,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
+  }
+  if ( zaprazi_2_is_pressure_relief_mattress_page() ) {
+    return 'Antidekubitní matrace na polohovací postel: pěnová či s kompresorem, kompatibilita roštu a zábran, osm kontrol, pracovní list a bezpečný postup.';
   }
   if ( zaprazi_2_is_one_step_ramp_page() ) {
     return 'Jak vybrat nájezdovou rampu na jeden schod: výška překážky, délka, sklon, nosnost, bezpečné podesty a měření pro vozík i chodítko.';
@@ -2191,6 +2201,35 @@ function zaprazi_2_is_footwear_measurement_page() {
  */
 /** Create the focused car-boot guide once, without changing any existing content. */
 /** Non-destructively publish the specialized one-step ramp SEO guide. */
+/** Seed a detailed bed-mattress safety guide only when its slug does not exist. */
+function zaprazi_2_ensure_pressure_relief_mattress_page() {
+  if ( '1' === get_option( 'zaprazi_pressure_relief_mattress_page_v1' ) ) {
+    return;
+  }
+  $slug = 'antidekubitni-matrace-na-polohovaci-postel';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Antidekubitní matrace na polohovací postel: jaký typ a jak ověřit bezpečnost',
+      'post_content' => '',
+      'post_excerpt' => 'Pěnová či vzduchová antidekubitní matrace: odborná vhodnost, rozměry, výška, kompatibilita zábran a pracovní list před výběrem.',
+      'meta_input' => array( '_wp_page_template' => 'page-antidekubitni-matrace-na-polohovaci-postel.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_pressure_relief_mattress_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_pressure_relief_mattress_page', 49 );
+function zaprazi_2_is_pressure_relief_mattress_page() {
+  return is_page( 'antidekubitni-matrace-na-polohovaci-postel' );
+}
+
 function zaprazi_2_ensure_one_step_ramp_page() {
   if ( '1' === get_option( 'zaprazi_one_step_ramp_page_v1' ) ) {
     return;

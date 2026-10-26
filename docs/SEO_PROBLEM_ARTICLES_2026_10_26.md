@@ -7,7 +7,7 @@ Bez současných GSC URL × query dat a keyword nástroje neprohlašujeme skute�
 1. **Vysoký práh a chodítko/vozík**: vyhledávací výsledky odkazují hlavně na rampy/lišty a obecné domácí úpravy; samostatný proces „7 měření / rozhodnutí zda upravit práh vs. nájezd vs. pomůcku“ je příležitostí na užitečné rozhodnutí. Není doložena nízká keyword obtížnost.
    - https://www.lapert.cz/najezdove-rampy-pro-invalidni-voziky
    - https://www.dmapraha.cz/clanek/91/spravny-sklon-rampy/
-   - https://dev.livingmadeeasy.org.uk/dlf-factsheets/adapting-your-home-access-into-and-around-your-home
+   - https://livingmadeeasy.org.uk/dlf-factsheets/adapting-your-home-access-into-and-around-your-home
    - https://oporadiakonie.cz/rada/jak-predchazet-padum-u-senioru-prevence-a-privolani-pomoci-po-padu/
 2. **Sprchová židle do malého koutu 80 × 80**: výsledky jsou většinou o výběru sprchového koutu, ne o bezpečnosti židle v jeho skutečném prostoru. Nezaměňovat silnou konkurenci pro dotaz `sprchový kout 80x80` s (neověřenou) konkurencí pro long-tail `sprchová židle 80x80`.
    - https://www.huppe.cz/jak-vybrat-sprchovy-kout-do-male-koupelny/

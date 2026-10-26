@@ -68,18 +68,19 @@ try{
   const hub=await inspect(paths.hub);
   assert.ok(hub.ids.includes("vyber-typu"),"Comparison anchor disappeared");
   const findCard=heading=>hub.cards.find(card=>card.heading===heading);
-  const checkLink=(heading,expected)=>{
+  const checkLink=(heading,expected,extraEditorial=[])=>{
     const card=findCard(heading);
     assert.ok(card,"Missing decision card "+heading);
-    assert.ok(card.links.includes(expected),"Wrong decision link for "+heading);
-    assert.equal(card.links.length,1,"Unexpected merchant link in "+heading);
+    assert.deepEqual([...card.links].sort(),[expected,...extraEditorial].sort(),
+      "Unexpected target, merchant link or missing editorial link in "+heading);
   };
   checkLink("Hlavně doma",endpoints.indoor);
   checkLink("Venku nebo doma i venku",endpoints.outdoor);
   checkLink("Při chůzi běžně pomáhá druhá osoba",endpoints.saferoute);
   checkLink("Chodítko doma nejde při kroku nadzvednout",endpoints.indoor);
   checkLink("Venku by se hodila kolečka, ale brzdy nejsou jisté",endpoints.outdoor);
-  checkLink("Nejužší dveře, práh nebo otočení na chodbě jsou problém",endpoints.measuring);
+  checkLink("Nejužší dveře, práh nebo otočení na chodbě jsou problém",endpoints.measuring,
+    [origin+"/prahy-pro-choditko-a-vozik/#mereni-prahu"]);
   assert.match(hub.text,/opakovaných pádech|opakovaným pádům/);
   assert.match(hub.text,/nevybírejte konkrétní výrobek jen podle online článku/);
   const indoor=await inspect(paths.indoor),outdoor=await inspect(paths.outdoor);

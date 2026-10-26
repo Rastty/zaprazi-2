@@ -16,6 +16,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
         <a class="zp-text-link" href="#bezpecne-pouzivani-voziku">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit dveře pro invalidní vozík</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-do-auta/#rozhodnuti-vozik-auto' ) ); ?>">Vozík do kufru auta: co před koupí změřit</a>
       </div>
     </div>
   </section>

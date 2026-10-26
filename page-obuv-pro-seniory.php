@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Snadné obouvání</p>
       <h1>Obuv pro seniory: široké boty na suchý zip podle otevření, šířky a špičky.</h1>
       <p class="zp-lead">Neřešíme diagnózu. Poradce nejdřív zvolí konstrukci boty podle obouvání a pak pomůže zkontrolovat velikost konkrétního modelu podle obou chodidel.</p>
+      <p class="zp-muted-copy">K botám se vůbec nedostanete, protože je obtížné nejdřív navléknout ponožky nebo kalhoty? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Jak se bezpečně oblékat bez předklonu</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-obuv">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Řeším bezpečnost doma</a>

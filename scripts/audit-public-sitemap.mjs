@@ -40,7 +40,8 @@ export const stagedDecisionPaths = Object.freeze([
   "/najezdova-rampa-na-jeden-schod/",
   "/prisavne-madlo-do-koupelny-bez-vrtani/",
   "/antidekubitni-matrace-na-polohovaci-postel/",
-  "/myti-vlasu-na-luzku/"
+  "/myti-vlasu-na-luzku/",
+  "/oblekani-ponozek-a-kalhot-bez-ohybani/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

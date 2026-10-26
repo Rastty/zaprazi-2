@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_158 */
+/* ZP_RELEASE_0_8_159 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -87,7 +87,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Nejužší dveře, práh nebo otočení na chodbě jsou problém</h3>
           <p>Než porovnáte výrobky, změřte průchody v místě, kde se chodítko používá, a prostor na otočení. Zkontrolujte také nastavení madel a nosnost konkrétního modelu. Pokud běžně pomáhá další člověk fyzicky, samotné změření nestačí.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít sedm měření a tiskový seznam</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít sedm měření a tiskový seznam</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">Jak bezpečně řešit vysoký práh v bytě</a></p>
         </article>
       </div>
       <p class="zp-disclaimer">Při nejistém přesunu, opakovaných pádech nebo potřebě fyzické pomoci nevybírejte konkrétní výrobek jen podle online článku. Poradce může doporučení pozastavit a nasměrovat na odborné ověření.</p>

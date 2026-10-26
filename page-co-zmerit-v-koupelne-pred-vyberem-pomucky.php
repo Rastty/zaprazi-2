@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_158 */
+/* ZP_RELEASE_0_8_159 */
 /*
 Template Name: Zápraží — Co změřit v koupelně před výběrem pomůcky
 */
@@ -39,7 +39,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Člověk potřebuje při sprchování sedět</h3>
           <p>Změřte skutečně rovnou podlahu dostupnou pro všechny nožky, dveře, odtok a prostor k usednutí.</p>
-          <p><a class="zp-text-link" href="#mereni-sprcha">Co změřit ve sprše</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle' ) ); ?>">Poradce sprchové židle</a></p>
+          <p><a class="zp-text-link" href="#mereni-sprcha">Co změřit ve sprše</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle' ) ); ?>">Poradce sprchové židle</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Židle do malého koutu 80 × 80</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Problém je překročení okraje vany</h3>

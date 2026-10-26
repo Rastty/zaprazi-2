@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_158 */
+/* ZP_RELEASE_0_8_159 */
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -12,6 +12,7 @@ get_header();
         <a class="zp-btn" href="#poradce-koupelna">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto' ) ); ?>">Co před výběrem změřit v koupelně</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Malý kout 80 × 80: vejde se židle?</a>
       </div>
     </div>
   </section>

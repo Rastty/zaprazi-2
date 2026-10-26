@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_158 */ get_header(); ?>
+/* ZP_RELEASE_0_8_159 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero">
     <div class="zp-wrap">
@@ -54,6 +54,16 @@
           <h3>Noční cesta z postele na WC</h3>
           <p>Ověřte světlo, překážky, vstávání, oporu a možnost přivolat pomoc ještě před první nocí.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedm kontrol s pracovním listem k vytisknutí</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Práh zastavil chodítko nebo vozík</h3>
+          <p>Jak změřit obě výšky prahu, skutečný průchod a prostor pro nájezd. Sedm kontrol dřív než koupíte lištu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">Prahy v bytě: praktický návod</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Malý sprchový kout 80 × 80 cm</h3>
+          <p>Uvidíte, proč samotná šířka sedáku nestačí, co změřit a kdy židli raději neobjednávat.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Vejde se sprchová židle a bude bezpečná?</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Bezpečnější byt bez velkých úprav</h3>

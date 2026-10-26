@@ -13,7 +13,9 @@ test("Both original problem-solving articles provide substantive steps and verif
  for(const item of pages) {
   const src=read(item.path);
   assert.ok(src.length>=11000,item.slug+" too thin");
-  assert.match(src,/ZP_RELEASE_0_8_159/);
+  const released=read("style.css").split("\n").find(line=>line.startsWith("Version: "))?.slice(9)?.trim();
+  assert.ok(released && Number(released.split(".")[2]) >= 159);
+  assert.ok(src.includes("ZP_RELEASE_"+released.replaceAll(".","_")));
   assert.equal((src.match(/<h1\b/g)||[]).length,1,"one intent H1");
   assert.equal((src.match(/<main\b/g)||[]).length,1);
   assert.equal((src.match(/<\/main>/g)||[]).length,1);

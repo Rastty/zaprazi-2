@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.159' );
+  define( 'ZAPRAZI_RELEASE', '0.8.160' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -33,6 +33,8 @@ function zaprazi_2_release_integrity_ok() {
     'page-senior-spadl-doma.php',
     'page-prahy-pro-choditko-a-vozik.php',
     'page-sprchova-zidle-maly-kout-80x80.php',
+    'page-madlo-na-sadrokarton-u-wc.php',
+    'page-toaletni-zidle-vedle-postele.php',
     'page-nocni-cesta-z-postele-na-wc.php',
     'page-obuv-pro-seniory.php',
     'page-jak-zmerit-chodidlo-pro-vyber-obuvi.php',
@@ -2330,6 +2332,46 @@ add_action( 'init', 'zaprazi_2_ensure_bed_rise_page', 36 );
  * Two source-backed, non-destructive long-tail editorial entries.
  * Published only if their exact slugs are unused; no legacy article is altered.
  */
+/**
+ * Second original and safety-first SEO article pair. Only unused WordPress slugs
+ * are inserted, never overwritten. Releases may be deployed in sequence or skipped.
+ */
+function zaprazi_2_ensure_problem_articles_v160() {
+  $articles = array(
+    'madlo-na-sadrokarton-u-wc' => array(
+      'title' => 'Madlo na sádrokarton u WC: kdy je montáž bezpečná?',
+      'excerpt' => 'Sedm kontrol kotvení opory do stavebního podkladu, alternativy k madlu a pracovní list pro montážníka.',
+      'template' => 'page-madlo-na-sadrokarton-u-wc.php',
+    ),
+    'toaletni-zidle-vedle-postele' => array(
+      'title' => 'Toaletní židle vedle postele: kam ji postavit a co změřit?',
+      'excerpt' => 'Sedm měření místa v ložnici, bezpečného přesunu, koleček, hygieny a příprava pro výběr toaletní židle.',
+      'template' => 'page-toaletni-zidle-vedle-postele.php',
+    ),
+  );
+  foreach ( $articles as $slug => $article ) {
+    if ( get_page_by_path( $slug, OBJECT, 'page' ) ) continue;
+    if ( ! file_exists( get_theme_file_path( '/' . $article['template'] ) ) ) continue;
+    wp_insert_post( array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => $article['title'],
+      'post_excerpt' => $article['excerpt'],
+      'post_content' => '',
+      'meta_input' => array( '_wp_page_template' => $article['template'] ),
+    ), true );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_problem_articles_v160', 39 );
+
+function zaprazi_2_problem_articles_160_meta_fallback() {
+  if ( defined( 'WPSEO_VERSION' ) ) return;
+  if ( ! is_page( array( 'madlo-na-sadrokarton-u-wc', 'toaletni-zidle-vedle-postele' ) ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_problem_articles_160_meta_fallback', 5 );
+
 function zaprazi_2_ensure_problem_articles_v159() {
   $articles = array(
     'prahy-pro-choditko-a-vozik' => array(
@@ -2422,6 +2464,8 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo na sádrokarton u WC: bezpečné kotvení | Zápraží';
+  if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle vedle postele: 7 kontrol | Zápraží';
   if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Vysoký práh a chodítko: 7 kontrol před úpravou | Zápraží';
   if ( is_page( 'sprchova-zidle-maly-kout-80x80' ) ) return 'Sprchová židle do koutu 80×80: co změřit | Zápraží';
   if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma: co dělat, kdy volat 155 | Zápraží';
@@ -2474,6 +2518,8 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo do sádrokartonu u WC? Sedm kontrol nosné konstrukce, ukotvení, umístění a rozdíl proti samostatné toaletní opoře, než cokoli namontujete.';
+  if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle k posteli: 7 kontrol volného prostoru, výšky sedu, osvětlení a bezpečného přesunu. Pomocník, kolečka, hygiena a bezpečný výběr.';
   if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Chodítko nebo vozík naráží do vysokého prahu? Sedm měření, rozdíl mezi lištou a rampou, bezpečnostní rizika a cesta k vhodnému poradci.';
   if ( is_page( 'sprchova-zidle-maly-kout-80x80' ) ) return 'Vejde se sprchová židle do koutu 80 × 80 cm? Sedm kontrol skutečné šířky, vstupu, vaničky, opory a bezpečného usedání před nákupem.';
   if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma? Jak poznat, kdy volat 155, čemu se vyhnout při zvedání, sedm kroků pro rodinu a odkazy na praktické poradce pro bezpečnější byt.';

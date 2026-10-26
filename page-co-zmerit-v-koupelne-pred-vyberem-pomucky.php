@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_159 */
+/* ZP_RELEASE_0_8_160 */
 /*
 Template Name: Zápraží — Co změřit v koupelně před výběrem pomůcky
 */
@@ -34,7 +34,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Chybí opora při vstávání u WC</h3>
           <p>Prověřte volný prostor a skutečný nosný podklad stěny. Pouhá přítomnost dlažby neprokazuje vhodnost pro kotvení.</p>
-          <p><a class="zp-text-link" href="#mereni-wc">Kontroly okolí WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Poradce opory</a></p>
+          <p><a class="zp-text-link" href="#mereni-wc">Kontroly okolí WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Poradce opory</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Madlo na sádrokarton: bezpečné kotvení</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Člověk potřebuje při sprchování sedět</h3>

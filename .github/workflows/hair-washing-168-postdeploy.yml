@@ -1,0 +1,23 @@
+name: Hair Washing 0.8.168 Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/hair-washing-168-postdeploy.yml"
+      - "scripts/audit-live-bed-hair-washing-168.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  postdeploy-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Confirm actual deployed 0.8.168, integrity, published content, sitemap and 3 inbound links
+        run: node scripts/audit-live-bed-hair-washing-168.mjs

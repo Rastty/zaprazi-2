@@ -495,6 +495,7 @@ test("current deployment integrity contract covers critical runtime files", () =
     "page-najezdova-rampa-na-jeden-schod.php",
     "page-prisavne-madlo-do-koupelny-bez-vrtani.php",
     "page-myti-vlasu-na-luzku.php",
+    "page-oblekani-ponozek-a-kalhot-bez-ohybani.php",
     "page-antidekubitni-matrace-na-polohovaci-postel.php",
     "assets/js/wheelchair-doorway-check.js",
     "assets/js/analytics-consent.js",

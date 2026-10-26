@@ -56,6 +56,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-najezdova-rampa-na-jeden-schod.php',
     'page-prisavne-madlo-do-koupelny-bez-vrtani.php',
     'page-myti-vlasu-na-luzku.php',
+    'page-oblekani-ponozek-a-kalhot-bez-ohybani.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2232,6 +2233,28 @@ function zaprazi_2_is_pressure_relief_mattress_page() {
 }
 
 /** Idempotent, non-destructive publication of the bed hair-washing guide. */
+/** Publish a narrow dressing decision guide only if its slug does not exist. */
+function zaprazi_2_ensure_dressing_without_bending_page() {
+  if ( '1' === get_option( 'zaprazi_dressing_without_bending_v1' ) ) return;
+  $slug = 'oblekani-ponozek-a-kalhot-bez-ohybani';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Jak si obléct ponožky a kalhoty bez ohýbání: pomůcky a bezpečný postup',
+      'post_content' => '',
+      'post_excerpt' => 'Výběr navlékače ponožek, podavače kalhot nebo jiné pomoci podle situace. Praktický postup, sedm kontrol, FAQ a odborné zdroje.',
+      'meta_input' => array( '_wp_page_template' => 'page-oblekani-ponozek-a-kalhot-bez-ohybani.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_dressing_without_bending_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_dressing_without_bending_page', 51 );
+function zaprazi_2_is_dressing_without_bending_page() {
+  return is_page( 'oblekani-ponozek-a-kalhot-bez-ohybani' );
+}
 function zaprazi_2_ensure_bed_hair_washing_page() {
   if ( '1' === get_option( 'zaprazi_bed_hair_washing_page_v1' ) ) {
     return;
@@ -2653,6 +2676,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Ponožky a kalhoty bez ohýbání: pomůcky | Zápraží';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku: bezpečný postup a pomůcky | Zápraží';
   if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo na sádrokarton u WC: bezpečné kotvení | Zápraží';
   if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle vedle postele: 7 kontrol | Zápraží';
@@ -2708,6 +2732,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Jak obléct ponožky a kalhoty bez předklonu: navlékač, podavač, bezpečný nácvik, 7 kontrol a pravidla po operaci kyčle.';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku doma: nafukovací vanička, bezoplachová čepice, bezpečný postup, sedm kontrol a kdy požádat o pomoc sestru.';
   if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo do sádrokartonu u WC? Sedm kontrol nosné konstrukce, ukotvení, umístění a rozdíl proti samostatné toaletní opoře, než cokoli namontujete.';
   if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle k posteli: 7 kontrol volného prostoru, výšky sedu, osvětlení a bezpečného přesunu. Pomocník, kolečka, hygiena a bezpečný výběr.';
@@ -2866,3 +2891,10 @@ function zaprazi_2_bed_hair_washing_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_bed_hair_washing_meta_fallback', 5 );
+
+/** One editorial description only when Yoast is inactive. */
+function zaprazi_2_dressing_without_bending_meta_fallback() {
+  if ( ! zaprazi_2_is_dressing_without_bending_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_dressing_without_bending_meta_fallback', 5 );

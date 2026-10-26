@@ -13,7 +13,7 @@ get_header();
       <p class="zp-lead">Někdo se nedokáže z lehu posadit, jiný sedí na okraji postele, ale nezvládne vstát. To jsou <strong>dva různé problémy a nemusí je vyřešit stejná pomůcka</strong>. Projděte nejprve bezpečnost, typ obtíže a prostor kolem lůžka – teprve pak má smysl ověřovat konkrétní zařízení.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#co-delat-postel">Co řešit jako první</a>
-        <a class="zp-text-link" href="#pomucky-k-posteli">Porovnat typy pomůcek</a>
+        <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Co udělat dnes</a>
         <a class="zp-text-link" href="#kontroly-postele">Sedm věcí k ověření</a>
       </div>
       <p class="zp-muted-copy">Praktický průvodce pro rodiny · podklady zkontrolovány 25. 10. 2026 · bez dotazníku, ukládání zdravotních údajů a neověřených nákupních nabídek.</p>
@@ -46,6 +46,45 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Otázky pro nemocnici před návratem domů</a></p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section class="zp-section zp-section-soft" id="rozhodnuti-vstavani-postel" aria-labelledby="rozhodnuti-vstavani-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rychlé rozhodnutí pro rodinu</p>
+      <h2 class="zp-section-title" id="rozhodnuti-vstavani-nadpis">Co udělat dnes — podle toho, co při vstávání nefunguje?</h2>
+      <p>Nemusíte hned vybírat výrobek. Určete nejprve krok, kde se pohyb zastaví. Pokud si nejste jistí bezpečností přesunu, nezkoušejte jej sami „otestovat“.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Náhlé zhoršení, pád nebo nové závažné příznaky</h3>
+          <p><strong>Teď neřešit nákup.</strong> Při akutním zhoršení, podezření na vážný úraz, nově vzniklé výrazné slabosti nebo poruše vědomí zajistěte neodkladné zdravotnické posouzení; podle závažnosti volejte 155 či 112. Člověka násilím nezvedejte.</p>
+          <p><strong>Další krok:</strong> sdělte zdravotníkům, co a kdy se změnilo, zda předcházel pád a zda jsou přítomny nové potíže.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Dlouhodobě nezvládá posazení nebo potřebuje zvedání</h3>
+          <p><strong>Teď ověřit přesun s odborníkem.</strong> Praktický lékař, fyzioterapeut nebo ergoterapeut pomůže určit bezpečný postup a potřebu asistence. Hrazda nebo madlo nejsou automatická náhrada lidské pomoci.</p>
+          <p><strong>Další krok:</strong> připravte typ postele a matrace, popis obtížného pohybu a dostupnou pomoc v domácnosti.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Posadí se bezpečně, ale z okraje postele obtížně vstává</h3>
+          <p><strong>Teď změřit prostředí a konzultovat řešení.</strong> Důležité jsou výška zatížené matrace, dosah chodidel na zem a bezpečná opora. Bez odborného ověření nepodkládejte postel a nemontujte univerzální madla.</p>
+          <p><a class="zp-text-link" href="#kontroly-postele">Připravit sedm kontrol pro výběr pomůcky</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Vstane, ale další cesta k WC není bezpečná</h3>
+          <p><strong>Teď řešit celou trasu.</strong> Ověřte osvětlení, překážky, možnost přivolat pomoc a způsob pohybu. Samotná změna postele nemusí odstranit riziko pádu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/#nocni-audit' ) ); ?>">Projít noční trasu krok za krokem</a></p>
+        </article>
+      </div>
+      <h3>Co si zapsat pro lékaře, ergoterapeuta nebo prodejnu</h3>
+      <ul class="zp-checklist">
+        <li>Který pohyb nejde: otočení, posazení, vstání nebo další krok? ______.</li>
+        <li>Jde o novou změnu, nebo dlouhodobý problém? ______.</li>
+        <li>Typ rámu, matrace a výška zatíženého sedu, pokud ji lze bezpečně zjistit: ______.</li>
+        <li>Kdo pomáhá a je už bezpečný postup přesunu odborně ověřen? ______.</li>
+        <li>Jaké jsou překážky mezi postelí, dveřmi a WC? ______.</li>
+      </ul>
+      <p class="zp-disclaimer">Toto je orientační plán, ne diagnostika ani individuální doporučení pomůcky. Pokud není bezpečný přesun ověřen, pokračujte odbornou konzultací, nikoli nákupem.</p>
     </div>
   </section>
 

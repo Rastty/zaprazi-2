@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-opora-wc">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/' ) ); ?>">Řeším spíš nízké WC</a>
+        <a class="zp-text-link" href="#rozhodnuti-opora-wc">Co udělat podle situace</a>
         <a class="zp-text-link" href="#kontrola-opory-u-wc">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Madlo do sádrokartonu: co před montáží ověřit</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit místo a podklad pro oporu</a>
@@ -100,6 +101,44 @@ get_header();
       <nav aria-label="Související bezpečné kroky">
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Začít výběrem problému v koupelně a u WC</a></p>
       </nav>
+    </div>
+  </section>
+
+  <section id="rozhodnuti-opora-wc" class="zp-section zp-section-soft" aria-labelledby="rozhodnuti-opora-wc-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rozhodnutí před výběrem výrobku</p>
+      <h2 id="rozhodnuti-opora-wc-nadpis" class="zp-section-title">Jaký je další krok, když člověk potřebuje oporu při vstávání z WC?</h2>
+      <p>Nejdřív rozlište problém s nízkým sedem, nedostatkem opory rukama a nezvládnutým přesunem. Madlo není řešení pro každou z těchto situací.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Při přesunu je nutné člověka fyzicky zvedat</h3>
+          <p><strong>Výběr madla pozastavte.</strong> Nechte odborně ověřit bezpečný způsob přesunu a možnost asistence. Samotné madlo ani rám nenahradí potřebnou pomoc.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Člověk vstane, ale WC je příliš nízké</h3>
+          <p><strong>Prověřte výšku sedu a dosah chodidel.</strong> Vyšší sed může v některých situacích pomoci, jindy zhoršit opření noh. Nepřidávejte nástavec bez kontroly rozměrů a stability.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">Prověřit nástavec na WC</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Je potřeba úchop, ale podklad zdi není ověřený</h3>
+          <p><strong>Neinstalujte nástěnné madlo naslepo.</strong> Ověřte konstrukci stěny a kotvení; případně s odborníkem porovnejte samostatnou oporu podle skutečných rozměrů WC a prostoru pro nohy.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Co ověřit při nejasném kotvení</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Přesun je bezpečně ověřený a rozměry jsou známé</h3>
+          <p><strong>Pokračujte bezpečnostním poradcem.</strong> Zohlední způsob přesunu, ověřené kotvení nebo rozměry rámu i nosnost konkrétní pomůcky. Samotné srovnání cen nenahradí technické ověření.</p>
+          <p><a class="zp-text-link" href="#poradce-opora-wc">Vybrat vhodný další krok</a></p>
+        </article>
+      </div>
+      <h3>Pracovní list před návštěvou prodejny nebo odborníka</h3>
+      <ul class="zp-checklist">
+        <li>Problém: nízký sed / chybějící úchop / fyzická pomoc při přesunu: ______.</li>
+        <li>Výška WC a místo pro bezpečnou oporu chodidel: ______.</li>
+        <li>Volná šířka a hloubka kolem mísy včetně prostoru pro nohy: ______.</li>
+        <li>Podklad stěny a možnost odborně ověřeného kotvení: ______.</li>
+        <li>Nosnost, montáž a návod přesného kandidátního modelu: ______.</li>
+      </ul>
+      <p class="zp-disclaimer">Rozměry ani tento seznam nepotvrzují individuální bezpečnost pomůcky. Neznámá nosnost, kotvení či způsob přesunu znamenají odložit výběr konkrétního výrobku.</p>
     </div>
   </section>
 

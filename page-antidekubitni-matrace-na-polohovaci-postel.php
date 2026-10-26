@@ -36,7 +36,7 @@ get_header();
       <article class="zp-decision-card">
         <h3>Potřebujete nahradit matraci na elektrické polohovací posteli</h3>
         <p><strong>Nejprve ověřte schválenou kombinaci.</strong> Zkontrolujte rozměry, tloušťku, typ roštu a mezeru u bočních zábran. Nevhodně vysoká matrace může změnit účinnou výšku zábrany a zvýšit riziko pádu nebo zaklínění.</p>
-        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#bezpecne-pouzivani-postele' ) ); ?>">Ověřit bezpečnost lůžka a příslušenství</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Ověřit bezpečnost lůžka a příslušenství</a></p>
       </article>
       <article class="zp-decision-card">
         <h3>Matrace je určená odborníkem a potřebujete vybrat konkrétní výrobek</h3>

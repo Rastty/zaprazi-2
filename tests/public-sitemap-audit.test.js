@@ -51,9 +51,12 @@ test("Staged car guide is reported when present, without changing old required U
     [root + "/page-sitemap.xml"]: '<urlset><url><loc>https://zaprazi.cz/invalidni-vozik-do-auta/</loc></url></urlset>'
   };
   const result = await auditPublicSitemap(mock(files).get);
-  assert.deepEqual(stagedDecisionPaths, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_present, stagedDecisionPaths);
-  assert.deepEqual(result.staged_decision_paths_missing, []);
+  assert.ok(stagedDecisionPaths.includes("/invalidni-vozik-do-auta/"));
+  assert.ok(stagedDecisionPaths.includes("/najezdova-rampa-na-jeden-schod/"));
+  assert.ok(stagedDecisionPaths.includes("/prisavne-madlo-do-koupelny-bez-vrtani/"));
+  assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
+  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/"].sort());
+  // The two newly staged guides remain unpublished in this isolated fixture.
   assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });
 

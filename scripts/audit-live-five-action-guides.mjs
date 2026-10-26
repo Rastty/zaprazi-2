@@ -34,9 +34,9 @@ const meta=(html,name)=>{
 };
 const allHref=(html)=>[...html.matchAll(/<a\b[^>]*\bhref=(["'])(.*?)\1/gi)]
   .map(m=>m[2].replace(/&amp;/g,"&"));
-const linkTo=(html,path,hash)=>allHref(html).some(href=>{
+const linkTo=(html,path,hash,sourcePath)=>allHref(html).some(href=>{
   try{
-    const url=new URL(href,origin);
+    const url=new URL(href,origin+sourcePath);
     return url.origin===origin&&url.pathname===path&&url.hash==="#"+hash;
   }catch{return false;}
 });
@@ -71,7 +71,7 @@ for(const spec of specs){
   assert.doesNotMatch(section,/data-zp-merchant-link|data-zp-affiliate-target|ehub\.cz\/system\/scripts\/click/i,
     "Unsafe merchant shortcut "+spec.path);
   for(const [dest,anchor] of spec.destinations){
-    assert.ok(linkTo(section,dest,anchor),"Missing safe destination "+spec.path+" -> "+dest+"#"+anchor);
+    assert.ok(linkTo(section,dest,anchor,spec.path),"Missing safe destination "+spec.path+" -> "+dest+"#"+anchor);
     const target=await page(dest);
     assert.ok(hasId(target,anchor),"Missing target "+dest+"#"+anchor);
     assert.equal(meta(target,"zaprazi-integrity"),"ok","Target partial "+dest);

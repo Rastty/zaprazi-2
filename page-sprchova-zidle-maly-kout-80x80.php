@@ -95,6 +95,41 @@ get_header();
     </div>
   </section>
 
+
+  <section id="rozhodovaci-tabulka-sprcha" class="zp-section zp-section-soft" aria-labelledby="rozhodovaci-tabulka-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Pomůcka pro rozhodnutí · ještě před nákupem</p>
+      <h2 id="rozhodovaci-tabulka-nadpis" class="zp-section-title">Co už víme, co chybí a jaký je další krok?</h2>
+      <p>Údaj „kout 80 × 80 cm“ není potvrzení vhodnosti. V následujícím přehledu si najděte svůj případ. Nejde o test bezpečnosti člověka; ten nelze provést pouhým přeměřením.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Prostor a vstup vyhovují, přesun je bezpečně ověřen</h3>
+          <p><strong>Další krok:</strong> porovnejte konkrétní modely podle rozchodu nohou, výšky sedu, nosnosti, opěr a návodu. Překontrolujte všechny rozměry se skutečným stavem koutu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle' ) ); ?>">Pokračovat bezpečnostním poradcem, ne rovnou do e-shopu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Rozměry židle nebo prostor pro chodidla zatím neznáme</h3>
+          <p><strong>Další krok:</strong> pošlete prodejci rozměry a nákres koutu a požádejte o celkový půdorys noh konkrétního modelu. Bez tohoto srovnání nelze kompatibilitu potvrdit.</p>
+          <p><a class="zp-text-link" href="#list-maly-kout">Opsat sedm údajů do pracovního listu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Vanička, práh, stabilita nebo přesun jsou problematické</h3>
+          <p><strong>Další krok:</strong> nákup pozastavte. Proberte bezpečný vstup, způsob přesunu a případnou úpravu koupelny s ergoterapeutem nebo fyzioterapeutem. Nezkoušejte stabilitu improvizovaným sedáním.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Probrat alternativu k samostatné židli</a></p>
+        </article>
+      </div>
+      <h3>Jednoduché srovnání dvou modelů</h3>
+      <p>Do poznámek si pro každý model zapište následující čtyři věci. Prázdné nebo nedoložené údaje nejsou „splněno“.</p>
+      <ul class="zp-checklist">
+        <li><strong>Model A / B:</strong> celkový půdorys včetně noh a požadovaný povrch: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> rozmezí výšky sedu, opěrky a područky: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> nosnost a návod k bezpečnému použití: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> ověřený vstup, prostor pro nohy a případnou pomoc: ______ / ______.</li>
+      </ul>
+      <p class="zp-disclaimer"><strong>Nejde o produktové skóre:</strong> pokud chybí jeden zásadní bezpečnostní údaj, nevyhrává levnější ani menší židle. Nejdříve jej ověřte; při nejasném bezpečném přesunu zapojte odborníka.</p>
+    </div>
+  </section>
+
   <section id="list-maly-kout" class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Pracovní list</p>

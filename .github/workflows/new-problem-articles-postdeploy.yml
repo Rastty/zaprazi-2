@@ -1,0 +1,29 @@
+name: New Problem Articles Postdeploy Audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-new-problem-articles.mjs"
+      - ".github/workflows/new-problem-articles-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  editorial-publication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Lint read-only postdeploy article checker
+        run: node --check scripts/audit-live-new-problem-articles.mjs
+      - name: Install isolated headless browser
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify real 0.8.158+ inbound links and 0.8.159 article publication if live
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-new-problem-articles.mjs

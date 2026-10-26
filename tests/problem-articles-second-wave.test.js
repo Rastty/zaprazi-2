@@ -17,7 +17,9 @@ test("Two independent narrow buyer-problem articles have safety-first standalone
  for(const spec of pages){
   const body=read(spec.template);
   assert.ok(body.length>11500,"Insufficient guide depth: "+spec.slug);
-  assert.ok(body.includes("ZP_RELEASE_0_8_160"));
+  const released=read("style.css").split("\n").find(line=>line.startsWith("Version: "))?.slice(9)?.trim();
+  assert.ok(released && Number(released.split(".")[2]) >= 160);
+  assert.ok(body.includes("ZP_RELEASE_"+released.replaceAll(".","_")));
   assert.equal((body.match(/<h1\b/g)||[]).length,1);
   assert.ok(body.includes('id="'+spec.entry+'"'));
   assert.equal((body.match(/<span>0[1-7]<\/span>/g)||[]).length,7);

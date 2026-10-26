@@ -12,7 +12,7 @@ get_header();
       <h1>Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové?</h1>
       <p class="zp-lead">Nejdůležitější rozdíl není značka, ale způsob používání. Čtyřbodové chodítko se při kroku lehce nadzvedává. Dvoukolové se posouvá po předních kolečkách a zadní nohy zůstávají opěrné.</p>
       <a class="zp-btn" href="#poradce-choditko-byt">Spustit poradce</a>
-      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Nejdřív změřit dveře, madla a prostor doma</a> · <a class="zp-text-link" href="#bezpecne-pouziti-choditka">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
+      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Nejdřív změřit dveře, madla a prostor doma</a> · <a class="zp-text-link" href="#rozhodnuti-choditko-byt">Co udělat před nákupem</a> · <a class="zp-text-link" href="#bezpecne-pouziti-choditka">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
     </div>
   </section>
 
@@ -98,6 +98,44 @@ get_header();
       </div>
       <p class="zp-disclaimer">Praktický seznam nenahrazuje posouzení bezpečné chůze. Konkrétní pomůcka musí vyhovovat rozměry, správnému použití a návodu výrobce; při nejistotě musí doporučení zůstat otevřené.</p>
       <p class="zp-muted-copy">Zdroje ověřeny 11. 10. 2026: <a href="https://www.southtees.nhs.uk/resources/how-to-use-a-walking-frame-or-wheeled-walking-frame/" target="_blank" rel="noopener">South Tees Hospitals NHS — použití chodítka a bezpečnostní kontroly</a>; <a href="https://www.mayoclinic.org/healthy-lifestyle/healthy-aging/in-depth/walker/art-20546805" target="_blank" rel="noopener">Mayo Clinic — rozdíly mezi typy chodítek</a>. Jde o redakční návod, bez doložené individuální odborné revize.</p>
+    </div>
+  </section>
+
+  <section id="rozhodnuti-choditko-byt" class="zp-section zp-section-soft" aria-labelledby="rozhodnuti-choditko-byt-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktický akční plán pro rodinu</p>
+      <h2 id="rozhodnuti-choditko-byt-nadpis" class="zp-section-title">Co udělat před koupí chodítka do bytu?</h2>
+      <p>Výběr není jen mezi čtyřmi nohami a dvěma kolečky. Potřebujete vědět, zda je chůze s pomůckou bezpečná, zda člověk zvládá konkrétní způsob manipulace a zda se chodítko vejde do skutečné trasy.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Člověk potřebuje fyzickou pomoc nebo není chůze bezpečná</h3>
+          <p><strong>Další krok:</strong> nekupovat podle internetového srovnání. Bezpečný způsob chůze a případnou pomoc při přesunu nechte posoudit fyzioterapeutem nebo ergoterapeutem. Chodítko není náhrada doprovodu při nebezpečném přesunu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Manipulace je nejistá: dokáže chodítko při kroku zvednout?</h3>
+          <p><strong>Další krok:</strong> neodhadujte schopnost z fotografie pomůcky. Čtyřbodový rám vyžaduje jiné zacházení než dvoukolový. Výběr a zaučení si nechte ověřit odborníkem; bez jistoty o manipulaci konkrétní výrobek neobjednávejte.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Typ chůze je ověřený, ale neznáte rozměry bytu</h3>
+          <p><strong>Další krok:</strong> změřte nejužší skutečný průchod při otevřených dveřích, místo pro otočení a překážky na cestě k WC. Porovnejte s celkovou šířkou přesného modelu včetně potřebného prostoru pro ruce a pohyb.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít kontrolní seznam měření</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Chůze, typ i trasa jsou ověřené</h3>
+          <p><strong>Další krok:</strong> pokračujte v hlavním poradci pro chodítko. Teprve tam ověřte přesný model, nastavení výšky, stav koncovek a způsob pořízení. Krátkodobé používání může být důvodem prověřit půjčení.</p>
+          <p><a class="zp-text-link" href="#poradce-choditko-byt">Přejít k bezpečnostnímu poradci</a></p>
+        </article>
+      </div>
+      <h3>Pracovní list: šest údajů, které se hodí připravit</h3>
+      <ul class="zp-checklist">
+        <li>Je bezpečná chůze a způsob používání pomůcky odborně ověřen? ______.</li>
+        <li>Potřebuje člověk při chůzi přímou fyzickou pomoc? ______.</li>
+        <li>Umí podle bezpečně ověřeného postupu manipulovat s vybraným typem rámu? ______.</li>
+        <li>Nejužší průchod a prostor pro otočení na běžné trase: ______ cm.</li>
+        <li>Prahy, koberce, mokrá podlaha a další překážky: ______.</li>
+        <li>Očekávaná délka potřeby a možnost půjčení / prověření úhrady: ______.</li>
+      </ul>
+      <p class="zp-disclaimer">Tento pracovní list nepotvrzuje vhodnost žádné pomůcky. Pokud odpovědi o bezpečné chůzi nebo potřebné asistenci chybí, nevybírejte konkrétní produkt bez odborného posouzení.</p>
     </div>
   </section>
 

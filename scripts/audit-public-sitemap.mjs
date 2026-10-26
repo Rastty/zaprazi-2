@@ -18,7 +18,6 @@ export const requiredDecisionPaths = Object.freeze([
   "/polohovaci-postel/", "/polohovaci-postel-na-pojistovnu/",
   "/invalidni-vozik/", "/invalidni-vozik-na-pojistovnu/",
   "/projede-invalidni-vozik-dvermi/",
-  "/invalidni-vozik-do-auta/",
   "/sobestacnost/", "/obuv-pro-seniory/",
   "/jak-zmerit-chodidlo-pro-vyber-obuvi/",
   "/co-zmerit-pred-vyberem-choditka/",
@@ -32,6 +31,11 @@ export const requiredDecisionPaths = Object.freeze([
   "/senior-nemuze-vstat-z-postele/",
   "/senior-spadl-doma/"
 ]);
+
+// Proposed editorial route: add to requiredDecisionPaths only after production
+// 0.8.165 publishes it, so read-only PR audits never mistake a staged 404 for
+// a live production failure. The release's postdeploy gate must promote it.
+export const stagedDecisionPaths = Object.freeze(["/invalidni-vozik-do-auta/"]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {
   const table = { "&amp;": "&", "&quot;": '"', "&apos;": "'", "&lt;": "<", "&gt;": ">" };

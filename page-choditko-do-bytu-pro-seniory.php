@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_162 */
+/* ZP_RELEASE_0_8_163 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */

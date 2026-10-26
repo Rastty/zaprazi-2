@@ -8,15 +8,17 @@ const resources = [
   "/senior-nemuze-vstat-z-postele/#co-delat-postel",
   "/otazky-pred-propustenim-z-nemocnice/",
   "/nocni-cesta-z-postele-na-wc/",
-  "/bezpecny-byt-pro-seniora/"
+  "/bezpecny-byt-pro-seniora/",
+  "/prahy-pro-choditko-a-vozik/#mereni-prahu",
+  "/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy"
 ];
 
-test("Homepage exposes five distinct practical guides before presenting product decisions", () => {
+test("Homepage exposes seven distinct practical guides before presenting product decisions", () => {
   const start = homepage.indexOf('<section id="prakticke-kontroly"');
   const advisor = homepage.indexOf('<section id="poradce"');
   assert.ok(start > homepage.indexOf('<section id="co-resite"') && start < advisor);
   const region = homepage.slice(start, advisor);
-  assert.equal((region.match(/class="zp-decision-card"/g) || []).length, 5);
+  assert.equal((region.match(/class="zp-decision-card"/g) || []).length, 7);
   for (const path of resources) {
     const link = `home_url( '${path}' )`;
     assert.ok(region.includes(link), `missing canonical internal link: ${path}`);

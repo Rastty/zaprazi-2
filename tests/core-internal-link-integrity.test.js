@@ -20,7 +20,7 @@ const idsIn = html => new Set([...html.matchAll(/\bid=(["'])([^"']+)\1/g)]
   .map(match => match[2]));
 
 test("every required core SEO route has a corresponding WordPress page template", () => {
-  assert.equal(fileNames.length, 39,
+  assert.equal(fileNames.length, 41,
     "Template set changed; review the exact list before accepting a new page");
   for (const page of requiredDecisionPaths) {
     assert.ok(source.has(page), "Core SEO/sitemap path lacks a matching page template: " + page);

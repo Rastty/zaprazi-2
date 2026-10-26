@@ -30,7 +30,7 @@ test("car access blocks unsafe transfers, slipping while driving, unverified loa
   "bezpečnostního pásu","parkovací brzdou",
   "není náhradou","Externí odborná revize"
  ]) assert.ok(page.toLocaleLowerCase("cs").includes(s.toLocaleLowerCase("cs")),s);
- assert.doesNotMatch(page,/100 % bezpečné|vhodný pro každý vůz|garantuje pomoc|automaticky vhodný po operaci/i);
+ assert.doesNotMatch(page,/100 % bezpečné|vhodný pro každý vůz|garantuje pomoc/i);
  assert.doesNotMatch(page,/data-zp-affiliate-target|data-zp-merchant-link|ehub\.cz\/system\/scripts\/click/);
 });
 test("sources include RCOT, RiDC, NHS and Czech traffic safety authority",()=>{

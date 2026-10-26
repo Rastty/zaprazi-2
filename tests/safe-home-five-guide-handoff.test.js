@@ -26,3 +26,14 @@ test("home-safety sequence stays numbered in practical walking order",()=>{
   const seven=page.indexOf("<h3>7. Vstávání z křesla a židle</h3>");
   assert.ok(six>0&&seven>six);
 });
+
+test("bathroom problem hub points unsafe nighttime toilet trips to bedside action guide",()=>{
+  const bathroom=readFileSync(new URL("../page-koupelna-a-wc.php",import.meta.url),"utf8");
+  const heading=bathroom.indexOf("Člověk bezpečně dojde k WC ve dne, ale jak je to v noci?");
+  const next=bathroom.indexOf("</section>",heading);
+  assert.ok(heading>0&&next>heading);
+  const section=bathroom.slice(heading,next);
+  assert.ok(section.includes("/toaletni-zidle-vedle-postele/#rozhodovaci-matice-zidle-postel"));
+  assert.match(section,/bezpečný přesun/);
+  assert.doesNotMatch(section,/data-zp-affiliate-target|ehub\.cz\/system\/scripts\/click/i);
+});

@@ -156,6 +156,9 @@ test("assisted transfers cannot expose preliminary products or retailer offers",
   assert.equal(h.preview.hidden,true);
   assert.equal(h.stage.hidden,true);
   assert.equal(h.result.hidden,false);
-  assert.doesNotMatch(h.result.innerHTML,/href=/);
+  assert.match(h.result.innerHTML,/href="\/co-zmerit-v-koupelne-pred-vyberem-pomucky\/#mereni-wc"/,
+    "Blocked high-risk transfer must offer safe measurement guidance");
+  assert.doesNotMatch(h.result.innerHTML,/merchant[.]example|affiliateMap|data-zp-.*merchant-link/,
+    "Blocked high-risk transfer must never expose a purchase link");
   assert.equal(h.finalInvocations,0);
 });

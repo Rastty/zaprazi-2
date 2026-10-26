@@ -34,6 +34,7 @@ get_header();
           <p>Čtyřkolový rollátor umožňuje plynulejší chůzi, ale vyžaduje bezpečné ovládání ručních brzd.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Poradce pro rollátor</a></p>
         </article>
+        <!-- Sedátko je jiný nákupní dotaz; ponecháváme zde jedinou volbu poradce. -->
         <article class="zp-decision-card">
           <h3>Při chůzi běžně pomáhá druhá osoba</h3>
           <p>V takové situaci nechceme konkrétní chodítko vybírat jen podle internetu. Nejdřív je potřeba ověřit bezpečný způsob chůze a vhodný typ opory.</p>

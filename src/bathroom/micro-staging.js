@@ -21,9 +21,45 @@ export function installBathroomMicroStaging({
   let previewReady = false;
   let firstStepAttempted = false;
 
+  // All links are fixed editorial destinations, never constructed from answers.
+  // The user may need these checklists even when we have no safe product match.
+  const measurementGuides = {
+    "toilet-riser": ["/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc", "Jak ověřit WC a výšku sedu"],
+    "shower-chair": ["/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha", "Jak změřit sprchový prostor"],
+    "toilet-chair": ["/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel", "Jak připravit místo pro židli"],
+    "toilet-support": ["/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton", "Jak ověřit podklad a možnosti opory"],
+    "bath-transfer": ["/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana", "Jak změřit vanu a místo vedle ní"]
+  };
+  const [guidePath, guideLabel] = measurementGuides[key] || [
+    "/co-zmerit-v-koupelne-pred-vyberem-pomucky/", "Připravit rozměry"
+  ];
+
   const esc = value => String(value ?? "")
     .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+
+  // Shared, privacy-preserving progress overview for all five narrow advisors.
+  // These labels are generated from the currently VISIBLE required fields only.
+  const progress = document.createElement("section");
+  progress.className = "zp-micro-progress";
+  progress.setAttribute("aria-label", "Postup poradcem");
+  progress.innerHTML = `
+    <p class="zp-micro-progress__kicker">Dva kroky k bezpečnějšímu rozhodnutí</p>
+    <ol class="zp-micro-progress__steps" aria-label="Fáze výběru">
+      <li data-zp-progress-phase="situation" aria-current="step"><span>1</span><strong>Co člověk potřebuje</strong></li>
+      <li data-zp-progress-phase="fit"><span>2</span><strong>Pasuje konkrétní pomůcka?</strong></li>
+    </ol>
+    <p class="zp-micro-progress__count" data-zp-progress-label>Začněte popisem situace.</p>
+    <div class="zp-micro-progress__bar" role="progressbar" aria-label="Vyplněné povinné otázky této fáze" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <span></span>
+    </div>
+    <p class="zp-micro-progress__help" data-zp-progress-help>Nevíte-li odpověď, zvolte Nevím. Poradce vás nezavede k neověřenému nákupu.</p>
+  `;
+  form.insertBefore(progress, form.firstChild);
+  const phaseItems = [...progress.querySelectorAll("[data-zp-progress-phase]")];
+  const progressText = progress.querySelector("[data-zp-progress-label]");
+  const progressHelp = progress.querySelector("[data-zp-progress-help]");
+  const progressBar = progress.querySelector('[role="progressbar"]');
 
   const fitGroups = new Map();
   for (const name of fitNames) {
@@ -36,6 +72,35 @@ export function installBathroomMicroStaging({
 
   const value = (name, fallback = "unknown") =>
     form.querySelector('input[name="' + name + '"]:checked')?.value ?? fallback;
+
+  const phaseRequiredGroups = phase => phase === "fit"
+    ? [...fitGroups.values()].filter(group => !group.hidden && !group.closest("[hidden]"))
+    : initialRequiredGroups();
+
+  const updateProgress = (phase = previewReady ? "fit" : "situation") => {
+    const required = phase === "finished" ? [] : phaseRequiredGroups(phase);
+    const answered = required.filter(group => !!group.querySelector('input[type="radio"]:checked')).length;
+    const percent = phase === "finished" ? 100 : required.length ? Math.round(100 * answered / required.length) : 0;
+    progressBar.setAttribute("aria-valuenow", String(percent));
+    progressBar.style.setProperty("--zp-progress", percent + "%");
+    progressText.textContent = phase === "finished"
+      ? "Výsledek je připravený níže. Podívejte se, co udělat dál."
+      : "Zodpovězeno " + answered + " z " + required.length + " potřebných otázek v " +
+        (phase === "fit" ? "druhém" : "prvním") + " kroku.";
+    progressHelp.textContent = phase === "finished"
+      ? "Změníte-li odpověď, dřívější doporučení a nabídka se z bezpečnostních důvodů odstraní."
+      : phase === "fit"
+        ? "Porovnejte fakta u uvedeného modelu se skutečným prostorem a nosností. Nevím je bezpečná odpověď."
+        : "Rozhodujeme podle situace a způsobu přesunu, ne podle diagnózy. Nevím je platná odpověď.";
+    phaseItems.forEach(item => {
+      const current = item.getAttribute("data-zp-progress-phase") === (phase === "finished" ? "fit" : phase);
+      if (current && phase !== "finished") item.setAttribute("aria-current", "step");
+      else item.removeAttribute("aria-current");
+      item.classList.toggle("is-current", current);
+      item.classList.toggle("is-complete", phase === "finished" ||
+        (phase === "fit" && item.getAttribute("data-zp-progress-phase") === "situation"));
+    });
+  };
   // Keep only the currently visible stage-one questions in validation.
   // Fit-stage questions are inside a hidden ancestor until a product is shown.
   const initialRequiredGroups = () =>
@@ -65,6 +130,8 @@ export function installBathroomMicroStaging({
     }
     return missing;
   };
+
+  updateProgress("situation");
 
   // Show only the model checks relevant to the selected construction.
   // Hidden fit answers are cleared so they cannot be reused after a branch change.
@@ -108,8 +175,14 @@ export function installBathroomMicroStaging({
     previewReady = false;
     preview.hidden = true;
     fitStage.hidden = true;
-    result.innerHTML = '<h2>' + esc(outcome.headline) + '</h2><p>' + esc(outcome.nextStep) +
-      '</p><p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
+    result.innerHTML = '<p class="zp-result-status">Nejdřív bezpečný další krok</p><h2>' +
+      esc(outcome.headline) + '</h2><p>' + esc(outcome.nextStep) +
+      '</p><div class="zp-micro-next"><h3>Co můžete udělat teď?</h3>' +
+      '<ol><li>Pokud je přesun nejistý nebo vyžaduje fyzické zvedání, ověřte bezpečný postup s odborníkem.</li>' +
+      '<li>Projděte rozměry, nosnost a podmínky instalace. Při nejistotě nezkoušejte rizikový přesun.</li></ol>' +
+      '<p><a class="zp-text-link" href="' + esc(guidePath) + '">' + esc(guideLabel) +
+      '</a></p></div><p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
+    updateProgress("finished");
     result.hidden = false;
     errors.hidden = true;
     result.focus();
@@ -129,6 +202,7 @@ export function installBathroomMicroStaging({
     fitStage.querySelectorAll('input[type="radio"]').forEach(radio => { radio.checked = false; });
     errors.hidden = true;
     errors.textContent = "";
+    updateProgress("situation");
   };
 
   form.addEventListener("change", event => {
@@ -136,6 +210,7 @@ export function installBathroomMicroStaging({
     // Do not mark untouched fields before the user first tries to continue.
     if (!previewReady) {
       if (firstStepAttempted) updateInitialErrors();
+      updateProgress("situation");
       return;
     }
     if (!event.target?.closest?.("#zp-" + key + "-fit-stage")) {
@@ -153,12 +228,21 @@ export function installBathroomMicroStaging({
       group.removeAttribute("aria-invalid");
     }
     updateConditionalFit();
+    updateProgress("fit");
   });
 
   // capture listener blocks the pre-existing final handler only during stage 1.
   // On stage 2 the original fail-closed engine is the sole source of offers.
   submit.addEventListener("click", event => {
-    if (previewReady) return;
+    if (previewReady) {
+      // Let the original fit-gated Advisor handler render first. Never infer
+      // suitability or success from form values in this presentational layer.
+      queueMicrotask(() => {
+        if (!result.hidden && result.innerHTML.trim()) updateProgress("finished");
+        else updateProgress("fit");
+      });
+      return;
+    }
     event.preventDefault();
     event.stopImmediatePropagation();
 
@@ -191,9 +275,16 @@ export function installBathroomMicroStaging({
       '<p>Teprve teď porovnejte nosnost a rozměry s reálnou situací.</p>' +
       '<div class="zp-product-grid">' +
       products.map(product => renderProduct(product, !primary.has(product.id))).join("") +
-      '</div><p class="zp-disclaimer">Toto je jen předběžný výběr. Bez ověření v kroku 2 nezobrazujeme žádný odkaz k nákupu.</p>';
+      '</div><div class="zp-micro-next"><h3>Jak pokračovat bez hádání?</h3>' +
+      '<ol><li>Projděte uvedené rozměry a nosnost konkrétního modelu.</li>' +
+      '<li>Změřte doma skutečný prostor a ověřte bezpečný způsob přesunu.</li>' +
+      '<li>Teprve pak v kroku 2 potvrďte, co opravdu víte. Jinak zvolte Nevím.</li></ol>' +
+      '<p><a class="zp-text-link" href="' + esc(guidePath) + '" target="_blank" rel="noopener noreferrer">' +
+      esc(guideLabel) + ' (nová karta)</a></p></div>' +
+      '<p class="zp-disclaimer">Toto je jen předběžný výběr. Bez ověření v kroku 2 nezobrazujeme žádný odkaz k nákupu.</p>';
     previewReady = true;
     updateConditionalFit();
+    updateProgress("fit");
     preview.hidden = false;
     fitStage.hidden = false;
     result.hidden = true;

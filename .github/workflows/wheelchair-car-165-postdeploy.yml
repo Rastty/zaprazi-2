@@ -1,0 +1,40 @@
+name: Wheelchair Car Guide 0.8.165 Postdeploy
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-wheelchair-car-165.mjs"
+      - "scripts/audit-public-sitemap.mjs"
+      - "tests/public-sitemap-audit.test.js"
+      - ".github/workflows/wheelchair-car-165-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  postdeploy-checker-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check production checker syntax
+        run: node --check scripts/audit-live-wheelchair-car-165.mjs
+      - name: Confirm staged sitemap reporting via isolated tests
+        run: node --test tests/public-sitemap-audit.test.js
+
+  actual-publication:
+    if: github.event_name == 'workflow_dispatch'
+    needs: postdeploy-checker-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify actual WordPress version, new article, canonical, indexability and sitemap
+        run: node scripts/audit-live-wheelchair-car-165.mjs

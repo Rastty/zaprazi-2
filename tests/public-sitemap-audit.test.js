@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditPublicSitemap, extractLocs, requiredDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
+import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
 
 const root = "https://zaprazi.cz";
 function mock(files) {
@@ -36,10 +36,25 @@ test("Read-only live audit inventories each sitemap and reports missing importan
   assert.deepEqual(result.required_decision_paths_present.sort(),
     ["/koupelna-a-wc/", "/navrat-z-nemocnice/"].sort());
   assert.ok(result.required_decision_paths_missing.includes("/choditka-pro-seniory/"));
+  assert.ok(result.staged_decision_paths_missing.includes("/invalidni-vozik-do-auta/"));
+  assert.deepEqual(result.staged_decision_paths_present, []);
   assert.equal(result.html_pages_indexed_by_google, "unknown");
   assert.deepEqual(requested.sort(), Object.keys(files).sort());
   assert.ok(requested.every(url => url.startsWith("https://zaprazi.cz/")),
     "Read-only fetches must not follow advertised HTTP sitemap URLs");
+});
+
+test("Staged car guide is reported when present, without changing old required URLs", async () => {
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: https://zaprazi.cz/sitemap_index.xml",
+    [root + "/sitemap_index.xml"]: '<sitemapindex><sitemap><loc>https://zaprazi.cz/page-sitemap.xml</loc></sitemap></sitemapindex>',
+    [root + "/page-sitemap.xml"]: '<urlset><url><loc>https://zaprazi.cz/invalidni-vozik-do-auta/</loc></url></urlset>'
+  };
+  const result = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(stagedDecisionPaths, ["/invalidni-vozik-do-auta/"]);
+  assert.deepEqual(result.staged_decision_paths_present, stagedDecisionPaths);
+  assert.deepEqual(result.staged_decision_paths_missing, []);
+  assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });
 
 test("Refuse external host and duplicate child sitemap references", async () => {

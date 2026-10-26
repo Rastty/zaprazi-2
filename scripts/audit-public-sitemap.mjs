@@ -127,6 +127,8 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     duplicate_paths_sample: reports.flatMap(r => r.duplicate_paths).slice(0, 20),
     required_decision_paths_present: requiredDecisionPaths.filter(p => seenPages.has(p)),
     required_decision_paths_missing: requiredDecisionPaths.filter(p => !seenPages.has(p)),
+    staged_decision_paths_present: stagedDecisionPaths.filter(p => seenPages.has(p)),
+    staged_decision_paths_missing: stagedDecisionPaths.filter(p => !seenPages.has(p)),
     required_decision_path_locations: Object.fromEntries(requiredDecisionPaths
       .filter(p => seenPages.has(p)).map(p => [p, seenPages.get(p)])),
     html_pages_indexed_by_google: "unknown"

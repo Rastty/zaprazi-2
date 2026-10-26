@@ -31,9 +31,9 @@ test("five complex bathroom product-advisors receive one coherent two-step UX, n
 });
 
 test("progress counts only actually visible required groups including model-dependent fit questions",()=>{
- assert.match(micro,/group[.]closest[(]"\\[hidden\\]"[)]/);
+ assert.ok(micro.includes('group.closest("[hidden]")'));
  assert.match(micro,/phaseRequiredGroups/);
- assert.match(micro,/group[.]querySelector[(]'input\[type="radio"\]:checked'[)]/);
+ assert.ok(micro.includes('group.querySelector(\'input[type="radio"]:checked\')'));
  assert.match(micro,/aria-valuenow/);
  assert.match(micro,/firstStepAttempted/);
  assert.match(micro,/dependentFitResets/);

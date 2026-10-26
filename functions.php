@@ -55,6 +55,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-invalidni-vozik-do-auta.php',
     'page-najezdova-rampa-na-jeden-schod.php',
     'page-prisavne-madlo-do-koupelny-bez-vrtani.php',
+    'page-myti-vlasu-na-luzku.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2230,6 +2231,36 @@ function zaprazi_2_is_pressure_relief_mattress_page() {
   return is_page( 'antidekubitni-matrace-na-polohovaci-postel' );
 }
 
+/** Idempotent, non-destructive publication of the bed hair-washing guide. */
+function zaprazi_2_ensure_bed_hair_washing_page() {
+  if ( '1' === get_option( 'zaprazi_bed_hair_washing_page_v1' ) ) {
+    return;
+  }
+  $slug = 'myti-vlasu-na-luzku';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return; // Never alter a pre-existing editorial page or legacy content.
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Mytí vlasů na lůžku: bezpečný postup a vhodné pomůcky',
+      'post_content' => '',
+      'post_excerpt' => 'Jak doma umýt vlasy ležícímu člověku: výběr vaničky nebo bezoplachové čepice, bezpečný postup, sedm kontrol a FAQ.',
+      'meta_input' => array( '_wp_page_template' => 'page-myti-vlasu-na-luzku.php' ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_bed_hair_washing_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_bed_hair_washing_page', 50 );
+function zaprazi_2_is_bed_hair_washing_page() {
+  return is_page( 'myti-vlasu-na-luzku' );
+}
+
 function zaprazi_2_ensure_one_step_ramp_page() {
   if ( '1' === get_option( 'zaprazi_one_step_ramp_page_v1' ) ) {
     return;
@@ -2622,6 +2653,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku: bezpečný postup a pomůcky | Zápraží';
   if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo na sádrokarton u WC: bezpečné kotvení | Zápraží';
   if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle vedle postele: 7 kontrol | Zápraží';
   if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Vysoký práh a chodítko: 7 kontrol před úpravou | Zápraží';
@@ -2676,6 +2708,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku doma: nafukovací vanička, bezoplachová čepice, bezpečný postup, sedm kontrol a kdy požádat o pomoc sestru.';
   if ( is_page( 'madlo-na-sadrokarton-u-wc' ) ) return 'Madlo do sádrokartonu u WC? Sedm kontrol nosné konstrukce, ukotvení, umístění a rozdíl proti samostatné toaletní opoře, než cokoli namontujete.';
   if ( is_page( 'toaletni-zidle-vedle-postele' ) ) return 'Toaletní židle k posteli: 7 kontrol volného prostoru, výšky sedu, osvětlení a bezpečného přesunu. Pomocník, kolečka, hygiena a bezpečný výběr.';
   if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Chodítko nebo vozík naráží do vysokého prahu? Sedm měření, rozdíl mezi lištou a rampou, bezpečnostní rizika a cesta k vhodnému poradci.';
@@ -2826,3 +2859,10 @@ function zaprazi_2_night_wc_meta_fallback() {
 add_action( 'wp_head', 'zaprazi_2_night_wc_meta_fallback', 5 );
 
 
+
+/** Bed hair-washing guide SEO description without Yoast; emit one tag only. */
+function zaprazi_2_bed_hair_washing_meta_fallback() {
+  if ( ! zaprazi_2_is_bed_hair_washing_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_bed_hair_washing_meta_fallback', 5 );

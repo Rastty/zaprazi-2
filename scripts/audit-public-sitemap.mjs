@@ -39,7 +39,8 @@ export const stagedDecisionPaths = Object.freeze([
   "/invalidni-vozik-do-auta/",
   "/najezdova-rampa-na-jeden-schod/",
   "/prisavne-madlo-do-koupelny-bez-vrtani/",
-  "/antidekubitni-matrace-na-polohovaci-postel/"
+  "/antidekubitni-matrace-na-polohovaci-postel/",
+  "/myti-vlasu-na-luzku/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

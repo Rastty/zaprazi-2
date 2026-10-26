@@ -83,12 +83,16 @@ export function installBathroomMicroStaging({
     const percent = phase === "finished" ? 100 : required.length ? Math.round(100 * answered / required.length) : 0;
     progressBar.setAttribute("aria-valuenow", String(percent));
     progressBar.style.setProperty("--zp-progress", percent + "%");
-    progressText.textContent = phase === "finished"
-      ? "Výsledek je připravený níže. Podívejte se, co udělat dál."
-      : "Zodpovězeno " + answered + " z " + required.length + " potřebných otázek v " +
+    progressText.textContent = phase === "paused"
+      ? "Bezpečný výběr je pozastaven. Níže najdete konkrétní další krok."
+      : phase === "finished"
+        ? "Výsledek je připravený níže. Podívejte se, co udělat dál."
+        : "Zodpovězeno " + answered + " z " + required.length + " potřebných otázek v " +
         (phase === "fit" ? "druhém" : "prvním") + " kroku.";
-    progressHelp.textContent = phase === "finished"
-      ? "Změníte-li odpověď, dřívější doporučení a nabídka se z bezpečnostních důvodů odstraní."
+    progressHelp.textContent = phase === "paused"
+      ? "V nejisté situaci je pomoc odborníka nebo měření důležitější než nákup."
+      : phase === "finished"
+        ? "Změníte-li odpověď, dřívější doporučení a nabídka se z bezpečnostních důvodů odstraní."
       : phase === "fit"
         ? "Porovnejte fakta u uvedeného modelu se skutečným prostorem a nosností. Nevím je bezpečná odpověď."
         : "Rozhodujeme podle situace a způsobu přesunu, ne podle diagnózy. Nevím je platná odpověď.";
@@ -98,7 +102,7 @@ export function installBathroomMicroStaging({
       else item.removeAttribute("aria-current");
       item.classList.toggle("is-current", current);
       item.classList.toggle("is-complete", phase === "finished" ||
-        (phase === "fit" && item.getAttribute("data-zp-progress-phase") === "situation"));
+        ((phase === "fit" || phase === "paused") && item.getAttribute("data-zp-progress-phase") === "situation"));
     });
   };
   // Keep only the currently visible stage-one questions in validation.
@@ -182,7 +186,7 @@ export function installBathroomMicroStaging({
       '<li>Projděte rozměry, nosnost a podmínky instalace. Při nejistotě nezkoušejte rizikový přesun.</li></ol>' +
       '<p><a class="zp-text-link" href="' + esc(guidePath) + '">' + esc(guideLabel) +
       '</a></p></div><p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
-    updateProgress("finished");
+    updateProgress("paused");
     result.hidden = false;
     errors.hidden = true;
     result.focus();

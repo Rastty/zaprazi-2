@@ -470,6 +470,8 @@ test("current deployment integrity contract covers critical runtime files", () =
     "page-vstavani-z-kresla-pro-seniora.php",
     "page-senior-nemuze-vstat-z-postele.php",
     "page-senior-spadl-doma.php",
+    "page-prahy-pro-choditko-a-vozik.php",
+    "page-sprchova-zidle-maly-kout-80x80.php",
     "page-nocni-cesta-z-postele-na-wc.php",
     "page-obuv-pro-seniory.php",
     "page-jak-zmerit-chodidlo-pro-vyber-obuvi.php",

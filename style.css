@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.160
+Version: 0.8.161
 Text Domain: zaprazi-2
 */
 
@@ -307,7 +307,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_160 */
+/* ZP_RELEASE_0_8_161 */
 
 
 .zp-affiliate-policy {
@@ -468,3 +468,37 @@ a{color:inherit}
 .zp-rental-budget-result:not(:empty){display:block;margin-top:16px;padding:16px;border-radius:12px;background:var(--zp-accent-2);font-weight:650}
 .zp-rental-budget-result strong{font-size:1.35rem}
 @media(max-width:700px){.zp-rental-budget-fields{grid-template-columns:minmax(0,1fr)}.zp-rental-budget{padding:16px}}
+
+/* 0.8.161: clear, accessible, privacy-first progress for five Bathroom micro-Advisors.
+   Keep within the card; no sticky overlay over WC, shower or bath controls. */
+.zp-micro-progress{
+  display:grid;gap:12px;padding:18px 20px 20px;
+  background:linear-gradient(135deg,#edf4ed,#fdfaf2);
+  border:1px solid #c7d8c9;border-radius:18px;color:var(--zp-ink);
+}
+.zp-micro-progress__kicker{margin:0;font-size:.77rem;font-weight:850;letter-spacing:.09em;text-transform:uppercase;color:var(--zp-accent)}
+.zp-micro-progress__steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;list-style:none;padding:0;margin:0}
+.zp-micro-progress__steps li{min-width:0;display:flex;align-items:center;gap:10px;padding:12px;border:1px solid #d7ddd4;border-radius:12px;background:#fffdf9;color:var(--zp-muted)}
+.zp-micro-progress__steps li.is-current{border-color:var(--zp-accent);box-shadow:inset 0 0 0 1px var(--zp-accent);color:var(--zp-ink)}
+.zp-micro-progress__steps li.is-complete{background:#e2eddf;color:var(--zp-accent)}
+.zp-micro-progress__steps li span{display:grid;place-items:center;width:30px;height:30px;flex:0 0 30px;border-radius:50%;background:#e3e9e2;font-weight:850}
+.zp-micro-progress__steps li.is-current span,.zp-micro-progress__steps li.is-complete span{background:var(--zp-accent);color:#fff}
+.zp-micro-progress__steps strong{font-size:.9rem;line-height:1.3;font-weight:750}
+.zp-micro-progress__count{margin:2px 0 0;font-weight:850;font-size:.98rem}
+.zp-micro-progress__bar{height:9px;background:#cbd9cf;border-radius:999px;overflow:hidden}
+.zp-micro-progress__bar span{display:block;width:var(--zp-progress,0%);height:100%;background:var(--zp-accent);border-radius:inherit;transition:width .2s ease}
+.zp-micro-progress__help{margin:0;color:var(--zp-muted);font-size:.91rem}
+.zp-micro-next{margin:18px 0;padding:16px 20px;border-left:4px solid var(--zp-accent);border-radius:0 12px 12px 0;background:#f2f6f0}
+.zp-micro-next h3{margin:0 0 9px;font-size:1.08rem}
+.zp-micro-next ol{margin:0 0 8px;padding-left:1.25rem}
+.zp-micro-next li{margin-bottom:8px}
+.zp-micro-next p{margin:10px 0 0}
+.zp-micro-next a{font-weight:800}
+@media(max-width:600px){
+  .zp-micro-progress{padding:14px;gap:10px}
+  .zp-micro-progress__steps{grid-template-columns:minmax(0,1fr);gap:6px}
+  .zp-micro-progress__steps li{padding:8px 10px}
+  .zp-micro-progress__steps strong{font-size:.91rem}
+  .zp-micro-next{padding:14px}
+}
+@media(prefers-reduced-motion:reduce){.zp-micro-progress__bar span{transition:none}}

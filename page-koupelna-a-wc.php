@@ -157,6 +157,7 @@ get_header();
       <h2 class="zp-section-title">Člověk bezpečně dojde k WC ve dne, ale jak je to v noci?</h2>
       <p>Pokud je problém na cestě z postele k toaletě, nestačí řešit jen výšku sedu nebo madla u WC. Ověřte vstávání z postele, noční světlo, průchody, potřebnou oporu i bezpečný návrat.</p>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Noční cesta z postele na WC: sedmibodová kontrola</a></p>
+      <p>Pokud cestu k WC nelze bezpečně zvládnout, neřešte to jen nákupem. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#rozhodovaci-matice-zidle-postel' ) ); ?>">Ověřit, zda lze umístit toaletní židli u postele a co musí splňovat bezpečný přesun</a>.</p>
     </div>
   </section>
 

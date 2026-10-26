@@ -52,6 +52,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-choditka-pro-seniory.php',
     'page-co-zmerit-pred-vyberem-choditka.php',
     'page-projede-invalidni-vozik-dvermi.php',
+    'page-invalidni-vozik-do-auta.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
     'assets/js/mobility-advisor.js',
@@ -1092,6 +1093,9 @@ function zaprazi_2_front_title( $title ) {
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
   }
+  if ( zaprazi_2_is_wheelchair_car_guide() ) {
+    return 'Invalidní vozík do auta: vejde se do kufru? | Zápraží';
+  }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
   }
@@ -1147,6 +1151,9 @@ function zaprazi_2_wpseo_title( $title ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Polohovací postel pro seniory: elektrická a jak vybrat | Zápraží';
+  }
+  if ( zaprazi_2_is_wheelchair_car_guide() ) {
+    return 'Invalidní vozík do auta: vejde se do kufru? | Zápraží';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Invalidní vozík pro seniory: mechanický nebo elektrický | Zápraží';
@@ -1204,6 +1211,9 @@ function zaprazi_2_wpseo_description( $description ) {
   }
   if ( zaprazi_2_is_bed_page() ) {
     return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
+  }
+  if ( zaprazi_2_is_wheelchair_car_guide() ) {
+    return 'Jak vybrat skládací invalidní vozík do kufru auta: měření otvoru, složené rozměry, hmotnost, bezpečné naložení a sedmibodový pracovní list.';
   }
   if ( zaprazi_2_is_wheelchair_page() ) {
     return 'Jak vybrat invalidní vozík pro seniora podle pohonu, šířky sedu, průchodů a nosnosti. Mechanický vs. elektrický, půjčení, koupě a pojišťovna.';
@@ -2159,6 +2169,37 @@ function zaprazi_2_is_footwear_measurement_page() {
  * Standalone physical-doorway guide; never overwrite a pre-existing CMS URL.
  * New page has a different problem intent from the wheelchair type advisor.
  */
+/** Create the focused car-boot guide once, without changing any existing content. */
+function zaprazi_2_ensure_wheelchair_car_guide() {
+  if ( '1' === get_option( 'zaprazi_wheelchair_car_guide_v1' ) ) {
+    return;
+  }
+  $slug = 'invalidni-vozik-do-auta';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) {
+    return;
+  }
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_title' => 'Invalidní vozík do auta: co změřit, aby se vešel do kufru',
+      'post_name' => $slug,
+      'post_content' => '',
+      'post_excerpt' => 'Změřte kufr, skutečný rozměr složeného vozíku, hmotnost a bezpečné nakládání. Rozhodovací průvodce a pracovní list pro rodinu.',
+      'meta_input' => array( '_wp_page_template' => 'page-invalidni-vozik-do-auta.php' ),
+    ),
+    true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_wheelchair_car_guide_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_wheelchair_car_guide', 46 );
+
+function zaprazi_2_is_wheelchair_car_guide() {
+  return is_page( 'invalidni-vozik-do-auta' );
+}
+
 function zaprazi_2_ensure_wheelchair_doorway_page() {
   if ( '1' === get_option( 'zaprazi_wheelchair_doorway_page_v1' ) ) {
     return;

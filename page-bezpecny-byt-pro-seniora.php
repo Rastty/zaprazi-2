@@ -26,6 +26,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>1. Vstup do bytu nebo domu</h3>
           <p>Zkontrolujte schody, práh, madlo, prostor před dveřmi a možnost bezpečně otočit chodítko nebo vozík. Pokud je vstup kritický, řešte ho dřív než vybavení uvnitř.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">Sedm měření prahu a bezpečných přechodů pro chodítko či vozík</a></p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/schody-pro-seniora-doma/#plan-schody' ) ); ?>">Když senior nezvládá schody: bezpečný postup a co ověřit</a></p>
         </article>
         <article class="zp-decision-card">

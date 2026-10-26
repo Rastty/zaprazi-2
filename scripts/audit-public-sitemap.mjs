@@ -38,7 +38,8 @@ export const requiredDecisionPaths = Object.freeze([
 export const stagedDecisionPaths = Object.freeze([
   "/invalidni-vozik-do-auta/",
   "/najezdova-rampa-na-jeden-schod/",
-  "/prisavne-madlo-do-koupelny-bez-vrtani/"
+  "/prisavne-madlo-do-koupelny-bez-vrtani/",
+  "/antidekubitni-matrace-na-polohovaci-postel/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

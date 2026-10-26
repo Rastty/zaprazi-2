@@ -16,6 +16,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Půjčení pomůcky</p>
       <h1>Půjčení chodítka nebo rollátoru.</h1>
       <p class="zp-lead">Kdy dává pronájem smysl, kolik stojí konkrétní příklady v roce 2026 a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
+      <p class="zp-muted-copy">Chcete si půjčit <strong>rollátor se sedátkem</strong>? Než porovnáte sazby, ověřte, jestli zvládá člověk obě brzdy, bezpečné usedání a vstávání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Podle čeho vybrat bezpečné sedátko a rollátor</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Aktuální příklady cen</a>

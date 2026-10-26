@@ -123,7 +123,7 @@ get_header();
 <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Bezpečný byt</a>
 <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Půjčit, koupit nebo ověřit úhradu</a>
 </div>
-<p class="zp-muted-copy">Metodická inspirace: <a href="https://www.access-board.gov/ada/guides/chapter-4-entrances-doors-and-gates/" target="_blank" rel="noopener">U.S. Access Board — skutečná průchozí šířka dveří a prostor pro manévrování</a> (ověřeno 16. 10. 2026); <a href="https://www.dmapraha.cz/data/files/Bydleni_bez_barier_Liga_vozic.pdf" target="_blank" rel="noopener noreferrer">Liga vozíčkářů — Bydlení bez bariér</a> (ilustrační doporučení k dispozici průchodů a prostoru pro manipulaci). Americké pokyny ani starší příručka nejsou automaticky použitelný český právní limit. Zápraží netvrdí univerzální schvalovací šířku a nenahrazuje odborné posouzení.</p>
+<p class="zp-muted-copy">Metodická inspirace: <a href="https://www.access-board.gov/ada/guides/chapter-4-entrances-doors-and-gates/" target="_blank" rel="noopener">U.S. Access Board — skutečná průchozí šířka dveří a prostor pro manévrování</a> (ověřeno 16. 10. 2026); <a href="https://www.dmapraha.cz/data/files/Bydleni_bez_barier_Liga_vozic.pdf" target="_blank" rel="noopener noreferrer">Liga vozíčkářů — Bydlení bez bariér</a> (ilustrační doporučení k dispozici průchodů a prostoru pro manipulaci). Americké pokyny nejsou automaticky použitelný český právní limit. Ani starší česká příručka není právním schválením konkrétní úpravy. Zápraží netvrdí univerzální schvalovací šířku a nenahrazuje odborné posouzení.</p>
 </div></section>
 </main>
 <?php get_footer(); ?>

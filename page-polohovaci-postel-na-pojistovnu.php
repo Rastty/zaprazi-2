@@ -70,6 +70,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Aktuální příklady půjčení</p>
       <h2 class="zp-section-title">Kolik stojí elektrická polohovací postel v půjčovně?</h2>
+      <p>Postel a její specializovaná matrace nejsou automaticky jedna kompatibilní sestava. Pokud potřebujete antidekubitní povrch, nejprve <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#rozhodnuti-antidekubitni-matrace' ) ); ?>">ověřte odbornou vhodnost matrace, nosnost, tloušťku a zábrany</a>.</p>
       <p>Tyto ceny jsou konkrétní veřejné příklady ověřené 7. 10. 2026. Nejde o celostátní ceník a dostupnost se může měnit.</p>
 
       <div class="zp-decision-grid">

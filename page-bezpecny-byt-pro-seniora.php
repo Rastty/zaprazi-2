@@ -59,6 +59,7 @@ get_header();
           <h3>6. Postel a okolí</h3>
           <p>Ověřte výšku lůžka, prostor pro vstávání a případnou pomoc pečující osoby. U dlouhodobější péče může být zásadní přístup z více stran.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Poradce pro polohovací postel</a></p>
+      <p>Má člověk trávit dlouhé hodiny na lůžku? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#typy-antidekubitnich-matraci' ) ); ?>">Jak rozlišit antidekubitní matraci a ověřit bezpečné použití</a>.</p>
                   <p>Pokud problém spočívá přímo ve vstávání z lůžka, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#rozhodnuti-vstavani-postel' ) ); ?>">co udělat podle fáze, ve které vstávání selhává</a>.</p>
         </article>
         <article class="zp-decision-card">

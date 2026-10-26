@@ -135,6 +135,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Pomůcky po propuštění</p>
       <h2 class="zp-section-title">Půjčovna, ePoukaz a běžný nákup jsou tři odlišné cesty.</h2>
+      <p>Má člověk při návratu domů používat speciální antidekubitní matraci? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#pracovni-list-matrace' ) ); ?>">Připravte sedm údajů pro pečující tým a ověřte kompatibilitu celé postele</a> dříve než objednáte vybavení.</p>
       <p>Má být součástí návratu domů cesta autem se skládacím invalidním vozíkem? Nejdřív vyřešte bezpečné nastoupení a převážení prázdného vozíku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-do-auta/#mereni-kufru-vozik' ) ); ?>">Změřit kufr auta, složený vozík a možnosti bezpečného naložení</a>.</p>
       <p>Od 1. ledna 2026 je standardem elektronický ePoukaz na zdravotnické prostředky. To ale neznamená, že každý retail produkt lze automaticky vydat nebo proplatit přes pojišťovnu.</p>
       <p>Zápraží proto nejdřív řeší praktickou potřebu a až následně vede do samostatného poradce pro konkrétní kategorii.</p>

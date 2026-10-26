@@ -1,0 +1,29 @@
+name: Live Rollator Seat Postdeploy 0.8.157
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-rollator-seat.mjs"
+      - ".github/workflows/live-rollator-seat-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  seat-funnel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check smoke script syntax
+        run: node --check scripts/audit-live-rollator-seat.mjs
+      - name: Install read-only Chrome integration dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify actual live release, Yoast, seat section and safe search paths
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-rollator-seat.mjs

@@ -13,7 +13,7 @@ get_header();
       <p class="zp-lead">Je cesta na WC příliš dlouhá, ale v ložnici není mnoho místa? Přenosná toaletní židle může zkrátit noční přesun, jenže musí stát stabilně, být dostupná správným směrem a neblokovat vstup, únik ani místo pro asistenci. Nezačínejte výběrem barvy nebo sedáku. Projděte sedm praktických kontrol a připravte rozměry pro vhodný typ židle.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#sedm-kontrol-zidle-postel">Sedm kontrol prostoru</a>
-        <a class="zp-text-link" href="#rozhodnuti-zidle-postel">Je židle správné řešení?</a>
+        <a class="zp-text-link" href="#rozhodovaci-matice-zidle-postel">Co udělat dál podle situace</a>
         <a class="zp-text-link" href="#list-zidle-postel">Pracovní list pro rodinu</a>
       </div>
       <p class="zp-muted-copy">Autorský praktický návod · 26. 10. 2026. Nenahrazuje individuální výuku přesunu, zdravotnické ani ergoterapeutické posouzení.</p>

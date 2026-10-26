@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_169
+// ZP_RELEASE_0_8_170
 const ACQUISITION_DESTINATIONS = Object.freeze({
   compare_rent_buy: { href: "/pujceni-choditka/#rozpocet-pujceni-choditka", action: "Spočítat orientační půjčovné" },
   compare_buy_rent: { href: "/pujceni-choditka/#rozpocet-pujceni-choditka", action: "Porovnat orientační půjčovné" },

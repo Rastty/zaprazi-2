@@ -1,0 +1,24 @@
+name: Hygiene 0.8.170 Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/hygiene-170-postdeploy.yml"
+      - "scripts/audit-live-hygiene-170.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-hygiene:
+    name: Read-only live WordPress 0.8.170 check
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify actual release, hygiene guide, canonical, sitemap and inbound links
+        run: node scripts/audit-live-hygiene-170.mjs

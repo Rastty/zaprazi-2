@@ -92,7 +92,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>WC je příliš daleko, ale přesednutí může být samostatné</h3>
           <p>Nejdřív ověřte, že samotný přesun z postele a na stabilní sed je bezpečný bez fyzického zvedání. Pokud je hlavní překážkou délka noční cesty, může stát za prověření samostatná toaletní židle poblíž lůžka. Je nutné ověřit prostor, podlahu, rozměry a nosnost konkrétního modelu. Jde o jiný problém než nízké WC.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Prověřit toaletní židli u lůžka</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Prověřit toaletní židli u lůžka</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">Co změřit v ložnici před pořízením</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Samostatná cesta na WC není bezpečná</h3>

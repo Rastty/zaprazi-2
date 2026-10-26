@@ -66,6 +66,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Rozhodnout se podle situace</p>
       <h2 class="zp-section-title">Tři cesty, které neobcházejí bezpečnost kotvení.</h2>
+      <p>Pokud uvažujete místo vrtání o přísavce, přečtěte si nejprve <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prisavne-madlo-do-koupelny-bez-vrtani/#rozhodnuti-madlo-bez-vrtani' ) ); ?>">proč přísavné madlo není náhradou bezpečné nosné opory</a>. U zvedání z WC nelze takto obejít požadavek na stabilitu.</p>
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
           <h3>A. Pevné madlo do ověřené nosné konstrukce</h3>

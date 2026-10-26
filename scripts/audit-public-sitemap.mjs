@@ -42,7 +42,8 @@ export const stagedDecisionPaths = Object.freeze([
   "/antidekubitni-matrace-na-polohovaci-postel/",
   "/myti-vlasu-na-luzku/",
   "/oblekani-ponozek-a-kalhot-bez-ohybani/",
-  "/hygiena-leziciho-seniora-doma/"
+  "/hygiena-leziciho-seniora-doma/",
+  "/nastupovani-seniora-do-auta/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

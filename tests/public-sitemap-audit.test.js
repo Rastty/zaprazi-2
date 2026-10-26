@@ -58,8 +58,9 @@ test("Staged car guide is reported when present, without changing old required U
   assert.ok(stagedDecisionPaths.includes("/myti-vlasu-na-luzku/"));
   assert.ok(stagedDecisionPaths.includes("/oblekani-ponozek-a-kalhot-bez-ohybani/"));
   assert.ok(stagedDecisionPaths.includes("/hygiena-leziciho-seniora-doma/"));
+  assert.ok(stagedDecisionPaths.includes("/nastupovani-seniora-do-auta/"));
   assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/"].sort());
+  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/"].sort());
   // The two newly staged guides remain unpublished in this isolated fixture.
   assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });

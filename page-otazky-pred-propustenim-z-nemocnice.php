@@ -12,6 +12,7 @@ get_header();
       <h1>Na co se zeptat v nemocnici před propuštěním domů? Praktický seznam pro rodinu</h1>
       <p class="zp-lead">Před odchodem z nemocnice si s personálem ujasněte, co bude potřeba zařídit doma, kdo za co odpovídá a kam se obrátit, když nastane problém. Připravili jsme otázky, které si můžete projít při rozhovoru s ošetřujícím týmem. Nejsou to pokyny k léčbě ani náhrada individuálních doporučení.</p>
       <p class="zp-muted-copy">Před propuštěním se vyplatí požádat také o nácvik oblékání ponožek a kalhot. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Co ověřit při oblékání bez předklonu</a>.</p>
+      <p class="zp-muted-copy">Před propuštěním domluvte také bezpečný přesun do auta a potřebnou pomoc při cestě domů. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Sedm kontrol před přepravou seniora v autě</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#otazky-pred-propustenim">Projít otázky</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Sestavit plán první noci doma</a>

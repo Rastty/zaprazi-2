@@ -15,6 +15,7 @@ get_header();
       <p class="zp-muted-copy">Při péči o ležícího člověka potřebujete umýt vlasy mimo koupelnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak vybrat bezpečný způsob mytí vlasů na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
       <p class="zp-muted-copy">Po operaci kyčle nebo při omezeném ohýbání může být problém i oblékání dolní poloviny těla. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Jak připravit oblékání ponožek a kalhot doma</a>.</p>
       <p class="zp-muted-copy">Před návratem člověka, který nezvládne koupelnu, domluvte také způsob hygieny na lůžku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Sedm kroků hygieny a kontrolní seznam</a>.</p>
+      <p class="zp-muted-copy">Je cesta domů obtížná kvůli nastupování člověka na sedadlo, nikoliv jen kvůli převozu pomůcek? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Jak bezpečně nastoupit a vystoupit z auta</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek k vytištění před propuštěním</a>

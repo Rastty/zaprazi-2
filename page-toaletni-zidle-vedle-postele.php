@@ -102,6 +102,40 @@ get_header();
     </div>
   </section>
 
+
+  <section id="rozhodovaci-matice-zidle-postel" class="zp-section zp-section-soft" aria-labelledby="matice-zidle-postel-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktické rozhodnutí · před pořízením</p>
+      <h2 id="matice-zidle-postel-nadpis" class="zp-section-title">Má smysl vybírat toaletní židli hned, nebo je potřeba nejdřív něco ověřit?</h2>
+      <p>Židle může zkrátit noční cestu na WC, ale sama nezajistí bezpečný přesun. Vyberte situaci, která odpovídá skutečnosti, nikoli přání. Není-li odpověď jistá, nezačínejte objednávkou.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Přesun je bezpečně ověřený a místo je dostatečné</h3>
+          <p><strong>Další krok:</strong> srovnejte celé rozměry rámu, výšku sedu, způsob použití, nosnost, opěry a manipulaci s nádobou podle návodu konkrétního modelu. Nejdřív projděte navazující poradce.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle' ) ); ?>">Ověřit typ toaletní židle v poradci</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Neznáme rozměry nebo nevíme, zda bude místo pro pomoc</h3>
+          <p><strong>Další krok:</strong> načrtněte postel, nábytek, dveře a nejmenší volný průchod. Změřte výšku sedu a vyžádejte si celkovou šířku a hloubku židle; k neznámým údajům nepřiřazujte automaticky „vyhovuje“.</p>
+          <p><a class="zp-text-link" href="#list-zidle-postel">Vyplnit pracovní list rozměrů ložnice</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Člověk nedokáže bezpečně přesednout nebo hrozí pád</h3>
+          <p><strong>Další krok:</strong> pořízení pozastavte. Bezpečný způsob přesunu, dostupnou asistenci a případnou jinou pomůcku nechte posoudit odborníkem. Netrénujte vlastní zvedání člověka bez zaučení.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#co-delat-postel' ) ); ?>">Co řešit, když potíž začíná vstáváním z postele</a></p>
+        </article>
+      </div>
+      <h3>Porovnání dvou možných židlí bez falešného doporučení</h3>
+      <ul class="zp-checklist">
+        <li><strong>Model A / B:</strong> celková šířka a hloubka včetně podpěr: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> výška sedu, opěry a dovolený způsob přesunu: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> nosnost, brzdy (pokud má kolečka) a návod: ______ / ______.</li>
+        <li><strong>Model A / B:</strong> prostor pro pomoc a bezpečnou manipulaci s nádobou: ______ / ______.</li>
+      </ul>
+      <p class="zp-disclaimer">Nevyplněné bezpečnostní parametry nejsou souhlas s nákupem. Židle není náhradou za ověřený transfer ani odbornou pomoc; obchodní nabídku otevírá až navazující bezpečnostní poradce.</p>
+    </div>
+  </section>
+
   <section id="list-zidle-postel" class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">K vytisknutí nebo opsání</p>

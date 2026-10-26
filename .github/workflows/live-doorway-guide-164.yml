@@ -1,0 +1,28 @@
+name: Live Doorway Guide 0.8.164 Acceptance
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-wheelchair-doorways-164.mjs"
+      - ".github/workflows/live-doorway-guide-164.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  doorway-public-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check read-only audit syntax
+        run: node --check scripts/audit-live-wheelchair-doorways-164.mjs
+      - name: Verify production release, doorway examples and related journeys
+        env:
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+          ZP_REQUIRED_LIVE_RELEASE: 0.8.164
+        run: node scripts/audit-live-wheelchair-doorways-164.mjs

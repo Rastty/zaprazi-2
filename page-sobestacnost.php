@@ -6,8 +6,9 @@ Template Name: Zápraží — Soběstačnost
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
-  <section class="zp-hero">
-    <div class="zp-wrap">
+  <section class="zp-hero zp-illustrated-hero">
+    <div class="zp-wrap zp-hero-layout">
+      <div class="zp-hero-copy">
       <p class="zp-kicker">Zápraží · Každodenní soběstačnost</p>
       <h1>Pomůcky pro sebeobsluhu a soběstačnost seniorů: co pomůže s pitím, jídlem a otevíráním?</h1>
       <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu, připravit jednoduché jídlo jednou rukou nebo otevřít běžný obal. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
@@ -17,6 +18,11 @@ get_header();
         <a class="zp-btn" href="#poradce-sobestacnost">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Řeším celý návrat domů</a>
       </div>
+      </div>
+      <figure class="zp-hero-art">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/sobestacnost-u-stolu.svg' ); ?>" width="720" height="510" decoding="async" loading="eager" fetchpriority="high" alt="Senior sedí u stolu s hrnkem a blízkou osobou, která podporuje jeho samostatnost.">
+        <figcaption>Malé praktické úpravy mohou pomoci zvládat běžné činnosti s větší samostatností.</figcaption>
+      </figure>
     </div>
   </section>
 

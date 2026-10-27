@@ -134,6 +134,19 @@ get_header();
     </div>
   </section>
 
+
+  <section id="bezpecny-byt-kdyz-pomoc-nefunguje" class="zp-section zp-section-soft">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když překážkou není jen prostor</p>
+      <h2 class="zp-section-title">Byt je upravený, ale člověk přesto pomoc odmítá?</h2>
+      <p>Technické úpravy fungují jen tehdy, když je člověk může a chce bezpečně používat. Ptejte se na konkrétní obavy a nezapomínejte na potíže, které nemusí být na první pohled vidět.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>Nechce chodítko</h3><p>Zkuste společně zjistit, zda vadí stud, obtížné ovládání nebo špatné rozměry.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Co dělat bez přemlouvání</a></p></article>
+        <article class="zp-decision-card"><h3>Bojí se sprchy</h3><p>Ověřte vstup do koupelny, teplotu, soukromí a možnost mytí mimo sprchu.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#duvody-odmitani-koupani' ) ); ?>">Proč senior odmítá koupání</a></p></article>
+        <article class="zp-decision-card"><h3>Omezuje pití kvůli nočnímu WC</h3><p>Větší jistota na cestě na toaletu může pomoci řešit jednu z překážek pitného režimu.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#proc-senior-malo-pije' ) ); ?>">Jak najít příčinu malého pití</a></p></article>
+      </div>
+    </div>
+  </section>
   <section class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Hranice auditu</p>

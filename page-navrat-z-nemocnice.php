@@ -184,5 +184,19 @@ get_header();
       </div>
     </div>
   </section>
+
+  <section id="navrat-domu-dalsi-problemy" class="zp-section zp-section-soft">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Po návratu domů</p>
+      <h2 class="zp-section-title">Co když se objeví problém, který v nemocnici nikdo neřešil?</h2>
+      <p>První dny mohou ukázat překážky, které se při propuštění nečekaly. Začněte bezpečností a praktickým rozhovorem, ne nákupem další pomůcky.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>Odmítá chodítko</h3><p>Nenutit do chůze se špatně zvolenou pomůckou. Nejdřív ověřit důvod a bezpečnost.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#sedm-kroku-bez-natlaku' ) ); ?>">Sedm kroků pro rodinu</a></p></article>
+        <article class="zp-decision-card"><h3>Odmítá sprchování</h3><p>Zachovat důstojnost, vyhodnotit přesun, nabídnout bezpečnou alternativu hygieny.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#vyber-hygieny-bez-sprchy' ) ); ?>">Alternativy koupání bez nátlaku</a></p></article>
+        <article class="zp-decision-card"><h3>Téměř nepije</h3><p>Rozlišit obtížný úchop od rizika dehydratace a poruchy polykání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#varovne-priznaky-malo-pije' ) ); ?>">Kdy pomoci doma a kdy volat lékaře</a></p></article>
+        <article class="zp-decision-card"><h3>Zůstává doma sám</h3><p>Domluvit reakci na nouzové volání ještě před první nocí bez doprovodu.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos' ) ); ?>">Kdo opravdu přijme SOS volání</a></p></article>
+      </div>
+    </div>
+  </section>
 </main>
 <?php get_footer(); ?>

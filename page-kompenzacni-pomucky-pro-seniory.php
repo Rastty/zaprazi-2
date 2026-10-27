@@ -189,6 +189,21 @@ get_header();
     </div>
   </section>
 
+
+  <section id="kdy-pomucka-neni-prvni-krok" class="zp-section zp-section-soft">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktické problémy před nákupem</p>
+      <h2 class="zp-section-title">Co když člověk pomůcku odmítá nebo každodenní péče nejde podle plánu?</h2>
+      <p>Ještě před výběrem konkrétního výrobku má smysl pochopit, proč pomoc nefunguje. Vyberte situaci, která se doma skutečně děje. Pokud dojde k náhlému zhoršení, řešte nejdřív zdravotní riziko.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>Chodítko odmítá</h3><p>Strach ze ztráty samostatnosti nebo špatná zkušenost s nevhodnou oporou nemusí znamenat neochotu.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Jak pomoci s chodítkem bez nátlaku</a></p></article>
+        <article class="zp-decision-card"><h3>Sprchování je problém</h3><p>Nejdřív zjistěte, zda vadí stud, zima, bolest nebo nebezpečný přesun; židli nekupujte naslepo.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#duvody-odmitani-koupani' ) ); ?>">Co dělat, když senior odmítá koupání</a></p></article>
+        <article class="zp-decision-card"><h3>Člověk málo pije</h3><p>Někdy stačí upravit dosah hrnku, jindy je důležitější zdravotnická pomoc a ověření polykání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#varovne-priznaky-malo-pije' ) ); ?>">Pitný režim: sedm kroků a varovné příznaky</a></p></article>
+        <article class="zp-decision-card"><h3>Člověk žije sám</h3><p>Než koupíte SOS hodinky nebo tlačítko, domluvte, kdo volání přijme a co udělá.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">Jak vybrat dostupnou SOS pomoc</a></p></article>
+      </div>
+      <p class="zp-section-note">Návody pomáhají s první orientací; nenahrazují lékaře, fyzioterapeuta ani odborné posouzení bezpečného přesunu.</p>
+    </div>
+  </section>
   <section class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Hranice poradce</p>

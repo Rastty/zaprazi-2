@@ -5,6 +5,7 @@
 import { accessSync, constants } from "node:fs";
 import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
+import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
 import { prepareInternalLinks, auditInternalTargets } from "./lib/internal-link-health.mjs";
 
 const origin="https://zaprazi.cz";
@@ -15,7 +16,7 @@ const browser=await puppeteer.launch({executablePath:chrome,headless:true,
   args:["--no-sandbox","--disable-setuid-sandbox","--disable-dev-shm-usage"]});
 const pages=[];
 try{
-  for(const path of ["/",...requiredDecisionPaths]){
+  for(const path of ["/",...requiredDecisionPaths,...liveVerifiedProblemPaths]){
     const page=await browser.newPage();
     try{
       const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});

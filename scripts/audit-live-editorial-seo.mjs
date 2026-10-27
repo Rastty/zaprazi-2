@@ -8,12 +8,13 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
+import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
 import { summarizeEditorialPages } from "./lib/editorial-seo-rules.mjs";
 import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
 
 const base="https://zaprazi.cz";
 // All current decision/problem URLs, including the newest bed-rise guide, exactly once.
-const paths=["/",...requiredDecisionPaths];
+const paths=["/",...requiredDecisionPaths,...liveVerifiedProblemPaths];
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
   .find(path => {try {accessSync(path,constants.X_OK);return true;}catch{return false;}});
 if(!chrome)throw new Error("Chrome/Chromium required for public DOM audit");

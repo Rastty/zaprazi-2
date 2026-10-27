@@ -1,0 +1,19 @@
+name: SOS 0.8.172 Postdeploy Acceptance
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Inspect live 0.8.172, homepage illustration, SOS guide, canonical and sitemap
+        run: node scripts/audit-live-sos-172.mjs

@@ -1,0 +1,1873 @@
+{
+ "date": "2026-10-27",
+ "state": "pre-wave-2",
+ "publishedPosts": 311,
+ "entries": [
+  {
+   "id": "4966",
+   "slug": "retencni-nadrze-na-destovou-vodu-ekonomicke-vyhody-a-uspory-pro-domacnosti",
+   "title": "Retenční nádrže na dešťovou vodu - ekonomické výhody a úspory pro domácnosti.",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4959",
+   "slug": "retencni-nadrze-na-destovou-vodu-jako-soucast-ekologickeho-a-udrzitelneho-bydleni",
+   "title": "Retenční nádrže na dešťovou vodu jako součást ekologického a udržitelného bydlení",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4953",
+   "slug": "vyuziti-retence-destove-vody-v-mestske-zastavbe",
+   "title": "Využití retence dešťové vody v městské zástavbě",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4946",
+   "slug": "retencni-nadrze-na-destovou-vodu-prakticke-informace-pro-vlastniky-domu-a-pozemku",
+   "title": "Retenční nádrže na dešťovou vodu - praktické informace pro vlastníky domů a pozemků",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4939",
+   "slug": "jak-funguji-retencni-nadrze-na-destovou-vodu-a-proc-jsou-dulezite-pro-krajinu-a-zivotni-prostredi",
+   "title": "Jak fungují retenční nádrže na dešťovou vodu a proč jsou důležité pro krajinu a životní prostředí",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4932",
+   "slug": "retencni-nadrze-na-destovou-vodu-zasadni-prvek-ochrany-pred-suchem-a-nebezpecim-povodni",
+   "title": "Retenční nádrže na dešťovou vodu - zásadní prvek ochrany před suchem a nebezpečím povodní",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4926",
+   "slug": "potencial-podzemnich-nadrzi-na-vodu-v-ceske-republice",
+   "title": "Potenciál podzemních nádrží na vodu v České republice",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4907",
+   "slug": "destova-voda-jako-zdroj-ciste-a-udrzitelne-vody-s-pomoci-retence",
+   "title": "Dešťová voda jako zdroj čisté a udržitelné vody s pomocí retence",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4899",
+   "slug": "podzemni-nadrze-na-vodu-a-jejich-uloha-pri-hospodareni-s-vodou",
+   "title": "Podzemní nádrže na vodu a jejich úloha při hospodaření s vodou",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4391",
+   "slug": "retencni-nadrze-na-destovou-vodu-investice-do-budoucna",
+   "title": "Retenční nádrže na dešťovou vodu - investice do budoucna",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4382",
+   "slug": "stavba-podzemnich-nadrzi-na-vodu-v-cr",
+   "title": "Stavba podzemních nádrží na vodu v ČR",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4373",
+   "slug": "ucinna-ochrana-proti-povodnim-s-pomoci-retence-destove-vody",
+   "title": "Účinná ochrana proti povodním s pomocí retence dešťové vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4366",
+   "slug": "vyhody-a-nevyhody-podzemnich-nadrzi-na-vodu",
+   "title": "Výhody a nevýhody podzemních nádrží na vodu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4357",
+   "slug": "podzemni-nadrze-pro-prumyslovou-a-komercni-upravu-vody",
+   "title": "Podzemní nádrže pro průmyslovou a komerční úpravu vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4350",
+   "slug": "retencni-systemy-pro-adaptaci-na-extremni-klimaticke-udalosti",
+   "title": "Retenční systémy pro adaptaci na extrémní klimatické události",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4342",
+   "slug": "podzemni-zasobniky-pro-prumyslove-a-komercni-systemy-chlazeni",
+   "title": "Podzemní zásobníky pro průmyslové a komerční systémy chlazení",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4334",
+   "slug": "retencni-nadrze-pro-ochranu-pred-povodnemi-v-urbanizovanych-oblastech",
+   "title": "Retenční nádrže pro ochranu před povodněmi v urbanizovaných oblastech",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4326",
+   "slug": "podzemni-nadrze-pro-prumyslove-a-komercni-zpracovani-a-recyklaci-odpadu",
+   "title": "Podzemní nádrže pro průmyslové a komerční zpracování a recyklaci odpadů",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4318",
+   "slug": "retencni-systemy-pro-prumyslovou-a-komercni-recyklaci-vody",
+   "title": "Retenční systémy pro průmyslovou a komerční recyklaci vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4310",
+   "slug": "podzemni-zasobniky-pro-prumyslovou-vyrobu-a-zpracovani-mineralu",
+   "title": "Podzemní zásobníky pro průmyslovou výrobu a zpracování minerálů",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4303",
+   "slug": "retencni-nadrze-pro-prumyslove-a-komercni-cisteni-odpadnich-vod",
+   "title": "Retenční nádrže pro průmyslové a komerční čištění odpadních vod",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4294",
+   "slug": "podzemni-nadrze-pro-ochranu-pred-nedostatkem-vody-v-oblastech-se-suchem",
+   "title": "Podzemní nádrže pro ochranu před nedostatkem vody v oblastech se suchem",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4285",
+   "slug": "retencni-nadrze-pro-udrzitelnou-vodni-infrastrukturu-v-zemedelstvi",
+   "title": "Retenční nádrže pro udržitelnou vodní infrastrukturu v zemědělství",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4277",
+   "slug": "podzemni-zasobniky-pro-prumyslovou-vyrobu-a-zpracovani-energie",
+   "title": "Podzemní zásobníky pro průmyslovou výrobu a zpracování energie",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4271",
+   "slug": "jak-zachovat-hygienickou-cistotu-ve-zubni-ordinaci-s-vyuzitim-specializovaneho-nabytku",
+   "title": "Jak zachovat hygienickou čistotu ve zubní ordinaci s využitím specializovaného nábytku.",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4268",
+   "slug": "retencni-systemy-pro-prumyslove-a-komercni-stavebni-projekty",
+   "title": "Retenční systémy pro průmyslové a komerční stavební projekty",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4262",
+   "slug": "technologie-a-prostorove-reseni-jaky-vliv-maji-na-funkcnost-ordinace",
+   "title": "Technologie a prostorové řešení: Jaký vliv mají na funkčnost ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4259",
+   "slug": "podzemni-nadrze-pro-prumyslove-zpracovani-a-recyklaci-odpadu",
+   "title": "Podzemní nádrže pro průmyslové zpracování a recyklaci odpadů",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4254",
+   "slug": "moderni-nabytek-pro-efektivni-praci-v-ordinaci",
+   "title": "Moderní nábytek pro efektivní práci v ordinaci.",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4251",
+   "slug": "retencni-nadrze-pro-ochranu-pred-povrchovym-znecistenim",
+   "title": "Retenční nádrže pro ochranu před povrchovým znečištěním",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4245",
+   "slug": "inovativni-reseni-v-designu-nabytku-pro-zdravotnicka-zarizeni",
+   "title": "Inovativní řešení v designu nábytku pro zdravotnická zařízení.",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4242",
+   "slug": "podzemni-zasobniky-pro-prumyslove-chladici-systemy",
+   "title": "Podzemní zásobníky pro průmyslové chladicí systémy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4237",
+   "slug": "proc-je-kvalitni-nabytek-nedilnou-soucasti-uspesne-ordinace",
+   "title": "Proč je kvalitní nábytek nedílnou součástí úspěšné ordinace?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4233",
+   "slug": "retencni-nadrze-pro-udrzitelnou-vodni-bezpecnost",
+   "title": "Retenční nádrže pro udržitelnou vodní bezpečnost",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4230",
+   "slug": "moderni-design-a-ergonomie-v-jednom-novinky-v-ergonomickem-nabytku-pro-lekarska-zarizeni",
+   "title": "Moderní design a ergonomie v jednom – novinky v ergonomickém nábytku pro lékařská zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4224",
+   "slug": "podzemni-nadrze-pro-prumyslovou-recyklaci-odpadnich-vod",
+   "title": "Podzemní nádrže pro průmyslovou recyklaci odpadních vod",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4222",
+   "slug": "jak-si-zaridit-ergonomicky-pracovni-prostor-v-ordinaci-s-pouzitim-praktickeho-nabytku",
+   "title": "Jak si zařídit ergonomický pracovní prostor v ordinaci s použitím praktického nábytku?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4215",
+   "slug": "retencni-systemy-pro-adaptaci-na-zmenu-klimatu",
+   "title": "Retenční systémy pro adaptaci na změnu klimatu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4213",
+   "slug": "barva-v-ordinacnim-nabytku-jak-ovlivnuje-naladu-a-osobnost-pacienta",
+   "title": "Barva v ordinačním nábytku - jak ovlivňuje náladu a osobnost pacienta.",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4207",
+   "slug": "podzemni-zasobniky-pro-prumyslovou-vyrobu-a-zpracovani-chemikalii",
+   "title": "Podzemní zásobníky pro průmyslovou výrobu a zpracování chemikálií",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4204",
+   "slug": "sleva-na-specializovany-nabytek-pro-zubni-ordinace",
+   "title": "Sleva na specializovaný nábytek pro zubní ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4198",
+   "slug": "retencni-nadrze-pro-ochranu-vodniho-zivotniho-prostredi",
+   "title": "Retenční nádrže pro ochranu vodního životního prostředí",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4196",
+   "slug": "jaka-jsou-klicova-kriteria-pro-funkcni-a-prostorove-efektivni-ordinaci",
+   "title": "Jaká jsou klíčová kritéria pro funkční a prostorově efektivní ordinaci",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4189",
+   "slug": "jaky-nabytek-pouzit-pro-nove-vznikajici-lekarske-ordinace",
+   "title": "Jaký nábytek použít pro nově vznikající lékařské ordinace?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4187",
+   "slug": "podzemni-zasobniky-pro-prumyslovou-vyrobu-a-zpracovani-potravin",
+   "title": "Podzemní zásobníky pro průmyslovou výrobu a zpracování potravin",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4181",
+   "slug": "designovy-nabytek-jako-soucast-bezbarierovych-zdravotnickych-zarizeni",
+   "title": "Designový nábytek jako součást bezbariérových zdravotnických zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4178",
+   "slug": "retencni-systemy-pro-vodni-hospodarstvi-ve-venkovskych-oblastech",
+   "title": "Retenční systémy pro vodní hospodářství ve venkovských oblastech",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4172",
+   "slug": "uspesna-ordinace-s-prvotridnim-nabytkem",
+   "title": "Úspěšná ordinace s prvotřídním nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4169",
+   "slug": "podzemni-nadrze-pro-obnovitelnou-energii-z-vody",
+   "title": "Podzemní nádrže pro obnovitelnou energii z vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4163",
+   "slug": "profesionalni-ergonomicky-nabytek-pro-lekarska-centra-a-kliniky",
+   "title": "Profesionální ergonomický nábytek pro lékařská centra a kliniky",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4160",
+   "slug": "retencni-nadrze-pro-rekreacni-a-sportovni-arealy",
+   "title": "Retenční nádrže pro rekreační a sportovní areály",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4155",
+   "slug": "jaky-prakticky-nabytek-do-ordinace-si-vybrat-pro-ruzne-druhy-medicinskych-zarizeni",
+   "title": "Jaký praktický nábytek do ordinace si vybrat pro různé druhy medicínských zařízení?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4151",
+   "slug": "podzemni-zasobniky-pro-prumyslove-a-komercni-hasicske-systemy",
+   "title": "Podzemní zásobníky pro průmyslové a komerční hasičské systémy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4142",
+   "slug": "retencni-nadrze-pro-ochranu-pred-znecistenim-povrchovych-vod",
+   "title": "Retenční nádrže pro ochranu před znečištěním povrchových vod",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4140",
+   "slug": "jak-se-starat-o-specializovany-nabytek-ve-zubni-ordinaci",
+   "title": "Jak se starat o specializovaný nábytek ve zubní ordinaci",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4133",
+   "slug": "podzemni-nadrze-pro-prumyslove-vyuziti-chemikalii",
+   "title": "Podzemní nádrže pro průmyslové využití chemikálií",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4131",
+   "slug": "funkcni-a-prostorove-efektivni-ordinace-nastrahy-a-vyhody",
+   "title": "Funkční a prostorově efektivní ordinace: Nástrahy a výhody",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4124",
+   "slug": "moderni-nabytek-trendy-pro-zdravotnicka-zarizeni",
+   "title": "Moderní nábytek - Trendy pro zdravotnická zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4123",
+   "slug": "retencni-systemy-pro-udrzitelnou-vodni-infrastrukturu",
+   "title": "Retenční systémy pro udržitelnou vodní infrastrukturu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4116",
+   "slug": "jake-jsou-klicove-vlastnosti-designoveho-nabytku-v-zdravotnickych-zarizenich",
+   "title": "Jaké jsou klíčové vlastnosti designového nábytku v zdravotnických zařízeních?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4113",
+   "slug": "podzemni-zasobniky-pro-vodni-elektrarny-a-energeticka-zarizeni",
+   "title": "Podzemní zásobníky pro vodní elektrárny a energetická zařízení",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4107",
+   "slug": "minimalistickeho-designu-a-maximalniho-komfortu-vysoce-kvalitni-nabytek-pro-ordinace",
+   "title": "Minimalistického designu a maximálního komfortu - vysoce kvalitní nábytek pro ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4102",
+   "slug": "retencni-nadrze-pro-ochranu-pred-erozi-povrchu",
+   "title": "Retenční nádrže pro ochranu před erozí povrchu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4098",
+   "slug": "ergonomicky-nabytek-pro-lepsi-zdravi-nezbytnost-pro-lekarska-zarizeni",
+   "title": "Ergonomický nábytek pro lepší zdraví – nezbytnost pro lékařská zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4093",
+   "slug": "podzemni-nadrze-pro-geotermalni-a-vodni-tepelna-cerpadla",
+   "title": "Podzemní nádrže pro geotermální a vodní tepelná čerpadla",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4088",
+   "slug": "prakticky-nabytek-pro-ordinace-co-by-mel-obsahovat",
+   "title": "Praktický nábytek pro ordinace: Co by měl obsahovat?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4083",
+   "slug": "retencni-nadrze-pro-ochranu-pred-povrchovym-odtokem-a-zaplavami",
+   "title": "Retenční nádrže pro ochranu před povrchovým odtokem a záplavami",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4079",
+   "slug": "vybrat-si-mezi-znackovym-a-neznackovym-ordinacnim-nabytkem",
+   "title": "Vybrat si mezi značkovým a neznačkovým ordinačním nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4073",
+   "slug": "podzemni-zasobniky-pro-prumyslove-zpracovani-potravin",
+   "title": "Podzemní zásobníky pro průmyslové zpracování potravin",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4070",
+   "slug": "specializovany-nabytek-jako-nezbytne-vybaveni-moderni-zubni-praxe",
+   "title": "Specializovaný nábytek jako nezbytné vybavení moderní zubní praxe",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4061",
+   "slug": "jak-usporadat-ordinaci-tak-aby-fungovala-plynule",
+   "title": "Jak uspořádat ordinaci tak, aby fungovala plynule",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4060",
+   "slug": "retencni-systemy-pro-ochranu-vodniho-cyklu-ve-mestech",
+   "title": "Retenční systémy pro ochranu vodního cyklu ve městech",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4053",
+   "slug": "nabytek-pro-kliniku-jak-si-vybrat-moderni-nabytek",
+   "title": "Nábytek pro kliniku - Jak si vybrat moderní nábytek?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4050",
+   "slug": "podzemni-nadrze-pro-venkovske-farmy-a-chovy-zvirat",
+   "title": "Podzemní nádrže pro venkovské farmy a chovy zvířat",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4042",
+   "slug": "proc-je-designovy-nabytek-dulezity-pro-pohodli-pacientu-i-personalu",
+   "title": "Proč je designový nábytek důležitý pro pohodlí pacientů i personálu?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4040",
+   "slug": "retencni-nadrze-pro-rekreacni-rybniky-a-jezera",
+   "title": "Retenční nádrže pro rekreační rybníky a jezera",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4033",
+   "slug": "maximalizujte-efektivitu-vasi-ordinace-s-kvalitnim-nabytkem",
+   "title": "Maximalizujte efektivitu vaší ordinace s kvalitním nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4030",
+   "slug": "podzemni-zasobniky-pro-zemedelske-zavlazovani-v-aridnich-oblastech",
+   "title": "Podzemní zásobníky pro zemědělské zavlažování v aridních oblastech",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4024",
+   "slug": "inovativni-reseni-ergonomickeho-nabytku-pro-zlepseni-pracovniho-prostredi-v-lekarskych-ordinacich",
+   "title": "Inovativní řešení ergonomického nábytku pro zlepšení pracovního prostředí v lékařských ordinacích",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4019",
+   "slug": "retencni-nadrze-pro-prumyslove-a-komercni-chlazeni",
+   "title": "Retenční nádrže pro průmyslové a komerční chlazení",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4015",
+   "slug": "co-vsechno-musite-vedet-pred-nakupem-praktickeho-nabytku-do-ordinace",
+   "title": "Co všechno musíte vědět před nákupem praktického nábytku do ordinace?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "4008",
+   "slug": "podzemni-nadrze-pro-rekreacni-lode-a-pristavy",
+   "title": "Podzemní nádrže pro rekreační lodě a přístavy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "4006",
+   "slug": "poskytnuti-pohodli-pacientum-pomoci-ordinacniho-nabytku",
+   "title": "Poskytnutí pohodlí pacientům pomocí ordinačního nábytku",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3997",
+   "slug": "jak-zmenit-vzhled-a-komfort-vasi-zubni-ordinace",
+   "title": "Jak změnit vzhled a komfort vaší zubní ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3996",
+   "slug": "retencni-systemy-pro-ochranu-vodnich-zdroju-a-ekosystemu",
+   "title": "Retenční systémy pro ochranu vodních zdrojů a ekosystémů",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3989",
+   "slug": "prostorova-efektivita-jak-vsechny-prvky-ordinace-skloubit-dohromady",
+   "title": "Prostorová efektivita: Jak všechny prvky ordinace skloubit dohromady",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3987",
+   "slug": "podzemni-zasobniky-pro-prumyslovou-rezervu-vody",
+   "title": "Podzemní zásobníky pro průmyslovou rezervu vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3978",
+   "slug": "jaky-moderni-nabytek-vybrat-pro-kliniku",
+   "title": "Jaký moderní nábytek vybrat pro kliniku?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3976",
+   "slug": "retencni-nadrze-pro-zemedelskou-a-venkovskou-vodohospodarskou-infrastrukturu",
+   "title": "Retenční nádrže pro zemědělskou a venkovskou vodohospodářskou infrastrukturu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3969",
+   "slug": "designovy-nabytek-nezbytnost-pro-modernizaci-zdravotnickych-zarizeni",
+   "title": "Designový nábytek – nezbytnost pro modernizaci zdravotnických zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3967",
+   "slug": "podzemni-nadrze-pro-prumyslovou-recyklaci-vody",
+   "title": "Podzemní nádrže pro průmyslovou recyklaci vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3959",
+   "slug": "vysoce-kvalitni-nabytek-a-dalsi-vybaveni-pro-pohodlnou-praci-lekaru",
+   "title": "Vysoce kvalitní nábytek a další vybavení pro pohodlnou práci lékařů",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3953",
+   "slug": "vyssi-produktivita-prostrednictvim-ergonomickeho-nabytku-v-lekarskych-zarizenich",
+   "title": "Vyšší produktivita prostřednictvím ergonomického nábytku v lékařských zařízeních",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3952",
+   "slug": "retencni-nadrze-pro-prumyslovou-ochranu-proti-suchu",
+   "title": "Retenční nádrže pro průmyslovou ochranu proti suchu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3942",
+   "slug": "jak-minimalizovat-naklady-na-prakticky-nabytek-do-ordinaci",
+   "title": "Jak minimalizovat náklady na praktický nábytek do ordinací?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3941",
+   "slug": "podzemni-zasobniky-pro-venkovska-sidla-a-obce",
+   "title": "Podzemní zásobníky pro venkovská sídla a obce",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3933",
+   "slug": "kvalitni-materialy-pro-dlouhodobe-pouziti-ordinacniho-nabytku",
+   "title": "Kvalitní materiály pro dlouhodobé použití ordinačního nábytku",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3932",
+   "slug": "retencni-systemy-pro-udrzitelne-mestske-planovani",
+   "title": "Retenční systémy pro udržitelné městské plánování",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3924",
+   "slug": "inovativni-reseni-pro-zlepseni-efektivity-zubni-pece",
+   "title": "Inovativní řešení pro zlepšení efektivity zubní péče",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3922",
+   "slug": "podzemni-nadrze-pro-obnovu-zasob-podzemni-vody",
+   "title": "Podzemní nádrže pro obnovu zásob podzemní vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3915",
+   "slug": "vyberte-si-spravne-ordincni-vybaveni-a-dejte-prednost-zdravi",
+   "title": "Vyberte si správné ordinční vybavení a dejte přednost zdraví",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3911",
+   "slug": "retencni-nadrze-pro-snizovani-eroze-pudy",
+   "title": "Retenční nádrže pro snižování eroze půdy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3905",
+   "slug": "moderni-ordinace-jak-dosahnout-funkcnosti-a-prostorove-efektivity",
+   "title": "Moderní ordinace: Jak dosáhnout funkčnosti a prostorové efektivity",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3901",
+   "slug": "podzemni-zasobniky-pro-stavebni-projekty-a-developerske-projekty",
+   "title": "Podzemní zásobníky pro stavební projekty a developerské projekty",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3896",
+   "slug": "s-modernim-nabytkem-do-moderni-lekarske-ordinace",
+   "title": "S moderním nábytkem do moderní lékařské ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3888",
+   "slug": "jak-zvolit-spravny-designovy-nabytek-pro-vase-zdravotnicke-zarizeni",
+   "title": "Jak zvolit správný designový nábytek pro vaše zdravotnické zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3887",
+   "slug": "retencni-nadrze-pro-ochranu-vodniho-prostredi",
+   "title": "Retenční nádrže pro ochranu vodního prostředí",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3879",
+   "slug": "nabytek-pro-ordinace-nejnovejsi-trendy-a-inovace",
+   "title": "Nábytek pro ordinace: Nejnovější trendy a inovace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3877",
+   "slug": "podzemni-nadrze-pro-prumyslovou-vyrobu-a-zpracovani",
+   "title": "Podzemní nádrže pro průmyslovou výrobu a zpracování",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3870",
+   "slug": "prodlouzte-svemu-zdravi-zivotnost-s-ergonomickym-nabytkem",
+   "title": "Prodloužte svému zdraví životnost s ergonomickým nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3868",
+   "slug": "retencni-nadrze-pro-prumyslove-cistirny-odpadnich-vod",
+   "title": "Retenční nádrže pro průmyslové čistírny odpadních vod",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3859",
+   "slug": "nejnovejsi-designove-novinky-v-praktickem-nabytku-pro-ordinace",
+   "title": "Nejnovější designové novinky v praktickém nábytku pro ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3857",
+   "slug": "podzemni-zasobniky-pro-hasicske-stanice-a-zachranne-slozky",
+   "title": "Podzemní zásobníky pro hasičské stanice a záchranné složky",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3849",
+   "slug": "designovy-zdravotnicky-nabytek-pro-kvalitni-zobrazeni-interieru",
+   "title": "Designový zdravotnický nábytek pro kvalitní zobrazení interiéru",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3845",
+   "slug": "retencni-nadrze-pro-lesni-a-prirodni-oblasti",
+   "title": "Retenční nádrže pro lesní a přírodní oblasti",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3838",
+   "slug": "jak-udrzovat-cistotu-a-hygienu-v-ordinaci-pomoci-nabytku",
+   "title": "Jak udržovat čistotu a hygienu v ordinaci pomocí nábytku",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3835",
+   "slug": "podzemni-nadrze-pro-rekreacni-a-turisticke-arealy",
+   "title": "Podzemní nádrže pro rekreační a turistické areály",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3827",
+   "slug": "ergonomicky-nabytek-pro-lepsi-pohodli-pacientu-i-lekaru",
+   "title": "Ergonomický nábytek pro lepší pohodlí pacientů i lékařů",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3815",
+   "slug": "pohodli-a-hygiena-v-ordinaci-novinky-pro-rok-2023",
+   "title": "Pohodlí a hygiena v ordinaci: novinky pro rok 2023",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3814",
+   "slug": "retencni-systemy-pro-mestskou-infrastrukturu-a-verejne-prostranstvi",
+   "title": "Retenční systémy pro městskou infrastrukturu a veřejné prostranství",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3795",
+   "slug": "zaciname-s-planovanim-jak-vytvorit-funkcni-ordinaci",
+   "title": "Začínáme s plánováním: Jak vytvořit funkční ordinaci",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3794",
+   "slug": "podzemni-zasobniky-pro-nemocnice-a-zdravotnicka-zarizeni",
+   "title": "Podzemní zásobníky pro nemocnice a zdravotnická zařízení",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3785",
+   "slug": "top-trendy-moderniho-nabytku-pro-lekarske-ordinace",
+   "title": "Top trendy moderního nábytku pro lékařské ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3783",
+   "slug": "retencni-nadrze-pro-prumyslove-sklady-a-logistiku",
+   "title": "Retenční nádrže pro průmyslové sklady a logistiku",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3774",
+   "slug": "kdy-je-vhodne-investovat-do-designoveho-nabytku-v-zdravotnickych-zarizenich",
+   "title": "Kdy je vhodné investovat do designového nábytku v zdravotnických zařízeních?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3772",
+   "slug": "podzemni-nadrze-pro-verejne-budovy-a-instituce",
+   "title": "Podzemní nádrže pro veřejné budovy a instituce",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3763",
+   "slug": "jak-spravne-vybirat-nabytek-pro-zdravotnicka-zarizeni",
+   "title": "Jak správně vybírat nábytek pro zdravotnická zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3760",
+   "slug": "retencni-nadrze-pro-parkovaci-plochy-a-dopravni-stavby",
+   "title": "Retenční nádrže pro parkovací plochy a dopravní stavby",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3753",
+   "slug": "ochrana-zdravi-a-pohodli-s-ergonomickym-nabytkem-pro-lekarska-zarizeni",
+   "title": "Ochrana zdraví a pohodlí s ergonomickým nábytkem pro lékařská zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3749",
+   "slug": "podzemni-zasobniky-pro-komercni-budovy-a-obchodni-centra",
+   "title": "Podzemní zásobníky pro komerční budovy a obchodní centra",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3742",
+   "slug": "kde-nakoupit-kvalitni-prakticky-nabytek-pro-vasi-ordinaci",
+   "title": "Kde nakoupit kvalitní praktický nábytek pro vaši ordinaci?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3738",
+   "slug": "retencni-systemy-pro-zachycovani-a-cisteni-destove-vody",
+   "title": "Retenční systémy pro zachycování a čištění dešťové vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3731",
+   "slug": "funkcni-zdravotnicky-nabytek-pro-optimalni-procesy-v-lekarskych-zarizenich",
+   "title": "Funkční zdravotnický nábytek pro optimální procesy v lékařských zařízeních",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3727",
+   "slug": "podzemni-nadrze-pro-obytne-objekty",
+   "title": "Podzemní nádrže pro obytné objekty",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3720",
+   "slug": "prizpusobeni-ordinacniho-nabytku-vasim-potrebam",
+   "title": "Přizpůsobení ordinačního nábytku vašim potřebám",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3711",
+   "slug": "kvalitni-vybaveni-pro-moderni-zubni-ordinace",
+   "title": "Kvalitní vybavení pro moderní zubní ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3709",
+   "slug": "retencni-nadrze-pro-ekologickou-stabilitu-krajiny",
+   "title": "Retenční nádrže pro ekologickou stabilitu krajiny",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3700",
+   "slug": "jak-ochranit-sve-pacienty-i-personal-s-modernim-ordincnim-vybavenim",
+   "title": "Jak ochránit své pacienty i personál s moderním ordinčním vybavením",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3698",
+   "slug": "podzemni-zasobniky-pro-prumyslove-procesy",
+   "title": "Podzemní zásobníky pro průmyslové procesy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3687",
+   "slug": "vyhodnoceni-prostorovych-potreb-pro-planovani-ordinace",
+   "title": "Vyhodnocení prostorových potřeb pro plánování ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3686",
+   "slug": "retencni-nadrze-pro-odtok-a-infiltraci-destove-vody",
+   "title": "Retenční nádrže pro odtok a infiltraci dešťové vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3676",
+   "slug": "co-by-mel-moderni-nabytek-v-ordinaci-obsahovat",
+   "title": "Co by měl moderní nábytek v ordinaci obsahovat?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3675",
+   "slug": "podzemni-nadrze-pro-zavlazovani-zahrad-a-zemedelskych-ploch",
+   "title": "Podzemní nádrže pro zavlažování zahrad a zemědělských ploch",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3665",
+   "slug": "nove-trendy-v-designovem-nabytku-pro-zdravotnicka-zarizeni",
+   "title": "Nové trendy v designovém nábytku pro zdravotnická zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3663",
+   "slug": "retencni-systemy-pro-obnovitelnou-energii",
+   "title": "Retenční systémy pro obnovitelnou energii",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3654",
+   "slug": "proc-je-dulezite-investovat-do-kvalitniho-nabytku-pro-ordinace",
+   "title": "Proč je důležité investovat do kvalitního nábytku pro ordinace?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3652",
+   "slug": "podzemni-zasobniky-pro-venkovni-bazeny",
+   "title": "Podzemní zásobníky pro venkovní bazény",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3643",
+   "slug": "bez-problemu-pracovat-i-sedet-s-ergonomickym-nabytkem",
+   "title": "Bez problémů pracovat i sedět s ergonomickým nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3640",
+   "slug": "retencni-nadrze-pro-krajinarske-upravy",
+   "title": "Retenční nádrže pro krajinářské úpravy",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3638",
+   "slug": "stoly-bezpecne-pro-deti-a-seniory-jake-jsou-kriteria-vyberu",
+   "title": "Stoly bezpečné pro děti a seniory: Jaké jsou kritéria výběru?",
+   "categories": "zarizeni"
+  },
+  {
+   "id": "3631",
+   "slug": "jak-usporadat-pracovni-prostor-v-ordinaci-pomoci-praktickeho-nabytku",
+   "title": "Jak uspořádat pracovní prostor v ordinaci pomocí praktického nábytku",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3626",
+   "slug": "podzemni-nadrze-pro-zemedelske-ucely",
+   "title": "Podzemní nádrže pro zemědělské účely",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3620",
+   "slug": "bezpecny-zdravotnicky-nabytek-pro-prevenci-urazu",
+   "title": "Bezpečný zdravotnický nábytek pro prevenci úrazů",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3614",
+   "slug": "retencni-nadrze-pro-ochranu-pred-povodnemi",
+   "title": "Retenční nádrže pro ochranu před povodněmi",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3611",
+   "slug": "ordinacni-nabytek-pro-komfort-a-efektivitu",
+   "title": "Ordinační nábytek pro komfort a efektivitu",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3601",
+   "slug": "podzemni-nadrze-pro-prumyslove-vyuziti",
+   "title": "Podzemní nádrže pro průmyslové využití",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3600",
+   "slug": "designovy-nabytek-pro-zubni-lekare",
+   "title": "Designový nábytek pro zubní lékaře",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3589",
+   "slug": "retencni-systemy-pro-odtok-destove-vody",
+   "title": "Retenční systémy pro odtok dešťové vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3588",
+   "slug": "inovativni-technologie-pro-zlepseni-hygieny-v-ordinaci",
+   "title": "Inovativní technologie pro zlepšení hygieny v ordinaci",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3570",
+   "slug": "design-ordinace-pro-dokonalou-organizaci-a-maximalizaci-prostoru",
+   "title": "Design ordinace pro dokonalou organizaci a maximalizaci prostoru",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3566",
+   "slug": "podzemni-zasobniky-pro-domacnosti",
+   "title": "Podzemní zásobníky pro domácnosti",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3552",
+   "slug": "moderni-design-nabytku-pro-kliniky",
+   "title": "Moderní design nábytku pro kliniky",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3549",
+   "slug": "retence-destove-vody",
+   "title": "Retence dešťové vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3542",
+   "slug": "jak-designovy-nabytek-prispiva-k-lepsimu-zdravotnickemu-prostredi",
+   "title": "Jak designový nábytek přispívá k lepšímu zdravotnickému prostředí",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3540",
+   "slug": "destova-voda-a-jeji-vyuziti",
+   "title": "Dešťová voda a její využití",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3533",
+   "slug": "zaridte-svou-ordinaci-s-vkusnym-a-funkcnim-nabytkem",
+   "title": "Zařiďte svou ordinaci s vkusným a funkčním nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3526",
+   "slug": "podzemni-zasobniky-vody",
+   "title": "Podzemní zásobníky vody",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3523",
+   "slug": "retencni-nadrze-na-destovou-vodu-jak-zajistit-udrzitelnou-vodu-pro-domacnost-i-prirodu",
+   "title": "Retenční nádrže na dešťovou vodu - jak zajistit udržitelnou vodu pro domácnost i přírodu",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3518",
+   "slug": "jak-funguji-podzemni-nadrze-na-vodu",
+   "title": "Jak fungují podzemní nádrže na vodu?",
+   "categories": "podzemni-nadrze-na-vodu-retencni-nadrze"
+  },
+  {
+   "id": "3515",
+   "slug": "vybavte-svou-lekarskou-ordinaci-ergonomickym-nabytkem",
+   "title": "Vybavte svou lékařskou ordinaci ergonomickým nábytkem",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3498",
+   "slug": "moderni-trendy-v-pouziti-praktickeho-nabytku-v-ordinacich",
+   "title": "Moderní trendy v použití praktického nábytku v ordinacích",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3494",
+   "slug": "pohodlny-zdravotnicky-nabytek-pro-pohodlnou-pracovni-pozici",
+   "title": "Pohodlný zdravotnický nábytek pro pohodlnou pracovní pozici",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3488",
+   "slug": "moderni-design-v-ordinacnim-nabytku",
+   "title": "Moderní design v ordinačním nábytku",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3482",
+   "slug": "jak-si-vybrat-specializovany-nabytek-pro-zubni-ordinace",
+   "title": "Jak si vybrat specializovaný nábytek pro zubní ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3476",
+   "slug": "jak-volit-pohodlne-a-hygienicke-ordincni-vybaveni",
+   "title": "Jak volit pohodlné a hygienické ordinční vybavení?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3470",
+   "slug": "jak-si-vytvorit-funkcni-a-prostorove-efektivni-ordinaci",
+   "title": "Jak si vytvořit funkční a prostorově efektivní ordinaci",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3464",
+   "slug": "jak-vyuzit-moderni-nabytek-v-ordinaci",
+   "title": "Jak využít moderní nábytek v ordinaci?",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3459",
+   "slug": "designovy-nabytek-ktery-zmeni-vzhled-zdravotnickych-zarizeni",
+   "title": "Designový nábytek, který změní vzhled zdravotnických zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3453",
+   "slug": "vysoce-kvalitni-nabytek-pro-moderni-ordinace",
+   "title": "Vysoce kvalitní nábytek pro moderní ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3447",
+   "slug": "luxusni-ergonomicky-nabytek-pro-moderni-lekarska-zarizeni",
+   "title": "Luxusní ergonomický nábytek pro moderní lékařská zařízení",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3444",
+   "slug": "jak-si-vybrat-prakticky-nabytek-do-zdravotnicke-ordinace",
+   "title": "Jak si vybrat praktický nábytek do zdravotnické ordinace",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3442",
+   "slug": "moderni-zdravotnicky-nabytek-pro-efektivni-peci-o-pacienty",
+   "title": "Moderní zdravotnický nábytek pro efektivní péči o pacienty",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3436",
+   "slug": "jak-vybrat-spravny-ordinacni-nabytek",
+   "title": "Jak vybrat správný ordinační nábytek",
+   "categories": "nabytek-pro-zdravotnictvi"
+  },
+  {
+   "id": "3267",
+   "slug": "uklid-a-organizace-pro-hezci-zivot-jak-prostrednictvim-uklidu-vytvorit-harmonii-a-pohodu",
+   "title": "Úklid a organizace pro hezčí život: Jak prostřednictvím úklidu vytvořit harmonii a pohodu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3265",
+   "slug": "uklid-domacnosti-jako-relaxacni-ritual-jak-ho-promenit-v-prijemnou-a-uklidnujici-cinnost",
+   "title": "Úklid domácnosti jako relaxační rituál: Jak ho proměnit v příjemnou a uklidňující činnost",
+   "categories": "uklid"
+  },
+  {
+   "id": "3263",
+   "slug": "uklid-a-minimalismus-jak-se-zbavit-nepotrebnych-veci-a-udrzet-prostor-upraveny",
+   "title": "Úklid a minimalismus: Jak se zbavit nepotřebných věcí a udržet prostor upravený",
+   "categories": "uklid"
+  },
+  {
+   "id": "3261",
+   "slug": "uklidove-tipy-od-profesionalu-jak-zvladnout-uklid-domacnosti-jako-zkuseny-uklizec",
+   "title": "Úklidové tipy od profesionálů: Jak zvládnout úklid domácnosti jako zkušený uklízeč",
+   "categories": "uklid"
+  },
+  {
+   "id": "3259",
+   "slug": "uklid-domacnosti-s-uspechem-klicove-strategie-pro-dosazeni-dlouhotrvajiciho-poradku",
+   "title": "Úklid domácnosti s úspěchem: Klíčové strategie pro dosažení dlouhotrvajícího pořádku",
+   "categories": "uklid"
+  },
+  {
+   "id": "3257",
+   "slug": "rad-prinasim-dalsi-navrh-nazvu-clanku-na-tema-uklid-domacnosti",
+   "title": "Rád přináším další návrh názvu článku na téma \\úklid domácnosti\\:",
+   "categories": "uklid"
+  },
+  {
+   "id": "3255",
+   "slug": "dalsi",
+   "title": "další",
+   "categories": "uklid"
+  },
+  {
+   "id": "3253",
+   "slug": "doufam-ze-vam-tyto-navrhy-pomohou-pokud-mate-dalsi-otazky-nevahejte-se-zeptat",
+   "title": "Doufám; že vám tyto návrhy pomohou. Pokud máte další otázky; neváhejte se zeptat.",
+   "categories": "uklid"
+  },
+  {
+   "id": "3251",
+   "slug": "uklidove-navyky-minimalistu-jak-udrzet-domacnost-jednoduchou-prehlednou-a-bez-zbytecnosti",
+   "title": "Úklidové návyky minimalistů: Jak udržet domácnost jednoduchou; přehlednou a bez zbytečností",
+   "categories": "uklid"
+  },
+  {
+   "id": "3249",
+   "slug": "rychly-uklidovy-plan-pro-necekane-hosty-jak-rychle-a-efektivne-uklidit-pred-prichodem-navstevy",
+   "title": "Rychlý úklidový plán pro nečekané hosty: Jak rychle a efektivně uklidit před příchodem návštěvy",
+   "categories": "uklid"
+  },
+  {
+   "id": "3247",
+   "slug": "uklid-domacnosti-s-malymi-detmi-jak-zahrnout-celou-rodinu-a-naucit-deti-zodpovednosti",
+   "title": "Úklid domácnosti s malými dětmi: Jak zahrnout celou rodinu a naučit děti zodpovědnosti",
+   "categories": "uklid"
+  },
+  {
+   "id": "3245",
+   "slug": "uklidove-triky-pro-snadne-odstranovani-skvrn-jak-se-vyporadat-s-nejcastejsimi-typy-necistot",
+   "title": "Úklidové triky pro snadné odstraňování skvrn: Jak se vypořádat s nejčastějšími typy nečistot",
+   "categories": "uklid"
+  },
+  {
+   "id": "3243",
+   "slug": "domaci-uklidove-metody-pro-alergiky-snizeni-alergenu-a-vytvoreni-cisteho-a-zdraveho-prostredi",
+   "title": "Domácí úklidové metody pro alergiky: Snížení alergenů a vytvoření čistého a zdravého prostředí",
+   "categories": "uklid"
+  },
+  {
+   "id": "3241",
+   "slug": "rad-vam-prinasim-dalsi-navrh-nazvu-clanku-na-tema-uklid-domacnosti",
+   "title": "Rád vám přináším další návrh názvu článku na téma \\úklid domácnosti\\:",
+   "categories": "uklid"
+  },
+  {
+   "id": "3239",
+   "slug": "chatgpt",
+   "title": "ChatGPT",
+   "categories": "uklid"
+  },
+  {
+   "id": "3237",
+   "slug": "ano-dalsi",
+   "title": "ano; další",
+   "categories": "uklid"
+  },
+  {
+   "id": "3235",
+   "slug": "user",
+   "title": "User",
+   "categories": "uklid"
+  },
+  {
+   "id": "3233",
+   "slug": "doufam-ze-vam-tyto-navrhy-vyhovuji-pokud-mate-dalsi-otazky-nebo-pozadavky-nevahejte-se-zeptat",
+   "title": "Doufám; že vám tyto návrhy vyhovují. Pokud máte další otázky nebo požadavky; neváhejte se zeptat.",
+   "categories": "uklid"
+  },
+  {
+   "id": "3231",
+   "slug": "tajemstvi-uklidu-ve-stylu-profesionalnich-uklizecek-osvojte-si-jejich-tipy-a-triky-pro-dokonalou-cistotu",
+   "title": "Tajemství úklidu ve stylu profesionálních uklízeček: Osvojte si jejich tipy a triky pro dokonalou čistotu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3229",
+   "slug": "uklid-s-radosti-jak-se-zbavit-negativniho-vnimani-uklidu-a-vnest-do-nej-radost-a-pohodu",
+   "title": "Úklid s radostí: Jak se zbavit negativního vnímání úklidu a vnést do něj radost a pohodu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3227",
+   "slug": "organizace-a-uklid-pro-maximalizaci-produktivity-jak-udrzet-svuj-pracovni-prostor-efektivni-a-motivujici",
+   "title": "Organizace a úklid pro maximalizaci produktivity: Jak udržet svůj pracovní prostor efektivní a motivující",
+   "categories": "uklid"
+  },
+  {
+   "id": "3225",
+   "slug": "uklidove-rutiny-pro-zaneprazdnene-rodice-jak-udrzet-domacnost-v-poradku-s-minimalnim-casem",
+   "title": "Úklidové rutiny pro zaneprázdněné rodiče: Jak udržet domácnost v pořádku s minimálním časem",
+   "categories": "uklid"
+  },
+  {
+   "id": "3223",
+   "slug": "uklid-domacnosti-s-pomoci-prirodnich-prostredku-ekologicke-a-zdrave-alternativy-k-chemickym-cisticim-prostredkum",
+   "title": "Úklid domácnosti s pomocí přírodních prostředků: Ekologické a zdravé alternativy k chemickým čistícím prostředkům",
+   "categories": "uklid"
+  },
+  {
+   "id": "3221",
+   "slug": "uklidove-rutiny-pro-viceclennou-domacnost-jak-rozlozit-ukoly-a-spolupracovat-na-udrzeni-poradku",
+   "title": "Úklidové rutiny pro vícečlennou domácnost: Jak rozložit úkoly a spolupracovat na udržení pořádku",
+   "categories": "uklid"
+  },
+  {
+   "id": "3219",
+   "slug": "uklid-a-organizace-pracovniho-prostoru-zvyste-produktivitu-a-pohodli-ve-vasem-domacim-kancelari",
+   "title": "Úklid a organizace pracovního prostoru: Zvyšte produktivitu a pohodlí ve vašem domácím kanceláři",
+   "categories": "uklid"
+  },
+  {
+   "id": "3217",
+   "slug": "rychly-uklid-pred-hosty-jak-vytvorit-dojem-upravene-a-pohostinne-domacnosti",
+   "title": "Rychlý úklid před hosty: Jak vytvořit dojem upravené a pohostinné domácnosti",
+   "categories": "uklid"
+  },
+  {
+   "id": "3215",
+   "slug": "uklidove-tipy-pro-alergiky-snizeni-alergenu-a-vytvoreni-cisteho-a-zdraveho-prostredi",
+   "title": "Úklidové tipy pro alergiky: Snížení alergenů a vytvoření čistého a zdravého prostředí",
+   "categories": "uklid"
+  },
+  {
+   "id": "3213",
+   "slug": "uklidove-strategie-pro-domacnost-s-domacimi-mazlicky-jak-udrzet-cistotu-a-hygienu",
+   "title": "Úklidové strategie pro domácnost s domácími mazlíčky: Jak udržet čistotu a hygienu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3211",
+   "slug": "domaci-uklid-ve-stylu-marie-kondo-jak-se-zbavit-nepotrebnych-veci-a-udrzet-poradek",
+   "title": "Domácí úklid ve stylu Marie Kondo: Jak se zbavit nepotřebných věcí a udržet pořádek",
+   "categories": "uklid"
+  },
+  {
+   "id": "3209",
+   "slug": "uklidove-tajemstvi-profesionalnich-uklizecek-osvojte-si-jejich-ucinne-metody-a-triky",
+   "title": "Úklidové tajemství profesionálních uklízeček: Osvojte si jejich účinné metody a triky",
+   "categories": "uklid"
+  },
+  {
+   "id": "3205",
+   "slug": "uklid-domacnosti-s-malymi-detmi-prakticke-rady-pro-udrzeni-cistoty-a-bezpecnosti",
+   "title": "Úklid domácnosti s malými dětmi: Praktické rady pro udržení čistoty a bezpečnosti",
+   "categories": "uklid"
+  },
+  {
+   "id": "3203",
+   "slug": "uklid-a-pece-o-drevene-povrchy-jak-udrzet-nabytek-a-podlahy-krasne-a-dlouhotrvajici",
+   "title": "Úklid a péče o dřevěné povrchy: Jak udržet nábytek a podlahy krásné a dlouhotrvající",
+   "categories": "uklid"
+  },
+  {
+   "id": "3201",
+   "slug": "uklid-a-organizace-garaze-tipy-pro-vytvoreni-prehledneho-a-funkcniho-prostoru",
+   "title": "Úklid a organizace garáže: Tipy pro vytvoření přehledného a funkčního prostoru",
+   "categories": "uklid"
+  },
+  {
+   "id": "3199",
+   "slug": "domaci-uklid-s-pomoci-technologie-nejlepsi-chytre-nastroje-a-aplikace-pro-efektivni-uklid",
+   "title": "Domácí úklid s pomocí technologie: Nejlepší chytré nástroje a aplikace pro efektivní úklid",
+   "categories": "uklid"
+  },
+  {
+   "id": "3197",
+   "slug": "uklidove-triky-pro-zaneprazdnene-profesionaly-zvladnete-uklid-s-minimalnim-casovym-vydejem",
+   "title": "Úklidové triky pro zaneprázdněné profesionály: Zvládněte úklid s minimálním časovým výdejem",
+   "categories": "uklid"
+  },
+  {
+   "id": "3195",
+   "slug": "cistota-na-prvnim-miste-jak-udrzet-koupelnu-hygienicky-cistou-a-vonici",
+   "title": "Čistota na prvním místě: Jak udržet koupelnu hygienicky čistou a vonící",
+   "categories": "uklid"
+  },
+  {
+   "id": "3193",
+   "slug": "uklidove-tipy-pro-lenochy-jak-snadno-udrzovat-cistotu-s-minimalnim-usilim",
+   "title": "Úklidové tipy pro lenochy: Jak snadno udržovat čistotu s minimálním úsilím",
+   "categories": "uklid"
+  },
+  {
+   "id": "3191",
+   "slug": "domaci-uklid-bez-chemie-prirodni-prostredky-a-jejich-ucinnost-pri-uklidu",
+   "title": "Domácí úklid bez chemie: Přírodní prostředky a jejich účinnost při úklidu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3187",
+   "slug": "efektivni-cisteni-oken-profesionalni-tipy-pro-leskle-a-bezsmolkove-sklo",
+   "title": "Efektivní čištění oken: Profesionální tipy pro lesklé a bezšmolkové sklo",
+   "categories": "uklid"
+  },
+  {
+   "id": "3185",
+   "slug": "uklid-domacnosti-s-ohledem-na-alergie-jak-omezit-alergeny-a-udrzet-cisty-prostor",
+   "title": "Úklid domácnosti s ohledem na alergie: Jak omezit alergeny a udržet čistý prostor",
+   "categories": "uklid"
+  },
+  {
+   "id": "3183",
+   "slug": "umeni-organizace-jak-udrzet-poradek-ve-vasi-domacnosti-s-minimalnim-usilim",
+   "title": "Umění organizace: Jak udržet pořádek ve vaší domácnosti s minimálním úsilím",
+   "categories": "uklid"
+  },
+  {
+   "id": "3181",
+   "slug": "zahradni-uklidove-strategie-udrzujte-svuj-venkovni-prostor-atraktivni-a-dobre-upraveny",
+   "title": "Zahradní úklidové strategie: Udržujte svůj venkovní prostor atraktivní a dobře upravený",
+   "categories": "uklid"
+  },
+  {
+   "id": "3179",
+   "slug": "navrhy-na-stylizaci-obyvaciho-pokoje-vytvorte-si-utulny-a-vkusny-prostor-pro-relaxaci",
+   "title": "Návrhy na stylizaci obývacího pokoje: Vytvořte si útulný a vkusný prostor pro relaxaci",
+   "categories": "uklid"
+  },
+  {
+   "id": "3177",
+   "slug": "napady-na-uklid-v-loznici-vytvorte-si-klidny-a-harmonicky-prostor-pro-odpocinek",
+   "title": "Nápady na úklid v ložnici: Vytvořte si klidný a harmonický prostor pro odpočinek",
+   "categories": "uklid"
+  },
+  {
+   "id": "3175",
+   "slug": "kouzlo-minimalismu-v-koupelne-snadne-tipy-na-udrzovani-a-organizaci-maleho-prostoru",
+   "title": "Kouzlo minimalismu v koupelně: Snadné tipy na udržování a organizaci malého prostoru",
+   "categories": "uklid"
+  },
+  {
+   "id": "3173",
+   "slug": "nechte-svou-kuchyn-zarit-tipy-na-cisteni-a-udrzovani-kuchynskych-ploch-a-spotrebicu",
+   "title": "Nechte svou kuchyň zářit: Tipy na čištění a udržování kuchyňských ploch a spotřebičů",
+   "categories": "uklid"
+  },
+  {
+   "id": "3171",
+   "slug": "efektivni-skrine-a-satniky-organizujte-svou-obleceni-a-doplnky-s-lehkosti",
+   "title": "Efektivní skříně a šatníky: Organizujte svou oblečení a doplňky s lehkostí",
+   "categories": "uklid"
+  },
+  {
+   "id": "3169",
+   "slug": "uklid-v-rychlosti-zbavte-se-neporadku-a-udrzujte-domacnost-upravenou-i-ve-spechu",
+   "title": "Úklid v rychlosti: Zbavte se nepořádku a udržujte domácnost upravenou i ve spěchu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3167",
+   "slug": "uklid-s-detmi-jak-zahrnout-celou-rodinu-do-domacich-ukolu",
+   "title": "Úklid s dětmi: Jak zahrnout celou rodinu do domácích úkolů",
+   "categories": "uklid"
+  },
+  {
+   "id": "3165",
+   "slug": "ekologicke-cisteni-prirodni-a-setrne-metody-pro-uklid-domacnosti",
+   "title": "Ekologické čištění: Přírodní a šetrné metody pro úklid domácnosti",
+   "categories": "uklid"
+  },
+  {
+   "id": "3163",
+   "slug": "10-tipu-na-uklidove-triky-zjednoduste-si-uklid-a-usetrete-cas-a-energii",
+   "title": "10 tipů na úklidové triky: Zjednodušte si úklid a ušetřete čas a energii",
+   "categories": "uklid"
+  },
+  {
+   "id": "3161",
+   "slug": "domaci-uklidove-rutiny-jak-si-vytvorit-harmonicky-prostor-pomoci-organizace-a-udrzby",
+   "title": "Domácí úklidové rutiny: Jak si vytvořit harmonický prostor pomocí organizace a údržby",
+   "categories": "uklid"
+  },
+  {
+   "id": "3159",
+   "slug": "venkovni-uklidovy-pruvodce-jak-udrzovat-terasu-a-zahradu-v-krasnem-stavu-po-cely-rok",
+   "title": "Venkovní úklidový průvodce: Jak udržovat terasu a zahradu v krásném stavu po celý rok",
+   "categories": "uklid"
+  },
+  {
+   "id": "3157",
+   "slug": "prakticke-rady-pro-cistotu-obyvaciho-pokoje-odstrante-skvrny-a-udrzujte-nabytek-v-perfektnim-stavu",
+   "title": "Praktické rady pro čistotu obývacího pokoje: Odstraňte skvrny a udržujte nábytek v perfektním stavu",
+   "categories": "uklid"
+  },
+  {
+   "id": "3155",
+   "slug": "7-tipu-pro-efektivni-organizaci-loznice-udrzte-si-klid-a-poradek-ve-spankovem-prostoru",
+   "title": "7 tipů pro efektivní organizaci ložnice: Udržte si klid a pořádek ve spánkovém prostoru",
+   "categories": "uklid"
+  },
+  {
+   "id": "3153",
+   "slug": "luxusni-koupelna-navody-na-uklid-a-udrzovani-koupelnovych-ploch-ve-skvele-kondici",
+   "title": "Luxusní koupelna: Návody na úklid a udržování koupelnových ploch ve skvělé kondici",
+   "categories": "uklid"
+  },
+  {
+   "id": "3151",
+   "slug": "sikovne-triky-pro-cisteni-kuchynskych-spotrebicu-odstrante-mastnotu-snadno-a-rychle",
+   "title": "Šikovné triky pro čištění kuchyňských spotřebičů: Odstraňte mastnotu snadno a rychle",
+   "categories": "uklid"
+  },
+  {
+   "id": "3150",
+   "slug": "minimalisticky-satnik-jak-organizovat-obleceni-a-udrzet-satnik-v-poradku",
+   "title": "Minimalistický šatník: Jak organizovat oblečení a udržet šatník v pořádku",
+   "categories": "uklid"
+  },
+  {
+   "id": "3148",
+   "slug": "efektivni-vytirani-podlahy-tipy-a-triky-pro-ciste-a-leskle-podlahy-doma",
+   "title": "Efektivní vytírání podlahy: Tipy a triky pro čisté a lesklé podlahy doma",
+   "categories": "uklid"
+  },
+  {
+   "id": "2784",
+   "slug": "vetrejte-inteligentne-vime-jak-na-2",
+   "title": "Větrejte inteligentně! Víme, jak na to",
+   "categories": "tipy"
+  },
+  {
+   "id": "2780",
+   "slug": "pojisteni-domacnosti-domu-neriskujte-neprijemnosti-spojene-s-poskozenim-sveho-majetku",
+   "title": "Pojištění domácnosti a domu: Neriskujte nepříjemnosti spojené s poškozením svého majetku",
+   "categories": "tipy"
+  },
+  {
+   "id": "2776",
+   "slug": "velkomesto-s-nadechem-prirody-tuzemska-metropole-laka-zakazniky",
+   "title": "Velkoměsto s nádechem přírody? Tuzemská metropole láká zákazníky",
+   "categories": "tipy"
+  },
+  {
+   "id": "1960",
+   "slug": "4-hlavni-duvody-proc-byste-meli-zvazit-stehovani-vetsiho-mesta",
+   "title": "4 hlavní důvody, proč byste měli zvážit stěhování do většího města",
+   "categories": "tipy"
+  },
+  {
+   "id": "1951",
+   "slug": "vetrejte-inteligentne-vime-jak-na",
+   "title": "Větrejte inteligentně! Víme, jak na to",
+   "categories": "tipy"
+  },
+  {
+   "id": "1946",
+   "slug": "nejlepsi-nafukovaci-skluzavky",
+   "title": "Nejlepší nafukovací skluzavky – kterou vybrat v roce 2020",
+   "categories": "tipy,zahrada"
+  },
+  {
+   "id": "1940",
+   "slug": "nejlepsi-skakaci-hrady",
+   "title": "Nejlepší skákací hrady - který vybrat v roce 2020",
+   "categories": "tipy,zahrada"
+  },
+  {
+   "id": "1716",
+   "slug": "umely-travnik-vylepseni-nejen-zahrady",
+   "title": "Umělý trávník - vylepšení nejen zahrady",
+   "categories": "zahrada"
+  },
+  {
+   "id": "1711",
+   "slug": "kryci-plachty-na-bazen-pro-vodni-radovanky",
+   "title": "Krycí plachty na bazén pro vodní radovánky",
+   "categories": "zahrada"
+  },
+  {
+   "id": "1706",
+   "slug": "vybirame-nejlepsi-zahradni-domek-pro-deti",
+   "title": "Vybíráme nejlepší zahradní domek pro děti",
+   "categories": "zahrada"
+  },
+  {
+   "id": "1696",
+   "slug": "sauna-jeji-vliv-na-nase-zdravi",
+   "title": "Sauna a její vliv na naše zdraví",
+   "categories": "tipy"
+  },
+  {
+   "id": "1690",
+   "slug": "stavba-svepomoci-zvladnete-jeste-usetrite",
+   "title": "Stavba svépomocí? Zvládnete to a ještě ušetříte!",
+   "categories": "stavba"
+  },
+  {
+   "id": "1685",
+   "slug": "bydleni-v-utrobach-prahy-s-pridanou-hodnotou",
+   "title": "Bydlení v útrobách Prahy s přidanou hodnotou",
+   "categories": "tipy"
+  },
+  {
+   "id": "1681",
+   "slug": "nepodcenujte-preventivni-opatreni-k-ochrane-rodinneho-domu",
+   "title": "Nepodceňujte preventivní opatření k ochraně rodinného domu",
+   "categories": "tipy"
+  },
+  {
+   "id": "1671",
+   "slug": "oaza-klidu-v-praze-vily-chuchle-nabizeji-necekany-komfort",
+   "title": "Oáza klidu v Praze? Vily Chuchle nabízejí nečekaný komfort",
+   "categories": "tipy"
+  },
+  {
+   "id": "1657",
+   "slug": "montaz-demontaz-pujcovna-doprava-leseni",
+   "title": "Montáž, demontáž, půjčovna a doprava lešení",
+   "categories": "stavba"
+  },
+  {
+   "id": "1653",
+   "slug": "gabionove-ploty-2",
+   "title": "Gabionové ploty",
+   "categories": "zahrada"
+  },
+  {
+   "id": "1577",
+   "slug": "ultimatni-pruvodce-vyberem-venkovniho-bazenu-jak-vybrat-idealni-venkovni-bazen",
+   "title": "Ultimátní průvodce výběrem venkovního bazénu – jak vybrat ideální venkovní bazén?",
+   "categories": "tipy,zahrada"
+  },
+  {
+   "id": "1279",
+   "slug": "investujete-nemovitosti-vyuzijte-spravu-pronajmu-bytu",
+   "title": "Investujete do nemovitosti? Využijte správu pronájmu bytu",
+   "categories": "tipy"
+  },
+  {
+   "id": "799",
+   "slug": "vite-proc-je-dobre-si-sjednat-pojisteni-proti-blbosti",
+   "title": "Víte, proč je dobré si sjednat pojištění proti blbosti?",
+   "categories": "uspora"
+  },
+  {
+   "id": "789",
+   "slug": "chystate-grilovani-pro-pratele-potrebne-vybaveni-si-lze-pujcit",
+   "title": "Chystáte grilování pro přátele? Potřebné vybavení si lze půjčit",
+   "categories": "tipy"
+  },
+  {
+   "id": "786",
+   "slug": "realizace-detskeho-hriste",
+   "title": "Realizace dětského hřiště",
+   "categories": "stavba"
+  },
+  {
+   "id": "776",
+   "slug": "proc-zvolit-vrtanou-studnu",
+   "title": "Proč zvolit vrtanou studnu?",
+   "categories": "stavba"
+  },
+  {
+   "id": "773",
+   "slug": "rekonstrukce-bytu-bytoveho-jadra",
+   "title": "Rekonstrukce bytu a bytového jádra",
+   "categories": "stavba"
+  },
+  {
+   "id": "770",
+   "slug": "mrize-raab-zaruka-kvality-dlouholetych-zkusenosti",
+   "title": "Mříže Raab – záruka kvality a dlouholetých zkušeností",
+   "categories": "tipy"
+  },
+  {
+   "id": "767",
+   "slug": "prihradove-vazniky",
+   "title": "Příhradové vazníky",
+   "categories": "tipy"
+  },
+  {
+   "id": "525",
+   "slug": "vse-o-foukane-izolaci",
+   "title": "Vše o foukané izolaci",
+   "categories": "stavba"
+  },
+  {
+   "id": "518",
+   "slug": "gabionove-ploty",
+   "title": "Gabionové ploty",
+   "categories": "zahrada"
+  },
+  {
+   "id": "506",
+   "slug": "drevoplast-neboli-wpc-terasy-ploty-budoucnosti",
+   "title": "Dřevoplast neboli WPC– terasy a ploty budoucnosti",
+   "categories": "stavba,tipy"
+  },
+  {
+   "id": "500",
+   "slug": "tyka-se-vaseho-domu-co-byste-meli-vedet-o-cisteni-fasady",
+   "title": "Týká se to i vašeho domu: Co byste měli vědět o čištění fasády?",
+   "categories": "stavba"
+  },
+  {
+   "id": "494",
+   "slug": "ubytovny-praha",
+   "title": "Ubytovny Praha",
+   "categories": "tipy"
+  },
+  {
+   "id": "490",
+   "slug": "cisteni-kanalizace-praha",
+   "title": "Čištění kanalizace Praha",
+   "categories": "tipy"
+  },
+  {
+   "id": "486",
+   "slug": "digitalni-tisk-se-hodi-na-novorocenky-kalendare",
+   "title": "Digitální tisk se hodí na novoročenky i kalendáře",
+   "categories": "tipy"
+  },
+  {
+   "id": "479",
+   "slug": "stehujete-se-vlastniho-diky-tomuto-usetrite",
+   "title": "Stěhujete se do vlastního? Díky tomuto ušetříte",
+   "categories": "tipy"
+  },
+  {
+   "id": "472",
+   "slug": "ohrev-vody-vyplati-se-vam-plyn-nebo-elektrina",
+   "title": "Ohřev vody: Vyplatí se vám plyn, nebo elektřina?",
+   "categories": "tipy"
+  },
+  {
+   "id": "468",
+   "slug": "kdyz-prichazi-advent-je-cas-na-vanocni-osvetleni",
+   "title": "Když přichází advent, je čas na vánoční osvětlení",
+   "categories": "tipy"
+  },
+  {
+   "id": "462",
+   "slug": "proc-byste-si-meli-nechat-namichat-fasadni-barvu-ve-stavebninach",
+   "title": "Proč byste si měli nechat namíchat fasádní barvu ve stavebninách?",
+   "categories": "tipy"
+  },
+  {
+   "id": "458",
+   "slug": "bojujete-s-graffiti-prectete-si-jak-boj-vyhrat",
+   "title": "Bojujete s graffiti? Přečtěte si, jak boj vyhrát",
+   "categories": "tipy"
+  },
+  {
+   "id": "452",
+   "slug": "chystate-se-letos-na-dome-natrit-fasadu-co-pripravit",
+   "title": "Chystáte se letos na domě natřít fasádu? Co připravit?",
+   "categories": "stavba"
+  },
+  {
+   "id": "438",
+   "slug": "diamantove-kotouce-ve-vsech-velikostech",
+   "title": "Diamantové kotouče ve všech velikostech",
+   "categories": "tipy"
+  },
+  {
+   "id": "434",
+   "slug": "drevene-sochy-v-zime",
+   "title": "Dřevěné sochy v zimě",
+   "categories": "zahrada"
+  },
+  {
+   "id": "432",
+   "slug": "vanoce-online-nakupovani",
+   "title": "Vánoce a online nakupování",
+   "categories": "tipy"
+  },
+  {
+   "id": "430",
+   "slug": "zahradni-grily-zdrave-grilovani",
+   "title": "Zahradní grily a zdravé grilování",
+   "categories": "zahrada"
+  },
+  {
+   "id": "422",
+   "slug": "zahradni-kasny-efektni-okrasa-vaseho-pozemku",
+   "title": "Zahradní kašny – efektní okrasa vašeho pozemku",
+   "categories": "zahrada"
+  },
+  {
+   "id": "420",
+   "slug": "moderni-plastovy-teakovy-zahradni-nabytek",
+   "title": "Moderní plastový a teakový zahradní nábytek",
+   "categories": "zahrada"
+  },
+  {
+   "id": "415",
+   "slug": "rucne-provadene-vykopove-prace",
+   "title": "Ručně prováděné výkopové práce",
+   "categories": "zahrada"
+  },
+  {
+   "id": "165",
+   "slug": "vlastnikova-jistota-v-podobe-majetkoveho-pojisteni",
+   "title": "Vlastníkova jistota v podobě majetkového pojištění",
+   "categories": "tipy"
+  },
+  {
+   "id": "141",
+   "slug": "oprava-pelchove-stresni-krytiny-v-jazykove-skole",
+   "title": "Oprava pelchové střešní krytiny v jazykové škole",
+   "categories": "tipy"
+  },
+  {
+   "id": "129",
+   "slug": "biano-cz-nekonecna-inspirace-pro-vase-bydleni",
+   "title": "Biano.cz nekonečná inspirace pro vaše bydlení",
+   "categories": "tipy"
+  },
+  {
+   "id": "123",
+   "slug": "pece-o-zahradu-v-lete-se-neobejde-bez-prorezavani-stromu",
+   "title": "Péče o zahradu v létě se neobejde bez prořezávání stromů",
+   "categories": "zahrada"
+  },
+  {
+   "id": "113",
+   "slug": "jak-vybrat-postel",
+   "title": "Jak vybrat postel",
+   "categories": "tipy"
+  },
+  {
+   "id": "102",
+   "slug": "kdyz-kvalitni-plot-tak-betonovy",
+   "title": "Když kvalitní plot, tak betonový",
+   "categories": "stavba"
+  },
+  {
+   "id": "88",
+   "slug": "tepelna-cerpadla",
+   "title": "Tepelná čerpadla",
+   "categories": "stavba,tipy,uspora"
+  },
+  {
+   "id": "79",
+   "slug": "rekonstrukce-strechy-jakou-krytinu-vybrat",
+   "title": "Rekonstrukce střechy - jakou krytinu vybrat",
+   "categories": "stavba"
+  },
+  {
+   "id": "76",
+   "slug": "drevene-zarubne-nahradily-ocelove",
+   "title": "Dřevěné zárubně nahradily ocelové",
+   "categories": "stavba"
+  },
+  {
+   "id": "73",
+   "slug": "utulne-teplo-domova",
+   "title": "Útulné teplo domova",
+   "categories": "stavba"
+  },
+  {
+   "id": "70",
+   "slug": "stavba-zahradniho-jezirka",
+   "title": "Stavba zahradního jezírka",
+   "categories": "zahrada"
+  },
+  {
+   "id": "66",
+   "slug": "proc-potrebujete-na-chate-septik",
+   "title": "Proč potřebujete na chatě septik",
+   "categories": "zahrada"
+  },
+  {
+   "id": "58",
+   "slug": "jak-vybrat-satni-skrin",
+   "title": "Jak vybrat šatní skříň?",
+   "categories": "tipy"
+  },
+  {
+   "id": "51",
+   "slug": "jak-na-rekonstrukci-rodinneho-domu",
+   "title": "Jak na rekonstrukci rodinného domu",
+   "categories": "stavba"
+  },
+  {
+   "id": "47",
+   "slug": "jak-resit-zahradu-kdyz-na-ni-nemate-misto",
+   "title": "Jak řešit zahradu, když na ni nemáte místo",
+   "categories": "zahrada"
+  },
+  {
+   "id": "44",
+   "slug": "nez-koupite-pozemek-pro-rodinny-dum",
+   "title": "Než koupíte pozemek pro rodinný dům",
+   "categories": "stavba"
+  },
+  {
+   "id": "37",
+   "slug": "sanace-a-izolace-vlhkeho-zdiva",
+   "title": "Sanace a izolace vlhkého zdiva",
+   "categories": "tipy"
+  },
+  {
+   "id": "33",
+   "slug": "snehova-freza-pomocnik-ktery-vam-zachrani-zada",
+   "title": "Sněhová fréza – pomocník, který vám zachrání záda",
+   "categories": "tipy"
+  },
+  {
+   "id": "30",
+   "slug": "kuchyn-od-truhlare-nebo-z-obchodu",
+   "title": "Kuchyň - od truhláře nebo z obchodu",
+   "categories": "tipy"
+  },
+  {
+   "id": "23",
+   "slug": "jak-vybrat-byt",
+   "title": "Jak vybrat byt",
+   "categories": "tipy"
+  },
+  {
+   "id": "19",
+   "slug": "jak-vybrat-krb",
+   "title": "Jak vybrat krb",
+   "categories": "tipy"
+  },
+  {
+   "id": "16",
+   "slug": "setreni-vodou-jak-na-to",
+   "title": "Šetření vodou - jak na to",
+   "categories": "uspora"
+  },
+  {
+   "id": "1",
+   "slug": "hello-world",
+   "title": "Protipožární dveře a senzory",
+   "categories": "tipy"
+  }
+ ]
+}

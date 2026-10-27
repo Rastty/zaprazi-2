@@ -1,0 +1,23 @@
+name: Zápraží 0.8.177 Live Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-warm-advisors-177.mjs"
+      - ".github/workflows/warm-advisors-177-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify live 0.8.177, first-party SVGs and advisor SEO
+        run: node scripts/audit-live-warm-advisors-177.mjs

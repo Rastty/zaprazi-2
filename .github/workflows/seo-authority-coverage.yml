@@ -1,0 +1,26 @@
+name: Zápraží SEO Authority Coverage Report
+
+on:
+  pull_request:
+    paths:
+      - "scripts/report-topical-authority-coverage.mjs"
+      - "tests/topical-authority-coverage.test.js"
+      - ".github/workflows/seo-authority-coverage.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-internal-discovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Report all 50 authored template routes and their inbound coverage
+        run: node scripts/report-topical-authority-coverage.mjs
+      - name: Verify static audit remains comprehensive
+        run: node --test tests/topical-authority-coverage.test.js

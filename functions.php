@@ -62,6 +62,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-senior-doma-sam-sos-pomoc.php',
     'page-senior-odmita-choditko.php',
     'page-senior-odmita-koupani.php',
+    'page-senior-malo-pije.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2286,6 +2287,29 @@ function zaprazi_2_is_senior_sos_page() {
 }
 /** Publish the walker reluctance conversation guide once, without overwriting existing WordPress pages. */
 /** New problem-first hygiene refusal guide; create slug once, never modify existing posts. */
+/** Create the dehydration-prevention guide only when its WordPress slug is absent. */
+function zaprazi_2_ensure_low_fluid_intake_page() {
+  if ( '1' === get_option( 'zaprazi_low_fluid_intake_v1' ) ) return;
+  $slug = 'senior-malo-pije';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior málo pije: jak mu pomoci doma a kdy volat lékaře?',
+      'post_content' => '',
+      'post_excerpt' => 'Čtyři časté příčiny malého pití seniora, sedm kroků, osm kontrol pro rodinu a bezpečný postup při varovných příznacích.',
+      'meta_input' => array( '_wp_page_template' => 'page-senior-malo-pije.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_low_fluid_intake_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_low_fluid_intake_page', 57 );
+function zaprazi_2_is_low_fluid_intake_page() {
+  return is_page( 'senior-malo-pije' );
+}
+
 function zaprazi_2_ensure_hygiene_reluctance_page() {
   if ( '1' === get_option( 'zaprazi_hygiene_reluctance_v1' ) ) return;
   $slug = 'senior-odmita-koupani';
@@ -2792,6 +2816,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_low_fluid_intake_page() ) return 'Senior málo pije: 7 kroků, rizika a pomůcky | Zápraží';
   if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior odmítá koupání: jak pomoci bez nátlaku | Zápraží';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior žije sám: SOS tlačítko, hodinky či tísňová péče | Zápraží';
@@ -2853,6 +2878,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_low_fluid_intake_page() ) return 'Senior málo pije? Čtyři možné důvody, varovné příznaky, 7 bezpečných kroků, 8 kontrol pro rodinu a rady k pomůckám na pití.';
   if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior nechce do sprchy? Stud, zima, bolest a strach z pádu: 7 kroků pro rodinu, bezpečné alternativy koupání a kdy požádat o pomoc.';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior nechce chodítko? Čtyři možné důvody, jak o pomůcce mluvit bez nátlaku, 7 kroků pro rodinu a bezpečný postup s odborníkem.';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior sám doma: jak bezpečně přivolat pomoc? Srovnejte SOS tlačítko, tísňovou péči, detekci pádu, dosah, dispečink a 9 kontrol před výběrem.';
@@ -2915,6 +2941,12 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+/** Fallback meta without Yoast for low fluid intake. */
+function zaprazi_2_low_fluid_intake_meta_fallback() {
+  if ( ! zaprazi_2_is_low_fluid_intake_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_low_fluid_intake_meta_fallback', 5 );
 /** One meta description for hygiene reluctance without Yoast. */
 function zaprazi_2_hygiene_reluctance_meta_fallback() {
   if ( ! zaprazi_2_is_hygiene_reluctance_page() || defined( 'WPSEO_VERSION' ) ) return;

@@ -21,7 +21,7 @@ for(const [name,img,h1Text] of pages){
   assert.ok(svg.startsWith('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510"'));
   assert.match(svg,/<title id="title">/);
   assert.match(svg,/<desc id="desc">/);
-  assert.doesNotMatch(svg,/<script\b|<image\b|https?:\/\/|foreignObject|onload=/i);
+  assert.doesNotMatch(svg,/<script\b|<image\b|<[^>]+\s(?:href|xlink:href)\s*=|foreignObject|onload=/i);
   assert.match(php,/class="zp-hero-actions"/);
  });
 }

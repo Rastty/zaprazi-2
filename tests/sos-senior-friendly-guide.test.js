@@ -42,7 +42,7 @@ test("Original responsive first-party illustration used on homepage and guide, n
  assert.match(svg,/^<svg[^>]+viewBox="0 0 720 510"/);
  assert.match(svg,/<title id="t">/);
  assert.match(svg,/<desc id="d">/);
- assert.doesNotMatch(svg,/<script|<foreignObject|<image|https?:\/\//i);
+ assert.doesNotMatch(svg,/<(?:script|foreignObject|image)\b/i);\n assert.doesNotMatch(svg,/https?:\/\/(?!www\.w3\.org\/2000\/svg)/i);
  for(const p of [page,home]){
   assert.ok(p.includes("/assets/illustrations/doma-v-bezpeci.svg"),"Missing original illustration");
   assert.match(p,/width="720" height="510"/);

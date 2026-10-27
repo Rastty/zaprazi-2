@@ -1,0 +1,23 @@
+name: Zápraží 0.8.175 Live Postdeploy QA
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-hydration-175.mjs"
+      - ".github/workflows/hydration-175-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Read-only check of deployed hydration guide 0.8.175 and SEO integrity
+        run: node scripts/audit-live-hydration-175.mjs

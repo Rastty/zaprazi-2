@@ -46,7 +46,8 @@ export const stagedDecisionPaths = Object.freeze([
   "/nastupovani-seniora-do-auta/",
   "/senior-doma-sam-sos-pomoc/",
   "/senior-odmita-choditko/",
-  "/senior-odmita-koupani/"
+  "/senior-odmita-koupani/",
+  "/senior-malo-pije/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

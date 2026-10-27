@@ -62,8 +62,9 @@ test("Staged car guide is reported when present, without changing old required U
   assert.ok(stagedDecisionPaths.includes("/senior-doma-sam-sos-pomoc/"));
   assert.ok(stagedDecisionPaths.includes("/senior-odmita-choditko/"));
   assert.ok(stagedDecisionPaths.includes("/senior-odmita-koupani/"));
+  assert.ok(stagedDecisionPaths.includes("/senior-malo-pije/"));
   assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/","/senior-doma-sam-sos-pomoc/","/senior-odmita-choditko/","/senior-odmita-koupani/"].sort());
+  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/","/senior-doma-sam-sos-pomoc/","/senior-odmita-choditko/","/senior-odmita-koupani/","/senior-malo-pije/"].sort());
   // The two newly staged guides remain unpublished in this isolated fixture.
   assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });

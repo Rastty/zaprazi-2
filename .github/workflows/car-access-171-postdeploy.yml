@@ -1,0 +1,23 @@
+name: Car access 0.8.171 Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/car-access-171-postdeploy.yml"
+      - "scripts/audit-live-car-access-171.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  postdeploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify actual production 0.8.171, car guide, SEO, sitemap and four inbound routes
+        run: node scripts/audit-live-car-access-171.mjs

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_171 */
+/* ZP_RELEASE_0_8_172 */
 /*
 Template Name: Zápraží — Senior nemůže vstát z postele
 */

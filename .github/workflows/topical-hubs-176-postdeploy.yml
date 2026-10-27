@@ -1,0 +1,23 @@
+name: Zápraží 0.8.176 Live Postdeploy Acceptance
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-topical-hubs-176.mjs"
+      - ".github/workflows/topical-hubs-176-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify live release 0.8.176, 11 hub links, 4 guides and HTTPS SEO
+        run: node scripts/audit-live-topical-hubs-176.mjs

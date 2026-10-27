@@ -43,7 +43,8 @@ export const stagedDecisionPaths = Object.freeze([
   "/myti-vlasu-na-luzku/",
   "/oblekani-ponozek-a-kalhot-bez-ohybani/",
   "/hygiena-leziciho-seniora-doma/",
-  "/nastupovani-seniora-do-auta/"
+  "/nastupovani-seniora-do-auta/",
+  "/senior-doma-sam-sos-pomoc/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

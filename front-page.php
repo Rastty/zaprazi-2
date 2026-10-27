@@ -1,8 +1,9 @@
 <?php
 /* ZP_RELEASE_0_8_171 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
-  <section class="zp-hero">
-    <div class="zp-wrap">
+  <section class="zp-hero zp-illustrated-hero zp-home-hero">
+    <div class="zp-wrap zp-hero-layout">
+      <div class="zp-hero-copy">
       <p class="zp-kicker">Zápraží · Cesta k lepšímu životu</p>
       <h1>Bezpečně a samostatně doma.</h1>
       <p class="zp-lead">Praktický domácí poradce pro chvíle, kdy potřebujete rychle vyřešit konkrétní problém: chůzi, koupelnu a WC, postel, invalidní vozík, návrat z nemocnice nebo běžnou soběstačnost. Nezačínáme katalogem produktů, ale situací člověka doma.</p>
@@ -10,6 +11,11 @@
         <a class="zp-btn" href="#co-resite">Vybrat, co právě řeším</a>
         <a class="zp-text-link" href="#poradce">Rovnou poradce pro chůzi</a>
       </div>
+      </div>
+      <figure class="zp-hero-art">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/doma-v-bezpeci.svg' ); ?>" width="720" height="510" alt="Přívětivý domov. Senior sedí v pohodlném křesle a na návštěvě je blízká osoba." decoding="async" loading="eager" fetchpriority="high">
+        <figcaption>Pomáháme vyřešit skutečné situace doma, krok po kroku.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -23,6 +29,7 @@
         <article class="zp-decision-card"><h3>Polohovací postel</h3><p>Výběr vhodného typu, prostor, nosnost a rozhodnutí mezi půjčením, koupí a pojišťovnou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řešit polohovací postel</a></p></article>
         <article class="zp-decision-card"><h3>Invalidní vozík</h3><p>Mechanický nebo elektrický vozík podle pohonu, sedu, průchodů a způsobu pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řešit invalidní vozík</a></p></article>
         <article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>Co musí fungovat první noc doma: vstup, přesuny, WC, postel a návazná péče.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a></p></article>
+        <article class="zp-decision-card"><h3>Senior je doma sám</h3><p>Jak zajistit, aby po pádu nebo při nevolnosti někdo převzal přivolání pomoci — přes telefon, SOS hodinky nebo tísňovou péči.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">Jak vybrat spolehlivý způsob pomoci</a></p></article>
         <article class="zp-decision-card"><h3>Každodenní soběstačnost</h3><p>Samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řešit soběstačnost</a></p></article>
       </div>
       <p class="zp-section-note">Nevíte, do které oblasti začít? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek pro seniory podle situace</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Pomůcky na pojišťovnu</a>.</p>

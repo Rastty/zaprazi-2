@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Bezpečně doma · Praktický návod</p>
       <h1>Noční cesta z postele na WC: 7 bodů, které zkontrolovat doma.</h1>
       <p class="zp-lead">Nejdřív zkontrolujte, zda člověk bezpečně vstane, rozsvítí, projde bytem a posadí se na WC. Teprve potom vybírejte chodítko, madlo nebo jinou pomůcku. Tento postup může rodina projít i bez zdravotních údajů a nákupu.</p>
+      <p class="zp-muted-copy">Při cestě na WC nemusí mít člověk mobil u sebe. Ověřte, zda bude pomoc možné přivolat i z této části bytu. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">SOS pomoc při nočním pádu</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#nocni-audit">Projít sedmibodovou kontrolu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Celý audit bezpečného bytu</a>

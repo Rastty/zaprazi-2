@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Bezpečný byt pro seniora</p>
       <h1>Jak upravit byt pro seniora a předcházet pádům doma: začněte rizikovými trasami.</h1>
       <p class="zp-lead">Nezačínejte nákupním seznamem. Projděte vstup, cestu z postele na WC, koupelnu a místa, kde se člověk přidržuje nábytku. Teprve potom má smysl řešit konkrétní pomůcky nebo stavební úpravy.</p>
+      <p class="zp-muted-copy">Bezpečnější byt není jen o pomůckách. Pokud člověk žije sám, je dobré předem domluvit skutečnou reakci na nouzové volání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">Kdo přijme volání o pomoc</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#audit-bytu">Projít audit bytu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek</a>

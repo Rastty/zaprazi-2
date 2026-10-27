@@ -59,6 +59,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-oblekani-ponozek-a-kalhot-bez-ohybani.php',
     'page-hygiena-leziciho-seniora-doma.php',
     'page-nastupovani-seniora-do-auta.php',
+    'page-senior-doma-sam-sos-pomoc.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2259,6 +2260,28 @@ function zaprazi_2_is_bedbound_hygiene_page() {
   return is_page( 'hygiena-leziciho-seniora-doma' );
 }
 /** Non-destructive publication of senior passenger car access decision guide. */
+/** A new problem-based guide only: never modify an existing editorial WP page. */
+function zaprazi_2_ensure_senior_sos_page() {
+  if ( '1' === get_option( 'zaprazi_senior_sos_page_v1' ) ) return;
+  $slug = 'senior-doma-sam-sos-pomoc';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior žije sám: jak přivolat pomoc doma při pádu nebo potížích?',
+      'post_content' => '',
+      'post_excerpt' => 'SOS tlačítko, hodinky, detektor pádu nebo tísňová péče? Výběr podle skutečné reakce, devět kontrol a odkazy na registr MPSV.',
+      'meta_input' => array( '_wp_page_template' => 'page-senior-doma-sam-sos-pomoc.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_senior_sos_page_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_senior_sos_page', 54 );
+function zaprazi_2_is_senior_sos_page() {
+  return is_page( 'senior-doma-sam-sos-pomoc' );
+}
 function zaprazi_2_ensure_senior_car_access_page() {
   if ( '1' === get_option( 'zaprazi_senior_car_access_v1' ) ) return;
   $slug = 'nastupovani-seniora-do-auta';
@@ -2722,6 +2745,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_senior_sos_page() ) return 'Senior žije sám: SOS tlačítko, hodinky či tísňová péče | Zápraží';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Nastupování seniora do auta: bezpečné pomůcky | Zápraží';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: praktický postup | Zápraží';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Ponožky a kalhoty bez ohýbání: pomůcky | Zápraží';
@@ -2780,6 +2804,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_senior_sos_page() ) return 'Senior sám doma: jak bezpečně přivolat pomoc? Srovnejte SOS tlačítko, tísňovou péči, detekci pádu, dosah, dispečink a 9 kontrol před výběrem.';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Jak senior bezpečně nastoupí a vystoupí z auta: otočný sedák, madlo, pomůcka pro nohy, 7 kontrol a kdy je potřeba pomoc terapeuta.';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: jak na bezpečné mytí na lůžku, péči o kůži, inkontinenci, pomůcky a kdy požádat o pomoc.';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Jak obléct ponožky a kalhoty bez předklonu: navlékač, podavač, bezpečný nácvik, 7 kontrol a pravidla po operaci kyčle.';
@@ -2962,3 +2987,10 @@ function zaprazi_2_senior_car_access_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_senior_car_access_meta_fallback', 5 );
+
+/** Unique description if SEO plugins are not in control of wp_head. */
+function zaprazi_2_senior_sos_meta_fallback() {
+  if ( ! zaprazi_2_is_senior_sos_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_senior_sos_meta_fallback', 5 );

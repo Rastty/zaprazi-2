@@ -10,6 +10,7 @@ get_header();
     <p class="zp-kicker">Zápraží · Domácí péče · Hygiena na lůžku</p>
     <h1>Jak zvládnout hygienu ležícího seniora doma? Bezpečný plán pro rodinu</h1>
     <p class="zp-lead">Člověk se nedostane do koupelny nebo je pro něj celkové mytí vyčerpávající? Začněte tím, <strong>co dnes opravdu potřebuje</strong>, co zvládne udělat sám a zda je možné bezpečně měnit jeho polohu. Každodenní očista nemusí znamenat úplnou koupel. Důležitější je pohodlí, soukromí, čistá suchá pokožka a včasné rozpoznání situací, na které rodina nestačí.</p>
+    <p class="zp-muted-copy">Pokud člověk koupání nebo pomoc s hygienou odmítá, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#jak-mluvit-hygiena' ) ); ?>">zkuste nejdřív důstojný rozhovor a volbu způsobu očisty</a>. K polohování a přesunu do vany nikoho nenuťte.</p>
     <div class="zp-hero-actions">
       <a class="zp-btn" href="#vyber-hygieny-na-luzku">Vybrat vhodný způsob hygieny</a>
       <a class="zp-text-link" href="#plan-hygieny-na-luzku">Praktický postup</a>

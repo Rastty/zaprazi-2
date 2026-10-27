@@ -61,6 +61,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-nastupovani-seniora-do-auta.php',
     'page-senior-doma-sam-sos-pomoc.php',
     'page-senior-odmita-choditko.php',
+    'page-senior-odmita-koupani.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2284,6 +2285,28 @@ function zaprazi_2_is_senior_sos_page() {
   return is_page( 'senior-doma-sam-sos-pomoc' );
 }
 /** Publish the walker reluctance conversation guide once, without overwriting existing WordPress pages. */
+/** New problem-first hygiene refusal guide; create slug once, never modify existing posts. */
+function zaprazi_2_ensure_hygiene_reluctance_page() {
+  if ( '1' === get_option( 'zaprazi_hygiene_reluctance_v1' ) ) return;
+  $slug = 'senior-odmita-koupani';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page', 'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior odmítá koupání nebo sprchování: jak pomoci bez nátlaku',
+      'post_content' => '',
+      'post_excerpt' => 'Čtyři důvody odmítání hygieny, klidný rozhovor, sedm kroků a bezpečné alternativy sprchování pro pečující rodiny.',
+      'meta_input' => array( '_wp_page_template' => 'page-senior-odmita-koupani.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_hygiene_reluctance_v1', '1', false );
+}
+add_action( 'init', 'zaprazi_2_ensure_hygiene_reluctance_page', 56 );
+function zaprazi_2_is_hygiene_reluctance_page() {
+  return is_page( 'senior-odmita-koupani' );
+}
+
 function zaprazi_2_ensure_walker_reluctance_page() {
   if ( '1' === get_option( 'zaprazi_walker_reluctance_page_v1' ) ) return;
   $slug = 'senior-odmita-choditko';
@@ -2769,6 +2792,7 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior odmítá koupání: jak pomoci bez nátlaku | Zápraží';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior žije sám: SOS tlačítko, hodinky či tísňová péče | Zápraží';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Nastupování seniora do auta: bezpečné pomůcky | Zápraží';
@@ -2829,6 +2853,7 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior nechce do sprchy? Stud, zima, bolest a strach z pádu: 7 kroků pro rodinu, bezpečné alternativy koupání a kdy požádat o pomoc.';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior nechce chodítko? Čtyři možné důvody, jak o pomůcce mluvit bez nátlaku, 7 kroků pro rodinu a bezpečný postup s odborníkem.';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior sám doma: jak bezpečně přivolat pomoc? Srovnejte SOS tlačítko, tísňovou péči, detekci pádu, dosah, dispečink a 9 kontrol před výběrem.';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Jak senior bezpečně nastoupí a vystoupí z auta: otočný sedák, madlo, pomůcka pro nohy, 7 kontrol a kdy je potřeba pomoc terapeuta.';
@@ -2890,6 +2915,12 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+/** One meta description for hygiene reluctance without Yoast. */
+function zaprazi_2_hygiene_reluctance_meta_fallback() {
+  if ( ! zaprazi_2_is_hygiene_reluctance_page() || defined( 'WPSEO_VERSION' ) ) return;
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_hygiene_reluctance_meta_fallback', 5 );
 /** Fallback meta for walker reluctance page if Yoast is inactive. */
 function zaprazi_2_walker_reluctance_meta_fallback() {
   if ( ! zaprazi_2_is_walker_reluctance_page() || defined( 'WPSEO_VERSION' ) ) return;

@@ -1,0 +1,23 @@
+name: Zápraží 0.8.174 Live Postdeploy QA
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-hygiene-174.mjs"
+      - ".github/workflows/hygiene-174-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify live 0.8.174 bathing guide, release and SEO
+        run: node scripts/audit-live-hygiene-174.mjs

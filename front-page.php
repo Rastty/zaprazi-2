@@ -48,6 +48,11 @@
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek s pracovním listem k vytisknutí</a></p>
         </article>
         <article class="zp-decision-card">
+          <h3>Senior odmítá chodítko</h3>
+          <p>Možná se stydí, vadí mu váha pomůcky nebo se bojí ztráty samostatnosti. Sedm klidných kroků pro rodinu bez přemlouvání.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Jak o chodítku mluvit citlivě</a></p>
+        </article>
+        <article class="zp-decision-card">
           <h3>Senior spadl doma: co dělat hned?</h3>
           <p>Nejdřív rozhodnout, zda je potřeba zdravotnická pomoc. Pak plán na sedm kontrol a návaznost na bezpečný pohyb doma; ne nákup naslepo.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Co dělat po pádu a kdy volat 155</a></p>

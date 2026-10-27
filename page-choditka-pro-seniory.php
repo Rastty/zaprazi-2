@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Mobilita</p>
       <h1>Chodítka pro seniory: jak vybrat správný typ doma i venku.</h1>
       <p class="zp-lead">Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Začněte prostředím a způsobem používání, potom řešte rozměry, nosnost a teprve nakonec nákup, půjčení nebo pojišťovnu.</p>
+      <p class="zp-muted-copy">Člověk nechce chodítko používat? Nejdřív se pokuste pochopit proč. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Citlivý postup pro rodinu bez nátlaku</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-typu">Vybrat typ chodítka</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit celý poradce pro chůzi</a>

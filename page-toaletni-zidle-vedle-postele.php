@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_175 */
+/* ZP_RELEASE_0_8_176 */
 /*
 Template Name: Zápraží — Toaletní židle vedle postele
 */

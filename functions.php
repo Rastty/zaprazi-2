@@ -3089,3 +3089,105 @@ function zaprazi_2_senior_sos_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_senior_sos_meta_fallback', 5 );
+
+
+/**
+ * Legacy cleanup canary 001 — fully reversible SEO quarantine for exactly 200
+ * explicitly audited 2024 solar posts. No DB mutations, URL changes or 301s.
+ * The flag defaults OFF and is independent of the regular public pages.
+ *
+ * Rollback (without code deployment):
+ *   wp option update zaprazi_legacy_canary_001_enabled 0
+ */
+function zaprazi_2_legacy_canary_001_entries() {
+  static $entries = null;
+  if ( null !== $entries ) return $entries;
+  $entries = array();
+  $path = get_template_directory() . '/data/legacy-canary-001.json';
+  if ( ! is_readable( $path ) ) return $entries;
+  $json = json_decode( file_get_contents( $path ), true );
+  if ( ! is_array( $json ) || ! isset( $json['schema'], $json['count'], $json['entries'] )
+    || 1 !== (int) $json['schema'] || 200 !== (int) $json['count']
+    || ! is_array( $json['entries'] ) || 200 !== count( $json['entries'] ) ) return $entries;
+  foreach ( $json['entries'] as $row ) {
+    if ( ! is_array( $row ) || ! isset( $row['id'], $row['slug'] ) ) {
+      $entries = array();
+      return $entries;
+    }
+    $id = (int) $row['id'];
+    $slug = (string) $row['slug'];
+    // Fail closed if the reviewed manifest is incomplete or unfamiliar.
+    if ( $id < 7907 || $id > 8106 || isset( $entries[ $id ] )
+      || $slug === '' || ! preg_match( '/^[a-z0-9-]+$/', $slug ) ) {
+      $entries = array();
+      return $entries;
+    }
+    $entries[ $id ] = $slug;
+  }
+  if ( 200 !== count( $entries ) ) $entries = array();
+  return $entries;
+}
+
+function zaprazi_2_legacy_canary_001_enabled() {
+  // Off by default. Activation requires an explicit, reversible WP option.
+  return '1' === (string) get_option( 'zaprazi_legacy_canary_001_enabled', '0' )
+    && 200 === count( zaprazi_2_legacy_canary_001_entries() );
+}
+
+function zaprazi_2_legacy_canary_001_matches_post( $post ) {
+  if ( ! zaprazi_2_legacy_canary_001_enabled() || ! $post instanceof WP_Post
+    || 'post' !== $post->post_type || 'publish' !== $post->post_status ) return false;
+  $entries = zaprazi_2_legacy_canary_001_entries();
+  $id = (int) $post->ID;
+  if ( ! isset( $entries[ $id ] ) || $entries[ $id ] !== $post->post_name ) return false;
+  if ( ! has_term( 1161, 'category', $post ) ) return false;
+  return false !== strpos( $post->post_content, '[su_button' )
+    && false !== stripos( $post->post_content, '<!DOCTYPE html' );
+}
+
+function zaprazi_2_legacy_canary_001_is_current_post() {
+  return is_singular( 'post' )
+    && zaprazi_2_legacy_canary_001_matches_post( get_queried_object() );
+}
+
+// Yoast SEO 22.x: final directive string and array form. Avoid "index,noindex".
+function zaprazi_2_legacy_canary_001_wpseo_robots( $robots ) {
+  return zaprazi_2_legacy_canary_001_is_current_post() ? 'noindex, follow' : $robots;
+}
+add_filter( 'wpseo_robots', 'zaprazi_2_legacy_canary_001_wpseo_robots', 99 );
+
+function zaprazi_2_legacy_canary_001_wpseo_robots_array( $robots ) {
+  if ( ! zaprazi_2_legacy_canary_001_is_current_post() ) return $robots;
+  if ( ! is_array( $robots ) ) $robots = array();
+  $robots['index'] = 'noindex';
+  $robots['follow'] = 'follow';
+  return $robots;
+}
+add_filter( 'wpseo_robots_array', 'zaprazi_2_legacy_canary_001_wpseo_robots_array', 99 );
+
+// WordPress core fallback when Yoast is absent; preserve follow access.
+function zaprazi_2_legacy_canary_001_core_robots( $robots ) {
+  if ( ! zaprazi_2_legacy_canary_001_is_current_post() ) return $robots;
+  unset( $robots['index'], $robots['nofollow'] );
+  $robots['noindex'] = true;
+  $robots['follow'] = true;
+  return $robots;
+}
+add_filter( 'wp_robots', 'zaprazi_2_legacy_canary_001_core_robots', 99 );
+
+// Yoast sitemap exclusion is reversible, with an entry-time safety check.
+// Exclusions affect only exact IDs from the immutable, fully audited list.
+function zaprazi_2_legacy_canary_001_sitemap_exclusions( $excluded ) {
+  if ( ! zaprazi_2_legacy_canary_001_enabled() ) return $excluded;
+  if ( ! is_array( $excluded ) ) $excluded = array();
+  return array_values( array_unique(
+    array_merge( $excluded, array_keys( zaprazi_2_legacy_canary_001_entries() ) )
+  ) );
+}
+add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', 'zaprazi_2_legacy_canary_001_sitemap_exclusions', 99 );
+
+function zaprazi_2_legacy_canary_001_sitemap_entry( $url, $type, $post ) {
+  if ( 'post' === $type && zaprazi_2_legacy_canary_001_matches_post( $post ) ) return false;
+  return $url;
+}
+add_filter( 'wpseo_sitemap_entry', 'zaprazi_2_legacy_canary_001_sitemap_entry', 99, 3 );

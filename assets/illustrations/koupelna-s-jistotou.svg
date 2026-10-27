@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" role="img" aria-labelledby="title desc">
+<title id="title">Koupelna pro každodenní pohodlí</title><desc id="desc">Světlá koupelna s pevným madlem, sprchovou židlí, ručníky a květinou.</desc>
+<defs><linearGradient id="wall" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff3df"/><stop offset="1" stop-color="#efd8bd"/></linearGradient></defs>
+<rect width="720" height="510" rx="34" fill="url(#wall)"/>
+
+<path d="M0 373h720v137H0Z" fill="#e8cfb3"/>
+<path d="M0 417h720M0 467h720M150 375l-25 135M345 375v135M577 375l30 135" stroke="#fff6e7" stroke-width="6"/>
+<rect x="76" y="80" width="372" height="320" rx="24" fill="#c0d9d3" stroke="#90b1a8" stroke-width="9"/>
+<rect x="91" y="96" width="341" height="291" rx="15" fill="#e7f0e6"/>
+<path d="M260 99v285M91 385h343" stroke="#accbc3" stroke-width="8"/>
+<!-- support rail on solid wall -->
+<path d="M128 238v-88M128 192h119" stroke="#547e77" stroke-width="16" stroke-linecap="round" fill="none"/>
+<circle cx="128" cy="151" r="9" fill="#f9ebd7"/><circle cx="245" cy="192" r="9" fill="#f9ebd7"/>
+<!-- shower -->
+<path d="M355 144v-43c0-19-15-27-30-27h-33" stroke="#729996" stroke-width="9" fill="none" stroke-linecap="round"/>
+<rect x="284" y="69" width="38" height="18" rx="9" fill="#729996"/>
+<path d="M296 101l-17 29m28-29v32m11-31 15 30" stroke="#9abdb3" stroke-width="4" stroke-linecap="round"/>
+<!-- shower chair -->
+<rect x="205" y="202" width="114" height="63" rx="17" fill="#d88a6e"/>
+<rect x="193" y="256" width="138" height="17" rx="8" fill="#e9ba90"/>
+<path d="M214 274l-14 101M311 274l14 101" stroke="#648780" stroke-width="12"/>
+<path d="M190 376h22m102 0h22" stroke="#4f6964" stroke-width="9" stroke-linecap="round"/>
+<!-- linen and plant -->
+<path d="M510 188h131" stroke="#668e88" stroke-width="11" stroke-linecap="round"/>
+<path d="M523 195v113q40 18 73 0V195Z" fill="#ce826b"/>
+<path d="M598 195v113q23 11 39 0V195Z" fill="#f0c992"/>
+<path d="M526 245h66M602 245h31" stroke="#fff1d4" stroke-width="5"/>
+<rect x="530" y="376" width="98" height="89" rx="16" fill="#d3a176"/>
+<path d="M530 404h99M548 381l10 77m20-76 7 77m20-77 7 77" stroke="#e6c49f" stroke-width="5"/>
+<path d="M575 376q-8-83 35-137M582 368q25-75 67-97" stroke="#668f6e" stroke-width="8" fill="none"/>
+<ellipse cx="607" cy="251" rx="21" ry="45" fill="#83a78a" transform="rotate(-22 607 251)"/>
+<ellipse cx="642" cy="275" rx="20" ry="42" fill="#9bb99a" transform="rotate(24 642 275)"/>
+</svg>

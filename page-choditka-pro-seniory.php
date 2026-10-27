@@ -6,8 +6,9 @@ Template Name: Zápraží — Chodítka pro seniory
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
-  <section class="zp-hero">
-    <div class="zp-wrap">
+  <section class="zp-hero zp-illustrated-hero">
+    <div class="zp-wrap zp-hero-layout">
+      <div class="zp-hero-copy">
       <p class="zp-kicker">Zápraží · Mobilita</p>
       <h1>Chodítka pro seniory: jak vybrat správný typ doma i venku.</h1>
       <p class="zp-lead">Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Začněte prostředím a způsobem používání, potom řešte rozměry, nosnost a teprve nakonec nákup, půjčení nebo pojišťovnu.</p>
@@ -17,6 +18,11 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit celý poradce pro chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a>
       </div>
+      </div>
+      <figure class="zp-hero-art">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/chuze-s-oporou.svg' ); ?>" width="720" height="510" decoding="async" loading="eager" fetchpriority="high" alt="Starší člověk kráčí s chodítkem po rovné cestě, poblíž jde blízký člověk.">
+        <figcaption>Správný typ chodítka se vybírá podle schopností a prostředí, ne podle vzhledu.</figcaption>
+      </figure>
     </div>
   </section>
 

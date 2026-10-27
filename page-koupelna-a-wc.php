@@ -3,8 +3,9 @@
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
-  <section class="zp-hero">
-    <div class="zp-wrap">
+  <section class="zp-hero zp-illustrated-hero">
+    <div class="zp-wrap zp-hero-layout">
+      <div class="zp-hero-copy">
       <p class="zp-kicker">Zápraží · Koupelna a WC</p>
       <h1>Pomůcky do koupelny pro seniory: co pomůže u WC, ve sprše a u vany?</h1>
       <p class="zp-lead">Poradce pomůže rozlišit, zda dává smysl zvýšit WC, přidat oporu, použít toaletní židli nebo sedět při sprchování. Neptá se na diagnózu a při nejasném přesunu raději konkrétní výrobek nevybere.</p>
@@ -19,6 +20,11 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto' ) ); ?>">Co před výběrem změřit v koupelně</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Malý kout 80 × 80: vejde se židle?</a>
       </div>
+      </div>
+      <figure class="zp-hero-art">
+        <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/koupelna-s-jistotou.svg' ); ?>" width="720" height="510" decoding="async" loading="eager" fetchpriority="high" alt="Světlá koupelna s madlem a sprchovou židlí, příklady různých druhů podpory při hygieně.">
+        <figcaption>Madlo, sprchovací židle a úprava prostoru řeší odlišné překážky. Vhodnost vždy ověřte.</figcaption>
+      </figure>
     </div>
   </section>
 

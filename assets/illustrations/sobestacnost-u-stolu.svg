@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" role="img" aria-labelledby="title desc">
+<title id="title">Soběstačnost při každodenních činnostech</title><desc id="desc">Senior s pohodlně uchopitelným hrnkem u stolu, poblíž stojí usmívající se blízká osoba.</desc>
+<defs><linearGradient id="wall" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff3df"/><stop offset="1" stop-color="#efd8bd"/></linearGradient></defs>
+<rect width="720" height="510" rx="34" fill="url(#wall)"/>
+
+<path d="M0 408c210-39 428-34 720 3v99H0Z" fill="#eacbab"/>
+<rect x="63" y="71" width="188" height="190" rx="21" fill="#ddb597"/>
+<rect x="78" y="86" width="157" height="160" rx="12" fill="#cbe6db"/>
+<path d="M156 88v156M79 169h155" stroke="#fff7ed" stroke-width="10"/>
+<path d="M79 229c30-36 59-38 83-18 18-40 48-50 72-29v65H80Z" fill="#9fbea4"/>
+<!-- chair and senior -->
+<rect x="151" y="290" width="180" height="147" rx="40" fill="#86a598"/>
+<rect x="167" y="264" width="148" height="135" rx="38" fill="#709889"/>
+<path d="M181 300c14-29 91-50 119 6l9 104H167Z" fill="#d27a69"/>
+<path d="M180 397l-7 65h42l24-63 22 64h44l-13-67Z" fill="#617b83"/>
+<ellipse cx="238" cy="233" rx="43" ry="52" fill="#edc1a5"/>
+<path d="M196 230c-1-46 72-64 86-17l-3 28c-20-19-53-29-83-11Z" fill="#e9e9e1"/>
+<circle cx="223" cy="241" r="3" fill="#4e504e"/><circle cx="251" cy="241" r="3" fill="#4e504e"/>
+<path d="M228 260q12 7 22-1" fill="none" stroke="#a56f67" stroke-width="4" stroke-linecap="round"/>
+<!-- companion -->
+<path d="M529 275c-41 21-49 71-50 112h129c-2-64-26-99-79-112Z" fill="#91b4a4"/>
+<path d="M492 382l-10 89h42l18-80 15 80h41l-12-90Z" fill="#6a8790"/>
+<ellipse cx="537" cy="217" rx="42" ry="52" fill="#eabc9e"/>
+<path d="M493 211c-8-49 76-69 85-16l-4 25c-19-27-54-28-81-9Z" fill="#685b52"/>
+<circle cx="521" cy="220" r="3" fill="#4e4e4d"/><circle cx="546" cy="220" r="3" fill="#4e4e4d"/>
+<path d="M522 243q14 8 27-1" fill="none" stroke="#a57469" stroke-width="4" stroke-linecap="round"/>
+<!-- stable dining table and mug -->
+<rect x="115" y="359" width="488" height="33" rx="14" fill="#b98561"/>
+<rect x="133" y="391" width="27" height="89" rx="8" fill="#a3785c"/>
+<rect x="556" y="391" width="26" height="89" rx="8" fill="#a3785c"/>
+<rect x="327" y="302" width="65" height="57" rx="11" fill="#fff0d9" stroke="#d6aa87" stroke-width="4"/>
+<path d="M392 315c28-9 27 33 0 28" stroke="#d6aa87" stroke-width="9" fill="none"/>
+<path d="M347 293q-6-16 0-26m22 25q6-16 0-26" stroke="#dcc4a6" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M276 311q27 29 52 20M503 305q-21 26-32 43" stroke="#edc1a5" stroke-width="17" fill="none" stroke-linecap="round"/>
+<rect x="614" y="327" width="73" height="87" rx="12" fill="#d9946d"/>
+<path d="M647 335v-105" stroke="#608969" stroke-width="7"/>
+<ellipse cx="630" cy="257" rx="21" ry="41" fill="#7ba386" transform="rotate(-25 630 257)"/>
+<ellipse cx="668" cy="255" rx="20" ry="43" fill="#a3ba98" transform="rotate(29 668 255)"/>
+</svg>

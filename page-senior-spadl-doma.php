@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Praktický plán pro rodinu · Pád doma</p>
       <h1>Senior spadl doma: co dělat hned a jak snížit riziko dalšího pádu?</h1>
       <p class="zp-lead">Nejdřív zjistěte, zda člověk potřebuje zdravotnickou pomoc. Nespěchejte se zvedáním ani nákupem chodítka. Až je situace bezpečně vyřešená, pomůže jednoduchý plán pro domácnost a návazná odborná kontrola.</p>
+      <p class="zp-muted-copy">Nechce blízký chodítko ani po pádu? Před nákupem se hodí <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#sedm-kroku-bez-natlaku' ) ); ?>">klidný sedmikrokový postup pro rodinu</a>.</p>
       <p class="zp-muted-copy">Předcházení dalším pádům zahrnuje také domluvu, kdo převezme SOS upozornění a kdo se dokáže dostat do bytu. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">Jak přivolat pomoc, když je senior doma sám</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#prvni-krok-pad">Co udělat hned</a>

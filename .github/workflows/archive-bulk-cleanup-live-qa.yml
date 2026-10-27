@@ -1,0 +1,20 @@
+name: Zápraží Legacy Bulk Cleanup - Production QA
+on:
+  pull_request:
+    paths:
+      - scripts/audit-live-archive-bulk-cleanup.mjs
+      - .github/workflows/archive-bulk-cleanup-live-qa.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify real 404, WordPress totals, preserved pages and sitemap
+        run: node scripts/audit-live-archive-bulk-cleanup.mjs

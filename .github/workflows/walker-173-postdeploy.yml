@@ -1,0 +1,23 @@
+name: Zápraží 0.8.173 Live Postdeploy QA
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-walker-173.mjs"
+      - ".github/workflows/walker-173-postdeploy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-readonly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Read-only check of actual deployed 0.8.173, SEO, new page and routes
+        run: node scripts/audit-live-walker-173.mjs

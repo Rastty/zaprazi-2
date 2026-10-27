@@ -48,7 +48,7 @@ get_header();
       <p>Čtyři rozumné cesty. Liší se dostupností spojení, provozem služby a tím, zda je někdo opravdu připravený reagovat.</p>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><p class="zp-kicker">01 · Běžná soběstačnost</p><h3>Mobil nebo senior telefon se SOS tlačítkem</h3>
-          <p><strong>Hodí se zvážit:</strong> člověk zvládne mobil nosit, nabíjet a rodina je dostupná. Po stisku lze u některých modelů vytočit uložené číslo nebo odeslat zprávu — <strong>ale to ještě neznamená přijetí pomoci</strong>.</p>
+          <p><strong>Hodí se zvážit:</strong> člověk zvládne mobil nosit, nabíjet a rodina je dostupná. Po stisku lze u některých modelů vytočit uložené číslo nebo odeslat SMS zprávu — <strong>ale to ještě neznamená přijetí pomoci</strong>.</p>
           <p><strong>Nutná kontrola:</strong> co se stane, když nikdo nezvedne telefon, mobil je mimo dosah, vybitý nebo není signál.</p>
         </article>
         <article class="zp-decision-card"><p class="zp-kicker">02 · Riziko pádu doma</p><h3>Tísňová péče se stálým dispečinkem</h3>

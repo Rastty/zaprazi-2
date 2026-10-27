@@ -17,7 +17,7 @@ async function request(path, json = false) {
   return json ? response.json() : response.text();
 }
 const attr = (tag, key) => tag.match(new RegExp(`\\b${key}=["']([^"']*)["']`, "i"))?.[1] ?? "";
-const meta = (html, name) => attr((html.match(/<meta\\b[^>]*>/gi) || []).find(x => attr(x, "name") === name) || "", "content");
+const meta = (html, name) => attr((html.match(/<meta\b[^>]*>/gi) || []).find(x => attr(x, "name") === name) || "", "content");
 function section(html, id) {
   const at = html.indexOf('id="' + id + '"');
   assert.ok(at >= 0, "Missing section #" + id);
@@ -26,7 +26,7 @@ function section(html, id) {
   return html.slice(start, end);
 }
 function linksTo(html, from, to, hash) {
-  return [...html.matchAll(/<a\\b[^>]*\\bhref=(["'])(.*?)\\1/gi)].some(m => {
+  return [...html.matchAll(/<a\b[^>]*\bhref=(["'])(.*?)\1/gi)].some(m => {
     try {
       const u = new URL(m[2].replaceAll("&amp;", "&"), origin + from);
       return u.origin === origin && u.pathname === to && u.hash === "#" + hash;
@@ -34,7 +34,7 @@ function linksTo(html, from, to, hash) {
   });
 }
 function artSrc(html) {
-  const art = (html.match(/<img\\b[^>]*>/gi) || [])
+  const art = (html.match(/<img\b[^>]*>/gi) || [])
     .find(img => attr(img, "src").includes("/assets/illustrations/doma-v-bezpeci.svg"));
   assert.ok(art, "Original warm illustration not present");
   assert.equal(attr(art, "width"), "720");
@@ -56,12 +56,12 @@ assert.equal(meta(article, "zaprazi-release"), release);
 assert.equal(meta(article, "zaprazi-integrity"), "ok");
 const main = article.slice(article.indexOf("<main"));
 assert.ok(main.length >= 10500, "Rendered walker reluctance article is unexpectedly short");
-assert.equal((main.match(/<h1\\b/gi) || []).length, 1);
+assert.equal((main.match(/<h1\b/gi) || []).length, 1);
 assert.match(main, /Senior nechce chodítko/);
 assert.ok(!/noindex/i.test(meta(article, "robots")), "New guide blocked by robots");
 const description = meta(article, "description");
 assert.ok(description.length >= 75, "Missing SEO description");
-const canonical = (article.match(/<link\\b[^>]*>/gi) || [])
+const canonical = (article.match(/<link\b[^>]*>/gi) || [])
   .find(t => attr(t, "rel") === "canonical");
 assert.equal(attr(canonical || "", "href"), origin + slug, "Incorrect HTTPS canonical");
 assert.equal((section(main, "proc-senior-odmita").match(/class="zp-decision-card"/g) || []).length, 4);
@@ -76,7 +76,7 @@ const art = artSrc(article);
 assert.equal(artSrc(home).href, art.href, "Homepage and article illustration mismatch");
 const image = await fetch(art, { signal: AbortSignal.timeout(20000), headers: { Accept: "image/svg+xml" } });
 assert.equal(image.status, 200, "First-party illustration missing");
-assert.match(await image.text(), /<svg\\b/);
+assert.match(await image.text(), /<svg\b/);
 for (const from of ["/", "/choditka-pro-seniory/", "/senior-spadl-doma/"]) {
   const html = from === "/" ? home : await request(from);
   const anchor = from === "/senior-spadl-doma/" ? "sedm-kroku-bez-natlaku" : "proc-senior-odmita";

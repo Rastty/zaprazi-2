@@ -148,10 +148,15 @@ try{
         spec.result+" .zp-mobility-fit-gate:first-of-type .zp-fit-locked-offers",
         el=>el.hidden),false,spec.id+" failed to unlock after all checks");
       if(initial.gateCount>1){
-        const second=await page.$eval(
-          spec.result+" .zp-mobility-fit-gate .zp-fit-locked-offers",
-          nodes=>nodes[1]?.hidden);
-        assert.equal(second,true,spec.id+" unlocked an unrelated model");
+        const unrelated=await page.$$eval(spec.result+" .zp-mobility-fit-gate",nodes=>
+          nodes.slice(1).map(gate=>({
+            offerCount:gate.querySelectorAll(".zp-fit-locked-offers").length,
+            offerHidden:gate.querySelector(".zp-fit-locked-offers")?.hidden??true,
+            visibleMerchants:[...gate.querySelectorAll("a[data-zp-merchant-link],a[data-zp-indoor-merchant-link],a[data-zp-rollator-merchant-link]")].filter(link=>!link.closest("[hidden]")).length
+          })));
+        assert.ok(unrelated.length>0);
+        assert.ok(unrelated.every(other=>other.offerHidden && other.visibleMerchants===0),
+          spec.id+" unlocked an unrelated model: "+JSON.stringify(unrelated));
       }
       await page.$eval(fitSelector,el=>el.click());
       assert.equal(await page.$eval(

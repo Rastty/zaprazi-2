@@ -17,6 +17,7 @@ get_header();
       <a class="zp-text-link" href="#srovnani-pomucek-auto">Srovnání pomůcek</a>
     </div>
     <p class="zp-muted-copy">Praktický průvodce pro rodiny · odborné podklady prověřeny 26. 10. 2026 · bez ukládání odpovědí a neověřených produktových doporučení.</p>
+    <p class="zp-section-note">Není bezpečné člověka přesunout na běžné sedadlo, nebo řešíte dopravu na lékařské vyšetření? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Jak posoudit zdravotnický transport, upravené auto a podmínky úhrady</a>. Vhodnost transportu a případný příkaz určuje lékař.</p>
   </div></section>
 
   <section id="bezpecnost-nastupovani-auto" class="zp-section"><div class="zp-wrap">

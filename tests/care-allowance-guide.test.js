@@ -81,9 +81,11 @@ test("WordPress publication is idempotent and template is in release integrity",
   const paths=[...core.matchAll(/^\s*'([^']+)',\s*$/gm)].map(m=>m[1]);
   assert.equal(paths.filter(p=>p===template).length,1);
   assert.equal(new Set(paths).size,paths.length);
-  assert.ok(stagedDecisionPaths.includes("/"+slug+"/"));
-  assert.ok(!requiredDecisionPaths.includes("/"+slug+"/"),
-    "Before deployment the new page must be staged, not incorrectly live-required");
+  // WordPress published the page and Yoast page sitemap includes it on 2026-10-28.
+  assert.ok(requiredDecisionPaths.includes("/"+slug+"/"),
+    "Verified live care allowance page must be audited as required");
+  assert.ok(!stagedDecisionPaths.includes("/"+slug+"/"),
+    "Verified published page must not stay staged-only");
 });
 
 test("Guide is independently discoverable from four relevant user journeys",()=>{

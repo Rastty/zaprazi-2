@@ -97,15 +97,19 @@ try{
         const main=document.querySelector("main");
         const guided=document.querySelector(".zp-search-guidance");
         const old=document.querySelector(".zp-archive-list");
-        const links=guided?[...guided.querySelectorAll("a[href]")].map(a=>({
+        // Curated decision cards are distinct from the prominent first-guide
+        // CTA and the generic "all advisors" navigation added in 0.8.182.
+        const links=guided?[...guided.querySelectorAll(".zp-decision-grid .zp-decision-card h3 a[href]")].map(a=>({
           href:a.href,target:a.target||"",rel:a.rel||"",text:a.textContent.trim()})):[];
+        const primary=guided?.querySelector(".zp-hero-actions a.zp-btn[href]")?.href||"";
+        const allAdvisors=guided?.querySelector(".zp-hero-actions a.zp-text-link[href]")?.href||"";
         return{
           searchLabel:main?.querySelector("h1")?.textContent.trim()||"",
           h1Count:main?.querySelectorAll("h1").length||0,
           release:document.querySelector('meta[name="zaprazi-release"]')?.content,
           integrity:document.querySelector('meta[name="zaprazi-integrity"]')?.content,
           canonical:document.querySelector('link[rel="canonical"]')?.href||"",
-          links,
+          links,primary,allAdvisors,
           guidanceCount:main?.querySelectorAll(".zp-search-guidance").length||0,
           oldExists:!!old,
           oldAfterGuidance:!guided||!old||Boolean(guided.compareDocumentPosition(old)&Node.DOCUMENT_POSITION_FOLLOWING),
@@ -124,6 +128,15 @@ try{
         "Incorrect contextual guidance for "+check.query);
       assert.deepEqual(data.links.map(a=>a.href),check.links.map(x=>origin+x),
         "Search intent must show exact safe curated Advisor links");
+      if (check.links.length) {
+        assert.equal(data.primary,origin+check.links[0],
+          "Prominent first-guide CTA must match the first curated safe route: "+check.query);
+        assert.equal(data.allAdvisors,origin+"/#poradce",
+          "All-advisors CTA must remain a same-site navigation: "+check.query);
+      } else {
+        assert.equal(data.primary,"","Unrelated query must not show a first-guide CTA");
+        assert.equal(data.allAdvisors,"","Unrelated query must not show curated navigation");
+      }
       assert.ok(data.links.every(a=>a.href.startsWith(origin+"/")&&!a.href.includes("?")&&
         !/ehub|awin|merchant|desturl|click\.php|affiliate/i.test(a.href)),
         "Guide must not directly link merchants or echo search terms");

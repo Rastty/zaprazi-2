@@ -62,7 +62,7 @@ function zaprazi_2_search_guidance_for_query( $query ) {
   // Explicit social-service intent: an independent, locally available registered
   // provider must be checked before the family negotiates capacity and costs.
   // Do not match generic "domaci pece": that may mean clinical home nursing.
-  if ( preg_match( '/\b(?:pecovatelsk[a-z]*\s+sluzb[a-z]*|osobn[a-z]*\s+asistenc[a-z]*|registr\s+(?:(?:poskytovatelu|socialn[a-z]*)\s+)?sluzb[a-z]*)\b/', $query ) ) {
+  if ( preg_match( '/\b(?:pecovatelsk[a-z]*\s+sluzb[a-z]*|osobn[a-z]*\s+asistenc[a-z]*|registr\s+(?:(?:poskytovatelu|socialn[a-z]*)\s+)?sluz(?:eb|b[a-z]*))\b/', $query ) ) {
     return array(
       array( '/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky', 'Pečovatelská služba: sedm kroků k dostupné pomoci doma', 'Ověřte obec, čas, potřebné úkony, kapacitu a bezpečný začátek. Registrace sama o sobě nezaručuje volné místo.' ),
       array( '/jak-vybrat-pecovatelskou-sluzbu/#vyhledat-pecovatelskou-sluzbu-v-registru', 'Najít registrovaného poskytovatele v MPSV', 'Hledejte přímo v oficiálním registru, pak potvrďte místní dostupnost konkrétní služby.' ),

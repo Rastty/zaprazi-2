@@ -27,6 +27,20 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // State care allowance is distinct from health-insurance product reimbursement.
+  // Only unambiguous benefit-intent searches route to the official application
+  // guide; never infer eligibility, diagnosis or an individual allowance level.
+  $care_allowance_intent = preg_match( '/\bprispev[a-z]*\b.{0,55}\b(?:na\s+)?pec[ei]\b|\bpec[ei]\b.{0,35}\bprispev[a-z]*\b/', $query );
+  $care_inquiry_intent = preg_match( '/\bsocialn[a-z]*\s+setren[a-z]*\b/', $query ) &&
+    preg_match( '/\b(?:prispev[a-z]*|pec[ei])\b/', $query );
+  if ( $care_allowance_intent || $care_inquiry_intent ) {
+    return array(
+      array( '/prispevek-na-peci-pro-seniora/#zadost-krok-za-krokem', 'Příspěvek na péči: jak podat žádost krok za krokem', 'Připravte údaje pro Úřad práce, oficiální formuláře a sociální šetření. Nárok posuzuje úřad, ne Zápraží.' ),
+      array( '/prispevek-na-peci-pro-seniora/#kdy-zacit-resit-prispevek', 'Jak postupovat podle rodinné situace', 'První žádost, propuštění z nemocnice a změna už přiznaného příspěvku se řeší odlišně.' ),
+      array( '/prispevek-na-peci-pro-seniora/#oficialni-formulare-prispevek', 'Oficiální žádost a přílohy', 'Podání řešte na MPSV nebo Úřadu práce. Odpovědi a osobní údaje nepředávejte webu Zápraží.' ),
+    );
+  }
+
   // Planned transport to a doctor is not a generic vehicle or equipment search.
   // Prefer urgent safety and physician confirmation before making arrangements.
   // Short generic "doprava na kontrolu" is ambiguous (e.g. boiler servicing);

@@ -63,11 +63,11 @@ test("Staged car guide is reported when present, without changing old required U
   assert.ok(stagedDecisionPaths.includes("/senior-odmita-choditko/"));
   assert.ok(stagedDecisionPaths.includes("/senior-odmita-koupani/"));
   assert.ok(stagedDecisionPaths.includes("/senior-malo-pije/"));
-  assert.ok(stagedDecisionPaths.includes("/prispevek-na-peci-pro-seniora/"));
+  assert.ok(requiredDecisionPaths.includes("/prispevek-na-peci-pro-seniora/"));
   assert.ok(requiredDecisionPaths.includes("/prevoz-seniora-k-lekari/"));
   assert.ok(requiredDecisionPaths.includes("/senior-nestihne-dojit-na-wc/"));
   assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/","/senior-doma-sam-sos-pomoc/","/senior-odmita-choditko/","/senior-odmita-koupani/","/senior-malo-pije/","/prispevek-na-peci-pro-seniora/"].sort());
+  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/","/senior-doma-sam-sos-pomoc/","/senior-odmita-choditko/","/senior-odmita-koupani/","/senior-malo-pije/"].sort());
   // Published live guides are now required but deliberately absent from this synthetic fixture.
   assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });

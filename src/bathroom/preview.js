@@ -30,6 +30,11 @@ export function previewBathroomCandidates(input = {}) {
     productCandidateIds: outcome.status === "candidate"
       ? outcome.recommendations.flatMap(item => item.productCandidateIds ?? [])
       : [],
+    // Forward only the field identifier that explains a blocked preliminary
+    // decision. Without this, the main Advisor cannot focus the relevant
+    // question after a live needs_more_info result (PR #498).
+    // Candidate previews do not need a correction and remain unverified.
+    missing: outcome.status === "candidate" ? [] : [...(outcome.missing ?? [])],
     // No offers, acquisition guidance or completion signal in stage 1.
   };
 }

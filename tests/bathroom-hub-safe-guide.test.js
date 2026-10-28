@@ -29,7 +29,7 @@ test("Main Bathroom hub safe blocked guides route only to verified internal cont
 });
 
 test("Blocked and incomplete results get an informational route, never merchant or purchase paths",()=>{
- assert.match(safe,/status !== "professional_check" && status !== "needs_more_info"/);
+ assert.match(safe,/\["professional_check", "needs_more_info", "no_safe_fit"\]\.includes\(status\)/);
  assert.match(safe,/target="_blank" rel="noopener noreferrer"/);
  assert.match(safe,/escapeHtml\(guide\)/);
  assert.match(safe,/samotné měření nestačí/);

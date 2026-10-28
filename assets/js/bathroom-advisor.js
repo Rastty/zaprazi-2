@@ -73,6 +73,7 @@ if (form && result && submitButton && errorBox) {
     candidate: "Vhodný směr k porovnání",
     needs_more_info: "Ještě potřebujeme jednu informaci",
     professional_check: "Nejdřív ověřit bezpečný přesun",
+    no_safe_fit: "Tato varianta nevyhovuje",
     invalid_input: "Zkontrolujte odpovědi"
   }[status] || "");
 
@@ -302,7 +303,7 @@ if (form && result && submitButton && errorBox) {
     multifunction_toilet_shower: "/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel"
   };
   const renderBlockedGuide = (status) => {
-    if (status !== "professional_check" && status !== "needs_more_info") return "";
+    if (!["professional_check", "needs_more_info", "no_safe_fit"].includes(status)) return "";
     const guide = blockedGuides[checkedValue("primaryNeed", "")];
     if (!guide) return "";
     return '<div class="zp-micro-next zp-bathroom-safe-guide">' +
@@ -496,7 +497,7 @@ if (form && result && submitButton && errorBox) {
     const ids = output.recommendations.flatMap((item) => item.productCandidateIds ?? []);
     const products = getBathroomProducts(ids);
 
-    if (!["needs_more_info", "invalid_input"].includes(output.status)) {
+    if (!["needs_more_info", "invalid_input", "no_safe_fit"].includes(output.status)) {
       track("builder_complete");
     }
     if (output.recommendations.length) {

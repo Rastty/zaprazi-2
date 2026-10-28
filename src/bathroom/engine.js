@@ -46,6 +46,19 @@ function professionalCheck(headline, nextStep) {
   };
 }
 
+// An explicit negative fit is not a missing answer. Never encourage the visitor
+// to turn a confirmed unsafe/incompatible condition into an unverified "yes".
+function noSafeFit(headline, nextStep) {
+  return {
+    status: "no_safe_fit",
+    headline,
+    nextStep,
+    missing: [],
+    recommendations: [],
+    acquisition: []
+  };
+}
+
 function reimbursementAlternative() {
   return {
     id: "check_reimbursement_alternative",
@@ -161,13 +174,19 @@ export function recommendBathroom(input = {}) {
   }
 
   if (loadFit === "no") {
-    return professionalCheck(
-      "Současný shortlist nemá potvrzenou dostatečnou nosnost.",
-      "Nevybírejte slabší výrobek jen podle ceny. Potřebujeme najít variantu s odpovídající nosností a rozměry."
+    return noSafeFit(
+      "Nosnost zobrazeného výrobku nestačí.",
+      "Tento výrobek nepoužívejte. Je potřeba hledat jiný konkrétní model s odpovídající nosností a rozměry, případně požádat o pomoc odbornou výdejnu."
     );
   }
 
   if (primaryNeed === "multifunction_toilet_shower") {
+    if (floorStable === "no") {
+      return noSafeFit(
+        "Podklad pro tuto pomůcku není stabilní.",
+        "Na nerovném či nestabilním podkladu tento typ pomůcky nepoužívejte. Ověřte bezpečné jiné místo nebo vhodný jiný typ pomůcky."
+      );
+    }
     if (floorStable !== "yes") {
       return needsMoreInfo(
         "floorStable",
@@ -178,6 +197,12 @@ export function recommendBathroom(input = {}) {
       );
     }
 
+    if (spaceFit === "no") {
+      return noSafeFit(
+        "Zobrazený výrobek se do prostoru nevejde.",
+        "Nesnažte se jej použít v nevyhovujícím prostoru. Změřte dostupný prostor a zvažte menší nebo odlišné řešení, případně odborné posouzení."
+      );
+    }
     if (spaceFit !== "yes") {
       return needsMoreInfo(
         "spaceFit",
@@ -237,6 +262,12 @@ export function recommendBathroom(input = {}) {
     }
 
     if (bathFit === "no") {
+      if (bathBenchFit === "no") {
+        return noSafeFit(
+          "Ani jedna z ověřovaných variant přes vanu se do prostoru bezpečně nevejde.",
+          "Sedačku ani transferovou židli do nevyhovujícího prostoru neumisťujte. Potřebujete jiný typ řešení nebo odborné posouzení."
+        );
+      }
       if (bathBenchFit !== "yes") {
         return needsMoreInfo(
           "bathBenchFit",
@@ -282,6 +313,12 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "raise_toilet") {
+    if (toiletFit === "no") {
+      return noSafeFit(
+        "Zobrazený nástavec není kompatibilní s vaším WC.",
+        "Na tuto mísu jej nepoužívejte. Zvažte nástavec s jiným uchycením nebo jiný bezpečný typ pomoci při vstávání."
+      );
+    }
     if (toiletFit !== "yes") {
       return needsMoreInfo(
         "toiletFit",
@@ -292,6 +329,12 @@ export function recommendBathroom(input = {}) {
       );
     }
 
+    if (feetFlatAtRaisedHeight === "no") {
+      return noSafeFit(
+        "Zvýšené WC by neumožnilo bezpečnou oporu chodidel.",
+        "Tuto výšku nástavce nepoužívejte. Ověřte nižší vhodnou variantu nebo jiný způsob podpory při vstávání."
+      );
+    }
     if (feetFlatAtRaisedHeight !== "yes") {
       return needsMoreInfo(
         "feetFlatAtRaisedHeight",
@@ -335,6 +378,12 @@ export function recommendBathroom(input = {}) {
     // The two constructions have different critical fit gates. A confirmed
     // wall fixing selects the rail; otherwise the toilet-support frame must
     // itself be checked against the concrete toilet and surrounding space.
+    if (wallFixing !== "verified" && supportFrameFit === "no") {
+      return noSafeFit(
+        "Zobrazený toaletní rám k vašemu WC nepasuje.",
+        "Tento rám nepoužívejte. Je potřeba jiný rozměr nebo jiný způsob bezpečné opory; neověřené nástěnné kotvení není náhradou."
+      );
+    }
     if (wallFixing !== "verified" && supportFrameFit !== "yes") {
       return needsMoreInfo(
         "supportFrameFit",
@@ -374,6 +423,12 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "toilet_nearby") {
+    if (floorStable === "no") {
+      return noSafeFit(
+        "Podklad pro tuto pomůcku není stabilní.",
+        "Na nerovném či nestabilním podkladu tento typ pomůcky nepoužívejte. Ověřte bezpečné jiné místo nebo vhodný jiný typ pomůcky."
+      );
+    }
     if (floorStable !== "yes") {
       return needsMoreInfo(
         "floorStable",
@@ -381,6 +436,12 @@ export function recommendBathroom(input = {}) {
         floorStable === "no"
           ? "Na nestabilním nebo nerovném podkladu tento shortlist nepoužívejte."
           : "Ověřte rovný, pevný podklad v místě, kde bude židle stát."
+      );
+    }
+    if (spaceFit === "no") {
+      return noSafeFit(
+        "Zobrazený výrobek se do prostoru nevejde.",
+        "Nesnažte se jej použít v nevyhovujícím prostoru. Změřte dostupný prostor a zvažte menší nebo odlišné řešení, případně odborné posouzení."
       );
     }
     if (spaceFit !== "yes") {
@@ -411,6 +472,12 @@ export function recommendBathroom(input = {}) {
   }
 
   if (primaryNeed === "shower_seated") {
+    if (floorStable === "no") {
+      return noSafeFit(
+        "Podklad pro tuto pomůcku není stabilní.",
+        "Na nerovném či nestabilním podkladu tento typ pomůcky nepoužívejte. Ověřte bezpečné jiné místo nebo vhodný jiný typ pomůcky."
+      );
+    }
     if (floorStable !== "yes") {
       return needsMoreInfo(
         "floorStable",
@@ -418,6 +485,12 @@ export function recommendBathroom(input = {}) {
         floorStable === "no"
           ? "Na nestabilním podkladu tento shortlist nepoužívejte."
           : "Ověřte rovný a stabilní podklad v místě použití."
+      );
+    }
+    if (spaceFit === "no") {
+      return noSafeFit(
+        "Zobrazený výrobek se do prostoru nevejde.",
+        "Nesnažte se jej použít v nevyhovujícím prostoru. Změřte dostupný prostor a zvažte menší nebo odlišné řešení, případně odborné posouzení."
       );
     }
     if (spaceFit !== "yes") {

@@ -64,6 +64,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-senior-odmita-koupani.php',
     'page-senior-malo-pije.php',
     'page-senior-nestihne-dojit-na-wc.php',
+    'page-prispevek-na-peci-pro-seniora.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2400,6 +2401,29 @@ add_action( 'init', 'zaprazi_2_ensure_senior_car_access_page', 53 );
  * Publish the senior transport problem page exactly once on a normal WordPress
  * request after the theme is deployed. Never overwrite an editor-owned page.
  */
+/**
+ * Publish the care-allowance reference page exactly once after theme deploy.
+ * Never overwrite an editor-owned page or insert when its template is missing.
+ */
+function zaprazi_2_ensure_care_allowance_guide_page() {
+  $slug = 'prispevek-na-peci-pro-seniora';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-prispevek-na-peci-pro-seniora.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Příspěvek na péči pro seniora: žádost, sociální šetření a postup',
+      'post_excerpt' => 'Jak vyřídit příspěvek na péči: žádost a přílohy, plná moc, sociální šetření, změna příspěvku a oficiální formuláře. Praktický návod pro rodinu.',
+      'post_content' => '',
+      'meta_input' => array( '_wp_page_template' => 'page-prispevek-na-peci-pro-seniora.php' ),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_care_allowance_guide_page', 59 );
+
 function zaprazi_2_ensure_senior_transport_page() {
   $slug = 'prevoz-seniora-k-lekari';
   if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;

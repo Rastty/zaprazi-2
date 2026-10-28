@@ -16,6 +16,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Chci projít bezpečnost bytu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Řeším návrat z nemocnice</a>
         <a class="zp-text-link" href="#pojistovna">Pomůcky na pojišťovnu</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prispevek-na-peci-pro-seniora/#prispevek-neni-vsechno' ) ); ?>">Příspěvek na péči není úhrada pomůcky</a>
       </div>
     </div>
   </section>

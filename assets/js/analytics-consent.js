@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_182
+// ZP_RELEASE_0_8_183
 (() => {
   "use strict";
 
@@ -19,6 +19,21 @@
     return;
   }
 
+  // A WordPress ?s= search can expose sensitive family circumstances.
+  // Never load GA4 for search pages, even when the visitor opted in.
+  const currentUrl = (() => {
+    try { return new URL(window.location.href); }
+    catch { return null; }
+  })();
+  const privateSearchPage = !currentUrl || currentUrl.searchParams.has("s");
+  const safePageLocation = currentUrl && /^https?:$/.test(currentUrl.protocol)
+    ? currentUrl.origin + currentUrl.pathname : "";
+  const safeReferrer = (() => {
+    try {
+      const referrer = new URL(document.referrer);
+      return /^https?:$/.test(referrer.protocol) ? referrer.origin + "/" : "";
+    } catch { return ""; }
+  })();
   let state = "unknown";
   let gaLoaded = false;
   // Funnel stages mean unique visitors reaching a step on this page render,
@@ -54,7 +69,7 @@
   };
 
   const loadAnalytics = () => {
-    if (gaLoaded || state !== "granted") {
+    if (privateSearchPage || !safePageLocation || gaLoaded || state !== "granted") {
       return;
     }
 
@@ -64,6 +79,8 @@
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {
       send_page_view: true,
+      page_location: safePageLocation,
+      page_referrer: safeReferrer,
       allow_google_signals: false,
       allow_ad_personalization_signals: false
     });
@@ -93,7 +110,7 @@
   };
 
   const sendEvent = (eventName) => {
-    if (state !== "granted" || !allowedEvents.has(eventName)) {
+    if (privateSearchPage || !safePageLocation || state !== "granted" || !allowedEvents.has(eventName)) {
       return;
     }
     if (oncePerPage.has(eventName) && sentOnThisPage.has(eventName)) return;

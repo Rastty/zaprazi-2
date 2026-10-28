@@ -1,0 +1,37 @@
+name: Live Home and Bathroom Advisor-first Chrome PR504
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-home-bathroom-advisor-first-504.mjs"
+      - ".github/workflows/live-home-bathroom-advisor-first-504.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-home-bathroom-advisor-first-504.mjs"
+      - ".github/workflows/live-home-bathroom-advisor-first-504.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-chrome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check production browser test
+        run: node --check scripts/audit-live-home-bathroom-advisor-first-504.mjs
+      - name: Install Puppeteer driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify live homepage and Bathroom on mobile and desktop
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-home-bathroom-advisor-first-504.mjs
+      - name: Confirm retained Bathroom safety gates in real Chrome
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-bathroom-explicit-no-fit-501.mjs

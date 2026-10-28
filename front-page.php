@@ -104,7 +104,7 @@
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Praktický audit bezpečného bytu</a></p>
         </article>
       </div>
-      <p class="zp-section-note">Připravujete výběr chodítka? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Otevřít sedm měření a prázdný tiskový seznam</a>. U nejisté chůze nejdřív ověřte bezpečný postup s odborníkem. <strong>Potřebujete zajistit a financovat pravidelnou pomoc doma?</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prispevek-na-peci-pro-seniora/#kdy-zacit-resit-prispevek' ) ); ?>">Začít žádostí o příspěvek na péči</a>.</p>
+      <p class="zp-section-note">Připravujete výběr chodítka? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Otevřít sedm měření a prázdný tiskový seznam</a>. U nejisté chůze nejdřív ověřte bezpečný postup s odborníkem. <strong>Potřebujete zajistit pravidelnou pomoc doma?</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky' ) ); ?>">Ověřit dostupnou pečovatelskou službu a připravit telefonát</a>. <strong>Chcete řešit její financování?</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prispevek-na-peci-pro-seniora/#kdy-zacit-resit-prispevek' ) ); ?>">Začít žádostí o příspěvek na péči</a>.</p>
     </div>
   </section>
 

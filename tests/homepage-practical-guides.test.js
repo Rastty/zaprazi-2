@@ -18,11 +18,13 @@ const resources = [
   "/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy"
 ];
 
-test("Homepage exposes twelve distinct practical guides before presenting product decisions", () => {
+test("Homepage keeps all twelve distinct practical guides after the actual Advisor", () => {
   const start = homepage.indexOf('<section id="prakticke-kontroly"');
   const advisor = homepage.indexOf('<section id="poradce"');
-  assert.ok(start > homepage.indexOf('<section id="co-resite"') && start < advisor);
-  const region = homepage.slice(start, advisor);
+  assert.ok(advisor > homepage.indexOf('<section id="co-resite"') && advisor < start);
+  const next = homepage.indexOf('<section id="jak-vybrat"',start);
+  assert.ok(next > start,"Guide catalog must remain a distinct accessible section");
+  const region = homepage.slice(start, next);
   assert.equal((region.match(/class="zp-decision-card"/g) || []).length, 12);
   for (const path of resources) {
     const link = `home_url( '${path}' )`;

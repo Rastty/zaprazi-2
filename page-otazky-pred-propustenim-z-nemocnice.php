@@ -73,7 +73,7 @@ get_header();
           </ul>
           <p>Hrazenou zdravotnickou dopravu nelze automaticky předpokládat. Potřebu posuzuje ošetřující lékař; podmínky popisuje <a class="zp-text-link" href="https://www.nzip.cz/clanek/295-zdravotnicka-dopravni-sluzba" target="_blank" rel="noopener">NZIP: Zdravotnická dopravní služba</a>.</p>
         </details>
-        <details id="socialni-a-zdravotni-sluzby">
+        <details id="socialni-a-zdravotni-sluzby" open>
           <summary>Když rodina sama péči nezvládne</summary>
           <ul>
             <li>Je zajištěná pomoc na první noc a následující dny? Pokud ne, komu to teď na oddělení sdělit?</li>

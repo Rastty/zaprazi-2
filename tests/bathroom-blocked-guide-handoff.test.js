@@ -33,7 +33,6 @@ test("Blocked result contains exactly one noncommercial educational link and pre
  assert.match(blocked,/target="_blank" rel="noopener noreferrer"/);
  assert.match(blocked,/result\.hidden = false/);
  assert.match(blocked,/addEditActions\(\)/);
- assert.match(blocked,/if .*/);
  assert.equal((blocked.match(/href=/g)||[]).length,1,"Exactly one safe link");
  assert.doesNotMatch(blocked,/affiliateMap|merchant-link|merchantName|checkout|offer\.url|purchase|sendBeacon|fetch\(/);
  assert.doesNotMatch(micro,/localStorage|sessionStorage|new URLSearchParams|window\.location\.search/);

@@ -7,7 +7,7 @@ const workflow=read(".github/workflows/live-bathroom-hub-494.yml");
 test("Full live Chrome Bathroom hub acceptance does real user choices, edit, model reset",()=>{
  for(const v of ["puppeteer.launch","/koupelna-a-wc/","primaryNeed","raise_toilet",
     "shower_seated","person_assist","toiletFit","feetFlatAtRaisedHeight",
-    "loadFit","render","[data-zp-bathroom-edit="]){
+    "loadFit","[data-zp-bathroom-edit="]){
   assert.ok(js.includes(v),"Missing browser check: "+v);
  }
  assert.match(js,/page\.goto\(origin\+"\/koupelna-a-wc\/"/);

@@ -58,7 +58,7 @@ get_header();
 <article class="zp-decision-card"><h3>Kašel, zakuckávání, dusivý pocit</h3><p>Nejde o problém, který vyřeší automaticky brčko, náustek nebo zahušťovadlo. Volbu konzistence, vhodné nádoby a polohy musí určit příslušný odborník po posouzení polykání.</p></article>
 </div></div></section>
 
-<section id="dalsi-krok-piti" class="zp-section"><div class="zp-wrap">
+<section id="dalsi-krok-piti" class="zp-section" aria-labelledby="dalsi-krok-piti-title"><div class="zp-wrap">
 <p class="zp-kicker">Pouze když je pití bezpečné</p>
 <h2 id="dalsi-krok-piti-title" class="zp-section-title">Je překážkou úchop hrnku nebo rozlévání?</h2>
 <p>Pokud člověk <strong>bezpečně polyká</strong> a problém je v držení, dosahu nebo stabilitě nádoby, poradce pro soběstačnost pomůže projít praktické možnosti. <strong>Pokud se zakuckává, má potíže s polykáním, je výrazně spavý nebo má jiné varovné příznaky, nevybírejte pomůcku místo odborné pomoci.</strong> Nezvyšujte příjem tekutin proti doporučení lékaře.</p>

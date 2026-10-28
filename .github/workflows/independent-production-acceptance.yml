@@ -1,0 +1,35 @@
+name: Independent Zápraží Production Acceptance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/verify-live-release-and-guides.mjs"
+      - "tests/verify-live-release-and-guides.test.js"
+      - ".github/workflows/independent-production-acceptance.yml"
+  workflow_dispatch:
+  schedule:
+    # Four read-only checks per day, without the WPVibe account's daily cap.
+    - cron: "17 2,8,14,20 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: independent-production-acceptance
+  cancel-in-progress: false
+
+jobs:
+  production:
+    name: Public release, guides and search smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate inspection logic with offline unit tests
+        run: node --test tests/verify-live-release-and-guides.test.js
+      - name: Verify production without WordPress or affiliate writes
+        run: node scripts/verify-live-release-and-guides.mjs

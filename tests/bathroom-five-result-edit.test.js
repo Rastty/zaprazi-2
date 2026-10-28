@@ -29,9 +29,9 @@ test("Second step and unsafe blocked step both expose a non-commercial edit rout
  assert.match(blocked,/addEditActions\(\)/);
  assert.match(blocked,/updateProgress\("paused"\)/);
  assert.doesNotMatch(blocked,/affiliateMap|merchant-link|merchantName|offer\.url/);
- const second=helper.split("if \(previewReady\) {");
+ const second=helper.split("if (previewReady) {");
  // This is an intentional source contract, not an inference that any answer is safe.
- assert.equal(second.length,1);
+ assert.equal(second.length,2);
  assert.match(helper,/if \(!result\.hidden && result\.innerHTML\.trim\(\)\) \{\s*addEditActions\(\)/);
  assert.match(helper,/queueMicrotask\(\(\) =>/);
  assert.match(helper,/const canEditFit = !fitStage\.hidden/);

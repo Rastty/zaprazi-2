@@ -20,7 +20,8 @@ test("both WC practical guides have 5 evidenced checks and keep their Advisors",
    const page=read(s.path);
    assert.equal((page.match(/<main\b/g)||[]).length,1);
    assert.equal((page.match(/<h1\b/g)||[]).length,1);
-   assert.equal((page.match(/data-zp-editorial-guide=/g)||[]).length,1);
+   assert.equal(page.split('data-zp-editorial-guide="'+s.guide+'"').length-1,1,
+     "Original evidenced five-check safety guide duplicated or missing");
    assert.ok(page.includes('id="'+s.advisor+'"'),"Advisor disappeared "+s.path);
    const a=page.indexOf('data-zp-editorial-guide="'+s.guide+'"');
    const b=page.indexOf('  <section class="zp-section">\n    <div class="zp-wrap zp-faq">',a);

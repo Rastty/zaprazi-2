@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-nastavec-wc">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
+        <a class="zp-text-link" href="#vyska-nastavce-5-10-15">Nástavec 5, 10 nebo 15 cm: jakou výšku?</a>
         <a class="zp-text-link" href="#kontrola-nastavce-na-wc">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit WC před nákupem nástavce</a>
       </div>
@@ -77,6 +78,57 @@ get_header();
 
       <noscript><p class="zp-disclaimer">Pro spuštění poradce je potřeba JavaScript. Bez něj se žádné odpovědi neodesílají.</p></noscript>
       <section id="zp-toilet-riser-result" class="zp-result" aria-live="polite" tabindex="-1" hidden></section>
+    </div>
+  </section>
+
+
+  <section id="vyska-nastavce-5-10-15" class="zp-section" aria-labelledby="vyska-nastavce-title" data-zp-editorial-guide="toilet-riser-height">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktický návod · Výška nástavce na WC</p>
+      <h2 id="vyska-nastavce-title" class="zp-section-title">Nástavec na WC 5, 10 nebo 15 cm: jak poznat správnou výšku?</h2>
+      <p>Neexistuje jedna výška vhodná pro všechny. Pět, deset a patnáct centimetrů jsou příklady vyráběných variant, <strong>nikoli doporučení podle věku nebo diagnózy</strong>. U konkrétního člověka rozhoduje výsledná výška sedu, pevná opora chodidel, možnost bezpečně si sednout a vstát, způsob připevnění i případná opora rukou.</p>
+
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Zvýšení o 5 cm</h3>
+          <p>Menší změna výšky může stačit, když je WC jen mírně nízké. Samotné číslo ale nedokazuje, že se člověku bude bezpečně vstávat. Ověřte dosah chodidel a stabilitu při usednutí.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Zvýšení o 10 cm</h3>
+          <p>Další běžně nabízená varianta, ne univerzální volba pro každého seniora. Porovnejte skutečnou výslednou výšku s možnostmi člověka; nepočítejte s tím, že vyšší WC vždy usnadní přesun.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Zvýšení o 15 cm</h3>
+          <p>Výraznější zvýšení může zároveň znamenat, že chodidla přestanou bezpečně dosahovat na podlahu. Pokud se to stane, danou variantu nepoužívejte. Jiný zdravotní stav nebo pooperační omezení vyžaduje individuální doporučení odborníka.</p>
+        </article>
+      </div>
+
+      <h3>Jak si výšku a kompatibilitu ověřit doma — šest kroků</h3>
+      <ol>
+        <li><strong>Změřte okraj WC mísy od pevné podlahy.</strong> Poznamenejte si, zda současné prkénko zůstává při používání na míse. Některé nástavce se montují místo něj, ne na něj.</li>
+        <li><strong>Najděte montážní výšku přesného modelu.</strong> Z technického listu zjistěte, o kolik bude sedací plocha po předepsané montáži skutečně výše. Nesčítejte automaticky výšku stávajícího prkénka a nového nástavce.</li>
+        <li><strong>Zkontrolujte výslednou polohu sedu.</strong> Člověk musí mít při sezení stabilně podepřená chodidla o podlahu a zvládnout sednutí i vstávání bezpečným způsobem. Pokud to není jasné, nechte výšku posoudit fyzioterapeutem či ergoterapeutem.</li>
+        <li><strong>Ověřte tvar mísy a způsob uchycení.</strong> Musí pasovat přesně použitý způsob fixace. U modelů s patkami se řiďte pořadím a dotažením v dodaném návodu; nástavec se před usednutím nesmí viklat ani posouvat.</li>
+        <li><strong>Prověřte potřebu opory rukou a samotný přesun.</strong> Vyšší sed nenahrazuje vhodné madlo či rám. Pokud člověka běžně zvedá nebo výrazně jistí druhá osoba, online nákupní výběr přerušte a řešte bezpečný způsob přesunu s odborníkem.</li>
+        <li><strong>Porovnejte nosnost a každodenní použití.</strong> Ověřte limit konkrétního modelu, jeho údržbu i stabilitu po čištění. Limity různých výrobců se liší; nelze je převzít z podobně vypadajícího výrobku.</li>
+      </ol>
+
+      <div class="zp-grid">
+        <article class="zp-card">
+          <h3>Co si před výběrem zapsat</h3>
+          <p>Výška okraje mísy od podlahy: ______ cm</p>
+          <p>Prkénko podle montážního návodu zůstává / nezůstává: ______</p>
+          <p>Výška zvolené montované varianty: ______ cm</p>
+          <p>Chodidla na podlaze a bezpečný přesun ověřeny: ano / ne / nevím</p>
+        </article>
+        <article class="zp-card">
+          <h3>Kdy nepokračovat k nákupu</h3>
+          <p>Pokud nástavec nesedí na mísu, pohybuje se, není ověřena jeho nosnost, chodidla po zvýšení nedosahují na podlahu nebo přesun vyžaduje fyzické zvedání, <strong>nejde o bezpečně vybranou pomůcku</strong>. Místo přidávání další výšky ověřte vhodnější variantu s odborníkem.</p>
+        </article>
+      </div>
+
+      <p><a class="zp-link-btn" href="#poradce-nastavec-wc">Ověřit vhodnost v bezpečném poradci nástavce na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Měřicí postup pro celé WC a okolí</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Kdy je potřeba spíše opora rukou</a></p>
+      <p class="zp-muted-copy">Technický příklad a bezpečnost montáže: <a href="https://www.dmapraha.cz/data/files/manual/ROMA_Navod_496x%2C497x_NastavecWC_cs.pdf" target="_blank" rel="noopener noreferrer">Roma Medical / DMA Praha — návod k řadě nástavců 5, 10 a 15 cm (PDF)</a>. Uvedené výšky a technické parametry se týkají konkrétní výrobní řady, ne všech nástavců na trhu. Vždy platí návod přesného zakoupeného modelu. Text není nezávisle odborně revidován a není náhradou individuálního doporučení.</p>
     </div>
   </section>
 

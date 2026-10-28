@@ -29,7 +29,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>WC je příliš nízké</h3>
           <p>Změřte současnou výšku sedu, rozměry mísy a místo k nohám. Vyšší nástavec není totéž co opora rukou.</p>
-          <p><a class="zp-text-link" href="#mereni-wc">Co změřit kolem WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">Poradce nástavce</a></p>
+          <p><a class="zp-text-link" href="#mereni-wc">Co změřit kolem WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#vyska-nastavce-5-10-15' ) ); ?>">Jakou výšku nástavce zvolit: 5, 10 nebo 15 cm?</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc' ) ); ?>">Poradce nástavce</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Chybí opora při vstávání u WC</h3>

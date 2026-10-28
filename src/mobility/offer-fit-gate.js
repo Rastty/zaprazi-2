@@ -30,15 +30,15 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
       ${checks.map(([key, label]) => `<label><input type="checkbox" data-zp-mobility-fit-confirm="${key}"> ${label}</label>`).join("")}
       <p class="zp-fit-progress" data-zp-fit-progress role="status" aria-live="polite" aria-atomic="true">Potvrzeno 0 z ${checks.length} kontrol. Nabídka je zatím skrytá.</p>
       <p class="zp-muted-copy">Pokud cokoli nevíte nebo nevyhovuje, neotvírejte nabídku ke koupi či půjčení. Ověřte rozměry a nastavení s prodejcem nebo odbornou výdejnou.</p>
-      <div class="zp-fit-help">
-        <strong>Nemůžete některý bod potvrdit?</strong>
+      <details class="zp-fit-help">
+        <summary>Nemůžete některý bod potvrdit? Jak získat chybějící údaje</summary>
         <p>Nezaškrtávejte odhad. Změřte nejužší průchody, ověřte potřebné nastavení madel a porovnejte nosnost s dokumentací přesného modelu.</p>
         <p><a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit" target="_blank" rel="noopener">Jak změřit prostor a připravit údaje před výběrem chodítka (otevře se v novém panelu)</a></p>
         ${options.requireBrakeFit ? '<p>U rollátoru navíc osobně ověřte brzdy a jejich zajištění; samotný katalogový popis nestačí.</p>' : ''}
         ${options.requireSeatFit ? '<p>U sedátka ověřte stabilní zabrzdění a bezpečné usedání, jinak jej nepovažujte za ověřené.</p>' : ''}
         ${options.requireTransportFit ? '<p>Při převozu v autě vyžádejte složené rozměry a hmotnost konkrétního modelu; bez nich bezpečný transport nepotvrzujte.</p>' : ''}
         <p>Pokud potřebné údaje nejsou dostupné, požádejte prodejce nebo odbornou výdejnu o ověření. <strong>Odkaz na nabídku zůstane uzamčený, dokud nejsou splněné všechny kontroly.</strong></p>
-      </div>
+      </details>
       <div class="zp-fit-locked-offers" hidden>${offersHtml}</div>
     </div>`;
 }

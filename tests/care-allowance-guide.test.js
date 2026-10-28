@@ -26,7 +26,7 @@ test("Care allowance guide helps without diagnosis, individual entitlement or un
   for(const term of [
     "Oznámení o poskytovateli pomoci", "sociální šetření",
     "plné moci","odvolací postup","zdravotní pojišťovna",
-    "nezůstává bez pomoci","nespoléhejte"
+    "nezůstat bez pomoci","nespoléhejte"
   ]){
     assert.ok(src.toLowerCase().includes(term.toLowerCase()),"Missing caregiver explanation "+term);
   }

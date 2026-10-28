@@ -51,7 +51,10 @@ test("unsafe or unknown answers lead to safe action plan, no merchant in prelimi
  assert.match(blocked,/Bez splnění bezpečnostních podmínek/);
  assert.match(blocked,/Co můžete udělat teď[?]/);
  assert.match(blocked,/esc[(]guideLabel[)]/);
- assert.doesNotMatch(blocked,/affiliateMap|merchant-link|target="_blank"|[.]offers/);
+ assert.match(blocked,/esc[(]guidePath[)]/);
+ assert.match(blocked,/Zobrazit bezpečný kontrolní návod/);
+ assert.match(blocked,/target="_blank" rel="noopener noreferrer"/);
+ assert.doesNotMatch(blocked,/affiliateMap|merchant-link|[.]offers/);
  assert.match(micro,/event[.]stopImmediatePropagation[(][)]/);
  assert.match(micro,/if \(previewReady\)/);
  assert.match(micro,/queueMicrotask/);

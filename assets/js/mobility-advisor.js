@@ -1,6 +1,6 @@
 // ZP_RELEASE_0_8_183
 import { recommendMobility } from "../../src/mobility/engine.js";
-import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
+import { getMobilityNextSteps, getMobilitySafeRecovery } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
@@ -413,6 +413,17 @@ if (form && result && submitButton && errorBox) {
       ? `<p class="zp-disclaimer">Začněte bez nákupu: <a class="zp-text-link" href="/bezpecny-byt-pro-seniora/">Projít kontrolu bezpečných tras a domácího prostředí</a>.</p>`
       : "";
 
+    // When the engine safely stops, show one useful information route.
+    // This never opens an acquisition path or product-specific offer.
+    const safeRecovery = getMobilitySafeRecovery(output, {
+      handBrakes: checkedValue("handBrakes", "unknown")
+    });
+    const safeRecoveryMarkup = safeRecovery
+      ? '<section class="zp-safe-recovery" aria-label="Další bezpečný krok"><h3>Když nyní nelze vybrat pomůcku</h3><p>' +
+        escapeHtml(safeRecovery.reason) + '</p><a class="zp-link-btn" href="' +
+        escapeHtml(safeRecovery.href) + '">' + escapeHtml(safeRecovery.action) + '</a></section>'
+      : "";
+
     // The shared engine has already checked the practical safety prerequisites.
     // Only its candidate acquisition paths can reach these non-commercial pages.
     // These links never unlock an individual product, rental or merchant offer.
@@ -440,6 +451,7 @@ if (form && result && submitButton && errorBox) {
       ${acquisition}
       ${renderAcquisitionEvidence(ids, duration)}
       ${environmentGuide}
+      ${safeRecoveryMarkup}
       ${output.status !== "candidate" ? '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></p>' : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;

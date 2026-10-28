@@ -12,6 +12,43 @@ function zaprazi_2_search_guidance_for_query( $query ) {
   }
   $query = substr( $query, 0, 160 );
 
+  // A caregiver asking about lifting a person between bed and wheelchair
+  // needs transfer-risk assessment before a wheelchair or bed product.
+  // Do not match "zvedaci postel" or "zvedaci kreslo": those are product
+  // questions, not a request to lift or move a person.
+  $transfer_verb = preg_match( '/\\b(?:presun[a-z]*|premist[a-z]*|prenas[a-z]*|zved(?:an[a-z]*|nut[a-z]*|nout|at|am|ame|ani))\\b/', $query );
+  $transfer_bed = preg_match( '/\\b(?:postel[a-z]*|luzk[a-z]*)\\b/', $query );
+  $transfer_person_or_destination = preg_match( '/\\b(?:vozik[a-z]*|zidl[a-z]*|wc|toalet[a-z]*|senior[a-z]*|mamink[a-z]*|tatink[a-z]*|babic[a-z]*|ded[a-z]*|rodic[a-z]*|osob[a-z]*|clovek[a-z]*)\\b/', $query );
+  if ( $transfer_verb && $transfer_bed && $transfer_person_or_destination ) {
+    return array(
+      array( '/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik', 'Nezvládáme přesun z postele: co bezpečně ověřit', 'Nezkoušejte neověřené zvedání. Nejprve určete s odborníkem bezpečný způsob přesunu a potřebnou asistenci.' ),
+      array( '/senior-nemuze-vstat-z-postele/#co-delat-postel', 'Kde přesně vstávání nebo přesun selhává?', 'Rozlišit posazení, postavení, rovnováhu a přesun; pomůcka sama neřeší všechny kroky.' ),
+      array( '/invalidni-vozik/#poradce-vozik', 'Na co myslet u invalidního vozíku', 'Vozík musí odpovídat i přesunu, sedu, brzdám a skutečným průchodům. Nákup až po ověření.' ),
+    );
+  }
+
+  // Healthcare provided on a physician's indication and paid social support
+  // are different services. Capture these intents before generic hospital
+  // queries and avoid misleading visitors into product recommendations.
+  if ( preg_match( '/\\b(?:domac[a-z]*\\s+(?:(?:zdravotn[a-z]*|osetrovatelsk[a-z]*)\\s+)?pec[ei]|pecovatelsk[a-z]*\\s+sluzb[a-z]*|osobn[a-z]*\\s+asistenc[a-z]*|zdravotn[a-z]*\\s+pec[ei]\\s+doma)\\b/', $query ) ) {
+    return array(
+      array( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba', 'Domácí zdravotní péče, pečovatelská služba, nebo osobní asistence?', 'Odlište zdravotní úkony od pomoci s hygienou, jídlem či dohledem a zjistěte, kdo službu skutečně zajistí.' ),
+      array( '/otazky-pred-propustenim-z-nemocnice/#socialni-a-zdravotni-sluzby', 'Otázky pro lékaře a sociálního pracovníka', 'Zeptejte se na indikaci zdravotní péče, dostupnou kapacitu sociální služby a bezpečný plán po propuštění.' ),
+      array( '/navrat-z-nemocnice/#plan-navratu', 'Plán na první noc doma', 'Ověřte vstup, přesuny, WC, postel a to, kdo potřebnou pomoc opravdu poskytne.' ),
+    );
+  }
+
+  // Walking stick and forearm crutch are not interchangeable with a walker.
+  // Explicit stick/crutch questions should reach the safety comparison
+  // before generic walker advice.
+  if ( preg_match( '/\\b(?:hul|hole|holi|berl[a-z]*)\\b/', $query ) ) {
+    return array(
+      array( '/choditka-pro-seniory/#hul-nebo-choditko', 'Hůl, francouzská berle, nebo chodítko?', 'Porovnejte druhy opory, jejich omezení a situace, kdy musí vhodnost posoudit odborník.' ),
+      array( '/choditka-pro-seniory/#vyber-typu', 'Jaký typ chodítka stojí za zvážení?', 'Pevné, dvoukolové a čtyřkolové modely vyžadují rozdílné ovládání a odpovídající schopnosti.' ),
+      array( '/co-zmerit-pred-vyberem-choditka/#co-zmerit', 'Co změřit před výběrem pomůcky', 'Zkontrolujte výšku opory, šířku průchodů a prostor; rozměry samotné nepotvrzují bezpečnost.' ),
+    );
+  }
+
   // A request for a grab bar near a bath/shower is not a request for a
   // seat. Avoid routing it to the product-specific seat/chair Advisors.
   // If the user explicitly mentions a chair or a seat, the usual product

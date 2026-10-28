@@ -84,6 +84,25 @@ check_route('vstavani ze zidle','/vstavani-z-kresla-pro-seniora/#jak-postupovat-
 check_route('toaletni zidle','/toaletni-zidle-pro-seniory/#poradce-toaletni-zidle',2);
 check_route('sprchovaci zidle','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
 
+
+// Searches for practical help must route to the relevant human-first guide,
+// not jump to a product or service purchase. Query values here are already
+// lower-case ASCII terms as normalized by search.php.
+check_route('presun z postele na vozik','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
+check_route('presun z voziku na postel','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
+check_route('zvedani seniora z postele','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
+check_route('nemuzu zvednout maminku z postele','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
+check_route('domaci zdravotni pece','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
+check_route('domaci pece','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
+check_route('pecovatelska sluzba','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
+check_route('osobni asistence','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
+check_route('hul nebo choditko','/choditka-pro-seniory/#hul-nebo-choditko',3);
+check_route('francouzska berle','/choditka-pro-seniory/#hul-nebo-choditko',3);
+check_route('berle pro seniora','/choditka-pro-seniory/#hul-nebo-choditko',3);
+check_route('zvedaci postel','/polohovaci-postel/',2);
+check_route('zvedaci kreslo','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
+check_route('peceni doma','',0);
+
 // A genuine fall gets safety-first help; unrelated solar/pump searches must not match.
 check_route('senior spadl doma','/senior-spadl-doma/#prvni-krok-pad',3);
 check_route('maminka upadla v bytu','/senior-spadl-doma/#prvni-krok-pad',3);

@@ -2371,6 +2371,29 @@ function zaprazi_2_ensure_senior_car_access_page() {
   if ( ! is_wp_error( $created ) && $created ) update_option( 'zaprazi_senior_car_access_v1', '1', false );
 }
 add_action( 'init', 'zaprazi_2_ensure_senior_car_access_page', 53 );
+
+/**
+ * Publish the senior transport problem page exactly once on a normal WordPress
+ * request after the theme is deployed. Never overwrite an editor-owned page.
+ */
+function zaprazi_2_ensure_senior_transport_page() {
+  $slug = 'prevoz-seniora-k-lekari';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-prevoz-seniora-k-lekari.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Převoz seniora k lékaři: kdy sanita, vlastní auto a co pojišťovna',
+      'post_excerpt' => 'Jak zařídit převoz seniora na vyšetření: zdravotní transport na příkaz lékaře, vlastní auto, vozík, schody a sedm otázek pro rodinu.',
+      'post_content' => '',
+      'meta_input' => array( '_wp_page_template' => 'page-prevoz-seniora-k-lekari.php' ),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_senior_transport_page', 58 );
 function zaprazi_2_is_senior_car_access_page() {
   return is_page( 'nastupovani-seniora-do-auta' );
 }

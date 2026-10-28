@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_181 */
+/* ZP_RELEASE_0_8_182 */
 /*
 Template Name: Zápraží — Návrat z nemocnice
 */
@@ -117,8 +117,66 @@ get_header();
         <article class="zp-decision-card"><h3>2. WC a postel</h3><p>Tyto dvě věci musí fungovat hned první den. Koupelnu lze v některých situacích bezpečně dořešit následně.</p><p>Ještě před propuštěním vyjasněte hlavně noční přesun. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/#wc-prvni-noc' ) ); ?>">Co se zeptat na cestu k WC první noc</a>.</p></article>
         <article class="zp-decision-card"><h3>3. Návazná péče</h3><p>NZIP doporučuje řešit domácí zdravotní péči už při plánování propuštění. Nemocniční lékař ji může po hospitalizaci indikovat na 14 dní.</p></article>
       </div>
+      <p class="zp-muted-copy">Zdravotní domácí péče není totéž co pečovatelská služba. <a class="zp-text-link" href="#domaci-zdravotni-pece-nebo-pecovatelska-sluzba">Rozlišit zdravotní péči, pečovatelskou službu a osobní asistenci</a>.</p>
       <p class="zp-muted-copy">Zdroj: Národní zdravotnický informační portál (Ministerstvo zdravotnictví), „Domácí péče“.</p>
       <a class="zp-text-link" href="https://www.nzip.cz/clanek/209-domaci-pece" target="_blank" rel="noopener">Ověřit informace o domácí péči</a>
+    </div>
+  </section>
+
+
+  <section id="domaci-zdravotni-pece-nebo-pecovatelska-sluzba" class="zp-section zp-section-soft" aria-labelledby="domaci-pece-sluzby-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když rodina potřebuje pomoc doma</p>
+      <h2 id="domaci-pece-sluzby-nadpis" class="zp-section-title">Domácí zdravotní péče, pečovatelská služba, nebo osobní asistence: co vlastně potřebujeme?</h2>
+      <p>Po propuštění z nemocnice může být potřeba pomoc zdravotní sestry, pravidelná pomoc s hygienou nebo delší dohled v domácnosti. <strong>Jde o odlišné služby.</strong> Předepsaná domácí zdravotní péče není automaticky pomoc s úklidem a pečovatelská služba nenahrazuje zdravotnické ošetření. Rodina někdy potřebuje více forem pomoci současně.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Zdravotní úkony doma</p>
+          <h3>Domácí zdravotní péče (home care)</h3>
+          <p>Je určená pro odborné zdravotní úkony, například ošetřování ran nebo další péči podle indikace lékaře. <strong>Předpis a rozsah určuje lékař</strong>; u splněných podmínek je zdravotní péče hrazena z veřejného zdravotního pojištění. Nemocniční ošetřující lékař ji může po hospitalizaci indikovat na 14 dní; pokračování se řeší s praktickým lékařem.</p>
+          <p><strong>První otázka v nemocnici:</strong> „Potřebujeme domácí zdravotní sestru? Je vystavená indikace, kdo zajistí poskytovatele a od kdy?“</p>
+          <p><a class="zp-text-link" href="https://www.nzip.cz/clanek/209-domaci-pece" target="_blank" rel="noopener noreferrer">NZIP: kdo domácí zdravotní péči předepisuje</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Praktická pomoc v běžném dni</p>
+          <h3>Terénní pečovatelská služba</h3>
+          <p>Pomáhá s běžnými činnostmi, jako je hygiena, jídlo, nákup nebo péče o domácnost, v domluvených časech. Jde o <strong>sociální službu za úhradu</strong>, nikoli o sesterskou zdravotní péči placenou automaticky zdravotní pojišťovnou. Dostupnost hodin a konkrétních úkonů ověřte u registrovaného poskytovatele.</p>
+          <p><strong>První otázka pro službu:</strong> „Můžete k nám docházet ve dnech a hodinách, kdy rodina nemůže pomáhat? Co přesně zajistíte a kolik to stojí?“</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV: pečovatelská služba a další možnosti</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Delší a pružnější přítomnost</p>
+          <h3>Osobní asistence</h3>
+          <p>Je sociální služba pro člověka, který potřebuje pomoc v běžném životě ve větším nebo pružnějším rozsahu. Neznamená automaticky zajištěnou nepřetržitou péči: <strong>skutečné časy, kapacitu a cenu je nutné domluvit</strong> s konkrétním poskytovatelem.</p>
+          <p><strong>První otázka:</strong> „Kdo bude s člověkem v době, kdy rodina není doma, a umíte pokrýt ráno, večer, víkend či noc?“</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV: kdy přichází v úvahu osobní asistence</a></p>
+        </article>
+      </div>
+      <div class="zp-system-empty">
+        <h3>Potřebujeme službu, ale žádná není domluvená</h3>
+        <p><strong>Před propuštěním to řekněte zdravotnickému týmu.</strong> Požádejte o nemocničního sociálního pracovníka a o plán bezpečného zajištění potřebných přesunů, stravy, hygieny a případné zdravotní péče. Nezaměňujte potvrzené přijetí služby s pouhým kontaktem na poskytovatele.</p>
+        <p>Pokud už jste doma, obraťte se na sociální odbor obce s rozšířenou působností nebo krajskou poradnu pro pečující. Ověřte poskytovatele ve veřejném registru MPSV. Při akutním ohrožení života či zdraví řešte nejprve zdravotnickou pomoc na lince 155, nikoli hledání pečovatelské služby.</p>
+      </div>
+      <h3>Šest kroků k zajištění pomoci doma</h3>
+      <ol class="zp-guide-steps">
+        <li><strong>Sepište potřebné úkony, ne diagnózy.</strong> Zdravotní ošetření, hygiena, jídlo, přesuny, doprovod, úklid, večerní či noční přítomnost.</li>
+        <li><strong>Označte, co musí fungovat hned první noc.</strong> Bezpečný přesun, WC, možnost přivolat pomoc a zajištěná nezbytná péče mají přednost před běžnými nákupy.</li>
+        <li><strong>Domluvte zdravotní část s lékařem.</strong> Zeptejte se na indikaci domácí zdravotní péče, konkrétního poskytovatele, začátek a následné pokračování.</li>
+        <li><strong>Sociální část řešte se sociálním pracovníkem.</strong> Najděte registrované terénní služby, ověřte působnost, volnou kapacitu, rozsah, cenu a smluvní podmínky.</li>
+        <li><strong>Prověřte příspěvek na péči.</strong> Je určený lidem splňujícím zákonné podmínky dlouhodobé závislosti na pomoci jiné osoby, nikoli automaticky každému po hospitalizaci. <a class="zp-text-link" href="https://mpsv.gov.cz/up-cz/prispevek-na-peci" target="_blank" rel="noopener noreferrer">Úřad práce: podmínky příspěvku na péči</a>.</li>
+        <li><strong>Zapište konkrétní odpovědnost.</strong> Kdo přijde, kdy, na jaký úkon, kdo otevře dveře a komu volat, pokud sjednaná pomoc nepřijde. Plán nemusíte zadávat na web.</li>
+      </ol>
+      <h3>Odpovědi na otázky rodin</h3>
+      <div class="zp-faq">
+        <details><summary>Zaplatí zdravotní pojišťovna pečovatelku na pomoc s hygienou a nákupy?</summary><p>Běžná pečovatelská služba je sociální, nikoliv zdravotní služba. Je zpravidla za úhradu uživatele; podle individuálních podmínek lze k její úhradě využít příspěvek na péči. Hrazená domácí zdravotní péče je naopak určena pro indikované zdravotní výkony.</p></details>
+        <details><summary>Stačí, že nám nemocnice dala telefonní číslo pečovatelské služby?</summary><p>Ne. Kontakt neznamená potvrzený termín, dostupnou kapacitu ani dohodnutý rozsah. Před odchodem domů ověřte, kdo potřebnou pomoc skutečně poskytne a co dělat, pokud ji zatím zajistit nelze.</p></details>
+        <details><summary>Kde hledat důvěryhodného poskytovatele?</summary><p>U sociálních služeb využijte <a href="https://mpsv.gov.cz/pro-verejnost" target="_blank" rel="noopener noreferrer">informace MPSV o registru poskytovatelů</a> nebo sociální odbor obce. Dostupnost, aktuální cenu i přesný rozsah potvrzuje přímo vybraný poskytovatel. Se zdravotní domácí péčí pomáhá předepisující lékař.</p></details>
+      </div>
+      <p class="zp-muted-copy">Zdroje ověřeny 28. 10. 2026: <a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV — Péče a služby</a>, <a class="zp-text-link" href="https://www.nzip.cz/clanek/209-domaci-pece" target="_blank" rel="noopener noreferrer">NZIP — Domácí péče</a>, <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/kdo-ma-narok-na-hrazenou-domaci-peci" target="_blank" rel="noopener noreferrer">VZP — hrazená domácí péče</a> a <a class="zp-text-link" href="https://mpsv.gov.cz/up-cz/prispevek-na-peci" target="_blank" rel="noopener noreferrer">ÚP — příspěvek na péči</a>. Neuvádíme neověřené lokální kapacity, ceny ani individuální nárok. Nezávislá odborná revize obsahu zatím není doložena.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/#socialni-a-zdravotni-sluzby' ) ); ?>">Otázky pro nemocnici a sociálního pracovníka</a>
+        <a class="zp-text-link" href="#plan-navratu">Sestavit plán první noci doma</a>
+      </div>
     </div>
   </section>
 

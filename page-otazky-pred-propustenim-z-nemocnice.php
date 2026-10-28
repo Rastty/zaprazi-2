@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_181 */
+/* ZP_RELEASE_0_8_182 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */
@@ -73,7 +73,7 @@ get_header();
           </ul>
           <p>Hrazenou zdravotnickou dopravu nelze automaticky předpokládat. Potřebu posuzuje ošetřující lékař; podmínky popisuje <a class="zp-text-link" href="https://www.nzip.cz/clanek/295-zdravotnicka-dopravni-sluzba" target="_blank" rel="noopener">NZIP: Zdravotnická dopravní služba</a>.</p>
         </details>
-        <details>
+        <details id="socialni-a-zdravotni-sluzby" open>
           <summary>Když rodina sama péči nezvládne</summary>
           <ul>
             <li>Je zajištěná pomoc na první noc a následující dny? Pokud ne, komu to teď na oddělení sdělit?</li>
@@ -82,6 +82,7 @@ get_header();
             <li>Kdo nám pomůže navázat na pečovatelskou službu či jiné sociální služby, bude-li to potřeba?</li>
           </ul>
           <p>NZIP uvádí, že pokud po propuštění není zajištěna potřebná pomoc, je důležité situaci řešit s poskytovatelem zdravotní péče a sociálními pracovníky. <a class="zp-text-link" href="https://www.nzip.cz/clanek/290-propusteni-z-nemocnice" target="_blank" rel="noopener">NZIP: Propuštění z nemocnice</a>.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba' ) ); ?>">Jaký je rozdíl mezi domácí zdravotní péčí, pečovatelskou službou a osobní asistencí?</a> Kontakt na službu ještě neznamená zajištěný termín nebo kapacitu.</p>
         </details>
       </div>
     </div>

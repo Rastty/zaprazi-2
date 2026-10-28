@@ -19,8 +19,8 @@ assert.equal(ready.configured_total,ready.slot_total);
 assert.ok(ready.slot_total>=25);
 
 const specs=[
- {id:"unstable_shower_floor",need:"shower_seated",stageOne:{floorStable:"no",spaceFit:"yes"}},
- {id:"shower_space_incompatible",need:"shower_seated",stageOne:{floorStable:"yes",spaceFit:"no"}},
+ {id:"unstable_shower_floor",need:"shower_seated",stageOne:{floorStable:"no"}},
+ {id:"shower_space_incompatible",need:"shower_seated",stageOne:{floorStable:"yes"},stageTwo:{spaceFit:"no",loadFit:"yes"}},
  {id:"WC_attachment_incompatible",need:"raise_toilet",stageTwo:{toiletFit:"no",feetFlatAtRaisedHeight:"yes",loadFit:"yes"},fix:["toiletFit","yes"]},
  {id:"WC_feet_unsupported",need:"raise_toilet",stageTwo:{toiletFit:"yes",feetFlatAtRaisedHeight:"no",loadFit:"yes"},fix:["feetFlatAtRaisedHeight","yes"]},
  {id:"WC_capacity_insufficient",need:"raise_toilet",stageTwo:{toiletFit:"yes",feetFlatAtRaisedHeight:"yes",loadFit:"no"},fix:["loadFit","yes"]},

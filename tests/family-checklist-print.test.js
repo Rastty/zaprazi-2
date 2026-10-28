@@ -7,10 +7,11 @@ const pages=[
   ["page-nocni-cesta-z-postele-na-wc.php","night-wc","Noční cesta z postele na WC"],
   ["page-otazky-pred-propustenim-z-nemocnice.php","hospital-discharge","Otázky před propuštěním z nemocnice"],
   ["page-co-zmerit-pred-vyberem-choditka.php","walker-measurements","Před výběrem chodítka"],
-  ["page-prispevek-na-peci-pro-seniora.php","care-allowance-application","Příspěvek na péči — 7 bodů před žádostí"]
+  ["page-prispevek-na-peci-pro-seniora.php","care-allowance-application","Příspěvek na péči — 7 bodů před žádostí"],
+  ["page-jak-vybrat-pecovatelskou-sluzbu.php","care-service-calls","Pečovatelská služba — 7 otázek před první schůzkou"]
 ];
 
-test("four evidence-based family checklists are printable without data entry",()=>{
+test("five evidence-based family checklists are printable without data entry",()=>{
   for (const [path,id,title] of pages) {
     const s=read(path);
     assert.ok(s.includes('data-zp-paper-checklist="'+id+'"'));
@@ -41,7 +42,7 @@ test("paper print is explicit user gesture, local-only and keeps existing footwe
   assert.match(fn,/function zaprazi_2_family_checklist_print_asset\(\)/);
   assert.match(fn,/assets\/js\/family-checklist-print\.js/);
   assert.match(fn,/assets\/js\/footwear-measurement-print\.js/);
-  for(const slug of ["nocni-cesta-z-postele-na-wc","otazky-pred-propustenim-z-nemocnice","co-zmerit-pred-vyberem-choditka","prispevek-na-peci-pro-seniora"])
+  for(const slug of ["nocni-cesta-z-postele-na-wc","otazky-pred-propustenim-z-nemocnice","co-zmerit-pred-vyberem-choditka","prispevek-na-peci-pro-seniora","jak-vybrat-pecovatelskou-sluzbu"])
     assert.ok(fn.includes("'"+slug+"'"));
   for(const forbidden of [/\bfetch\s*\(/, /\bXMLHttpRequest\b/, /navigator\.sendBeacon/,
     /\blocalStorage\b/, /\bsessionStorage\b/, /\bdocument\.cookie\b/, /\bFormData\b/,

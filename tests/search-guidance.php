@@ -169,8 +169,18 @@ check_route('zvedani seniora z postele','/senior-nemuze-vstat-z-postele/#presun-
 check_route('nemuzu zvednout maminku z postele','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
 check_route('domaci zdravotni pece','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
 check_route('domaci pece','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
-check_route('pecovatelska sluzba','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
-check_route('osobni asistence','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba',3);
+check_route('pecovatelska sluzba','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
+check_route('osobni asistence','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
+check_route('kde najdu pecovatelskou sluzbu','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
+check_route('registr poskytovatelu sluzeb','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
+foreach(array('domaci zdravotni pece','domaci pece','prispevek na peci','samolepici folie na okna','pece o zahradu','osobni auto asistence') as $q) {
+ foreach(zaprazi_2_search_guidance_for_query($q) as $route) {
+  if(str_starts_with($route[0]??'','/jak-vybrat-pecovatelskou-sluzbu/')) {
+   fwrite(STDERR,"Wrong social care routing: ".$q."\n"); exit(1);
+  }
+ }
+}
+
 check_route('hul nebo choditko','/choditka-pro-seniory/#hul-nebo-choditko',3);
 check_route('francouzska berle','/choditka-pro-seniory/#hul-nebo-choditko',3);
 check_route('berle pro seniora','/choditka-pro-seniory/#hul-nebo-choditko',3);

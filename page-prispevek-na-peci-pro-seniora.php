@@ -112,6 +112,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Nečekat bez pomoci</p>
       <h2 class="zp-section-title">Co řešit v rodině, zatímco probíhá řízení?</h2>
+      <p>Samotná žádost o dávku nepřivolá pečovatelku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vybrat-pecovatelskou-sluzbu/#vyhledat-pecovatelskou-sluzbu-v-registru' ) ); ?>">Najít poskytovatele přes registr MPSV a ověřit, zda opravdu přijede do vaší obce</a>.</p>
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Má být senior doma sám?</h3><p>Ověřte, jestli se dokáže přivolat pomoc a kdo skutečně zareaguje. Tísňové tlačítko bez navázané reakce samo o sobě nestačí.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos' ) ); ?>">Plán přivolání pomoci</a></p></article>
         <article class="zp-decision-card"><h3>Je bezpečný přesun a WC?</h3><p>Pokud člověk nezvládá přesednutí nebo vstávání, neřešte to jen nákupem madla či toaletní židle. Nejprve domluvte vhodnou asistenci a odborné posouzení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc' ) ); ?>">Rozlišit zdravotní riziko a překážku v bytě</a></p></article>

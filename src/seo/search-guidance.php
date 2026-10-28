@@ -49,6 +49,16 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // Trouble reaching a toilet is not synonymous with a low toilet seat.
+  // Give safety and cause-finding precedence over buying an aid.
+  if ( preg_match( '/\b(?:nestih[a-z]*|nedojd[a-z]*|nedojit|nemuz[a-z]*\s+dojit|nedostan[a-z]*)\b.{0,48}\b(?:wc|zachod[a-z]*|toalet[a-z]*)\b|\b(?:wc|zachod[a-z]*|toalet[a-z]*)\s+(?:je\s+)?(?:daleko|prilis\s+daleko)\b/', $query ) ) {
+    return array(
+      array( '/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc', 'Senior nestíhá WC: kdy nejdřív vyhledat lékaře', 'Rozlište nové potíže s močením či akutní příznaky od problému s cestou, sedem a přesunem.' ),
+      array( '/senior-nestihne-dojit-na-wc/#proc-se-nestihne-wc', 'Proč člověk nestíhá toaletu?', 'Naléhavé nucení, dlouhá cesta, nízké WC a nebezpečný přesun potřebují odlišné kroky.' ),
+      array( '/toaletni-zidle-vedle-postele/#rozhodovaci-matice-zidle-postel', 'Kdy stojí za zvážení přenosná toaletní židle', 'Až po ověření bezpečného přesunu, stability, prostoru a následné hygieny.' ),
+    );
+  }
+
   // Caregiver-facing problems should open a practical guide before a product
   // category. No search terms or answers are placed in destination URLs.
   $reluctance = preg_match( '/\b(?:odmit[a-z]*|nechce|nechc[a-z]*|boji\s+se|styd[a-z]*)\b/', $query );

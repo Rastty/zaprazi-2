@@ -149,8 +149,8 @@ try{
         el=>el.hidden),false,spec.id+" failed to unlock after all checks");
       if(initial.gateCount>1){
         const second=await page.$eval(
-          spec.result+" .zp-mobility-fit-gate:nth-of-type(2) .zp-fit-locked-offers",
-          el=>el.hidden);
+          spec.result+" .zp-mobility-fit-gate .zp-fit-locked-offers",
+          nodes=>nodes[1]?.hidden);
         assert.equal(second,true,spec.id+" unlocked an unrelated model");
       }
       await page.$eval(fitSelector,el=>el.click());

@@ -109,6 +109,18 @@ get_header();
     </div>
   </section>
 
+  <section id="dalsi-krok-odmitani-choditka" class="zp-section zp-section-soft" aria-labelledby="dalsi-krok-odmitani-choditka-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Další krok, bez nátlaku</p>
+      <h2 id="dalsi-krok-odmitani-choditka-title" class="zp-section-title">Když chce člověk najít vhodnější oporu, začněte jeho situací.</h2>
+      <p>Pokud s dalším postupem souhlasí a odborník ověřil bezpečný způsob chůze, domácí poradce pomůže rozlišit prostředí a možnosti opory. <strong>Nepotvrdí zdravotní vhodnost konkrétního chodítka.</strong> Při pádech, nové nejistotě nebo nebezpečné chůzi nejdřív řešte stav s lékařem či rehabilitačním týmem, ne nákup.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Probrat možnosti chůze v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Kdy pomůcku raději nejdřív půjčit</a>
+      </div>
+    </div>
+  </section>
+
   <section id="faq-odmitani-choditka" class="zp-section zp-section-soft">
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky rodin</p>

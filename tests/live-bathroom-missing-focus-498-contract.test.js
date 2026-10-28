@@ -15,7 +15,7 @@ test("real production Chrome checks direct question focus for three distinct unr
  assert.match(smoke,/assert\.equal\(focused\.visible,true\)/);
  assert.match(smoke,/assert\.equal\(focused\.hiddenAncestor,false\)/);
  assert.match(smoke,/assert\.deepEqual\(reset\.fitChecked,0\)|assert\.equal\(reset\.fitChecked,0/);
- assert.match(smoke,/assert\.equal\(removed\.htmlLength,0\)/);
+ assert.match(smoke,/assert\.equal\(before\.htmlLength,0/);
 });
 test("QA does not trigger merchant clicks, write health data or bypass blocked model gates",()=>{
  assert.match(smoke,/request\.method\(\)!=="GET"/);

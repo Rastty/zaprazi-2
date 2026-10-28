@@ -65,6 +65,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-senior-malo-pije.php',
     'page-senior-nestihne-dojit-na-wc.php',
     'page-prispevek-na-peci-pro-seniora.php',
+    'page-jak-vybrat-pecovatelskou-sluzbu.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -1031,7 +1032,7 @@ function zaprazi_2_footwear_guide_print_asset() {
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_footwear_guide_print_asset', 20 );
 
 /**
- * Four blank family worksheets; no forms, storage, analytics or network I/O.
+ * Five blank family worksheets; no forms, storage, analytics or network I/O.
  * The print button is hidden until its local JavaScript action is available.
  */
 function zaprazi_2_family_checklist_print_asset() {
@@ -1040,6 +1041,7 @@ function zaprazi_2_family_checklist_print_asset() {
     'otazky-pred-propustenim-z-nemocnice',
     'co-zmerit-pred-vyberem-choditka',
     'prispevek-na-peci-pro-seniora',
+    'jak-vybrat-pecovatelskou-sluzbu',
   ) ) ) {
     return;
   }
@@ -2424,6 +2426,29 @@ function zaprazi_2_ensure_care_allowance_guide_page() {
   );
 }
 add_action( 'init', 'zaprazi_2_ensure_care_allowance_guide_page', 59 );
+
+/**
+ * A practical local-care-services guide: publish once, without changing any
+ * existing page or running destructive updates on the mixed-topic archive.
+ */
+function zaprazi_2_ensure_care_services_guide_page() {
+  $slug = 'jak-vybrat-pecovatelskou-sluzbu';
+  if ( get_page_by_path( $slug, OBJECT, 'page' ) ) return;
+  if ( ! file_exists( get_theme_file_path( '/page-jak-vybrat-pecovatelskou-sluzbu.php' ) ) ) return;
+  wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Jak najít pečovatelskou službu pro seniora: registr, výběr a cena',
+      'post_excerpt' => 'Sedm kroků k dostupné pečovatelské službě: oficiální registr MPSV, osm otázek před smlouvou, kapacita, cena a prázdný pracovní list k vytisknutí.',
+      'post_content' => '',
+      'meta_input' => array( '_wp_page_template' => 'page-jak-vybrat-pecovatelskou-sluzbu.php' ),
+    ),
+    true
+  );
+}
+add_action( 'init', 'zaprazi_2_ensure_care_services_guide_page', 60 );
 
 function zaprazi_2_ensure_senior_transport_page() {
   $slug = 'prevoz-seniora-k-lekari';

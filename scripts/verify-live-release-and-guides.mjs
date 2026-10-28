@@ -19,7 +19,7 @@ export function isExactAnchor(html, id) {
 
 export function checkReadiness(response, expected = version) {
   assert.equal(typeof response, "object", "Readiness must be JSON object");
-  assert.match(response.release || "", /^\\d+\\.\\d+\\.\\d+$/);
+  assert.match(response.release || "", /^\d+\.\d+\.\d+$/);
   assert.equal(response.integrity, "ok", "Live theme is partially deployed");
   assert.equal(response.configured_total, 25, "Affiliate configurations must remain 25/25");
   assert.equal(response.slot_total, 25, "Unexpected affiliate inventory");

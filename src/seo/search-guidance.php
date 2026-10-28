@@ -35,7 +35,9 @@ function zaprazi_2_search_guidance_for_query( $query ) {
   $patient_or_medical_place = preg_match( '/\b(?:lekar[a-z]*|doktor[a-z]*|ordinac[a-z]*|nemocnic[a-z]*|vysetren[a-z]*|pacient[a-z]*|senior[a-z]*|mamink[a-z]*|tatink[a-z]*|babic[a-z]*|ded[a-z]*)\b/', $query );
   $sanita_on_checkup = preg_match( '/\b(?:sanit(?:a|k[a-z]*|n[a-z]*))\b.{0,35}\bkontrol[a-z]*\b/', $query );
   $named_medical_transport = preg_match( '/\b(?:zdravotnick[a-z]*\s+(?:doprav[a-z]*|preprav[a-z]*)|sanitn[a-z]*\s+(?:prevoz[a-z]*|doprav[a-z]*))\b/', $query );
-  if ( ( $transport_word && $patient_or_medical_place ) || $sanita_on_checkup || $named_medical_transport ) {
+  $goods_delivery = preg_match( '/\b(?:zbozi|balik[a-z]*|odpadu|potrub[a-z]*|naklad[a-z]*)\b/', $query );
+  $person_explicit = preg_match( '/\b(?:pacient[a-z]*|senior[a-z]*|mamink[a-z]*|tatink[a-z]*|babic[a-z]*|ded[a-z]*)\b/', $query );
+  if ( ( ( $transport_word && $patient_or_medical_place ) || $sanita_on_checkup || $named_medical_transport ) && ( ! $goods_delivery || $person_explicit ) ) {
     return array(
       array( '/prevoz-seniora-k-lekari/#urgentni-situace-prevoz', 'Převoz seniora k lékaři: nejdřív rozlišit akutní a plánovanou situaci', 'Při akutním ohrožení volejte 155. Plánovaný zdravotnický transport a běžný odvoz nejsou totéž.' ),
       array( '/prevoz-seniora-k-lekari/#vyber-dopravy', 'Sanita, rodinné auto, nebo bezbariérová doprava?', 'Zjistěte, kdy může lékař indikovat zdravotnickou dopravu a co ověřit při přesunu či přepravě vozíku.' ),

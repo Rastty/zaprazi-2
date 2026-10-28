@@ -234,7 +234,9 @@ export function installBathroomMicroStaging({
       '<ol><li>Pokud je přesun nejistý nebo vyžaduje fyzické zvedání, ověřte bezpečný postup s odborníkem.</li>' +
       '<li>Projděte rozměry, nosnost a podmínky instalace. Při nejistotě nezkoušejte rizikový přesun.</li></ol>' +
       '<p><strong>Co si připravit:</strong> ' + esc(guideLabel) +
-      '. Kontrolní návod najdete nad tímto poradcem v odkazech k měření.</p></div>' +
+      '. Kontrolní návod si můžete otevřít vedle poradce, aniž byste ztratili své odpovědi.</p>' +
+      '<p><a class="zp-link-btn zp-bath-safe-guide" href="' + esc(guidePath) +
+      '" target="_blank" rel="noopener noreferrer">Zobrazit bezpečný kontrolní návod (nová karta)</a></p></div>' +
       '<p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
     updateProgress("paused");
     addEditActions();

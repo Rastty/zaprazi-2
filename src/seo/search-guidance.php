@@ -69,9 +69,12 @@ function zaprazi_2_search_guidance_for_query( $query ) {
 
   // Low fluid intake can be urgent; do not jump straight to a cup or a
   // merchant. Require person context to avoid generic water-related searches.
-  $person_context = preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|clovek[a-z]*|osob[a-z]*)\b/', $query );
-  $fluid_difficulty = preg_match( '/\b(?:malo|nechce|nechc[a-z]*|odmit[a-z]*|zapomin[a-z]*)\b.{0,35}\b(?:pit|pije|piti|napit|tekutin[a-z]*)\b|\b(?:pit|pije|piti|napit)\b.{0,35}\b(?:malo|nechce|nechc[a-z]*|odmit[a-z]*)\b/', $query );
-  if ( $person_context && $fluid_difficulty ) {
+  $person_context = preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|mam[a-z]*|tatink[a-z]*|tatin[a-z]*|tat[a-z]*|otec|rodic[a-z]*|clovek[a-z]*|osob[a-z]*)\b/', $query );
+  $fluid_difficulty = preg_match( '/\b(?:malo|nechc[a-z]*|odmit[a-z]*|zapomin[a-z]*|nemuz[a-z]*)\b.{0,35}\b(?:pit|pije|piti|napit|tekutin[a-z]*)\b|\b(?:nepije|nepiji|nepil[a-z]*)\b|\b(?:pit|pije|piti|napit)\b.{0,35}\b(?:malo|nechc[a-z]*|odmit[a-z]*)\b/', $query );
+  // A short query can be unmistakably about difficulty drinking even without
+  // "senior". Keep the allowlist exact to avoid legacy technical queries.
+  $explicit_short_fluid = preg_match( '/^(?:malo pije|nechce pit|odmita pit|nepije|zapomina pit|nemuze pit)$/', $query );
+  if ( $fluid_difficulty && ( $person_context || $explicit_short_fluid ) ) {
     return array(
       array( '/senior-malo-pije/#varovne-priznaky-malo-pije', 'Senior málo pije: kdy je potřeba zdravotní pomoc', 'Nejdřív rozlište varovné příznaky a rizika, teprve pak domácí tipy.' ),
       array( '/senior-malo-pije/#proc-senior-malo-pije', 'Proč člověk odmítá nebo nezvládá pití?', 'Rozlišit nechutenství, potíže s úchopem, polykáním a dostupností nápoje.' ),

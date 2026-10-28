@@ -2,7 +2,7 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
-import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
+import { getMobilityNextSteps, getMobilitySafeRecovery } from "../../src/mobility/next-steps.js";
 
 const form=document.querySelector("#zp-rollator-advisor");
 const result=document.querySelector("#zp-rollator-result");
@@ -123,11 +123,15 @@ if(form&&result&&submit&&errors){
           : val("handBrakes")==="no"
             ? "Pokud člověk ruční brzdy bezpečně nezvládá, brzděný rollátor není vhodné vybírat bez odborného posouzení jiné možnosti."
             : "Nejdřív ověřte, že člověk bezpečně zvládá používat a zajistit brzdy. Bez tohoto potvrzení konkrétní rollátor nevybíráme.";
+    const safeRecovery = getMobilitySafeRecovery(out, { handBrakes: val("handBrakes", "unknown") });
+    const safeRecoveryMarkup = safeRecovery
+      ? '<section class="zp-safe-recovery" aria-label="Další bezpečný krok"><h3>Když nyní nelze vybrat rollátor</h3><p>' + esc(safeRecovery.reason) + '</p><a class="zp-link-btn" href="' + esc(safeRecovery.href) + '">' + esc(safeRecovery.action) + '</a></section>'
+      : "";
     const next = getMobilityNextSteps(out);
     const nextMarkup = next.canCompareAcquisition
       ? '<section class="zp-acquisition-summary"><h3>Jak rollátor získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
       : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>' + esc(blockedReason) + '</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${nextMarkup}`;
+    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${safeRecoveryMarkup}${nextMarkup}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
       const questionName=val("supportNeed")==="steady"?"handBrakes":"supportNeed";

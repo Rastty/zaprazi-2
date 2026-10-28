@@ -384,6 +384,13 @@ a{color:inherit}
 .zp-mobility-fit-gate>label input{min-width:20px;min-height:20px;flex-shrink:0;margin-top:.1rem}
 .zp-mobility-fit-gate>h5{margin:0 0 .5rem;font-size:1.05rem}
 
+
+/* P0: provide one visible, non-commercial follow-up for a blocked Mobility decision. */
+.zp-safe-recovery{margin:1rem 0;padding:1rem 1.15rem;border:1px solid var(--zp-line);border-radius:14px;background:var(--zp-paper)}
+.zp-safe-recovery h3{margin:0 0 .6rem;font-size:1.1rem;line-height:1.35}
+.zp-safe-recovery p{margin:.35rem 0 .8rem}
+.zp-safe-recovery .zp-link-btn{display:inline-flex;align-items:center;min-height:44px;line-height:1.4}
+
 /* Mobility P0: a small, accessible way out of uncertainty; model offers stay locked. */
 .zp-fit-help{margin:.85rem 0;padding:.8rem 1rem;border:1px solid var(--zp-line);border-radius:12px;background:var(--zp-paper)}
 .zp-fit-help>summary{min-height:44px;padding:.45rem 0;cursor:pointer;font-weight:750;line-height:1.5}

@@ -1,0 +1,32 @@
+name: Live Bathroom Missing Answer Chrome Acceptance PR498
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-bathroom-missing-focus-498.mjs"
+      - ".github/workflows/live-bathroom-missing-focus-498.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-bathroom-missing-focus-498.mjs"
+      - ".github/workflows/live-bathroom-missing-focus-498.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-chrome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check real Chrome postdeploy acceptance
+        run: node --check scripts/audit-live-bathroom-missing-focus-498.mjs
+      - name: Install Puppeteer driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify exact missing question, fit safety and offer invalidation on live website
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-bathroom-missing-focus-498.mjs

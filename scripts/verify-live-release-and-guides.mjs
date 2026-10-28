@@ -108,9 +108,20 @@ export async function verifyLiveReleaseAndGuides() {
   const queries=[];
   for (const entry of cases) {
     const searchHtml = await getText(searchUrl(entry.term));
-    assertGuidance(searchHtml,origin+entry.target);
-    assertPrimaryGuidance(searchHtml,origin+entry.target);
-    queries.push({term:entry.term,first_guidance:entry.target,ok:true});
+    try {
+      assertGuidance(searchHtml,origin+entry.target);
+      assertPrimaryGuidance(searchHtml,origin+entry.target);
+      queries.push({term:entry.term,first_guidance:entry.target,ok:true});
+    } catch (error) {
+      // Fixed synthetic test query, never real visitor search or answers.
+      console.error("ZP_PRODUCTION_SEARCH_MISMATCH", JSON.stringify({
+        term:entry.term,expected_first:entry.target,
+        guidance_present:searchHtml.includes("zp-search-guidance"),
+        primary_action_present:searchHtml.includes("Otevřít první praktický návod"),
+        verified_before_failure:queries.length
+      }));
+      throw error;
+    }
   }
   assertNoGuidance(await getText(searchUrl("fotovoltaika")));
   assertNoGuidance(await getText(searchUrl("malo pije cerpadlo")));

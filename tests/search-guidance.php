@@ -19,6 +19,48 @@ function check_route($term,$first,$count) {
 check_route('sprcha','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
 check_route('koupelna','/koupelna-a-wc/#poradce-koupelna',3);
 check_route('wc','/koupelna-a-wc/#poradce-koupelna',3);
+// The new doctor-transport guide must be discoverable from natural searches,
+// but never hijack unrelated transport, sanitation or maintenance queries.
+foreach (array(
+  'prevoz seniora k lekari',
+  'prevoz maminky na vysetreni',
+  'sanitka k doktorovi',
+  'sanita na kontrolu',
+  'odvoz tatinka do nemocnice',
+  'zdravotnicka dopravni sluzba',
+  'sanitni prevoz',
+  'preprava pacienta',
+  'doprava k lekari'
+) as $term) {
+  check_route($term, '/prevoz-seniora-k-lekari/#urgentni-situace-prevoz', 3);
+  $paths=array_column(zaprazi_2_search_guidance_for_query($term),0);
+  if($paths!==array(
+    '/prevoz-seniora-k-lekari/#urgentni-situace-prevoz',
+    '/prevoz-seniora-k-lekari/#vyber-dopravy',
+    '/prevoz-seniora-k-lekari/#otazky-pro-lekare'
+  )){
+    fwrite(STDERR,"Wrong transport advice sequence for ".$term."\n");
+    exit(1);
+  }
+}
+foreach (array(
+  'doprava na kontrolu kotle',
+  'preprava zbozi do nemocnice',
+  'odvoz odpadu z nemocnice',
+  'sanitace vody',
+  'sanitarni potrubi',
+  'preprava baliku',
+  'odvoz materialu',
+  'doprava do skladu'
+) as $unrelated) {
+  $routes=zaprazi_2_search_guidance_for_query($unrelated);
+  foreach ($routes as $route) {
+    if(str_starts_with($route[0]??'', '/prevoz-seniora-k-lekari/')){
+      fwrite(STDERR,"Unrelated transport matched medical guide: ".$unrelated."\n");
+      exit(1);
+    }
+  }
+}
 check_route('senior nestihne dojit na wc','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
 check_route('babicka nestihne na zachod','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
 check_route('nedojde na toaletu','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);

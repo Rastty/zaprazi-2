@@ -113,7 +113,7 @@ get_header();
       <p class="zp-kicker">První noc doma</p>
       <h2 class="zp-section-title">Co má přednost před „dokonalým vybavením“.</h2>
       <div class="zp-decision-grid">
-        <article class="zp-decision-card"><h3>1. Vstup a přesun</h3><p>Člověk se musí bezpečně dostat domů a mezi postelí, židlí a WC. Pokud je k tomu potřeba fyzické zvedání druhou osobou, nejdřív řešíme transfer.</p></article>
+        <article class="zp-decision-card"><h3>1. Vstup a přesun</h3><p>Člověk se musí bezpečně dostat domů a mezi postelí, židlí a WC. Pokud je k tomu potřeba fyzické zvedání druhou osobou, nejdřív řešíme transfer. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik' ) ); ?>">Sedm otázek, když doma nezvládáte přesun z postele</a>.</p></article>
         <article class="zp-decision-card"><h3>2. WC a postel</h3><p>Tyto dvě věci musí fungovat hned první den. Koupelnu lze v některých situacích bezpečně dořešit následně.</p><p>Ještě před propuštěním vyjasněte hlavně noční přesun. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/#wc-prvni-noc' ) ); ?>">Co se zeptat na cestu k WC první noc</a>.</p></article>
         <article class="zp-decision-card"><h3>3. Návazná péče</h3><p>NZIP doporučuje řešit domácí zdravotní péči už při plánování propuštění. Nemocniční lékař ji může po hospitalizaci indikovat na 14 dní.</p></article>
       </div>

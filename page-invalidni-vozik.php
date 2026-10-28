@@ -230,6 +230,7 @@ get_header();
       <details>
         <summary>Kdy Zápraží nedoporučí konkrétní vozík?</summary>
         <p>Konkrétní produkt neukazujeme, pokud není potvrzená šířka sedu, průchod nebo nosnost, při běžně fyzicky asistovaném přesunu, u ručního pohonu bez potvrzeného bezpečného řízení a zastavení a u elektrického vozíku bez bezpečného ovládání nebo nabíjení.</p>
+      <p><strong>Pečující nezvládá přesun z postele na vozík?</strong> Nevybírejte zvedák či desku podle katalogu. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik' ) ); ?>">Zkontrolujte bezpečnostní scénáře a otázky pro odborníka</a>.</p>
       </details>
 
       <div class="zp-hero-actions">

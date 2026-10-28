@@ -70,6 +70,7 @@
         <article class="zp-decision-card">
           <h3>Senior nemůže vstát z postele</h3>
           <p>Madlo, hrazda a polohovací lůžko neřeší stejnou situaci. Projděte bezpečný přesun a sedm technických kontrol před výběrem.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik' ) ); ?>">Pečující nezvládá přesun z postele na vozík: co dělat</a></p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#co-delat-postel' ) ); ?>">Jak bezpečně řešit vstávání z postele</a></p>
         </article>
         <article class="zp-decision-card">

@@ -9,3 +9,11 @@ Přidán read-only GitHub Actions běh 4x denně, na změnu workflow a skriptu i
 Zapisuje kompaktní JSON `ZP_PRODUCTION_ACCEPTANCE` do veřejných logů GitHub Actions a při skutečném selhání integrity, chybějící sekci či nefungujícím vyhledávání označí běh červeně. Není to monitoring Google indexace, tržeb ani skutečných odchozích kliknutí.
 
 Podklad pro další verzování: integrita 0.8.182 uživatelsky potvrzena částečně pouze verzí aktivního tématu; detailní postdeploy QA je tato nová automatizace, nikoli WPVibe.
+
+## Rozšíření po PR #474 — rodinné dotazy a bezpečné pití
+
+Nezávislá produkční kontrola nyní po kontrole verze a integrity ověřuje **7 konkrétních obsahových kotev** a **9 cest interního vyhledávání**, včetně dotazů „senior odmítá chodítko“, „senior nechce do sprchy“, „senior málo pije“, „babička sama doma“, „senior nepije“ a „málo pije“. Nově kontroluje, že nejvýraznější tlačítko skutečně vede na **první bezpečný návod**, bez kopírování hledané fráze do cílové URL. Negativní kontroly „fotovoltaika“ a „málo pije čerpadlo“ brání chybně vyhodnocenému doporučení.
+
+Při posledním doplnění PHP vyhledávání jsme nezměnili verzi tématu 0.8.182; samotná shoda čísla verze proto **nestačí** jako důkaz nové funkce. Bez úspěšného nového produkčního běhu nepovažujeme změnu za ověřenou na webu. Při chybě nejdřív porovnejte zdroj v `dev` se skutečně nasazenými soubory; neobcházejte test ani potichu neoslabujte jeho pravidla.
+
+Změna nezapisuje nic do WordPressu, nenahrazuje lékařské posouzení a nepracuje s uživatelským zdravotním profilem. Úprava PHP směrování doplňuje jen bezpečné návody, nikoliv produktové doporučení či prodejní deeplinky.

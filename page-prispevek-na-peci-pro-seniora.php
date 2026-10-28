@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#zadost-krok-za-krokem">Projít 7 kroků žádosti</a>
         <a class="zp-text-link" href="#kdy-zacit-resit-prispevek">Vybrat postup podle situace</a>
         <a class="zp-text-link" href="#oficialni-formulare-prispevek">Otevřít oficiální formuláře</a>
+        <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout 7 bodů před žádostí</button>
       </div>
       <p class="zp-muted-copy">Česká republika · oficiální zdroje MPSV a ÚP ověřeny 28. 10. 2026 · bez ukládání odpovědí, diagnózy nebo osobních údajů · nejde o potvrzení nároku.</p>
     </div>
@@ -144,6 +145,25 @@ get_header();
       </ul>
       <p class="zp-muted-copy">Redakční zpracování 28. 10. 2026. Externí odborná právní nebo sociální revize Zápraží není doložená. Výše dávek, formuláře a úřední postup se mohou měnit. Aktuální a závazné údaje si ověřte u MPSV a Úřadu práce. Zápraží nevyhodnocuje nárok ani nesbírá osobní údaje; nejsou zde partnerské nákupní nabídky.</p>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Jak vznikají doporučení Zápraží a kdy raději ověřit odborníka</a></p>
+    </div>
+  </section>
+
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="care-allowance-application" aria-label="Prázdný tiskový pracovní list k příspěvku na péči">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list k vytištění a ručnímu vyplnění</p>
+      <h2 class="zp-section-title">Příspěvek na péči — 7 bodů před žádostí</h2>
+      <p class="zp-muted-copy">Prázdný seznam pro vlastní poznámky. Nic nezadáváte do webu a nic se neodesílá. Připravené informace sdělujte pouze Úřadu práce nebo oprávněnému zástupci.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Při kterých běžných životních potřebách potřebuje blízký pomoc jiné osoby?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Kdo skutečně pomáhá, při čem a jak často?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Je nutné zajištění okamžité zdravotní nebo sociální pomoci již teď?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Kde je příslušné kontaktní pracoviště Úřadu práce podle trvalého pobytu žadatele?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Máme aktuální oficiální žádost a Oznámení o poskytovateli pomoci?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>6. Pokud za blízkého jedná někdo jiný, máme vyřešené odpovídající zastoupení?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>7. Máme konkrétní příklady pro sociální šetření a víme, jak uchovat potvrzení o podání?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer">Tento pracovní list není žádostí ani zdravotním nebo sociálním posudkem. Neurčuje stupeň závislosti, výši příspěvku či nárok. Nenahrazuje oficiální formuláře, aktuální pokyny Úřadu práce ani okamžité zajištění péče.</p>
+      <p class="zp-muted-copy">Oficiální žádost a přílohy: mpsv.gov.cz/zadost-o-prispevek-na-peci · Pravidla a sociální šetření: up.gov.cz/prispevek-na-peci · Zápraží.cz</p>
     </div>
   </section>
 </main>

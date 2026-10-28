@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_179 */
+/* ZP_RELEASE_0_8_180 */
 /*
 Template Name: Zápraží — Senior odmítá chodítko
 */
@@ -57,7 +57,7 @@ get_header();
         </article>
         <article class="zp-decision-card"><p class="zp-kicker">03 · Nevhodný typ</p><h3>„S tím se neumím otočit.“</h3>
           <p>Pevné chodítko se zvedá, dvoukolové se posouvá a čtyřkolový rollátor vyžaduje ovládání brzd. Zaměnit tyto pomůcky může být nebezpečné.</p>
-          <p><strong>Zkuste:</strong> nechat odborníka ověřit způsob chůze a bezpečné používání místo výběru podle vzhledu.</p>
+          <p><strong>Zkuste:</strong> nechat odborníka ověřit způsob chůze a bezpečné používání místo výběru podle vzhledu. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#hul-nebo-choditko' ) ); ?>">Kdy je na místě hůl, berle nebo chodítko</a>.</p>
         </article>
         <article class="zp-decision-card"><p class="zp-kicker">04 · Jiná priorita</p><h3>„Chci chodit bez pomoci.“</h3>
           <p>Člověk možná potřebuje nejprve vyslechnout, jaký konkrétní problém řešíte: například cestu na WC v noci nebo bezpečný návrat na zahradu. Chodítko nemusí být jediná odpověď.</p>

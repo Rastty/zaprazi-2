@@ -49,6 +49,43 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // Caregiver-facing problems should open a practical guide before a product
+  // category. No search terms or answers are placed in destination URLs.
+  $reluctance = preg_match( '/\b(?:odmit[a-z]*|nechce|nechc[a-z]*|boji\s+se|styd[a-z]*)\b/', $query );
+  if ( $reluctance && preg_match( '/\b(?:choditk[a-z]*|rolator[a-z]*|rollator[a-z]*)\b/', $query ) ) {
+    return array(
+      array( '/senior-odmita-choditko/#proc-senior-odmita', 'Senior odmítá chodítko: zjistěte proč', 'Zkuste porozumět obavám a překážkám, ne přemlouvat nebo nutit k používání.' ),
+      array( '/senior-odmita-choditko/#sedm-kroku-bez-natlaku', 'Sedm kroků pro rozhovor bez nátlaku', 'Praktický postup pro rodinu a ověření bezpečného způsobu chůze.' ),
+      array( '/choditka-pro-seniory/#hul-nebo-choditko', 'Kdy dává smysl hůl, berle nebo chodítko?', 'Vhodnost konkrétní pomůcky musí odpovídat schopnostem a bezpečnému používání.' ),
+    );
+  }
+  if ( $reluctance && preg_match( '/\b(?:koupa[a-z]*|koupan[a-z]*|myt[a-z]*|myti|sprch[a-z]*)\b/', $query ) ) {
+    return array(
+      array( '/senior-odmita-koupani/#vyber-hygieny-bez-sprchy', 'Senior odmítá koupání: bezpečné možnosti hygieny', 'Nejdřív zjistěte důvod odmítání a zvažte šetrný postup bez nátlaku.' ),
+      array( '/senior-odmita-koupani/#plan-hygiena-bez-natlaku', 'Praktický plán pro rodinu', 'Jak připravit pohodlí, soukromí a pomoc při hygieně.' ),
+      array( '/koupelna-a-wc/#poradce-koupelna', 'Poradce pro koupelnu a WC', 'Pomůcky řešte až podle bezpečného přesunu a potřeb domácnosti.' ),
+    );
+  }
+
+  // Low fluid intake can be urgent; do not jump straight to a cup or a
+  // merchant. Require person context to avoid generic water-related searches.
+  $person_context = preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|clovek[a-z]*|osob[a-z]*)\b/', $query );
+  $fluid_difficulty = preg_match( '/\b(?:malo|nechce|nechc[a-z]*|odmit[a-z]*|zapomin[a-z]*)\b.{0,35}\b(?:pit|pije|piti|napit|tekutin[a-z]*)\b|\b(?:pit|pije|piti|napit)\b.{0,35}\b(?:malo|nechce|nechc[a-z]*|odmit[a-z]*)\b/', $query );
+  if ( $person_context && $fluid_difficulty ) {
+    return array(
+      array( '/senior-malo-pije/#varovne-priznaky-malo-pije', 'Senior málo pije: kdy je potřeba zdravotní pomoc', 'Nejdřív rozlište varovné příznaky a rizika, teprve pak domácí tipy.' ),
+      array( '/senior-malo-pije/#proc-senior-malo-pije', 'Proč člověk odmítá nebo nezvládá pití?', 'Rozlišit nechutenství, potíže s úchopem, polykáním a dostupností nápoje.' ),
+      array( '/sobestacnost/#poradce-sobestacnost', 'Pomůcky pro soběstačnost', 'Pokud je pití bezpečné, poradce pomůže s praktickým ovládáním pomůcek.' ),
+    );
+  }
+  if ( $person_context && preg_match( '/\b(?:sam|sama|osamocen[a-z]*|bez\s+dohledu)\b/', $query ) && preg_match( '/\b(?:doma|byte|bytu|pres\s+noc|noc)\b/', $query ) ) {
+    return array(
+      array( '/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos', 'Senior je doma sám: kdo opravdu zajistí pomoc?', 'Nejdřív domluvte člověka nebo službu, která na přivolání pomoci skutečně zareaguje.' ),
+      array( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci', 'Telefon, tlačítko, nebo tísňová péče?', 'Zvažte dosah, schopnost přivolat pomoc a návaznou reakci.' ),
+      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Zkontrolovat bezpečnost domácnosti', 'Projít noční trasy, překážky a možnost bezpečné komunikace.' ),
+    );
+  }
+
   // A request for a grab bar near a bath/shower is not a request for a
   // seat. Avoid routing it to the product-specific seat/chair Advisors.
   // If the user explicitly mentions a chair or a seat, the usual product

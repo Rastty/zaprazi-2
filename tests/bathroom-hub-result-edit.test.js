@@ -31,7 +31,7 @@ test("Result changes always erase existing offers and reset model facts on stage
  assert.match(hub,/if \(previewReady && !event\.target\?\.closest\?\.\("#zp-bathroom-fit-stage"\)\)/);
  assert.match(hub,/fitStage\.querySelectorAll\('input\[type="radio"\]'\)\.forEach\(input => \{ input\.checked = false; \}\)/);
  assert.match(hub,/renderBathroomAcquisition\(output\.acquisition/);
- const helper=hub.slice(hub.indexOf("const renderEditButtons ="),hub.indexOf("const showBlockedPreview ="));
+ const helper=hub.slice(hub.indexOf("const renderEditButtons ="),hub.indexOf("const blockedGuides ="));
  assert.doesNotMatch(helper,/href=|merchant-link|affiliateMap|sendBeacon|localStorage|sessionStorage|fetch\(/);
  assert.doesNotMatch(helper,/window\.location|history\.pushState|new URLSearchParams/);
 });

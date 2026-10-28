@@ -1521,8 +1521,14 @@ try {
           "robots.txt still advertises HTTP sitemap: " + directives.join("; "));
       } else {
         const locs = [...body.matchAll(/<loc>([^<]+)<\/loc>/gi)].map(m => m[1]);
-        assert.ok(locs.length >= (path === "/sitemap_index.xml" ? 7 : 12),
+        // After the 4,359-post retirement, the index legitimately advertises only page-sitemap.xml.
+        // Keep the essential page-sitemap content threshold, not a stale count of legacy taxonomy/post XML files.
+        assert.ok(locs.length >= (path === "/sitemap_index.xml" ? 1 : 12),
           "Unexpectedly empty sitemap: " + path);
+        if (path === "/sitemap_index.xml") {
+          assert.ok(locs.includes("https://zaprazi.cz/page-sitemap.xml"),
+            "Critical modern Pages sitemap disappeared after legacy cleanup");
+        }
         assert.ok(locs.every(loc => loc.startsWith("https://zaprazi.cz/")),
           "Sitemap contains non-HTTPS or offsite loc: " + JSON.stringify(locs.filter(s => !s.startsWith("https://zaprazi.cz/")).slice(0, 5)));
         if (path === "/page-sitemap.xml") {
@@ -1539,7 +1545,10 @@ try {
   // It is read-only and never treats XML inclusion as Google indexation.
   if (releaseAtLeast("0.8.109")) {
     const sitemap = await auditPublicSitemap();
-    assert.ok(sitemap.index.total >= 7, "Unexpected reduction in public sitemap count");
+    assert.ok(sitemap.index.total >= 1,
+      "Critical modern Pages sitemap disappeared after legacy cleanup");
+    assert.ok(sitemap.leaf_sitemaps.some(leaf => leaf.path === "/page-sitemap.xml" || leaf.url?.endsWith("/page-sitemap.xml")),
+      "Required page-sitemap.xml missing after archive retirement");
     assert.equal(sitemap.index.http, 0, "Yoast index still advertises HTTP child XML");
     assert.ok(sitemap.robots_sitemaps.length >= 1, "No sitemap advertised by robots.txt");
     assert.ok(sitemap.robots_sitemaps.every(url =>

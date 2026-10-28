@@ -16,6 +16,10 @@ test("Production Chrome smoke spans all three actual Mobility Advisor forms and 
  assert.match(smoke,/page\.goto\(origin\+spec\.path/);
  assert.match(smoke,/data-zp-edit-answers="1"/);
  assert.match(smoke,/allFitUnlock:true/);
+ assert.ok(smoke.includes('.zp-product-card:first-child .zp-mobility-fit-gate'),
+   "Real-browser fit confirmation must be limited to one physical product card");
+ assert.doesNotMatch(smoke,/zp-mobility-fit-gate:first-of-type/,
+   "first-of-type matches every card and falsely confirms several products");
  assert.match(smoke,/revokedFitRelock:true/);
  assert.match(smoke,/staleOfferCleared:true/);
  assert.match(smoke,/safeRecovery:blocked\.recoveryHref/);

@@ -12,7 +12,38 @@ const marker="<!-- The above HTML code represents a blog post in Czech about the
 const res=await fetch(origin+"/wp-json/wp/v2/posts/"+id+"?_fields=id,slug,link,content",{
   signal:AbortSignal.timeout(30000),headers:{Accept:"application/json"}
 });
-if(res.status!==200)throw Error("Published REST status "+res.status);
+if(res.status!==200){
+  // The historical 5448 article was intentionally retired in the owner-approved
+  // archive cleanup. The old source preservation gate has no input anymore.
+  // Replace it with an actual production tombstone + modern site safety check.
+  if(res.status!==401 && res.status!==404 && res.status!==410)
+    throw Error("Unexpected legacy REST result "+res.status);
+  const retired=await fetch(origin+"/?p="+id,{
+    redirect:"follow",signal:AbortSignal.timeout(26000)
+  });
+  if(retired.status!==404 && retired.status!==410)
+    throw Error("Retired legacy post "+id+" still resolves with HTTP "+retired.status);
+  const page=await fetch(origin+"/senior-malo-pije/",{
+    signal:AbortSignal.timeout(26000)
+  });
+  if(page.status!==200)throw Error("Modern safety guide unavailable: "+page.status);
+  const [available,restPages]=await Promise.all([
+    fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{signal:AbortSignal.timeout(26000)}),
+    fetch(origin+"/wp-json/wp/v2/pages?per_page=1",{signal:AbortSignal.timeout(26000)})
+  ]);
+  if(available.status!==200||restPages.status!==200)throw Error("Production QA endpoints unavailable");
+  const ready=await available.json();
+  const pageCount=Number(restPages.headers.get("x-wp-total"));
+  if(pageCount!==53||ready.integrity!=="ok"||ready.configured_total!==25)
+    throw Error("Modern theme regressions after legacy cleanup");
+  console.log("LEGACY_5448_RETIRED_QA "+JSON.stringify({
+    id,legacyHttp:retired.status,modernGuideHttp:page.status,
+    publishedPages:pageCount,affiliateConfigured:ready.configured_total,
+    themeRelease:ready.release,integrity:ready.integrity,
+    rationale:"Retired archive replaces obsolete historical source fidelity test"
+  }));
+  process.exit(0);
+}
 const post=await res.json();
 if(post.id!==id || !post.link?.startsWith(origin+"/") ||
    typeof post.content?.rendered!=="string")throw Error("Wrong REST record");

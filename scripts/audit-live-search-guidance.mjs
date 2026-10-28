@@ -12,12 +12,12 @@ const checks=[
     "/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle",
     "/koupelna-a-wc/#poradce-koupelna",
     "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha"
-  ],expectLegacy:true},
+  ]},
   {query:"vozík",links:[
     "/invalidni-vozik/",
     "/projede-invalidni-vozik-dvermi/",
     "/invalidni-vozik-na-pojistovnu/"
-  ],expectLegacy:true},
+  ]},
   {query:"polohovací postel",links:[
     "/polohovaci-postel/",
     "/polohovaci-postel-na-pojistovnu/"
@@ -61,7 +61,7 @@ const checks=[
     "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc",
     "/koupelna-a-wc/#poradce-koupelna"
   ]},
-  {query:"fotovoltaika",links:[],expectLegacy:true}
+  {query:"fotovoltaika",links:[],expectNoLegacy:true}
 ];
 const readinessResponse=await fetch(origin+"/wp-json/zaprazi/v1/affiliate-readiness",{
   headers:{Accept:"application/json"},signal:AbortSignal.timeout(30000)});
@@ -139,8 +139,10 @@ try{
       assert.equal(data.wronglyClaimsNoResults,false,
         "A contextual match must not simultaneously claim nothing was found: "+check.query);
       assert.equal(data.oldAfterGuidance,true,"Old search results must remain below guidance");
-      if(check.expectLegacy)assert.ok(data.oldCount>0,
-        "Existing legacy search results were removed for "+check.query);
+      // After retiring 4,359 unrelated legacy posts, empty archive results are intentional.
+      // Never require the old off-topic search hits to remain merely for QA compatibility.
+      if(check.expectNoLegacy)assert.equal(data.oldCount,0,
+        "Retired off-topic archives must not reappear for "+check.query);
       assert.deepEqual(errors,[],"Search produced runtime JS errors");
       assert.ok(methods.every(method=>method==="GET"),"Browser must never submit search form");
       report.push({query:check.query,guided:data.links.length,legacyResults:data.oldCount,

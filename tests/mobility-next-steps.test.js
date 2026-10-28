@@ -67,7 +67,7 @@ test("both standalone journeys show safety-gated next steps and a way to edit an
 
 test("main Homepage Advisor uses the same safe acquisition paths as specialist Advisors", () => {
   const app = fs.readFileSync(new URL("../assets/js/mobility-advisor.js", import.meta.url), "utf8");
-  assert.match(app, /import \{ getMobilityNextSteps \}/);
+  assert.match(app, /import \{ getMobilityNextSteps, getMobilitySafeRecovery \}/);
   assert.match(app, /const next = getMobilityNextSteps\(output\)/);
   assert.match(app, /const acquisition = next\.items\.length/);
   assert.match(app, /escapeHtml\(item\.href\)/);

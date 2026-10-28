@@ -268,6 +268,27 @@ if (form && result && submitButton && errorBox) {
     }
   });
 
+  // Only fixed, relevant editorial destinations. Never construct URLs from
+  // answer combinations, never turn a blocked choice into a merchant CTA.
+  const blockedGuides = {
+    raise_toilet: "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc",
+    toilet_support: "/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton",
+    toilet_nearby: "/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel",
+    shower_seated: "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha",
+    bath_transfer: "/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana",
+    multifunction_toilet_shower: "/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel"
+  };
+  const renderBlockedGuide = (status) => {
+    if (status !== "professional_check" && status !== "needs_more_info") return "";
+    const guide = blockedGuides[checkedValue("primaryNeed", "")];
+    if (!guide) return "";
+    return '<div class="zp-micro-next zp-bathroom-safe-guide">' +
+      '<p><strong>Bezpečný další krok:</strong> Ověřte prostor, nosnost a možnosti použití podle praktického návodu. ' +
+      'Pokud člověk potřebuje fyzickou pomoc při přesunu, nejdřív zvolte odborné posouzení; samotné měření nestačí.</p>' +
+      '<p><a class="zp-link-btn zp-bath-safe-guide" href="' + escapeHtml(guide) +
+      '" target="_blank" rel="noopener noreferrer">Otevřít bezpečný kontrolní návod (nová karta)</a></p></div>';
+  };
+
   const showBlockedPreview = (outcome) => {
     previewReady = false;
     if (preview) preview.hidden = true;
@@ -276,6 +297,7 @@ if (form && result && submitButton && errorBox) {
       <p class="zp-result-status">${escapeHtml(statusLabel(outcome.status))}</p>
       <h2>${escapeHtml(outcome.headline)}</h2>
       <p>${escapeHtml(outcome.nextStep)}</p>
+      ${renderBlockedGuide(outcome.status)}
       <p class="zp-disclaimer">Konkrétní produkt bez bezpečných podkladů zatím nezobrazujeme.</p>
       ${renderEditButtons(false)}
     `;
@@ -465,6 +487,7 @@ if (form && result && submitButton && errorBox) {
       ${renderProducts(products)}
       ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
+      ${renderBlockedGuide(output.status)}
       ${renderEditButtons(previewReady && !fitStage.hidden)}
     `;
 

@@ -32,6 +32,15 @@ export function assertGuidance(html, target) {
   assert.ok(doc.includes(target), "Expected safe guide not present: "+target);
   assert.ok(!doc.includes("affiliate-query-result"), "Unexpected merchant route in search");
 }
+export function assertPrimaryGuidance(html, target) {
+  const section = String(html).match(/<section\b[^>]*class=["'][^"']*\bzp-search-guidance\b[^"']*["'][^>]*>([\s\S]*?)<\/section>/i)?.[1];
+  assert.ok(section, "Missing guide recommendation section");
+  const primary = section.match(/<a\b[^>]*class=["'][^"']*\bzp-btn\b[^"']*["'][^>]*href=["']([^"']+)["']/i)?.[1];
+  assert.ok(primary, "Missing prominent first-guide action");
+  assert.equal(primary, target, "Primary action must open the safest first guide");
+  const u = new URL(primary);
+  assert.equal(u.search, "", "Do not copy search text into guide links");
+}
 export function assertNoGuidance(html) {
   assert.doesNotMatch(String(html), /class=["'][^"']*zp-search-guidance/, "Off-topic search is incorrectly routed");
 }
@@ -72,7 +81,11 @@ export async function verifyLiveReleaseAndGuides() {
   const guides = [
     {path:"/senior-nemuze-vstat-z-postele/",anchor:"presun-z-postele-na-vozik",phrase:"Nezvládám zvedání seniora"},
     {path:"/navrat-z-nemocnice/",anchor:"domaci-zdravotni-pece-nebo-pecovatelska-sluzba",phrase:"Terénní pečovatelská služba"},
-    {path:"/choditka-pro-seniory/",anchor:"hul-nebo-choditko",phrase:"Francouzská berle"}
+    {path:"/choditka-pro-seniory/",anchor:"hul-nebo-choditko",phrase:"Francouzská berle"},
+    {path:"/senior-odmita-choditko/",anchor:"proc-senior-odmita",phrase:"Čtyři možné důvody"},
+    {path:"/senior-odmita-koupani/",anchor:"vyber-hygieny-bez-sprchy",phrase:"Čtyři časté překážky"},
+    {path:"/senior-malo-pije/",anchor:"varovne-priznaky-malo-pije",phrase:"Kdy není správné zkoušet"},
+    {path:"/senior-doma-sam-sos-pomoc/",anchor:"jak-funguje-pomoc-sos",phrase:"Tlačítko je jen začátek"}
   ];
   const pageReports=[];
   for (const guide of guides) {
@@ -84,14 +97,23 @@ export async function verifyLiveReleaseAndGuides() {
   const cases = [
     {term:"presun z postele na vozik",target:"/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik"},
     {term:"pecovatelska sluzba",target:"/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba"},
-    {term:"hul nebo choditko",target:"/choditka-pro-seniory/#hul-nebo-choditko"}
+    {term:"hul nebo choditko",target:"/choditka-pro-seniory/#hul-nebo-choditko"},
+    {term:"senior odmita choditko",target:"/senior-odmita-choditko/#proc-senior-odmita"},
+    {term:"senior nechce do sprchy",target:"/senior-odmita-koupani/#vyber-hygieny-bez-sprchy"},
+    {term:"senior malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
+    {term:"babicka sama doma",target:"/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos"},
+    {term:"senior nepije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
+    {term:"malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"}
   ];
   const queries=[];
   for (const entry of cases) {
-    assertGuidance(await getText(searchUrl(entry.term)),origin+entry.target);
+    const searchHtml = await getText(searchUrl(entry.term));
+    assertGuidance(searchHtml,origin+entry.target);
+    assertPrimaryGuidance(searchHtml,origin+entry.target);
     queries.push({term:entry.term,first_guidance:entry.target,ok:true});
   }
   assertNoGuidance(await getText(searchUrl("fotovoltaika")));
+  assertNoGuidance(await getText(searchUrl("malo pije cerpadlo")));
   report.status="verified";
   report.guides=pageReports;
   report.search=queries;

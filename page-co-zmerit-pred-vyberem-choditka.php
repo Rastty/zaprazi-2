@@ -14,7 +14,7 @@ get_header();
       <p class="zp-muted-copy">Hledáte <strong>chodítko se sedátkem</strong>? Výška sedu, parkovací brzdy a možnost bezpečně vstát jsou další samostatné kontroly. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Jak vybrat rollátor se sedátkem pro odpočinek</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív rozlišit typ chodítka</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#hul-nebo-choditko' ) ); ?>">Nejdřív rozlišit hůl, berli a chodítko</a>
               <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
       </div>
       <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>

@@ -46,7 +46,8 @@ test("raised toilet seat refuses unsafe foot support", () => {
     toiletFit: "yes",
     feetFlatAtRaisedHeight: "no"
   });
-  assert.equal(result.status, "needs_more_info");
+  assert.equal(result.status, "no_safe_fit");
+  assert.deepEqual(result.missing, []);
   assert.deepEqual(result.recommendations, []);
 });
 
@@ -83,8 +84,8 @@ test("toilet support frame requires its own space and fixing compatibility check
       wallFixing: "unverified",
       supportFrameFit
     });
-    assert.equal(result.status, "needs_more_info");
-    assert.ok(result.missing.includes("supportFrameFit"));
+    assert.equal(result.status, supportFrameFit === "no" ? "no_safe_fit" : "needs_more_info");
+    assert.deepEqual(result.missing, supportFrameFit === "no" ? [] : ["supportFrameFit"]);
     assert.deepEqual(result.recommendations, []);
   }
 });
@@ -197,7 +198,8 @@ test("bath transfer returns no product when neither rim seat nor transfer bench 
     bathFit: "no",
     bathBenchFit: "no"
   });
-  assert.equal(result.status, "needs_more_info");
+  assert.equal(result.status, "no_safe_fit");
+  assert.deepEqual(result.missing, []);
   assert.deepEqual(result.recommendations, []);
 });
 

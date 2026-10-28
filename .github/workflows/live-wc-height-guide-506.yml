@@ -1,0 +1,32 @@
+name: Live WC Riser 5-10-15cm Guide Chrome PR506
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-wc-height-guide-506.mjs"
+      - ".github/workflows/live-wc-height-guide-506.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-wc-height-guide-506.mjs"
+      - ".github/workflows/live-wc-height-guide-506.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-chrome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate production QA syntax
+        run: node --check scripts/audit-live-wc-height-guide-506.mjs
+      - name: Install Chrome driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Real Chrome test on live WordPress (mobile and desktop)
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-wc-height-guide-506.mjs

@@ -130,7 +130,7 @@ test("404 and search use dedicated user-facing templates", () => {
   const notFound = read("404.php");
   const search = read("search.php");
 
-  assert.match(notFound, /Tahle stránka tu není/);
+  assert.match(notFound, /Odkaz už nevede na dostupnou stránku/);
   assert.match(notFound, /#poradce/);
   assert.match(search, /get_search_query/);
   assert.match(search, /have_posts/);

@@ -61,6 +61,34 @@ foreach (array(
     }
   }
 }
+// Care allowance queries must reach official forms before merchant advice.
+foreach(array(
+  'prispevek na peci',
+  'prispevek na peci pro seniora',
+  'zadost o prispevek na peci',
+  'zvyseni prispevku na peci',
+  'prispevek na peci po nemocnici',
+  'peci prispevek',
+  'socialni setreni prispevek'
+) as $q) {
+  check_route($q,'/prispevek-na-peci-pro-seniora/#zadost-krok-za-krokem',3);
+}
+foreach(array(
+  'prispevek na choditko',
+  'prispevek na pojistovnu',
+  'prispevek na slunecni kolektor',
+  'socialni setreni solarniho vykonu',
+  'pecovatelska sluzba',
+  'domaci zdravotni pece',
+  'pojistovna na vozik'
+) as $q) {
+  foreach(zaprazi_2_search_guidance_for_query($q) as $route) {
+    if(str_starts_with($route[0]??'','/prispevek-na-peci-pro-seniora/')){
+      fwrite(STDERR,"Wrong care allowance intent: ".$q."\n");
+      exit(1);
+    }
+  }
+}
 check_route('senior nestihne dojit na wc','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
 check_route('babicka nestihne na zachod','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
 check_route('nedojde na toaletu','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);

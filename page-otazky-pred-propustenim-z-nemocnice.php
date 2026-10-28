@@ -93,6 +93,7 @@ get_header();
       <p class="zp-kicker">Po rozhovoru</p>
       <h2 class="zp-section-title">Teď sestavte jednoduchý plán na první noc doma</h2>
       <p>Otázky pro nemocniční tým jsou prvním krokem. Náš samostatný průvodce pak seřadí praktické úkony podle naléhavosti: vstup, přesuny, WC, postel, krátkou chůzi, hygienu a případnou domácí péči. Na diagnózu se neptá.</p>
+      <p><strong>Jak zajistíte cestu domů a na další vyšetření?</strong> Pokud člověk nezvládne běžné nastoupení do auta, proberte ještě před odchodem s ošetřujícím týmem bezpečný převoz a případný příkaz ke zdravotnímu transportu. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Porovnat zdravotnickou dopravu, vlastní auto a převoz s vozíkem</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#plan-navratu' ) ); ?>">Sestavit plán návratu domů</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/' ) ); ?>">Projít bezpečnost bytu</a>

@@ -38,7 +38,7 @@ get_header();
       <h2 id="proc-se-nestihne-wc-title" class="zp-section-title">Která překážka rozhoduje?</h2>
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
-          <p class="zp-kicker">01 · Nucení</p>
+          <p class="zp-kicker">01 · Naléhavé nucení</p>
           <h3>„Musím hned, jinak to neudržím.“</h3>
           <p>Člověk se dostane na toaletu bez větších překážek, ale nucení přichází rychle. Tady <strong>není první odpovědí nákup chodítka</strong>; s lékařem řešte příčinu a plán. Poznamenejte, kdy potíž nastává, zda je nová a jaké jsou další příznaky.</p>
           <p><a class="zp-text-link" href="#prvni-bezpecnost-wc">Kdy kontaktovat lékaře</a></p>

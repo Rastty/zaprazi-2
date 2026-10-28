@@ -33,7 +33,7 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
       <div class="zp-fit-help">
         <strong>Nemůžete některý bod potvrdit?</strong>
         <p>Nezaškrtávejte odhad. Změřte nejužší průchody, ověřte potřebné nastavení madel a porovnejte nosnost s dokumentací přesného modelu.</p>
-        <p><a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit">Jak změřit prostor a připravit údaje před výběrem chodítka</a></p>
+        <p><a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit" target="_blank" rel="noopener">Jak změřit prostor a připravit údaje před výběrem chodítka (otevře se v novém panelu)</a></p>
         ${options.requireBrakeFit ? '<p>U rollátoru navíc osobně ověřte brzdy a jejich zajištění; samotný katalogový popis nestačí.</p>' : ''}
         ${options.requireSeatFit ? '<p>U sedátka ověřte stabilní zabrzdění a bezpečné usedání, jinak jej nepovažujte za ověřené.</p>' : ''}
         ${options.requireTransportFit ? '<p>Při převozu v autě vyžádejte složené rozměry a hmotnost konkrétního modelu; bez nich bezpečný transport nepotvrzujte.</p>' : ''}

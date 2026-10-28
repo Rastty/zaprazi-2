@@ -5,7 +5,7 @@ const s=readFileSync(new URL("../page-senior-nemuze-vstat-z-postele.php",import.
 test("bed exit reader has direct hero route to four actionable states",()=>{
  const hero=s.slice(s.indexOf('<section class="zp-hero">'),s.indexOf('</section>'));
  const start=s.indexOf('id="rozhodnuti-vstavani-postel"');
- const end=s.indexOf('id="pomucky-k-posteli"',start);
+ const end=s.indexOf('id="presun-z-postele-na-vozik"',start);
  assert.ok(start>0 && end>start);
  const b=s.slice(start,end);
  assert.ok(hero.includes('href="#rozhodnuti-vstavani-postel"'));

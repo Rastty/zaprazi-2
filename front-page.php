@@ -48,6 +48,11 @@
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek s pracovním listem k vytisknutí</a></p>
         </article>
         <article class="zp-decision-card">
+          <h3>Jak zajistit převoz seniora k lékaři?</h3>
+          <p>Na vyšetření nejde bezpečně autem? Rozlište plánovanou zdravotnickou dopravu, převoz s vozíkem a možnosti úhrady. O vhodné cestě rozhodují skutečné potřeby a lékař.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Kdy sanitka, rodinné auto nebo bezbariérová doprava</a></p>
+        </article>
+        <article class="zp-decision-card">
           <h3>Senior odmítá chodítko</h3>
           <p>Možná se stydí, vadí mu váha pomůcky nebo se bojí ztráty samostatnosti. Sedm klidných kroků pro rodinu bez přemlouvání.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Jak o chodítku mluvit citlivě</a></p>
@@ -72,6 +77,11 @@
           <p>Madlo, hrazda a polohovací lůžko neřeší stejnou situaci. Projděte bezpečný přesun a sedm technických kontrol před výběrem.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik' ) ); ?>">Pečující nezvládá přesun z postele na vozík: co dělat</a></p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#co-delat-postel' ) ); ?>">Jak bezpečně řešit vstávání z postele</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Senior nestihne dojít na WC</h3>
+          <p>Nové nucení, příliš dlouhá cesta, nízký sed a nezvládnutý přesun nejsou stejný problém. Nejdřív zkontrolujte varovné příznaky a bezpečný postup.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc' ) ); ?>">Co udělat jako první a jak zjistit příčinu</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Noční cesta z postele na WC</h3>

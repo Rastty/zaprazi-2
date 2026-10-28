@@ -5,6 +5,8 @@ import fs from "node:fs";
 const homepage = fs.readFileSync(new URL("../front-page.php", import.meta.url), "utf8");
 const resources = [
   "/senior-spadl-doma/#prvni-krok-pad",
+  "/prevoz-seniora-k-lekari/#vyber-dopravy",
+  "/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc",
   "/senior-odmita-choditko/#proc-senior-odmita",
   "/senior-odmita-koupani/#duvody-odmitani-koupani",
   "/senior-malo-pije/#proc-senior-malo-pije",
@@ -16,12 +18,12 @@ const resources = [
   "/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy"
 ];
 
-test("Homepage exposes ten distinct practical guides before presenting product decisions", () => {
+test("Homepage exposes twelve distinct practical guides before presenting product decisions", () => {
   const start = homepage.indexOf('<section id="prakticke-kontroly"');
   const advisor = homepage.indexOf('<section id="poradce"');
   assert.ok(start > homepage.indexOf('<section id="co-resite"') && start < advisor);
   const region = homepage.slice(start, advisor);
-  assert.equal((region.match(/class="zp-decision-card"/g) || []).length, 10);
+  assert.equal((region.match(/class="zp-decision-card"/g) || []).length, 12);
   for (const path of resources) {
     const link = `home_url( '${path}' )`;
     assert.ok(region.includes(link), `missing canonical internal link: ${path}`);

@@ -138,6 +138,7 @@ get_header();
         <li><strong>Zajištění jako náklad:</strong> po uložení musí být vozík upevněn tak, aby při zatáčení či prudkém brzdění nezranil posádku a nepoškodil vozidlo. Řiďte se pokyny k uchycení a zajištění od výrobců.</li>
         <li><strong>Člověk cestující ve vozíku:</strong> není to stejná situace jako prázdný vozík v kufru. Vyžaduje odpovídající vozidlo, vhodné a schválené ukotvení vozíku i zádržný systém cestujícího; odbornou kontrolu nelze nahradit online článkem.</li>
       </ol>
+      <p class="zp-section-note"><strong>Nejde jen o uložení prázdného vozíku do kufru?</strong> Pokud se má převážet i člověk a cesta vede k lékaři, nejprve ověřte zdravotní důvody dopravy, bezpečné usazení a typ vozidla. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Jak domluvit zdravotnický nebo bezbariérový převoz</a>.</p>
     </div>
   </section>
 

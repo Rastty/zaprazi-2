@@ -35,6 +35,8 @@ get_header();
           <h3>2. Postel → WC</h3>
           <p>Projďte trasu večer i v noci. Odstraňte volné kabely, koberečky a překážky, ověřte světlo a místa, kde se člověk instinktivně přidržuje.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Sedmibodový návod a seznam k vytisknutí</a></p>
+          <p><strong>Nestíhá WC i přes den?</strong> Důvodem může být náhlé nucení, dlouhá trasa nebo problém se vstáváním. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc' ) ); ?>">Nejdřív rozlišit zdravotní varovné příznaky a překážky v bytě</a>.</p>
+
                   <p>Pokud není bezpečná ani samotná cesta k WC, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#rozhodovaci-matice-zidle-postel' ) ); ?>">co ověřit před umístěním toaletní židle u postele</a>.</p>
         </article>
         <article class="zp-decision-card">

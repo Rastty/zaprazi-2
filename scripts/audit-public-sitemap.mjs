@@ -29,7 +29,9 @@ export const requiredDecisionPaths = Object.freeze([
   "/rollator-pro-seniory/", "/jak-vznika-doporuceni/",
   "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/",
   "/senior-nemuze-vstat-z-postele/",
-  "/senior-spadl-doma/"
+  "/senior-spadl-doma/",
+  "/prevoz-seniora-k-lekari/",
+  "/senior-nestihne-dojit-na-wc/"
 ]);
 
 // Proposed editorial route: add to requiredDecisionPaths only after production
@@ -47,8 +49,7 @@ export const stagedDecisionPaths = Object.freeze([
   "/senior-doma-sam-sos-pomoc/",
   "/senior-odmita-choditko/",
   "/senior-odmita-koupani/",
-  "/senior-malo-pije/",
-  "/prevoz-seniora-k-lekari/"
+  "/senior-malo-pije/"
 ]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {

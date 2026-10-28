@@ -58,6 +58,16 @@ get_header();
 <article class="zp-decision-card"><h3>Kašel, zakuckávání, dusivý pocit</h3><p>Nejde o problém, který vyřeší automaticky brčko, náustek nebo zahušťovadlo. Volbu konzistence, vhodné nádoby a polohy musí určit příslušný odborník po posouzení polykání.</p></article>
 </div></div></section>
 
+<section id="dalsi-krok-piti" class="zp-section"><div class="zp-wrap">
+<p class="zp-kicker">Pouze když je pití bezpečné</p>
+<h2 id="dalsi-krok-piti-title" class="zp-section-title">Je překážkou úchop hrnku nebo rozlévání?</h2>
+<p>Pokud člověk <strong>bezpečně polyká</strong> a problém je v držení, dosahu nebo stabilitě nádoby, poradce pro soběstačnost pomůže projít praktické možnosti. <strong>Pokud se zakuckává, má potíže s polykáním, je výrazně spavý nebo má jiné varovné příznaky, nevybírejte pomůcku místo odborné pomoci.</strong> Nezvyšujte příjem tekutin proti doporučení lékaře.</p>
+<div class="zp-hero-actions">
+<a class="zp-btn" href="<?php echo esc_url( home_url( '/sobestacnost/#poradce-sobestacnost' ) ); ?>">Řešit úchop a bezpečné ovládání pomůcek</a>
+<a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/#nocni-audit' ) ); ?>">Pije málo kvůli noční cestě na WC?</a>
+</div>
+</div></section>
+
 <section id="denni-kontrola-piti" class="zp-section"><div class="zp-wrap">
 <p class="zp-kicker">Pracovní seznam pro rodinu</p><h2 class="zp-section-title">Osm věcí, které si jeden den poznamenat</h2>
 <ol class="zp-guide-steps zp-guide-checklist">

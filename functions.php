@@ -109,6 +109,15 @@ function zaprazi_2_release_integrity_ok() {
     'style.css',
   );
 
+  // Fail closed on mixed WordPress deployments: the bathroom decision engine
+  // and discovery preview must be the exact Git blobs reviewed together.
+  // Update both hashes from `git hash-object <path>` when these files change.
+  $bathroom_git_blobs = array(
+    'src/bathroom/engine.js' => 'e29555aef72f943429110692710c6f039c1c80b4',
+    'src/bathroom/preview.js' => 'd560bd9fb0521d969e6782b613e7468fa634b048',
+  );
+  $files = array_merge( $files, array_keys( $bathroom_git_blobs ) );
+
   foreach ( $files as $relative_path ) {
     $path = get_template_directory() . '/' . $relative_path;
     if ( ! is_readable( $path ) ) {
@@ -116,7 +125,18 @@ function zaprazi_2_release_integrity_ok() {
     }
 
     $contents = file_get_contents( $path );
-    if ( false === $contents || false === strpos( $contents, $marker ) ) {
+    if ( false === $contents ) {
+      return false;
+    }
+
+    if ( isset( $bathroom_git_blobs[ $relative_path ] ) ) {
+      // Same byte-level identity used by Git; release markers alone cannot
+      // detect a stale preview.js left behind after PR #500.
+      $actual_blob = sha1( 'blob ' . strlen( $contents ) . "\0" . $contents );
+      if ( ! hash_equals( $bathroom_git_blobs[ $relative_path ], $actual_blob ) ) {
+        return false;
+      }
+    } elseif ( false === strpos( $contents, $marker ) ) {
       return false;
     }
   }

@@ -36,14 +36,17 @@ if (form && result && submitButton && errorBox) {
   // which decides whether we can safely continue. Keep all old offers
   // hidden until the person deliberately makes a new choice.
   result.addEventListener("click", (event) => {
-    if (!event.target?.closest?.("[data-zp-edit-answers]")) return;
+    const editButton = event.target?.closest?.("[data-zp-edit-answers]");
+    if (!editButton) return;
+    const fromStart = editButton.dataset?.zpEditFocus === "start";
     const environment = form.querySelector('input[name="environment"]:checked')?.value;
     const support = form.querySelector('input[name="supportNeed"]:checked')?.value;
     const seat = Boolean(form.querySelector('input[name="seatNeeded"]:checked'));
-    const question = !environment ? "environment"
-      : support !== "steady" ? "supportNeed"
-        : seat || environment === "outdoor" || environment === "both"
-          ? "handBrakes" : "canLiftWalker";
+    const question = fromStart ? "environment"
+      : !environment ? "environment"
+        : support !== "steady" ? "supportNeed"
+          : seat || environment === "outdoor" || environment === "both"
+            ? "handBrakes" : "canLiftWalker";
     form.scrollIntoView({ block: "start" });
     const target = form.querySelector(`input[name="${question}"]:checked`) ||
       form.querySelector(`input[name="${question}"]`);
@@ -452,7 +455,9 @@ if (form && result && submitButton && errorBox) {
       ${renderAcquisitionEvidence(ids, duration)}
       ${environmentGuide}
       ${safeRecoveryMarkup}
-      ${output.status !== "candidate" ? '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></p>' : ""}
+      ${output.status === "candidate"
+        ? '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1" data-zp-edit-focus="start">Upravit odpovědi a přepočítat výsledek</button></p>'
+        : '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></p>'}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

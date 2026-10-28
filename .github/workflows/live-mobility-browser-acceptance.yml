@@ -1,0 +1,35 @@
+name: Live Mobility P0 Browser Acceptance (PR 486-488)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-mobility-candidate-edit-488.mjs"
+      - ".github/workflows/live-mobility-browser-acceptance.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-mobility-candidate-edit-488.mjs"
+      - ".github/workflows/live-mobility-browser-acceptance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  production-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax-check non-writing live browser smoke
+        run: node --check scripts/audit-live-mobility-candidate-edit-488.mjs
+      - name: Install browser-only test dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify deployed Mobility Advisor behaviors in Chrome (no merchant clicks or POSTs)
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-mobility-candidate-edit-488.mjs

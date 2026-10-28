@@ -181,6 +181,49 @@ export function installBathroomMicroStaging({
       '. Zatím nebyla potvrzena vhodnost pro konkrétního člověka.</p></article>';
   };
 
+  /**
+   * Reusable edit handoff after the preview or the final safe result.
+   * This never creates or unlocks an offer. On real input changes, the five
+   * existing Advisor change handlers synchronously remove the old result HTML.
+   * Answers stay solely in the current browser form; no storage, query string
+   * or health-data telemetry is introduced.
+   */
+  const addEditActions = () => {
+    if (typeof result.insertAdjacentHTML !== "function" ||
+        result.querySelector?.("[data-zp-bath-edit]")) return;
+    const canEditFit = !fitStage.hidden &&
+      [...fitGroups.values()].some(group => !group.hidden && !group.closest("[hidden]"));
+    result.insertAdjacentHTML("beforeend",
+      '<div class="zp-result-edit zp-bathroom-edit-actions" role="group" aria-label="Změnit odpovědi poradce">' +
+      '<button type="button" class="zp-link-btn" data-zp-bath-edit="situation">Upravit potřeby a přepočítat výsledek</button>' +
+      (canEditFit
+        ? '<button type="button" class="zp-link-btn" data-zp-bath-edit="fit">Upravit rozměry a bezpečnostní ověření</button>'
+        : '') +
+      '</div>');
+  };
+
+  // Delegate from the stable result element, so rendering a new result does
+  // not multiply listeners or keep a reference to an obsolete product.
+  if (typeof result.addEventListener === "function") {
+    result.addEventListener("click", event => {
+      const button = event.target?.closest?.("[data-zp-bath-edit]");
+      if (!button || !result.contains?.(button)) return;
+      const fit = button.dataset.zpBathEdit === "fit" && !fitStage.hidden;
+      const group = fit
+        ? [...fitGroups.values()].find(item => !item.hidden && !item.closest("[hidden]"))
+        : initialRequiredGroups()[0];
+      if (!group) return;
+      form.scrollIntoView?.({ block: "start" });
+      const target = group.querySelector('input[type="radio"]:checked') ||
+        group.querySelector('input[type="radio"]');
+      if (target && !target.closest("[hidden]")) target.focus();
+      else {
+        group.setAttribute("tabindex", "-1");
+        group.focus?.();
+      }
+    });
+  }
+
   const block = outcome => {
     previewReady = false;
     preview.hidden = true;
@@ -194,6 +237,7 @@ export function installBathroomMicroStaging({
       '. Kontrolní návod najdete nad tímto poradcem v odkazech k měření.</p></div>' +
       '<p class="zp-disclaimer">Bez splnění bezpečnostních podmínek nevypisujeme konkrétní nákupní nabídku.</p>';
     updateProgress("paused");
+    addEditActions();
     result.hidden = false;
     errors.hidden = true;
     result.focus();
@@ -249,8 +293,10 @@ export function installBathroomMicroStaging({
       // Let the original fit-gated Advisor handler render first. Never infer
       // suitability or success from form values in this presentational layer.
       queueMicrotask(() => {
-        if (!result.hidden && result.innerHTML.trim()) updateProgress("finished");
-        else updateProgress("fit");
+        if (!result.hidden && result.innerHTML.trim()) {
+          addEditActions();
+          updateProgress("finished");
+        } else updateProgress("fit");
       });
       return;
     }

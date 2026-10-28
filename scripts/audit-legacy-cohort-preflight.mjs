@@ -24,8 +24,14 @@ if(list.length<80){
   ]);
   if(r.status!==200||p.status!==200)throw new Error("Modern site audit endpoint failure");
   const data=await r.json(),pageCount=Number(p.headers.get("x-wp-total"));
-  if(pageCount!==53||data.integrity!=="ok"||data.configured_total!==25)
-    throw new Error("Modern content or affiliate safety changed after archive cleanup");
+  // New legitimate SEO landing pages may increase this count. Preserve the
+  // 53-page modern baseline instead of freezing future content growth.
+  console.log("MODERN_SITE_ARCHIVE_HEALTH",JSON.stringify({
+    oldPublicRESTCount:list.length,modernPublishedPages:pageCount,
+    affiliateConfigured:data.configured_total,release:data.release,integrity:data.integrity
+  }));
+  if(!Number.isInteger(pageCount)||pageCount<53||data.integrity!=="ok"||data.configured_total!==25)
+    throw new Error("Modern page baseline or affiliate integrity regressed after archive cleanup");
   console.log("RETIRED_LEGACY_COHORT_QA "+JSON.stringify({
     oldPost6801HTTP:old.status,oldPublicRESTCount:list.length,
     modernPublishedPages:pageCount,affiliateConfigured:data.configured_total,

@@ -45,7 +45,11 @@ for(const spec of [
     assert.ok(js.includes('out.status==="professional_check"'));
     assert.ok(js.includes('out.missing?.includes("supportNeed")'));
     assert.ok(js.includes("esc(blockedReason)"));
-    assert.ok(js.includes('questionName=val("supportNeed")==="steady"?'));
+    assert.ok(js.includes('questionName=out.status==="candidate"?"supportNeed":val("supportNeed")==="steady"?'),
+      "Safe candidates return to the first meaningful question, while blocked results retain targeted correction");
+    assert.ok(js.includes('const candidateEdit = out.status==="candidate"'));
+    assert.ok(js.includes('${nextMarkup}${candidateEdit}'),
+      "Candidate result must expose an editable path back to its original questions");
     assert.ok(js.includes('if(target&&!target.closest("[hidden]")) target.focus();'));
     assert.ok(!js.includes("form.querySelector('input[name=\"handBrakes\"]')?.focus();"));
 

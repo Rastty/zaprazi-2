@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_182 */
+/* ZP_RELEASE_0_8_183 */
 /*
 Template Name: Zápraží — Ochrana soukromí
 */
@@ -45,6 +45,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Po souhlasu</h3>
           <p>Používáme existující GA4 stream Zápraží pro základní návštěvnost a několik obecných kroků funnelu. Google Analytics může standardně pracovat s first-party identifikátory a technickými informacemi o návštěvě.</p>
+          <p>Interní vyhledávání se kvůli ochraně soukromí <strong>neměří ani po souhlasu</strong>: hledaný výraz může popisovat citlivou rodinnou situaci. Na ostatních stránkách měření nepředává parametry URL ani úplné adresy předchozích stránek, ale jen jejich domény.</p>
         </article>
         <article class="zp-decision-card">
           <h3>Souhlas lze změnit</h3>

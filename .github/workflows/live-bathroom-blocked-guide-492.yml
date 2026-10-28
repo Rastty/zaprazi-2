@@ -1,0 +1,35 @@
+name: Live Bathroom Blocked Guide Chrome Acceptance PR492
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-bathroom-blocked-guide-492.mjs"
+      - ".github/workflows/live-bathroom-blocked-guide-492.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-bathroom-blocked-guide-492.mjs"
+      - ".github/workflows/live-bathroom-blocked-guide-492.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  blocked-guide:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check read-only live QA syntax
+        run: node --check scripts/audit-live-bathroom-blocked-guide-492.mjs
+      - name: Install Chrome driver without package-lock changes
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Test five blocked guide popups and retained private answers in live Chrome
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-bathroom-blocked-guide-492.mjs

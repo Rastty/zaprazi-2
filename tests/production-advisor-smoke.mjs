@@ -1547,7 +1547,7 @@ try {
     const sitemap = await auditPublicSitemap();
     assert.ok(sitemap.index.total >= 1,
       "Critical modern Pages sitemap disappeared after legacy cleanup");
-    assert.ok(sitemap.leaf_sitemaps.some(leaf => leaf.path === "/page-sitemap.xml" || leaf.url?.endsWith("/page-sitemap.xml")),
+    assert.ok(sitemap.leaf_sitemaps.some(leaf => leaf.name === "page-sitemap.xml"),
       "Required page-sitemap.xml missing after archive retirement");
     assert.equal(sitemap.index.http, 0, "Yoast index still advertises HTTP child XML");
     assert.ok(sitemap.robots_sitemaps.length >= 1, "No sitemap advertised by robots.txt");

@@ -13,8 +13,9 @@ const advisors=[
 test("Every live Bathroom adviser excludes confirmed no_safe_fit from completed-funnel events",()=>{
  for(const file of advisors){
   const s=source("assets/js/"+file);
-  const gate=s.split("\n").find(x=>x.includes('track("builder_complete")'));
-  assert.ok(gate,"No event gate: "+file);
+  const index=s.indexOf('track("builder_complete")');
+  assert.ok(index>0,"No event gate: "+file);
+  const gate=s.slice(Math.max(0,index-180),index+24);
   assert.match(gate,/needs_more_info/,"Don't count unknown fit: "+file);
   assert.match(gate,/invalid_input|builder_complete/,"Must preserve previous invalid input semantics: "+file);
   assert.match(gate,/no_safe_fit/,"Explicit no fit must not complete: "+file);

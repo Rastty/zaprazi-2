@@ -32,7 +32,7 @@ get_header();
       <div class="zp-decision-grid">
         <article class="zp-decision-card"><h3>Náhlá změna chůze nebo akutní příznaky</h3>
           <p>Při náhle vzniklé slabosti jedné strany těla, poruše řeči, vědomí či jiných známkách akutního ohrožení <strong>volejte 155</strong>. Neřešte v tu chvíli výběr chodítka. Po pádu s bolestí či podezřením na zranění člověka nenutíme vstávat.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Postup po pádu a kdy volat pomoc</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Postup po pádu a kdy volat pomoc</a>. Pokud je člověk po odborně vyřešeném pádu hlavně nejistý, pokračujte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#strach-z-chuze-po-padu' ) ); ?>">návodem, jak reagovat na strach z chůze bez nátlaku</a>.</p>
         </article>
         <article class="zp-decision-card"><h3>Opakované pády, nové závratě nebo nejistá chůze</h3>
           <p>Objednejte konzultaci s lékařem; vhodný typ opory a nácvik používání řešte s fyzioterapeutem nebo ergoterapeutem. Příčinu mohou ovlivňovat také léky, zrak, rovnováha či změna zdravotního stavu. <strong>Nezkoušejte náročné přesuny bez bezpečného dohledu.</strong></p>

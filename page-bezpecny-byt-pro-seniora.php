@@ -74,7 +74,7 @@ get_header();
 
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
-      <p><strong>Už se pád stal?</strong> Nejdřív řešte případné zranění; prevenci a výběr pomůcek až následně. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Praktický postup po pádu seniora doma</a>.</p>
+      <p><strong>Už se pád stal?</strong> Nejdřív řešte případné zranění; prevenci a výběr pomůcek až následně. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Praktický postup po pádu seniora doma</a>. Pokud se člověk potom bojí chodit, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#strach-z-chuze-po-padu' ) ); ?>">jak obnovovat jistotu bez nucení a bez neověřeného cvičení</a>.</p>
       <p class="zp-kicker">Prevence pádů</p>
       <h2 class="zp-section-title">Prevence pádů seniorů doma: nejdřív odstraňte rizika bez drahé rekonstrukce.</h2>
       <div class="zp-check-grid">

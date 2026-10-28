@@ -18,7 +18,7 @@ get_header();
         <a class="zp-text-link" href="#plan-po-padu">Sedm kroků pro rodinu</a>
         <a class="zp-text-link" href="#dalsi-krok-pad">Co zkontrolovat doma</a>
       </div>
-      <p class="zp-muted-copy">Praktická orientace · 25. 10. 2026 · bez ukládání odpovědí a zdravotních údajů. Nejde o zdravotnickou diagnostiku ani návod k nebezpečnému přenášení člověka.</p>
+      <p class="zp-muted-copy">Praktická orientace · aktualizace 28. 10. 2026 · bez ukládání odpovědí a zdravotních údajů. Nejde o zdravotnickou diagnostiku ani návod k nebezpečnému přenášení člověka.</p>
     </div>
   </section>
 
@@ -64,6 +64,39 @@ get_header();
         <article class="zp-decision-card"><h3>06 · Noční situace a přivolání pomoci</h3><p>Je dostupné světlo a telefon či domluvený způsob přivolání pomoci? Pokud je pád častý při cestě na WC, projděte celou noční trasu, ne jen jednu pomůcku.</p></article>
         <article class="zp-decision-card"><h3>07 · Kontrola s odborníkem</h3><p>Promluvte si o chůzi, rovnováze, užívaných lécích a vhodných úpravách s lékařem či ergoterapeutem/fyzioterapeutem. Léky sami nevysazujte a nenahrazujte odbornou revizi nákupem.</p></article>
       </div>
+    </div>
+  </section>
+
+
+  <section id="strach-z-chuze-po-padu" class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když akutní situace skončila · Strach z dalšího pádu</p>
+      <h2 class="zp-section-title">Senior se po pádu bojí znovu chodit: jak pomoci bez nátlaku?</h2>
+      <p>Strach z dalšího pádu je po nepříjemné zkušenosti pochopitelný. Někdy člověk přestane chodit i po trase, kterou dříve zvládal. <strong>Neznamená to ale, že je bezpečné ho přesvědčit, aby to prostě zkusil.</strong> Nejdřív oddělte obavu od skutečné změny zdravotního stavu, bolesti, rovnováhy nebo prostředí.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Po pádu vznikla bolest, slabost nebo nová nejistota</h3>
+          <p>Nenuťte člověka k chůzi, zvedání ani cvičení. Při závažných či náhlých příznacích postupujte podle <a class="zp-text-link" href="#prvni-krok-pad">akutního rozhodnutí výše</a>; při trvajících potížích zajistěte lékařské posouzení. Obava sama o sobě nevylučuje zranění.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Člověk se bojí, ale chce znovu získat jistotu</h3>
+          <p>Zeptejte se, čeho se konkrétně obává: vstávání, otočení, cesty na WC nebo dalšího pádu. Společně s fyzioterapeutem či ergoterapeutem stanovte bezpečný postup a případný individuální nácvik rovnováhy a síly. Nepředepisujeme univerzální domácí cvičení ani počet kroků.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Obava souvisí s konkrétním místem doma</h3>
+          <p>Bez zkoušení riskantní chůze nejdřív prověřte světlo, volné koberečky, překážky, boty, opěrné body a možnost přivolat pomoc. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/bezpecny-byt-pro-seniora/#audit-bytu' ) ); ?>">Projít domácí rizika krok za krokem</a>.</p>
+        </article>
+      </div>
+      <h3>Pět bezpečných kroků pro rodinu po odborném vyřešení pádu</h3>
+      <ol class="zp-guide-steps">
+        <li><strong>Vyslechněte obavu.</strong> Místo „nemáš se čeho bát“ zkuste „která část cesty je teď nejtěžší?“</li>
+        <li><strong>Domluvte posouzení.</strong> Po pádu s poruchou chůze nebo rovnováhy má smysl odborné hodnocení rizik a návrh vhodného programu.</li>
+        <li><strong>Upravte prostředí.</strong> Začněte průchody, osvětlením a stabilním vybavením; žádné improvizované opory.</li>
+        <li><strong>Vyberte dosažitelný cíl.</strong> Třeba bezpečný přesun k jídelnímu stolu, ale až podle individuálního doporučení a schopností člověka.</li>
+        <li><strong>Nezaměňujte pomůcku za léčbu.</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Poradce pro typ opory</a> je až další krok po ověření vhodnosti a nácviku používání.</li>
+      </ol>
+      <p class="zp-disclaimer"><strong>Podle NICE NG249 (2025)</strong> mají být programy prevence pádů vedené vyškolenými odborníky, individuálně přizpůsobené a průběžně hodnocené; při přetrvávající obavě z pádu lze zvážit i psychologickou podporu. Nejde o návod k samostatnému tréninku po úrazu.</p>
+      <p><a class="zp-text-link" href="#zdroje-pad">Ověřit odborné podklady a hranice doporučení</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#jak-o-tom-mluvit' ) ); ?>">Jak o pomoci mluvit bez nátlaku</a></p>
     </div>
   </section>
 
@@ -114,6 +147,7 @@ get_header();
       <div class="zp-faq">
         <details><summary>Máme člověka po pádu okamžitě zvednout?</summary><p>Ne automaticky. Nejprve posuďte, zda je při vědomí a zda nejde o úraz nebo zdravotní problém vyžadující pomoc. Nesnažte se člověka vytahovat silou. Při podezření na vážné zranění nebo nemožnosti bezpečně vstát vyhledejte odbornou pomoc.</p></details>
         <details><summary>Kdy po pádu volat 155?</summary><p>Při bezvědomí, náhlém závažném zhoršení, vážném úrazu nebo podezření na poranění hlavy, páteře či kyčle. Pokud si naléhavostí nejste jistí, pomůže rozhodnout operátor. Nenahrazujte jeho pokyny internetovým návodem.</p></details>
+        <details><summary>Člověk se po pádu bojí znovu chodit. Co máme dělat?</summary><p>Nejdřív ověřte, že se nejedná o nevyřešené zranění, bolest nebo novou poruchu rovnováhy. Nepřemlouvejte k riskantnímu vstávání. <a href="#strach-z-chuze-po-padu">Projděte bezpečný postup pro rodinu</a> a individuální plán konzultujte s fyzioterapeutem či lékařem.</p></details>
         <details><summary>Pomůže každému seniorovi po pádu chodítko?</summary><p>Ne. Pády mohou souviset s prostředím, rovnováhou, přesuny i zdravotním stavem. Nejprve proberte příčiny s odborníkem a konkrétní podmínky použití. Nevhodná pomůcka může riziko zvýšit.</p></details>
         <details><summary>Co když pád nastal v noci?</summary><p>Po vyřešení zdravotní situace zkontrolujte osvětlení, vstávání z postele, překážky a bezpečný přístup k WC. Existuje samostatný sedmibodový průvodce noční trasou.</p></details>
         <details><summary>Má se každý pád řešit s lékařem?</summary><p>Je vhodné lékaři pád oznámit a u opakovaných pádů, bolesti, nejisté chůze nebo jiných potíží domluvit zdravotní posouzení. Při příznacích vážného stavu nečekejte na běžný termín.</p></details>
@@ -123,11 +157,12 @@ get_header();
 
   <section id="zdroje-pad" class="zp-section">
     <div class="zp-wrap">
-      <p class="zp-kicker">Doložitelné zdroje · Aktualizace 25. 10. 2026</p>
+      <p class="zp-kicker">Doložitelné zdroje · Aktualizace 28. 10. 2026</p>
       <h2 class="zp-section-title">Z čeho tento praktický postup vychází?</h2>
       <p>Tento redakční materiál nenahrazuje první pomoc ani individuální posouzení lékařem. <strong>Nezávislá odborná revize textu zatím není doložena.</strong> Britské zdroje používají vlastní tísňová čísla; pro Českou republiku je zde uvedena místní zdravotnická linka 155.</p>
       <ul>
         <li><a class="zp-text-link" href="https://www.nzip.cz/clanek/205-zdravotnicka-zachranna-sluzba" target="_blank" rel="noopener noreferrer">NZIP / Ministerstvo zdravotnictví: Záchranná služba a linka 155</a> — náhlé vážné zdravotní potíže a úrazy.</li>
+        <li><a class="zp-text-link" href="https://www.nice.org.uk/guidance/ng249/chapter/recommendations" target="_blank" rel="noopener noreferrer">NICE NG249 (2025): Falls — assessment and prevention</a> — individuální posouzení rizik, odborně vedený pohybový program a podpora lidí se strachem z pádu.</li>
         <li><a class="zp-text-link" href="https://www.nhs.uk/conditions/falls/" target="_blank" rel="noopener noreferrer">NHS: Falls</a> — postup po pádu, přivolání pomoci a bezpečné hranice zvedání.</li>
         <li><a class="zp-text-link" href="https://www.nzip.cz/clanek/1242-zlomenina-krcku-stehenni-kosti" target="_blank" rel="noopener noreferrer">NZIP: Prevence pádů a domácí rizika</a> — překážky, obuv, osvětlení a odborná konzultace.</li>
         <li><a class="zp-text-link" href="https://oporadiakonie.cz/rada/jak-predchazet-padum-u-senioru-prevence-a-privolani-pomoci-po-padu/" target="_blank" rel="noopener noreferrer">Opora Diakonie: prevence a přivolání pomoci po pádu</a> — praktická domácí opatření.</li>

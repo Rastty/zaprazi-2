@@ -15,11 +15,12 @@ test("Both newly verified live guide URLs are required sitemap paths, not specul
   }
 });
 
-test("Homepage gives both real caregiver problems discoverable, safe editorial cards before the mobility Advisor",()=>{
+test("Homepage keeps both caregiver problems discoverable in safe cards after the mobility Advisor",()=>{
   const html=read("front-page.php");
   const start=html.indexOf('<section id="prakticke-kontroly"');
-  const end=html.indexOf('<section id="poradce"',start);
-  assert.ok(start>0&&end>start,"Practical discovery area before Advisor");
+  const advisor=html.indexOf('<section id="poradce"');
+  const end=html.indexOf('<section id="jak-vybrat"',start);
+  assert.ok(advisor>0&&start>advisor&&end>start,"Keep complete editorial discovery section after the live Advisor");
   const region=html.slice(start,end);
   assert.equal((region.match(/class="zp-decision-card"/g)||[]).length,12);
   for(const destination of [transport,toilet]){

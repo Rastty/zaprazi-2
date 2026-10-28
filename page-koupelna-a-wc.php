@@ -9,12 +9,6 @@ get_header();
       <p class="zp-kicker">Zápraží · Koupelna a WC</p>
       <h1>Pomůcky do koupelny pro seniory: co pomůže u WC, ve sprše a u vany?</h1>
       <p class="zp-lead">Poradce pomůže rozlišit, zda dává smysl zvýšit WC, přidat oporu, použít toaletní židli nebo sedět při sprchování. Neptá se na diagnózu a při nejasném přesunu raději konkrétní výrobek nevybere.</p>
-      <p class="zp-muted-copy">Senior nestihne dojít na toaletu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#proc-se-nestihne-wc' ) ); ?>">Rozlište zdravotní naléhavost, vzdálenost, vstávání a potřebu pomoci</a> ještě před výběrem nástavce či toaletní židle.</p>
-      <p class="zp-muted-copy">Člověk koupání odmítá nebo má strach ze sprchy? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#duvody-odmitani-koupani' ) ); ?>">Nejdřív citlivě rozlišit stud, nepohodlí a rizika</a>. Nezačínejte nákupem bez ověření bezpečného přesunu.</p>
-      <p class="zp-muted-copy">Madlo chcete upevnit na sádrokartonovou předstěnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Nejdřív ověřit nosný podklad a alternativy</a>. Obecná nosnost výrobku sama o sobě bezpečnost montáže nepotvrzuje.</p>
-      <p class="zp-muted-copy">Madlo bez vrtání na přísavky? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prisavne-madlo-do-koupelny-bez-vrtani/#rozdily-madel-bez-vrtani' ) ); ?>">Nejdřív rozlišit nenosný úchop od bezpečné opory při vstávání</a>.</p>
-      <p class="zp-muted-copy">Člověk se kvůli hygieně vlasů nedostane do sprchy? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Srovnání mytí vlasů na lůžku a bezoplachové čepice</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
-      <p class="zp-muted-copy">Pokud člověk nemůže bezpečně přejít ani do upravené koupelny, nezapomínejte na hygienu přímo na lůžku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Možnosti hygieny ležícího člověka doma</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-koupelna">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní poradce</a>
@@ -147,6 +141,41 @@ get_header();
 
       <noscript><p class="zp-disclaimer">Pro spuštění poradce je potřeba JavaScript. Bez něj se žádné odpovědi neodesílají.</p></noscript>
       <section id="zp-bathroom-result" class="zp-result" aria-live="polite" tabindex="-1" hidden></section>
+    </div>
+  </section>
+
+
+  <section id="navody-koupelna" class="zp-section zp-section-soft" aria-labelledby="navody-koupelna-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Situace, které samotný nákup nemusí vyřešit</p>
+      <h2 id="navody-koupelna-title" class="zp-section-title">Šest praktických návodů podle problému v koupelně a na WC.</h2>
+      <p>Pokud je potíž ve zdravotním stavu, bezpečném přesunu, upevnění nebo v samotném přístupu k hygieně, začněte kontrolou situace. Návody jsou dostupné i bez vyplnění poradce a nejsou individuálním zdravotním posouzením.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Senior nestíhá dojít na WC</h3>
+          <p class="zp-muted-copy">Senior nestihne dojít na toaletu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#proc-se-nestihne-wc' ) ); ?>">Rozlište zdravotní naléhavost, vzdálenost, vstávání a potřebu pomoci</a> ještě před výběrem nástavce či toaletní židle.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Senior odmítá koupání</h3>
+          <p class="zp-muted-copy">Člověk koupání odmítá nebo má strach ze sprchy? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-koupani/#duvody-odmitani-koupani' ) ); ?>">Nejdřív citlivě rozlišit stud, nepohodlí a rizika</a>. Nezačínejte nákupem bez ověření bezpečného přesunu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Madlo u WC na sádrokartonu</h3>
+          <p class="zp-muted-copy">Madlo chcete upevnit na sádrokartonovou předstěnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Nejdřív ověřit nosný podklad a alternativy</a>. Obecná nosnost výrobku sama o sobě bezpečnost montáže nepotvrzuje.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Přísavné madlo bez vrtání</h3>
+          <p class="zp-muted-copy">Madlo bez vrtání na přísavky? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prisavne-madlo-do-koupelny-bez-vrtani/#rozdily-madel-bez-vrtani' ) ); ?>">Nejdřív rozlišit nenosný úchop od bezpečné opory při vstávání</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Mytí vlasů mimo sprchu</h3>
+          <p class="zp-muted-copy">Člověk se kvůli hygieně vlasů nedostane do sprchy? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Srovnání mytí vlasů na lůžku a bezoplachové čepice</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Hygiena přímo na lůžku</h3>
+          <p class="zp-muted-copy">Pokud člověk nemůže bezpečně přejít ani do upravené koupelny, nezapomínejte na hygienu přímo na lůžku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Možnosti hygieny ležícího člověka doma</a>.</p>
+        </article>
+      </div>
     </div>
   </section>
 

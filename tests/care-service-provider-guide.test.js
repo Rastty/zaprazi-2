@@ -22,7 +22,7 @@ test("Care-service guide solves actual family coordination with seven steps, eig
  }
  for(const phrase of ["Pečovatelská služba","Osobní asistence","Domácí zdravotní péče","Odlehčovací služba",
    "příspěvek na péči","skutečnou kapacitu","obce s rozšířenou působností",
-   "155","Smlouva","bezpečně","nemá volnou kapacitu"]){
+   "155","Smlouva","bezpečně","nemá kapacitu"]){
   assert.ok(page.toLowerCase().includes(phrase.toLowerCase()),"Missing care distinction "+phrase);
  }
  assert.ok((page.match(/<li><strong>/g)||[]).length>=14);

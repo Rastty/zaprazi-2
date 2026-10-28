@@ -6,7 +6,7 @@ Template Name: Zápraží — Převoz seniora k lékaři
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
-  <section class="zp-hero zp-illustrated-hero">
+  <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Doprava k lékaři · Plán pro rodinu</p>
       <h1>Jak zajistit převoz seniora k lékaři? Kdy je sanita hrazená a co když nezvládá auto?</h1>

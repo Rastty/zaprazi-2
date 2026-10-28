@@ -27,7 +27,9 @@ test("every safety guide is accessible directly from its existing Advisor hero",
       "Guide target missing or duplicated "+path);
     assert.ok(source.indexOf('id="'+id+'"')>source.indexOf('zp-advisor-form'),
       "Guide must never be a replacement for the Advisor "+path);
-    assert.equal((source.match(/data-zp-editorial-guide=/g)||[]).length,1);
+    assert.equal((source.match(new RegExp('data-zp-editorial-guide="[^"]+"',"g"))||[]).length,
+      path==="page-nastavec-na-wc-pro-seniory.php"?2:1,
+      "Expected original safety guide plus dedicated measured-height guide only on WC riser");
     assert.match(header, /Spustit poradce/);
     assert.match(header, /Co ověřit před výběrem/);
   }

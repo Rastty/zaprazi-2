@@ -136,16 +136,16 @@ try{
       assert.match(initial.fitHelp,/Nemůžete některý bod potvrdit/);
 
       // No partial model confirmation may unlock an offer.
-      const fitSelector=spec.result+" .zp-mobility-fit-gate:first-of-type [data-zp-mobility-fit-confirm]";
+      const fitSelector=spec.result+" .zp-product-card:first-child .zp-mobility-fit-gate [data-zp-mobility-fit-confirm]";
       await page.$eval(fitSelector,el=>el.click());
       assert.equal(await page.$eval(
-        spec.result+" .zp-mobility-fit-gate:first-of-type .zp-fit-locked-offers",
+        spec.result+" .zp-product-card:first-child .zp-mobility-fit-gate .zp-fit-locked-offers",
         el=>el.hidden),true,spec.id+" partially checked gate unlocked an offer");
 
       // Real change listeners: all model checks -> unlock only this model.
       await page.$$eval(fitSelector,checks=>checks.filter(el=>!el.checked).forEach(el=>el.click()));
       assert.equal(await page.$eval(
-        spec.result+" .zp-mobility-fit-gate:first-of-type .zp-fit-locked-offers",
+        spec.result+" .zp-product-card:first-child .zp-mobility-fit-gate .zp-fit-locked-offers",
         el=>el.hidden),false,spec.id+" failed to unlock after all checks");
       if(initial.gateCount>1){
         const unrelated=await page.$$eval(spec.result+" .zp-mobility-fit-gate",nodes=>
@@ -160,7 +160,7 @@ try{
       }
       await page.$eval(fitSelector,el=>el.click());
       assert.equal(await page.$eval(
-        spec.result+" .zp-mobility-fit-gate:first-of-type .zp-fit-locked-offers",
+        spec.result+" .zp-product-card:first-child .zp-mobility-fit-gate .zp-fit-locked-offers",
         el=>el.hidden),true,spec.id+" offer did not re-lock on withdrawal");
 
       // Edit candidate: focus original question; do not erase answers merely by clicking.

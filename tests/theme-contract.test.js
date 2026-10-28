@@ -18,13 +18,12 @@ test("theme keeps WooCommerce compatibility and legacy external-link guard", () 
   assert.match(external, /nazev-webu-affilbox/);
 });
 
-test("theme preserves low-prominence legacy crawl paths", () => {
+test("footer is advisor-first and no longer links to retired legacy archives", () => {
   const footer = read("footer.php");
-
-  assert.match(footer, /Starší archiv/);
-  assert.match(footer, /get_categories/);
-  assert.match(footer, /wc_get_page_permalink/);
-  assert.match(footer, /Starší katalog produktů/);
+  assert.match(footer, /Hlavní poradci/);
+  assert.match(footer, /\/choditka-pro-seniory\//);
+  assert.match(footer, /\/koupelna-a-wc\//);
+  assert.doesNotMatch(footer, /Starší archiv|zp-footer-legacy|legacy_categories|get_categories\(|Starší katalog produktů|wc_get_page_permalink/);
 });
 
 test("public SEO brand is Zápraží while database mutation stays unnecessary", () => {

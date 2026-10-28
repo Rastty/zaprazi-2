@@ -3089,3 +3089,40 @@ function zaprazi_2_senior_sos_meta_fallback() {
   echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
 }
 add_action( 'wp_head', 'zaprazi_2_senior_sos_meta_fallback', 5 );
+
+
+/**
+ * SEO housekeeping after archival cleanup.
+ * The former off-topic category/tag listing pages have no meaningful editorial
+ * use; they must not compete with the new curated senior-focused guides.
+ * Existing modern "page" content is never affected.
+ */
+function zaprazi_2_legacy_archive_is_legacy_taxonomy() {
+  return is_category() || is_tag();
+}
+function zaprazi_2_legacy_archive_robots( $robots ) {
+  return zaprazi_2_legacy_archive_is_legacy_taxonomy() ? 'noindex, follow' : $robots;
+}
+add_filter( 'wpseo_robots', 'zaprazi_2_legacy_archive_robots', 99 );
+function zaprazi_2_legacy_archive_robots_array( $robots ) {
+  if ( ! zaprazi_2_legacy_archive_is_legacy_taxonomy() ) return $robots;
+  if ( ! is_array( $robots ) ) $robots = array();
+  unset( $robots['index'], $robots['nofollow'] );
+  $robots['index'] = 'noindex';
+  $robots['follow'] = 'follow';
+  return $robots;
+}
+add_filter( 'wpseo_robots_array', 'zaprazi_2_legacy_archive_robots_array', 99 );
+function zaprazi_2_legacy_archive_wp_robots( $robots ) {
+  if ( ! zaprazi_2_legacy_archive_is_legacy_taxonomy() ) return $robots;
+  if ( ! is_array( $robots ) ) $robots = array();
+  unset( $robots['index'], $robots['nofollow'] );
+  $robots['noindex'] = true;
+  $robots['follow'] = true;
+  return $robots;
+}
+add_filter( 'wp_robots', 'zaprazi_2_legacy_archive_wp_robots', 99 );
+function zaprazi_2_legacy_archive_exclude_sitemap_taxonomy( $excluded, $taxonomy ) {
+  return in_array( $taxonomy, array( 'category', 'post_tag' ), true ) ? true : $excluded;
+}
+add_filter( 'wpseo_sitemap_exclude_taxonomy', 'zaprazi_2_legacy_archive_exclude_sitemap_taxonomy', 10, 2 );

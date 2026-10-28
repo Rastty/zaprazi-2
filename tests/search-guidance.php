@@ -106,6 +106,14 @@ check_route('maminka nechce choditko','/senior-odmita-choditko/#proc-senior-odmi
 check_route('senior nechce do sprchy','/senior-odmita-koupani/#vyber-hygieny-bez-sprchy',3);
 check_route('senior odmita koupani','/senior-odmita-koupani/#vyber-hygieny-bez-sprchy',3);
 check_route('senior malo pije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('senior nepije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('tatinek skoro nepije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('babicka nemuze pit','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('malo pije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('nechce pit','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('nepije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('malo pije cerpadlo','',0);
+check_route('voda do bytu nepije','',0);
 check_route('maminka nechce pit','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
 check_route('babicka sama doma','/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos',3);
 check_route('senior sam doma pres noc','/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos',3);

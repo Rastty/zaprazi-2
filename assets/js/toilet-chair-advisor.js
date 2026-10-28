@@ -133,7 +133,7 @@ if (form && result && submitButton && errorBox) {
     const products = getBathroomProducts(ids);
     const allowOffer = output.status === "candidate";
 
-    if (!["needs_more_info", "invalid_input"].includes(output.status)) track("builder_complete");
+    if (!["needs_more_info", "invalid_input", "no_safe_fit"].includes(output.status)) track("builder_complete");
     if (products.length) track("recommendation_view");
 
     result.innerHTML = `

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_180 */
+/* ZP_RELEASE_0_8_181 */
 /*
 Template Name: Zápraží — Senior nemůže vstát z postele
 */
@@ -85,6 +85,67 @@ get_header();
         <li>Jaké jsou překážky mezi postelí, dveřmi a WC? ______.</li>
       </ul>
       <p class="zp-disclaimer">Toto je orientační plán, ne diagnostika ani individuální doporučení pomůcky. Pokud není bezpečný přesun ověřen, pokračujte odbornou konzultací, nikoli nákupem.</p>
+    </div>
+  </section>
+
+
+  <section id="presun-z-postele-na-vozik" class="zp-section zp-section-soft" aria-labelledby="nadpis-presun-z-postele">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · Pro rodinu a pečující · Přesun doma</p>
+      <h2 id="nadpis-presun-z-postele" class="zp-section-title">Nezvládám zvedání seniora z postele na vozík: jak postupovat bez nebezpečného přenášení?</h2>
+      <p>Pokud člověk nedokáže přejít z postele na židli nebo invalidní vozík, problémem nemusí být samotná postel. Rozhoduje, zda se bezpečně posadí, přenese část váhy na nohy, udrží stabilitu a spolupracuje při přesunu. <strong>Nezkoušejte člověka vytahovat za ruce nebo v podpaží ani jej přenášet vlastní silou bez odborně ověřeného plánu.</strong> Ohrožuje to jeho i záda pečujícího.</p>
+      <p class="zp-muted-copy">Tento průvodce slouží k přípravě konzultace, nikoli k nácviku fyzického zvedání. Nová slabost, náhlá porucha řeči či vědomí, vážná bolest nebo pád s podezřením na zranění patří k neodkladnému odbornému posouzení; při akutním ohrožení v ČR volejte 155.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Situace A · Přesun není bezpečný</p>
+          <h3>Člověk neudrží stoj nebo potřebuje fyzické zvedání</h3>
+          <p>Nevybírejte naslepo přesunovou desku, pás, zvedák ani „silnější“ vozík. S ošetřujícím týmem, fyzioterapeutem nebo ergoterapeutem zajistěte <strong>individuální posouzení přesunu</strong> a určete, kolik pomoci je potřeba a kdo ji bezpečně poskytne.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#plan-navratu' ) ); ?>">Pokud se blíží propuštění, ověřit plán péče doma</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Situace B · Vstane sám, ale přesun je nejistý</p>
+          <h3>Problém je při otočení nebo dosednutí</h3>
+          <p>Bez riskantních pokusů zjistěte, v jaké fázi přesun selhává. Odborník může po posouzení doporučit nácvik, změnu prostředí nebo vhodnou pomůcku. Ani brzděný vozík nezaručuje bezpečný transfer při neudržení rovnováhy.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Co musí umět a splňovat vhodný vozík</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Situace C · Člověk se nedokáže posadit</p>
+          <h3>Potíž začíná už při pohybu na lůžku</h3>
+          <p>Zeptejte se odborníka na bezpečné polohování, vhodnou výšku a typ lůžka a počet pečujících. Hrazda a boční madlo mají odlišné funkce; <strong>nejsou náhradou zvedacího zařízení</strong> ani zárukou samostatného posazení.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Zvážit vhodnou polohovací postel v poradci</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <p class="zp-kicker">Situace D · Zvažujete zvedák nebo přesunovou pomůcku</p>
+          <h3>Deska, kluzná podložka a zvedák nejsou zaměnitelné</h3>
+          <p>Posuvné podložky, transferové desky, zvedací pásy a různé typy zvedáků mají odlišné podmínky použití. Například pomůcka určená pro dopomoc při stoji nemusí člověka bezpečně zvednout, pokud sám neudrží váhu. Pro zvedák je potřeba správný kompatibilní závěs, prostor, obsluha a konkrétní plán přesunu.</p>
+          <p><strong>Nekupovat ani nepůjčovat před ověřením:</strong> přesný typ, závěs, nosnost, počet asistujících osob, zaškolení a bezpečný nouzový postup.</p>
+        </article>
+      </div>
+      <section class="zp-system-empty" aria-labelledby="otazky-presun-z-postele">
+        <h3 id="otazky-presun-z-postele">Sedm otázek pro fyzioterapeuta, ergoterapeuta nebo domácí péči</h3>
+        <ol class="zp-guide-steps">
+          <li><strong>Jaký přesun potřebujeme zvládnout?</strong> Postel–vozík, postel–WC, židle–postel, případně hygiena a noční situace.</li>
+          <li><strong>Co člověk bezpečně zvládá nyní?</strong> Otáčení, posazení, stoj, samostatný přesun? Nepokoušejte se to nebezpečně testovat.</li>
+          <li><strong>Kdo bude pomáhat?</strong> Jedna osoba doma, více členů rodiny nebo terénní péče? Kdo zajistí odborné zaučení?</li>
+          <li><strong>Jak vypadá prostor?</strong> Změřte přístup k posteli, úzká místa a místo u vozíku či WC; nevytvářejte improvizovaný přesun v těsném prostoru.</li>
+          <li><strong>Jaké zařízení a příslušenství potřebujeme?</strong> Určit přesný model, slučitelnost, závěs a výrobní nosnost; nic nepředpokládat z obecného názvu.</li>
+          <li><strong>Co při poruše nebo změně stavu?</strong> Kdo je dosažitelný, co dělat při selhání zařízení a kdy přestat přesun provádět?</li>
+          <li><strong>Kde pomůcku získat a vyzkoušet?</strong> Nejdříve zkušební použití a instruktáž; až následně porovnat půjčení, nákup a případné možnosti úhrady.</li>
+        </ol>
+        <p>Otázky si můžete opsat nebo vytisknout tuto stránku. <strong>Nikde na webu nevyplňujete diagnózu, hmotnost ani zdravotní historii.</strong></p>
+      </section>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Co vyjasnit ještě v nemocnici</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Poradce pro invalidní vozík</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Poradce pro postel</a>
+      </div>
+      <h3>Časté otázky pečujících</h3>
+      <div class="zp-faq">
+        <details><summary>Je lepší přesunová deska, nebo zvedák?</summary><p>Nelze rozhodnout jen podle věku a hmotnosti člověka. Záleží na tom, zda zvládá spolupracovat, přenést váhu a bezpečně se přesunout, i na konkrétním prostředí a dostupné pomoci. Typ a nácvik určuje odborník po posouzení.</p></details>
+        <details><summary>Může přesun zvládnout doma jeden pečující?</summary><p>Někdy ano, jindy jsou potřeba dvě osoby nebo jiný způsob péče. Počet a kompetence asistujících určuje konkrétní posouzení rizika, nikoliv obecný návod. Nenuťte rodinu provádět přesun, který nezvládá bezpečně.</p></details>
+        <details><summary>Pomůže polohovací postel nebo elektrický vozík vyřešit zvedání?</summary><p>Nastavitelná výška lůžka může usnadnit péči, vozík řeší mobilitu v sedě, ale ani jedno samo nenahradí bezpečný přesun mezi povrchy. Nejdřív je třeba rozlišit problém při posazení, postavení a přesunu.</p></details>
+      </div>
+      <p class="zp-muted-copy">Redakční podklady ověřeny 28. 10. 2026. <a class="zp-text-link" href="https://www.hse.gov.uk/healthservices/moving-handling/moving-handling-equipment.htm" target="_blank" rel="noopener noreferrer">HSE — pomůcky a rizika přesunů</a> · <a class="zp-text-link" href="https://www.hse.gov.uk/healthservices/moving-handling/manage-the-risk.htm" target="_blank" rel="noopener noreferrer">HSE — individuální posouzení a plán</a> · <a class="zp-text-link" href="https://www.nhs.uk/social-care-and-support/practical-tips-if-you-care-for-someone/how-to-move-lift-and-handle-someone-else/" target="_blank" rel="noopener noreferrer">NHS — rady pro pečující</a>. Jde o obecné bezpečnostní principy, nikoli české právní nebo úhradové podmínky. Nezávislá odborná revize Zápraží dosud není doložena.</p>
     </div>
   </section>
 

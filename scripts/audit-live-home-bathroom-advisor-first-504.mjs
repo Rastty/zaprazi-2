@@ -89,7 +89,7 @@ async function checkPage(path,width){
       links:Array.from(guide?.querySelectorAll("a[href]")||[]).map(a=>a.href),
       firstButton:document.querySelector(".zp-hero-actions .zp-btn")?.getAttribute("href"),
       form:!!document.getElementById(isHome?"zp-mobility-advisor":"zp-bathroom-advisor"),
-      submit:!!document.getElementById(isHome?"zp-advisor-submit":"zp-bathroom-submit"),
+      submit:!!document.getElementById(isHome?"zp-mobility-submit":"zp-bathroom-submit"),
       firstEditorialBeforeAdvisor:isHome?null:document.querySelector(".zp-hero-copy")?.textContent.includes("Senior nestihne dojít na toaletu?"),
       heading:guide?.querySelector("h2")?.textContent,
       title:document.title,

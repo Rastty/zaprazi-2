@@ -391,6 +391,11 @@ a{color:inherit}
 .zp-safe-recovery p{margin:.35rem 0 .8rem}
 .zp-safe-recovery .zp-link-btn{display:inline-flex;align-items:center;min-height:44px;line-height:1.4}
 
+/* Five Bathroom/WC Advisors: obvious, keyboard/touch-friendly ways to revise a result. */
+.zp-bathroom-edit-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.25rem 0 .35rem;padding-top:1rem;border-top:1px solid var(--zp-line)}
+.zp-bathroom-edit-actions .zp-link-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;line-height:1.45;text-align:center}
+@media(max-width:600px){.zp-bathroom-edit-actions{flex-direction:column}.zp-bathroom-edit-actions .zp-link-btn{width:100%}}
+
 /* Mobility P0: a small, accessible way out of uncertainty; model offers stay locked. */
 .zp-fit-help{margin:.85rem 0;padding:.8rem 1rem;border:1px solid var(--zp-line);border-radius:12px;background:var(--zp-paper)}
 .zp-fit-help>summary{min-height:44px;padding:.45rem 0;cursor:pointer;font-weight:750;line-height:1.5}

@@ -77,8 +77,10 @@ function createMobility(overrides = {}) {
     .replace(/^import .*;\s*$/gm, "");
   vm.runInNewContext(script, globals, { filename: file, timeout: 1500 });
   return { form, result, submitButton, errorBox, state, focusActions,
-    editAnswers() { const onClick = handlers['result:click']?.at(-1); assert.ok(onClick);
-      onClick({target: {closest(selector) {return selector === '[data-zp-edit-answers]' ? {} : null;}}}); } };
+    editAnswers({start=false}={}) { const onClick = handlers['result:click']?.at(-1); assert.ok(onClick);
+      onClick({target: {closest(selector) {return selector === '[data-zp-edit-answers]' ? {dataset: start ? {zpEditFocus: 'start'} : {}} : null;}}}); },
+    changeAnswer(name,value) { state[name]=value; for(const handler of handlers.change || []) handler({target:{name}}); }
+  };
 }
 
 test("exact rollator rental URL is present only in the hidden model-fit-gated acquisition section", () => {
@@ -153,11 +155,19 @@ test("blocked Homepage result offers a keyboard-safe return to the relevant ques
   }
 });
 
-test("Homepage candidate never confuses a completed recommendation with a blocked retry", () => {
+test("Homepage candidate offers a keyboard-friendly edit path; changing an answer immediately hides stale offers", () => {
   const h = createMobility({environment:"indoor",supportNeed:"steady",canLiftWalker:"yes",seatNeeded:false});
   h.submitButton.click();
   assert.match(h.result.innerHTML, /Ověřené výrobky k porovnání/);
-  assert.doesNotMatch(h.result.innerHTML, /data-zp-edit-answers="1"/);
+  assert.match(h.result.innerHTML, /data-zp-edit-answers="1" data-zp-edit-focus="start"/);
+  assert.match(h.result.innerHTML, /Upravit odpovědi a přepočítat výsledek/);
+  assert.match(h.result.innerHTML, /zp-fit-locked-offers/);
+  h.editAnswers({start:true});
+  assert.equal(h.focusActions.scrolled,true);
+  assert.equal(h.focusActions.focused,"environment");
+  h.changeAnswer("environment","both");
+  assert.equal(h.result.hidden,true);
+  assert.equal(h.result.innerHTML,"","Stale candidate cards and merchant/rental links must vanish on any changed answer");
 });
 
 test("known unsafe brakes explain a blocking result without false missing-answer label", () => {

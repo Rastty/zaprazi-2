@@ -130,6 +130,7 @@ get_header();
       <p class="zp-kicker">Když rodina potřebuje pomoc doma</p>
       <h2 id="domaci-pece-sluzby-nadpis" class="zp-section-title">Domácí zdravotní péče, pečovatelská služba, nebo osobní asistence: co vlastně potřebujeme?</h2>
       <p>Po propuštění z nemocnice může být potřeba pomoc zdravotní sestry, pravidelná pomoc s hygienou nebo delší dohled v domácnosti. <strong>Jde o odlišné služby.</strong> Předepsaná domácí zdravotní péče není automaticky pomoc s úklidem a pečovatelská služba nenahrazuje zdravotnické ošetření. Rodina někdy potřebuje více forem pomoci současně.</p>
+      <p class="zp-section-note"><strong>Kdo zaplatí dlouhodobou pomoc doma?</strong> Pokud blízký potřebuje pravidelnou pomoc s běžnými činnostmi, můžete vedle domluvy služby ověřit <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prispevek-na-peci-pro-seniora/#zadost-krok-za-krokem' ) ); ?>">příspěvek na péči: postup žádosti a sociální šetření</a>. Tato dávka není totéž jako úhrada zdravotních výkonů pojišťovnou.</p>
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
           <p class="zp-kicker">Zdravotní úkony doma</p>

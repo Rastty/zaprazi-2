@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · WC · Toaletní židle</p>
       <h1>Toaletní židle pro seniory: statická u lůžka, nebo 4v1 i do sprchy?</h1>
       <p class="zp-lead">Nejdřív rozlište, zda má židle hlavně zkrátit cestu na toaletu, nebo má jedna pomůcka sloužit i ve sprše a nad WC. Pak teprve řešte rozměry, výšku sedu, stabilitu podkladu, nosnost a bezpečný přesun.</p>
+      <p class="zp-muted-copy">Člověk toaletu často nestihne? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc' ) ); ?>">Nejdřív zjistit příčinu a varovné příznaky</a>. Přenosná židle sama neřeší náhlé nucení ani nebezpečný přesun.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-toaletni-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>

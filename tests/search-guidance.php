@@ -19,6 +19,11 @@ function check_route($term,$first,$count) {
 check_route('sprcha','/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',3);
 check_route('koupelna','/koupelna-a-wc/#poradce-koupelna',3);
 check_route('wc','/koupelna-a-wc/#poradce-koupelna',3);
+check_route('senior nestihne dojit na wc','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
+check_route('babicka nestihne na zachod','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
+check_route('nedojde na toaletu','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
+check_route('nemuze dojit na wc','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
+check_route('wc je daleko','/senior-nestihne-dojit-na-wc/#prvni-bezpecnost-wc',3);
 check_route('nastavec na wc','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
 check_route('wc nastavec','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);
 check_route('zvyseni wc','/nastavec-na-wc-pro-seniory/#poradce-nastavec-wc',3);

@@ -63,6 +63,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-senior-odmita-choditko.php',
     'page-senior-odmita-koupani.php',
     'page-senior-malo-pije.php',
+    'page-senior-nestihne-dojit-na-wc.php',
     'page-antidekubitni-matrace-na-polohovaci-postel.php',
     'assets/js/wheelchair-doorway-check.js',
     'assets/js/analytics-consent.js',
@@ -2288,6 +2289,29 @@ function zaprazi_2_is_senior_sos_page() {
 /** Publish the walker reluctance conversation guide once, without overwriting existing WordPress pages. */
 /** New problem-first hygiene refusal guide; create slug once, never modify existing posts. */
 /** Create the dehydration-prevention guide only when its WordPress slug is absent. */
+/** Publish a practical WC-reach problem guide once; never overwrite existing WordPress pages. */
+function zaprazi_2_ensure_senior_cannot_reach_wc_page() {
+  if ( '1' === get_option( 'zaprazi_senior_cannot_reach_wc_page_v1' ) ) return;
+  $slug = 'senior-nestihne-dojit-na-wc';
+  $existing = get_page_by_path( $slug, OBJECT, 'page' );
+  if ( $existing ) return;
+  $created = wp_insert_post(
+    array(
+      'post_type' => 'page',
+      'post_status' => 'publish',
+      'post_name' => $slug,
+      'post_title' => 'Senior nestihne dojít na WC: co dělat a jak bezpečně pomoci?',
+      'post_content' => '',
+      'post_excerpt' => 'Rozlište náhlé nucení, dlouhou cestu, nízké WC a nebezpečný přesun. Sedm domácích kontrol, varovné příznaky a bezpečné další kroky.',
+      'meta_input' => array( '_wp_page_template' => 'page-senior-nestihne-dojit-na-wc.php' ),
+    ), true
+  );
+  if ( ! is_wp_error( $created ) && $created ) {
+    update_option( 'zaprazi_senior_cannot_reach_wc_page_v1', '1', false );
+  }
+}
+add_action( 'init', 'zaprazi_2_ensure_senior_cannot_reach_wc_page', 58 );
+
 function zaprazi_2_ensure_low_fluid_intake_page() {
   if ( '1' === get_option( 'zaprazi_low_fluid_intake_v1' ) ) return;
   $slug = 'senior-malo-pije';

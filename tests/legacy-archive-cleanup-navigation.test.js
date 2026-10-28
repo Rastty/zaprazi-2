@@ -18,6 +18,6 @@ test("legacy category and tag sitemap routes are excluded, not senior-focused Pa
  assert.ok(fn.includes("add_filter( 'wp_robots'"));
  assert.ok(fn.includes("add_filter( 'wpseo_sitemap_exclude_taxonomy'"));
  assert.ok(fn.includes("in_array( $taxonomy, array( 'category', 'post_tag' ), true )"));
- assert.match(fn,/\\? 'noindex, follow' : \\$robots/);
- assert.doesNotMatch(fn.slice(fn.indexOf("SEO housekeeping after archival cleanup")),/wp_delete_post|wp_trash_post|post_status\\s*=|wp_redirect/);
+ assert.ok(fn.includes("? 'noindex, follow' : $robots"));
+ assert.doesNotMatch(fn.slice(fn.indexOf("SEO housekeeping after archival cleanup")),/wp_delete_post|wp_trash_post|post_status\s*=|wp_redirect/);
 });

@@ -391,6 +391,11 @@ a{color:inherit}
 .zp-safe-recovery p{margin:.35rem 0 .8rem}
 .zp-safe-recovery .zp-link-btn{display:inline-flex;align-items:center;min-height:44px;line-height:1.4}
 
+/* A direct route to a known uncertain answer: not a buying shortcut. */
+.zp-bathroom-missing-action{margin:1rem 0}
+.zp-bathroom-missing-action .zp-link-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;line-height:1.4}
+@media(max-width:600px){.zp-bathroom-missing-action .zp-link-btn{width:100%}}
+
 /* Five Bathroom/WC Advisors: obvious, keyboard/touch-friendly ways to revise a result. */
 .zp-bathroom-edit-actions{display:flex;flex-wrap:wrap;gap:.65rem;margin:1.25rem 0 .35rem;padding-top:1rem;border-top:1px solid var(--zp-line)}
 .zp-bathroom-edit-actions .zp-link-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;line-height:1.45;text-align:center}

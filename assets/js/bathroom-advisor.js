@@ -248,15 +248,38 @@ if (form && result && submitButton && errorBox) {
       : '') +
     '</div>';
 
+
+  // The deterministic decision engine identifies a single decisive unanswered
+  // or uncertain field. Offer a direct, visible, keyboard-focusable correction
+  // instead of sending the visitor back to the first question.
+  const correctableNames = new Set([
+    "transferAbility", "floorStable", "wallFixing", "bathTransferIndependent",
+    ...fitNames
+  ]);
+  const visibleCorrectionGroup = name => {
+    if (!correctableNames.has(name)) return null;
+    const group = form.querySelector('[data-zp-bath-required="' + name + '"]');
+    return group && !group.hidden && !group.closest("[hidden]") ? group : null;
+  };
+  const renderMissingAnswerAction = name =>
+    visibleCorrectionGroup(name)
+      ? '<p class="zp-result-edit zp-bathroom-missing-action">' +
+        '<button type="button" class="zp-link-btn" data-zp-bathroom-focus="' +
+        escapeHtml(name) + '">Upřesnit důležitou odpověď</button></p>'
+      : "";
+
   result.addEventListener("click", event => {
-    const button = event.target?.closest?.("[data-zp-bathroom-edit]");
+    const button = event.target?.closest?.("[data-zp-bathroom-edit],[data-zp-bathroom-focus]");
     if (!button || !result.contains(button)) return;
+    const directName = button.dataset.zpBathroomFocus;
     const editingFit = button.dataset.zpBathroomEdit === "fit" &&
       previewReady && !fitStage.hidden;
-    const group = editingFit
-      ? fitNames.map(name => form.querySelector('[data-zp-bath-required="' + name + '"]'))
-          .find(item => item && !item.hidden && !item.closest("[hidden]"))
-      : form.querySelector('[data-zp-bath-required="primaryNeed"]');
+    const group = directName
+      ? visibleCorrectionGroup(directName)
+      : editingFit
+        ? fitNames.map(name => form.querySelector('[data-zp-bath-required="' + name + '"]'))
+            .find(item => item && !item.hidden && !item.closest("[hidden]"))
+        : form.querySelector('[data-zp-bath-required="primaryNeed"]');
     if (!group || group.hidden || group.closest("[hidden]")) return;
     form.scrollIntoView({ block: "start" });
     const target = group.querySelector('input[type="radio"]:checked') ||
@@ -298,6 +321,7 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(outcome.headline)}</h2>
       <p>${escapeHtml(outcome.nextStep)}</p>
       ${renderBlockedGuide(outcome.status)}
+      ${renderMissingAnswerAction(outcome.missing?.[0])}
       <p class="zp-disclaimer">Konkrétní produkt bez bezpečných podkladů zatím nezobrazujeme.</p>
       ${renderEditButtons(false)}
     `;
@@ -488,6 +512,7 @@ if (form && result && submitButton && errorBox) {
       ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
       ${renderBlockedGuide(output.status)}
+      ${renderMissingAnswerAction(output.missing?.[0])}
       ${renderEditButtons(previewReady && !fitStage.hidden)}
     `;
 

@@ -384,6 +384,13 @@ a{color:inherit}
 .zp-mobility-fit-gate>label input{min-width:20px;min-height:20px;flex-shrink:0;margin-top:.1rem}
 .zp-mobility-fit-gate>h5{margin:0 0 .5rem;font-size:1.05rem}
 
+/* Mobility P0: a small, accessible way out of uncertainty; model offers stay locked. */
+.zp-fit-help{margin:.85rem 0;padding:.8rem 1rem;border:1px solid var(--zp-line);border-radius:12px;background:var(--zp-paper)}
+.zp-fit-help>summary{min-height:44px;padding:.45rem 0;cursor:pointer;font-weight:750;line-height:1.5}
+.zp-fit-help p{margin:.6rem 0}
+.zp-fit-help .zp-text-link{display:inline-block;margin:0}
+
+
 
 /* Printable local checklist for footwear measurements. No answers are
    collected, transmitted or persisted: the visitor fills the paper copy. */

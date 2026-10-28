@@ -10,7 +10,7 @@ test("service decision guidance distinguishes medical home care, social services
   const section=home.slice(first,last);
   assert.match(section,/aria-labelledby="domaci-pece-sluzby-nadpis"/);
   for(const s of ["Domácí zdravotní péče","Terénní pečovatelská služba","Osobní asistence",
-    "předpis","14 dní","za úhradu","registrovaného poskytovatele","kapacitu","příspěvek na péči",
+    "Předpis","14 dní","za úhradu","registrovaného poskytovatele","kapacitu","příspěvek na péči",
     "155","Šest kroků","MPSV","NZIP","VZP"])assert.ok(section.includes(s),"Missing: "+s);
   assert.doesNotMatch(section,/data-zp-merchant-link|affiliateKey|data-zp-affiliate-target|<form\b|wp_redirect/);
   assert.match(section,/home_url\( '\/otazky-pred-propustenim-z-nemocnice\/#socialni-a-zdravotni-sluzby' \)/);

@@ -237,6 +237,37 @@ if (form && result && submitButton && errorBox) {
     </article>
   `;
 
+
+  // Safe result revision: return to a visible question without changing fit
+  // or unlocking a product. Existing change listeners invalidate stale offers.
+  const renderEditButtons = (includeFit = false) =>
+    '<div class="zp-result-edit zp-bathroom-edit-actions" role="group" aria-label="Upravit odpovědi poradce">' +
+    '<button type="button" class="zp-link-btn" data-zp-bathroom-edit="situation">Upravit potřeby a přepočítat výsledek</button>' +
+    (includeFit
+      ? '<button type="button" class="zp-link-btn" data-zp-bathroom-edit="fit">Upravit rozměry a bezpečnostní ověření</button>'
+      : '') +
+    '</div>';
+
+  result.addEventListener("click", event => {
+    const button = event.target?.closest?.("[data-zp-bathroom-edit]");
+    if (!button || !result.contains(button)) return;
+    const editingFit = button.dataset.zpBathroomEdit === "fit" &&
+      previewReady && !fitStage.hidden;
+    const group = editingFit
+      ? fitNames.map(name => form.querySelector('[data-zp-bath-required="' + name + '"]'))
+          .find(item => item && !item.hidden && !item.closest("[hidden]"))
+      : form.querySelector('[data-zp-bath-required="primaryNeed"]');
+    if (!group || group.hidden || group.closest("[hidden]")) return;
+    form.scrollIntoView({ block: "start" });
+    const target = group.querySelector('input[type="radio"]:checked') ||
+      group.querySelector('input[type="radio"]');
+    if (target && !target.closest("[hidden]")) target.focus();
+    else {
+      group.setAttribute("tabindex", "-1");
+      group.focus();
+    }
+  });
+
   const showBlockedPreview = (outcome) => {
     previewReady = false;
     if (preview) preview.hidden = true;
@@ -246,6 +277,7 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(outcome.headline)}</h2>
       <p>${escapeHtml(outcome.nextStep)}</p>
       <p class="zp-disclaimer">Konkrétní produkt bez bezpečných podkladů zatím nezobrazujeme.</p>
+      ${renderEditButtons(false)}
     `;
     result.hidden = false;
     result.focus();
@@ -433,6 +465,7 @@ if (form && result && submitButton && errorBox) {
       ${renderProducts(products)}
       ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
+      ${renderEditButtons(previewReady && !fitStage.hidden)}
     `;
 
     result.querySelectorAll("[data-zp-bath-merchant-link]").forEach((link) => {

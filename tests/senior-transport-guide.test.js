@@ -56,9 +56,11 @@ test("Guide is genuinely published via idempotent WordPress route registration",
  assert.ok(fragment.includes("add_action( 'init', 'zaprazi_2_ensure_senior_transport_page', 58 )"));
  const sitemap=read("scripts/audit-public-sitemap.mjs");
  const staged=sitemap.slice(sitemap.indexOf("export const stagedDecisionPaths"),sitemap.indexOf("const decode ="));
- assert.ok(staged.includes('"'+route+'"'),"Must stage without treating not-yet-deployed page as live");
  const required=sitemap.slice(sitemap.indexOf("export const requiredDecisionPaths"),sitemap.indexOf("export const stagedDecisionPaths"));
- assert.ok(!required.includes('"'+route+'"'),"Must not hard fail pre-deploy sitemap");
+ // The published WordPress page and HTTPS Yoast sitemap were verified on 2026-10-28.
+ // Once production is confirmed, a missing live route must become an audit failure.
+ assert.ok(required.includes('"'+route+'"'),"Verified live guide must be required in sitemap QA");
+ assert.ok(!staged.includes('"'+route+'"'),"Verified live guide cannot remain a staged-only URL");
 });
 
 test("Two topical entry pages lead to the transport guide without merchant redirects",()=>{

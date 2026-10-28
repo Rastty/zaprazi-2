@@ -1,0 +1,32 @@
+name: Live Bathroom Hub Blocked Guides Chrome Acceptance PR496
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-bathroom-hub-blocked-guides-496.mjs"
+      - ".github/workflows/live-bathroom-hub-blocked-guides-496.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-bathroom-hub-blocked-guides-496.mjs"
+      - ".github/workflows/live-bathroom-hub-blocked-guides-496.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  chrome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Syntax check live Chrome test
+        run: node --check scripts/audit-live-bathroom-hub-blocked-guides-496.mjs
+      - name: Install Chrome driver
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Read-only acceptance of blocked central Bathroom guides
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-bathroom-hub-blocked-guides-496.mjs

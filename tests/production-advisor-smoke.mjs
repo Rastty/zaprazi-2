@@ -2304,9 +2304,34 @@ try {
     console.log("PASS 0.8.132 contextual rent and reimbursement links");
   }
 
+  // After the deliberate mass retirement of 4,359 unrelated legacy posts,
+  // historical *article fidelity* checks are obsolete. In their place,
+  // verify that old off-topic URLs actually return 404/410. This probe tests
+  // live state instead of assuming the currently deployed release version.
+  const retiredProbe = await fetch(base +
+    "/solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu/", {
+      headers: { Accept: "text/html" }, redirect: "follow",
+      signal: AbortSignal.timeout(18000)
+    });
+  const legacyPostsRetired = [404, 410].includes(retiredProbe.status);
+  if (legacyPostsRetired) {
+    for (const url of [
+      "/solarni-panely-v-praxi-inspirace-pro-zemedelce/",
+      "/retencni-nadrze-na-destovou-vodu-ekonomicke-vyhody-a-uspory-pro-domacnosti/"
+    ]) {
+      const retired = await fetch(base + url, {
+        headers: { Accept: "text/html" }, redirect: "follow",
+        signal: AbortSignal.timeout(18000)
+      });
+      assert.ok([404, 410].includes(retired.status),
+        "Retired off-topic URL unexpectedly returns HTTP " + retired.status + ": " + url);
+    }
+    console.log("PASS deliberate legacy archive retirement: 3 unrelated posts now return 404/410");
+  }
+
   // 0.8.133: only the two historical canary articles should render without
   // nested HTML documents. Their original CTA, image and text stay intact.
-  if (releaseAtLeast("0.8.133")) {
+  if (releaseAtLeast("0.8.133") && !legacyPostsRetired) {
     for (const path of [
       "/solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu/",
       "/solarni-panely-v-praxi-inspirace-pro-zemedelce/"
@@ -2333,7 +2358,7 @@ try {
 
   // 0.8.134: content fidelity, not merely absent doctype. The earlier
   // priority-3 legacy filter used to truncate everything after first DOCTYPE.
-  if (releaseAtLeast("0.8.134")) {
+  if (releaseAtLeast("0.8.134") && !legacyPostsRetired) {
     for (const entry of [
       {id:8105,path:"/solarni-panely-v-praxi-inspirace-pro-zemedelce/"},
       {id:8106,path:"/solarni-panely-a-jejich-prinos-pro-ekologickou-dopravu/"}
@@ -2372,7 +2397,7 @@ try {
   // fixed sample of the newest publicly listed 1/8-cohort posts. Compare
   // published REST content vs actual rendered DOM: fail on truncated text,
   // lost links/media or a broken page. This does not alter WordPress.
-  if (releaseAtLeast("0.8.135")) {
+  if (releaseAtLeast("0.8.135") && !legacyPostsRetired) {
     const response = await fetch(base + "/wp-json/wp/v2/posts?status=publish&per_page=100&page=1&_fields=id,slug,content",
       {headers:{Accept:"application/json"}});
     assert.equal(response.status, 200, "Public recent-posts API unavailable");

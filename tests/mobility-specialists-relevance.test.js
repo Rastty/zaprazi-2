@@ -35,7 +35,7 @@ for(const spec of [
     assert.match(js,/const freeGuide=/);
     assert.match(js,/out\.status==="outside_current_slice"/);
     assert.match(js,/href="\/bezpecny-byt-pro-seniora\/"/);
-    assert.match(js,/\$\{freeGuide\}\$\{nextMarkup\}/);
+    assert.match(js,/\$\{freeGuide\}\$\{safeRecoveryMarkup\}\$\{nextMarkup\}/);
     // Product fit and merchant gates remain in place even for steady support.
     assert.match(js,/renderMobilityProductFitGate\(/);
     assert.match(js,/installMobilityProductFitGate\(result\)/);

@@ -16,7 +16,11 @@ test("model-specific rollator brakes are mandatory for purchase and rental link 
   assert.match(roll, /zastavení i bezpečně zajistit/);
   assert.match(roll, /class="zp-fit-locked-offers" hidden/);
   assert.match(roll, /Potvrzeno 0 z 4 kontrol/);
-  assert.equal(roll.match(/href=/g)?.length, 1, "offer remains only inside hidden gate");
+  // The new measurement guide is safe to open, but the product offer itself
+  // must still occur only once and only inside the hidden model-fit gate.
+  assert.equal(roll.match(/href="https:\/\/example\.test\/offer"/g)?.length, 1);
+  assert.ok(roll.includes('class="zp-fit-locked-offers" hidden>'+offer+'</div>'));
+  assert.ok(roll.includes('href="/co-zmerit-pred-vyberem-choditka/#co-zmerit"'));
   const extra = renderMobilityProductFitGate(offer, {
     requireBrakeFit: true, requireSeatFit: true, requireTransportFit: true
   });

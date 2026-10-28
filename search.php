@@ -17,6 +17,10 @@ get_header();
     <section class="zp-search-guidance" aria-labelledby="zp-search-guidance-title">
       <h2 id="zp-search-guidance-title">Praktické návody k vašemu hledání</h2>
       <p>Tyto stránky pomáhají vybrat postup, nikoli automaticky potvrdit zdravotní vhodnost pomůcky.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( $zaprazi_guided_results[0][0] ) ); ?>">Otevřít první praktický návod</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Všechny domácí poradce</a>
+      </div>
       <div class="zp-decision-grid">
         <?php foreach ( $zaprazi_guided_results as $zaprazi_guide ) : ?>
           <article class="zp-decision-card">

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_178 */ get_header(); ?>
+/* ZP_RELEASE_0_8_179 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">
@@ -65,7 +65,7 @@
         <article class="zp-decision-card">
           <h3>Senior spadl doma: co dělat hned?</h3>
           <p>Nejdřív rozhodnout, zda je potřeba zdravotnická pomoc. Pak plán na sedm kontrol a návaznost na bezpečný pohyb doma; ne nákup naslepo.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Co dělat po pádu a kdy volat 155</a></p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Co dělat po pádu a kdy volat 155</a></p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#strach-z-chuze-po-padu' ) ); ?>">Když se senior po pádu bojí znovu chodit</a></p>
         </article>
         <article class="zp-decision-card">
           <h3>Senior nemůže vstát z postele</h3>

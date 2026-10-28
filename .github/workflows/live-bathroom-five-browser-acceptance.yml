@@ -1,0 +1,36 @@
+name: Live Bathroom Five Chrome Acceptance (PR 490)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-bathroom-five-edit-490.mjs"
+      - "tests/live-bathroom-five-browser-contract.test.js"
+      - ".github/workflows/live-bathroom-five-browser-acceptance.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-bathroom-five-edit-490.mjs"
+      - ".github/workflows/live-bathroom-five-browser-acceptance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bathroom-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check live audit syntax
+        run: node --check scripts/audit-live-bathroom-five-edit-490.mjs
+      - name: Install Chrome driver without modifying package lock
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Live five Bathroom Advisors - edit, model fit, blocked safety and privacy
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+        run: node scripts/audit-live-bathroom-five-edit-490.mjs

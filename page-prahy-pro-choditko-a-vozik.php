@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_177 */
+/* ZP_RELEASE_0_8_178 */
 /*
 Template Name: Zápraží — Práh pro chodítko a vozík
 */

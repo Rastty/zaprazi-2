@@ -97,6 +97,18 @@ get_header();
     </div>
   </section>
 
+  <section id="dalsi-krok-odmitani-koupani" class="zp-section" aria-labelledby="dalsi-krok-odmitani-koupani-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Až po domluvě a bezpečném přesunu</p>
+      <h2 id="dalsi-krok-odmitani-koupani-title" class="zp-section-title">Potřebujete upravit koupelnu? Vyberte konkrétní překážku.</h2>
+      <p>Pokud člověk se změnou souhlasí a je jasný bezpečný způsob vstupu či přesunu, poradce pomůže rozlišit oporu, sedátko a prostorové podmínky. <strong>Žádná pomůcka nenahradí odborné posouzení nejistého přesunu.</strong> Při nemožnosti bezpečného přesunu zvažte nejdřív pomoc s hygienou u lůžka nebo pečovatelskou službu.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/koupelna-a-wc/#poradce-koupelna' ) ); ?>">Projít poradce pro koupelnu a WC</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#vyberte-misto' ) ); ?>">Nejdřív změřit prostor koupelny</a>
+      </div>
+    </div>
+  </section>
+
   <section id="plan-hygiena-bez-natlaku" class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Sedm klidných kroků</p>

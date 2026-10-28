@@ -2,7 +2,7 @@
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
-import { getMobilityNextSteps } from "../../src/mobility/next-steps.js";
+import { getMobilityNextSteps, getMobilitySafeRecovery } from "../../src/mobility/next-steps.js";
 
 const form=document.querySelector("#zp-indoor-walker-advisor");
 const result=document.querySelector("#zp-indoor-walker-result");
@@ -119,11 +119,15 @@ if(form&&result&&submit&&errors){
         : out.missing?.includes("supportNeed")
           ? "Nejdřív zjistěte, jakou oporu člověk potřebuje. Bez této informace nelze bezpečně vybrat typ chodítka."
           : "Nejdřív ověřte, zda člověk zvládne při každém kroku nadzvednout celé chodítko. Podle toho se liší vhodný typ konstrukce.";
+    const safeRecovery = getMobilitySafeRecovery(out);
+    const safeRecoveryMarkup = safeRecovery
+      ? '<section class="zp-safe-recovery" aria-label="Další bezpečný krok"><h3>Když nyní nelze vybrat chodítko</h3><p>' + esc(safeRecovery.reason) + '</p><a class="zp-link-btn" href="' + esc(safeRecovery.href) + '">' + esc(safeRecovery.action) + '</a></section>'
+      : "";
     const next = getMobilityNextSteps(out);
     const nextMarkup = next.canCompareAcquisition
       ? '<section class="zp-acquisition-summary"><h3>Jak chodítko získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
       : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>' + esc(blockedReason) + '</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${nextMarkup}`;
+    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${safeRecoveryMarkup}${nextMarkup}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
       const questionName=val("supportNeed")==="steady"?"canLiftWalker":"supportNeed";

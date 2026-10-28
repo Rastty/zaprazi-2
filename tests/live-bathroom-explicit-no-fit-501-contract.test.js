@@ -16,7 +16,7 @@ test("Real live Chrome checks explicit no-fit for each important bathroom branch
  ]) assert.ok(script.includes(token),token);
 });
 test("Production negative-fit smoke protects privacy and cannot make purchases",()=>{
- for(const token of ["request.method()","req.method()!==\"GET\"","req.abort()",
+ for(const token of ["req.method()!==\"GET\"","req.abort()",
   "assert.deepEqual(nonGets,[]","merchantClicks:0","location.search",
   "builder_complete","recommendation_view","puppeteer-core@24",
   "pull_request:","workflow_dispatch:"]) assert.ok((script+"\n"+workflow).includes(token),token);

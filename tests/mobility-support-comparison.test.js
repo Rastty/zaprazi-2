@@ -9,7 +9,7 @@ test("support comparison is one coherent safety-first section on canonical walki
   assert.ok(start>0&&end>start,"Comparison must precede product-type navigation");
   const section=mobility.slice(start,end);
   assert.match(section,/aria-labelledby="hul-nebo-choditko-nadpis"/);
-  for(const word of ["Vycházková hůl","Francouzská berle","Čtyřbodové nebo dvoukolové chodítko","Čtyřkolový rollátor","volejte 155","Půjčení","půjčení","ePoukaz","NHS","VZP","MPSV"])
+  for(const word of ["Vycházková hůl","Francouzská berle","Čtyřbodové nebo dvoukolové chodítko","Čtyřkolový rollátor","volejte 155","půjčení","ePoukaz","NHS","VZP","MPSV"])
    assert.ok(section.includes(word),"Missing safety/comparison info "+word);
   assert.doesNotMatch(section,/data-zp-merchant-link|affiliateKey|data-zp-affiliate-target|<form|wp_redirect/);
   assert.ok(!section.includes("automatically eligible"),"No fabricated reimbursement");

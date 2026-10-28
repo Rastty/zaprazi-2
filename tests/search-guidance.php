@@ -99,6 +99,29 @@ check_route('osobni asistence','/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-
 check_route('hul nebo choditko','/choditka-pro-seniory/#hul-nebo-choditko',3);
 check_route('francouzska berle','/choditka-pro-seniory/#hul-nebo-choditko',3);
 check_route('berle pro seniora','/choditka-pro-seniory/#hul-nebo-choditko',3);
+// Real caregiver concerns must be prioritized above generic product and
+// room categories. Every selected destination is static and safety-first.
+check_route('senior odmita choditko','/senior-odmita-choditko/#proc-senior-odmita',3);
+check_route('maminka nechce choditko','/senior-odmita-choditko/#proc-senior-odmita',3);
+check_route('senior nechce do sprchy','/senior-odmita-koupani/#vyber-hygieny-bez-sprchy',3);
+check_route('senior odmita koupani','/senior-odmita-koupani/#vyber-hygieny-bez-sprchy',3);
+check_route('senior malo pije','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('maminka nechce pit','/senior-malo-pije/#varovne-priznaky-malo-pije',3);
+check_route('babicka sama doma','/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos',3);
+check_route('senior sam doma pres noc','/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos',3);
+foreach(array(
+  'choditko se sedatkem'=>'/rollator-pro-seniory/#rollator-se-sedatkem',
+  'sprchovaci zidle'=>'/sprchovaci-zidle-pro-seniory/#poradce-sprchovaci-zidle',
+  'zvedaci postel'=>'/polohovaci-postel/',
+  'vodu do bytu'=>'',
+  'fotovoltaika'=>''
+) as $query=>$first) {
+  $routes=zaprazi_2_search_guidance_for_query($query);
+  if(($routes[0][0]??'')!==$first){
+    fwrite(STDERR,"Caregiver rescue hijacked other query: ".$query."\n");
+    exit(1);
+  }
+}
 check_route('zvedaci postel','/polohovaci-postel/',2);
 check_route('zvedaci kreslo','/vstavani-z-kresla-pro-seniora/#jak-postupovat-kreslo',3);
 check_route('peceni doma','',0);

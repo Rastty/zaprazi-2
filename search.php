@@ -9,7 +9,7 @@ get_header();
   <header class="zp-archive-header">
     <p class="zp-kicker">Vyhledávání</p>
     <h1>Výsledky pro „<?php echo esc_html( get_search_query() ); ?>“</h1>
-    <p>Výsledky mohou obsahovat starší články na různá témata. Pro výběr pomůcky raději začněte praktickým poradcem, který řeší bezpečnost a vhodné parametry.</p>
+    <p>Vyhledáváme v současných stránkách o bezpečném a samostatném životě doma. Historický archiv energetiky a stavebnictví byl vyřazen; pokud hledáte pomoc s chůzí, koupelnou nebo domácí péčí, použijte praktické návody.</p>
   </header>
 
 
@@ -42,9 +42,9 @@ get_header();
   <?php else : ?>
     <div class="zp-system-empty">
       <?php if ( $zaprazi_guided_results ) : ?>
-        <p>Ve starším archivu nemáme další odpovídající článek. Využijte praktické návody a poradce výše.</p>
+        <p>Další odpovídající stránku jsme nenašli. Vyberte si z praktických návodů výše nebo přejděte do Domácího poradce.</p>
       <?php else : ?>
-        <p>Pro tento dotaz jsme nic nenašli.</p>
+        <p>Pro tento dotaz jsme žádnou odpovídající stránku nenašli. Zkuste začít konkrétní domácí situací v našem poradci.</p>
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Zkusit Domácí poradce</a>
       <?php endif; ?>
     </div>

@@ -61,7 +61,7 @@ test("Privacy canary flags suspicious custom parameter names without reading val
   for (const key of ["page_location","ga_session_id","engagement_time_msec","builder_complete","merchant_click","source","page_title"])
     assert.doesNotMatch(key, sensitive);
   const {privacy} = buildGa4ReadOnlyQueries(options);
-  assert.equal((privacy.match(/REGEXP_CONTAINS\\(LOWER\\(p\\.key\\)/g) || []).length, 2);
+  assert.equal(privacy.split("REGEXP_CONTAINS(LOWER(p.key)").length - 1, 2);
   assert.match(privacy, /COUNTIF\\(has_user_properties\\)/);
   assert.match(privacy, /COUNTIF\\(suspicious_user_property_key\\)/);
 });

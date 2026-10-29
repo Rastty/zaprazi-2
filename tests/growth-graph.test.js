@@ -31,6 +31,21 @@ test("verified dependencies unlock affiliate review but only with source-backed 
   s.nodes.affiliate_audit.evidenceUrl="";
   assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
 });
+test("verified downstream nodes cannot bypass unverified safety or evidence prerequisites",()=>{
+  const s=clone(blank);
+  s.nodes.conversion_ux={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
+  assert.throws(()=>planGrowth(graph,s),/Verified node requires verified dependencies: conversion_ux/);
+  s.nodes.safety_qa={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
+  assert.throws(()=>planGrowth(graph,s),/conversion_ux -> affiliate_audit/);
+  s.nodes.affiliate_audit={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
+  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="conversion_ux").status,"verified");
+
+  const content=clone(blank);
+  content.nodes.content_upgrade={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
+  assert.throws(()=>planGrowth(graph,content),/content_upgrade -> intent_evidence/);
+  content.nodes.intent_evidence={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
+  assert.equal(planGrowth(graph,content).tasks.find(x=>x.id==="content_upgrade").status,"verified");
+});
 test("evidence-backed aggregate data may raise review priority without inventing sales",()=>{
   const s=clone(blank);
   s.asOf="2026-10-29";

@@ -1,6 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {isExactAnchor,checkReadiness,assertGuidance,assertPrimaryGuidance,assertNoGuidance} from "../scripts/verify-live-release-and-guides.mjs";
+import { execFileSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import {isExactAnchor,checkReadiness,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases} from "../scripts/verify-live-release-and-guides.mjs";
 const ready={release:"0.8.182",integrity:"ok",configured_total:25,slot_total:25};
 test("verify version, integrity and complete affiliate slots, distinguish pending deploy",()=>{
  assert.deepEqual(checkReadiness(ready,"0.8.182"),{expected:"0.8.182",deployed:"0.8.182",release_matches:true});
@@ -29,4 +31,20 @@ test("live guidance CTA must lead to first safe guide without carrying search te
  assert.throws(()=>assertPrimaryGuidance(section("https://zaprazi.cz/sobestacnost/"),target),"Wrong primary CTA");
  assert.throws(()=>assertPrimaryGuidance(section(target+"?s=senior"),target),"No query leakage");
  assert.throws(()=>assertPrimaryGuidance('<section class="zp-search-guidance"><a href="'+target+'">Poznámka</a></section>',target),"Missing primary action");
+});
+
+test("production acceptance queries match real PHP safety-first search router",()=>{
+  // Run the actual deterministic router (no WordPress, network or health data).
+  // This catches stale hard-coded live expectations when a new safe guide
+  // takes precedence over a generic page, without masking real live drift.
+  const queries=liveSearchCases.map(({term})=>term);
+  const encoded=Buffer.from(JSON.stringify(queries),"utf8").toString("base64");
+  const php='require "src/seo/search-guidance.php"; '+
+    '$terms=json_decode(base64_decode("'+encoded+'"),true); '+
+    'echo json_encode(array_map(static fn($term) => zaprazi_2_search_guidance_for_query($term)[0][0] ?? null, $terms));';
+  const stdout=execFileSync("php",["-r",php],{
+    cwd:fileURLToPath(new URL("../",import.meta.url)),
+    encoding:"utf8",timeout:10000
+  });
+  assert.deepEqual(JSON.parse(stdout),liveSearchCases.map(({target})=>target));
 });

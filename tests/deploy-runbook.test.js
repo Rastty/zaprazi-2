@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {createHash} from "node:crypto";
 
 const read = path => readFileSync(new URL("../" + path, import.meta.url), "utf8");
 
@@ -39,4 +40,19 @@ test("manual production QA enforces source version rather than predeploy live ve
   assert.match(workflow, /node tests\/production-advisor-smoke\.mjs/);
   assert.match(smoke, /const requiredVersion = process\.env\.ZP_RELEASE \|\| sourceRelease;/);
   assert.match(smoke, /assert\.equal\(readiness\.release, requiredVersion/);
+});
+
+test("WP release integrity pins exact Mobility safety files, not just reusable release markers", () => {
+  const php = read("functions.php");
+  assert.ok(php.includes("$critical_git_blobs = array_merge( $bathroom_git_blobs"));
+  assert.ok(php.includes("array_keys( $critical_git_blobs )"));
+  assert.ok(php.includes("isset( $critical_git_blobs[ $relative_path ] )"));
+  for (const path of ["src/mobility/engine.js", "src/mobility/offer-fit-gate.js"]) {
+    const bytes = Buffer.from(read(path), "utf8");
+    const actual = createHash("sha1")
+      .update(Buffer.from("blob " + bytes.length + "\0", "utf8"))
+      .update(bytes).digest("hex");
+    assert.ok(php.includes("\'" + path + "\' => \'" + actual + "\'"),
+      "Missing or stale exact Git blob for " + path);
+  }
 });

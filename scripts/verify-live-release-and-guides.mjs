@@ -68,6 +68,21 @@ function searchUrl(term) {
   u.searchParams.set("s",term);
   return u.href;
 }
+// Fixed synthetic queries only. No visitor answers, no search analytics.
+export const liveSearchCases = Object.freeze([
+  {term:"presun z postele na vozik",target:"/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik"},
+  {term:"pecovatelska sluzba",target:"/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky"},
+  {term:"osobni asistence",target:"/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky"},
+  {term:"domaci zdravotni pece",target:"/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba"},
+  {term:"hul nebo choditko",target:"/choditka-pro-seniory/#hul-nebo-choditko"},
+  {term:"senior odmita choditko",target:"/senior-odmita-choditko/#proc-senior-odmita"},
+  {term:"senior nechce do sprchy",target:"/senior-odmita-koupani/#vyber-hygieny-bez-sprchy"},
+  {term:"senior malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
+  {term:"babicka sama doma",target:"/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos"},
+  {term:"senior nepije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
+  {term:"malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"}
+]);
+
 export async function verifyLiveReleaseAndGuides() {
   const readiness = checkReadiness(JSON.parse(await getText(origin+"/wp-json/zaprazi/v1/affiliate-readiness")));
   const report = { checked_at: new Date().toISOString(), site: origin, ...readiness,
@@ -81,6 +96,7 @@ export async function verifyLiveReleaseAndGuides() {
   const guides = [
     {path:"/senior-nemuze-vstat-z-postele/",anchor:"presun-z-postele-na-vozik",phrase:"Nezvládám zvedání seniora"},
     {path:"/navrat-z-nemocnice/",anchor:"domaci-zdravotni-pece-nebo-pecovatelska-sluzba",phrase:"Terénní pečovatelská služba"},
+    {path:"/jak-vybrat-pecovatelskou-sluzbu/",anchor:"vyber-pecovatelske-sluzby-kroky",phrase:"Sedm kroků k reálně dostupné a vhodné pomoci doma"},
     {path:"/choditka-pro-seniory/",anchor:"hul-nebo-choditko",phrase:"Francouzská berle"},
     {path:"/senior-odmita-choditko/",anchor:"proc-senior-odmita",phrase:"Čtyři možné důvody"},
     {path:"/senior-odmita-koupani/",anchor:"vyber-hygieny-bez-sprchy",phrase:"Čtyři časté překážky"},
@@ -94,17 +110,10 @@ export async function verifyLiveReleaseAndGuides() {
     assert.ok(html.includes(guide.phrase), "Missing live useful content on "+guide.path);
     pageReports.push({path:guide.path,anchor:guide.anchor,exists:true});
   }
-  const cases = [
-    {term:"presun z postele na vozik",target:"/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik"},
-    {term:"pecovatelska sluzba",target:"/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba"},
-    {term:"hul nebo choditko",target:"/choditka-pro-seniory/#hul-nebo-choditko"},
-    {term:"senior odmita choditko",target:"/senior-odmita-choditko/#proc-senior-odmita"},
-    {term:"senior nechce do sprchy",target:"/senior-odmita-koupani/#vyber-hygieny-bez-sprchy"},
-    {term:"senior malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
-    {term:"babicka sama doma",target:"/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos"},
-    {term:"senior nepije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"},
-    {term:"malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"}
-  ];
+  // Keep these synthetic search expectations aligned with the deterministic
+  // PHP router. A separate unit contract runs the real PHP function so future
+  // editorial routing improvements cannot silently break live acceptance.
+  const cases = liveSearchCases;
   const queries=[];
   for (const entry of cases) {
     const searchHtml = await getText(searchUrl(entry.term));

@@ -8,8 +8,9 @@ const tracked=["src/bathroom/engine.js","src/bathroom/preview.js"];
 
 test("WordPress integrity fingerprints match the exact reviewed bathroom engine and preview bytes",()=>{
   assert.ok(php.includes("$bathroom_git_blobs = array("));
-  assert.ok(php.includes("array_merge( $files, array_keys( $bathroom_git_blobs ) )"));
-  assert.ok(php.includes("hash_equals( $bathroom_git_blobs[ $relative_path ], $actual_blob )"));
+  assert.ok(php.includes("$critical_git_blobs = array_merge( $bathroom_git_blobs"));
+  assert.ok(php.includes("array_merge( $files, array_keys( $critical_git_blobs ) )"));
+  assert.ok(php.includes("hash_equals( $critical_git_blobs[ $relative_path ], $actual_blob )"));
   assert.ok(php.includes("sha1( 'blob ' . strlen( $contents )"));
   for(const path of tracked){
     const listing=php.split("\n").find(line=>line.includes("'"+path+"' => '"));

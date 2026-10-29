@@ -2995,6 +2995,11 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  // Exact, already-live editorial routes: distinct search intent, no personal claims.
+  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy požádat lékaře o zdravotnickou dopravu, kdy zvolit auto a co ověřit u vozíku, schodů i zpáteční cesty.';
+  if ( is_page( 'senior-nestihne-dojit-na-wc' ) ) return 'Senior nestíhá dojít na WC? Rozlište náhlé nucení, dlouhou cestu a obtížné vstávání. Sedm kontrol doma, varovné příznaky a bezpečné další kroky.';
+  if ( is_page( 'prispevek-na-peci-pro-seniora' ) ) return 'Příspěvek na péči pro seniora: kde podat žádost, jak připravit přílohy a sociální šetření, kdy řešit změnu dávky a jak zajistit pomoc už dnes.';
+  if ( is_page( 'jak-vybrat-pecovatelskou-sluzbu' ) ) return 'Jak vybrat pečovatelskou službu: ověřte registr MPSV, dostupnost v obci, skutečnou kapacitu, cenu a smlouvu. Sedm kroků a osm otázek pro rodinu.';
   if ( zaprazi_2_is_low_fluid_intake_page() ) return 'Senior málo pije? Čtyři možné důvody, varovné příznaky, 7 bezpečných kroků, 8 kontrol pro rodinu a rady k pomůckám na pití.';
   if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior nechce do sprchy? Stud, zima, bolest a strach z pádu: 7 kroků pro rodinu, bezpečné alternativy koupání a kdy požádat o pomoc.';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior nechce chodítko? Čtyři možné důvody, jak o pomůcce mluvit bez nátlaku, 7 kroků pro rodinu a bezpečný postup s odborníkem.';
@@ -3058,6 +3063,25 @@ function zaprazi_2_resource_description( $description ) {
   return $description;
 }
 add_filter( 'wpseo_metadesc', 'zaprazi_2_resource_description', 30 );
+
+/**
+ * These four published editorial pages had no description in the live DOM
+ * audit (2026-10-29). Yoast owns the tag when active; emit exactly one
+ * fallback tag only when Yoast is absent, without touching other routes.
+ */
+function zaprazi_2_four_editorial_meta_fallback() {
+  if ( defined( 'WPSEO_VERSION' ) || ! is_page( array(
+    'prevoz-seniora-k-lekari',
+    'senior-nestihne-dojit-na-wc',
+    'prispevek-na-peci-pro-seniora',
+    'jak-vybrat-pecovatelskou-sluzbu',
+  ) ) ) {
+    return;
+  }
+  echo '<meta name="description" content="' . esc_attr( zaprazi_2_resource_description( '' ) ) . '">' . PHP_EOL;
+}
+add_action( 'wp_head', 'zaprazi_2_four_editorial_meta_fallback', 5 );
+
 /** Fallback meta without Yoast for low fluid intake. */
 function zaprazi_2_low_fluid_intake_meta_fallback() {
   if ( ! zaprazi_2_is_low_fluid_intake_page() || defined( 'WPSEO_VERSION' ) ) return;

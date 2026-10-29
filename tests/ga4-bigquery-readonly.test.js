@@ -13,20 +13,20 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
     assert.doesNotMatch(sql,/user_pseudo_id|user_id|geo\.|device\.|traffic_source\./);
   }
   for (const event of ["builder_start","builder_complete","recommendation_view","merchant_click"])
-    assert.match(funnel,new RegExp("COUNTIF\\(event_name = '"+event+"'\\)"));
+    assert.match(funnel,new RegExp("COUNTIF\(event_name = '"+event+"'\)"));
   // A property may accidentally include other websites: only Zápraží events
   // with an exact page_location hostname can enter the funnel.
-  assert.match(funnel,/AND EXISTS \\(SELECT 1 FROM UNNEST\\(event_params\\) p/);
-  assert.ok(funnel.includes("zaprazi\\\\.cz"));
-  assert.ok(funnel.includes("www\\\\."));
-  assert.doesNotMatch(funnel,/klix\\.cz/);
+  assert.match(funnel,/AND EXISTS \(SELECT 1 FROM UNNEST\(event_params\) p/);
+  assert.ok(funnel.includes("zaprazi\\.cz"));
+  assert.ok(funnel.includes("www\\."));
+  assert.doesNotMatch(funnel,/klix\.cz/);
   // The property-wide source audit must not expose raw URLs or other hosts.
   assert.match(sourceIntegrity,/events_on_zaprazi_host/);
   assert.match(sourceIntegrity,/events_without_valid_page_location/);
   assert.match(sourceIntegrity,/events_on_other_hosts/);
   assert.match(sourceIntegrity,/funnel_events_without_valid_page_location/);
   assert.match(sourceIntegrity,/funnel_events_on_other_hosts/);
-  assert.doesNotMatch(sourceIntegrity,/GROUP BY|SELECT\\s+host\\b|SELECT\\s+\\*/i);
+  assert.doesNotMatch(sourceIntegrity,/GROUP BY|SELECT\s+host\b|SELECT\s+\*/i);
   assert.match(ga4Cli(Object.values(options)),/Verify property domain BEFORE using funnel metrics/);
   assert.match(privacy,/search_term/);
   assert.match(privacy,/url_query_or_fragment/);

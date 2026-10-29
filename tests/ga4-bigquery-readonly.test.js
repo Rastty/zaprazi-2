@@ -32,6 +32,7 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
   assert.match(privacy,/url_query_or_fragment/);
   assert.match(privacy,/automatic_search_events/);
   assert.match(privacy,/events_with_sensitive_param_keys/);
+  assert.match(privacy,/events_with_sensitive_event_names/);
   assert.match(privacy,/events_with_user_properties/);
   assert.match(privacy,/events_with_sensitive_user_property_keys/);
   assert.ok(privacy.includes("UNNEST(user_properties)"));
@@ -56,12 +57,14 @@ test("Reject SQL injection, invalid dates and oversized scans", () => {
 
 test("Privacy canary flags suspicious custom parameter names without reading values", () => {
   const sensitive = new RegExp(SENSITIVE_KEY_PATTERN);
-  for (const key of ["answer_1","question2","q3","mobility_status","health_profile","diagnosis","selected_option","jmeno","odpoved_2","user_email","fit_result","patient_id"])
+  for (const key of ["answer_1","question2","q3","q3_yes","mobility_status","health_profile","diagnosis","selected_option","jmeno","odpoved_2","user_email","fit_result","patient_id"])
     assert.match(key, sensitive);
   for (const key of ["page_location","ga_session_id","engagement_time_msec","builder_complete","merchant_click","source","page_title"])
     assert.doesNotMatch(key, sensitive);
   const {privacy} = buildGa4ReadOnlyQueries(options);
   assert.equal(privacy.split("REGEXP_CONTAINS(LOWER(p.key)").length - 1, 2);
+  assert.ok(privacy.includes("REGEXP_CONTAINS(LOWER(event_name)"));
+  assert.ok(privacy.includes("COUNTIF(suspicious_event_name)"));
   assert.ok(privacy.includes("COUNTIF(has_user_properties)"));
   assert.ok(privacy.includes("COUNTIF(suspicious_user_property_key)"));
 });

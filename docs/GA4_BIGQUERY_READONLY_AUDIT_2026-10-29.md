@@ -14,7 +14,16 @@ Po prvním denním exportu Zápraží zjistit jeho **vlastní** číselné GA4 p
 node scripts/ga4-bigquery-readonly.mjs prometheus-503317 <ZAPRAZI_PROPERTY_ID> 20261029 20261029
 ~~~
 
-Nástroj vypíše **dva pouze čtecí BigQuery Standard SQL dotazy** pro ruční spuštění v konzoli: (1) součty page_view a povolených funnel událostí, (2) součty možných privacy incidentů. Dotazy nevracejí syrové URL, vyhledávací výrazy, odpovědi, osobní identifikátory ani uživatelské řádky. Vstupy jsou validované; interval je nejvýše 31 dní. Přímý přístup k BigQuery zde není nastaven a skript nemá žádné přihlašovací údaje.
+Nástroj vypíše **tři pouze čtecí BigQuery Standard SQL dotazy** pro ruční spuštění v konzoli: (1) kontrolu integrity domény GA4 property, (2) součty page_view a povolených funnel událostí **pouze pro přesný host zaprazi.cz / www.zaprazi.cz**, (3) součty možných privacy incidentů v celé GA4 property. Dotazy nevracejí syrové URL, vyhledávací výrazy, odpovědi, osobní identifikátory ani uživatelské řádky. Vstupy jsou validované; interval je nejvýše 31 dní. Přímý přístup k BigQuery zde není nastaven a skript nemá žádné přihlašovací údaje.
+
+## Povinná kontrola domény před vyhodnocením
+
+1. Spustit nejprve první SQL (source integrity). Vrací jen agregované počty `events_on_zaprazi_host`, `events_on_other_hosts`, `events_without_valid_page_location` a odpovídající počty pro funnel. **Nikdy nevypisuje cizí hostnames ani surové URL.**
+2. Pokud `events_on_other_hosts > 0`, property sdílí více domén nebo má chybné tagování; **nesčítat všechny eventy jako návštěvnost Zápraží**. Pokud `funnel_events_without_valid_page_location > 0`, část funnelu nemá ověřitelný host a nebude v doménově filtrovaných výsledcích.
+3. Druhé SQL používá fail-closed filtr na `page_location` s přesným hostem `zaprazi.cz` nebo `www.zaprazi.cz`; `klix.cz`, podobné domény a události bez `page_location` se do funnelu nedostanou. Vzorek je proto případně neúplný, nikdy jej nedopočítávat na celou populaci.
+4. Třetí SQL prověřuje privacy signály **napříč celou property**, protože únik citlivých parametrů na jiné doméně by se neměl skrýt doménovým filtrem. Ani nulové výsledky nejsou důkazem správně nastaveného souhlasu.
+
+Před zápisem do Growth Graphu ověřit, že jde o vlastní GA4 property Zápraží, že je denní export úplný a že funnel události mají `page_location`. Pouhé číselné ID datasetu toto nepotvrzuje. Nástroj nic neodesílá a nic nepublikuje.
 
 ## Interpretace
 

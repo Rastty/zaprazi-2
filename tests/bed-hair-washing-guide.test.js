@@ -69,16 +69,16 @@ test("WordPress creates new slug once and does not overwrite legacy articles", (
   assert.match(functions, /defined\( 'WPSEO_VERSION' \)/);
 });
 
-test("page discovery routes are contextual and new URL is sitemap-staged, not prerelease-required", () => {
+test("page discovery routes are contextual and new URL is sitemap-required, now production-required", () => {
   for (const path of ["page-navrat-z-nemocnice.php", "page-koupelna-a-wc.php", "page-polohovaci-postel.php"]) {
     assert.match(read(path), /\/myti-vlasu-na-luzku\/#vyber-myti-vlasu/, path);
   }
   assert.match(functions, /'page-myti-vlasu-na-luzku.php'/);
   const sitemap=read("scripts/audit-public-sitemap.mjs");
-  const staged=sitemap.split("export const stagedDecisionPaths")[1].split("]);")[0];
-  assert.ok(staged.includes('"/myti-vlasu-na-luzku/"'));
+  const requiredCopy=sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0];
+  assert.ok(requiredCopy.includes('"/myti-vlasu-na-luzku/"'));
   const required=sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0];
-  assert.ok(!required.includes('"/myti-vlasu-na-luzku/"'));
+  assert.ok(required.includes('"/myti-vlasu-na-luzku/"'));
   const version = read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
   assert.ok(version, "Theme version not defined");
   assert.ok(page.includes("ZP_RELEASE_" + version.replaceAll(".", "_")));

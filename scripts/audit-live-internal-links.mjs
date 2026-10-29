@@ -16,7 +16,7 @@ const browser=await puppeteer.launch({executablePath:chrome,headless:true,
   args:["--no-sandbox","--disable-setuid-sandbox","--disable-dev-shm-usage"]});
 const pages=[];
 try{
-  for(const path of ["/",...requiredDecisionPaths,...liveVerifiedProblemPaths]){
+  for(const path of ["/",...new Set([...requiredDecisionPaths,...liveVerifiedProblemPaths])]){
     const page=await browser.newPage();
     try{
       const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});

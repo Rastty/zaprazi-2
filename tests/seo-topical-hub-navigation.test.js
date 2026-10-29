@@ -19,12 +19,14 @@ test("three topical hubs lead to published practical problem guides",()=>{
     assert.doesNotMatch(region,/data-zp-merchant-link|data-zp-affiliate-target|awin1\.com|click\.php/);
   }
 });
-test("verified guides are distinct from core decision routes and live audited",()=>{
+test("verified guides are required after deploy and live audits de-duplicate them",()=>{
  assert.equal(new Set(liveVerifiedProblemPaths).size,liveVerifiedProblemPaths.length);
  assert.ok(liveVerifiedProblemPaths.length >= 4);
- for(const path of liveVerifiedProblemPaths)assert.ok(!requiredDecisionPaths.includes(path),"duplicate audit "+path);
+ for(const path of liveVerifiedProblemPaths)assert.ok(requiredDecisionPaths.includes(path),"missing deployed guide "+path);
  const seo=read("scripts/audit-live-editorial-seo.mjs");
  const links=read("scripts/audit-live-internal-links.mjs");
  assert.ok(seo.includes("...liveVerifiedProblemPaths"));
+ assert.ok(seo.includes("new Set("), "SEO audit must de-duplicate overlapping required routes");
  assert.ok(links.includes("...liveVerifiedProblemPaths"));
+ assert.ok(links.includes("new Set("), "Link audit must de-duplicate overlapping required routes");
 });

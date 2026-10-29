@@ -62,10 +62,10 @@ test("new long tail route remains staged until deployment and four inbound pages
  "page-vstavani-z-kresla-pro-seniora.php","page-otazky-pred-propustenim-z-nemocnice.php"])
   assert.ok(read(path).includes("/nastupovani-seniora-do-auta/#situace-nastupovani-auto"),path);
  const map=read("scripts/audit-public-sitemap.mjs");
- const staged=map.split("export const stagedDecisionPaths")[1].split("]);")[0];
+ const requiredCopy=map.split("export const requiredDecisionPaths")[1].split("]);")[0];
  const required=map.split("export const requiredDecisionPaths")[1].split("]);")[0];
- assert.ok(staged.includes('"/nastupovani-seniora-do-auta/"'));
- assert.ok(!required.includes('"/nastupovani-seniora-do-auta/"'));
+ assert.ok(requiredCopy.includes('"/nastupovani-seniora-do-auta/"'));
+ assert.ok(required.includes('"/nastupovani-seniora-do-auta/"'));
  assert.match(fn,/'page-nastupovani-seniora-do-auta.php'/);
  const version=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
  assert.ok(version);

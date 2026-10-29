@@ -32,7 +32,7 @@ test("Evidence, safe conversion and reciprocal internal paths", () => {
   for(const source of ["front-page.php","page-koupelna-a-wc.php","page-hygiena-leziciho-seniora-doma.php"])
     assert.ok(read(source).includes("/senior-odmita-koupani/#"),source);
 });
-test("SEO, safe WordPress publishing, staged sitemap and version marker", () => {
+test("SEO, safe WordPress publishing, required sitemap and version marker", () => {
   const start=fn.indexOf("function zaprazi_2_ensure_hygiene_reluctance_page()"),
     end=fn.indexOf("add_action( 'init', 'zaprazi_2_ensure_hygiene_reluctance_page'",start);
   assert.ok(start>=0 && end>start);
@@ -43,8 +43,8 @@ test("SEO, safe WordPress publishing, staged sitemap and version marker", () => 
   assert.match(fn,/function zaprazi_2_hygiene_reluctance_meta_fallback/);
   assert.match(fn,/Senior odmítá koupání: jak pomoci bez nátlaku/);
   const map=read("scripts/audit-public-sitemap.mjs");
-  assert.ok(map.split("export const stagedDecisionPaths")[1].split("]);")[0].includes('"/senior-odmita-koupani/"'));
-  assert.ok(!map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-odmita-koupani/"'));
+  assert.ok(map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-odmita-koupani/"'));
+  assert.ok(map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-odmita-koupani/"'));
   const version=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
   assert.ok(page.includes("ZP_RELEASE_"+version.replaceAll(".","_")));
 });

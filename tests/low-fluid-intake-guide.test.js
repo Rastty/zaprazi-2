@@ -16,7 +16,7 @@ test("evidence, inbound journeys and real decision routes",()=>{
  for(const s of ["/sobestacnost/#poradce-sobestacnost","/nocni-cesta-z-postele-na-wc/#nocni-audit","/senior-nemuze-vstat-z-postele/#co-delat-postel"])assert.ok(page.includes(s),s);
  for(const s of ["front-page.php","page-sobestacnost.php","page-nocni-cesta-z-postele-na-wc.php"])assert.ok(read(s).includes("/senior-malo-pije/#"),s);
 });
-test("WP creates fresh slug only, SEO fallback, staged sitemap, release marker",()=>{
+test("WP creates fresh slug only, SEO fallback, required sitemap, release marker",()=>{
  const start=fn.indexOf("function zaprazi_2_ensure_low_fluid_intake_page()"),end=fn.indexOf("add_action( 'init', 'zaprazi_2_ensure_low_fluid_intake_page'",start);
  assert.ok(start>=0 && end>start);
  const seed=fn.slice(start,end);
@@ -24,8 +24,8 @@ test("WP creates fresh slug only, SEO fallback, staged sitemap, release marker",
  assert.doesNotMatch(seed,/wp_update_post|delete_post/);
  assert.match(fn,/function zaprazi_2_low_fluid_intake_meta_fallback/);
  const sitemap=read("scripts/audit-public-sitemap.mjs");
- assert.ok(sitemap.split("export const stagedDecisionPaths")[1].split("]);")[0].includes('"/senior-malo-pije/"'));
- assert.ok(!sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-malo-pije/"'));
+ assert.ok(sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-malo-pije/"'));
+ assert.ok(sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-malo-pije/"'));
  const version=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
  assert.ok(page.includes("ZP_RELEASE_"+version.replaceAll(".","_")));
 });

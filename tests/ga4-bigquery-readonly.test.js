@@ -34,9 +34,9 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
   assert.match(privacy,/events_with_sensitive_param_keys/);
   assert.match(privacy,/events_with_user_properties/);
   assert.match(privacy,/events_with_sensitive_user_property_keys/);
-  assert.match(privacy,/UNNEST\\(user_properties\\)/);
-  assert.match(privacy,/ARRAY_LENGTH\\(user_properties\\)/);
-  assert.doesNotMatch(privacy,/SELECT\\s+(?:p\\.value|user_properties|event_params)\\b/i);
+  assert.ok(privacy.includes("UNNEST(user_properties)"));
+  assert.ok(privacy.includes("ARRAY_LENGTH(user_properties)"));
+  assert.doesNotMatch(privacy,/SELECT\s+(?:p\.value|user_properties|event_params)\b/i);
   assert.doesNotMatch(privacy,/SELECT\s+\*/i);
   assert.match(ga4Cli(Object.values(options)),/FROM inspected;/);
 });
@@ -62,6 +62,6 @@ test("Privacy canary flags suspicious custom parameter names without reading val
     assert.doesNotMatch(key, sensitive);
   const {privacy} = buildGa4ReadOnlyQueries(options);
   assert.equal(privacy.split("REGEXP_CONTAINS(LOWER(p.key)").length - 1, 2);
-  assert.match(privacy, /COUNTIF\\(has_user_properties\\)/);
-  assert.match(privacy, /COUNTIF\\(suspicious_user_property_key\\)/);
+  assert.ok(privacy.includes("COUNTIF(has_user_properties)"));
+  assert.ok(privacy.includes("COUNTIF(suspicious_user_property_key)"));
 });

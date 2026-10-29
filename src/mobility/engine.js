@@ -68,6 +68,9 @@ function acquisitionFor(duration) {
  * never individual medical suitability.
  */
 export function recommendMobility(input = {}) {
+  // Fail closed on malformed input rather than throwing or treating string
+  // values such as "false" as a truthy request for a seat/transport option.
+  if (!input || typeof input !== "object" || Array.isArray(input)) return invalid("input");
   const {
     environment,
     supportNeed,
@@ -79,6 +82,8 @@ export function recommendMobility(input = {}) {
     duration = "unknown"
   } = input;
 
+  if (typeof seatNeeded !== "boolean") return invalid("seatNeeded");
+  if (typeof transportNeed !== "boolean") return invalid("transportNeed");
   if (!ENVIRONMENTS.has(environment)) return invalid("environment");
   if (!SUPPORT_NEEDS.has(supportNeed)) return invalid("supportNeed");
   if (!BRAKE_USE.has(handBrakes)) return invalid("handBrakes");

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {buildGa4ReadOnlyQueries,ga4Cli} from "../scripts/ga4-bigquery-readonly.mjs";
+import {buildGa4ReadOnlyQueries,ga4Cli,SENSITIVE_KEY_PATTERN} from "../scripts/ga4-bigquery-readonly.mjs";
 
 const options = {project:"prometheus-503317",propertyId:"527349118",start:"20261026",end:"20261027"};
 
@@ -31,6 +31,12 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
   assert.match(privacy,/search_term/);
   assert.match(privacy,/url_query_or_fragment/);
   assert.match(privacy,/automatic_search_events/);
+  assert.match(privacy,/events_with_sensitive_param_keys/);
+  assert.match(privacy,/events_with_user_properties/);
+  assert.match(privacy,/events_with_sensitive_user_property_keys/);
+  assert.match(privacy,/UNNEST\\(user_properties\\)/);
+  assert.match(privacy,/ARRAY_LENGTH\\(user_properties\\)/);
+  assert.doesNotMatch(privacy,/SELECT\\s+(?:p\\.value|user_properties|event_params)\\b/i);
   assert.doesNotMatch(privacy,/SELECT\s+\*/i);
   assert.match(ga4Cli(Object.values(options)),/FROM inspected;/);
 });
@@ -46,4 +52,16 @@ test("Reject SQL injection, invalid dates and oversized scans", () => {
     {start:"20260101",end:"20261027"}
   ]) assert.throws(()=>buildGa4ReadOnlyQueries({...options,...change}));
   assert.throws(()=>ga4Cli(["only-one-arg"]),/Usage/);
+});
+
+test("Privacy canary flags suspicious custom parameter names without reading values", () => {
+  const sensitive = new RegExp(SENSITIVE_KEY_PATTERN);
+  for (const key of ["answer_1","question2","q3","mobility_status","health_profile","diagnosis","selected_option","jmeno","odpoved_2","user_email","fit_result","patient_id"])
+    assert.match(key, sensitive);
+  for (const key of ["page_location","ga_session_id","engagement_time_msec","builder_complete","merchant_click","source","page_title"])
+    assert.doesNotMatch(key, sensitive);
+  const {privacy} = buildGa4ReadOnlyQueries(options);
+  assert.equal((privacy.match(/REGEXP_CONTAINS\\(LOWER\\(p\\.key\\)/g) || []).length, 2);
+  assert.match(privacy, /COUNTIF\\(has_user_properties\\)/);
+  assert.match(privacy, /COUNTIF\\(suspicious_user_property_key\\)/);
 });

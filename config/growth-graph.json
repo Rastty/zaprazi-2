@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "mission": "Bezpečně a samostatně doma",
+  "northStar": [
+    "organic_clicks_28d",
+    "approved_affiliate_commission_28d"
+  ],
+  "nodes": [
+    {
+      "id": "safety_qa",
+      "lane": "trust",
+      "priority": 100,
+      "dependsOn": [],
+      "action": "Rozšířit regresní testy stávajících poradců, vyřešit kritické chyby a ověřit bezpečné výsledky na produkci.",
+      "doneWhen": "CI PASS + prokazatelný Chrome smoke, nulové bypassy fit-gates a úniky odpovědí."
+    },
+    {
+      "id": "technical_search",
+      "lane": "acquisition",
+      "priority": 94,
+      "dependsOn": [],
+      "action": "Zkontrolovat sitemap, indexovatelnost, canonical, výkon mobilu, chyby a relevantní interní odkazy; opravit doložený technický problém.",
+      "doneWhen": "Před/po důkaz v CI nebo veřejném read-only auditu; bez neodůvodněných hromadných redirectů."
+    },
+    {
+      "id": "intent_evidence",
+      "lane": "acquisition",
+      "priority": 90,
+      "dependsOn": [],
+      "action": "Najít reálné potřeby a vyhledávací záměry, auditovat GSC a existující stránky; navrhnout 1 konkrétní zlepšení již existující URL.",
+      "doneWhen": "Ověřený záměr + kontrola kanibalizace + důkaz či transparentně přiznaná chybějící GSC data."
+    },
+    {
+      "id": "measurement",
+      "lane": "learning",
+      "priority": 86,
+      "dependsOn": [],
+      "action": "Zkontrolovat privacy-safe funnel a důkazy o skutečných provizích; nedovozovat nákupy z outbound kliků.",
+      "doneWhen": "Dokumentovaný původ a interval agregovaných metrik bez odpovědí poradců."
+    },
+    {
+      "id": "content_upgrade",
+      "lane": "acquisition",
+      "priority": 82,
+      "dependsOn": [
+        "intent_evidence"
+      ],
+      "action": "Zlepšit jedinou doloženou problem/decision page: užitečné kroky, zdroje, datum revize, jasný poradce a další krok bez nákupního tlaku.",
+      "doneWhen": "Unikátní intent, aktuální evidence, QA, smysluplné interní odkazy a publikace přes PR/deploy gate."
+    },
+    {
+      "id": "affiliate_audit",
+      "lane": "monetization",
+      "priority": 84,
+      "dependsOn": [
+        "safety_qa"
+      ],
+      "action": "Ověřit produktové identity, aktuálnost parametrů, přesné deeplinky, affiliate 25/25 readiness a network approved/pending/rejected výsledky.",
+      "doneWhen": "Evidované aktivní nabídky a jejich skutečné cíle; rank jen podle vhodnosti, ne provize."
+    },
+    {
+      "id": "internal_links",
+      "lane": "acquisition",
+      "priority": 76,
+      "dependsOn": [
+        "content_upgrade"
+      ],
+      "action": "Propojit hub → kvalitní článek → existující poradce → bezpečný další krok; opravit prokázané slepé cesty.",
+      "doneWhen": "Odkazy průchozí v produkčním auditu a bez umělých/irelevantních linků."
+    },
+    {
+      "id": "conversion_ux",
+      "lane": "monetization",
+      "priority": 80,
+      "dependsOn": [
+        "safety_qa",
+        "affiliate_audit"
+      ],
+      "action": "Otestovat jednu UX hypotézu NHS/GOV.UK: co víme / co změřit / co udělat; zjednodušit kroky bez obejití safety-gate.",
+      "doneWhen": "Zelené bezpečnostní a WCAG testy, produkční smoke a plán měření skutečného dokončení/navazujícího kroku."
+    },
+    {
+      "id": "review_learning",
+      "lane": "learning",
+      "priority": 70,
+      "dependsOn": [
+        "measurement"
+      ],
+      "action": "Vyhodnotit 14/30/60denní změny oproti porovnatelnému období; rozhodnout continue/adjust/rollback bez falešné atribuce.",
+      "doneWhen": "Zapsaná baseline, výsledky, omezení vzorku a konkrétní navazující změna."
+    }
+  ],
+  "feedbackEdges": [
+    {
+      "from": "review_learning",
+      "to": "intent_evidence"
+    },
+    {
+      "from": "review_learning",
+      "to": "technical_search"
+    },
+    {
+      "from": "review_learning",
+      "to": "conversion_ux"
+    },
+    {
+      "from": "review_learning",
+      "to": "affiliate_audit"
+    },
+    {
+      "from": "safety_qa",
+      "to": "review_learning"
+    }
+  ]
+}

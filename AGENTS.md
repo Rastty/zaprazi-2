@@ -109,3 +109,7 @@ The default delivery unit is a safe vertical slice:
 
 First product milestone: user completes the full Mobility path without a dead end.
 First business milestone: first approved affiliate order attributable to that path.
+
+## Growth Graph execution (owner directive 2026-10-29)
+
+When selecting follow-up work, inspect docs/GROWTH_GRAPH_OS.md, config/growth-graph.json, and the current graph plan (node scripts/growth-graph.mjs). The operating model is evidence → prioritize → implement → test → PR → deploy/smoke → measure → learn, not repeated prompting. Safety/privacy rules above remain non-negotiable. Continue safe technical SEO, intent research, quality upgrades and affiliate QA in parallel while traffic is still sparse. Do not claim traffic gains or paid conversions without GSC/network evidence. Do not create a second Advisor engine. The Growth Graph chooses work; it does not override the production and approval gates.

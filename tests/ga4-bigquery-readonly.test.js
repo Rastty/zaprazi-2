@@ -20,6 +20,14 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
   assert.ok(funnel.includes("zaprazi\\.cz"));
   assert.ok(funnel.includes("www\\."));
   assert.doesNotMatch(funnel,/klix\.cz/);
+  // Consent-denied cookieless pings and Unset records must not enter funnel metrics.
+  assert.match(funnel,/AND privacy_info\.analytics_storage = 'Yes'/);
+  assert.match(sourceIntegrity,/events_with_analytics_consent/);
+  assert.match(sourceIntegrity,/events_without_analytics_consent/);
+  assert.match(sourceIntegrity,/events_with_unset_or_unknown_analytics_consent/);
+  assert.match(sourceIntegrity,/zaprazi_events_without_explicit_analytics_consent/);
+  assert.match(sourceIntegrity,/COALESCE\(privacy_info\.analytics_storage, 'Unset'\)/);
+  assert.doesNotMatch(privacy,/AND privacy_info\.analytics_storage = 'Yes'/);
   // The property-wide source audit must not expose raw URLs or other hosts.
   assert.match(sourceIntegrity,/events_on_zaprazi_host/);
   assert.match(sourceIntegrity,/events_without_valid_page_location/);

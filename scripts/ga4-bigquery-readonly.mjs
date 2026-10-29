@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate two read-only, aggregate-only BigQuery GA4 export queries.
+ * Generate three read-only, aggregate-only BigQuery GA4 export queries.
  * No credentials, network, raw event rows, user identifiers or health answers.
  */
 import {fileURLToPath} from "node:url";
@@ -31,12 +31,19 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
   const source = String.fromCharCode(96)+project+".analytics_"+propertyId+".events_*"+String.fromCharCode(96);
   const where = "_TABLE_SUFFIX BETWEEN '"+start+"' AND '"+end+"'";
   const count = event => "  COUNTIF(event_name = '"+event+"') AS "+event;
+  // Exact site scope: a GA4 property can collect several websites.
+  // Never silently attribute other domains' events to Zápraží.
+  const targetHostSql = "EXISTS (SELECT 1 FROM UNNEST(event_params) p "+
+    "WHERE p.key = 'page_location' AND REGEXP_CONTAINS("+
+    "LOWER(COALESCE(p.value.string_value,'')), "+
+    "r'^https?://(?:www\\.)?zaprazi\\.cz(?:[/:?#]|$)'))";
+  const funnelNames = funnelEvents.map(e=>"'"+e+"'").join(",");
   const funnel = [
     "-- Aggregate GA4 funnel; counts are consented events, NOT unique users or approved orders.",
     "-- Missing daily export tables or delayed GA4 export can make counts incomplete.",
     "SELECT", "  COUNT(*) AS total_events,",
     funnelEvents.map(count).join(",\n"),
-    "FROM "+source, "WHERE "+where+";"
+    "FROM "+source, "WHERE "+where, "  AND "+targetHostSql+";"
   ].join("\n");
   const privacy = [
     "-- Privacy canary: only aggregated counts, NEVER raw URLs, search text, answers or IDs.",
@@ -61,13 +68,35 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  COUNTIF(event_name IN ('click','file_download','form_start','form_submit')) AS automatic_interaction_events",
     "FROM inspected;"
   ].join("\n");
-  return {funnel, privacy};
+  // Only aggregate host integrity counts: never emit actual foreign hosts or URLs.
+  // This query intentionally includes the whole property, unlike the site-scoped funnel.
+  const sourceIntegrity = [
+    "-- Verify property domain BEFORE using funnel metrics in Growth Graph.",
+    "-- Do not report raw URLs, hostnames, health answers or user identifiers.",
+    "WITH inspected AS (",
+    "  SELECT event_name,",
+    "    LOWER(REGEXP_EXTRACT(",
+    "      (SELECT ANY_VALUE(p.value.string_value) FROM UNNEST(event_params) p",
+    "       WHERE p.key = 'page_location'),",
+    "      r'^https?://([^/:?#]+)')) AS host",
+    "  FROM "+source,
+    "  WHERE "+where,
+    ")",
+    "SELECT COUNT(*) AS total_events,",
+    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_zaprazi_host,",
+    "  COUNTIF(host IS NULL) AS events_without_valid_page_location,",
+    "  COUNTIF(host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_other_hosts,",
+    "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NULL) AS funnel_events_without_valid_page_location,",
+    "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS funnel_events_on_other_hosts",
+    "FROM inspected;"
+  ].join("\\n");
+  return {funnel, privacy, sourceIntegrity};
 }
 
 export function ga4Cli(args) {
   if (args.length !== 4) throw new Error("Usage: node scripts/ga4-bigquery-readonly.mjs PROJECT PROPERTY_ID START_YYYYMMDD END_YYYYMMDD");
-  const {funnel, privacy} = buildGa4ReadOnlyQueries({project:args[0],propertyId:args[1],start:args[2],end:args[3]});
-  return funnel + "\n\n" + privacy + "\n";
+  const {funnel, privacy, sourceIntegrity} = buildGa4ReadOnlyQueries({project:args[0],propertyId:args[1],start:args[2],end:args[3]});
+  return sourceIntegrity + "\n\n" + funnel + "\n\n" + privacy + "\n";
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {

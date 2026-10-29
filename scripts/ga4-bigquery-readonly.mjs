@@ -43,11 +43,14 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "r'^https?://(?:www\\.)?zaprazi\\.cz(?:[/:?#]|$)'))";
   const funnelNames = funnelEvents.map(e=>"'"+e+"'").join(",");
   const funnel = [
-    "-- Aggregate GA4 funnel; counts are consented events, NOT unique users or approved orders.",
+    "-- Aggregate GA4 funnel: only explicit analytics_storage=Yes; NOT unique users or approved orders.",
+    "-- No/Unset/null consent states are excluded pending implementation verification.",
     "-- Missing daily export tables or delayed GA4 export can make counts incomplete.",
     "SELECT", "  COUNT(*) AS total_events,",
     funnelEvents.map(count).join(",\n"),
-    "FROM "+source, "WHERE "+where, "  AND "+targetHostSql+";"
+    "FROM "+source, "WHERE "+where,
+    "  AND privacy_info.analytics_storage = 'Yes'",
+    "  AND "+targetHostSql+";"
   ].join("\n");
   const privacy = [
     "-- Privacy canary: only aggregated counts, NEVER raw URLs, search text, answers or IDs.",
@@ -89,6 +92,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "-- Do not report raw URLs, hostnames, health answers or user identifiers.",
     "WITH inspected AS (",
     "  SELECT event_name,",
+    "    COALESCE(privacy_info.analytics_storage, 'Unset') AS analytics_storage,",
     "    LOWER(REGEXP_EXTRACT(",
     "      (SELECT ANY_VALUE(p.value.string_value) FROM UNNEST(event_params) p",
     "       WHERE p.key = 'page_location'),",
@@ -97,7 +101,12 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  WHERE "+where,
     ")",
     "SELECT COUNT(*) AS total_events,",
-    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_zaprazi_host,",
+    "  COUNTIF(analytics_storage = 'Yes') AS events_with_analytics_consent,",
+    "  COUNTIF(analytics_storage = 'No') AS events_without_analytics_consent,",
+    "  COUNTIF(analytics_storage NOT IN ('Yes','No')) AS events_with_unset_or_unknown_analytics_consent,",
+    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz') AND analytics_storage = 'Yes') AS zaprazi_events_with_analytics_consent,",
+    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz') AND analytics_storage != 'Yes') AS zaprazi_events_without_explicit_analytics_consent,",
+    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_zaprazi_host,","integrity_counters
     "  COUNTIF(host IS NULL) AS events_without_valid_page_location,",
     "  COUNTIF(host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_other_hosts,",
     "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NULL) AS funnel_events_without_valid_page_location,",

@@ -14,7 +14,7 @@ Po prvním denním exportu Zápraží zjistit jeho **vlastní** číselné GA4 p
 node scripts/ga4-bigquery-readonly.mjs prometheus-503317 <ZAPRAZI_PROPERTY_ID> 20261029 20261029
 ~~~
 
-Nástroj vypíše **tři pouze čtecí BigQuery Standard SQL dotazy** pro ruční spuštění v konzoli: (1) kontrolu integrity domény GA4 property, (2) součty page_view a povolených funnel událostí **pouze pro přesný host zaprazi.cz / www.zaprazi.cz**, (3) součty možných privacy incidentů v celé GA4 property. Dotazy nevracejí syrové URL, vyhledávací výrazy, odpovědi, osobní identifikátory ani uživatelské řádky. Vstupy jsou validované; interval je nejvýše 31 dní. Přímý přístup k BigQuery zde není nastaven a skript nemá žádné přihlašovací údaje.
+Nástroj vypíše **tři pouze čtecí BigQuery Standard SQL dotazy** pro ruční spuštění v konzoli: (1) kontrolu integrity domény GA4 property, (2) součty page_view a povolených funnel událostí **pouze pro přesný host zaprazi.cz / www.zaprazi.cz**, (3) součty možných privacy incidentů v celé GA4 property včetně podezřelých názvů vlastních event parametrů a přítomnosti GA4 user properties. Dotazy nevracejí syrové URL, vyhledávací výrazy, odpovědi, osobní identifikátory ani uživatelské řádky. Vstupy jsou validované; interval je nejvýše 31 dní. Přímý přístup k BigQuery zde není nastaven a skript nemá žádné přihlašovací údaje.
 
 ## Povinná kontrola domény před vyhodnocením
 
@@ -29,6 +29,7 @@ Před zápisem do Growth Graphu ověřit, že jde o vlastní GA4 property Zápra
 
 - `builder_start`, `builder_complete`, `recommendation_view` a `merchant_click` jsou počty **událostí v souhlasící části provozu**, nikoli počet unikátních lidí. Počty mohou být neúplné kvůli consentu, opožděnému exportu nebo jiným GA4 limitům.
 - `events_with_risky_auto_params`, `events_with_url_query_or_fragment`, `events_with_search_page_url`, `automatic_search_events` a `automatic_interaction_events` jsou **signály k prověření**. Nenulový počet znamená audit GA4 Enhanced Measurement, tagů a consent adapteru; nezobrazovat syrové hodnoty v reportu. Nulový počet **nedokazuje**, že nebylo měřeno bez souhlasu nebo že jsou všechny události bezpečné.
+- Nové počty `events_with_sensitive_param_keys`, `events_with_user_properties` a `events_with_sensitive_user_property_keys` hlídají další dříve nepokrytý kanál úniku: vlastní event parametry (např. `answer_1`, `health_profile`) a GA4 user properties. Kontrola používá **jen názvy klíčů**, nikdy jejich hodnoty. Jakýkoliv nenulový výsledek vyžaduje kontrolu tagování a odstranění případného odesílání odpovědí či profilů. Nulové hodnoty nevylučují netypicky pojmenované klíče, únik ve vlastních event names ani problém souhlasu. **Nepřepisovat odpovědi ani hodnoty do reportu, issue nebo logu.**
 - `merchant_click` nebo `affiliate_click` není schválená objednávka. Schválené provize pouze ze síťových výpisů; GSC pro organické kliky samostatně.
 - Pokud BigQuery Sandbox maže tabulky po ~60 dnech, před delším srovnáváním upravit retenci datasetu a stávajících tabulek.
 

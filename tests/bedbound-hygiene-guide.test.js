@@ -47,12 +47,12 @@ test("one-time publication cannot overwrite legacy page or force merchant outcom
  assert.match(fn,/defined\( 'WPSEO_VERSION' \)/);
  assert.match(fn,/Hygiena ležícího seniora doma: praktický postup \| Zápraží/);
 });
-test("five inbound sources, staged sitemap, versioned release inventory",()=>{
+test("five inbound sources, required sitemap, versioned release inventory",()=>{
  for(const path of ["page-myti-vlasu-na-luzku.php","page-antidekubitni-matrace-na-polohovaci-postel.php","page-polohovaci-postel.php","page-navrat-z-nemocnice.php","page-koupelna-a-wc.php"])
  assert.ok(read(path).includes("/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku"),path);
  const sitemap=read("scripts/audit-public-sitemap.mjs");
- assert.ok(sitemap.split("export const stagedDecisionPaths")[1].split("]);")[0].includes('"/hygiena-leziciho-seniora-doma/"'));
- assert.ok(!sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/hygiena-leziciho-seniora-doma/"'));
+ assert.ok(sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/hygiena-leziciho-seniora-doma/"'));
+ assert.ok(sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/hygiena-leziciho-seniora-doma/"'));
  assert.match(fn,/'page-hygiena-leziciho-seniora-doma.php'/);
  const v=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
  assert.ok(v && html.includes("ZP_RELEASE_"+v.replaceAll(".","_")));

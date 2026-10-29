@@ -56,15 +56,15 @@ test("Original responsive first-party illustration used on homepage and guide, n
  assert.match(css,/@media\(max-width:820px\)/);
  assert.match(home,/href="<\?php echo esc_url\( home_url\( '\/senior-doma-sam-sos-pomoc\/#vyber-sos-pomoci' \) \); \?>"/);
 });
-test("New page has three existing independent inbound sources and staged sitemap",()=>{
+test("New page has three existing independent inbound sources and required sitemap",()=>{
  for(const f of ["page-senior-spadl-doma.php","page-bezpecny-byt-pro-seniora.php","page-nocni-cesta-z-postele-na-wc.php"]){
   assert.ok(read(f).includes("/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci"),f);
  }
  for(const href of ["/senior-spadl-doma/#plan-po-padu","/nocni-cesta-z-postele-na-wc/#nocni-audit","/bezpecny-byt-pro-seniora/#audit-bytu"])
   assert.ok(page.includes(href),href);
  const map=read("scripts/audit-public-sitemap.mjs");
- assert.ok(map.split("export const stagedDecisionPaths")[1].split("]);")[0].includes('"/senior-doma-sam-sos-pomoc/"'));
- assert.ok(!map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-doma-sam-sos-pomoc/"'));
+ assert.ok(map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-doma-sam-sos-pomoc/"'));
+ assert.ok(map.split("export const requiredDecisionPaths")[1].split("]);")[0].includes('"/senior-doma-sam-sos-pomoc/"'));
  const v=css.match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];assert.ok(v);
  assert.ok(page.includes("ZP_RELEASE_"+v.replaceAll(".","_")));
  assert.match(fn,/'page-senior-doma-sam-sos-pomoc.php'/);

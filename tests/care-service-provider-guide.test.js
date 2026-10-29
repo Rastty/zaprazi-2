@@ -68,9 +68,9 @@ test("New page is created only once and protected by runtime release integrity",
  assert.ok(code.includes("'_wp_page_template' => '"+path+"'"));
  assert.doesNotMatch(code,/wp_update_post|wp_delete_post|update_option|wp_trash_post/);
  assert.ok(functions.includes("'"+path+"'"));
- assert.ok(stagedDecisionPaths.includes("/"+slug+"/"));
- assert.ok(!requiredDecisionPaths.includes("/"+slug+"/"),
-   "Do not treat staged, not-yet-deployed page as live");
+ assert.ok(requiredDecisionPaths.includes("/"+slug+"/"));
+ assert.ok(requiredDecisionPaths.includes("/"+slug+"/"),
+   "Confirmed production 0.8.183 page is now required");
 });
 
 test("Search guidance and contextual links put this guide within reach without pretending care is medical",()=>{

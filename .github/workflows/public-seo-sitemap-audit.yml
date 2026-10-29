@@ -27,7 +27,9 @@ jobs:
           node-version: 20
       - name: Unit tests for safe sitemap parser
         run: node --test tests/public-sitemap-audit.test.js tests/acquisition-sitemap-gate.test.js
-      - name: Inspect live public sitemap (no WordPress writes or GSC claims)
+      - name: Inspect live public sitemap and enforce deployed decision URL discovery
+        env:
+          ZP_REQUIRE_REQUIRED_PATHS: "1"
         run: node scripts/audit-public-sitemap.mjs
       - name: Verify latest acquisition guide discovered after actual deploy
         env:

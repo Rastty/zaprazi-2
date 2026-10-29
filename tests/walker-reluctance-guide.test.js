@@ -36,7 +36,7 @@ test("research, directions and specific safe internal journeys are present", () 
     assert.ok(read(inbound).includes("/senior-odmita-choditko/"), inbound);
   }
 });
-test("page SEO is registered in WordPress safely with correct release marker and staged sitemap", () => {
+test("page SEO is registered in WordPress safely with correct release marker and required sitemap", () => {
   const start = functions.indexOf("function zaprazi_2_ensure_walker_reluctance_page()");
   const end = functions.indexOf("add_action( 'init', 'zaprazi_2_ensure_walker_reluctance_page'", start);
   const seed = functions.slice(start,end);
@@ -49,10 +49,10 @@ test("page SEO is registered in WordPress safely with correct release marker and
   assert.match(functions,/function zaprazi_2_walker_reluctance_meta_fallback/);
   assert.match(functions,/Senior odmítá chodítko: co dělat bez nátlaku/);
   const map = read("scripts/audit-public-sitemap.mjs");
-  const staged = map.split("export const stagedDecisionPaths")[1].split("]);")[0];
+  const requiredCopy = map.split("export const requiredDecisionPaths")[1].split("]);")[0];
   const required = map.split("export const requiredDecisionPaths")[1].split("]);")[0];
-  assert.ok(staged.includes('"/senior-odmita-choditko/"'));
-  assert.ok(!required.includes('"/senior-odmita-choditko/"'));
+  assert.ok(requiredCopy.includes('"/senior-odmita-choditko/"'));
+  assert.ok(required.includes('"/senior-odmita-choditko/"'));
   const version = read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
   assert.ok(page.includes("ZP_RELEASE_" + version.replaceAll(".","_")));
 });

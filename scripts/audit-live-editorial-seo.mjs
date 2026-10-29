@@ -14,7 +14,7 @@ import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
 
 const base="https://zaprazi.cz";
 // All current decision/problem URLs, including the newest bed-rise guide, exactly once.
-const paths=["/",...requiredDecisionPaths,...liveVerifiedProblemPaths];
+const paths=["/",...new Set([...requiredDecisionPaths,...liveVerifiedProblemPaths])];
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
   .find(path => {try {accessSync(path,constants.X_OK);return true;}catch{return false;}});
 if(!chrome)throw new Error("Chrome/Chromium required for public DOM audit");

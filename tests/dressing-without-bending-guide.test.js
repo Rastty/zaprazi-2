@@ -62,10 +62,10 @@ test("staged discovery has four independent inbound guides and release protectio
  }
  assert.match(functions,/'page-oblekani-ponozek-a-kalhot-bez-ohybani.php'/);
  const sitemap=read("scripts/audit-public-sitemap.mjs");
- const staged=sitemap.split("export const stagedDecisionPaths")[1].split("]);")[0];
- assert.ok(staged.includes('"/oblekani-ponozek-a-kalhot-bez-ohybani/"'));
+ const requiredCopy=sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0];
+ assert.ok(requiredCopy.includes('"/oblekani-ponozek-a-kalhot-bez-ohybani/"'));
  const required=sitemap.split("export const requiredDecisionPaths")[1].split("]);")[0];
- assert.ok(!required.includes('"/oblekani-ponozek-a-kalhot-bez-ohybani/"'));
+ assert.ok(required.includes('"/oblekani-ponozek-a-kalhot-bez-ohybani/"'));
  const ver=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)/m)?.[1];
  assert.ok(ver);
  assert.ok(page.includes("ZP_RELEASE_"+ver.replaceAll(".","_")));

@@ -8,7 +8,7 @@ import {resolve} from "node:path";
 
 // Flag suspicious parameter NAMES only. Values are never selected or returned.
 // RE2-compatible and deliberately conservative; nonzero means manual review.
-export const SENSITIVE_KEY_PATTERN = "(?:^|[_-])(?:answer|answers|odpoved[a-z]*|question[a-z]*|otazk[a-z]*|symptom[a-z]*|diagnos[a-z]*|health[a-z]*|zdrav[a-z]*|condition|disability|mobility|mobilita|pain|bolest|fall|pady|birth|narozeni|rodne|email|phone|telefon|address|adresa|jmeno|patient|pacient|fit|choice|selected)(?:$|[_0-9-])|^q[0-9]+$";
+export const SENSITIVE_KEY_PATTERN = "(?:^|[_-])(?:answer|answers|odpoved[a-z]*|question[a-z]*|otazk[a-z]*|symptom[a-z]*|diagnos[a-z]*|health[a-z]*|zdrav[a-z]*|condition|disability|mobility|mobilita|pain|bolest|fall|pady|birth|narozeni|rodne|email|phone|telefon|address|adresa|jmeno|patient|pacient|fit|choice|selected)(?:$|[_0-9-])|^q[0-9]+(?:$|[_-])";
 
 const funnelEvents = Object.freeze([
   "page_view", "builder_start", "builder_complete", "recommendation_view",
@@ -54,6 +54,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "-- Any nonzero risk counter requires investigation; zero cannot prove consent compliance.",
     "WITH inspected AS (",
     "  SELECT event_name,",
+    "    REGEXP_CONTAINS(LOWER(event_name), r'"+SENSITIVE_KEY_PATTERN+"') AS suspicious_event_name,",
     "    EXISTS (SELECT 1 FROM UNNEST(event_params) p",
     "      WHERE p.key IN ('search_term','link_url','link_text','form_id',",
     "        'form_name','form_destination','file_name','file_extension')) AS risky_auto_params,",
@@ -74,6 +75,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  COUNTIF(url_query_or_fragment) AS events_with_url_query_or_fragment,",
     "  COUNTIF(search_page_seen) AS events_with_search_page_url,",
     "  COUNTIF(suspicious_answer_param_key) AS events_with_sensitive_param_keys,",
+    "  COUNTIF(suspicious_event_name) AS events_with_sensitive_event_names,",
     "  COUNTIF(has_user_properties) AS events_with_user_properties,",
     "  COUNTIF(suspicious_user_property_key) AS events_with_sensitive_user_property_keys,",
     "  COUNTIF(event_name = 'view_search_results') AS automatic_search_events,",

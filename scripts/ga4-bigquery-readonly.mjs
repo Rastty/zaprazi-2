@@ -106,7 +106,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  COUNTIF(analytics_storage NOT IN ('Yes','No')) AS events_with_unset_or_unknown_analytics_consent,",
     "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz') AND analytics_storage = 'Yes') AS zaprazi_events_with_analytics_consent,",
     "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz') AND analytics_storage != 'Yes') AS zaprazi_events_without_explicit_analytics_consent,",
-    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_zaprazi_host,","integrity_counters
+    "  COUNTIF(host IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_zaprazi_host,"
     "  COUNTIF(host IS NULL) AS events_without_valid_page_location,",
     "  COUNTIF(host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS events_on_other_hosts,",
     "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NULL) AS funnel_events_without_valid_page_location,",

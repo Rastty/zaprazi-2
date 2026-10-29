@@ -55,6 +55,7 @@ export function planGrowth(g,s){
       Array.isArray(s.metricSources)||typeof s.nodes!=="object"||!s.nodes||
       Array.isArray(s.nodes))throw new Error("Invalid growth state schema");
   const ids=new Set(g.nodes.map(n=>n.id));
+  const nodeById=new Map(g.nodes.map(n=>[n.id,n]));
   for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node "+k);
   for(const [k,v] of Object.entries(s.metrics)){
     if(!METRICS.includes(k)||!Number.isFinite(v)||v<0)
@@ -69,6 +70,12 @@ export function planGrowth(g,s){
     if(record.status==="verified"&&
         (typeof record.evidenceUrl!=="string"||!/^https:\/\//.test(record.evidenceUrl)))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
+    // A cited PR is not enough to certify a downstream step while its safety
+    // or evidence prerequisites are still unverified. Never silently mark it done.
+    if(record.status==="verified"){
+      const unmet=nodeById.get(id).dependsOn.filter(dep=>s.nodes[dep]?.status!=="verified");
+      if(unmet.length)throw new Error("Verified node requires verified dependencies: "+id+" -> "+unmet.join(", "));
+    }
   }
   if(s.asOf!==null&&s.asOf!==undefined&&
       (!/^\d{4}-\d{2}-\d{2}$/.test(s.asOf)||

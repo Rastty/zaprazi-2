@@ -13,7 +13,7 @@ test("BigQuery SQL reads only selected GA4 daily export and returns aggregate co
     assert.doesNotMatch(sql,/user_pseudo_id|user_id|geo\.|device\.|traffic_source\./);
   }
   for (const event of ["builder_start","builder_complete","recommendation_view","merchant_click"])
-    assert.match(funnel,new RegExp("COUNTIF\(event_name = '"+event+"'\)"));
+    assert.match(funnel,new RegExp("COUNTIF\\(event_name = '"+event+"'\\)"));
   // A property may accidentally include other websites: only Zápraží events
   // with an exact page_location hostname can enter the funnel.
   assert.match(funnel,/AND EXISTS \(SELECT 1 FROM UNNEST\(event_params\) p/);

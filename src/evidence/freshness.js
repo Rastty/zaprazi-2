@@ -1,5 +1,13 @@
 const DAY_MS = 24 * 60 * 60 * 1000;
 
+// Reject impossible calendar days: JS otherwise normalizes February 30 into March.
+const parseCalendarDate = (value) => {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return null;
+  const date = new Date(`${value}T00:00:00.000Z`);
+  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
+    ? date : null;
+};
+
 export const EVIDENCE_FRESHNESS_DAYS = Object.freeze({
   productTechnical: 365,
   merchantOffer: 30,
@@ -8,11 +16,8 @@ export const EVIDENCE_FRESHNESS_DAYS = Object.freeze({
 });
 
 export function evidenceAgeDays(checkedAt, now = new Date()) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(checkedAt || ""))) {
-    return null;
-  }
-
-  const checked = new Date(`${checkedAt}T00:00:00.000Z`);
+  const checked = parseCalendarDate(checkedAt);
+  if (!checked) return null;
   const reference = now instanceof Date ? now : new Date(now);
 
   if (Number.isNaN(checked.getTime()) || Number.isNaN(reference.getTime())) {
@@ -36,14 +41,13 @@ export function evidenceFreshness(checkedAt, maxAgeDays, now = new Date(), valid
   }
 
   if (validThrough !== null) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(validThrough))) {
+    const validityDate = parseCalendarDate(validThrough);
+    const checkedDate = parseCalendarDate(checkedAt);
+    // Inconsistent evidence must never justify a precise current claim.
+    if (!validityDate || !checkedDate || validityDate < checkedDate) {
       return { status: "unknown", ageDays };
     }
-
-    const expiresAt = new Date(`${validThrough}T23:59:59.999Z`);
-    if (Number.isNaN(expiresAt.getTime())) {
-      return { status: "unknown", ageDays };
-    }
+    const expiresAt = new Date(validityDate.getTime() + DAY_MS - 1);
 
     if (reference.getTime() > expiresAt.getTime()) {
       return { status: "stale", ageDays };

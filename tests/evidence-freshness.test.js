@@ -65,3 +65,22 @@ test("malformed explicit validity fails closed as unknown", () => {
   );
   assert.equal(result.status, "unknown");
 });
+
+test("impossible calendar dates cannot make evidence look fresh", () => {
+  const now = new Date("2026-05-01T12:00:00Z");
+  for (const bad of ["2026-02-29", "2026-02-30", "2026-04-31", "2026-13-01", "2026-00-01"]) {
+    assert.equal(evidenceAgeDays(bad, now), null, bad);
+    assert.equal(evidenceFreshness(bad, 365, now).status, "unknown", bad);
+  }
+  assert.equal(evidenceAgeDays("2028-02-29", new Date("2028-03-01T12:00:00Z")), 1);
+});
+
+test("invalid or reversed monthly validity cannot count as a fresh SÚKL record", () => {
+  const now = new Date("2026-03-01T12:00:00Z");
+  for (const bad of ["2026-02-29", "2026-02-30", "2026-13-01", "2026-00-01"]) {
+    assert.equal(evidenceFreshness("2026-02-20", 31, now, bad).status, "unknown", bad);
+  }
+  assert.equal(evidenceFreshness("2026-03-01", 31, now, "2026-02-28").status, "unknown");
+  assert.equal(evidenceFreshness("2028-02-20", 31,
+    new Date("2028-02-29T12:00:00Z"), "2028-02-29").status, "fresh");
+});

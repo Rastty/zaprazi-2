@@ -55,7 +55,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "WITH inspected AS (",
     "  SELECT event_name,",
     "    REGEXP_CONTAINS(LOWER(event_name), r'"+SENSITIVE_KEY_PATTERN+"') AS suspicious_event_name,",
-    "    EXISTS (SELECT 1 FROM UNNEST(event_params) p
+    "    EXISTS (SELECT 1 FROM UNNEST(event_params) p",
     "      WHERE p.key IN ('search_term','link_url','link_text','form_id',",
     "        'form_name','form_destination','file_name','file_extension')) AS risky_auto_params,",
     "    EXISTS (SELECT 1 FROM UNNEST(event_params) p",

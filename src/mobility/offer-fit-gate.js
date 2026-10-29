@@ -23,8 +23,9 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
     checks.push(["transport", "Ověřili jsme složené rozměry i hmotnost a tento model lze bezpečně naložit do konkrétního auta."]);
   }
 
+  const requiredKeys = checks.map(([key]) => key);
   return `
-    <div class="zp-mobility-fit-gate">
+    <div class="zp-mobility-fit-gate" data-zp-fit-required="${requiredKeys.join(",")}">
       <h5>Ověření konkrétního modelu před pořízením</h5>
       <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny relevantní body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
       ${checks.map(([key, label]) => `<label><input type="checkbox" data-zp-mobility-fit-confirm="${key}"> ${label}</label>`).join("")}
@@ -56,8 +57,19 @@ export function installMobilityProductFitGate(root) {
     if (!gate) return;
     const checks = [...gate.querySelectorAll('[data-zp-mobility-fit-confirm]')];
     const offers = gate.querySelector(".zp-fit-locked-offers");
+    // The required checks are recorded at render time. A missing, duplicated,
+    // reordered or renamed control must NEVER turn a damaged card into a
+    // shorter, easier-to-unlock checklist (especially rollator brakes).
+    const expected = gate.getAttribute("data-zp-fit-required");
+    const required = typeof expected === "string" && expected.length
+      ? expected.split(",") : [];
+    const structureOk = required.length >= 3 &&
+      new Set(required).size === required.length &&
+      checks.length === required.length &&
+      checks.every((checkbox, index) =>
+        checkbox.getAttribute("data-zp-mobility-fit-confirm") === required[index]);
     const completed = checks.filter(checkbox => checkbox.checked).length;
-    const unlocked = checks.length >= 3 && completed === checks.length;
+    const unlocked = Boolean(offers) && structureOk && completed === checks.length;
     if (offers) offers.hidden = !unlocked;
     const progress = gate.querySelector("[data-zp-fit-progress]");
     if (progress) progress.textContent = unlocked

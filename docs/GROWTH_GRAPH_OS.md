@@ -35,7 +35,7 @@ Sekundárně měřit relevantní zobrazení, dokončení bezpečného poradce, n
 ## Jak přidat skutečné výkonnostní signály
 Pouze ručně či konektorem **s ověřitelným agregovaným zdrojem** zapiš do state.metrics:
 - organic_clicks_28d a organic_impressions_28d z jednoho potvrzeného GSC období;
-- advisor_starts_28d, advisor_completes_28d a merchant_clicks_28d z GA4 agregátů s platným souhlasem (není kompletní populace);
+- advisor_starts_28d, advisor_completes_28d a merchant_clicks_28d z GA4 agregátů s platným souhlasem (není kompletní populace); exportní SQL zahrnuje do funnelu pouze `privacy_info.analytics_storage = 'Yes'` a samostatně agreguje `No`/`Unset` pro kontrolu implementace Consent Mode. `Unset` se nesmí vydávat za souhlas ani automaticky za porušení. Samotná hodnota `Yes` nenahrazuje ověření reálné CMP, souhlasu, datového streamu a správného chování webu. Privacy canary nadále prověřuje všechny exportované události bez ohledu na consent stav;
 - approved_affiliate_commission_28d ze schválených síťových provizí (pending/rejected oddělit).
 
 Každá číselná hodnota musí mít state.metricSources odpovídajícího klíče s HTTPS linkem na skutečný důkaz. Nevkládej zdravotní údaje, syrové odpovědi, kombinace uživatelských odpovědí, merchant deeplink tokeny ani osobní data. Při nedostupných zdrojích nech metriky prázdné. Globální GSC dotazy a URL řádky **nelze** spojovat podle pořadí; stávající scripts/gsc-opportunity-report.mjs zůstává autoritou pro lokální GSC CSV.

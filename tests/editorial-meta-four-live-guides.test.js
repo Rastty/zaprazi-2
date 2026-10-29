@@ -38,9 +38,9 @@ test("Four independently published problem guides have distinct safe Yoast descr
 
 test("Without Yoast emit exactly one escaped tag for only those four routes", () => {
   assert.ok(fallback.startsWith("function zaprazi_2_four_editorial_meta_fallback"));
-  assert.match(fallback, /defined\\( 'WPSEO_VERSION' \\)/);
-  assert.match(fallback, /is_page\\( array\\(/);
-  assert.match(fallback, /esc_attr\\( zaprazi_2_resource_description\\( '' \\) \\)/);
+  assert.match(fallback, /defined\( 'WPSEO_VERSION' \)/);
+  assert.match(fallback, /is_page\( array\(/);
+  assert.match(fallback, /esc_attr\( zaprazi_2_resource_description\( '' \) \)/);
   assert.equal((fallback.match(/meta name="description"/g) || []).length, 1);
   for (const [slug] of routes) {
     assert.equal((fallback.split("'" + slug + "'").length - 1), 1, "Scoped fallback " + slug);

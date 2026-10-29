@@ -15,6 +15,7 @@ test("model-specific rollator brakes are mandatory for purchase and rental link 
   assert.match(roll, /Ruční brzdy tohoto konkrétního rollátoru/);
   assert.match(roll, /zastavení i bezpečně zajistit/);
   assert.match(roll, /class="zp-fit-locked-offers" hidden/);
+  assert.match(roll, /data-zp-fit-required="load,width,height,brakes"/);
   assert.match(roll, /Potvrzeno 0 z 4 kontrol/);
   // The new measurement guide is safe to open, but the product offer itself
   // must still occur only once and only inside the hidden model-fit gate.
@@ -49,10 +50,13 @@ test("brake confirmation is isolated to the given rollator and withdrawing it re
   assert.equal(events.length, 1);
   const buildGate = (num) => {
     const keys = ["load", "width", "height", "brakes"];
-    const checks = keys.map(key => ({ kind: key, checked: false }));
+    const checks = keys.map(key => ({ kind: key, checked: false,
+      getAttribute(name) { assert.equal(name, "data-zp-mobility-fit-confirm"); return key; }
+    }));
     const offers = { hidden: true };
     const progress = { textContent: "" };
     const gate = {
+      getAttribute(name) { assert.equal(name, "data-zp-fit-required"); return keys.join(","); },
       querySelectorAll(selector) { assert.equal(selector, '[data-zp-mobility-fit-confirm]'); return checks; },
       querySelector(selector) {
         if(selector === ".zp-fit-locked-offers") return offers;
@@ -82,4 +86,43 @@ test("brake confirmation is isolated to the given rollator and withdrawing it re
   a.fire("brakes",false);
   assert.equal(a.offers.hidden,true,"revoked confirmation must immediately re-lock merchant/rental links");
   assert.match(a.progress.textContent,/3 z 4/);
+});
+
+
+test("damaged or duplicate model-fit checkboxes never unlock a merchant offer", () => {
+  let listener;
+  installMobilityProductFitGate({addEventListener(type, handler) {
+    assert.equal(type, "change"); listener = handler;
+  }});
+  const required = ["load", "width", "height", "brakes"];
+  const checks = required.map(key => ({
+    checked: true, key,
+    getAttribute(name) {
+      assert.equal(name, "data-zp-mobility-fit-confirm"); return this.key;
+    }
+  }));
+  const offers = {hidden: true};
+  const gate = {
+    getAttribute(name) {
+      assert.equal(name, "data-zp-fit-required"); return required.join(",");
+    },
+    querySelectorAll() { return checks; },
+    querySelector(selector) {
+      return selector === ".zp-fit-locked-offers" ? offers : {textContent: ""};
+    }
+  };
+  const fire = () => listener({target: {
+    matches: () => true, closest: () => gate
+  }});
+  fire(); assert.equal(offers.hidden, false, "Intact checklist can unlock");
+  checks.pop(); fire();
+  assert.equal(offers.hidden, true, "Missing brakes must re-lock");
+  checks.push({...checks[0]}); fire();
+  assert.equal(offers.hidden, true, "Duplicate load must not replace brakes");
+  checks[3] = {
+    checked: true, getAttribute: () => "brakes"
+  };
+  fire(); assert.equal(offers.hidden, false, "Restoring all exact checks unlocks");
+  gate.getAttribute = () => null; fire();
+  assert.equal(offers.hidden, true, "Missing required-check metadata fails closed");
 });

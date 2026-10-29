@@ -46,10 +46,14 @@ test("Only relevant extra safety and verification hints show for seat, brakes an
 });
 
 const setupGate=(count)=>{
-  const checkboxes=Array.from({length:count},()=>({checked:false}));
+  const keys=["load","width","height","brakes","seat","transport"].slice(0,count);
+  const checkboxes=keys.map(key=>({checked:false,
+    getAttribute:name=>name==="data-zp-mobility-fit-confirm"?key:null
+  }));
   const offers={hidden:true};
   const progress={textContent:""};
   const gate={
+    getAttribute:name=>name==="data-zp-fit-required"?keys.join(","):null,
     querySelectorAll:s=>{
       assert.equal(s,"[data-zp-mobility-fit-confirm]");
       return checkboxes;

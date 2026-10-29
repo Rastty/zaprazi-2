@@ -164,10 +164,11 @@ test("mobility offers require three checks for each product, independently", () 
   installMobilityProductFitGate(root);
   assert.equal(listeners.length,1);
   const models = Array.from({length:2},()=> {
-    const inputs=Array.from({length:3},()=>({checked:false}));
+    const keys=["load","width","height"];
+    const inputs=keys.map(key=>({checked:false,getAttribute:()=>key}));
     const offers={hidden:true};
     const progress={textContent:"Potvrzeno 0 z 3 kontrol. Nabídka je zatím skrytá."};
-    const gate={querySelectorAll(){return inputs;},querySelector(selector){return selector==="[data-zp-fit-progress]"?progress:offers;}};
+    const gate={getAttribute:()=>keys.join(","),querySelectorAll(){return inputs;},querySelector(selector){return selector==="[data-zp-fit-progress]"?progress:offers;}};
     const target={matches(){return true;},closest(){return gate;}};
     return {inputs,offers,progress,target};
   });

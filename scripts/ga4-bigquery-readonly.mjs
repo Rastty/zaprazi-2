@@ -89,7 +89,7 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NULL) AS funnel_events_without_valid_page_location,",
     "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS funnel_events_on_other_hosts",
     "FROM inspected;"
-  ].join("\\n");
+  ].join("\n");
   return {funnel, privacy, sourceIntegrity};
 }
 

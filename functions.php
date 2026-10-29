@@ -116,7 +116,14 @@ function zaprazi_2_release_integrity_ok() {
     'src/bathroom/engine.js' => 'e29555aef72f943429110692710c6f039c1c80b4',
     'src/bathroom/preview.js' => 'd560bd9fb0521d969e6782b613e7468fa634b048',
   );
-  $files = array_merge( $files, array_keys( $bathroom_git_blobs ) );
+  // Mobility engine and model-specific offer gate must also match the exact
+  // reviewed Git blobs. Release markers alone cannot distinguish an older
+  // file left behind by a partial deploy of the same theme version.
+  $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
+    'src/mobility/engine.js' => 'ef07168229f5996140135875e12d4276e6fcfc7f',
+    'src/mobility/offer-fit-gate.js' => '0e5166e2e9052eaec5e03d7d1f58cf731a3ad241',
+  ) );
+  $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
   foreach ( $files as $relative_path ) {
     $path = get_template_directory() . '/' . $relative_path;
@@ -129,11 +136,11 @@ function zaprazi_2_release_integrity_ok() {
       return false;
     }
 
-    if ( isset( $bathroom_git_blobs[ $relative_path ] ) ) {
+    if ( isset( $critical_git_blobs[ $relative_path ] ) ) {
       // Same byte-level identity used by Git; release markers alone cannot
       // detect a stale preview.js left behind after PR #500.
       $actual_blob = sha1( 'blob ' . strlen( $contents ) . "\0" . $contents );
-      if ( ! hash_equals( $bathroom_git_blobs[ $relative_path ], $actual_blob ) ) {
+      if ( ! hash_equals( $critical_git_blobs[ $relative_path ], $actual_blob ) ) {
         return false;
       }
     } elseif ( false === strpos( $contents, $marker ) ) {

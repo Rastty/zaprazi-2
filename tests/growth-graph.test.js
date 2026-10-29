@@ -47,6 +47,7 @@ test("evidence-backed aggregate data may raise review priority without inventing
   assert.equal(p.tasks.find(x=>x.id==="affiliate_audit").status,"waiting_dependencies");
   delete s.metricSources.merchant_clicks_28d;
   assert.throws(()=>planGrowth(graph,s),/evidence/);
+  s.metricSources.merchant_clicks_28d="https://example.org/ga4-aggregates";
   s.metrics.patient_diagnosis=3;
   assert.throws(()=>planGrowth(graph,s),/unsupported/);
 });

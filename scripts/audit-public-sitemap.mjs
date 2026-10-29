@@ -32,13 +32,7 @@ export const requiredDecisionPaths = Object.freeze([
   "/senior-spadl-doma/",
   "/prevoz-seniora-k-lekari/",
   "/senior-nestihne-dojit-na-wc/",
-  "/prispevek-na-peci-pro-seniora/"
-]);
-
-// Proposed editorial route: add to requiredDecisionPaths only after production
-// 0.8.165 publishes it, so read-only PR audits never mistake a staged 404 for
-// a live production failure. The release's postdeploy gate must promote it.
-export const stagedDecisionPaths = Object.freeze([
+  "/prispevek-na-peci-pro-seniora/",
   "/invalidni-vozik-do-auta/",
   "/najezdova-rampa-na-jeden-schod/",
   "/prisavne-madlo-do-koupelny-bez-vrtani/",
@@ -53,6 +47,14 @@ export const stagedDecisionPaths = Object.freeze([
   "/senior-malo-pije/",
   "/jak-vybrat-pecovatelskou-sluzbu/"
 ]);
+
+// Proposed editorial route: add to requiredDecisionPaths only after production
+// 0.8.165 publishes it, so read-only PR audits never mistake a staged 404 for
+// a live production failure. The release's postdeploy gate must promote it.
+// All 13 formerly staged pages were confirmed in the 2026-10-29 public
+// sitemap snapshot at deployed release 0.8.183. They are now REQUIRED.
+// Only future, not-yet-deployed pages belong in this list.
+export const stagedDecisionPaths = Object.freeze([]);
 
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {
   const table = { "&amp;": "&", "&quot;": '"', "&apos;": "'", "&lt;": "<", "&gt;": ">" };
@@ -152,8 +154,43 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
   };
 }
 
+
+/**
+ * Make public SEO regression monitoring actionable. A healthy HTTP 200 XML
+ * response alone is not enough if an important deployed decision page vanishes.
+ * This is a read-only assertion, not proof of Google indexation.
+ */
+export function assertPublicSitemapHealthy(report) {
+  if (!report || !Array.isArray(report.required_decision_paths_missing) ||
+      !Array.isArray(report.robots_sitemaps) || !Array.isArray(report.leaf_sitemaps) ||
+      !Array.isArray(report.duplicate_paths_sample) || !report.index) {
+    throw new Error("Incomplete public sitemap audit report");
+  }
+  if (report.required_decision_paths_missing.length) {
+    throw new Error("Missing required decision paths from public sitemap: " +
+      report.required_decision_paths_missing.join(", "));
+  }
+  if (!report.robots_sitemaps.includes("https://zaprazi.cz/sitemap_index.xml")) {
+    throw new Error("robots.txt does not advertise the HTTPS sitemap index");
+  }
+  if (report.index.http !== 0 || report.leaf_sitemaps.some(s => s.http !== 0)) {
+    throw new Error("Public sitemap contains HTTP locs instead of HTTPS");
+  }
+  if (report.duplicate_paths_sample.length) {
+    throw new Error("Duplicate paths detected across public sitemaps");
+  }
+  return { status: "healthy_public_xml", required_count: requiredDecisionPaths.length,
+    unique_paths: report.unique_paths,
+    limitation: "XML discovery is not Google indexation, impressions or traffic." };
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
   auditPublicSitemap()
-    .then(result => { process.stdout.write(JSON.stringify(result, null, 2) + "\n"); })
+    .then(result => {
+      if (process.env.ZP_REQUIRE_REQUIRED_PATHS === "1") {
+        console.log("PUBLIC_SITEMAP_HEALTH", JSON.stringify(assertPublicSitemapHealthy(result)));
+      }
+      process.stdout.write(JSON.stringify(result, null, 2) + "\n");
+    })
     .catch(error => { process.stderr.write("SITEMAP_AUDIT_FAILED: " + error.message + "\n"); process.exitCode = 1; });
 }

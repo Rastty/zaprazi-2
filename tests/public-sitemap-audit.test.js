@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
+import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy } from "../scripts/audit-public-sitemap.mjs";
 
 const root = "https://zaprazi.cz";
 function mock(files) {
@@ -36,7 +36,7 @@ test("Read-only live audit inventories each sitemap and reports missing importan
   assert.deepEqual(result.required_decision_paths_present.sort(),
     ["/koupelna-a-wc/", "/navrat-z-nemocnice/"].sort());
   assert.ok(result.required_decision_paths_missing.includes("/choditka-pro-seniory/"));
-  assert.ok(result.staged_decision_paths_missing.includes("/invalidni-vozik-do-auta/"));
+  assert.ok(result.required_decision_paths_missing.includes("/invalidni-vozik-do-auta/"));
   assert.deepEqual(result.staged_decision_paths_present, []);
   assert.equal(result.html_pages_indexed_by_google, "unknown");
   assert.deepEqual(requested.sort(), Object.keys(files).sort());
@@ -44,33 +44,36 @@ test("Read-only live audit inventories each sitemap and reports missing importan
     "Read-only fetches must not follow advertised HTTP sitemap URLs");
 });
 
-test("Staged car guide is reported when present, without changing old required URLs", async () => {
+test("Deployed 0.8.183 guides are required, not indefinitely staged", async () => {
   const files = {
     [root + "/robots.txt"]: "Sitemap: https://zaprazi.cz/sitemap_index.xml",
     [root + "/sitemap_index.xml"]: '<sitemapindex><sitemap><loc>https://zaprazi.cz/page-sitemap.xml</loc></sitemap></sitemapindex>',
     [root + "/page-sitemap.xml"]: '<urlset><url><loc>https://zaprazi.cz/invalidni-vozik-do-auta/</loc></url></urlset>'
   };
   const result = await auditPublicSitemap(mock(files).get);
-  assert.ok(stagedDecisionPaths.includes("/invalidni-vozik-do-auta/"));
-  assert.ok(stagedDecisionPaths.includes("/najezdova-rampa-na-jeden-schod/"));
-  assert.ok(stagedDecisionPaths.includes("/prisavne-madlo-do-koupelny-bez-vrtani/"));
-  assert.ok(stagedDecisionPaths.includes("/antidekubitni-matrace-na-polohovaci-postel/"));
-  assert.ok(stagedDecisionPaths.includes("/myti-vlasu-na-luzku/"));
-  assert.ok(stagedDecisionPaths.includes("/oblekani-ponozek-a-kalhot-bez-ohybani/"));
-  assert.ok(stagedDecisionPaths.includes("/hygiena-leziciho-seniora-doma/"));
-  assert.ok(stagedDecisionPaths.includes("/nastupovani-seniora-do-auta/"));
-  assert.ok(stagedDecisionPaths.includes("/senior-doma-sam-sos-pomoc/"));
-  assert.ok(stagedDecisionPaths.includes("/senior-odmita-choditko/"));
-  assert.ok(stagedDecisionPaths.includes("/senior-odmita-koupani/"));
-  assert.ok(stagedDecisionPaths.includes("/senior-malo-pije/"));
-  assert.ok(stagedDecisionPaths.includes("/jak-vybrat-pecovatelskou-sluzbu/"));
+  assert.ok(requiredDecisionPaths.includes("/invalidni-vozik-do-auta/"));
+  assert.ok(requiredDecisionPaths.includes("/najezdova-rampa-na-jeden-schod/"));
+  assert.ok(requiredDecisionPaths.includes("/prisavne-madlo-do-koupelny-bez-vrtani/"));
+  assert.ok(requiredDecisionPaths.includes("/antidekubitni-matrace-na-polohovaci-postel/"));
+  assert.ok(requiredDecisionPaths.includes("/myti-vlasu-na-luzku/"));
+  assert.ok(requiredDecisionPaths.includes("/oblekani-ponozek-a-kalhot-bez-ohybani/"));
+  assert.ok(requiredDecisionPaths.includes("/hygiena-leziciho-seniora-doma/"));
+  assert.ok(requiredDecisionPaths.includes("/nastupovani-seniora-do-auta/"));
+  assert.ok(requiredDecisionPaths.includes("/senior-doma-sam-sos-pomoc/"));
+  assert.ok(requiredDecisionPaths.includes("/senior-odmita-choditko/"));
+  assert.ok(requiredDecisionPaths.includes("/senior-odmita-koupani/"));
+  assert.ok(requiredDecisionPaths.includes("/senior-malo-pije/"));
+  assert.ok(requiredDecisionPaths.includes("/jak-vybrat-pecovatelskou-sluzbu/"));
   assert.ok(requiredDecisionPaths.includes("/prispevek-na-peci-pro-seniora/"));
   assert.ok(requiredDecisionPaths.includes("/prevoz-seniora-k-lekari/"));
   assert.ok(requiredDecisionPaths.includes("/senior-nestihne-dojit-na-wc/"));
-  assert.deepEqual(result.staged_decision_paths_present, ["/invalidni-vozik-do-auta/"]);
-  assert.deepEqual(result.staged_decision_paths_missing.sort(), ["/najezdova-rampa-na-jeden-schod/","/prisavne-madlo-do-koupelny-bez-vrtani/","/antidekubitni-matrace-na-polohovaci-postel/","/myti-vlasu-na-luzku/","/oblekani-ponozek-a-kalhot-bez-ohybani/","/hygiena-leziciho-seniora-doma/","/nastupovani-seniora-do-auta/","/senior-doma-sam-sos-pomoc/","/senior-odmita-choditko/","/senior-odmita-koupani/","/senior-malo-pije/","/jak-vybrat-pecovatelskou-sluzbu/"].sort());
+  assert.deepEqual(stagedDecisionPaths, []);
+  assert.deepEqual(result.staged_decision_paths_present, []);
+  assert.ok(result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
+  assert.deepEqual(result.staged_decision_paths_missing, []);
+  assert.ok(result.required_decision_paths_missing.includes("/jak-vybrat-pecovatelskou-sluzbu/"));
   // Published live guides are now required but deliberately absent from this synthetic fixture.
-  assert.ok(!result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
+  assert.ok(result.required_decision_paths_present.includes("/invalidni-vozik-do-auta/"));
 });
 
 test("Refuse external host and duplicate child sitemap references", async () => {
@@ -101,4 +104,23 @@ test("Prioritized URLs are unique and cover all deployed Advisor entry paths", (
     "/choditka-pro-seniory/", "/koupelna-a-wc/", "/navrat-z-nemocnice/",
     "/sobestacnost/", "/obuv-pro-seniory/", "/rollator-pro-seniory/"
   ]) assert.ok(requiredDecisionPaths.includes(slug), "Missing critical entry " + slug);
+});
+
+test("public sitemap health gate fails closed on lost pages, HTTP or duplicate URLs", async () => {
+  const index=root+"/sitemap_index.xml";
+  const page=root+"/page-sitemap.xml";
+  const urls=requiredDecisionPaths.map(path=>"<url><loc>"+root+path+"</loc></url>").join("");
+  const files={
+    [root+"/robots.txt"]:"Sitemap: "+index,
+    [index]:"<sitemapindex><loc>"+page+"</loc></sitemapindex>",
+    [page]:"<urlset>"+urls+"</urlset>"
+  };
+  const good=await auditPublicSitemap(mock(files).get);
+  assert.equal(assertPublicSitemapHealthy(good).required_count,requiredDecisionPaths.length);
+  const removed=await auditPublicSitemap(mock({...files,[page]:files[page].replace("<url><loc>"+root+requiredDecisionPaths[0]+"</loc></url>","")}).get);
+  assert.throws(()=>assertPublicSitemapHealthy(removed),/Missing required decision paths/);
+  assert.throws(()=>assertPublicSitemapHealthy({...good,robots_sitemaps:["http://zaprazi.cz/sitemap_index.xml"]}),/robots.txt/);
+  assert.throws(()=>assertPublicSitemapHealthy({...good,index:{...good.index,http:1}}),/HTTP locs/);
+  assert.throws(()=>assertPublicSitemapHealthy({...good,duplicate_paths_sample:["/duplicate/"]}),/Duplicate/);
+  assert.throws(()=>assertPublicSitemapHealthy({}),/Incomplete/);
 });

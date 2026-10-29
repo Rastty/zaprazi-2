@@ -1,0 +1,40 @@
+name: Zápraží Growth Graph — read-only loop
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 6 * * 1,4"
+  pull_request:
+    paths:
+      - "config/growth-graph.json"
+      - "config/growth-state.json"
+      - "scripts/growth-graph.mjs"
+      - "tests/growth-graph.test.js"
+      - ".github/workflows/growth-graph.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate graph and safety constraints
+        run: node --test tests/growth-graph.test.js tests/bathroom-safety-fuzz.test.js
+      - name: Generate honest, read-only growth priorities
+        run: |
+          node scripts/growth-graph.mjs > growth-plan.md
+          node scripts/growth-graph.mjs --json > growth-plan.json
+          cat growth-plan.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zaprazi-growth-graph-plan
+          path: |
+            growth-plan.md
+            growth-plan.json
+          retention-days: 14

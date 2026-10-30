@@ -92,7 +92,7 @@ get_header();
           <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Aktuální ceník MEYRA</a>
         </article>
       </div>
-      <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#otazky-pujcovna">Připravit čtyři otázky pro půjčovnu</a>.</p>
+      <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#otazky-pujcovna">Připravit pět otázek pro půjčovnu</a>.</p>
     </div>
   </section>
 
@@ -185,8 +185,9 @@ get_header();
           <li><strong>Technická kontrola:</strong> „Lze před převzetím ověřit rozměry, nosnost, nastavení a stav brzd či koncovek?“</li>
           <li><strong>Celkové náklady:</strong> „Jaká je celková cena na požadovanou dobu včetně minimálního účtování, kauce, dopravy a vrácení?“</li>
           <li><strong>Předání a zaučení:</strong> „Kdo pomůcku při předání nastaví a vysvětlí její použití?“</li>
+          <li><strong>Vrácení a závady:</strong> „Kdy a jak vrátím pomůcku, za jakých podmínek dostanu zpět kauci a co mám dělat při závadě nebo poškození?“</li>
         </ol>
-        <p><strong>Než zavoláte:</strong> připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">měření a kontrolu průchodů</a>. Pokud není jasné, jaký typ opory člověk bezpečně zvládá, nejdřív využijte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Domácího poradce</a> a při nejistotě odborné posouzení. Telefonát ani dostupnost modelu nepotvrzují jeho individuální vhodnost.</p>
+        <p><strong>Než zavoláte:</strong> připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">měření a kontrolu průchodů</a>. Pokud není jasné, jaký typ opory člověk bezpečně zvládá, nejdřív využijte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Domácího poradce</a> a při nejistotě odborné posouzení. Telefonát ani dostupnost modelu nepotvrzují jeho individuální vhodnost. <strong>Pokud při převzetí nefungují brzdy, koncovky nebo je pomůcka nestabilní, nepoužívejte ji a požádejte půjčovnu o nápravu.</strong></p>
       </div>
     </div>
   </section>

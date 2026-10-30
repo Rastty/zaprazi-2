@@ -83,6 +83,42 @@ export const liveSearchCases = Object.freeze([
   {term:"malo pije",target:"/senior-malo-pije/#varovne-priznaky-malo-pije"}
 ]);
 
+
+/**
+ * Independent public SEO smoke for the four editorial guides fixed in #513.
+ * Source-code assertions alone cannot establish that WordPress serves the
+ * metadata. This check runs only when the exact source release is live.
+ */
+export const liveEditorialSeoCases = Object.freeze([
+  {path:"/prevoz-seniora-k-lekari/", intent:/zdravotnickou dopravu|zdravotnické dopravy/i},
+  {path:"/senior-nestihne-dojit-na-wc/", intent:/varovné příznaky/i},
+  {path:"/prispevek-na-peci-pro-seniora/", intent:/sociální šetření/i},
+  {path:"/jak-vybrat-pecovatelskou-sluzbu/", intent:/registr MPSV/i}
+]);
+function htmlAttribute(tag, name) {
+  const attributes = [...String(tag).matchAll(/\b([a-z-]+)\s*=\s*(["'])(.*?)\2/gi)];
+  return attributes.find(match => match[1].toLowerCase() === name)?.[3] ?? null;
+}
+export function assertLiveEditorialSeo(html, entry) {
+  const head = String(html).split(/<\/head\s*>/i)[0];
+  const metas = [...head.matchAll(/<meta\b[^>]*>/gi)].map(match => match[0]);
+  const descriptions = metas.filter(tag => htmlAttribute(tag,"name")?.toLowerCase() === "description");
+  assert.equal(descriptions.length, 1, "Expected exactly one live meta description: " + entry.path);
+  const description = htmlAttribute(descriptions[0],"content") ?? "";
+  assert.ok(description.length >= 100 && description.length <= 180,
+    "Missing or implausible live meta description: " + entry.path);
+  assert.match(description, entry.intent, "Wrong intent in live meta description: " + entry.path);
+  const links = [...head.matchAll(/<link\b[^>]*>/gi)].map(match => match[0]);
+  const canonical = links.filter(tag => htmlAttribute(tag,"rel")?.toLowerCase() === "canonical");
+  assert.equal(canonical.length, 1, "Expected one canonical link: " + entry.path);
+  assert.equal(htmlAttribute(canonical[0],"href"), origin + entry.path,
+    "Canonical must be the exact HTTPS public guide URL: " + entry.path);
+  const robots = metas.filter(tag => htmlAttribute(tag,"name")?.toLowerCase() === "robots");
+  assert.ok(!robots.some(tag => /(?:^|,)\s*noindex\b/i.test(htmlAttribute(tag,"content") ?? "")),
+    "Guide must not be noindex: " + entry.path);
+  return {path:entry.path, description_length:description.length, description};
+}
+
 export async function verifyLiveReleaseAndGuides() {
   const readiness = checkReadiness(JSON.parse(await getText(origin+"/wp-json/zaprazi/v1/affiliate-readiness")));
   const report = { checked_at: new Date().toISOString(), site: origin, ...readiness,
@@ -134,6 +170,15 @@ export async function verifyLiveReleaseAndGuides() {
   }
   assertNoGuidance(await getText(searchUrl("fotovoltaika")));
   assertNoGuidance(await getText(searchUrl("malo pije cerpadlo")));
+  const editorial=[];
+  const seenDescriptions=new Set();
+  for (const entry of liveEditorialSeoCases) {
+    const seo=assertLiveEditorialSeo(await getText(origin+entry.path),entry);
+    assert.ok(!seenDescriptions.has(seo.description), "Duplicate live SEO descriptions");
+    seenDescriptions.add(seo.description);
+    editorial.push({path:seo.path,description_length:seo.description_length,canonical_ok:true});
+  }
+  report.editorial_seo=editorial;
   report.status="verified";
   report.guides=pageReports;
   report.search=queries;

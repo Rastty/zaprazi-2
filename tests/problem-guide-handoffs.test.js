@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 
 const source=path=>readFileSync(new URL("../"+path,import.meta.url),"utf8");
+const releaseMarker="ZP_RELEASE_"+source("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const cases=[
   {
     page:"page-senior-odmita-choditko.php",
@@ -60,6 +61,6 @@ test("Every destination is present as an actual in-theme page and anchor",()=>{
   }
 });
 
-test("Protected release markers remain on the deployed 0.8.183 family",()=>{
-  for(const item of cases)assert.ok(source(item.page).includes("ZP_RELEASE_0_8_183"),item.page);
+test("Protected release markers match current theme version",()=>{
+  for(const item of cases)assert.ok(source(item.page).includes(releaseMarker),item.page);
 });

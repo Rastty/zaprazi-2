@@ -4,6 +4,7 @@ import {readFileSync} from "node:fs";
 import {requiredDecisionPaths,stagedDecisionPaths} from "../scripts/audit-public-sitemap.mjs";
 
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const slug="jak-vybrat-pecovatelskou-sluzbu";
 const path="page-"+slug+".php";
 const page=read(path);
@@ -13,7 +14,7 @@ test("Care-service guide solves actual family coordination with seven steps, eig
  assert.ok(page.length>15000,"Concrete guide must not be a thin SEO doorway");
  assert.equal((page.match(/<h1\b/g)||[]).length,1);
  assert.equal((page.match(/<main\b/g)||[]).length,1);
- assert.ok(page.includes("ZP_RELEASE_0_8_183"));
+ assert.ok(page.includes(releaseMarker));
  for(const id of ["pecovatelska-sluzba-nebo-jina-pomoc","vyber-pecovatelske-sluzby-kroky",
    "vyhledat-pecovatelskou-sluzbu-v-registru","otazky-pro-pecovatelskou-sluzbu",
    "smlouva-a-cena-pecovatelske-sluzby","kdyz-sluzba-nema-kapacitu",

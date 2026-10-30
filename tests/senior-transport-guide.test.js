@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const read = path => readFileSync(new URL("../" + path, import.meta.url), "utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const article = read("page-prevoz-seniora-k-lekari.php");
 const route = "/prevoz-seniora-k-lekari/";
 const expected = [
@@ -27,7 +28,7 @@ test("Senior transport page is useful without JavaScript and explains four safe 
  assert.ok((article.match(/<details>/g)||[]).length >= 5);
  assert.ok((article.match(/<li>/g)||[]).length >= 20);
  assert.ok((article.match(/class="zp-decision-card"/g)||[]).length >= 7);
- assert.match(article,/ZP_RELEASE_0_8_183/);
+ assert.match(article,new RegExp(releaseMarker));
  assert.doesNotMatch(article,/<form\b|data-zp-merchant|data-zp-affiliate|rel="sponsored"|awin1\.com|click\.php/);
 });
 
@@ -70,7 +71,7 @@ test("Two topical entry pages lead to the transport guide without merchant redir
  ]){
  const html=read(path);
  assert.ok(html.includes("home_url( '"+route+"#"+anchor+"' )"),path);
- assert.match(html,/ZP_RELEASE_0_8_183/);
+ assert.match(html,new RegExp(releaseMarker));
  }
  const destinations=[
   ["nastupovani-seniora-do-auta","#bezpecnost-nastupovani-auto"],

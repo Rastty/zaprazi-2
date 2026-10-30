@@ -5,6 +5,7 @@ import {recommendMobility} from "../src/mobility/engine.js";
 import {getMobilitySafeRecovery,getMobilityNextSteps} from "../src/mobility/next-steps.js";
 
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const scenario = extras => recommendMobility({
  environment:"indoor",supportNeed:"steady",canLiftWalker:"yes",handBrakes:"unknown",...extras
 });
@@ -62,7 +63,7 @@ test("No extra recovery on approved candidate, invalid input, generic light or u
 
 test("Recovery links point to real internal pages and exact anchors, with no merchant behavior",()=>{
  const next=read("src/mobility/next-steps.js");
- assert.ok(next.includes("ZP_RELEASE_0_8_183"));
+ assert.ok(next.includes(releaseMarker));
  for(const status of [
   getMobilitySafeRecovery(scenario({supportNeed:"person_assist"})),
   getMobilitySafeRecovery(scenario({environment:"outdoor",handBrakes:"no"}),{handBrakes:"no"}),

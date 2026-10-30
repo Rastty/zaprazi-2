@@ -2,13 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const page=read("page-senior-nestihne-dojit-na-wc.php");
 const functions=read("functions.php");
 const template="page-senior-nestihne-dojit-na-wc.php";
 const slug="senior-nestihne-dojit-na-wc";
 test("WC reach problem page has one H1, actual safety triage, differentiated choices and source traceability",()=>{
  assert.equal((page.match(/<h1>/g)||[]).length,1);
- assert.ok(page.includes("ZP_RELEASE_0_8_183"));
+ assert.ok(page.includes(releaseMarker));
  for(const anchor of ["prvni-bezpecnost-wc","proc-se-nestihne-wc","kontrolni-seznam-wc-doma","pomucka-na-wc-az-potom","faq-nestihne-wc","zdroje-nestihne-wc"]){
    assert.ok(page.includes('id="'+anchor+'"'),anchor+" must be a real section");
  }
@@ -42,7 +43,7 @@ test("New WordPress page is created once without overwriting existing content; d
  assert.ok(functions.includes("'_wp_page_template' => '"+template+"'"));
  assert.ok(functions.includes("zaprazi_senior_cannot_reach_wc_page_v1"));
  assert.ok(functions.includes("add_action( 'init', 'zaprazi_2_ensure_senior_cannot_reach_wc_page', 58 )"));
- const marker="ZP_RELEASE_0_8_183";
+ const marker=releaseMarker;
  const core=functions.slice(functions.indexOf("  $files = array("),functions.indexOf("  foreach ( $files as $relative_path )"));
  const paths=[...core.matchAll(/^\s*'([^']+)',\s*$/gm)].map(m=>m[1]);
  assert.equal(paths.filter(p=>p===template).length,1);

@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.183' );
+  define( 'ZAPRAZI_RELEASE', '0.8.184' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -59,6 +59,7 @@ function zaprazi_2_release_integrity_ok() {
     'page-oblekani-ponozek-a-kalhot-bez-ohybani.php',
     'page-hygiena-leziciho-seniora-doma.php',
     'page-nastupovani-seniora-do-auta.php',
+    'page-prevoz-seniora-k-lekari.php',
     'page-senior-doma-sam-sos-pomoc.php',
     'page-senior-odmita-choditko.php',
     'page-senior-odmita-koupani.php',
@@ -120,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => 'ef07168229f5996140135875e12d4276e6fcfc7f',
-    'src/mobility/offer-fit-gate.js' => '0e5166e2e9052eaec5e03d7d1f58cf731a3ad241',
+    'src/mobility/engine.js' => 'f2a3d52d6d42c7495f7697e4399dbf7b5892fd70',
+    'src/mobility/offer-fit-gate.js' => 'a47f8035c28dd2e93b2bde870233eda1363fbb83',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 

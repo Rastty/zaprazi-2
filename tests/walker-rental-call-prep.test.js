@@ -96,5 +96,5 @@ test("no-stock rental fallback never treats a different walker as an interchange
     assert.ok(section.includes(safety),"Missing safety or acquisition fallback: "+safety);
   assert.ok(section.includes("home_url( '/choditka-pro-seniory/' )"),"Must return to the existing fit-selection journey");
   assert.ok(section.includes("home_url( '/choditko-na-pojistovnu/' )"),"Must link to the existing reimbursement guide");
-  assert.doesNotMatch(section,/<form|<input|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage|fetch\\s*\\(/i);
+  assert.doesNotMatch(section,/<form|<input|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage|fetch\s*\(/i);
 });

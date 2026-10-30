@@ -361,7 +361,12 @@ try {
         radio.click();
         return radio.checked;
       }, firstAnswer);
-      // Allow queued telemetry requests to fire before checking the canary.
+      // A tracker may transmit practical answers only when the user submits,
+      // not on radio selection. Keep the same request canary active through
+      // an incomplete submit; this must never unlock merchant offers.
+      assert.equal(selectedFirstAnswer, true,
+        "Could not select a practical answer for privacy check: " + path);
+      await page.$eval(formSelector + ' button[id$="-submit"]', button => button.click());
       await new Promise(resolve => setTimeout(resolve, 250));
     } finally {
       page.off("request", onRequest);

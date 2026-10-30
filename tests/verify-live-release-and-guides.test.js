@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import {isExactAnchor,checkReadiness,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases} from "../scripts/verify-live-release-and-guides.mjs";
+import {isExactAnchor,checkReadiness,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases} from "../scripts/verify-live-release-and-guides.mjs";
 const ready={release:"0.8.182",integrity:"ok",configured_total:25,slot_total:25};
 test("verify version, integrity and complete affiliate slots, distinguish pending deploy",()=>{
  assert.deepEqual(checkReadiness(ready,"0.8.182"),{expected:"0.8.182",deployed:"0.8.182",release_matches:true});
@@ -47,4 +47,22 @@ test("production acceptance queries match real PHP safety-first search router",(
     encoding:"utf8",timeout:10000
   });
   assert.deepEqual(JSON.parse(stdout),liveSearchCases.map(({target})=>target));
+});
+
+
+test("live SEO smoke requires unique intent-specific description and exact HTTPS canonical",()=>{
+  const entry=liveEditorialSeoCases[0];
+  const description="Jak zajistit zdravotnickou dopravu seniora k lékaři, kdy řešit doprovod a co předem ověřit s lékařem a poskytovatelem služby.";
+  const head=(meta,canonical,robots="")=>"<html><head>"+meta+canonical+robots+"</head><body>Průvodce</body></html>";
+  const meta='<meta content="'+description+'" name="description">';
+  const canonical='<link href="https://zaprazi.cz'+entry.path+'" rel="canonical">';
+  const valid=head(meta,canonical);
+  assert.equal(assertLiveEditorialSeo(valid,entry).path,entry.path);
+  assert.throws(()=>assertLiveEditorialSeo(head("",canonical),entry),/exactly one/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta+meta,canonical),entry),/exactly one/);
+  assert.throws(()=>assertLiveEditorialSeo(head('<meta name="description" content="Krátké">',canonical),entry),/implausible/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical.replace("https:","http:")),entry),/Canonical/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical,'<meta name="robots" content="noindex,follow">'),entry),/noindex/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical),liveEditorialSeoCases[1]),/Wrong intent|Canonical/);
+  assert.equal(liveEditorialSeoCases.length,4);
 });

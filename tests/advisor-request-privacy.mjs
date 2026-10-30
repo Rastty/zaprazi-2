@@ -30,3 +30,24 @@ export function requestContainsAdvisorAnswer(request, answer) {
   }
   return false;
 }
+
+/**
+ * Read-only canary for accidental persistence of a selected practical answer.
+ * Entries are ephemeral [key, value] pairs from localStorage/sessionStorage;
+ * cookies are inspected in memory, never printed or sent anywhere.
+ */
+export function persistentStorageContainsAdvisorAnswer(entries, cookies, answer) {
+  if (!answer || typeof answer.name !== "string" ||
+      typeof answer.value !== "string" || !answer.name || !answer.value) return false;
+  if (!Array.isArray(entries)) throw new TypeError("Expected storage entries");
+  const payload = value => requestContainsAdvisorAnswer({
+    url: () => "", postData: () => String(value ?? "")
+  }, answer);
+  for (const entry of entries) {
+    if (!Array.isArray(entry) || entry.length !== 2) throw new TypeError("Malformed storage entry");
+    const [key, value] = entry;
+    if (key === answer.name && value === answer.value) return true;
+    if (payload(value)) return true;
+  }
+  return payload(cookies);
+}

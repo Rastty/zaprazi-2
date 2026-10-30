@@ -32,10 +32,10 @@ function section(html,id){
   }
   assert.fail("Missing real editorial section #"+id);
 }
-function links(html){
+function links(html,basePath="/"){
   return [...clean(html).matchAll(/<a\b[^>]*>/gi)]
     .map(m=>attr(m[0],"href")).filter(Boolean)
-    .map(href=>new URL(href,origin));
+    .map(href=>new URL(href,origin+basePath));
 }
 function requireLinks(html,targets,label){
   const actual=links(html).map(u=>u.href);
@@ -77,7 +77,7 @@ export function assertMobilityAcquisition(pages,release){
     "/pujceni-choditka/",
     "/co-zmerit-pred-vyberem-choditka/#co-zmerit"
   ],"ePoukaz waiting");
-  assert.ok(links(section(pages.insurance,"postup")).some(u=>u.hash==="#kdyz-cekate-na-epoukaz"&&
+  assert.ok(links(section(pages.insurance,"postup"),paths.insurance).some(u=>u.hash==="#kdyz-cekate-na-epoukaz"&&
     u.pathname===paths.insurance),"Missing jump to interim options");
   assert.ok(isExactAnchor(pages.rental,"rozpocet-pujceni-choditka"),"Rental budget target missing");
   assert.ok(isExactAnchor(pages.measuring,"co-zmerit"),"Measurement target missing");

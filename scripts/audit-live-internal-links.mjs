@@ -23,7 +23,7 @@ try{
       const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
       if(response?.status()!==200)throw new Error("Source page not HTTP 200: "+path);
       const links=await page.$$eval("main a[href]",anchors=>anchors.map(a=>a.getAttribute("href")));
-      const ids=await page.$eval("[id]",nodes=>nodes.map(node=>node.id));
+      const ids=await page.$$eval("[id]",nodes=>nodes.map(node=>node.id));
       pages.push({path,links});
       idsByPath.set(path,new Set(ids));
     }finally{await page.close();}
@@ -38,7 +38,7 @@ try{
     try{
       const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
       if(response?.status()!==200)continue;
-      idsByPath.set(path,new Set(await page.$eval("[id]",nodes=>nodes.map(node=>node.id))));
+      idsByPath.set(path,new Set(await page.$$eval("[id]",nodes=>nodes.map(node=>node.id))));
     }catch(error){console.error("FRAGMENT_TARGET_UNAVAILABLE",path,String(error).slice(0,120));}
     finally{await page.close();}
   }

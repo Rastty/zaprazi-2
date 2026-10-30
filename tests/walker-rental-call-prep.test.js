@@ -67,3 +67,18 @@ test("rental price entry and FAQ remain explicitly dated when price evidence exp
   assert.match(faq,/Ceny a dostupnost ověřte před objednáním/);
   assert.doesNotMatch(prices,/<form|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage/i);
 });
+
+test("expired source-price evidence and calculator CTA cannot imply a current offer",()=>{
+  const page=read("page-pujceni-choditka.php");
+  const hero=page.slice(page.indexOf('<section class="zp-hero">'),page.indexOf('<section class="zp-wrap">'));
+  assert.match(hero,/\$zp_rental_is_fresh \? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'/);
+  assert.match(page,/if \( \$zp_rental_is_fresh \) :[\s\S]*?<form id="zp-walker-rental-budget"/);
+  assert.match(page,/Přepočet není k dispozici/);
+  const sources=page.slice(page.indexOf('<p class="zp-kicker">Zdroje cen</p>'));
+  assert.equal((sources.match(/if \( ! \$zp_rental_is_fresh \) :/g)||[]).length,2,
+    "Both provider source-price paragraphs must carry the same expiry gate as the rental cards");
+  assert.equal((sources.match(/Historické příklady, nikoli aktuální nabídka/g)||[]).length,2);
+  assert.match(sources,/Čtyřkolové venkovní chodítko 12 Kč\/den/);
+  assert.match(sources,/Chodítko 250 Kč\/týden/);
+  assert.doesNotMatch(sources,/<form|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage/i);
+});

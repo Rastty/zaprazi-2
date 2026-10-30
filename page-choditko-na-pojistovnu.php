@@ -110,9 +110,35 @@ get_header();
           <div>
             <h3>Před výdejem znovu ověřte aktuální záznam a podmínky.</h3>
             <p>Seznam SÚKL se mění. Zápraží proto zobrazuje datum ověření a měsíčně platný údaj po skončení jeho platnosti přestane prezentovat jako aktuální.</p>
+            <p>Pokud chodítko potřebujete dřív, než se vyřídí poukaz, <a class="zp-text-link" href="#kdyz-cekate-na-epoukaz">projděte bezpečné dočasné možnosti</a>. Půjčení není automaticky hrazené pojišťovnou.</p>
           </div>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section id="kdyz-cekate-na-epoukaz" class="zp-section zp-section-soft" aria-labelledby="cekani-na-epoukaz-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická situace</p>
+      <h2 id="cekani-na-epoukaz-nadpis" class="zp-section-title">Chodítko potřebujete dřív, než se vyřídí ePoukaz?</h2>
+      <p>Nečekejte s řešením bezpečnosti chůze jen kvůli administrativě. Pokud je chůze nejistá, dochází k pádům nebo člověk potřebuje fyzickou pomoc, nejdřív se poraďte s ošetřujícím lékařem či rehabilitačním odborníkem o bezpečném postupu. Samotné půjčení nevhodného chodítka problém neřeší.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Ověřte stav předpisu a výdeje</h3>
+          <p>U předepisujícího a oprávněného výdejce zjistěte, jaký je další krok, zda jsou splněné podmínky a kdy lze pomůcku skutečně vydat. Zápraží nemůže potvrdit nárok ani termín výdeje.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Zvažte dočasné půjčení, pokud je typ bezpečně určený</h3>
+          <p>Ptejte se na dostupnost konkrétního typu, vyzkoušení, brzdy, šířku, nosnost, kauci, dopravu a vrácení. Půjčení je samostatná cesta, nikoli příslib úhrady z ePoukazu.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení chodítka: praktické podmínky a ověřené příklady</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Připravte rozměry před výběrem modelu</h3>
+          <p>Změřte průchody a ověřte výšku madel i potřebnou oporu. Neznámé parametry neodhadujte; při nejistotě požádejte o odborné posouzení.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Seznam měření před výběrem chodítka</a></p>
+        </article>
+      </div>
+      <p class="zp-disclaimer"><strong>Pozor na dvojí platbu:</strong> předem zakoupené chodítko nelze automaticky zpětně proplatit pojišťovnou. Půjčení a výdej na ePoukaz mají odlišné podmínky. <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener">Ověřit pravidlo zpětného proplacení u VZP</a>.</p>
     </div>
   </section>
 

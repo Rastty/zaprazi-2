@@ -69,3 +69,18 @@ test("live Advisor request canary remains active through incomplete submit", () 
   assert.ok(attach >= 0 && submit > attach && detach > submit,
     "The request listener must cover answer selection AND incomplete submission");
 });
+
+test("all-Advisor browser QA checks an alternative answer and re-submit without leaking either value", () => {
+  const source = readFileSync(new URL("./production-advisor-smoke.mjs", import.meta.url), "utf8");
+  const first = source.indexOf("const firstAnswer = await page.$eval(formSelector");
+  const alternate = source.indexOf("const alternateAnswer = await page.$eval(formSelector", first);
+  const editAttach = source.indexOf('page.on("request", onEditRequest);', alternate);
+  const editSubmit = source.indexOf("await page.$eval(formSelector + ' button[id$=\"-submit\"]', button => button.click());", editAttach);
+  const editDetach = source.indexOf('page.off("request", onEditRequest);', editAttach);
+  assert.ok(first >= 0 && alternate > first && editAttach > alternate &&
+    editSubmit > editAttach && editDetach > editSubmit,
+    "Privacy QA must observe both answer change and subsequent incomplete submit");
+  assert.match(source, /\[firstAnswer, alternateAnswer\]\.some\(answer =>/);
+  assert.match(source, /for \(const answer of \[firstAnswer, alternateAnswer\]\)/);
+  assert.match(source, /await checkNoMerchant\(page, resultSelector\);/);
+});

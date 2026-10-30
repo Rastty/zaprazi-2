@@ -13,8 +13,13 @@ const origin = "https://zaprazi.cz";
 const version = parseThemeRelease(readFileSync(new URL("../style.css", import.meta.url), "utf8"));
 
 export function isExactAnchor(html, id) {
-  const match = String(html).match(new RegExp('<[a-z][^>]*\\bid=(["\\\'])'+id+'\\1', 'i'));
-  return !!match;
+  // A string in a comment, script, style or template is not a navigable
+  // editorial fragment. Likewise data-id must not count as an actual id.
+  const doc = String(html)
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<(script|style|template)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
+  return [...doc.matchAll(/<[a-z][\w:-]*\b[^>]*>/gi)]
+    .some(match => htmlAttribute(match[0], "id") === id);
 }
 
 export function checkReadiness(response, expected = version) {

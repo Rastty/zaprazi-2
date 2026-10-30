@@ -129,7 +129,12 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
       });
       schemes[parsed.protocol.replace(":", "")]++;
       if (seenPages.has(localPath)) duplicates.push(localPath);
-      else seenPages.set(localPath, { sitemap: path, url: value });
+      else seenPages.set(localPath, {
+        sitemap: path,
+        // Never echo query/fragment values into public reports or CI logs.
+        url: parsed.origin + parsed.pathname,
+        ...(parsed.search || parsed.hash ? { noncanonical: true } : {})
+      });
     }
     reports.push({
       name: path.replace(/^\//, ""),

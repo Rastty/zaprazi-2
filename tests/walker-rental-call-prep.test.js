@@ -82,3 +82,19 @@ test("expired source-price evidence and calculator CTA cannot imply a current of
   assert.match(sources,/Chodítko 250 Kč\/týden/);
   assert.doesNotMatch(sources,/<form|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage/i);
 });
+
+test("no-stock rental fallback never treats a different walker as an interchangeable substitute",()=>{
+  const page=read("page-pujceni-choditka.php");
+  const start=page.indexOf('<h4 id="pujcovna-nema-typ">');
+  const end=page.indexOf("</section>",start);
+  assert.ok(start>0&&end>start,"Fallback must be visible after call-prep questions");
+  const section=page.slice(start,end);
+  assert.match(section,/Co když půjčovna nemá bezpečně vybraný typ/);
+  assert.match(section,/Neberte automaticky jiný typ/);
+  assert.match(section,/skladem nebo levnější/);
+  for(const safety of ["znovu ověřit rozměry, nosnost, brzdy","termín dostupnosti správného typu","při nejistotě řešte vhodnost s odborníkem","samotné zapůjčení nepotvrzuje nárok na úhradu"])
+    assert.ok(section.includes(safety),"Missing safety or acquisition fallback: "+safety);
+  assert.ok(section.includes("home_url( '/choditka-pro-seniory/' )"),"Must return to the existing fit-selection journey");
+  assert.ok(section.includes("home_url( '/choditko-na-pojistovnu/' )"),"Must link to the existing reimbursement guide");
+  assert.doesNotMatch(section,/<form|<input|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage|fetch\\s*\\(/i);
+});

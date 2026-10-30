@@ -23,6 +23,26 @@ test("Advisor privacy canary ignores unrelated telemetry and nonmatching values"
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect"), {name:"",value:"yes"}), false);
 });
 
+test("Advisor privacy canary inspects outbound request headers without logging values", () => {
+  const withHeaders = headers => ({
+    url: () => "https://analytics.example/collect",
+    postData: () => "",
+    headers: () => headers
+  });
+  assert.equal(requestContainsAdvisorAnswer(
+    withHeaders({"referer":"https://zaprazi.cz/?supportNeed=steady"}), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(
+    withHeaders({"x-event-data":encodeURIComponent('{"supportNeed":"steady"}')}), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(
+    withHeaders({"supportneed":"steady"}), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(
+    withHeaders({"cookie":"supportNeed=steady; consent=accepted"}), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(
+    withHeaders({"x-event-data":"supportNeed=light", "cookie":"consent=accepted"}), answer), false);
+  assert.throws(() => requestContainsAdvisorAnswer(
+    withHeaders(null), answer), /Malformed request headers/);
+});
+
 test("Advisor persistence canary catches exact keys, nested JSON and encoded cookies", () => {
   const chosen = {name:"supportNeed",value:"steady"};
   assert.equal(persistentStorageContainsAdvisorAnswer([["supportNeed","steady"]], "", chosen), true);

@@ -392,6 +392,65 @@ try {
       persistent.entries, persistent.cookies, firstAnswer), false,
       "Advisor answer persisted in browser storage/cookies: " + path);
 
+    // Check a second, distinct value of the SAME practical question. Keeping
+    // other questions unanswered preserves the fail-closed merchant gate.
+    // This catches telemetry that only fires on answer edits, and stale
+    // persistence of the previously selected value. Never log either answer.
+    const alternateAnswer = await page.$eval(formSelector, (root, previous) => {
+      const radio = [...root.querySelectorAll('input[type="radio"]')].find(el => {
+        if (el.name !== previous.name || el.value === previous.value ||
+            el.disabled || el.closest("[hidden]")) return false;
+        const visibleControl = el.closest("label") || el;
+        return visibleControl.getClientRects().length > 0 &&
+          getComputedStyle(visibleControl).visibility !== "hidden";
+      });
+      return radio ? { name: radio.name, value: radio.value } : null;
+    }, firstAnswer);
+    assert.ok(alternateAnswer,
+      "Advisor has no second practical choice for edit privacy QA: " + path);
+    let leakedOnEdit = false;
+    const onEditRequest = request => {
+      try {
+        if ([firstAnswer, alternateAnswer].some(answer =>
+          requestContainsAdvisorAnswer(request, answer))) leakedOnEdit = true;
+      } catch {
+        leakedOnEdit = true;
+      }
+    };
+    page.on("request", onEditRequest);
+    try {
+      const changed = await page.$eval(formSelector, (root, answer) => {
+        const radio = [...root.querySelectorAll('input[type="radio"]')]
+          .find(el => el.name === answer.name && el.value === answer.value);
+        if (!radio) throw new Error("Alternative practical answer disappeared");
+        radio.click();
+        return radio.checked;
+      }, alternateAnswer);
+      assert.equal(changed, true,
+        "Could not change practical answer for privacy QA: " + path);
+      await page.$eval(formSelector + ' button[id$="-submit"]', button => button.click());
+      await new Promise(resolve => setTimeout(resolve, 250));
+    } finally {
+      page.off("request", onEditRequest);
+    }
+    assert.equal(leakedOnEdit, false,
+      "Advisor answer leaked during answer edit or incomplete resubmit: " + path);
+    const storageAfterEdit = await page.evaluate(() => {
+      const entries = storage => Array.from({length: storage.length}, (_, i) => {
+        const key = storage.key(i);
+        return [key, storage.getItem(key)];
+      });
+      return {
+        entries: [...entries(localStorage), ...entries(sessionStorage)],
+        cookies: document.cookie
+      };
+    });
+    for (const answer of [firstAnswer, alternateAnswer]) {
+      assert.equal(persistentStorageContainsAdvisorAnswer(
+        storageAfterEdit.entries, storageAfterEdit.cookies, answer), false,
+        "Advisor answer persisted after editing: " + path);
+    }
+
     assert.equal(page.url(), originalUrl,
       "Changing Advisor answer changed URL (possible answer leak): " + path);
     await checkNoMerchant(page, resultSelector);

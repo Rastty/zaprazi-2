@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { prepareInternalLinks, auditInternalTargets } from "../scripts/lib/internal-link-health.mjs";
+import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments } from "../scripts/lib/internal-link-health.mjs";
 
 test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>{
   const pages=[
@@ -49,4 +49,41 @@ test("network errors remain distinct from real HTTP 404",async()=>{
   assert.equal(data.broken[0].outcome,"network_error");
   assert.equal(data.broken[0].status,null);
   assert.match(data.broken[0].reason,/offline/);
+});
+
+test("fragment audit detects missing live DOM IDs even when target path is HTTP 200",()=>{
+  const pages=[
+    {path:"/",links:["#poradce","/choditka-pro-seniory/#vyber-typu",
+      "/koupelna-a-wc/#bezpe%C4%8D%C3%AD","/go/merchant#track",
+      "https://other.example/path/#x","/page/?q=health#answer"]},
+    {path:"/choditka-pro-seniory/",links:["/#poradce",
+      "/choditka-pro-seniory/#vyber-typu"]}
+  ];
+  const targets=prepareInternalFragments(pages);
+  assert.deepEqual(targets,[
+    {path:"/",fragment:"poradce",sources:["/","/choditka-pro-seniory/"]},
+    {path:"/choditka-pro-seniory/",fragment:"vyber-typu",
+      sources:["/","/choditka-pro-seniory/"]},
+    {path:"/koupelna-a-wc/",fragment:"bezpečí",sources:["/"]}
+  ]);
+  const report=auditInternalFragments(targets,new Map([
+    ["/",new Set(["poradce"])],
+    ["/choditka-pro-seniory/",new Set(["other-section"])],
+    ["/koupelna-a-wc/",new Set(["bezpečí"])]
+  ]));
+  assert.equal(report.checked,3);
+  assert.equal(report.broken.length,1);
+  assert.equal(report.broken[0].path,"/choditka-pro-seniory/");
+  assert.equal(report.broken[0].fragment,"vyber-typu");
+  assert.equal(report.unchecked.length,0);
+});
+
+test("fragment audit never assumes missing DOM data means anchor success",()=>{
+  const targets=prepareInternalFragments([{path:"/",links:["/other/#needed"]}]);
+  const report=auditInternalFragments(targets,new Map());
+  assert.equal(report.checked,0);
+  assert.equal(report.broken.length,0);
+  assert.deepEqual(report.unchecked.map(x=>x.path),["/other/"]);
+  assert.throws(()=>prepareInternalFragments([],"https://other.example"),/exact production/);
+  assert.throws(()=>auditInternalFragments(Array(241).fill(targets[0]),new Map()),/unbounded/);
 });

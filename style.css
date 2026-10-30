@@ -134,6 +134,8 @@ a{color:inherit}
 .zp-decision-grid,.zp-acquire-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 .zp-decision-card,.zp-acquire-grid article{border-radius:18px;padding:22px;background:var(--zp-paper);border:1px solid var(--zp-line)}
 .zp-acquire-grid article{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)}
+/* The acquisition checklist is a light panel inside the dark section. */
+.zp-acquire-checklist{margin-top:24px;color:var(--zp-ink)}
 .zp-decision-card h3,.zp-acquire-grid h3{margin-top:0;font-size:1.3rem}
 .zp-check-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .zp-check-grid>div{padding:18px;border-top:3px solid var(--zp-accent);background:var(--zp-paper)}

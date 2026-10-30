@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { accessSync, constants, readFileSync } from "node:fs";
 import puppeteer from "puppeteer-core";
+import { requestContainsAdvisorAnswer } from "./advisor-request-privacy.mjs";
 import { auditPublicSitemap, requiredDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
 
 const base = process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz";
@@ -330,19 +331,45 @@ try {
     assert.equal(page.url(), originalUrl,
       "Empty-answer submit changed URL (possible answer leak): " + path);
     await checkNoMerchant(page, resultSelector);
-    const selectedFirstAnswer = await page.$eval(formSelector, root => {
+    // Observe only requests triggered by a practical answer. Keep the selected
+    // name/value and request payloads in memory; report only a boolean failure.
+    const firstAnswer = await page.$eval(formSelector, root => {
       const radio = [...root.querySelectorAll('input[type="radio"]')].find(el => {
         if (el.disabled || el.closest("[hidden]")) return false;
         const visibleControl = el.closest("label") || el;
         return visibleControl.getClientRects().length > 0 &&
           getComputedStyle(visibleControl).visibility !== "hidden";
       });
-      if (!radio) throw new Error("No visible practical answer for URL privacy check");
-      radio.click();
-      return radio.checked;
+      if (!radio) throw new Error("No visible practical answer for request privacy check");
+      return { name: radio.name, value: radio.value };
     });
+    let leakedRequest = false;
+    const onRequest = request => {
+      try {
+        if (requestContainsAdvisorAnswer(request, firstAnswer)) leakedRequest = true;
+      } catch {
+        leakedRequest = true; // a failed privacy inspection must fail closed
+      }
+    };
+    page.on("request", onRequest);
+    let selectedFirstAnswer = false;
+    try {
+      selectedFirstAnswer = await page.$eval(formSelector, (root, answer) => {
+        const radio = [...root.querySelectorAll('input[type="radio"]')]
+          .find(el => el.name === answer.name && el.value === answer.value);
+        if (!radio) throw new Error("Selected practical answer disappeared");
+        radio.click();
+        return radio.checked;
+      }, firstAnswer);
+      // Allow queued telemetry requests to fire before checking the canary.
+      await new Promise(resolve => setTimeout(resolve, 250));
+    } finally {
+      page.off("request", onRequest);
+    }
     assert.equal(selectedFirstAnswer, true,
       "Could not select a practical answer for privacy check: " + path);
+    assert.equal(leakedRequest, false,
+      "Advisor answer leaked into outgoing request URL/body: " + path);
     assert.equal(page.url(), originalUrl,
       "Changing Advisor answer changed URL (possible answer leak): " + path);
     await checkNoMerchant(page, resultSelector);

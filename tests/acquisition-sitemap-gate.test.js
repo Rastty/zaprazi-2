@@ -40,6 +40,9 @@ test("After 0.8.156 the guide must exist in the exact clean HTTPS page sitemap",
   assert.throws(() => assessAcquisitionDiscovery(live, {
     required_decision_path_locations: {[newGuide.path]: {...location, sitemap: "/post-sitemap.xml"}}
   }), /page sitemap/);
+  assert.throws(() => assessAcquisitionDiscovery(live, {
+    required_decision_path_locations: {[newGuide.path]: {...location, noncanonical: true}}
+  }), /noncanonical/);
   assert.throws(() => assessAcquisitionDiscovery({release: "0.8.156", integrity: "partial"}, report), /integrity/);
 });
 

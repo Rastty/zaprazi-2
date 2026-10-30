@@ -38,6 +38,7 @@ export function assessAcquisitionDiscovery(readiness, sitemap) {
   };
   const location = sitemap?.required_decision_path_locations?.[newGuide.path];
   if (!location) throw new Error("Deployed acquisition guide missing from public sitemap: " + newGuide.path);
+  if (location.noncanonical) throw new Error("Acquisition guide has noncanonical sitemap loc: " + newGuide.path);
   if (!/^\/page-sitemap\d*\.xml$/.test(location.sitemap)) {
     throw new Error("Guide not in a Yoast page sitemap: " + location.sitemap);
   }

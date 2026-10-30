@@ -62,7 +62,7 @@ get_header();
           <dl>
             <div><dt>Pronájem</dt><dd><?php echo $zp_rental_is_fresh ? '12 Kč / den' : 'historicky 12 Kč / den'; ?></dd></div>
             <div><dt>Měsíc</dt><dd><?php echo $zp_rental_is_fresh ? '360 Kč' : 'historicky 360 Kč'; ?></dd></div>
-            <div><dt>Vratná kauce</dt><dd>1 000 Kč</dd></div>
+            <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? '1 000 Kč' : 'historicky 1 000 Kč'; ?></dd></div>
           </dl>
           <p>RehaKomp uvádí krátkodobé i dlouhodobé pronájmy a dopravu po ČR; dostupnost konkrétního modelu je potřeba ověřit.</p>
           <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Aktuální ceník RehaKomp</a>
@@ -74,7 +74,7 @@ get_header();
           <dl>
             <div><dt>Pronájem</dt><dd><?php echo $zp_rental_is_fresh ? '10 Kč / den' : 'historicky 10 Kč / den'; ?></dd></div>
             <div><dt>Měsíc</dt><dd><?php echo $zp_rental_is_fresh ? '300 Kč' : 'historicky 300 Kč'; ?></dd></div>
-            <div><dt>Vratná kauce</dt><dd>typicky 1 000 Kč u ověřených půjčovních položek</dd></div>
+            <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? 'typicky 1 000 Kč u ověřených půjčovních položek' : 'ověřit u půjčovny (starší příklad: 1 000 Kč)'; ?></dd></div>
           </dl>
           <p>Nižší cena neznamená, že je tento typ vhodný pro každého. U pevného chodítka je důležité, zda ho člověk zvládá při kroku bezpečně posouvat.</p>
           <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Aktuální ceník RehaKomp</a>
@@ -86,7 +86,7 @@ get_header();
           <dl>
             <div><dt>1 týden</dt><dd><?php echo $zp_rental_is_fresh ? '250 Kč' : 'historicky 250 Kč'; ?></dd></div>
             <div><dt>1 měsíc</dt><dd><?php echo $zp_rental_is_fresh ? '600 Kč' : 'historicky 600 Kč'; ?></dd></div>
-            <div><dt>Vratná kauce</dt><dd>1 000 Kč</dd></div>
+            <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? '1 000 Kč' : 'historicky 1 000 Kč'; ?></dd></div>
           </dl>
           <p>MEYRA uvádí, že chodítka nezaváží a půjčovné se při následném nákupu může za stanovených podmínek odečíst od prodejní ceny.</p>
           <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Aktuální ceník MEYRA</a>
@@ -178,7 +178,13 @@ get_header();
       </div>
       <div id="otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" aria-labelledby="otazky-pujcovna-nadpis">
         <h3 id="otazky-pujcovna-nadpis">Co říct při telefonátu do půjčovny</h3>
-        <p>„Hledám dočasné zapůjčení konkrétního, bezpečně vybraného typu chodítka. Máte jej dostupné a lze před převzetím ověřit rozměry, nosnost, nastavení a stav brzd či koncovek? Jaká je celková cena na požadovanou dobu včetně minimálního účtování, kauce, dopravy a vrácení? Kdo pomůcku při předání nastaví a vysvětlí její použití?“</p>
+        <p>Otázky si můžete při hovoru přečíst jednu po druhé. Nic nevyplňujete ani neodesíláte.</p>
+        <ol class="zp-checklist">
+          <li><strong>Typ a dostupnost:</strong> „Hledám dočasné zapůjčení konkrétního, bezpečně vybraného typu chodítka. Máte jej dostupné?“</li>
+          <li><strong>Technická kontrola:</strong> „Lze před převzetím ověřit rozměry, nosnost, nastavení a stav brzd či koncovek?“</li>
+          <li><strong>Celkové náklady:</strong> „Jaká je celková cena na požadovanou dobu včetně minimálního účtování, kauce, dopravy a vrácení?“</li>
+          <li><strong>Předání a zaučení:</strong> „Kdo pomůcku při předání nastaví a vysvětlí její použití?“</li>
+        </ol>
         <p><strong>Než zavoláte:</strong> připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">měření a kontrolu průchodů</a>. Pokud není jasné, jaký typ opory člověk bezpečně zvládá, nejdřív využijte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Domácího poradce</a> a při nejistotě odborné posouzení. Telefonát ani dostupnost modelu nepotvrzují jeho individuální vhodnost.</p>
       </div>
     </div>

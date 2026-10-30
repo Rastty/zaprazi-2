@@ -21,6 +21,7 @@ get_header();
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Aktuální příklady cen</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka">Spočítat orientační půjčovné</a>
+        <a class="zp-text-link" href="#otazky-pujcovna">Připravit telefonát do půjčovny</a>
       </div>
     </div>
   </section>
@@ -166,7 +167,7 @@ get_header();
   <section class="zp-section zp-section-dark">
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Před objednáním</p>
-      <h2 class="zp-section-title">Pět věcí, které ověřte u půjčovny.</h2>
+      <h2 class="zp-section-title">Šest věcí, které ověřte u půjčovny.</h2>
       <div class="zp-acquire-grid">
         <article><h3>Konkrétní typ</h3><p>Nestačí „nějaké chodítko“. Ověřte pevné, dvoukolové nebo čtyřkolové řešení a jeho parametry.</p></article>
         <article><h3>Kauce</h3><p>Zjistěte výši, způsob platby a podmínky vrácení.</p></article>
@@ -174,6 +175,11 @@ get_header();
         <article><h3>Doprava</h3><p>Zeptejte se na cenu dovozu, zpětného odvozu a případný osobní odběr.</p></article>
         <article><h3>Dostupnost</h3><p>Ceník neznamená, že konkrétní model je právě volný. Potvrďte termín předem.</p></article>
         <article><h3>Stav a nastavení</h3><p>Při převzetí ověřte technický stav, brzdy, výšku madel a způsob bezpečného použití.</p></article>
+      </div>
+      <div id="otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" aria-labelledby="otazky-pujcovna-nadpis">
+        <h3 id="otazky-pujcovna-nadpis">Co říct při telefonátu do půjčovny</h3>
+        <p>„Hledám dočasné zapůjčení konkrétního, bezpečně vybraného typu chodítka. Máte jej dostupné a lze před převzetím ověřit rozměry, nosnost, nastavení a stav brzd či koncovek? Jaká je celková cena na požadovanou dobu včetně minimálního účtování, kauce, dopravy a vrácení? Kdo pomůcku při předání nastaví a vysvětlí její použití?“</p>
+        <p><strong>Než zavoláte:</strong> připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">měření a kontrolu průchodů</a>. Pokud není jasné, jaký typ opory člověk bezpečně zvládá, nejdřív využijte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Domácího poradce</a> a při nejistotě odborné posouzení. Telefonát ani dostupnost modelu nepotvrzují jeho individuální vhodnost.</p>
       </div>
     </div>
   </section>

@@ -16,15 +16,18 @@ test("rental page offers a reachable six-point call preparation without inventin
   assert.match(section,/aria-labelledby="otazky-pujcovna-nadpis"/);
   assert.match(section,/id="otazky-pujcovna-nadpis"/);
   assert.match(section,/<ol class="zp-checklist">/);
-  assert.equal((section.match(/<li>/g)||[]).length,4,"Four short questions must be independently readable");
-  for(const heading of ["Typ a dostupnost","Technická kontrola","Celkové náklady","Předání a zaučení"])
+  assert.equal((section.match(/<li>/g)||[]).length,5,"Five short questions must be independently readable");
+  for(const heading of ["Typ a dostupnost","Technická kontrola","Celkové náklady","Předání a zaučení","Vrácení a závady"])
     assert.ok(section.includes(heading),"Missing scannable call question: "+heading);
   assert.match(section,/Nic nevyplňujete ani neodesíláte/);
   for(const phrase of ["konkrétního, bezpečně vybraného typu","rozměry, nosnost, nastavení",
     "celková cena","minimálního účtování, kauce, dopravy a vrácení",
-    "kdo pomůcku při předání nastaví","Telefonát ani dostupnost modelu nepotvrzují"]){
+    "kdo pomůcku při předání nastaví","za jakých podmínek dostanu zpět kauci",
+    "co mám dělat při závadě nebo poškození","Telefonát ani dostupnost modelu nepotvrzují"]){
     assert.ok(section.toLowerCase().includes(phrase.toLowerCase()),"Missing call-prep safeguard: "+phrase);
   }
+  assert.match(section,/Pokud při převzetí nefungují brzdy, koncovky nebo je pomůcka nestabilní, nepoužívejte ji/);
+  assert.match(section,/požádejte půjčovnu o nápravu/);
   assert.ok(section.includes("home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' )"));
   assert.ok(section.includes("home_url( '/#poradce' )"));
   assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);
@@ -55,7 +58,7 @@ test("rental price entry and FAQ remain explicitly dated when price evidence exp
   assert.match(page,/href="#ceny">Příklady cen \(ověřeno 6\. 10\. 2026\)/);
   assert.doesNotMatch(page,/href="#ceny">Aktuální příklady cen/);
   const prices=page.slice(page.indexOf('<section id="ceny"'),page.indexOf('<section id="rozpocet-pujceni-choditka"'));
-  assert.match(prices,/href="#otazky-pujcovna">Připravit čtyři otázky pro půjčovnu/);
+  assert.match(prices,/href="#otazky-pujcovna">Připravit pět otázek pro půjčovnu/);
   assert.match(page,/id="otazky-pujcovna"/);
   const faq=page.slice(page.indexOf('Rychlá orientace před půjčením.'),page.indexOf('Zdroje cen'));
   assert.equal((faq.match(/if \( ! \$zp_rental_is_fresh \) :/g)||[]).length,2,

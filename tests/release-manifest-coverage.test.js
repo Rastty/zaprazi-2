@@ -5,15 +5,15 @@ const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
 
 test("every published custom page template is covered exactly once by the current release integrity manifest",()=>{
   const functions=read("functions.php");
-  const list=functions.match(/function zaprazi_2_release_integrity_ok\\(\\) \\{[\\s\\S]*?\\$files = array\\(([\\s\\S]*?)\\n  \\);/);
+  const list=functions.match(/function zaprazi_2_release_integrity_ok\(\) \{[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
   assert.ok(list,"Integrity manifest missing");
-  const listed=[...list[1].matchAll(/^\\s*'([^']+)',\\s*$/gm)].map(m=>m[1]);
+  const listed=[...list[1].matchAll(/^\s*'([^']+)',\s*$/gm)].map(m=>m[1]);
   assert.equal(new Set(listed).size,listed.length,"Duplicate runtime integrity path");
-  const version=read("style.css").match(/^Version:\\s*(\\S+)/m)?.[1];
+  const version=read("style.css").match(/^Version:\s*(\S+)/m)?.[1];
   assert.ok(version,"Missing source theme version");
   const marker="ZP_RELEASE_"+version.replaceAll(".","_");
   const root=new URL("../",import.meta.url);
-  const templates=readdirSync(root).filter(p=>/^page-[^/]+\\.php$/.test(p));
+  const templates=readdirSync(root).filter(p=>/^page-[^/]+\.php$/.test(p));
   for(const path of templates){
     assert.ok(listed.includes(path),"Page template missing from runtime integrity manifest: "+path);
     assert.ok(read(path).includes(marker),"Page template has stale release marker: "+path);

@@ -15,6 +15,11 @@ test("exact IDs, not strings hidden in marketing copy",()=>{
  assert.ok(isExactAnchor("<div class='hul-nebo-choditko' id='hul-nebo-choditko'>", "hul-nebo-choditko"));
  assert.ok(!isExactAnchor('<p>presun-z-postele-na-vozik</p>', "presun-z-postele-na-vozik"));
  assert.ok(!isExactAnchor('<section id="presun-z-postele-na-vozik-old">',"presun-z-postele-na-vozik"));
+ assert.ok(!isExactAnchor('<section data-id="presun-z-postele-na-vozik">',"presun-z-postele-na-vozik"));
+ assert.ok(!isExactAnchor('<!-- <section id="presun-z-postele-na-vozik"> -->',"presun-z-postele-na-vozik"));
+ assert.ok(!isExactAnchor('<script>const html = \'<section id="presun-z-postele-na-vozik">\';</script>',"presun-z-postele-na-vozik"));
+ assert.ok(!isExactAnchor('<template><section id="presun-z-postele-na-vozik"></section></template>',"presun-z-postele-na-vozik"));
+ assert.ok(isExactAnchor('<!-- old <div id="presun-z-postele-na-vozik"> --><section class="guide" id="presun-z-postele-na-vozik">',"presun-z-postele-na-vozik"));
 });
 test("search intent detection checks actual guidance block and excludes unrelated topics",()=>{
  const positive='<section class="zp-search-guidance"><a href="https://zaprazi.cz/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba">Domácí péče</a></section>';

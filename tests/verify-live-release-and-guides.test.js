@@ -20,6 +20,10 @@ test("search intent detection checks actual guidance block and excludes unrelate
  const positive='<section class="zp-search-guidance"><a href="https://zaprazi.cz/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba">Domácí péče</a></section>';
  assert.doesNotThrow(()=>assertGuidance(positive,"https://zaprazi.cz/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba"));
  assert.throws(()=>assertGuidance('<p>domaci-zdravotni-pece-nebo-pecovatelska-sluzba</p>',"https://zaprazi.cz/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba"));
+ const target="https://zaprazi.cz/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba";
+ assert.throws(()=>assertGuidance('<section class="zp-search-guidance"><p>Bez odkazu</p></section><a href="'+target+'">Mimo sekci</a>',target),/guide link/);
+ assert.throws(()=>assertGuidance('<section class="zp-search-guidance"><p>'+target+'</p></section>',target),/guide link/);
+ assert.throws(()=>assertGuidance('<section class="zp-search-guidance"><a href="'+target+'?s=senior">Návod</a></section>',target),/guide link/);
  assert.doesNotThrow(()=>assertNoGuidance('<main>Žádné výsledky pro fotovoltaika</main>'));
  assert.throws(()=>assertNoGuidance(positive));
 });

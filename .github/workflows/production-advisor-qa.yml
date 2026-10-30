@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "scripts/audit-live-mobility-acquisition-184.mjs"
+      - "tests/audit-live-mobility-acquisition-184.test.js"
       - "tests/advisor-request-privacy.mjs"
       - "tests/advisor-request-privacy.test.js"
       - "scripts/audit-live-night-wc-navigation.mjs"
@@ -116,6 +118,9 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-bathroom-product-provenance.mjs
+      - name: Strict 0.8.184 Mobility acquisition paths (postdeploy only)
+        if: github.event_name == 'workflow_dispatch'
+        run: node scripts/audit-live-mobility-acquisition-184.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

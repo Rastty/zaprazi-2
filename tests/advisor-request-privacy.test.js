@@ -48,6 +48,11 @@ test("Advisor persistence canary catches exact keys, nested JSON and encoded coo
   assert.equal(persistentStorageContainsAdvisorAnswer([["supportNeed","steady"]], "", chosen), true);
   assert.equal(persistentStorageContainsAdvisorAnswer([["zp-form",'{"answers":{"supportNeed":"steady"}}']], "", chosen), true);
   assert.equal(persistentStorageContainsAdvisorAnswer([["zp-form",encodeURIComponent("supportNeed=steady")]], "", chosen), true);
+  // A storage key can carry a sensitive answer even when its value is harmless.
+  assert.equal(persistentStorageContainsAdvisorAnswer([["supportNeed=steady", "1"]], "", chosen), true);
+  assert.equal(persistentStorageContainsAdvisorAnswer([[encodeURIComponent("supportNeed=steady"), "1"]], "", chosen), true);
+  assert.equal(persistentStorageContainsAdvisorAnswer([[encodeURIComponent(encodeURIComponent("supportNeed=steady")), "1"]], "", chosen), true);
+  assert.equal(persistentStorageContainsAdvisorAnswer([["zp-form", "supportNeed=light"]], "", chosen), false);
   assert.equal(persistentStorageContainsAdvisorAnswer([], "supportNeed=steady; theme=light", chosen), true);
   assert.equal(persistentStorageContainsAdvisorAnswer([], "form="+encodeURIComponent('{"supportNeed":"steady"}'), chosen), true);
 });

@@ -52,7 +52,7 @@ function sanitizeSourceUrl(raw) {
   assert.equal(u.port, "");
   return u.href;
 }
-async function getText(url) {
+async function getPage(url) {
   const safe = sanitizeSourceUrl(url);
   const response = await fetch(safe, {
     redirect: "manual", headers: { Accept: "text/html,application/json" },
@@ -61,7 +61,10 @@ async function getText(url) {
   assert.equal(response.status, 200, "GET failed for "+safe+" ("+response.status+")");
   const body = await response.text();
   assert.ok(body.length>0 && body.length<2500000, "Unexpected payload size "+safe);
-  return body;
+  return {body, xRobotsTag:response.headers.get("x-robots-tag") ?? ""};
+}
+async function getText(url) {
+  return (await getPage(url)).body;
 }
 function searchUrl(term) {
   const u = new URL(origin+"/");
@@ -99,7 +102,7 @@ function htmlAttribute(tag, name) {
   const attributes = [...String(tag).matchAll(/\b([a-z-]+)\s*=\s*(["'])(.*?)\2/gi)];
   return attributes.find(match => match[1].toLowerCase() === name)?.[3] ?? null;
 }
-export function assertLiveEditorialSeo(html, entry) {
+export function assertLiveEditorialSeo(html, entry, xRobotsTag = "") {
   const head = String(html).split(/<\/head\s*>/i)[0];
   const metas = [...head.matchAll(/<meta\b[^>]*>/gi)].map(match => match[0]);
   const descriptions = metas.filter(tag => htmlAttribute(tag,"name")?.toLowerCase() === "description");
@@ -113,8 +116,12 @@ export function assertLiveEditorialSeo(html, entry) {
   assert.equal(canonical.length, 1, "Expected one canonical link: " + entry.path);
   assert.equal(htmlAttribute(canonical[0],"href"), origin + entry.path,
     "Canonical must be the exact HTTPS public guide URL: " + entry.path);
-  const robots = metas.filter(tag => htmlAttribute(tag,"name")?.toLowerCase() === "robots");
-  assert.ok(!robots.some(tag => /(?:^|,)\s*noindex\b/i.test(htmlAttribute(tag,"content") ?? "")),
+  // Google can receive noindex from robots, googlebot or HTTP X-Robots-Tag.
+  // `none` is equivalent to noindex,nofollow; directives can be separated by
+  // whitespace, commas or semicolons, not only a leading comma.
+  const blocked = value => /(?:^|[\s,;:])(?:noindex|none)(?=$|[\s,;])/i.test(value);
+  const robots = metas.filter(tag => ["robots","googlebot"].includes(htmlAttribute(tag,"name")?.toLowerCase()));
+  assert.ok(!robots.some(tag => blocked(htmlAttribute(tag,"content") ?? "")) && !blocked(xRobotsTag),
     "Guide must not be noindex: " + entry.path);
   return {path:entry.path, description_length:description.length, description};
 }
@@ -173,7 +180,8 @@ export async function verifyLiveReleaseAndGuides() {
   const editorial=[];
   const seenDescriptions=new Set();
   for (const entry of liveEditorialSeoCases) {
-    const seo=assertLiveEditorialSeo(await getText(origin+entry.path),entry);
+    const page=await getPage(origin+entry.path);
+    const seo=assertLiveEditorialSeo(page.body,entry,page.xRobotsTag);
     assert.ok(!seenDescriptions.has(seo.description), "Duplicate live SEO descriptions");
     seenDescriptions.add(seo.description);
     editorial.push({path:seo.path,description_length:seo.description_length,canonical_ok:true});

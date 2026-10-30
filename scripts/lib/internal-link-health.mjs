@@ -88,10 +88,10 @@ export function prepareInternalFragments(sourcePages,origin="https://zaprazi.cz"
       try {url=new URL(href,origin+page.path);} catch {continue;}
       if(url.origin!==origin || !url.hash || url.search || url.username || url.password ||
           url.port || blockedPath.test(url.pathname) ||
-          !/^\\/(?:[a-z0-9%_-]+\\/)*$/i.test(url.pathname))continue;
+          !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(url.pathname))continue;
       let fragment;
       try {fragment=decodeURIComponent(url.hash.slice(1));} catch {continue;}
-      if(!fragment || fragment.length>120 || /[\\x00-\\x1f\\x7f]/.test(fragment))continue;
+      if(!fragment || fragment.length>120 || /[\x00-\x1f\x7f]/.test(fragment))continue;
       const key=JSON.stringify([url.pathname,fragment]);
       if(!targets.has(key))targets.set(key,{path:url.pathname,fragment,sources:new Set()});
       targets.get(key).sources.add(page.path);

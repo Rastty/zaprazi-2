@@ -1,10 +1,10 @@
 import test from "node:test";
-const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {stagedDecisionPaths,requiredDecisionPaths} from "../scripts/audit-public-sitemap.mjs";
 
 const read = p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const slug="prispevek-na-peci-pro-seniora";
 const template="page-"+slug+".php";
 const src=read(template);

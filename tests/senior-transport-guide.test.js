@@ -1,9 +1,9 @@
 import test from "node:test";
-const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const read = path => readFileSync(new URL("../" + path, import.meta.url), "utf8");
+const releaseMarker="ZP_RELEASE_"+read("style.css").match(/^Version:\s*(\S+)/m)[1].replaceAll(".","_");
 const article = read("page-prevoz-seniora-k-lekari.php");
 const route = "/prevoz-seniora-k-lekari/";
 const expected = [

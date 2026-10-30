@@ -24,4 +24,4 @@ Připraveno 30. 10. 2026. **Pouze Git release kandidát. WordPress Pull + Deploy
 5. **Po deployi**, nikoli před ním, spustit ruční Production Advisor Browser QA: 14 poradců, fit-gates, soukromí, mobilní ovládání a nové chodítkové cesty. Nové sekce vizuálně ověřit na `/choditka-pro-seniory/`, `/choditko-na-pojistovnu/` a odkazy na `/pujceni-choditka/` a `/co-zmerit-pred-vyberem-choditka/`.
 6. Při neshodě vydání nepřijmout, zastavit další deploy a postupovat podle rollback runbooku.
 
-Bez doložených GSC a schválených affiliate provizí netvrdíme růst návštěvnosti ani výnosů.
+Predeploy historický canary 5448 vyžaduje nejméně 53 publikovaných stránek (dříve přesně 53); více legitimně přidaných stránek nesmí být falešnou regresí. V QA 30. 10. bylo 57 stránek, integrita ok a 25 slotů. Pokles pod ověřenou hranici zůstává blokací.\n\nBez doložených GSC a schválených affiliate provizí netvrdíme růst návštěvnosti ani výnosů.

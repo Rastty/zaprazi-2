@@ -43,3 +43,22 @@ test("Walker comparison keeps distinct rent, buy and reimbursement paths",()=>{
   assert.match(hub,/retail nákup a výdej na ePoukaz jsou dvě odlišné cesty/);
   assert.doesNotMatch(hub,/postMessage|localStorage|sessionStorage|fetch\(/);
 });
+
+
+test("Buy/rent/insurance section offers actionable safe next steps, not an ungated shop link",()=>{
+  const hub=read("page-choditka-pro-seniory.php");
+  assert.match(hub,/href="#jak-ziskat-choditko"/);
+  const section=hub.slice(hub.indexOf('id="jak-ziskat-choditko"'));
+  assert.ok(section.startsWith('id="jak-ziskat-choditko" class="zp-section zp-section-dark" aria-labelledby="jak-ziskat-choditko-nadpis"'));
+  assert.match(section,/id="jak-ziskat-choditko-nadpis"/);
+  const buy=section.slice(section.indexOf("<h3>Koupit</h3>"),section.indexOf("<h3>Půjčit</h3>"));
+  assert.match(buy,/Nejdřív ověřit vhodný typ v poradci/);
+  assert.match(buy,/Připravit měření před výběrem modelu/);
+  assert.ok(buy.includes("home_url( '/#poradce' )"));
+  assert.ok(buy.includes("home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' )"));
+  assert.doesNotMatch(buy,/data-zp-merchant-link|data-zp-offer|https?:\/\/[^\s"']+|affiliateMap/i);
+  assert.ok(section.includes("home_url( '/pujceni-choditka/' )"));
+  assert.ok(section.includes("home_url( '/choditko-na-pojistovnu/' )"));
+  assert.match(read("front-page.php"),/id="poradce"/);
+  assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);
+});

@@ -58,7 +58,10 @@ export function persistentStorageContainsAdvisorAnswer(entries, cookies, answer)
     if (!Array.isArray(entry) || entry.length !== 2) throw new TypeError("Malformed storage entry");
     const [key, value] = entry;
     if (key === answer.name && value === answer.value) return true;
-    if (payload(value)) return true;
+    // Storage keys themselves can contain the complete answer pair, e.g.
+    // localStorage.setItem("supportNeed=steady", "1"). Inspect both sides;
+    // neither is ever logged or copied outside this read-only QA process.
+    if (payload(key) || payload(value)) return true;
   }
   return payload(cookies);
 }

@@ -147,6 +147,8 @@ test("sitemap health rejects query/fragment locs without logging parameter value
   assert.deepEqual(report.noncanonical_urls_sample,
     [{path: requiredDecisionPaths[0], issue: "query"}]);
   assert.ok(!JSON.stringify(report).includes("DO_NOT_LOG"));
+  assert.deepEqual(report.required_decision_path_locations[requiredDecisionPaths[0]],
+    {sitemap: "/page-sitemap.xml", url: root + requiredDecisionPaths[0], noncanonical: true});
   assert.throws(() => assertPublicSitemapHealthy(report), /Noncanonical/);
 
   files[page] = files[page].replace("?sensitive=DO_NOT_LOG", "#fragment");

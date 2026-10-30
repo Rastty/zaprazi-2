@@ -30,7 +30,7 @@ test("Read-only live audit inventories each sitemap and reports missing importan
   const result = await auditPublicSitemap(get);
   assert.equal(result.total_url_entries, 3);
   assert.equal(result.unique_paths, 3);
-  assert.deepEqual(result.index, {total: 2, http: 2, https: 0});
+  assert.deepEqual(result.index, {total: 2, http: 2, https: 0, noncanonical: 0});
   assert.equal(result.leaf_sitemaps[0].http, 1);
   assert.equal(result.leaf_sitemaps[1].https, 1);
   assert.deepEqual(result.required_decision_paths_present.sort(),
@@ -39,6 +39,7 @@ test("Read-only live audit inventories each sitemap and reports missing importan
   assert.ok(result.required_decision_paths_missing.includes("/invalidni-vozik-do-auta/"));
   assert.deepEqual(result.staged_decision_paths_present, []);
   assert.equal(result.html_pages_indexed_by_google, "unknown");
+  assert.equal(result.noncanonical_urls_count, 0);
   assert.deepEqual(requested.sort(), Object.keys(files).sort());
   assert.ok(requested.every(url => url.startsWith("https://zaprazi.cz/")),
     "Read-only fetches must not follow advertised HTTP sitemap URLs");
@@ -122,5 +123,41 @@ test("public sitemap health gate fails closed on lost pages, HTTP or duplicate U
   assert.throws(()=>assertPublicSitemapHealthy({...good,robots_sitemaps:["http://zaprazi.cz/sitemap_index.xml"]}),/robots.txt/);
   assert.throws(()=>assertPublicSitemapHealthy({...good,index:{...good.index,http:1}}),/HTTP locs/);
   assert.throws(()=>assertPublicSitemapHealthy({...good,duplicate_paths_sample:["/duplicate/"]}),/Duplicate/);
+  assert.throws(()=>assertPublicSitemapHealthy({...good,noncanonical_urls_count:1}),/Noncanonical/);
+  assert.throws(()=>assertPublicSitemapHealthy({...good,index:{...good.index,noncanonical:1}}),/Noncanonical/);
   assert.throws(()=>assertPublicSitemapHealthy({}),/Incomplete/);
+});
+
+// A URL with tracking parameters or a fragment is not the clean canonical URL,
+// even when its pathname matches a required decision page. Never expose values.
+test("sitemap health rejects query/fragment locs without logging parameter values", async () => {
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const all = requiredDecisionPaths.map(path => root + path);
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset>" + all.map(url => "<url><loc>" + url + "</loc></url>").join("") + "</urlset>"
+  };
+  files[page] = files[page].replace(root + requiredDecisionPaths[0],
+    root + requiredDecisionPaths[0] + "?sensitive=DO_NOT_LOG");
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(report.required_decision_paths_missing, []);
+  assert.equal(report.noncanonical_urls_count, 1);
+  assert.deepEqual(report.noncanonical_urls_sample,
+    [{path: requiredDecisionPaths[0], issue: "query"}]);
+  assert.ok(!JSON.stringify(report).includes("DO_NOT_LOG"));
+  assert.throws(() => assertPublicSitemapHealthy(report), /Noncanonical/);
+
+  files[page] = files[page].replace("?sensitive=DO_NOT_LOG", "#fragment");
+  const fragmentReport = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(fragmentReport.noncanonical_urls_sample,
+    [{path: requiredDecisionPaths[0], issue: "fragment"}]);
+  assert.throws(() => assertPublicSitemapHealthy(fragmentReport), /Noncanonical/);
+
+  files[page] = files[page].replace("#fragment", "");
+  files[index] = "<sitemapindex><loc>" + page + "?x=1</loc></sitemapindex>";
+  const indexReport = await auditPublicSitemap(mock(files).get);
+  assert.equal(indexReport.index.noncanonical, 1);
+  assert.throws(() => assertPublicSitemapHealthy(indexReport), /Noncanonical/);
 });

@@ -20,7 +20,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
-        <a class="zp-text-link" href="#rozpocet-pujceni-choditka">Spočítat orientační půjčovné</a>
+        <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#otazky-pujcovna">Připravit telefonát do půjčovny</a>
       </div>
     </div>
@@ -223,12 +223,12 @@ get_header();
       <div class="zp-resource-sources">
         <article>
           <h3>RehaKomp — ceník pronájmu pomůcek</h3>
-          <p>Čtyřkolové venkovní chodítko 12 Kč/den a 360 Kč/měsíc; pevné čtyřbodové 10 Kč/den a 300 Kč/měsíc.</p>
+          <p><?php if ( ! $zp_rental_is_fresh ) : ?><strong>Historické příklady, nikoli aktuální nabídka.</strong> <?php endif; ?>Čtyřkolové venkovní chodítko 12 Kč/den a 360 Kč/měsíc; pevné čtyřbodové 10 Kč/den a 300 Kč/měsíc.</p>
           <a href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Otevřít ceník RehaKomp</a>
         </article>
         <article>
           <h3>MEYRA ČR — ceník půjčovny</h3>
-          <p>Chodítko 250 Kč/týden, 600 Kč/měsíc a vratná kauce 1 000 Kč. Ceník uvádí platnost od 1. 1. 2026.</p>
+          <p><?php if ( ! $zp_rental_is_fresh ) : ?><strong>Historické příklady, nikoli aktuální nabídka.</strong> <?php endif; ?>Chodítko 250 Kč/týden, 600 Kč/měsíc a vratná kauce 1 000 Kč. Ceník uvádí platnost od 1. 1. 2026.</p>
           <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Otevřít ceník MEYRA</a>
         </article>
       </div>

@@ -19,7 +19,7 @@ get_header();
       <p class="zp-muted-copy">Chcete si půjčit <strong>rollátor se sedátkem</strong>? Než porovnáte sazby, ověřte, jestli zvládá člověk obě brzdy, bezpečné usedání a vstávání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Podle čeho vybrat bezpečné sedátko a rollátor</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
-        <a class="zp-text-link" href="#ceny">Aktuální příklady cen</a>
+        <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka">Spočítat orientační půjčovné</a>
         <a class="zp-text-link" href="#otazky-pujcovna">Připravit telefonát do půjčovny</a>
       </div>
@@ -92,6 +92,7 @@ get_header();
           <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Aktuální ceník MEYRA</a>
         </article>
       </div>
+      <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#otazky-pujcovna">Připravit čtyři otázky pro půjčovnu</a>.</p>
     </div>
   </section>
 
@@ -197,11 +198,11 @@ get_header();
 
       <details>
         <summary>Kolik stojí půjčení rollátoru na měsíc?</summary>
-        <p>V ověřeném ceníku RehaKomp bylo 6. 10. 2026 čtyřkolové venkovní chodítko za 360 Kč měsíčně. MEYRA uváděla kategorii chodítek za 600 Kč měsíčně. Ceny a dostupnost se mohou změnit.</p>
+        <p><?php if ( ! $zp_rental_is_fresh ) : ?><strong>Historické příklady, nikoli aktuální nabídka.</strong> <?php endif; ?>V ověřeném ceníku RehaKomp bylo 6. 10. 2026 čtyřkolové venkovní chodítko za 360 Kč měsíčně. MEYRA uváděla kategorii chodítek za 600 Kč měsíčně. Ceny a dostupnost ověřte před objednáním.</p>
       </details>
       <details>
         <summary>Platí se při půjčení chodítka kauce?</summary>
-        <p>U ověřených příkladů RehaKomp i MEYRA byla vratná kauce 1 000 Kč. Vždy ověřte podmínky konkrétní půjčovny a modelu.</p>
+        <p><?php if ( ! $zp_rental_is_fresh ) : ?><strong>Historické příklady, nikoli aktuální nabídka.</strong> <?php endif; ?>U příkladů RehaKomp i MEYRA ověřených 6. 10. 2026 byla vratná kauce 1 000 Kč. Vždy ověřte podmínky konkrétní půjčovny a modelu.</p>
       </details>
       <details>
         <summary>Vyplatí se půjčení po operaci?</summary>

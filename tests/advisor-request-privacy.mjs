@@ -13,7 +13,7 @@ export function requestContainsAdvisorAnswer(request, answer) {
   const value = escapeRe(answer.value);
   // JSON event payloads and URL/form/GA4-style event parameters.
   const json = new RegExp('["\\\']' + key + '["\\\']\\s*:\\s*["\\\']' + value + '["\\\']');
-  const form = new RegExp('(?:^|[?&#;&\\s])(?:ep\\.|epn\\.)?' + key +
+  const form = new RegExp('(?:^|[?&#;&=\\s])(?:ep\\.|epn\\.)?' + key +
     '=' + value + '(?=$|[&#;&\\s])');
   for (const raw of [request.url(), request.postData() || ""]) {
     let decoded = String(raw);

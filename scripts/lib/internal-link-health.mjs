@@ -71,3 +71,48 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
     limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };
 }
+
+
+/**
+ * Validate live first-party fragment navigation, not just the destination HTTP
+ * status. A 200 page with a missing #section is a dead end for visitors.
+ * Only curated public page links are inspected; no commerce routes, queries,
+ * cross-origin URLs or user-provided answer payloads are requested or logged.
+ */
+export function prepareInternalFragments(sourcePages,origin="https://zaprazi.cz") {
+  if (origin!=="https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
+  const targets=new Map();
+  for(const page of sourcePages){
+    for(const href of page.links||[]){
+      let url;
+      try {url=new URL(href,origin+page.path);} catch {continue;}
+      if(url.origin!==origin || !url.hash || url.search || url.username || url.password ||
+          url.port || blockedPath.test(url.pathname) ||
+          !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(url.pathname))continue;
+      let fragment;
+      try {fragment=decodeURIComponent(url.hash.slice(1));} catch {continue;}
+      if(!fragment || fragment.length>120 || /[\x00-\x1f\x7f]/.test(fragment))continue;
+      const key=JSON.stringify([url.pathname,fragment]);
+      if(!targets.has(key))targets.set(key,{path:url.pathname,fragment,sources:new Set()});
+      targets.get(key).sources.add(page.path);
+    }
+  }
+  if(targets.size>240)throw new Error("Refusing unbounded fragment scan");
+  return [...targets.values()].map(t=>({
+    path:t.path,fragment:t.fragment,sources:[...t.sources].sort()
+  }));
+}
+
+export function auditInternalFragments(targets,idsByPath) {
+  if(targets.length>240)throw new Error("Refusing unbounded fragment scan");
+  const broken=[],unchecked=[];
+  for(const target of targets){
+    const ids=idsByPath.get(target.path);
+    if(!ids){unchecked.push({path:target.path,fragment:target.fragment,
+      sources:target.sources,reason:"target_not_scanned"});continue;}
+    if(!ids.has(target.fragment))broken.push({path:target.path,
+      fragment:target.fragment,sources:target.sources,reason:"missing_dom_id"});
+  }
+  return {total:targets.length,checked:targets.length-unchecked.length,
+    broken,unchecked,limitations:"Live DOM fragment IDs only on curated public pages; not a crawl of legacy posts or proof of Google indexing."};
+}

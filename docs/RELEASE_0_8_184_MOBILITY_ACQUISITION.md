@@ -11,7 +11,7 @@ Připraveno 30. 10. 2026. **Pouze Git release kandidát. WordPress Pull + Deploy
 ## Integrita
 
 - `style.css` a `ZAPRAZI_RELEASE` jsou `0.8.184`.
-- Přeznačeno všech **99** položek runtime integrity listu v `functions.php`.
+- Přeznačeno všech **100** položek runtime integrity listu v `functions.php`.
 - Git blob SHA pro `src/mobility/engine.js` a `src/mobility/offer-fit-gate.js` aktualizovány podle přesných souborů release; bathroom kritické SHA beze změny.
 - Bez změn affiliate mapování, pořadí produktů, diagnostiky, analytiky, databáze a přesměrování.
 
@@ -24,4 +24,4 @@ Připraveno 30. 10. 2026. **Pouze Git release kandidát. WordPress Pull + Deploy
 5. **Po deployi**, nikoli před ním, spustit ruční Production Advisor Browser QA: 14 poradců, fit-gates, soukromí, mobilní ovládání a nové chodítkové cesty. Nové sekce vizuálně ověřit na `/choditka-pro-seniory/`, `/choditko-na-pojistovnu/` a odkazy na `/pujceni-choditka/` a `/co-zmerit-pred-vyberem-choditka/`.
 6. Při neshodě vydání nepřijmout, zastavit další deploy a postupovat podle rollback runbooku.
 
-Predeploy historický canary 5448 vyžaduje nejméně 53 publikovaných stránek (dříve přesně 53); více legitimně přidaných stránek nesmí být falešnou regresí. V QA 30. 10. bylo 57 stránek, integrita ok a 25 slotů. Pokles pod ověřenou hranici zůstává blokací.\n\nBez doložených GSC a schválených affiliate provizí netvrdíme růst návštěvnosti ani výnosů.
+V manifestu byla navíc opravena starší mezera: chybějící šablona `page-prevoz-seniora-k-lekari.php` nyní podléhá stejné integritní kontrole jako ostatních 52 stránek.\n\nPredeploy historický canary 5448 vyžaduje nejméně 53 publikovaných stránek (dříve přesně 53); více legitimně přidaných stránek nesmí být falešnou regresí. V QA 30. 10. bylo 57 stránek, integrita ok a 25 slotů. Pokles pod ověřenou hranici zůstává blokací.\n\nBez doložených GSC a schválených affiliate provizí netvrdíme růst návštěvnosti ani výnosů.

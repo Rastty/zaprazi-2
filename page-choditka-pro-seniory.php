@@ -18,6 +18,7 @@ get_header();
         <a class="zp-text-link" href="#hul-nebo-choditko">Hůl, berle, nebo chodítko?</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit celý poradce pro chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a>
+        <a class="zp-text-link" href="#jak-ziskat-choditko">Koupit, půjčit, nebo řešit pojišťovnu?</a>
       </div>
       </div>
       <figure class="zp-hero-art">
@@ -169,14 +170,17 @@ get_header();
     </div>
   </section>
 
-  <section class="zp-section zp-section-dark">
+  <section id="jak-ziskat-choditko" class="zp-section zp-section-dark" aria-labelledby="jak-ziskat-choditko-nadpis">
     <div class="zp-wrap">
       <p class="zp-kicker zp-kicker-light">Jak chodítko získat</p>
-      <h2 class="zp-section-title">Koupit, půjčit, nebo nejdřív řešit pojišťovnu?</h2>
+      <h2 id="jak-ziskat-choditko-nadpis" class="zp-section-title">Koupit, půjčit, nebo nejdřív řešit pojišťovnu?</h2>
+      <p>Nejdřív si ujasněte bezpečný typ opory a rozměry. Pak porovnejte tři cesty získání pomůcky; žádná z nich sama o sobě nepotvrzuje vhodnost konkrétního modelu.</p>
       <div class="zp-acquire-grid">
         <article>
           <h3>Koupit</h3>
           <p>Nejdřív musí sedět typ a rozměry. Teprve potom porovnávejte konkrétní nabídky obchodníků.</p>
+          <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nejdřív ověřit vhodný typ v poradci</a></p>
+          <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Připravit měření před výběrem modelu</a></p>
         </article>
         <article>
           <h3>Půjčit</h3>

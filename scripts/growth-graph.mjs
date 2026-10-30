@@ -95,6 +95,8 @@ export function planGrowth(g,s){
   const tasks=g.nodes.map(n=>{
     const record=s.nodes[n.id]??{status:"pending"};
     const unmet=n.dependsOn.filter(id=>s.nodes[id]?.status!=="verified");
+    // Even a previously started task is not actionable while its safety or
+    // evidence prerequisites remain unverified. Do not surface it in `next`.
     const status=record.status==="verified"?"verified":
       record.status==="paused"?"paused":unmet.length?"waiting_dependencies":
       record.status==="in_progress"?"in_progress":"ready";

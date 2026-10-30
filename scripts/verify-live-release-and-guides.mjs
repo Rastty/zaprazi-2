@@ -28,8 +28,12 @@ export function checkReadiness(response, expected = version) {
 
 export function assertGuidance(html, target) {
   const doc = String(html);
-  assert.match(doc, /class=["'][^"']*zp-search-guidance/, "No relevant guidance shown");
-  assert.ok(doc.includes(target), "Expected safe guide not present: "+target);
+  const section = doc.match(/<section\\b[^>]*class=["'][^"']*\\bzp-search-guidance\\b[^"']*["'][^>]*>([\\s\\S]*?)<\\/section>/i)?.[1];
+  assert.ok(section, "No relevant guidance section shown");
+  // A target elsewhere in the page, plain text or a comment must not pass
+  // acceptance: the actual guidance needs a navigable, exact safe link.
+  const hrefs = [...section.matchAll(/<a\\b[^>]*>/gi)].map(match => htmlAttribute(match[0], "href"));
+  assert.ok(hrefs.includes(target), "Expected safe guide link not present in guidance: "+target);
   assert.ok(!doc.includes("affiliate-query-result"), "Unexpected merchant route in search");
 }
 export function assertPrimaryGuidance(html, target) {

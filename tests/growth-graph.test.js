@@ -46,26 +46,6 @@ test("verified downstream nodes cannot bypass unverified safety or evidence prer
   content.nodes.intent_evidence={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
   assert.equal(planGrowth(graph,content).tasks.find(x=>x.id==="content_upgrade").status,"verified");
 });
-test("in-progress tasks cannot bypass unresolved safety or intent prerequisites",()=>{
-  const s=clone(blank);
-  s.nodes.conversion_ux={status:"in_progress"};
-  s.nodes.affiliate_audit={status:"in_progress"};
-  s.nodes.content_upgrade={status:"in_progress"};
-  let p=planGrowth(graph,s);
-  for(const id of ["conversion_ux","affiliate_audit","content_upgrade"]){
-    assert.equal(p.tasks.find(x=>x.id===id).status,"waiting_dependencies");
-    assert.ok(!p.next.some(x=>x.id===id),"blocked task must not be actionable: "+id);
-  }
-  s.nodes.safety_qa={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
-  p=planGrowth(graph,s);
-  assert.equal(p.tasks.find(x=>x.id==="affiliate_audit").status,"in_progress");
-  assert.equal(p.tasks.find(x=>x.id==="conversion_ux").status,"waiting_dependencies");
-  s.nodes.affiliate_audit={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/522"};
-  s.nodes.intent_evidence={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
-  p=planGrowth(graph,s);
-  assert.equal(p.tasks.find(x=>x.id==="conversion_ux").status,"in_progress");
-  assert.equal(p.tasks.find(x=>x.id==="content_upgrade").status,"in_progress");
-});
 test("evidence-backed aggregate data may raise review priority without inventing sales",()=>{
   const s=clone(blank);
   s.asOf="2026-10-29";

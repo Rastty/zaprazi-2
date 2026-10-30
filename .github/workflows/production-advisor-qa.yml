@@ -28,6 +28,14 @@ on:
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
+  schedule:
+    # Daily read-only production Chrome QA across all 14 existing Advisors.
+    # GitHub cron uses UTC; 03:43 UTC is 04:43 CET / 05:43 CEST.
+    # Unlike PR predeploy checks, scheduled QA must require the source release.
+    - cron: "43 3 * * *"
+
+permissions:
+  contents: read
 
 jobs:
   browser-qa:

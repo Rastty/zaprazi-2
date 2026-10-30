@@ -195,6 +195,16 @@ get_header();
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Chodítko na pojišťovnu 2026</a></p>
         </article>
       </div>
+      <div class="zp-system-empty zp-acquire-checklist" aria-labelledby="choditko-pred-ziskanim-nadpis">
+        <h3 id="choditko-pred-ziskanim-nadpis">Čtyři věci, které si ověřit před koupí, půjčením nebo žádostí o úhradu</h3>
+        <ol class="zp-guide-steps">
+          <li><strong>Jak dlouho bude pomůcka potřeba?</strong> U dočasné potřeby porovnejte půjčení s koupí. U dlouhodobého používání počítejte i s možností vyzkoušení a servisu.</li>
+          <li><strong>Je bezpečně ověřený typ a konkrétní model?</strong> Připravte rozměry průchodů, výšku madel a nosnost; u rollátoru také ovládání brzd. Neznámé údaje nedoplňujte odhadem. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít seznam měření</a>.</li>
+          <li><strong>Jaká je celková cena a co se stane při změně potřeby?</strong> U půjčovny se ptejte na délku výpůjčky, kauci, dopravu, servis a vrácení. U nákupu si ověřte možnost vyzkoušení, vrácení a dostupnost náhradních dílů; podmínky se mohou lišit.</li>
+          <li><strong>Je namístě prověřit úhradu?</strong> U lékaře a výdejce zjistěte, zda je pro danou situaci a konkrétní pomůcku relevantní cesta přes ePoukaz. Samotná zmínka o pojišťovně není příslibem úhrady. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Co ověřit k ePoukazu</a>.</li>
+        </ol>
+        <p>Pokud bezpečný typ, ovládání nebo potřebné rozměry ještě nejsou jasné, nejdřív dokončete <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">poradce pro chůzi</a> a podle výsledku zajistěte odborné ověření. Není nutné nic koupit hned.</p>
+      </div>
     </div>
   </section>
 

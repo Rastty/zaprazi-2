@@ -62,3 +62,32 @@ test("Buy/rent/insurance section offers actionable safe next steps, not an ungat
   assert.match(read("front-page.php"),/id="poradce"/);
   assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);
 });
+
+test("Walker acquisition checklist makes the next call actionable without ungated offers",()=>{
+  const hub=read("page-choditka-pro-seniory.php");
+  const start=hub.indexOf('id="jak-ziskat-choditko"');
+  const end=hub.indexOf('<div class="zp-wrap zp-faq">',start);
+  assert.ok(start>=0&&end>start,"Acquisition section must precede FAQ");
+  const section=hub.slice(start,end);
+  assert.match(section,/class="zp-system-empty zp-acquire-checklist"/);
+  assert.match(section,/aria-labelledby="choditko-pred-ziskanim-nadpis"/);
+  assert.match(section,/id="choditko-pred-ziskanim-nadpis"/);
+  assert.match(section,/Čtyři věci, které si ověřit/);
+  for(const item of [
+    "Jak dlouho bude pomůcka potřeba?",
+    "Je bezpečně ověřený typ a konkrétní model?",
+    "Jaká je celková cena",
+    "Je namístě prověřit úhradu?",
+    "Neznámé údaje nedoplňujte odhadem",
+    "Není nutné nic koupit hned"
+  ]) assert.ok(section.includes(item),"Missing safe decision step: "+item);
+  assert.ok(section.includes("home_url( '/#poradce' )"));
+  assert.ok(section.includes("home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' )"));
+  assert.ok(section.includes("home_url( '/choditko-na-pojistovnu/' )"));
+  assert.doesNotMatch(section,/data-zp-merchant-link|data-zp-offer|affiliateMap|localStorage|sessionStorage|fetch\(/i);
+  const checklist=section.slice(section.indexOf('class="zp-system-empty zp-acquire-checklist"'));
+  assert.doesNotMatch(checklist,/zp-text-link-light/,"Light panel must not use white links");
+  assert.match(read("style.css"),/\.zp-acquire-checklist\{[^}]*color:var\(--zp-ink\)/);
+  assert.match(read("front-page.php"),/id="poradce"/);
+  assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);
+});

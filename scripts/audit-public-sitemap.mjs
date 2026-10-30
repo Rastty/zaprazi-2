@@ -105,6 +105,9 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
 
   const reports = [];
   const seenPages = new Map();
+  // Never treat a query/fragment URL as the clean canonical decision-page URL.
+  // Record only the path and issue type: query values may contain sensitive data.
+  const noncanonicalUrls = [];
   for (const [n, path] of indexPaths.entries()) {
     // Sitemap locations can temporarily be HTTP in Yoast output.
     // Network fetches ALWAYS use HTTPS for the exact approved production host.
@@ -118,9 +121,20 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     const duplicates = [];
     for (const value of urls) {
       const localPath = sitePath(value);
-      schemes[new URL(value).protocol.replace(":", "")]++;
+      const parsed = new URL(value);
+      if (parsed.search || parsed.hash) noncanonicalUrls.push({
+        path: localPath,
+        issue: [parsed.search ? "query" : null, parsed.hash ? "fragment" : null]
+          .filter(Boolean).join("+")
+      });
+      schemes[parsed.protocol.replace(":", "")]++;
       if (seenPages.has(localPath)) duplicates.push(localPath);
-      else seenPages.set(localPath, { sitemap: path, url: value });
+      else seenPages.set(localPath, {
+        sitemap: path,
+        // Never echo query/fragment values into public reports or CI logs.
+        url: parsed.origin + parsed.pathname,
+        ...(parsed.search || parsed.hash ? { noncanonical: true } : {})
+      });
     }
     reports.push({
       name: path.replace(/^\//, ""),
@@ -133,17 +147,24 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
   const advertised = robots.split(/\r?\n/).map(s => s.trim())
     .filter(s => /^Sitemap:/i.test(s)).map(s => s.replace(/^Sitemap:\s*/i, ""));
   const httpIndexCount = indexUrls.filter(u => new URL(u).protocol === "http:").length;
+  const noncanonicalIndexCount = indexUrls.filter(u => {
+    const parsed = new URL(u);
+    return parsed.search || parsed.hash;
+  }).length;
   const total = reports.reduce((sum, r) => sum + r.entries, 0);
   return {
     observed_at_utc: new Date().toISOString(),
     site: origin,
     limitations: "Public XML discovery only; not Google indexation, traffic, ranking, or backlinks.",
     robots_sitemaps: advertised,
-    index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount },
+    index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount,
+      noncanonical: noncanonicalIndexCount },
     leaf_sitemaps: reports,
     total_url_entries: total,
     unique_paths: seenPages.size,
     duplicate_paths_sample: reports.flatMap(r => r.duplicate_paths).slice(0, 20),
+    noncanonical_urls_count: noncanonicalUrls.length,
+    noncanonical_urls_sample: noncanonicalUrls.slice(0, 20),
     required_decision_paths_present: requiredDecisionPaths.filter(p => seenPages.has(p)),
     required_decision_paths_missing: requiredDecisionPaths.filter(p => !seenPages.has(p)),
     staged_decision_paths_present: stagedDecisionPaths.filter(p => seenPages.has(p)),
@@ -163,7 +184,9 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
 export function assertPublicSitemapHealthy(report) {
   if (!report || !Array.isArray(report.required_decision_paths_missing) ||
       !Array.isArray(report.robots_sitemaps) || !Array.isArray(report.leaf_sitemaps) ||
-      !Array.isArray(report.duplicate_paths_sample) || !report.index) {
+      !Array.isArray(report.duplicate_paths_sample) || !report.index ||
+      !Number.isInteger(report.noncanonical_urls_count) ||
+      !Number.isInteger(report.index.noncanonical)) {
     throw new Error("Incomplete public sitemap audit report");
   }
   if (report.required_decision_paths_missing.length) {
@@ -178,6 +201,10 @@ export function assertPublicSitemapHealthy(report) {
   }
   if (report.duplicate_paths_sample.length) {
     throw new Error("Duplicate paths detected across public sitemaps");
+  }
+  if (report.noncanonical_urls_count || report.index.noncanonical) {
+    throw new Error("Noncanonical sitemap locs contain query strings or fragments: " +
+      (report.noncanonical_urls_count + report.index.noncanonical));
   }
   return { status: "healthy_public_xml", required_count: requiredDecisionPaths.length,
     unique_paths: report.unique_paths,

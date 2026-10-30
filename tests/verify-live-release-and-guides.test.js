@@ -63,6 +63,11 @@ test("live SEO smoke requires unique intent-specific description and exact HTTPS
   assert.throws(()=>assertLiveEditorialSeo(head('<meta name="description" content="Krátké">',canonical),entry),/implausible/);
   assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical.replace("https:","http:")),entry),/Canonical/);
   assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical,'<meta name="robots" content="noindex,follow">'),entry),/noindex/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical,'<meta name="googlebot" content="nofollow noindex">'),entry),/noindex/);
+  assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical,'<meta name="robots" content="follow; none">'),entry),/noindex/);
+  assert.throws(()=>assertLiveEditorialSeo(valid,entry,"googlebot: noindex, nofollow"),/noindex/);
+  assert.throws(()=>assertLiveEditorialSeo(valid,entry,"none"),/noindex/);
+  assert.doesNotThrow(()=>assertLiveEditorialSeo(valid,entry,"index, follow"));
   assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical),liveEditorialSeoCases[1]),/Wrong intent|Canonical/);
   assert.equal(liveEditorialSeoCases.length,4);
 });

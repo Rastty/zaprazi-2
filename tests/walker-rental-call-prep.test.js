@@ -48,3 +48,19 @@ test("dated rental examples do not show historical deposits as current",()=>{
   assert.doesNotMatch(page,/<dd>1 000 Kč<\/dd>/);
   assert.match(page,/Přepočet není k dispozici/);
 });
+
+
+test("rental price entry and FAQ remain explicitly dated when price evidence expires",()=>{
+  const page=read("page-pujceni-choditka.php");
+  assert.match(page,/href="#ceny">Příklady cen \(ověřeno 6\. 10\. 2026\)/);
+  assert.doesNotMatch(page,/href="#ceny">Aktuální příklady cen/);
+  const prices=page.slice(page.indexOf('<section id="ceny"'),page.indexOf('<section id="rozpocet-pujceni-choditka"'));
+  assert.match(prices,/href="#otazky-pujcovna">Připravit čtyři otázky pro půjčovnu/);
+  assert.match(page,/id="otazky-pujcovna"/);
+  const faq=page.slice(page.indexOf('Rychlá orientace před půjčením.'),page.indexOf('Zdroje cen'));
+  assert.equal((faq.match(/if \( ! \$zp_rental_is_fresh \) :/g)||[]).length,2,
+    "Both price and deposit FAQs must mark expired evidence");
+  assert.equal((faq.match(/Historické příklady, nikoli aktuální nabídka/g)||[]).length,2);
+  assert.match(faq,/Ceny a dostupnost ověřte před objednáním/);
+  assert.doesNotMatch(prices,/<form|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage/i);
+});

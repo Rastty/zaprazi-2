@@ -322,11 +322,31 @@ try {
       "Real Tab navigation cannot reach Advisor Submit: " + path);
     assert.equal(await page.evaluate(() => document.activeElement?.matches(":focus-visible")), true,
       "Advisor Submit lacks keyboard focus-visible state: " + path);
+    // An unchanged pathname alone misses sensitive answers copied into
+    // query strings or fragments. Verify the complete URL after a real
+    // keyboard submit and after changing one practical answer.
+    const originalUrl = page.url();
     await page.keyboard.press("Enter");
-    assert.equal(new URL(page.url()).pathname, path,
-      "Empty-answer keyboard submit navigated away from Advisor: " + path);
+    assert.equal(page.url(), originalUrl,
+      "Empty-answer submit changed URL (possible answer leak): " + path);
     await checkNoMerchant(page, resultSelector);
-    console.log("PASS boot, mobile labels, keyboard submit and empty-answer safety", path, formSelector);
+    const selectedFirstAnswer = await page.$eval(formSelector, root => {
+      const radio = [...root.querySelectorAll('input[type="radio"]')].find(el => {
+        if (el.disabled || el.closest("[hidden]")) return false;
+        const visibleControl = el.closest("label") || el;
+        return visibleControl.getClientRects().length > 0 &&
+          getComputedStyle(visibleControl).visibility !== "hidden";
+      });
+      if (!radio) throw new Error("No visible practical answer for URL privacy check");
+      radio.click();
+      return radio.checked;
+    });
+    assert.equal(selectedFirstAnswer, true,
+      "Could not select a practical answer for privacy check: " + path);
+    assert.equal(page.url(), originalUrl,
+      "Changing Advisor answer changed URL (possible answer leak): " + path);
+    await checkNoMerchant(page, resultSelector);
+    console.log("PASS boot, mobile labels, keyboard submit, answer URL privacy and empty-answer safety", path, formSelector);
     await page.close();
   }
 

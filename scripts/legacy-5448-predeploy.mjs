@@ -35,7 +35,7 @@ if(res.status!==200){
   const ready=await available.json();
   const pageCount=Number(restPages.headers.get("x-wp-total"));
   if(pageCount!==53||ready.integrity!=="ok"||ready.configured_total!==25)
-    throw Error("Modern theme regressions after legacy cleanup");
+    throw Error("Modern theme regressions after legacy cleanup: "+JSON.stringify({pageCount,release:ready.release,integrity:ready.integrity,configured:ready.configured_total}));
   console.log("LEGACY_5448_RETIRED_QA "+JSON.stringify({
     id,legacyHttp:retired.status,modernGuideHttp:page.status,
     publishedPages:pageCount,affiliateConfigured:ready.configured_total,

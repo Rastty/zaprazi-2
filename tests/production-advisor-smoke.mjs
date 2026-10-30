@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { accessSync, constants, readFileSync } from "node:fs";
 import puppeteer from "puppeteer-core";
-import { requestContainsAdvisorAnswer } from "./advisor-request-privacy.mjs";
+import { requestContainsAdvisorAnswer, persistentStorageContainsAdvisorAnswer } from "./advisor-request-privacy.mjs";
 import { auditPublicSitemap, requiredDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
 
 const base = process.env.ZP_LIVE_ORIGIN || "https://zaprazi.cz";
@@ -370,6 +370,23 @@ try {
       "Could not select a practical answer for privacy check: " + path);
     assert.equal(leakedRequest, false,
       "Advisor answer leaked into outgoing request URL/body: " + path);
+
+    // Selected practical answers must not be persisted in browser storage or
+    // readable cookies. Inspect only in memory; never print storage contents.
+    const persistent = await page.evaluate(() => {
+      const entries = storage => Array.from({length: storage.length}, (_, i) => {
+        const key = storage.key(i);
+        return [key, storage.getItem(key)];
+      });
+      return {
+        entries: [...entries(localStorage), ...entries(sessionStorage)],
+        cookies: document.cookie
+      };
+    });
+    assert.equal(persistentStorageContainsAdvisorAnswer(
+      persistent.entries, persistent.cookies, firstAnswer), false,
+      "Advisor answer persisted in browser storage/cookies: " + path);
+
     assert.equal(page.url(), originalUrl,
       "Changing Advisor answer changed URL (possible answer leak): " + path);
     await checkNoMerchant(page, resultSelector);

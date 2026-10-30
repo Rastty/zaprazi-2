@@ -56,7 +56,7 @@ test("PR predeploy override is explicit and never weakens manually dispatched QA
 test("scheduled read-only Chrome QA covers all 14 Advisors and enforces deployed release",()=>{
  const workflow=read(".github/workflows/production-advisor-qa.yml");
  const smoke=read("tests/production-advisor-smoke.mjs");
- assert.match(workflow,/schedule:\s*\n\s*- cron: "43 3 \* \* \*"/,
+ assert.match(workflow,/schedule:\s*(?:#[^\n]*\n\s*)*- cron: "43 3 \* \* \*"/,
    "Daily production browser check must remain scheduled");
  assert.match(workflow,/permissions:\s*\n\s*contents: read/,
    "Scheduled browser QA needs read-only repository permissions");

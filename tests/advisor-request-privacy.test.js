@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import {requestContainsAdvisorAnswer, persistentStorageContainsAdvisorAnswer} from "./advisor-request-privacy.mjs";
 
 const answer = {name:"supportNeed", value:"steady"};
@@ -35,4 +36,16 @@ test("Advisor persistence canary allows benign unrelated browser state", () => {
   assert.equal(persistentStorageContainsAdvisorAnswer([["theme","steady"],["supportNeed","light"]], "consent=accepted", chosen), false);
   assert.equal(persistentStorageContainsAdvisorAnswer([], "", chosen), false);
   assert.throws(() => persistentStorageContainsAdvisorAnswer([["broken"]], "", chosen), /Malformed storage/);
+});
+
+// Guard against a future refactor that detaches the request listener before
+// an Advisor's incomplete submit, which can trigger analytics independently
+// from the preceding answer-change event.
+test("live Advisor request canary remains active through incomplete submit", () => {
+  const source = readFileSync(new URL("./production-advisor-smoke.mjs", import.meta.url), "utf8");
+  const attach = source.indexOf('page.on("request", onRequest);');
+  const submit = source.indexOf("await page.$eval(formSelector + ' button[id$=\"-submit\"]', button => button.click());", attach);
+  const detach = source.indexOf('page.off("request", onRequest);', attach);
+  assert.ok(attach >= 0 && submit > attach && detach > submit,
+    "The request listener must cover answer selection AND incomplete submission");
 });

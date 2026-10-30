@@ -56,20 +56,20 @@ test("PR predeploy override is explicit and never weakens manually dispatched QA
 test("scheduled read-only Chrome QA covers all 14 Advisors and enforces deployed release",()=>{
  const workflow=read(".github/workflows/production-advisor-qa.yml");
  const smoke=read("tests/production-advisor-smoke.mjs");
- assert.match(workflow,/schedule:\s*\n\s*- cron: "43 3 \\* \\* \\*"/,
+ assert.match(workflow,/schedule:\s*\n\s*- cron: "43 3 \* \* \*"/,
    "Daily production browser check must remain scheduled");
  assert.match(workflow,/permissions:\s*\n\s*contents: read/,
    "Scheduled browser QA needs read-only repository permissions");
  assert.ok(workflow.includes('if [ "${{ github.event_name }}" = "pull_request" ]; then'),
    "Only PRs may override the required source release with the live predeploy version");
- assert.match(workflow,/run: node tests\\/production-advisor-smoke\\.mjs/,
+ assert.match(workflow,/run: node tests\/production-advisor-smoke\.mjs/,
    "Schedule must execute the real Chromium safety and accessibility smoke");
- const advisorRows=[...smoke.matchAll(/^\\s*\\["\\/[^"]*",\\s*"#zp-[a-z-]+-advisor",\\s*"#zp-[a-z-]+-result"\\],?$/gm)];
+ const advisorRows=[...smoke.matchAll(/^\s*\["\/[^"]*",\s*"#zp-[a-z-]+-advisor",\s*"#zp-[a-z-]+-result"\],?$/gm)];
  assert.equal(advisorRows.length,14,"Chrome QA must cover all 14 Advisor families");
- assert.match(smoke,/for \\(const \\[path, formSelector, resultSelector\\] of advisors\\)/,
+ assert.match(smoke,/for \(const \[path, formSelector, resultSelector\] of advisors\)/,
    "Every Advisor must be opened and inspected in a real browser");
- assert.match(smoke,/await page\\.keyboard\\.press\\("Enter"\\)/,
+ assert.match(smoke,/await page\.keyboard\.press\("Enter"\)/,
    "Keyboard submission must be exercised in the browser");
- assert.match(smoke,/await checkNoMerchant\\(page, resultSelector\\)/,
+ assert.match(smoke,/await checkNoMerchant\(page, resultSelector\)/,
    "Incomplete answers must not expose merchant links");
 });

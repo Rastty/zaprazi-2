@@ -15,7 +15,18 @@ export function requestContainsAdvisorAnswer(request, answer) {
   const json = new RegExp('["\\\']' + key + '["\\\']\\s*:\\s*["\\\']' + value + '["\\\']');
   const form = new RegExp('(?:^|[?&#;&=\\s])(?:ep\\.|epn\\.)?' + key +
     '=' + value + '(?=$|[&#;&\\s])');
-  for (const raw of [request.url(), request.postData() || ""]) {
+  // Analytics can also place answer pairs in Referer, Cookie or custom
+  // request headers. Puppeteer exposes these synchronously for this canary.
+  // Inspect only in memory; never print headers or answer values.
+  const headers = typeof request.headers === "function" ? request.headers() : {};
+  if (!headers || typeof headers !== "object" || Array.isArray(headers))
+    throw new TypeError("Malformed request headers");
+  if (Object.entries(headers).some(([name, value]) =>
+    name.toLowerCase() === answer.name.toLowerCase() &&
+    String(value) === answer.value)) return true;
+  const surfaces = [request.url(), request.postData() || "",
+    ...Object.values(headers).map(String)];
+  for (const raw of surfaces) {
     let decoded = String(raw);
     for (let depth = 0; depth < 4; depth++) {
       if (json.test(decoded) || form.test(decoded)) return true;

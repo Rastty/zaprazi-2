@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "tests/advisor-request-privacy.mjs"
+      - "tests/advisor-request-privacy.test.js"
       - "scripts/audit-live-night-wc-navigation.mjs"
       - "scripts/audit-live-walker-hub.mjs"
       - "scripts/audit-live-bed-cost.mjs"

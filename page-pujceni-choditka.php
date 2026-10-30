@@ -188,6 +188,9 @@ get_header();
           <li><strong>Vrácení a závady:</strong> „Kdy a jak vrátím pomůcku, za jakých podmínek dostanu zpět kauci a co mám dělat při závadě nebo poškození?“</li>
         </ol>
         <p><strong>Než zavoláte:</strong> připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">měření a kontrolu průchodů</a>. Pokud není jasné, jaký typ opory člověk bezpečně zvládá, nejdřív využijte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Domácího poradce</a> a při nejistotě odborné posouzení. Telefonát ani dostupnost modelu nepotvrzují jeho individuální vhodnost. <strong>Pokud při převzetí nefungují brzdy, koncovky nebo je pomůcka nestabilní, nepoužívejte ji a požádejte půjčovnu o nápravu.</strong></p>
+        <h4 id="pujcovna-nema-typ">Co když půjčovna nemá bezpečně vybraný typ?</h4>
+        <p>Neberte automaticky jiný typ jen proto, že je právě skladem nebo levnější. Pevné, dvoukolové a čtyřkolové chodítko se liší způsobem použití; u náhradního modelu je potřeba znovu ověřit rozměry, nosnost, brzdy a praktické bezpečné ovládání.</p>
+        <p>Požádejte půjčovnu o termín dostupnosti správného typu nebo se obraťte na jinou půjčovnu. Pokud má být typ jiný, vraťte se k <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">bezpečnému výběru chodítka</a> a při nejistotě řešte vhodnost s odborníkem. Při čekání na ePoukaz si můžete projít <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">možnosti dočasného řešení</a>; samotné zapůjčení nepotvrzuje nárok na úhradu.</p>
       </div>
     </div>
   </section>

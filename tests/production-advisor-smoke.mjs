@@ -299,9 +299,29 @@ try {
     assert.equal(submit.disabled, false, "Submit disabled for keyboard users: " + path);
     assert.ok(submit.tabIndex >= 0, "Submit absent from keyboard order: " + path);
     assert.ok(submit.name.length > 0, "Submit has no accessible name: " + path);
-    await page.$eval(formSelector, root => root.querySelector('button[id$="-submit"]').focus());
-    assert.equal(await page.evaluate(() => document.activeElement?.id.endsWith("-submit")), true,
-      "Keyboard focus cannot reach Advisor Submit: " + path);
+    // Start from a visible answer control, then use real Tab presses.
+    // Programmatically focusing Submit alone cannot prove keyboard reachability.
+    await page.$eval(formSelector, root => {
+      const submit = root.querySelector('button[id$="-submit"]');
+      const first = [...root.querySelectorAll('input:not([type="hidden"]), select, textarea, button, a[href]')]
+        .find(el => el !== submit && !el.disabled && el.tabIndex >= 0 &&
+          el.getClientRects().length > 0 && getComputedStyle(el).visibility !== "hidden");
+      if (!first) throw new Error("No visible keyboard starting control");
+      first.focus();
+    });
+    let reachedSubmit = false;
+    for (let tab = 0; tab < 80; tab++) {
+      await page.keyboard.press("Tab");
+      if (await page.evaluate(selector =>
+        document.activeElement?.matches(selector + ' button[id$="-submit"]'), formSelector)) {
+        reachedSubmit = true;
+        break;
+      }
+    }
+    assert.equal(reachedSubmit, true,
+      "Real Tab navigation cannot reach Advisor Submit: " + path);
+    assert.equal(await page.evaluate(() => document.activeElement?.matches(":focus-visible")), true,
+      "Advisor Submit lacks keyboard focus-visible state: " + path);
     await page.keyboard.press("Enter");
     assert.equal(new URL(page.url()).pathname, path,
       "Empty-answer keyboard submit navigated away from Advisor: " + path);

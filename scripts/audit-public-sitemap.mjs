@@ -74,10 +74,14 @@ export function extractLocs(xml) {
 }
 
 const sitePath = url => {
-  const parsed = new URL(url);
+  // XML loc values are untrusted. Invalid/off-site URLs may carry tokens or
+  // health-related parameters; never echo them into public GitHub Actions logs.
+  let parsed;
+  try { parsed = new URL(url); }
+  catch { throw new Error("Invalid sitemap loc URL"); }
   if (!["http:", "https:"].includes(parsed.protocol) || parsed.hostname.toLowerCase() !== "zaprazi.cz" ||
       parsed.username || parsed.password || parsed.port) {
-    throw new Error("Unexpected external or unsafe URL in sitemap: " + url.slice(0, 250));
+    throw new Error("Unexpected external or unsafe URL in sitemap");
   }
   return parsed.pathname;
 };
@@ -117,7 +121,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     // Sitemap locations can temporarily be HTTP in Yoast output.
     // Network fetches ALWAYS use HTTPS for the exact approved production host.
     if (!/^\/[a-z0-9_-]+(?:-sitemap\d*)?\.xml$/i.test(path)) {
-      throw new Error("Unexpected sitemap leaf path: " + path);
+      throw new Error("Unexpected sitemap leaf path");
     }
     const xml = await getText(fetcher, origin + path);
     if (!/<urlset\b/i.test(xml)) throw new Error("Expected XML urlset in " + path);
@@ -149,8 +153,14 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
       duplicate_paths: duplicates.slice(0, 8)
     });
   }
+  // Only the expected public index URL is safe to include verbatim in CI
+  // artifacts. Other Sitemap: values may contain query tokens or user data.
   const advertised = robots.split(/\r?\n/).map(s => s.trim())
-    .filter(s => /^Sitemap:/i.test(s)).map(s => s.replace(/^Sitemap:\s*/i, ""));
+    .filter(s => /^Sitemap:/i.test(s)).map(s => {
+      const value = s.replace(/^Sitemap:\s*/i, "");
+      return value === "https://zaprazi.cz/sitemap_index.xml"
+        ? value : "unexpected_or_noncanonical_sitemap";
+    });
   const httpIndexCount = indexUrls.filter(u => new URL(u).protocol === "http:").length;
   const noncanonicalIndexCount = indexUrls.filter(u => {
     const parsed = new URL(u);

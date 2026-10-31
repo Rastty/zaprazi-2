@@ -163,3 +163,49 @@ test("sitemap health rejects query/fragment locs without logging parameter value
   assert.equal(indexReport.index.noncanonical, 1);
   assert.throws(() => assertPublicSitemapHealthy(indexReport), /Noncanonical/);
 });
+
+test("Read-only sitemap audit refuses redirects before contacting external hosts", async () => {
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const fixtures = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset><url><loc>" + root + "/choditka-pro-seniory/</loc></url></urlset>"
+  };
+  for (const redirectAt of [root + "/robots.txt", index, page]) {
+    const requested = [];
+    const fetcher = async (url, options = {}) => {
+      requested.push(url);
+      assert.equal(options.redirect, "manual", "Every sitemap request must disable redirects");
+      if (url === redirectAt) return {
+        status: 302,
+        headers: {get: () => "https://external.invalid/collect?private=DO_NOT_SEND"},
+        text: async () => ""
+      };
+      return {status: 200, text: async () => fixtures[url]};
+    };
+    await assert.rejects(auditPublicSitemap(fetcher), /HTTP 302/);
+    assert.ok(requested.every(url => url.startsWith(root + "/")),
+      "Audit must not request redirect destinations");
+    assert.ok(!requested.some(url => url.includes("external.invalid")));
+  }
+});
+
+test("Required decision page in a post sitemap cannot satisfy page discovery gate", async () => {
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const post = root + "/post-sitemap.xml";
+  const first = requiredDecisionPaths[0];
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc><loc>" + post + "</loc></sitemapindex>",
+    [page]: "<urlset>" + requiredDecisionPaths.slice(1)
+      .map(path => "<url><loc>" + root + path + "</loc></url>").join("") + "</urlset>",
+    [post]: "<urlset><url><loc>" + root + first + "</loc></url></urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(report.required_decision_paths_missing, []);
+  assert.equal(report.required_decision_path_locations[first].sitemap, "/post-sitemap.xml");
+  assert.throws(() => assertPublicSitemapHealthy(report),
+    /Decision pages missing exact HTTPS loc in page sitemap/);
+});

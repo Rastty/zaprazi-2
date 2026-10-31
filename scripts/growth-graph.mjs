@@ -68,7 +68,9 @@ export function planGrowth(g,s){
   const nodeById=new Map(g.nodes.map(n=>[n.id,n]));
   for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node "+k);
   for(const [k,v] of Object.entries(s.metrics)){
-    if(!METRICS.includes(k)||!Number.isFinite(v)||v<0)
+    // Funnel/search event counts are discrete; only approved commission is currency.
+    if(!METRICS.includes(k)||!Number.isFinite(v)||v<0||
+        (k!=="approved_affiliate_commission_28d"&&!Number.isSafeInteger(v)))
       throw new Error("Invalid or unsupported aggregate metric "+k);
     if(!safeEvidenceUrl(s.metricSources[k]))
       throw new Error("Aggregate metric requires explicit HTTPS evidence: "+k);
@@ -92,6 +94,9 @@ export function planGrowth(g,s){
        Number.isNaN(Date.parse(s.asOf+"T00:00:00Z"))||
        new Date(s.asOf+"T00:00:00Z").toISOString().slice(0,10)!==s.asOf))
     throw new Error("Invalid observation date");
+  // An undated 28-day aggregate cannot be compared or used to prioritize work.
+  if(Object.keys(s.metrics).length&&s.asOf==null)
+    throw new Error("Aggregate metrics require observation date");
   const m=s.metrics;
   const uplift={
     intent_evidence:(m.organic_impressions_28d??0)>=100?8:0,

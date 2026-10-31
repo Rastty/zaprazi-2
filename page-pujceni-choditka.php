@@ -99,8 +99,8 @@ get_header();
   <section id="rozpocet-pujceni-choditka" class="zp-section" data-zp-rental-budget>
     <div class="zp-wrap">
       <p class="zp-kicker">Rozpočet bez zadávání osobních údajů</p>
-      <h2 class="zp-section-title">Kolik může stát půjčení na jeden, tři nebo šest měsíců?</h2>
-      <p>Porovnejte násobek ověřené měsíční sazby pro konkrétní kategorii pomůcky. Nejde o cenovou nabídku ani automatické doporučení typu chodítka: ten musí nejprve projít <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">bezpečným výběrem</a>. Výsledek neobsahuje vratnou kauci, dopravu ani případné individuální slevy.</p>
+      <h2 class="zp-section-title"><?php echo $zp_rental_is_fresh ? 'Kolik může stát půjčení na jeden, tři nebo šest měsíců?' : 'Proč nyní nepřepočítáváme starší ceny půjčoven?'; ?></h2>
+      <p><?php if ( $zp_rental_is_fresh ) : ?>Porovnejte násobek ověřené měsíční sazby pro konkrétní kategorii pomůcky.<?php else : ?>Starší měsíční sazby již nepřepočítáváme. Nejdřív ověřte aktuální cenu a dostupnost bezpečně vybraného typu přímo u půjčovny.<?php endif; ?> Nejde o cenovou nabídku ani automatické doporučení typu chodítka: ten musí nejprve projít <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">bezpečným výběrem</a>. Výsledek neobsahuje vratnou kauci, dopravu ani případné individuální slevy.</p>
       <?php if ( $zp_rental_is_fresh ) : ?>
         <form id="zp-walker-rental-budget" class="zp-rental-budget" hidden>
           <div class="zp-rental-budget-fields">

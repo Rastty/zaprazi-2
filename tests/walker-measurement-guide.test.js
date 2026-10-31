@@ -25,7 +25,7 @@ test("Seven home checklist cards include the floor/threshold hazard and a safe n
   const end = page.indexOf("Teď zvolte správnou cestu", start);
   assert.ok(start > 0 && end > start, "home checklist section missing");
   const section = page.slice(start, end);
-  const numbers = [...section.matchAll(/<div><span>(\\d{2})<\\/span><strong>/g)].map(match => match[1]);
+  const numbers = [...section.matchAll(/<div><span>([0-9]{2})<[/]span><strong>/g)].map(match => match[1]);
   assert.deepEqual(numbers, ["01", "02", "03", "04", "05", "06", "07"]);
   for (const label of [
     "Nejužší průchod", "Místo pro otočení", "Výška madel",
@@ -34,9 +34,9 @@ test("Seven home checklist cards include the floor/threshold hazard and a safe n
   ]) assert.ok(section.includes(label), "missing checklist topic: " + label);
   assert.match(section, /volné koberce|Volné koberce/);
   assert.match(section, /mokrá místa/);
-  assert.match(section, /prahy-pro-choditko-a-vozik\\/#mereni-prahu/);
+  assert.ok(section.includes("prahy-pro-choditko-a-vozik/#mereni-prahu"));
   assert.match(section, /samotné kolečko nebo nájezd není zárukou bezpečného překonání/);
-  assert.doesNotMatch(section, /<input\\b|<textarea\\b|<form\\b|data-zp-merchant-link|zp-offer\\b/);
+  assert.doesNotMatch(section, /<input[ >]|<textarea[ >]|<form[ >]|data-zp-merchant-link|zp-offer[ >]/);
 });
 
 test("Editorial proof and useful Advisor links", () => {

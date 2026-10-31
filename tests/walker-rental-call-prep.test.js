@@ -100,3 +100,18 @@ test("no-stock rental fallback never treats a different walker as an interchange
   assert.ok(section.includes("home_url( '/choditko-na-pojistovnu/' )"),"Must link to the existing reimbursement guide");
   assert.doesNotMatch(section,/<form|<input|data-zp-offer|data-zp-merchant-link|affiliateMap|localStorage|sessionStorage|fetch\s*\(/i);
 });
+
+test("expired rental budget explains why calculator is unavailable before presenting historical prices",()=>{
+  const page=read("page-pujceni-choditka.php");
+  const start=page.indexOf('<section id="rozpocet-pujceni-choditka"');
+  const end=page.indexOf('<section class="zp-section">',start);
+  assert.ok(start>=0&&end>start,"Budget section must be present");
+  const budget=page.slice(start,end);
+  assert.match(budget,/\$zp_rental_is_fresh \? 'Kolik může stát půjčení na jeden, tři nebo šest měsíců\?' : 'Proč nyní nepřepočítáváme starší ceny půjčoven\?'/,
+    "Heading must describe the disabled calculator when rates expire");
+  assert.match(budget,/if \( \$zp_rental_is_fresh \) : \?>Porovnejte násobek ověřené měsíční sazby/);
+  assert.match(budget,/else : \?>Starší měsíční sazby již nepřepočítáváme/);
+  assert.match(budget,/Nejdřív ověřte aktuální cenu a dostupnost bezpečně vybraného typu přímo u půjčovny/);
+  assert.match(budget,/Přepočet není k dispozici/);
+  assert.match(budget,/if \( \$zp_rental_is_fresh \) :[\s\S]*?<form id="zp-walker-rental-budget"/);
+});

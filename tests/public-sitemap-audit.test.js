@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy } from "../scripts/audit-public-sitemap.mjs";
+import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy, robotsHasWildcardRootBlock } from "../scripts/audit-public-sitemap.mjs";
 
 const root = "https://zaprazi.cz";
 function mock(files) {
@@ -315,4 +315,30 @@ test("public sitemap audit rejects malformed HTTP responses without reflecting i
   await assert.rejects(auditPublicSitemap(nontext), error =>
     /Invalid sitemap response body/.test(error.message) &&
     !error.message.includes(secret));
+});
+
+test("robots.txt wildcard root block fails SEO gate without confusing bot-specific rules", async () => {
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /\n"), true);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: Googlebot\nDisallow: /\n\nUser-agent: *\nDisallow: /wp-admin/\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /wp-admin/\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /\nAllow: /\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: GPTBot\nDisallow: /\nUser-agent: *\nAllow: /\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("USER-AGENT: *\n# comment\nDISALLOW: / # root blocked\n"), true);
+
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const files = {
+    [root + "/robots.txt"]: "User-agent: *\nDisallow: /\nSitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset>" + requiredDecisionPaths
+      .map(path => "<url><loc>" + root + path + "</loc></url>").join("") + "</urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(report.required_decision_paths_missing, []);
+  assert.equal(report.robots_wildcard_root_block, true);
+  assert.throws(() => assertPublicSitemapHealthy(report), /robots.txt blocks public crawling/);
+  files[root + "/robots.txt"] = "User-agent: *\nDisallow: /wp-admin/\nSitemap: " + index;
+  const allowed = await auditPublicSitemap(mock(files).get);
+  assert.equal(allowed.robots_wildcard_root_block, false);
+  assert.equal(assertPublicSitemapHealthy(allowed).status, "healthy_public_xml");
 });

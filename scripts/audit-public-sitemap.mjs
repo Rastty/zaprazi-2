@@ -93,6 +93,44 @@ const sitePath = url => {
   return parsed.pathname;
 };
 
+/**
+ * Detect the high-impact WordPress robots.txt misconfiguration
+ * "User-agent: * / Disallow: /". Scope directives to their user-agent
+ * group; a block for an unrelated crawler is not a site-wide block.
+ * The exact "Allow: /" tie is allowed under longest-match robots rules.
+ * Do not emit untrusted robots lines into public CI artifacts.
+ */
+export function robotsHasWildcardRootBlock(robots) {
+  const groups = [];
+  let agents = [], rules = [];
+  const flush = () => {
+    if (agents.length) groups.push({agents, rules});
+    agents = [];
+    rules = [];
+  };
+  for (const raw of String(robots).split(/\r?\n/)) {
+    const line = raw.replace(/#.*$/, "").trim();
+    if (!line) {
+      if (rules.length) flush();
+      continue;
+    }
+    const match = /^([a-z-]+)\s*:\s*(.*?)\s*$/i.exec(line);
+    if (!match) continue;
+    const key = match[1].toLowerCase();
+    const value = match[2].trim().toLowerCase();
+    if (key === "user-agent") {
+      if (rules.length) flush();
+      agents.push(value);
+    } else if (agents.length && (key === "allow" || key === "disallow")) {
+      rules.push({key, value});
+    }
+  }
+  flush();
+  return groups.some(group => group.agents.includes("*") &&
+    group.rules.some(r => r.key === "disallow" && r.value === "/") &&
+    !group.rules.some(r => r.key === "allow" && r.value === "/"));
+}
+
 async function getText(fetcher, href) {
   // Do not follow 3xx responses: a compromised sitemap/robots endpoint must
   // never send our read-only audit to an external host.
@@ -194,6 +232,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     site: origin,
     limitations: "Public XML discovery only; not Google indexation, traffic, ranking, or backlinks.",
     robots_sitemaps: advertised,
+    robots_wildcard_root_block: robotsHasWildcardRootBlock(robots),
     index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount,
       noncanonical: noncanonicalIndexCount },
     leaf_sitemaps: reports,
@@ -220,7 +259,8 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
  */
 export function assertPublicSitemapHealthy(report) {
   if (!report || !Array.isArray(report.required_decision_paths_missing) ||
-      !Array.isArray(report.robots_sitemaps) || !Array.isArray(report.leaf_sitemaps) ||
+      !Array.isArray(report.robots_sitemaps) ||
+      typeof report.robots_wildcard_root_block !== "boolean" || !Array.isArray(report.leaf_sitemaps) ||
       !Array.isArray(report.duplicate_paths_sample) || !report.index ||
       !Number.isInteger(report.noncanonical_urls_count) ||
       !Number.isInteger(report.index.noncanonical)) {
@@ -232,6 +272,9 @@ export function assertPublicSitemapHealthy(report) {
   }
   if (!report.robots_sitemaps.includes("https://zaprazi.cz/sitemap_index.xml")) {
     throw new Error("robots.txt does not advertise the HTTPS sitemap index");
+  }
+  if (report.robots_wildcard_root_block) {
+    throw new Error("robots.txt blocks public crawling for wildcard user-agents");
   }
   if (report.index.http !== 0 || report.leaf_sitemaps.some(s => s.http !== 0)) {
     throw new Error("Public sitemap contains HTTP locs instead of HTTPS");

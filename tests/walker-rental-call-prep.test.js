@@ -30,6 +30,11 @@ test("rental page offers a reachable six-point call preparation without inventin
   }
   assert.match(section,/Pokud při převzetí nefungují brzdy, koncovky nebo je pomůcka nestabilní, nepoužívejte ji/);
   assert.match(section,/požádejte půjčovnu o nápravu/);
+  assert.match(section,/předá návod ke konkrétnímu modelu/,
+    "Rental handover must request manufacturer instructions for the exact model");
+  assert.match(section,/sedátko samo o sobě neznamená, že na pomůcce smíte převážet sedící osobu/);
+  assert.match(section,/výslovně dovoluje návod výrobce pro přesný model/);
+  assert.match(section,/Pokud návod chybí nebo si nejste jistí, pomůcku k převozu nepoužívejte/);
   assert.ok(section.includes("home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' )"));
   assert.ok(section.includes("home_url( '/#poradce' )"));
   assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);

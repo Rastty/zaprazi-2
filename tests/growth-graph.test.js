@@ -75,7 +75,7 @@ test("public growth evidence links reject tokens, credentials and malformed HTTP
     "https://", "https://user:secret@example.org/report",
     "https://example.org/report?access_token=private",
     "https://example.org/report#patient-answer",
-    "https://example.org/report\\nleak", "http://example.org/report"
+    "https://example.org/report\nleak", "http://example.org/report"
   ]){
     s.metricSources.organic_clicks_28d=unsafe;
     assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);

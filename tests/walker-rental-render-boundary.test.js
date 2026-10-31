@@ -51,3 +51,20 @@ test("expired rendered cards, FAQ and source notes disclose historical rental am
   assert.match(expired,/Připravit pět otázek pro půjčovnu/);
   assert.match(expired,/href="#zp-otazky-pujcovna"/);
 });
+
+test("dated rental entry and provider links never claim live pricing after expiry",()=>{
+  const fresh=renderRentalAt("2026-11-06");
+  const expired=renderRentalAt("2026-11-07");
+  assert.match(fresh,/kolik stojí konkrétní příklady v roce 2026/);
+  assert.doesNotMatch(fresh,/jak ověřit cenu místo zastaralých příkladů/);
+  assert.match(expired,/jak ověřit cenu místo zastaralých příkladů z roku 2026/);
+  assert.doesNotMatch(expired,/kolik stojí konkrétní příklady v roce 2026/);
+  assert.match(expired,/ověřte platnou cenu a dostupnost přímo u půjčovny/);
+  assert.doesNotMatch(expired,/Aktuální ceník (RehaKomp|MEYRA)/);
+  assert.equal((expired.match(/Ověřit cenu u RehaKomp/g)||[]).length,2);
+  assert.match(expired,/Ověřit cenu u MEYRA/);
+  assert.match(expired,/href="https:\/\/www\.rehakomp\.cz\/content\/18-cenik-pronajmu-pomucek"/);
+  assert.match(expired,/href="https:\/\/www\.meyra\.cz\/cenik-meyra\.html"/);
+  assert.match(expired,/Připravit telefonát do půjčovny/);
+  assert.doesNotMatch(expired,/data-zp-merchant-link|data-zp-offer|data-monthly-price=/);
+});

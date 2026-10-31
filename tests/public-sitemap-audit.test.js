@@ -265,3 +265,54 @@ test("commented-out or CDATA locs cannot falsely satisfy the public SEO gate", a
   assert.throws(() => extractLocs("<urlset><![CDATA[<loc>hidden</loc></urlset>"),
     /Malformed sitemap XML comment or CDATA/);
 });
+
+
+test("public sitemap audit redacts transport and body failures at every fetch stage", async () => {
+  const secret = "PRIVATE_HEALTH_ANSWER_NEVER_LOG_20261031";
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset><url><loc>" + root + "/choditka-pro-seniory/</loc></url></urlset>"
+  };
+  for (const failingUrl of [root + "/robots.txt", index, page]) {
+    for (const stage of ["fetch", "body"]) {
+      const calls = [];
+      const fetcher = async (url, options) => {
+        calls.push(url);
+        assert.equal(options.redirect, "manual");
+        if (url === failingUrl && stage === "fetch") {
+          throw new Error("Network failure " + secret + "?answer=" + secret);
+        }
+        if (url === failingUrl && stage === "body") {
+          return {status: 200, text: async () => {
+            throw new Error("Body read failed " + secret);
+          }};
+        }
+        return {status: 200, text: async () => files[url]};
+      };
+      await assert.rejects(auditPublicSitemap(fetcher), error => {
+        assert.ok(!error.message.includes(secret));
+        assert.ok(!error.message.includes("?answer="));
+        assert.match(error.message, stage === "fetch"
+          ? /Sitemap request failed \(network error\)/
+          : /Sitemap response body unavailable/);
+        return true;
+      });
+      assert.ok(calls.every(url => url.startsWith(root + "/")));
+    }
+  }
+});
+
+test("public sitemap audit rejects malformed HTTP responses without reflecting input", async () => {
+  const secret = "PRIVATE_ANSWER_NOT_FOR_CI";
+  const bad = async () => ({status: "200 " + secret, text: async () => ""});
+  await assert.rejects(auditPublicSitemap(bad), error =>
+    /Invalid sitemap HTTP response/.test(error.message) &&
+    !error.message.includes(secret));
+  const nontext = async () => ({status: 200, text: async () => ({token: secret})});
+  await assert.rejects(auditPublicSitemap(nontext), error =>
+    /Invalid sitemap response body/.test(error.message) &&
+    !error.message.includes(secret));
+});

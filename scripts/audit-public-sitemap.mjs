@@ -95,14 +95,29 @@ const sitePath = url => {
 
 async function getText(fetcher, href) {
   // Do not follow 3xx responses: a compromised sitemap/robots endpoint must
-  // never send our read-only audit to an external host. A redirect is a
-  // failed audit, not an instruction to fetch a new destination.
-  const response = await fetcher(href, {
-    signal: AbortSignal.timeout(15000), redirect: "manual"
-  });
-  if (response.status !== 200) throw new Error("HTTP " + response.status + " from " + href);
-  const body = await response.text();
-  if (body.length > 5_000_000) throw new Error("Unexpected sitemap payload size: " + href);
+  // never send our read-only audit to an external host.
+  // Fetch/body errors are untrusted: their messages may include URLs, query
+  // tokens or upstream response text. Public CI must not print them.
+  let response;
+  try {
+    response = await fetcher(href, {
+      signal: AbortSignal.timeout(15000), redirect: "manual"
+    });
+  } catch {
+    throw new Error("Sitemap request failed (network error)");
+  }
+  if (!response || !Number.isInteger(response.status)) {
+    throw new Error("Invalid sitemap HTTP response");
+  }
+  if (response.status !== 200) throw new Error("Sitemap HTTP " + response.status);
+  let body;
+  try {
+    body = await response.text();
+  } catch {
+    throw new Error("Sitemap response body unavailable");
+  }
+  if (typeof body !== "string") throw new Error("Invalid sitemap response body");
+  if (body.length > 5_000_000) throw new Error("Unexpected sitemap payload size");
   return body;
 }
 

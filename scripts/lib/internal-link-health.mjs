@@ -134,3 +134,21 @@ export function auditInternalFragments(targets,idsByPath) {
   return {total:targets.length,checked:targets.length-unchecked.length,
     broken,unchecked,limitations:"Live DOM fragment IDs only on curated public pages; not a crawl of legacy posts or proof of Google indexing."};
 }
+
+/**
+ * Public Actions logs must never include fragment IDs from hrefs. A broken
+ * anchor can contain an answer, identifier or token even without a query
+ * string. Preserve counts and curated source pages for triage; inspect the
+ * actual href only in a controlled local run.
+ */
+export function publicFragmentReport(report) {
+  const issues=[...report.broken,...report.unchecked];
+  return {
+    total:report.total,
+    checked:report.checked,
+    broken_count:report.broken.length,
+    unchecked_count:report.unchecked.length,
+    affected_source_pages:[...new Set(issues.flatMap(x=>x.sources))].sort(),
+    limitations:report.limitations
+  };
+}

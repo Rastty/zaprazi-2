@@ -56,6 +56,13 @@ export const requiredDecisionPaths = Object.freeze([
 // Only future, not-yet-deployed pages belong in this list.
 export const stagedDecisionPaths = Object.freeze([]);
 
+// Only curated, non-identifying decision paths may be displayed verbatim in
+// public CI. XML sitemap loc pathnames are untrusted just like query values:
+// a malformed URL can contain user data even when the host is valid.
+const publicPathLabel = path =>
+  requiredDecisionPaths.includes(path) || stagedDecisionPaths.includes(path)
+    ? path : "unlisted_path";
+
 const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/gi, entity => {
   const table = { "&amp;": "&", "&quot;": '"', "&apos;": "'", "&lt;": "<", "&gt;": ">" };
   const lower = entity.toLowerCase();
@@ -217,7 +224,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
       const localPath = sitePath(value);
       const parsed = new URL(value);
       if (parsed.search || parsed.hash) noncanonicalUrls.push({
-        path: localPath,
+        path: publicPathLabel(localPath),
         issue: [parsed.search ? "query" : null, parsed.hash ? "fragment" : null]
           .filter(Boolean).join("+")
       });
@@ -235,7 +242,8 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
       entries: urls.length,
       http: schemes.http,
       https: schemes.https,
-      duplicate_paths: duplicates.slice(0, 8)
+      duplicate_count: duplicates.length,
+      duplicate_paths: duplicates.slice(0, 8).map(publicPathLabel)
     });
   }
   // Only the expected public index URL is safe to include verbatim in CI

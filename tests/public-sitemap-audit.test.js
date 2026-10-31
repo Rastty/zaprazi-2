@@ -209,3 +209,33 @@ test("Required decision page in a post sitemap cannot satisfy page discovery gat
   assert.throws(() => assertPublicSitemapHealthy(report),
     /Decision pages missing exact HTTPS loc in page sitemap/);
 });
+
+test("public sitemap audit never prints untrusted loc or robots Sitemap tokens", async () => {
+  const secret = "HEALTH_ANSWER_DO_NOT_LOG_20261031";
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index + "\\nSitemap: https://external.invalid/collect?answer=" + secret,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset><url><loc>" + root + "/choditka-pro-seniory/</loc></url></urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(report.robots_sitemaps,
+    [index, "unexpected_or_noncanonical_sitemap"]);
+  assert.ok(!JSON.stringify(report).includes(secret));
+
+  files[index] = "<sitemapindex><loc>https://external.invalid/collect?answer=" +
+    secret + "</loc></sitemapindex>";
+  await assert.rejects(auditPublicSitemap(mock(files).get), error =>
+    /external or unsafe/.test(error.message) && !error.message.includes(secret));
+
+  files[index] = "<sitemapindex><loc>not-a-url-" + secret + "</loc></sitemapindex>";
+  await assert.rejects(auditPublicSitemap(mock(files).get), error =>
+    /Invalid sitemap loc URL/.test(error.message) && !error.message.includes(secret));
+
+  files[index] = "<sitemapindex><loc>" + page + "</loc></sitemapindex>";
+  files[page] = "<urlset><url><loc>https://external.invalid/?answer=" +
+    secret + "</loc></url></urlset>";
+  await assert.rejects(auditPublicSitemap(mock(files).get), error =>
+    /external or unsafe/.test(error.message) && !error.message.includes(secret));
+});

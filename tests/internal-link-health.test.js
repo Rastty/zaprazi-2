@@ -37,6 +37,29 @@ test("GET probe does not follow redirects and classifies broken pages",async()=>
   assert.ok(called.every(x=>x.url.startsWith("https://zaprazi.cz/")));
 });
 
+test("HTTP 200 is healthy only when the target is an HTML document",async()=>{
+  const targets=[{path:"/guide/",sources:["/"]}];
+  for(const mime of ["application/json", "application/pdf", "", "application/octet-stream"]){
+    const result=await auditInternalTargets(targets,async()=>({
+      status:200,headers:{get:name=>name==="content-type"?mime:""},
+      body:{cancel:async()=>{}}
+    }));
+    assert.equal(result.ok,0,"A non-HTML soft-200 must not pass");
+    assert.equal(result.broken.length,1);
+    assert.equal(result.broken[0].outcome,"non_html_200");
+    assert.equal(result.broken[0].status,200);
+    assert.ok(["other","missing"].includes(result.broken[0].type));
+  }
+  for(const mime of ["text/html; charset=UTF-8", "application/xhtml+xml"]){
+    const result=await auditInternalTargets(targets,async()=>({
+      status:200,headers:{get:name=>name==="content-type"?mime:""},
+      body:{cancel:async()=>{}}
+    }));
+    assert.equal(result.ok,1);
+    assert.deepEqual(result.broken,[]);
+  }
+});
+
 test("unsafe host, click route and unbounded scans are refused",async()=>{
   assert.throws(()=>prepareInternalLinks([],"https://other.example"),/exact production/);
   await assert.rejects(auditInternalTargets([{path:"/go/tracker",sources:["/"]}],async()=>{}),/Unsafe path/);

@@ -83,7 +83,12 @@ const sitePath = url => {
 };
 
 async function getText(fetcher, href) {
-  const response = await fetcher(href, { signal: AbortSignal.timeout(15000) });
+  // Do not follow 3xx responses: a compromised sitemap/robots endpoint must
+  // never send our read-only audit to an external host. A redirect is a
+  // failed audit, not an instruction to fetch a new destination.
+  const response = await fetcher(href, {
+    signal: AbortSignal.timeout(15000), redirect: "manual"
+  });
   if (response.status !== 200) throw new Error("HTTP " + response.status + " from " + href);
   const body = await response.text();
   if (body.length > 5_000_000) throw new Error("Unexpected sitemap payload size: " + href);
@@ -205,6 +210,18 @@ export function assertPublicSitemapHealthy(report) {
   if (report.noncanonical_urls_count || report.index.noncanonical) {
     throw new Error("Noncanonical sitemap locs contain query strings or fragments: " +
       (report.noncanonical_urls_count + report.index.noncanonical));
+  }
+  // A matching pathname in an archive/post sitemap is not sufficient proof
+  // that an intended decision-page URL is correctly advertised as a page.
+  // Compare only static approved paths; never echo query/fragment values.
+  const misplaced = requiredDecisionPaths.filter(path => {
+    const location = report.required_decision_path_locations?.[path];
+    return !location || !/^\/page-sitemap\d*\.xml$/.test(location.sitemap) ||
+      location.url !== "https://zaprazi.cz" + path || location.noncanonical;
+  });
+  if (misplaced.length) {
+    throw new Error("Decision pages missing exact HTTPS loc in page sitemap: " +
+      misplaced.join(", "));
   }
   return { status: "healthy_public_xml", required_count: requiredDecisionPaths.length,
     unique_paths: report.unique_paths,

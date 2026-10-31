@@ -15,7 +15,7 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Půjčení pomůcky</p>
       <h1>Půjčení chodítka nebo rollátoru.</h1>
-      <p class="zp-lead">Kdy dává pronájem smysl, kolik stojí konkrétní příklady v roce 2026 a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
+      <p class="zp-lead">Kdy dává pronájem smysl, <?php echo $zp_rental_is_fresh ? 'kolik stojí konkrétní příklady v roce 2026' : 'jak ověřit cenu místo zastaralých příkladů z roku 2026'; ?> a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
       <p class="zp-muted-copy">Chcete si půjčit <strong>rollátor se sedátkem</strong>? Než porovnáte sazby, ověřte, jestli zvládá člověk obě brzdy, bezpečné usedání a vstávání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Podle čeho vybrat bezpečné sedátko a rollátor</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
@@ -52,7 +52,7 @@ get_header();
       <h2 class="zp-section-title">Kolik může půjčení chodítka stát.</h2>
 
       <?php if ( ! $zp_rental_is_fresh ) : ?>
-        <p class="zp-stale-evidence"><strong>Pozor:</strong> tyto ceny byly ověřené 6. 10. 2026 a už jsou starší než 31 dní. Berte je jako historický orientační údaj a před objednáním otevřete aktuální ceník půjčovny.</p>
+        <p class="zp-stale-evidence"><strong>Pozor:</strong> tyto ceny byly ověřené 6. 10. 2026 a už jsou starší než 31 dní. Berte je jako historický orientační údaj a před objednáním ověřte platnou cenu a dostupnost přímo u půjčovny.</p>
       <?php endif; ?>
 
       <div class="zp-rental-grid">
@@ -65,7 +65,7 @@ get_header();
             <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? '1 000 Kč' : 'historicky 1 000 Kč'; ?></dd></div>
           </dl>
           <p>RehaKomp uvádí krátkodobé i dlouhodobé pronájmy a dopravu po ČR; dostupnost konkrétního modelu je potřeba ověřit.</p>
-          <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Aktuální ceník RehaKomp</a>
+          <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Ověřit cenu u RehaKomp</a>
         </article>
 
         <article class="zp-rental-card">
@@ -77,7 +77,7 @@ get_header();
             <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? 'typicky 1 000 Kč u ověřených půjčovních položek' : 'ověřit u půjčovny (starší příklad: 1 000 Kč)'; ?></dd></div>
           </dl>
           <p>Nižší cena neznamená, že je tento typ vhodný pro každého. U pevného chodítka je důležité, zda ho člověk zvládá při kroku bezpečně posouvat.</p>
-          <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Aktuální ceník RehaKomp</a>
+          <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">Ověřit cenu u RehaKomp</a>
         </article>
 
         <article class="zp-rental-card">
@@ -89,7 +89,7 @@ get_header();
             <div><dt>Vratná kauce</dt><dd><?php echo $zp_rental_is_fresh ? '1 000 Kč' : 'historicky 1 000 Kč'; ?></dd></div>
           </dl>
           <p>MEYRA uvádí, že chodítka nezaváží a půjčovné se při následném nákupu může za stanovených podmínek odečíst od prodejní ceny.</p>
-          <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Aktuální ceník MEYRA</a>
+          <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Ověřit cenu u MEYRA</a>
         </article>
       </div>
       <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit pět otázek pro půjčovnu</a>.</p>

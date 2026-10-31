@@ -54,6 +54,20 @@ test("Triages core pages separately from unknown legacy without merging property
  assert.match(markdown,/POUZE návrhy ke kontrole/);
  assert.doesNotMatch(markdown,/redirect na homepage/);
 });
+test("Impossible GSC click-to-impression ratios fail closed for pages and queries",()=>{
+ for(const kind of ["page","query"]){
+   const dimension=kind==="page"?"Top pages":"Top queries";
+   const value=kind==="page"?"https://zaprazi.cz/choditka-pro-seniory/":"chodítko pro seniora";
+   const csv=(clicks,impressions)=>fixture([
+     dimension+",Clicks,Impressions,CTR,Position",
+     value+","+clicks+","+impressions+",0%,8"
+   ]);
+   assert.throws(()=>parseGscCsv(csv(2,1),kind),/clicks exceed impressions/);
+   assert.throws(()=>parseGscCsv(csv(1,0),kind),/clicks exceed impressions/);
+   assert.equal(parseGscCsv(csv(1,1),kind)[0].ctr,1);
+   assert.equal(parseGscCsv(csv(0,0),kind)[0].ctr,null);
+ }
+});
 test("GSC query is never assigned to a specific page by row number",()=>{
  const x=analyzeGsc({pages:parseGscCsv(pageRows,"page"),queries:parseGscCsv(queryRows,"query"),
   periodStart:"2026-09-01",periodEnd:"2026-09-28"});

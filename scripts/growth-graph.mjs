@@ -18,7 +18,7 @@ const percent=(a,b)=>b>0?a/b:null;
 // Evidence is stored in public Git history and rendered by CI. Do not allow
 // credentials, signed query links or fragments that can expose private data.
 function safeEvidenceUrl(value){
-  if(typeof value!=="string"||value.length>2048||/\\s/.test(value))return false;
+  if(typeof value!=="string"||value.length>2048||/\s/.test(value))return false;
   try{
     const url=new URL(value);
     return url.protocol==="https:"&&Boolean(url.hostname)&&!url.username&&

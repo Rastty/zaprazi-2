@@ -66,6 +66,27 @@ test("evidence-backed aggregate data may raise review priority without inventing
   s.metrics.patient_diagnosis=3;
   assert.throws(()=>planGrowth(graph,s),/unsupported/);
 });
+test("public growth evidence links reject tokens, credentials and malformed HTTPS",()=>{
+  const s=clone(blank);
+  s.metrics.organic_clicks_28d=12;
+  s.metricSources.organic_clicks_28d="https://example.org/gsc/aggregate-report";
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,12);
+  for(const unsafe of [
+    "https://", "https://user:secret@example.org/report",
+    "https://example.org/report?access_token=private",
+    "https://example.org/report#patient-answer",
+    "https://example.org/report\nleak", "http://example.org/report"
+  ]){
+    s.metricSources.organic_clicks_28d=unsafe;
+    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+  }
+  delete s.metrics.organic_clicks_28d;
+  delete s.metricSources.organic_clicks_28d;
+  s.nodes.safety_qa={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/123"};
+  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="safety_qa").status,"verified");
+  s.nodes.safety_qa.evidenceUrl="https://github.com/Rastty/zaprazi-2/actions/runs/123?token=secret";
+  assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+});
 test("malformed states and unknown nodes fail closed",()=>{
   const s=clone(blank);
   s.nodes.affiliate_audit={status:"verified"};

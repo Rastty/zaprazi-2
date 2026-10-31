@@ -15,6 +15,16 @@ export const METRICS = [
 const STATES=new Set(["pending","in_progress","verified","paused"]);
 const cleanString=s=>String(s).replace(/[|\r\n<>]/g," ").slice(0,180);
 const percent=(a,b)=>b>0?a/b:null;
+// Evidence is stored in public Git history and rendered by CI. Do not allow
+// credentials, signed query links or fragments that can expose private data.
+function safeEvidenceUrl(value){
+  if(typeof value!=="string"||value.length>2048||/\s/.test(value))return false;
+  try{
+    const url=new URL(value);
+    return url.protocol==="https:"&&Boolean(url.hostname)&&!url.username&&
+      !url.password&&!url.search&&!url.hash;
+  }catch{return false;}
+}
 
 export function validateGraph(g){
   if(!g||g.schemaVersion!==1||!Array.isArray(g.nodes)||g.nodes.length===0)
@@ -60,7 +70,7 @@ export function planGrowth(g,s){
   for(const [k,v] of Object.entries(s.metrics)){
     if(!METRICS.includes(k)||!Number.isFinite(v)||v<0)
       throw new Error("Invalid or unsupported aggregate metric "+k);
-    if(typeof s.metricSources[k]!=="string"||!/^https:\/\//.test(s.metricSources[k]))
+    if(!safeEvidenceUrl(s.metricSources[k]))
       throw new Error("Aggregate metric requires explicit HTTPS evidence: "+k);
   }
   for(const k of Object.keys(s.metricSources))
@@ -68,7 +78,7 @@ export function planGrowth(g,s){
   for(const [id,record] of Object.entries(s.nodes)){
     if(!record||!STATES.has(record.status))throw new Error("Invalid node state "+id);
     if(record.status==="verified"&&
-        (typeof record.evidenceUrl!=="string"||!/^https:\/\//.test(record.evidenceUrl)))
+        (!safeEvidenceUrl(record.evidenceUrl)))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
     // A cited PR is not enough to certify a downstream step while its safety
     // or evidence prerequisites are still unverified. Never silently mark it done.

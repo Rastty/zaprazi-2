@@ -196,3 +196,33 @@ test("public fragment audit never exposes health answers embedded in anchor IDs"
   assert.equal(Object.hasOwn(publicReport,"broken"),false);
   assert.equal(Object.hasOwn(publicReport,"unchecked"),false);
 });
+
+
+test("encoded paths cannot bypass click-route or WP endpoint exclusions", async () => {
+  const encoded = [
+    "/%67o/merchant/", "/go%2Fmerchant/", "/%6Fut/offer/",
+    "/wp%2Djson/zaprazi/", "/%77p-json/zaprazi/", "/ordinary%2Fgo/merchant/"
+  ];
+  const pages=[{path:"/",links:[
+    "/safe-public-page/", ...encoded,
+    ...encoded.map(path=>path+"#section")
+  ]}];
+  const prepared=prepareInternalLinks(pages);
+  assert.deepEqual(prepared.targets,[{path:"/safe-public-page/",sources:["/"]}]);
+  assert.equal(prepared.excluded.filter(row=>row.why==="not_safe_public_page").length,
+    encoded.length*2);
+  const fragments=prepareInternalFragments(pages);
+  assert.deepEqual(fragments,[]);
+
+  let requests=0;
+  for (const path of encoded) {
+    await assert.rejects(
+      auditInternalTargets([{path,sources:["/"]}],async()=>{
+        requests++;
+        throw new Error("Unsafe network request");
+      }),
+      /Unsafe path selected for GET/
+    );
+  }
+  assert.equal(requests,0,"No encoded route may reach the network");
+});

@@ -21,7 +21,7 @@ get_header();
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
-        <a class="zp-text-link" href="#otazky-pujcovna">Připravit telefonát do půjčovny</a>
+        <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
       </div>
     </div>
   </section>
@@ -92,7 +92,7 @@ get_header();
           <a class="zp-link-btn" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">Aktuální ceník MEYRA</a>
         </article>
       </div>
-      <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#otazky-pujcovna">Připravit pět otázek pro půjčovnu</a>.</p>
+      <p class="zp-muted-copy">Před rozhodnutím si ověřte celkové náklady, přesný model a termín vrácení. <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit pět otázek pro půjčovnu</a>.</p>
     </div>
   </section>
 
@@ -177,7 +177,7 @@ get_header();
         <article><h3>Dostupnost</h3><p>Ceník neznamená, že konkrétní model je právě volný. Potvrďte termín předem.</p></article>
         <article><h3>Stav a nastavení</h3><p>Při převzetí ověřte technický stav, brzdy, výšku madel a způsob bezpečného použití.</p></article>
       </div>
-      <div id="otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" aria-labelledby="otazky-pujcovna-nadpis">
+      <div id="zp-otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" aria-labelledby="otazky-pujcovna-nadpis">
         <h3 id="otazky-pujcovna-nadpis">Co říct při telefonátu do půjčovny</h3>
         <p>Otázky si můžete při hovoru přečíst jednu po druhé. Nic nevyplňujete ani neodesíláte.</p>
         <ol class="zp-checklist">

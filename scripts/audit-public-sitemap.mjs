@@ -198,6 +198,18 @@ export function assertPublicSitemapHealthy(report) {
     throw new Error("Missing required decision paths from public sitemap: " +
       report.required_decision_paths_missing.join(", "));
   }
+  // A matching pathname in an archive/post sitemap is not sufficient proof
+  // that an intended decision-page URL is correctly advertised as a page.
+  // Compare only static approved paths; never echo query/fragment values.
+  const misplaced = requiredDecisionPaths.filter(path => {
+    const location = report.required_decision_path_locations?.[path];
+    return !location || !/^\\/page-sitemap\\d*\\.xml$/.test(location.sitemap) ||
+      location.url !== "https://zaprazi.cz" + path || location.noncanonical;
+  });
+  if (misplaced.length) {
+    throw new Error("Decision pages missing exact HTTPS loc in page sitemap: " +
+      misplaced.join(", "));
+  }
   if (!report.robots_sitemaps.includes("https://zaprazi.cz/sitemap_index.xml")) {
     throw new Error("robots.txt does not advertise the HTTPS sitemap index");
   }

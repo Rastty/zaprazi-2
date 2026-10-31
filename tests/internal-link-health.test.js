@@ -87,3 +87,36 @@ test("fragment audit never assumes missing DOM data means anchor success",()=>{
   assert.throws(()=>prepareInternalFragments([],"https://other.example"),/exact production/);
   assert.throws(()=>auditInternalFragments(Array(241).fill(targets[0]),new Map()),/unbounded/);
 });
+
+
+test("live link audit redacts sensitive URL parameters and redirect targets from CI output",async()=>{
+  const secret="HEALTH_ANSWER_DO_NOT_LOG_937";
+  const prepared=prepareInternalLinks([
+    {path:"/",links:[
+      "http://zaprazi.cz/walker/?answer="+secret,
+      "/go/merchant/?answer="+secret,
+      "/private/?answer="+secret
+    ]}
+  ]);
+  assert.ok(!JSON.stringify(prepared).includes(secret));
+  assert.equal(prepared.excluded.filter(x=>x.why==="http_internal").length,1);
+  assert.ok(prepared.excluded.every(x=>!Object.hasOwn(x,"href")));
+
+  const target=[{path:"/walker/",sources:["/"]}];
+  const response=location=>async()=>({
+    status:302,headers:{get:name=>name==="location"?location:""},
+    body:{cancel:async()=>{}}
+  });
+  const same=await auditInternalTargets(target,response("/next/?answer="+secret));
+  assert.equal(same.redirects[0].redirect,"same_origin");
+  assert.ok(!JSON.stringify(same).includes(secret));
+
+  const external=await auditInternalTargets(target,
+    response("https://elsewhere.invalid/collect?answer="+secret));
+  assert.equal(external.redirects[0].redirect,"off_origin_or_unsafe");
+  assert.ok(!JSON.stringify(external).includes(secret));
+  const invalid=await auditInternalTargets(target,response("http://[invalid"));
+  assert.equal(invalid.redirects[0].redirect,"invalid");
+  const absent=await auditInternalTargets(target,response(""));
+  assert.equal(absent.redirects[0].redirect,"missing");
+});

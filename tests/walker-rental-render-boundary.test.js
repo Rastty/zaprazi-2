@@ -82,3 +82,15 @@ test("manufacturer instructions and rollator transport warning survive both rent
     assert.doesNotMatch(section,/data-zp-offer|data-zp-merchant-link|<form|<input/i);
   }
 });
+
+test("rental is never presented as an unsupervised suitability trial after surgery",()=>{
+  for(const date of ["2026-11-06","2026-11-07"]){
+    const html=renderRentalAt(date);
+    assert.match(html,/Samotné zapůjčení neprokazuje, že je pomůcka pro konkrétního člověka vhodná/);
+    assert.match(html,/bezpečně vybraný typ i jeho parametry už máte ověřené/);
+    assert.match(html,/po operaci je nejdřív potřeba ověřit s ošetřujícím odborníkem/);
+    assert.match(html,/Cena ani dostupnost půjčovny nejsou potvrzením vhodnosti/);
+    assert.doesNotMatch(html,/pronájem[^<]*umožnit ověřit, jaký typ pomůcky/);
+    assert.doesNotMatch(html,/chcete nejdřív ověřit vhodný typ nebo čekáte/);
+  }
+});

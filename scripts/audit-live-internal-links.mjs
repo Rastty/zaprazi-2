@@ -6,7 +6,7 @@ import { accessSync, constants } from "node:fs";
 import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
 import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
-import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments } from "./lib/internal-link-health.mjs";
+import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport } from "./lib/internal-link-health.mjs";
 
 const origin="https://zaprazi.cz";
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
@@ -39,7 +39,7 @@ try{
       const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
       if(response?.status()!==200)continue;
       idsByPath.set(path,new Set(await page.$$eval("[id]",nodes=>nodes.map(node=>node.id))));
-    }catch(error){console.error("FRAGMENT_TARGET_UNAVAILABLE",path,String(error).slice(0,120));}
+    }catch(error){console.error("FRAGMENT_TARGET_UNAVAILABLE","navigation_failed");}
     finally{await page.close();}
   }
 }finally{await browser.close();}
@@ -51,6 +51,6 @@ const fragmentReport=auditInternalFragments(fragmentTargets,idsByPath);
 const {checked_paths,...summary}=result;
 console.log("LINK_HEALTH_SUMMARY",JSON.stringify(summary));
 console.log("LINK_HEALTH_TARGETS",JSON.stringify(checked_paths));
-console.log("LINK_FRAGMENT_SUMMARY",JSON.stringify(fragmentReport));
+console.log("LINK_FRAGMENT_SUMMARY",JSON.stringify(publicFragmentReport(fragmentReport)));
 if(result.broken.length||fragmentReport.broken.length||fragmentReport.unchecked.length)
   process.exitCode=1;

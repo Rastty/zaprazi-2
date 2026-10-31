@@ -13,7 +13,8 @@ test("rental page offers a reachable six-point call preparation without inventin
   const end=page.indexOf("</section>",start);
   assert.ok(start>0&&end>start,"Call prep must be inside the existing rental section");
   const section=page.slice(start,end);
-  assert.match(section,/aria-labelledby="otazky-pujcovna-nadpis"/);
+  assert.match(section,/role="region" tabindex="-1" aria-labelledby="otazky-pujcovna-nadpis"/,
+    "Hash target must be a named, programmatically focusable region for keyboard and screen-reader users");
   assert.match(read("style.css"),/\[id\^="zp-"\][^\n]*scroll-margin-top:/, "Anchor must use existing sticky-header offset");
   assert.match(section,/id="otazky-pujcovna-nadpis"/);
   assert.match(section,/<ol class="zp-checklist">/);

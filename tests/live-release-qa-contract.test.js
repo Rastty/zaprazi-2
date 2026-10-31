@@ -73,3 +73,12 @@ test("scheduled read-only Chrome QA covers all 14 Advisors and enforces deployed
  assert.match(smoke,/await checkNoMerchant\(page, resultSelector\)/,
    "Incomplete answers must not expose merchant links");
 });
+
+// A green daily browser smoke must not silently skip the strict acquisition gate.
+test("scheduled and manual production QA enforce strict Mobility acquisition acceptance",()=>{
+ const workflow=read(".github/workflows/production-advisor-qa.yml");
+ assert.match(workflow,/if: github\.event_name != 'pull_request'\s*\n\s*run: node scripts\/audit-live-mobility-acquisition-184\.mjs/,
+  "Only PR predeploy may skip strict source-release Mobility acceptance");
+ assert.doesNotMatch(workflow,/if: github\.event_name == 'workflow_dispatch'\s*\n\s*run: node scripts\/audit-live-mobility-acquisition-184\.mjs/,
+  "Scheduled production QA must not silently skip strict Mobility acceptance");
+});

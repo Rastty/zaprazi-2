@@ -118,8 +118,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-bathroom-product-provenance.mjs
-      - name: Strict 0.8.184 Mobility acquisition paths (postdeploy only)
-        if: github.event_name == 'workflow_dispatch'
+      # PRs inspect the old live release; scheduled and manual postdeploy QA
+      # must validate the exact checked-out release and its Mobility handoffs.
+      - name: Strict Mobility acquisition paths (scheduled and postdeploy)
+        if: github.event_name != 'pull_request'
         run: node scripts/audit-live-mobility-acquisition-184.mjs
 
   editorial-seo-audit:

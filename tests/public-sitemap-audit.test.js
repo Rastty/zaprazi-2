@@ -215,7 +215,7 @@ test("public sitemap audit never prints untrusted loc or robots Sitemap tokens",
   const index = root + "/sitemap_index.xml";
   const page = root + "/page-sitemap.xml";
   const files = {
-    [root + "/robots.txt"]: "Sitemap: " + index + "\\nSitemap: https://external.invalid/collect?answer=" + secret,
+    [root + "/robots.txt"]: "Sitemap: " + index + "\nSitemap: https://external.invalid/collect?answer=" + secret,
     [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
     [page]: "<urlset><url><loc>" + root + "/choditka-pro-seniory/</loc></url></urlset>"
   };

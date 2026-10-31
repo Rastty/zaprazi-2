@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments } from "../scripts/lib/internal-link-health.mjs";
+import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport } from "../scripts/lib/internal-link-health.mjs";
 
 test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>{
   const pages=[
@@ -149,4 +149,27 @@ test("public link audit does not leak sensitive error text, headers or rejected 
   await assert.rejects(auditInternalTargets([
     {path:"/safe/?answer="+secret,sources:["/"]}
   ],async()=>{}),error=>!String(error).includes(secret)&&/Unsafe path/.test(String(error)));
+});
+
+test("public fragment audit never exposes health answers embedded in anchor IDs",()=>{
+  const canary="HEALTH_ANSWER_DO_NOT_LOG_621";
+  const targets=prepareInternalFragments([
+    {path:"/",links:["/choditka-pro-seniory/#answer_"+canary,
+      "/missing/#diagnosis_"+canary]}
+  ]);
+  const report=auditInternalFragments(targets,new Map([
+    ["/choditka-pro-seniory/",new Set(["unrelated-id"])]
+  ]));
+  assert.equal(report.broken.length,1);
+  assert.equal(report.unchecked.length,1);
+  assert.ok(JSON.stringify(report).includes(canary)); // Regression setup must exercise the leak.
+  const publicReport=publicFragmentReport(report);
+  assert.equal(publicReport.broken_count,1);
+  assert.equal(publicReport.unchecked_count,1);
+  assert.deepEqual(publicReport.affected_source_pages,["/"]);
+  assert.ok(!JSON.stringify(publicReport).includes(canary));
+  assert.ok(!JSON.stringify(publicReport).includes("diagnosis"));
+  assert.ok(!JSON.stringify(publicReport).includes("/missing/"));
+  assert.equal(Object.hasOwn(publicReport,"broken"),false);
+  assert.equal(Object.hasOwn(publicReport,"unchecked"),false);
 });

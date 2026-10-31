@@ -6,14 +6,15 @@ const read=path=>readFileSync(new URL("../"+path,import.meta.url),"utf8");
 
 test("rental page offers a reachable six-point call preparation without inventing prices",()=>{
   const page=read("page-pujceni-choditka.php");
-  assert.match(page,/href="#otazky-pujcovna">Připravit telefonát do půjčovny/);
+  assert.match(page,/href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny/);
   assert.match(page,/Šest věcí, které ověřte u půjčovny/);
   assert.doesNotMatch(page,/Pět věcí, které ověřte u půjčovny/);
-  const start=page.indexOf('<div id="otazky-pujcovna"');
+  const start=page.indexOf('<div id="zp-otazky-pujcovna"');
   const end=page.indexOf("</section>",start);
   assert.ok(start>0&&end>start,"Call prep must be inside the existing rental section");
   const section=page.slice(start,end);
   assert.match(section,/aria-labelledby="otazky-pujcovna-nadpis"/);
+  assert.match(read("style.css"),/\[id\^="zp-"\][^\n]*scroll-margin-top:/, "Anchor must use existing sticky-header offset");
   assert.match(section,/id="otazky-pujcovna-nadpis"/);
   assert.match(section,/<ol class="zp-checklist">/);
   assert.equal((section.match(/<li>/g)||[]).length,5,"Five short questions must be independently readable");
@@ -37,7 +38,7 @@ test("rental page offers a reachable six-point call preparation without inventin
 
 test("call preparation reuses existing light-on-dark accessible card style",()=>{
   const page=read("page-pujceni-choditka.php");
-  assert.match(page,/id="otazky-pujcovna" class="zp-system-empty zp-acquire-checklist"/);
+  assert.match(page,/id="zp-otazky-pujcovna" class="zp-system-empty zp-acquire-checklist"/);
   assert.match(read("style.css"),/\.zp-acquire-checklist\{[^}]*color:var\(--zp-ink\)/);
 });
 
@@ -58,8 +59,8 @@ test("rental price entry and FAQ remain explicitly dated when price evidence exp
   assert.match(page,/href="#ceny">Příklady cen \(ověřeno 6\. 10\. 2026\)/);
   assert.doesNotMatch(page,/href="#ceny">Aktuální příklady cen/);
   const prices=page.slice(page.indexOf('<section id="ceny"'),page.indexOf('<section id="rozpocet-pujceni-choditka"'));
-  assert.match(prices,/href="#otazky-pujcovna">Připravit pět otázek pro půjčovnu/);
-  assert.match(page,/id="otazky-pujcovna"/);
+  assert.match(prices,/href="#zp-otazky-pujcovna">Připravit pět otázek pro půjčovnu/);
+  assert.match(page,/id="zp-otazky-pujcovna"/);
   const faq=page.slice(page.indexOf('Rychlá orientace před půjčením.'),page.indexOf('Zdroje cen'));
   assert.equal((faq.match(/if \( ! \$zp_rental_is_fresh \) :/g)||[]).length,2,
     "Both price and deposit FAQs must mark expired evidence");

@@ -4,6 +4,9 @@
  * HTTP read requests are GET with redirect:'manual'; no writes are performed.
  */
 
+// Percent-encoded path segments are intentionally excluded from public GET audits:
+// a server may decode /%67o/ or /go%2Fmerchant/ into a click/affiliate route.
+// Only plain ASCII public page slugs are eligible for network probing.
 const blockedPath = /^\/(?:wp-|wp\/|go(?:\/|-|$)|out(?:\/|-|$)|click(?:\/|-|$)|affiliate(?:\/|-|$)|redirect(?:\/|-|$)|visit(?:\/|-|$)|track(?:\/|-|$))/i;
 
 // Public CI reports must never echo raw link parameters or Location headers.
@@ -37,7 +40,7 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
       if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
-          !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(path)) {
+          !/^\/(?:[a-z0-9_-]+\/)*$/i.test(path)) {
         excluded.push({source:page.path,why:"not_safe_public_page"});
         continue;
       }
@@ -57,7 +60,7 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
   for(let offset=0;offset<targets.length;offset+=4){
     const batch=targets.slice(offset,offset+4);
     const rows=await Promise.all(batch.map(async item=>{
-      if(!/^\/(?:[a-z0-9%_-]+\/)*$/i.test(item.path) || blockedPath.test(item.path))
+      if(!/^\/(?:[a-z0-9_-]+\/)*$/i.test(item.path) || blockedPath.test(item.path))
         throw new Error("Unsafe path selected for GET");
       try{
         const response=await fetcher(origin+item.path,{
@@ -109,7 +112,7 @@ export function prepareInternalFragments(sourcePages,origin="https://zaprazi.cz"
       try {url=new URL(href,origin+page.path);} catch {continue;}
       if(url.origin!==origin || !url.hash || url.search || url.username || url.password ||
           url.port || blockedPath.test(url.pathname) ||
-          !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(url.pathname))continue;
+          !/^\/(?:[a-z0-9_-]+\/)*$/i.test(url.pathname))continue;
       let fragment;
       try {fragment=decodeURIComponent(url.hash.slice(1));} catch {continue;}
       if(!fragment || fragment.length>120 || /[\x00-\x1f\x7f]/.test(fragment))continue;

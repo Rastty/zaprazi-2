@@ -58,7 +58,7 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
     const batch=targets.slice(offset,offset+4);
     const rows=await Promise.all(batch.map(async item=>{
       if(!/^\/(?:[a-z0-9%_-]+\/)*$/i.test(item.path) || blockedPath.test(item.path))
-        throw new Error("Unsafe path selected for GET: "+item.path);
+        throw new Error("Unsafe path selected for GET");
       try{
         const response=await fetcher(origin+item.path,{
           method:"GET",redirect:"manual",signal:AbortSignal.timeout(16000),
@@ -66,13 +66,18 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
         });
         const status=response.status;
         const location=response.headers?.get("location") || "";
-        const type=response.headers?.get("content-type") || "";
+        // Response headers are untrusted; never echo arbitrary header values to public CI logs.
+        const contentType=(response.headers?.get("content-type") || "").split(";")[0].trim().toLowerCase();
+        const type=contentType==="text/html"||contentType==="application/xhtml+xml"
+          ? contentType : contentType ? "other" : "missing";
         if(response.body?.cancel)await response.body.cancel();
         return {path:item.path,sources:item.sources,status,redirect:classifyRedirect(location,origin),type,
           outcome:status===200?"ok":status>=300&&status<400?"redirect":"bad_status"};
       }catch(error){
         return {path:item.path,sources:item.sources,status:null,outcome:"network_error",
-          reason:String(error).slice(0,180)};
+          // Fetch errors may embed request URLs, headers or tokens. Keep only a safe class.
+          reason:error?.name==="TimeoutError"||error?.name==="AbortError"
+            ? "timeout_or_aborted" : "request_failed"};
       }
     }));
     checked.push(...rows);

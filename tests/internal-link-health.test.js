@@ -48,7 +48,7 @@ test("network errors remain distinct from real HTTP 404",async()=>{
     async()=>{throw new Error("test offline");});
   assert.equal(data.broken[0].outcome,"network_error");
   assert.equal(data.broken[0].status,null);
-  assert.match(data.broken[0].reason,/offline/);
+  assert.equal(data.broken[0].reason,"request_failed");
 });
 
 test("fragment audit detects missing live DOM IDs even when target path is HTTP 200",()=>{
@@ -119,4 +119,34 @@ test("live link audit redacts sensitive URL parameters and redirect targets from
   assert.equal(invalid.redirects[0].redirect,"invalid");
   const absent=await auditInternalTargets(target,response(""));
   assert.equal(absent.redirects[0].redirect,"missing");
+});
+
+
+test("public link audit does not leak sensitive error text, headers or rejected paths",async()=>{
+  const secret="HEALTH_ANSWER_DO_NOT_LOG_731";
+  const rows=[{path:"/safe/",sources:["/"]}];
+  const errorReport=await auditInternalTargets(rows,async()=>{
+    throw new Error("fetch failed for https://zaprazi.cz/safe/?answer="+secret);
+  });
+  assert.equal(errorReport.broken[0].reason,"request_failed");
+  assert.ok(!JSON.stringify(errorReport).includes(secret));
+
+  const headerReport=await auditInternalTargets(rows,async()=>({
+    status:200,
+    headers:{get:name=>name==="content-type"?"text/html; answer="+secret:""},
+    body:{cancel:async()=>{}}
+  }));
+  assert.equal(headerReport.checked_paths[0].type,"text/html");
+  assert.ok(!JSON.stringify(headerReport).includes(secret));
+
+  const weirdHeader=await auditInternalTargets(rows,async()=>({
+    status:200,headers:{get:name=>name==="content-type"?"custom/"+secret:""},
+    body:{cancel:async()=>{}}
+  }));
+  assert.equal(weirdHeader.checked_paths[0].type,"other");
+  assert.ok(!JSON.stringify(weirdHeader).includes(secret));
+
+  await assert.rejects(auditInternalTargets([
+    {path:"/safe/?answer="+secret,sources:["/"]}
+  ],async()=>{}),error=>!String(error).includes(secret)&&/Unsafe path/.test(String(error)));
 });

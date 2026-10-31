@@ -374,3 +374,38 @@ test("Googlebot robots gate follows specific-group precedence and merges equal-s
   assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot\nDisallow: /\nAllow: /"), false);
   assert.equal(robotsHasWildcardRootBlock("User-agent: *\nAllow: /\nUser-agent: Googlebot\nDisallow: /"), false);
 });
+
+
+test("public sitemap samples never expose unlisted pathname secrets", async () => {
+  const secret = "PRIVATE_HEALTH_ANSWER_DO_NOT_LOG_20261031";
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const unlisted = root + "/unexpected-" + secret + "/";
+  const canonical = requiredDecisionPaths.map(path =>
+    "<url><loc>" + root + path + "</loc></url>").join("");
+  const duplicate = "<url><loc>" + unlisted + "</loc></url>";
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset>" + canonical +
+      "<url><loc>" + unlisted + "?answer=" + secret + "</loc></url>" +
+      duplicate + "</urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.equal(report.leaf_sitemaps[0].duplicate_count, 1);
+  assert.deepEqual(report.leaf_sitemaps[0].duplicate_paths, ["unlisted_path"]);
+  assert.deepEqual(report.duplicate_paths_sample, ["unlisted_path"]);
+  assert.deepEqual(report.noncanonical_urls_sample,
+    [{path: "unlisted_path", issue: "query"}]);
+  assert.equal(report.noncanonical_urls_count, 1);
+  assert.ok(!JSON.stringify(report).includes(secret),
+    "Public CI artifacts must not contain untrusted pathname or query data");
+  assert.throws(() => assertPublicSitemapHealthy(report), /Duplicate paths/);
+
+  files[page] = files[page].replace(duplicate, "");
+  const noncanonical = await auditPublicSitemap(mock(files).get);
+  assert.equal(noncanonical.leaf_sitemaps[0].duplicate_count, 0);
+  assert.deepEqual(noncanonical.duplicate_paths_sample, []);
+  assert.ok(!JSON.stringify(noncanonical).includes(secret));
+  assert.throws(() => assertPublicSitemapHealthy(noncanonical), /Noncanonical/);
+});

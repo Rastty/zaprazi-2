@@ -69,7 +69,14 @@ const decode = text => text.replace(/&(?:amp|quot|apos|lt|gt|#x[0-9a-f]+|#\d+);/
 });
 
 export function extractLocs(xml) {
-  return [...String(xml).matchAll(/<loc(?:\s[^>]*)?>\s*([^<]*?)\s*<\/loc\s*>/gi)]
+  // XML comments and CDATA are not sitemap entries. Counting <loc> tags in
+  // either could falsely certify an important page as discoverable in Yoast's
+  // public sitemap. Fail closed on unterminated sections, without echoing XML.
+  const visible = String(xml).replace(/<!--[\s\S]*?-->|<!\[CDATA\[[\s\S]*?\]\]>/g, "");
+  if (/<!--|<!\[CDATA\[/.test(visible)) {
+    throw new Error("Malformed sitemap XML comment or CDATA");
+  }
+  return [...visible.matchAll(/<loc(?:\s[^>]*)?>\s*([^<]*?)\s*<\/loc\s*>/gi)]
     .map(match => decode(match[1].trim()));
 }
 

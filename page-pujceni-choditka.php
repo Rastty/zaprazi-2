@@ -31,7 +31,7 @@ get_header();
       <article class="zp-card">
         <p class="zp-kicker">Krátkodobá potřeba</p>
         <h2>Půjčení může být praktičtější.</h2>
-        <p>Po operaci, úrazu nebo při čekání na dlouhodobé řešení může pronájem omezit jednorázový výdaj a umožnit ověřit, jaký typ pomůcky člověku skutečně vyhovuje.</p>
+        <p>Po operaci, úrazu nebo při čekání na dlouhodobé řešení může pronájem omezit jednorázový výdaj, ale až po bezpečném výběru typu a ověření potřebných parametrů. Samotné zapůjčení neprokazuje, že je pomůcka pro konkrétního člověka vhodná.</p>
       </article>
       <article class="zp-card">
         <p class="zp-kicker">Dlouhodobá potřeba</p>
@@ -137,7 +137,7 @@ get_header();
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
           <h3>Půjčit</h3>
-          <p>Dává větší smysl, když je potřeba pravděpodobně krátkodobá, chcete nejdřív ověřit vhodný typ nebo čekáte na další rozhodnutí o dlouhodobém řešení.</p>
+          <p>Dává větší smysl, když je potřeba pravděpodobně krátkodobá nebo čekáte na dlouhodobé řešení a bezpečně vybraný typ i jeho parametry už máte ověřené. Půjčovna ani nižší cena nenahrazují posouzení vhodnosti.</p>
         </article>
         <article class="zp-decision-card">
           <h3>Koupit</h3>
@@ -211,7 +211,7 @@ get_header();
       </details>
       <details>
         <summary>Vyplatí se půjčení po operaci?</summary>
-        <p>Často může být praktické, pokud je potřeba dočasná. Nejdřív ale musí sedět typ pomůcky; cena pronájmu sama o sobě není důvod používat nevhodné chodítko.</p>
+        <p>Při dočasné potřebě může být půjčení praktické, ale po operaci je nejdřív potřeba ověřit s ošetřujícím odborníkem, jakou oporu a způsob použití člověk bezpečně zvládá. Cena ani dostupnost půjčovny nejsou potvrzením vhodnosti.</p>
       </details>
       <details>
         <summary>Mohu si půjčit chodítko, než vyřídím ePoukaz?</summary>

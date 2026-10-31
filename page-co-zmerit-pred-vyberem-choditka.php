@@ -70,14 +70,15 @@ get_header();
     <div class="zp-wrap">
       <p class="zp-kicker">Kontrolní seznam pro rodinu</p>
       <h2 class="zp-section-title">Co si napsat na papír před otevřením poradce?</h2>
-      <p>Níže si můžete zapsat <strong>rozměry prostředí a požadavky na výrobek</strong>. Nevyplňujte zde diagnózy ani osobní informace. Zápraží žádná čísla z tohoto seznamu nesbírá.</p>
+      <p>Níže si můžete zapsat <strong>rozměry prostředí a požadavky na výrobek</strong>. Nevyplňujte zde diagnózy ani osobní informace. Zápraží žádná čísla z tohoto seznamu nesbírá. Pokud je na trase práh, projděte také <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">návod na změření prahu</a>; samotné kolečko nebo nájezd není zárukou bezpečného překonání.</p>
       <div class="zp-check-grid">
         <div><span>01</span><strong>Nejužší průchod</strong><p>Změřeno: ______ cm · místnost: ______</p></div>
         <div><span>02</span><strong>Místo pro otočení</strong><p>Nejužší roh nebo prostor před WC: ______</p></div>
         <div><span>03</span><strong>Výška madel</strong><p>Potřebný rozsah ověřit s konkrétním člověkem a návodem.</p></div>
-        <div><span>04</span><strong>Brzdy a sedátko</strong><p>Rollátor: bezpečné ovládání a vhodné rozměry ověřit.</p></div>
-        <div><span>05</span><strong>Nosnost a návod</strong><p>Ověřit přesnou variantu a bezpečné používání.</p></div>
-        <div><span>06</span><strong>Složení a převoz</strong><p>Potřebné rozměry pro kufr nebo úložný prostor: ______</p></div>
+        <div><span>04</span><strong>Prahy a podlaha</strong><p>Volné koberce, kabely, mokrá místa a prahy na trase: ______ · bezpečné řešení ověřit.</p></div>
+        <div><span>05</span><strong>Brzdy a sedátko</strong><p>Rollátor: bezpečné ovládání a vhodné rozměry ověřit.</p></div>
+        <div><span>06</span><strong>Nosnost a návod</strong><p>Ověřit přesnou variantu a bezpečné používání.</p></div>
+        <div><span>07</span><strong>Složení a převoz</strong><p>Potřebné rozměry pro kufr nebo úložný prostor: ______</p></div>
       </div>
       <p class="zp-disclaimer">Rozměry místnosti a technické údaje pomáhají vyloučit nevhodný model, ale samy o sobě nezaručují bezpečnou chůzi. Při nejistotě pomůcku nejprve vyzkoušejte pod dohledem odborníka.</p>
     </div>

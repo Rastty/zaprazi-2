@@ -68,3 +68,17 @@ test("dated rental entry and provider links never claim live pricing after expir
   assert.match(expired,/Připravit telefonát do půjčovny/);
   assert.doesNotMatch(expired,/data-zp-merchant-link|data-zp-offer|data-monthly-price=/);
 });
+
+test("manufacturer instructions and rollator transport warning survive both rental price states",()=>{
+  for(const date of ["2026-11-06","2026-11-07"]){
+    const html=renderRentalAt(date);
+    const start=html.indexOf('id="zp-otazky-pujcovna"');
+    const end=html.indexOf("</section>",start);
+    assert.ok(start>=0&&end>start,"Call preparation must render on "+date);
+    const section=html.slice(start,end);
+    assert.match(section,/předá návod ke konkrétnímu modelu/);
+    assert.match(section,/sedátko samo o sobě neznamená, že na pomůcce smíte převážet sedící osobu/);
+    assert.match(section,/Pokud návod chybí nebo si nejste jistí, pomůcku k převozu nepoužívejte/);
+    assert.doesNotMatch(section,/data-zp-offer|data-zp-merchant-link|<form|<input/i);
+  }
+});

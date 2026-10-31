@@ -239,3 +239,29 @@ test("public sitemap audit never prints untrusted loc or robots Sitemap tokens",
   await assert.rejects(auditPublicSitemap(mock(files).get), error =>
     /external or unsafe/.test(error.message) && !error.message.includes(secret));
 });
+
+
+test("commented-out or CDATA locs cannot falsely satisfy the public SEO gate", async () => {
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const hidden = requiredDecisionPaths[0];
+  const visible = requiredDecisionPaths.slice(1)
+    .map(path => "<url><loc>" + root + path + "</loc></url>").join("");
+  const files = {
+    [root + "/robots.txt"]: "Sitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset>" + visible +
+      "<!-- <url><loc>" + root + hidden + "</loc></url> -->" +
+      "<![CDATA[<url><loc>" + root + hidden + "</loc></url>]]></urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.equal(report.total_url_entries, requiredDecisionPaths.length - 1);
+  assert.ok(report.required_decision_paths_missing.includes(hidden));
+  assert.throws(() => assertPublicSitemapHealthy(report), /Missing required decision paths/);
+  assert.deepEqual(extractLocs("<urlset><!-- <loc>ignored</loc> --><loc>visible</loc></urlset>"),
+    ["visible"]);
+  assert.throws(() => extractLocs("<urlset><!-- <loc>hidden</loc></urlset>"),
+    /Malformed sitemap XML comment/);
+  assert.throws(() => extractLocs("<urlset><![CDATA[<loc>hidden</loc></urlset>"),
+    /Malformed sitemap XML comment or CDATA/);
+});

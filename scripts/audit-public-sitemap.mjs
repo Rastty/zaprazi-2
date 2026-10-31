@@ -203,7 +203,7 @@ export function assertPublicSitemapHealthy(report) {
   // Compare only static approved paths; never echo query/fragment values.
   const misplaced = requiredDecisionPaths.filter(path => {
     const location = report.required_decision_path_locations?.[path];
-    return !location || !/^\\/page-sitemap\\d*\\.xml$/.test(location.sitemap) ||
+    return !location || !/^\/page-sitemap\d*\.xml$/.test(location.sitemap) ||
       location.url !== "https://zaprazi.cz" + path || location.noncanonical;
   });
   if (misplaced.length) {

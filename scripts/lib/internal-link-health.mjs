@@ -72,7 +72,10 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
           ? contentType : contentType ? "other" : "missing";
         if(response.body?.cancel)await response.body.cancel();
         return {path:item.path,sources:item.sources,status,redirect:classifyRedirect(location,origin),type,
-          outcome:status===200?"ok":status>=300&&status<400?"redirect":"bad_status"};
+          // A soft-200 JSON, download or empty MIME response is not a usable HTML page.
+          outcome:status===200
+            ? (type==="text/html"||type==="application/xhtml+xml"?"ok":"non_html_200")
+            : status>=300&&status<400?"redirect":"bad_status"};
       }catch(error){
         return {path:item.path,sources:item.sources,status:null,outcome:"network_error",
           // Fetch errors may embed request URLs, headers or tokens. Keep only a safe class.
@@ -84,7 +87,7 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
   }
   return {
     checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
-    broken:checked.filter(x=>["bad_status","network_error"].includes(x.outcome)),
+    broken:checked.filter(x=>["bad_status","network_error","non_html_200"].includes(x.outcome)),
     redirects:checked.filter(x=>x.outcome==="redirect"), checked_paths:checked,
     limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };

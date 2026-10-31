@@ -68,6 +68,7 @@ test("evidence-backed aggregate data may raise review priority without inventing
 });
 test("public growth evidence links reject tokens, credentials and malformed HTTPS",()=>{
   const s=clone(blank);
+  s.asOf="2026-10-31";
   s.metrics.organic_clicks_28d=12;
   s.metricSources.organic_clicks_28d="https://example.org/gsc/aggregate-report";
   assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,12);
@@ -86,6 +87,29 @@ test("public growth evidence links reject tokens, credentials and malformed HTTP
   assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="safety_qa").status,"verified");
   s.nodes.safety_qa.evidenceUrl="https://github.com/Rastty/zaprazi-2/actions/runs/123?token=secret";
   assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+});
+test("28-day evidence must be dated and event counts must be whole numbers",()=>{
+  const s=clone(blank);
+  s.metrics.organic_clicks_28d=12;
+  s.metricSources.organic_clicks_28d="https://example.org/gsc-aggregate";
+  assert.throws(()=>planGrowth(graph,s),/observation date/);
+  s.asOf="2026-10-31";
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,12);
+  for(const invalid of [0.5,12.5,Number.MAX_SAFE_INTEGER+1]){
+    s.metrics.organic_clicks_28d=invalid;
+    assert.throws(()=>planGrowth(graph,s),/Invalid or unsupported aggregate metric/);
+  }
+  s.metrics.organic_clicks_28d=12;
+  s.metrics.approved_affiliate_commission_28d=18.75;
+  s.metricSources.approved_affiliate_commission_28d="https://example.org/affiliate-approved";
+  assert.equal(planGrowth(graph,s).metrics.approved_affiliate_commission_28d,18.75);
+  delete s.metrics.organic_clicks_28d;
+  delete s.metricSources.organic_clicks_28d;
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,null);
+  delete s.metrics.approved_affiliate_commission_28d;
+  delete s.metricSources.approved_affiliate_commission_28d;
+  s.asOf=null;
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,null);
 });
 test("malformed states and unknown nodes fail closed",()=>{
   const s=clone(blank);

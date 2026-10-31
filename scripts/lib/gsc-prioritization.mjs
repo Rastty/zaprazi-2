@@ -88,6 +88,9 @@ function canonicalPath(s){
 }
 function toRow(row,ix,kind){
   const clicks=positiveCount(row[ix.clicks]),impressions=positiveCount(row[ix.impressions]);
+  // Both counts are from the same GSC dimension and export period. A click
+  // without an impression would produce an impossible CTR and false SEO triage.
+  if(clicks>impressions)throw new Error("GSC clicks exceed impressions; verify CSV export");
   const position=positivePosition(row[ix.position]);
   const name=String(row[ix[kind]]??"").trim();
   if(!name)throw new Error("Empty GSC "+kind+" dimension");

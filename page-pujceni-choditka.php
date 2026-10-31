@@ -177,7 +177,7 @@ get_header();
         <article><h3>Dostupnost</h3><p>Ceník neznamená, že konkrétní model je právě volný. Potvrďte termín předem.</p></article>
         <article><h3>Stav a nastavení</h3><p>Při převzetí ověřte technický stav, brzdy, výšku madel a způsob bezpečného použití.</p></article>
       </div>
-      <div id="zp-otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" aria-labelledby="otazky-pujcovna-nadpis">
+      <div id="zp-otazky-pujcovna" class="zp-system-empty zp-acquire-checklist" role="region" tabindex="-1" aria-labelledby="otazky-pujcovna-nadpis">
         <h3 id="otazky-pujcovna-nadpis">Co říct při telefonátu do půjčovny</h3>
         <p>Otázky si můžete při hovoru přečíst jednu po druhé. Nic nevyplňujete ani neodesíláte.</p>
         <ol class="zp-checklist">

@@ -6,6 +6,19 @@
 
 const blockedPath = /^\/(?:wp-|wp\/|go(?:\/|-|$)|out(?:\/|-|$)|click(?:\/|-|$)|affiliate(?:\/|-|$)|redirect(?:\/|-|$)|visit(?:\/|-|$)|track(?:\/|-|$))/i;
 
+// Public CI reports must never echo raw link parameters or Location headers.
+// They can contain tracking tokens or user-provided sensitive answers.
+function classifyRedirect(location, origin) {
+  if (!location) return "missing";
+  try {
+    const target = new URL(location, origin);
+    return target.origin === origin && !target.username && !target.password
+      ? "same_origin" : "off_origin_or_unsafe";
+  } catch {
+    return "invalid";
+  }
+}
+
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
   const targets=new Map(), excluded=[];
@@ -19,13 +32,13 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
       if (u.protocol!=="https:" && u.protocol!=="http:") {
         excluded.push({source:page.path,why:"unsafe_protocol"});continue;
       }
-      if (u.protocol==="http:") excluded.push({source:page.path,why:"http_internal",href:u.href});
+      if (u.protocol==="http:") excluded.push({source:page.path,why:"http_internal"});
       const path=u.pathname;
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
       if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
           !/^\/(?:[a-z0-9%_-]+\/)*$/i.test(path)) {
-        excluded.push({source:page.path,why:"not_safe_public_page",href:u.href});
+        excluded.push({source:page.path,why:"not_safe_public_page"});
         continue;
       }
       if (!targets.has(path))targets.set(path,new Set());
@@ -55,7 +68,7 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
         const location=response.headers?.get("location") || "";
         const type=response.headers?.get("content-type") || "";
         if(response.body?.cancel)await response.body.cancel();
-        return {path:item.path,sources:item.sources,status,redirect:location,type,
+        return {path:item.path,sources:item.sources,status,redirect:classifyRedirect(location,origin),type,
           outcome:status===200?"ok":status>=300&&status<400?"redirect":"bad_status"};
       }catch(error){
         return {path:item.path,sources:item.sources,status:null,outcome:"network_error",

@@ -83,7 +83,12 @@ const sitePath = url => {
 };
 
 async function getText(fetcher, href) {
-  const response = await fetcher(href, { signal: AbortSignal.timeout(15000) });
+  // Do not follow 3xx responses: a compromised sitemap/robots endpoint must
+  // never send our read-only audit to an external host. A redirect is a
+  // failed audit, not an instruction to fetch a new destination.
+  const response = await fetcher(href, {
+    signal: AbortSignal.timeout(15000), redirect: "manual"
+  });
   if (response.status !== 200) throw new Error("HTTP " + response.status + " from " + href);
   const body = await response.text();
   if (body.length > 5_000_000) throw new Error("Unexpected sitemap payload size: " + href);

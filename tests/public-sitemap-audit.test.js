@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy, robotsHasWildcardRootBlock } from "../scripts/audit-public-sitemap.mjs";
+import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy, robotsHasWildcardRootBlock, robotsHasGooglebotRootBlock } from "../scripts/audit-public-sitemap.mjs";
 
 const root = "https://zaprazi.cz";
 function mock(files) {
@@ -341,4 +341,36 @@ test("robots.txt wildcard root block fails SEO gate without confusing bot-specif
   const allowed = await auditPublicSitemap(mock(files).get);
   assert.equal(allowed.robots_wildcard_root_block, false);
   assert.equal(assertPublicSitemapHealthy(allowed).status, "healthy_public_xml");
+});
+
+test("Googlebot-specific robots root block fails even when wildcard crawling is allowed", async () => {
+  const index = root + "/sitemap_index.xml";
+  const page = root + "/page-sitemap.xml";
+  const files = {
+    [root + "/robots.txt"]: "User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nDisallow: /\nSitemap: " + index,
+    [index]: "<sitemapindex><loc>" + page + "</loc></sitemapindex>",
+    [page]: "<urlset>" + requiredDecisionPaths
+      .map(path => "<url><loc>" + root + path + "</loc></url>").join("") + "</urlset>"
+  };
+  const report = await auditPublicSitemap(mock(files).get);
+  assert.equal(report.robots_wildcard_root_block, false);
+  assert.equal(report.robots_googlebot_root_block, true);
+  assert.deepEqual(report.required_decision_paths_missing, []);
+  assert.throws(() => assertPublicSitemapHealthy(report), /blocks Googlebot crawling/);
+
+  files[root + "/robots.txt"] = "User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nDisallow: /private/\nSitemap: " + index;
+  const allowed = await auditPublicSitemap(mock(files).get);
+  assert.equal(allowed.robots_googlebot_root_block, false);
+  assert.equal(assertPublicSitemapHealthy(allowed).status, "healthy_public_xml");
+});
+
+test("Googlebot robots gate follows specific-group precedence and merges equal-specificity groups", () => {
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: *\nDisallow: /"), true);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: *\nAllow: /\nUser-agent: Googlebot\nDisallow: /"), true);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: *\nDisallow: /\nUser-agent: Googlebot\nAllow: /"), false);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot-Image\nDisallow: /\nUser-agent: *\nAllow: /"), false);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot\nDisallow: /\n\nUser-agent: Googlebot\nAllow: /"), false);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot\nDisallow: /private/"), false);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot\nDisallow: /\nAllow: /"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nAllow: /\nUser-agent: Googlebot\nDisallow: /"), false);
 });

@@ -100,7 +100,7 @@ const sitePath = url => {
  * The exact "Allow: /" tie is allowed under longest-match robots rules.
  * Do not emit untrusted robots lines into public CI artifacts.
  */
-export function robotsHasWildcardRootBlock(robots) {
+function parseRobotsGroups(robots) {
   const groups = [];
   let agents = [], rules = [];
   const flush = () => {
@@ -126,9 +126,34 @@ export function robotsHasWildcardRootBlock(robots) {
     }
   }
   flush();
-  return groups.some(group => group.agents.includes("*") &&
-    group.rules.some(r => r.key === "disallow" && r.value === "/") &&
-    !group.rules.some(r => r.key === "allow" && r.value === "/"));
+  return groups;
+}
+
+function blocksRoot(rules) {
+  // For the exact root path, Google's equal-length Allow rule wins a tie.
+  return rules.some(r => r.key === "disallow" && r.value === "/") &&
+    !rules.some(r => r.key === "allow" && r.value === "/");
+}
+
+export function robotsHasWildcardRootBlock(robots) {
+  return parseRobotsGroups(robots).some(group =>
+    group.agents.includes("*") && blocksRoot(group.rules));
+}
+
+/**
+ * Googlebot uses its explicit group instead of User-agent: *. A wildcard
+ * Allow: / must not hide a Googlebot-specific Disallow: /, otherwise a
+ * healthy sitemap could be reported while Google cannot crawl the site.
+ * Multiple matching Googlebot groups are combined (same specificity).
+ * This narrow guard detects an exact root-wide block, not every robots
+ * wildcard pattern or Google's actual indexing decisions.
+ */
+export function robotsHasGooglebotRootBlock(robots) {
+  const groups = parseRobotsGroups(robots);
+  const specific = groups.filter(group => group.agents.includes("googlebot"));
+  const applicable = specific.length ? specific :
+    groups.filter(group => group.agents.includes("*"));
+  return blocksRoot(applicable.flatMap(group => group.rules));
 }
 
 async function getText(fetcher, href) {
@@ -233,6 +258,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     limitations: "Public XML discovery only; not Google indexation, traffic, ranking, or backlinks.",
     robots_sitemaps: advertised,
     robots_wildcard_root_block: robotsHasWildcardRootBlock(robots),
+    robots_googlebot_root_block: robotsHasGooglebotRootBlock(robots),
     index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount,
       noncanonical: noncanonicalIndexCount },
     leaf_sitemaps: reports,
@@ -260,7 +286,8 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
 export function assertPublicSitemapHealthy(report) {
   if (!report || !Array.isArray(report.required_decision_paths_missing) ||
       !Array.isArray(report.robots_sitemaps) ||
-      typeof report.robots_wildcard_root_block !== "boolean" || !Array.isArray(report.leaf_sitemaps) ||
+      typeof report.robots_wildcard_root_block !== "boolean" ||
+      typeof report.robots_googlebot_root_block !== "boolean" || !Array.isArray(report.leaf_sitemaps) ||
       !Array.isArray(report.duplicate_paths_sample) || !report.index ||
       !Number.isInteger(report.noncanonical_urls_count) ||
       !Number.isInteger(report.index.noncanonical)) {
@@ -275,6 +302,9 @@ export function assertPublicSitemapHealthy(report) {
   }
   if (report.robots_wildcard_root_block) {
     throw new Error("robots.txt blocks public crawling for wildcard user-agents");
+  }
+  if (report.robots_googlebot_root_block) {
+    throw new Error("robots.txt blocks Googlebot crawling at the site root");
   }
   if (report.index.http !== 0 || report.leaf_sitemaps.some(s => s.http !== 0)) {
     throw new Error("Public sitemap contains HTTP locs instead of HTTPS");

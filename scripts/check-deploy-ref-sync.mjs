@@ -5,7 +5,7 @@
  * No WordPress access, ref updates, credentials or deploy actions.
  */
 import {execFileSync} from "node:child_process";
-import {fileURLToPath} from "node:url";
+import {pathToFileURL} from "node:url";
 import {resolve} from "node:path";
 
 const REPO="https://github.com/Rastty/zaprazi-2.git";
@@ -49,7 +49,7 @@ export function runDeployPreflight(){
   return verifyDeployRefs(remote,head);
 }
 
-if(process.argv[1]&&import.meta.url===new URL("file://"+resolve(process.argv[1])).href){
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
   try{
     if(process.argv.length!==2)throw new Error("Usage: node scripts/check-deploy-ref-sync.mjs");
     console.log("ZP_DEPLOY_REF_PREFLIGHT",JSON.stringify(runDeployPreflight()));

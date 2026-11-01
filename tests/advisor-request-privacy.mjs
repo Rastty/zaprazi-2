@@ -13,11 +13,16 @@ export function requestContainsAdvisorAnswer(request, answer) {
   const value = escapeRe(answer.value);
   // JSON event payloads and URL/form/GA4-style event parameters.
   const json = new RegExp('["\\\']' + key + '["\\\']\\s*:\\s*["\\\']' + value + '["\\\']');
-  const form = new RegExp('(?:^|[?&#;&=\\s])(?:ep\\.|epn\\.)?' + key +
+  const form = new RegExp('(?:^|[?&#;&=\\s])(?:ep\\.|epn\\.|up\\.|upn\\.)?' + key +
     '=' + value + '(?=$|[&#;&\\s])');
   // Analytics can also place answer pairs in Referer, Cookie or custom
   // request headers. Puppeteer exposes these synchronously for this canary.
   // Inspect only in memory; never print headers or answer values.
+  // Some telemetry serializes parameters as {name, value: {string_value}}.
+  // These pairs must not carry Advisor answers even without a direct JSON key.
+  const namedParam = new RegExp('"name"\\s*:\\s*"' + key +
+    '"\\s*,\\s*"value"\\s*:\\s*(?:\\{\\s*"(?:string_value|stringValue)"\\s*:\\s*)?"' +
+    value + '"');
   const headers = typeof request.headers === "function" ? request.headers() : {};
   if (!headers || typeof headers !== "object" || Array.isArray(headers))
     throw new TypeError("Malformed request headers");
@@ -29,7 +34,14 @@ export function requestContainsAdvisorAnswer(request, answer) {
   for (const raw of surfaces) {
     let decoded = String(raw);
     for (let depth = 0; depth < 4; depth++) {
-      if (json.test(decoded) || form.test(decoded)) return true;
+      if (json.test(decoded) || form.test(decoded) || namedParam.test(decoded)) return true;
+      // application/x-www-form-urlencoded uses '+' for spaces.
+      // Inspect it without changing or logging the original request.
+      if (decoded.includes("+")) {
+        const formDecoded = decoded.replace(/\\+/g, " ");
+        if (json.test(formDecoded) || form.test(formDecoded) ||
+            namedParam.test(formDecoded)) return true;
+      }
       try {
         const next = decodeURIComponent(decoded);
         if (next === decoded) break;

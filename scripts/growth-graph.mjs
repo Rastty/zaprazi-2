@@ -58,7 +58,7 @@ export function validateGraph(g){
   return g;
 }
 
-export function planGrowth(g,s){
+export function planGrowth(g,s,now=new Date()){
   validateGraph(g);
   if(!s||s.schemaVersion!==1||typeof s.metrics!=="object"||!s.metrics||
       Array.isArray(s.metrics)||typeof s.metricSources!=="object"||!s.metricSources||
@@ -110,13 +110,27 @@ export function planGrowth(g,s){
   // An undated 28-day aggregate cannot be compared or used to prioritize work.
   if(Object.keys(s.metrics).length&&s.asOf==null)
     throw new Error("Aggregate metrics require observation date");
+  // A dated aggregate can be genuine but too old to guide today's priorities.
+  // Keep its reported value visible; suppress only its automatic score uplift.
+  // Use the project's Prague calendar date to avoid midnight CET/UTC skew.
+  if(!(now instanceof Date)||Number.isNaN(now.getTime()))
+    throw new Error("Invalid planning reference date");
+  const today=new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Prague",
+    year:"numeric",month:"2-digit",day:"2-digit"}).format(now);
+  if(s.asOf!=null&&s.asOf>today)
+    throw new Error("Observation date cannot be in the future");
+  const ageDays=s.asOf==null?null:
+    Math.round((Date.parse(today+"T00:00:00Z")-Date.parse(s.asOf+"T00:00:00Z"))/86400000);
+  const evidenceFresh=ageDays!==null&&ageDays<=14;
+  const evidenceFreshness=Object.keys(s.metrics).length===0?"unknown":
+    evidenceFresh?"fresh":"stale";
   const m=s.metrics;
   const uplift={
-    intent_evidence:(m.organic_impressions_28d??0)>=100?8:0,
-    affiliate_audit:(m.merchant_clicks_28d??0)>=20&&
+    intent_evidence:evidenceFresh&&(m.organic_impressions_28d??0)>=100?8:0,
+    affiliate_audit:evidenceFresh&&(m.merchant_clicks_28d??0)>=20&&
       Object.hasOwn(m,"approved_affiliate_commission_28d")&&
       m.approved_affiliate_commission_28d===0?8:0,
-    conversion_ux:(m.advisor_starts_28d??0)>=30&&
+    conversion_ux:evidenceFresh&&(m.advisor_starts_28d??0)>=30&&
       Object.hasOwn(m,"advisor_completes_28d")&&
       percent(m.advisor_completes_28d,m.advisor_starts_28d)<0.4?5:0
   };
@@ -132,13 +146,14 @@ export function planGrowth(g,s){
   });
   const rank={in_progress:0,ready:1,waiting_dependencies:2,paused:3,verified:4};
   tasks.sort((a,b)=>rank[a.status]-rank[b.status]||b.score-a.score||a.id.localeCompare(b.id));
-  return {asOf:s.asOf??null,metrics:Object.fromEntries(METRICS.map(k=>[k,m[k]??null])),
+  return {asOf:s.asOf??null,evidenceFreshness,metrics:Object.fromEntries(METRICS.map(k=>[k,m[k]??null])),
     tasks,next:tasks.filter(t=>t.status==="ready"||t.status==="in_progress").slice(0,3),
     limitations:[
       "Chybějící metrika je unknown, nikoli nula.",
       "GSC, GA4 (consented sample) a affiliate network mají odlišnou atribuci; nepropojovat řádky ani nevyvozovat prodeje z kliků.",
       "Pravidla jsou plánovací, nikoli oprávnění měnit bezpečnostní engine, indexaci nebo produkci bez PR a smoke.",
-      "Uplift skóre znamená prioritu revize, nikoliv odhad nárůstu návštěvnosti či provize."
+      "Uplift skóre znamená prioritu revize, nikoliv odhad nárůstu návštěvnosti či provize.",
+      ...(evidenceFreshness==="stale"?["Doložené agregáty jsou starší než 14 dní; zůstávají viditelné, ale nesmějí zvýšit prioritu."]:[])
     ]};
 }
 export function renderGrowthPlan(p){
@@ -153,6 +168,7 @@ export function renderGrowthPlan(p){
   return [
     "# Zápraží Growth Graph — řídicí plán",
     "Pozorování: "+(p.asOf??"nebylo dodáno")+"; bez výkonnostních důkazů nejsou žádné výsledky přisuzovány změnám.",
+    "Aktuálnost agregátů: "+(p.evidenceFreshness==="stale"?"ZASTARALÉ (více než 14 dní)":p.evidenceFreshness==="fresh"?"aktuální (nejvýše 14 dní)":"UNKNOWN")+".",
     "## Skutečné agregované metriky",
     ...Object.entries(p.metrics).map(([k,v])=>"- "+metricNames[k]+": "+(v===null?"UNKNOWN":v)),
     "## 3 další bezpečně proveditelné uzly",

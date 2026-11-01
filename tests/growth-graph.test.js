@@ -55,7 +55,7 @@ test("evidence-backed aggregate data may raise review priority without inventing
     approved_affiliate_commission_28d:"https://example.org/affiliate-approved",
     organic_impressions_28d:"https://example.org/gsc-summary"
   };
-  const p=planGrowth(graph,s);
+  const p=planGrowth(graph,s,new Date("2026-11-01T12:00:00Z"));
   assert.equal(p.tasks.find(x=>x.id==="affiliate_audit").score,92);
   assert.equal(p.tasks.find(x=>x.id==="intent_evidence").score,98);
   assert.equal(p.metrics.organic_clicks_28d,null);
@@ -166,4 +166,39 @@ test("unverified node evidence cannot leak tokens or private fields into public 
   assert.throws(()=>planGrowth(graph,s),/Unsupported node state field/);
   s.nodes.safety_qa={status:"pending",evidenceUrl:null};
   assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+});
+
+test("stale or future-dated aggregates never silently drive graph priority",()=>{
+  const s=clone(blank);
+  s.asOf="2026-10-17"; // 15 days before the Prague planning date
+  s.metrics={organic_impressions_28d:150,merchant_clicks_28d:25,
+    approved_affiliate_commission_28d:0};
+  s.metricSources={
+    organic_impressions_28d:"https://example.org/gsc-summary",
+    merchant_clicks_28d:"https://example.org/ga4-aggregate",
+    approved_affiliate_commission_28d:"https://example.org/approved-aggregate"
+  };
+  const now=new Date("2026-11-01T12:00:00Z");
+  const stale=planGrowth(graph,s,now);
+  assert.equal(stale.evidenceFreshness,"stale");
+  assert.equal(stale.tasks.find(x=>x.id==="intent_evidence").score,90);
+  assert.equal(stale.tasks.find(x=>x.id==="affiliate_audit").score,84);
+  assert.equal(stale.metrics.organic_impressions_28d,150,
+    "Old but sourced evidence stays visible, never becomes zero");
+  assert.match(renderGrowthPlan(stale),/ZASTARALÉ/);
+  assert.match(renderGrowthPlan(stale),/nesmějí zvýšit prioritu/);
+
+  s.asOf="2026-10-18"; // 14 days: last accepted day for uplift
+  const fresh=planGrowth(graph,s,now);
+  assert.equal(fresh.evidenceFreshness,"fresh");
+  assert.equal(fresh.tasks.find(x=>x.id==="intent_evidence").score,98);
+  assert.equal(fresh.tasks.find(x=>x.id==="affiliate_audit").score,92);
+
+  s.asOf="2026-11-02";
+  assert.throws(()=>planGrowth(graph,s,now),/future/);
+  s.asOf="2026-11-01";
+  const pragueMidnight=planGrowth(graph,s,new Date("2026-10-31T23:30:00Z"));
+  assert.equal(pragueMidnight.evidenceFreshness,"fresh",
+    "Prague date must be used at the UTC/CET boundary");
+  assert.throws(()=>planGrowth(graph,s,new Date("invalid")),/reference date/);
 });

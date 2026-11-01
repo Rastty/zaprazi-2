@@ -15,11 +15,29 @@ function classifyRedirect(location, origin) {
   if (!location) return "missing";
   try {
     const target = new URL(location, origin);
-    return target.origin === origin && !target.username && !target.password
+    // Even a first-party redirect can escape to a click route, an HTTP
+    // downgrade or a URL carrying user data. Never follow or certify it.
+    return target.origin === origin && !target.username && !target.password &&
+      !target.search && !target.hash && !blockedPath.test(target.pathname) &&
+      /^\/(?:[a-z0-9_-]+\/)*$/i.test(target.pathname)
       ? "same_origin" : "off_origin_or_unsafe";
   } catch {
     return "invalid";
   }
+}
+
+/** Only the exact expected first-party document may navigate the top frame.
+ * Browser page.goto follows redirects by default, unlike our fetch probes.
+ * Use this predicate with Puppeteer request interception before navigation. */
+export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zaprazi.cz") {
+  if (origin!=="https://zaprazi.cz" ||
+      !/^\/(?:[a-z0-9_-]+\/)*$/i.test(expectedPath) ||
+      blockedPath.test(expectedPath)) return false;
+  try {
+    const target=new URL(url);
+    return target.href===origin+expectedPath && !target.username && !target.password &&
+      !target.search && !target.hash;
+  } catch {return false;}
 }
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
@@ -74,11 +92,14 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
         const type=contentType==="text/html"||contentType==="application/xhtml+xml"
           ? contentType : contentType ? "other" : "missing";
         if(response.body?.cancel)await response.body.cancel();
-        return {path:item.path,sources:item.sources,status,redirect:classifyRedirect(location,origin),type,
-          // A soft-200 JSON, download or empty MIME response is not a usable HTML page.
+        const redirect=classifyRedirect(location,origin);
+        return {path:item.path,sources:item.sources,status,redirect,type,
+          // Unsafe redirect targets are broken internal navigation, even if
+          // the server responds with a technically valid 301/302 status.
           outcome:status===200
             ? (type==="text/html"||type==="application/xhtml+xml"?"ok":"non_html_200")
-            : status>=300&&status<400?"redirect":"bad_status"};
+            : status>=300&&status<400
+              ? (redirect==="same_origin"?"redirect":"unsafe_redirect") : "bad_status"};
       }catch(error){
         return {path:item.path,sources:item.sources,status:null,outcome:"network_error",
           // Fetch errors may embed request URLs, headers or tokens. Keep only a safe class.
@@ -90,8 +111,8 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
   }
   return {
     checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
-    broken:checked.filter(x=>["bad_status","network_error","non_html_200"].includes(x.outcome)),
-    redirects:checked.filter(x=>x.outcome==="redirect"), checked_paths:checked,
+    broken:checked.filter(x=>["bad_status","network_error","non_html_200","unsafe_redirect"].includes(x.outcome)),
+    redirects:checked.filter(x=>x.outcome==="redirect"||x.outcome==="unsafe_redirect"), checked_paths:checked,
     limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };
 }

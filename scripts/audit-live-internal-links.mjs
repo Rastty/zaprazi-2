@@ -6,7 +6,7 @@ import { accessSync, constants } from "node:fs";
 import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
 import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
-import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport } from "./lib/internal-link-health.mjs";
+import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport, isSafeMainFrameNavigation } from "./lib/internal-link-health.mjs";
 
 const origin="https://zaprazi.cz";
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
@@ -16,12 +16,31 @@ const browser=await puppeteer.launch({executablePath:chrome,headless:true,
   args:["--no-sandbox","--disable-setuid-sandbox","--disable-dev-shm-usage"]});
 const pages=[], idsByPath=new Map();
 let fragmentTargets=[];
+
+// Puppeteer follows 3xx automatically, unlike the bounded fetch link probe.
+// Abort any top-level navigation away from the exact curated public page.
+// Never log rejected Location URLs: they may contain user-provided data.
+async function lockMainFrame(page,path){
+  await page.setRequestInterception(true);
+  page.on("request",request=>{
+    const allowed=!request.isNavigationRequest() ||
+      request.frame()!==page.mainFrame() ||
+      isSafeMainFrameNavigation(request.url(),path);
+    (allowed?request.continue():request.abort("blockedbyclient")).catch(()=>{});
+  });
+}
+async function openExact(page,path){
+  await lockMainFrame(page,path);
+  const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
+  if(response?.status()!==200 || page.url()!==origin+path)
+    throw new Error("Source page not exact HTTP 200: "+path);
+}
+
 try{
   for(const path of ["/",...new Set([...requiredDecisionPaths,...liveVerifiedProblemPaths])]){
     const page=await browser.newPage();
     try{
-      const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
-      if(response?.status()!==200)throw new Error("Source page not HTTP 200: "+path);
+      await openExact(page,path);
       const links=await page.$$eval("main a[href]",anchors=>anchors.map(a=>a.getAttribute("href")));
       const ids=await page.$$eval("[id]",nodes=>nodes.map(node=>node.id));
       pages.push({path,links});
@@ -36,8 +55,7 @@ try{
   for(const path of additional){
     const page=await browser.newPage();
     try{
-      const response=await page.goto(origin+path,{waitUntil:"domcontentloaded",timeout:25000});
-      if(response?.status()!==200)continue;
+      await openExact(page,path);
       idsByPath.set(path,new Set(await page.$$eval("[id]",nodes=>nodes.map(node=>node.id))));
     }catch(error){console.error("FRAGMENT_TARGET_UNAVAILABLE","navigation_failed");}
     finally{await page.close();}

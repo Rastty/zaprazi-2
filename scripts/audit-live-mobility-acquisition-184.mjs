@@ -213,6 +213,25 @@ export function assertMobility185UX(pages,pragueDate){
     rental_prices:pragueDate>"2026-11-06"?"expired_fail_closed":"within_review_window"};
 }
 
+// A hidden print button is only usable if WordPress actually enqueues the
+// local helper on the published page. Source-level enqueue tests cannot catch
+// a production template/slug mismatch. Check real HTML, not PHP fixtures.
+export function assertMobility185PrintAsset(html){
+  const tags=[...String(html).replace(/<!--[\s\S]*?-->/g,"")
+    .matchAll(/<script\b[^>]*>/gi)].map(m=>m[0]);
+  const sources=tags.map(tag=>attr(tag,"src")).filter(Boolean);
+  const matching=sources.filter(src=>{
+    try{
+      const url=new URL(src,origin+"/pujceni-choditka/");
+      return url.origin===origin&&
+        url.pathname.endsWith("/assets/js/family-checklist-print.js");
+    }catch{return false;}
+  });
+  assert.equal(matching.length,1,
+    "0.8.185 printable rental questions require one live print helper script");
+  return {print_helper_script:"present"};
+}
+
 async function get(path){
   assert.ok(Object.values(paths).includes(path)||path==="/wp-json/zaprazi/v1/affiliate-readiness");
   const url=origin+path;
@@ -240,7 +259,7 @@ export async function verifyLiveMobilityAcquisition(){
   const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
   const mobility185=(release185[0]>0||release185[1]>8||
     (release185[1]===8&&release185[2]>=185))
-    ?assertMobility185UX(pages,pragueDate):null;
+    ?{...assertMobility185UX(pages,pragueDate),...assertMobility185PrintAsset(pages.rental)}:null;
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,
     sukl_monthly_evidence:sukl.status,release_185_ux:mobility185,

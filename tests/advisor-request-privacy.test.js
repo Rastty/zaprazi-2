@@ -38,6 +38,22 @@ test("Advisor privacy canary catches GA4 user properties and named-value telemet
     JSON.stringify({params:[{name:"other",value:{string_value:"steady"}}]})), answer), false);
 });
 
+test("Advisor privacy canary detects reversed named-value telemetry without mixing unrelated fields", () => {
+  const reversed = JSON.stringify({value:{string_value:"steady"},name:"supportNeed"});
+  const direct = JSON.stringify({value:"steady",name:"supportNeed"});
+  const camel = JSON.stringify({value:{stringValue:"steady"},name:"supportNeed"});
+  for (const payload of [reversed,direct,camel]) {
+    assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect",payload),answer),true);
+    assert.equal(requestContainsAdvisorAnswer(req(
+      "https://analytics.example/collect?payload="+encodeURIComponent(payload)),answer),true);
+    assert.equal(persistentStorageContainsAdvisorAnswer([["telemetry",payload]],"",answer),true);
+  }
+  assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect",
+    JSON.stringify({value:{string_value:"steady"},name:"other"})),answer),false);
+  assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect",
+    JSON.stringify({value:{string_value:"light"},name:"supportNeed"})),answer),false);
+});
+
 test("Advisor privacy canary ignores unrelated telemetry and nonmatching values", () => {
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect?event=builder_start"), answer), false);
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect?supportNeed=light"), answer), false);

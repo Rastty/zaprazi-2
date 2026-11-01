@@ -27,10 +27,10 @@ function fixtures(expired=false){
       :'<section><form id="zp-walker-rental-budget"></form></section>');
   const labels=["Nejužší průchod","Místo pro otočení","Výška madel",
     "Prahy a podlaha","Brzdy a sedátko","Nosnost a návod","Složení a převoz"];
-  const measuring='<section><p>Kontrolní seznam pro rodinu</p>'+
+  const measuring='<section><p>Kontrolní seznam pro rodinu</p>'+\n    '<h2 id="zp-home-checklist-title">Co si napsat na papír?</h2>'+
     link("/prahy-pro-choditko-a-vozik/#mereni-prahu")+
-    '<div class="zp-check-grid">'+labels.map((label,i)=>
-      '<div><span>'+String(i+1).padStart(2,"0")+'</span><strong>'+label+
+    '<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">'+labels.map((label,i)=>
+      '<div role="listitem"><span>'+String(i+1).padStart(2,"0")+'</span><strong>'+label
       '</strong><p>mokrá místa</p></div>').join("")+'</div></section>'+
     '<section><p>Teď zvolte správnou cestu</p></section>';
   return {rental,measuring};
@@ -78,6 +78,21 @@ test("0.8.185: missing threshold guidance or a home check blocks release",()=>{
   form.measuring=form.measuring.replace("mokrá místa","<input name='health'>mokrá místa");
   assert.throws(()=>assertMobility185UX(form,"2026-11-06"),/must not collect private answers/);
 });
+test("0.8.185: home checklist exposes a named seven-item list",()=>{
+  const missingList=fixtures();
+  missingList.measuring=missingList.measuring.replace('role="list"','role="group"');
+  assert.throws(()=>assertMobility185UX(missingList,"2026-11-06"),
+    /named list to assistive technology/);
+  const missingItem=fixtures();
+  missingItem.measuring=missingItem.measuring.replace('role="listitem"','role="presentation"');
+  assert.throws(()=>assertMobility185UX(missingItem,"2026-11-06"),
+    /Seven visible home checks must be in sequence/);
+  const missingLabel=fixtures();
+  missingLabel.measuring=missingLabel.measuring.replace('id="zp-home-checklist-title"','id="other-title"');
+  assert.throws(()=>assertMobility185UX(missingLabel,"2026-11-06"),
+    /accessible heading/);
+});
+
 test("0.8.185: stale calculator or misleading current-rate CTA blocks postdeploy acceptance",()=>{
   const stale=fixtures(true);
   stale.rental+='<form id="zp-walker-rental-budget"></form>';

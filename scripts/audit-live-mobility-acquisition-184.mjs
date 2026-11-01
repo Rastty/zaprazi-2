@@ -144,6 +144,14 @@ export function assertMobility185UX(pages,pragueDate){
     .map(m=>m[1]);
   assert.deepEqual(steps,["01","02","03","04","05","06","07"],
     "Seven visible home checks must be in sequence");
+  // Seven numbered cards alone are insufficient: a deployed template could
+  // silently duplicate a topic and omit a safety-critical check.
+  for(const topic of ["Nejužší průchod","Místo pro otočení","Výška madel",
+    "Prahy a podlaha","Brzdy a sedátko","Nosnost a návod",
+    "Složení a převoz"]){
+    assert.ok(checklist.includes("<strong>"+topic+"</strong>"),
+      "Missing live home checklist topic: "+topic);
+  }
   assert.match(checklist,/Prahy a podlaha/);
   assert.match(checklist,/mokrá místa/);
   requireLinks(checklist,["/prahy-pro-choditko-a-vozik/#mereni-prahu"],

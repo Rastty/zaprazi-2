@@ -27,7 +27,8 @@ function fixtures(expired=false){
       :'<section><form id="zp-walker-rental-budget"></form></section>');
   const labels=["Nejužší průchod","Místo pro otočení","Výška madel",
     "Prahy a podlaha","Brzdy a sedátko","Nosnost a návod","Složení a převoz"];
-  const measuring='<section><p>Kontrolní seznam pro rodinu</p>'+\n    '<h2 id="zp-home-checklist-title">Co si napsat na papír?</h2>'+
+  const measuring='<section><p>Kontrolní seznam pro rodinu</p>'+ 
+    '<h2 id="zp-home-checklist-title">Co si napsat na papír?</h2>'+
     link("/prahy-pro-choditko-a-vozik/#mereni-prahu")+
     '<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">'+labels.map((label,i)=>
       '<div role="listitem"><span>'+String(i+1).padStart(2,"0")+'</span><strong>'+label

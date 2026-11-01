@@ -42,7 +42,8 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
-  const targets=new Map(), excluded=[];
+  const targets=new Map(), excluded=[], insecureInternalSources=new Set();
+  let insecureInternalCount=0;
   for (const page of sourcePages) {
     for (const href of page.links || []) {
       let u;
@@ -53,7 +54,13 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
       if (u.protocol!=="https:" && u.protocol!=="http:") {
         excluded.push({source:page.path,why:"unsafe_protocol"});continue;
       }
-      if (u.protocol==="http:") excluded.push({source:page.path,why:"http_internal"});
+      if (u.protocol==="http:") {
+        // A working HTTPS target does not make an insecure authored href safe.
+        // Keep auditing the canonical target, but fail the public link gate.
+        insecureInternalCount++;
+        insecureInternalSources.add(page.path);
+        excluded.push({source:page.path,why:"http_internal"});
+      }
       const path=u.pathname;
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
@@ -67,7 +74,8 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
     }
   }
   return {targets:[...targets].map(([path,sources])=>({path,sources:[...sources].sort()})),
-    excluded:excluded.slice(0,60)};
+    excluded:excluded.slice(0,60),
+    insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()}};
 }
 
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {

@@ -10,6 +10,13 @@ const link=path=>'<a href="https://zaprazi.cz'+path+'">Pokračovat</a>';
 function fixtures(expired=false){
   const questions=["Typ a dostupnost","Technická kontrola","Celkové náklady",
     "Předání a zaučení","Vrácení a závady"];
+  const paperQuestions=[
+    "1. Máte bezpečně vybraný typ chodítka a kdy bude dostupný?",
+    "2. Mohu před převzetím ověřit rozměry, nosnost, nastavení, brzdy, koncovky a technický stav?",
+    "3. Jaká je celková cena včetně kauce, dopravy, minimálního účtování a vrácení?",
+    "4. Kdo pomůcku nastaví, předá návod ke konkrétnímu modelu a ukáže bezpečné použití?",
+    "5. Kdy a jak vrátit pomůcku, za jakých podmínek dostanu zpět kauci a co dělat při závadě nebo poškození?"
+  ];
   const rental='<section><div id="zp-otazky-pujcovna" role="region" tabindex="-1" aria-labelledby="otazky-pujcovna-nadpis">'+
     '<ol class="zp-checklist">'+questions.map(q=>'<li>'+q+'</li>').join("")+'</ol>'+
     '<p>Neberte automaticky jiný typ; pomůcku k převozu nepoužívejte.</p>'+
@@ -17,7 +24,7 @@ function fixtures(expired=false){
     '</div></section>'+
     '<button data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu</button>'+
     '<section data-zp-paper-checklist="walker-rental-call">'+
-    '<ol class="zp-paper-questions">'+questions.map(q=>'<li>'+q+'</li>').join("")+'</ol>'+
+    '<ol class="zp-paper-questions">'+paperQuestions.map(q=>'<li>'+q+'</li>').join("")+'</ol>'+
     '<p>Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte.</p>'+
     '</section>'+
     (expired
@@ -70,10 +77,20 @@ test("0.8.185: missing or unsafe printable rental sheet fails postdeploy accepta
   assert.throws(()=>assertMobility185UX(missing,"2026-11-06"),
     /Printable rental call worksheet not deployed/);
   const short=fixtures();
-  short.rental=short.rental.replace(/(<section data-zp-paper-checklist="walker-rental-call">[\s\S]*?)<li>Vrácení a závady<\/li>/,
+  short.rental=short.rental.replace(/(<section data-zp-paper-checklist="walker-rental-call">[\s\S]*?)<li>5\. Kdy a jak vrátit pomůcku[^<]*<\/li>/,
     "$1");
   assert.throws(()=>assertMobility185UX(short,"2026-11-06"),
     /Printable rental worksheet must include all five questions/);
+  const lostReturn=fixtures();
+  lostReturn.rental=lostReturn.rental.replace("Kdy a jak vrátit pomůcku",
+    "Kdy dostanu kauci");
+  assert.throws(()=>assertMobility185UX(lostReturn,"2026-11-06"),
+    /Printable rental worksheet missing safety\/return detail/);
+  const lostHandover=fixtures();
+  lostHandover.rental=lostHandover.rental.replace("návod ke konkrétnímu modelu",
+    "obecný návod");
+  assert.throws(()=>assertMobility185UX(lostHandover,"2026-11-06"),
+    /Printable rental worksheet missing safety\/return detail/);
   const unsafe=fixtures();
   unsafe.rental=unsafe.rental.replace('class="zp-paper-questions">',
     'class="zp-paper-questions"><input name="medical">');

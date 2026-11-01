@@ -38,7 +38,7 @@ export function requestContainsAdvisorAnswer(request, answer) {
       // application/x-www-form-urlencoded uses '+' for spaces.
       // Inspect it without changing or logging the original request.
       if (decoded.includes("+")) {
-        const formDecoded = decoded.replace(/\\+/g, " ");
+        const formDecoded = decoded.replace(/\+/g, " ");
         if (json.test(formDecoded) || form.test(formDecoded) ||
             namedParam.test(formDecoded)) return true;
       }

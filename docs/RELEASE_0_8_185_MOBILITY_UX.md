@@ -5,6 +5,7 @@ Připraveno 1. 11. 2026. **Pouze release kandidát v GitHub PR; není to WordPre
 ## Co uživatel získá
 - `/pujceni-choditka/`: pět praktických otázek pro půjčovnu, přístupná kotva, bezpečné převzetí a postup při nedostupném typu; po 6. 11. 2026 se starší sazby a kauce označí jako historické a kalkulačka starých sazeb se nevykreslí. Zdroj: PR #549.
 - `/co-zmerit-pred-vyberem-choditka/`: sedm kontrol včetně prahů a kluzké podlahy; bezpečný přechod na stávající návod měření prahu. Zdroj: PR #565.
+- `/pujceni-choditka/`: volitelný tisk pěti otázek na prázdný papírový list. Používá existující lokální print helper; bez formulářů, úložiště, síťových požadavků a analytiky.
 - Žádný nový doporučovací engine, změna pořadí produktů, obchodní CTA, analytika odpovědí, přesměrování ani tvrzení o aktuálních cenách.
 
 ## Integrace a integrita
@@ -21,7 +22,7 @@ Připraveno 1. 11. 2026. **Pouze release kandidát v GitHub PR; není to WordPre
 
 ## Postdeploy acceptance (nenahrazovat predeploy CI)
 - `zaprazi-release=0.8.185`, `zaprazi-integrity=ok`, affiliate-readiness úplná, všech 14 poradců PASS v manuálně spuštěném Production Advisor Browser QA.
-- V mobilním Chromu 390 px ověřit sedm bodů, interní odkaz na měření prahu, pět otázek půjčovně, klávesnicový fokus kotvy a absenci sběru osobních údajů.
+- V mobilním Chromu 390 px ověřit sedm bodů, interní odkaz na měření prahu, pět otázek půjčovně, klávesnicový fokus kotvy a absenci sběru osobních údajů. Ověřit, že tiskové tlačítko je bez JavaScriptu skryté, s JavaScriptem otevře pouze prázdný list pěti otázek, bez cen a bez ukládání dat.
 - Ověřit před/po 6. 11. 2026 bezpečné označení cen a zablokování starého kalkulátoru; nepřijmout zastaralé sazby jako aktuální.
 - Ověřit bezpečné uzamčení obchodních nabídek při změně kritické odpovědi a při `nevím`, absenci zdravotních odpovědí v URL, analytics a storage.
 - Při jakémkoliv failu **STOP/rollback** dle `docs/NEXT_DEPLOY_SMOKE.md`; nezaměňovat zelené CI za produkční akceptaci.

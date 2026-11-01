@@ -25,7 +25,7 @@ test("Seven home checklist cards include the floor/threshold hazard and a safe n
   const end = page.indexOf("Teď zvolte správnou cestu", start);
   assert.ok(start > 0 && end > start, "home checklist section missing");
   const section = page.slice(start, end);
-  const numbers = [...section.matchAll(/<div><span>([0-9]{2})<[/]span><strong>/g)].map(match => match[1]);
+  const numbers = [...section.matchAll(/<div role="listitem"><span>([0-9]{2})<[/]span><strong>/g)].map(match => match[1]);
   assert.deepEqual(numbers, ["01", "02", "03", "04", "05", "06", "07"]);
   for (const label of [
     "Nejužší průchod", "Místo pro otočení", "Výška madel",

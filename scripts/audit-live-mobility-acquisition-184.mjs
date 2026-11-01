@@ -58,16 +58,16 @@ function assertPublicPage(html,path,release){
 // A monthly SÚKL amount must never look current after its validity ends.
 // Check only server-rendered public HTML; do not fetch medical/visitor data.
 export function assertExpiredSuklEvidence(html,pragueDate){
-  assert.match(pragueDate,/^\\d{4}-\\d{2}-\\d{2}$/,"Expected Prague calendar date");
+  assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
   if(pragueDate<="2026-10-31")return {status:"not_yet_expired"};
   const rendered=clean(html);
-  assert.match(rendered,/<h2>\\s*Říjnový záznam už není aktuální\\./i,
+  assert.match(rendered,/<h2>\s*Říjnový záznam už není aktuální\./i,
     "Expired SÚKL record still presented without a prominent stale headline");
   assert.match(rendered,/class=["']zp-stale-evidence["']/,
     "Expired SÚKL amount lacks a visible historical-data warning");
   assert.match(rendered,/Historická úhrada v říjnovém seznamu/i,
     "Expired SÚKL amount lacks a historical label");
-  assert.doesNotMatch(rendered,/MEYRA Ideal:\\s*3\\s*408\\s*Kč/i,
+  assert.doesNotMatch(rendered,/MEYRA Ideal:\s*3\s*408\s*Kč/i,
     "Expired SÚKL amount still appears as a current hero claim");
   assert.doesNotMatch(rendered,/Úhrada v aktuálním říjnovém seznamu/i,
     "Expired SÚKL amount still appears current in the fact card");

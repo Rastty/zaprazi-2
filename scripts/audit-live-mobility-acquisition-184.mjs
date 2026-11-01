@@ -140,7 +140,11 @@ export function assertMobility185UX(pages,pragueDate){
   assert.ok(measureStart>=0&&measureEnd>measureStart,
     "Seven-point home checklist not deployed");
   const checklist=measuring.slice(measureStart,measureEnd);
-  assert.match(checklist,/<h2\b[^>]*id="zp-home-checklist-title"[^>]*>/,\n    "Home checklist must have an accessible heading");\n  assert.match(checklist,/<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">/,\n    "Home checklist must expose a named list to assistive technology");\n  const steps=[...checklist.matchAll(/<div role="listitem">\s*<span>(\d{2})<\/span>\s*<strong>/g)]
+  assert.match(checklist,/<h2\b[^>]*id="zp-home-checklist-title"[^>]*>/,
+    "Home checklist must have an accessible heading");
+  assert.match(checklist,/<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">/,
+    "Home checklist must expose a named list to assistive technology");
+  const steps=[...checklist.matchAll(/<div role="listitem">\s*<span>(\d{2})<\/span>\s*<strong>/g)]
     .map(m=>m[1]);
   assert.deepEqual(steps,["01","02","03","04","05","06","07"],
     "Seven visible home checks must be in sequence");

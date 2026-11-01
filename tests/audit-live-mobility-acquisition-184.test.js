@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assertMobilityAcquisition} from "../scripts/audit-live-mobility-acquisition-184.mjs";
+import {assertMobilityAcquisition,assertExpiredSuklEvidence} from "../scripts/audit-live-mobility-acquisition-184.mjs";
 
 const origin="https://zaprazi.cz",version="0.8.184";
 const href=path=>'<a href="'+origin+path+'">Praktický krok</a>';
@@ -63,4 +63,26 @@ test("never accept stale release, partial integrity or wrong canonical",()=>{
     'rel="canonical" href="https://zaprazi.cz/pujceni-choditka/"',
     'rel="canonical" href="https://zaprazi.cz/"');
   assert.throws(()=>assertMobilityAcquisition(canonical,version),/incorrect canonical/);
+});
+
+// November 1 is a real freshness boundary for the October 2026 SÚKL record.
+// These are server-rendered HTML fixtures, never synthetic reimbursement claims.
+test("expired October SÚKL amount is clearly historical in public Mobility HTML",()=>{
+  const valid='<h2>Říjnový záznam už není aktuální.</h2>'+
+    '<p class="zp-stale-evidence">Tento měsíční záznam už není aktuální.</p>'+
+    '<span>Historická úhrada v říjnovém seznamu</span><strong>3 408 Kč</strong>';
+  assert.deepEqual(assertExpiredSuklEvidence(valid,"2026-11-01"),
+    {status:"expired_record_clearly_historical"});
+  assert.deepEqual(assertExpiredSuklEvidence(valid,"2026-10-31"),
+    {status:"not_yet_expired"});
+  assert.throws(()=>assertExpiredSuklEvidence(valid.replace("Historická úhrada","Úhrada"),"2026-11-01"),
+    /historical label/);
+  assert.throws(()=>assertExpiredSuklEvidence(valid.replace('class="zp-stale-evidence"','class="zp-note"'),"2026-11-01"),
+    /historical-data warning/);
+  assert.throws(()=>assertExpiredSuklEvidence(valid.replace("Říjnový záznam už není aktuální.","MEYRA Ideal: 3 408 Kč."),"2026-11-01"),
+    /stale headline/);
+  assert.throws(()=>assertExpiredSuklEvidence(valid+"<span>Úhrada v aktuálním říjnovém seznamu</span>","2026-11-01"),
+    /still appears current/);
+  assert.throws(()=>assertExpiredSuklEvidence(valid+"<h2>MEYRA Ideal: 3 408 Kč.</h2>","2026-11-01"),
+    /current hero claim/);
 });

@@ -55,6 +55,25 @@ function assertPublicPage(html,path,release){
     .map(tag=>attr(tag,"href"));
   assert.deepEqual(canonical,[origin+path],"Missing/incorrect canonical: "+path);
 }
+// A monthly SÚKL amount must never look current after its validity ends.
+// Check only server-rendered public HTML; do not fetch medical/visitor data.
+export function assertExpiredSuklEvidence(html,pragueDate){
+  assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
+  if(pragueDate<="2026-10-31")return {status:"not_yet_expired"};
+  const rendered=clean(html);
+  assert.match(rendered,/<h2>\s*Říjnový záznam už není aktuální\./i,
+    "Expired SÚKL record still presented without a prominent stale headline");
+  assert.match(rendered,/class=["']zp-stale-evidence["']/,
+    "Expired SÚKL amount lacks a visible historical-data warning");
+  assert.match(rendered,/Historická úhrada v říjnovém seznamu/i,
+    "Expired SÚKL amount lacks a historical label");
+  assert.doesNotMatch(rendered,/MEYRA Ideal:\s*3\s*408\s*Kč/i,
+    "Expired SÚKL amount still appears as a current hero claim");
+  assert.doesNotMatch(rendered,/Úhrada v aktuálním říjnovém seznamu/i,
+    "Expired SÚKL amount still appears current in the fact card");
+  return {status:"expired_record_clearly_historical"};
+}
+
 export function assertMobilityAcquisition(pages,release){
   for(const [key,path] of Object.entries(paths)){
     assertPublicPage(pages[key],path,release);
@@ -102,9 +121,15 @@ export async function verifyLiveMobilityAcquisition(){
     "PENDING DEPLOY: source release is not yet live; postdeploy acceptance cannot pass");
   const pages={};
   for(const [key,path] of Object.entries(paths))pages[key]=await get(path);
+  // WordPress uses local calendar time. The audit runs after the monthly
+  // expiry in Europe/Prague, not according to a potentially different CI TZ.
+  const pragueDate=new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Prague",
+    year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+  const sukl=assertExpiredSuklEvidence(pages.insurance,pragueDate);
   const report=assertMobilityAcquisition(pages,SOURCE_THEME_RELEASE);
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,
+    sukl_monthly_evidence:sukl.status,
     note:"Public read-only acceptance; not proof of traffic, suitability or commissions"
   }));
   return report;

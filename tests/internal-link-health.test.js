@@ -13,7 +13,19 @@ test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>
     {path:"/navrat-z-nemocnice/",sources:["/"]}
   ]);
   assert.ok(result.excluded.some(x=>x.why==="http_internal"));
+  assert.deepEqual(result.insecure_internal_links,{count:1,sources:["/choditka-pro-seniory/"]});
   assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,5);
+});
+
+test("first-party HTTP hrefs are reported even if HTTPS target is healthy",()=>{
+  const report=prepareInternalLinks([
+    {path:"/",links:["http://zaprazi.cz/guide/","http://zaprazi.cz/guide/?q=sample","https://zaprazi.cz/guide/"]},
+    {path:"/guide/",links:["https://zaprazi.cz/guide/"]}
+  ]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/","/guide/"]}]);
+  assert.deepEqual(report.insecure_internal_links,{count:2,sources:["/"]});
+  assert.deepEqual(prepareInternalLinks([{path:"/",links:["/guide/"]}])
+    .insecure_internal_links,{count:0,sources:[]});
 });
 
 test("GET probe does not follow redirects and classifies broken pages",async()=>{

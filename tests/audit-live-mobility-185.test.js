@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {execFileSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
-import {assertMobility185UX} from "../scripts/audit-live-mobility-acquisition-184.mjs";
+import {assertMobility185UX,assertMobility185PrintAsset} from "../scripts/audit-live-mobility-acquisition-184.mjs";
 
 // These are only controlled DOM fixtures. The actual production acceptance
 // fetches both published pages after authorized WordPress deployment.
@@ -165,5 +165,20 @@ test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and a
       measuring:render("page-co-zmerit-pred-vyberem-choditka.php",date)
     };
     assert.equal(assertMobility185UX(pages,date).home_checks,7);
+  }
+});
+
+test("0.8.185: live rental print button requires the actual same-origin helper asset",()=>{
+  const asset='<script defer src="https://zaprazi.cz/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js?ver=185"></script>';
+  assert.deepEqual(assertMobility185PrintAsset(fixtures().rental+asset),
+    {print_helper_script:"present"});
+  for(const broken of [
+    fixtures().rental,
+    fixtures().rental+'<!-- '+asset+' -->',
+    fixtures().rental+asset.replace("https://zaprazi.cz","https://other.example"),
+    fixtures().rental+asset+asset
+  ]){
+    assert.throws(()=>assertMobility185PrintAsset(broken),
+      /require one live print helper script/);
   }
 });

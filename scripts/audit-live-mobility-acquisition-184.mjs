@@ -160,7 +160,21 @@ export function assertMobility185UX(pages,pragueDate){
     "Home checklist must not collect private answers or show offers");
 
   if(pragueDate>"2026-11-06"){
-    assert.doesNotMatch(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
+    // The calculator can be disabled while individual price cards silently
+    // revert to undated, apparently current amounts. Check the *rendered*
+    // nine card values as well as the visible historical-evidence warning.
+    const priceSection=section(rental,"ceny");
+    assert.match(priceSection,/class=["']zp-stale-evidence["']/i,
+      "Expired rental price cards need a visible stale-evidence warning");
+    const priceValues=[...priceSection.matchAll(/<dd\\b[^>]*>([\\s\\S]*?)<\\/dd>/gi)]
+      .map(m=>m[1].replace(/<[^>]*>/g,"").replace(/\\s+/g," ").trim());
+    assert.equal(priceValues.length,9,
+      "Expected all nine displayed rental rates/deposits in three provider cards");
+    for(const value of priceValues){
+      assert.match(value,/^(?:historicky\\b|ověřit u půjčovny \\(starší příklad:)/i,
+        "Expired rental rate/deposit appears current instead of historical");
+    }
+    assert.doesNotMatch(rental,/<form\\b[^>]*id="zp-walker-rental-budget"/i,
       "Expired rental calculator must be absent from rendered HTML");
     assert.doesNotMatch(rental,/data-monthly-price=/i,
       "Expired rates must not remain in calculator attributes");

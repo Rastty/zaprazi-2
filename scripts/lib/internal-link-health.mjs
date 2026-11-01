@@ -19,7 +19,7 @@ function classifyRedirect(location, origin) {
     // downgrade or a URL carrying user data. Never follow or certify it.
     return target.origin === origin && !target.username && !target.password &&
       !target.search && !target.hash && !blockedPath.test(target.pathname) &&
-      /^\\/(?:[a-z0-9_-]+\\/)*$/i.test(target.pathname)
+      /^\/(?:[a-z0-9_-]+\/)*$/i.test(target.pathname)
       ? "same_origin" : "off_origin_or_unsafe";
   } catch {
     return "invalid";
@@ -31,7 +31,7 @@ function classifyRedirect(location, origin) {
  * Use this predicate with Puppeteer request interception before navigation. */
 export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zaprazi.cz") {
   if (origin!=="https://zaprazi.cz" ||
-      !/^\\/(?:[a-z0-9_-]+\\/)*$/i.test(expectedPath) ||
+      !/^\/(?:[a-z0-9_-]+\/)*$/i.test(expectedPath) ||
       blockedPath.test(expectedPath)) return false;
   try {
     const target=new URL(url);

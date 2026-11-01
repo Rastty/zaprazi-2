@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport } from "../scripts/lib/internal-link-health.mjs";
+import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport, isSafeMainFrameNavigation } from "../scripts/lib/internal-link-health.mjs";
 
 test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>{
   const pages=[
@@ -130,13 +130,19 @@ test("live link audit redacts sensitive URL parameters and redirect targets from
     status:302,headers:{get:name=>name==="location"?location:""},
     body:{cancel:async()=>{}}
   });
-  const same=await auditInternalTargets(target,response("/next/?answer="+secret));
+  const same=await auditInternalTargets(target,response("/next/"));
   assert.equal(same.redirects[0].redirect,"same_origin");
-  assert.ok(!JSON.stringify(same).includes(secret));
+  assert.equal(same.broken.length,0);
+
+  const sensitive=await auditInternalTargets(target,response("/next/?answer="+secret));
+  assert.equal(sensitive.redirects[0].redirect,"off_origin_or_unsafe");
+  assert.equal(sensitive.broken[0].outcome,"unsafe_redirect");
+  assert.ok(!JSON.stringify(sensitive).includes(secret));
 
   const external=await auditInternalTargets(target,
     response("https://elsewhere.invalid/collect?answer="+secret));
   assert.equal(external.redirects[0].redirect,"off_origin_or_unsafe");
+  assert.equal(external.broken[0].outcome,"unsafe_redirect");
   assert.ok(!JSON.stringify(external).includes(secret));
   const invalid=await auditInternalTargets(target,response("http://[invalid"));
   assert.equal(invalid.redirects[0].redirect,"invalid");
@@ -225,4 +231,35 @@ test("encoded paths cannot bypass click-route or WP endpoint exclusions", async 
     );
   }
   assert.equal(requests,0,"No encoded route may reach the network");
+});
+
+test("unsafe redirects are failed, never silently counted as healthy links",async()=>{
+  const target=[{path:"/walking/",sources:["/"]}];
+  for(const location of [
+    "https://elsewhere.invalid/path/", "http://zaprazi.cz/guide/",
+    "/go/merchant/", "/wp-json/zaprazi/v1/route", "/safe/?answer=private",
+    "/safe/#private", "http://[invalid", ""
+  ]){
+    const report=await auditInternalTargets(target,async()=>({
+      status:301,headers:{get:name=>name==="location"?location:"text/html"},
+      body:{cancel:async()=>{}}
+    }));
+    assert.equal(report.broken.length,1,"Redirect must fail closed");
+    assert.equal(report.broken[0].outcome,"unsafe_redirect");
+    assert.equal(report.redirects.length,1);
+    assert.ok(!JSON.stringify(report).includes(location),
+      "Public report must not echo untrusted Location");
+  }
+});
+
+test("DOM link crawler only permits exact expected top-frame URL",()=>{
+  assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/guide/","/guide/"),true);
+  assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/","/"),true);
+  for(const url of [
+    "https://elsewhere.invalid/guide/", "http://zaprazi.cz/guide/",
+    "https://zaprazi.cz/other/", "https://zaprazi.cz/guide/?answer=private",
+    "https://zaprazi.cz/guide/#answer", "https://zaprazi.cz/go/merchant/"
+  ])assert.equal(isSafeMainFrameNavigation(url,"/guide/"),false);
+  assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/go/merchant/","/go/merchant/"),false);
+  assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/guide/","/guide/","https://elsewhere.invalid"),false);
 });

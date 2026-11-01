@@ -15,6 +15,29 @@ test("Advisor privacy canary detects direct, nested and encoded request leaks", 
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect?payload="+nested), answer), true);
 });
 
+test("Advisor privacy canary catches GA4 user properties and named-value telemetry", () => {
+  // GA4 user properties use up./upn., not the ep./epn. event-param prefix.
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?up.supportNeed=steady"), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?upn.supportNeed=steady"), answer), true);
+  const named = JSON.stringify({event:"builder_complete",
+    params:[{name:"supportNeed",value:{string_value:"steady"}}]});
+  assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect", named), answer), true);
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?payload="+encodeURIComponent(named)), answer), true);
+  assert.equal(persistentStorageContainsAdvisorAnswer([["telemetry",named]], "", answer), true);
+  const spaced = {name:"supportNeed",value:"steady support"};
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?up.supportNeed=steady+support"), spaced), true);
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?up.supportNeed=steady%20support"), spaced), true);
+  assert.equal(requestContainsAdvisorAnswer(req(
+    "https://analytics.example/collect?up.supportNeed=light"), answer), false);
+  assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect",
+    JSON.stringify({params:[{name:"other",value:{string_value:"steady"}}]})), answer), false);
+});
+
 test("Advisor privacy canary ignores unrelated telemetry and nonmatching values", () => {
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect?event=builder_start"), answer), false);
   assert.equal(requestContainsAdvisorAnswer(req("https://analytics.example/collect?supportNeed=light"), answer), false);

@@ -224,20 +224,43 @@ export function assertMobility185UX(pages,pragueDate){
 // A hidden print button is only usable if WordPress actually enqueues the
 // local helper on the published page. Source-level enqueue tests cannot catch
 // a production template/slug mismatch. Check real HTML, not PHP fixtures.
-export function assertMobility185PrintAsset(html){
+function mobility185PrintAssets(html){
   const tags=[...String(html).replace(/<!--[\s\S]*?-->/g,"")
     .matchAll(/<script\b[^>]*>/gi)].map(m=>m[0]);
-  const sources=tags.map(tag=>attr(tag,"src")).filter(Boolean);
-  const matching=sources.filter(src=>{
+  return tags.map(tag=>attr(tag,"src")).filter(Boolean).flatMap(src=>{
     try{
       const url=new URL(src,origin+"/pujceni-choditka/");
       return url.origin===origin&&
-        url.pathname.endsWith("/assets/js/family-checklist-print.js");
-    }catch{return false;}
+        url.pathname==="/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js"&&
+        !url.username&&!url.password&&!url.hash?[url]:[];
+    }catch{return [];}
   });
-  assert.equal(matching.length,1,
+}
+export function assertMobility185PrintAsset(html){
+  assert.equal(mobility185PrintAssets(html).length,1,
     "0.8.185 printable rental questions require one live print helper script");
   return {print_helper_script:"present"};
+}
+
+// A script tag can exist while its URL returns 404 or a stale cached release.
+// Check the public first-party asset itself, without clicking or sending answers.
+export async function assertMobility185PrintAssetLoaded(html,fetcher=fetch){
+  assertMobility185PrintAsset(html);
+  const url=mobility185PrintAssets(html)[0];
+  const response=await fetcher(url.href,{
+    redirect:"manual",headers:{Accept:"text/javascript"},
+    signal:AbortSignal.timeout(25000)
+  });
+  assert.equal(response.status,200,
+    "0.8.185 print helper asset is not publicly reachable");
+  const body=await response.text();
+  assert.ok(body.length>100&&body.length<50000,
+    "0.8.185 print helper returned empty or unexpected content");
+  assert.match(body,/^\/\/ ZP_RELEASE_0_8_185\b/m,
+    "0.8.185 print helper is stale or does not match the deployed release");
+  assert.match(body,/data-zp-paper-print/,
+    "0.8.185 print helper lacks the printable button handler");
+  return {print_helper_response:"verified_185"};
 }
 
 async function get(path){
@@ -267,7 +290,8 @@ export async function verifyLiveMobilityAcquisition(){
   const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
   const mobility185=(release185[0]>0||release185[1]>8||
     (release185[1]===8&&release185[2]>=185))
-    ?{...assertMobility185UX(pages,pragueDate),...assertMobility185PrintAsset(pages.rental)}:null;
+    ?{...assertMobility185UX(pages,pragueDate),...assertMobility185PrintAsset(pages.rental),
+      ...await assertMobility185PrintAssetLoaded(pages.rental)}:null;
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,
     sukl_monthly_evidence:sukl.status,release_185_ux:mobility185,

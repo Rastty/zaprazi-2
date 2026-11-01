@@ -24,6 +24,7 @@ Připraveno 1. 11. 2026. **Pouze release kandidát v GitHub PR; není to WordPre
 - `zaprazi-release=0.8.185`, `zaprazi-integrity=ok`, affiliate-readiness úplná, všech 14 poradců PASS v manuálně spuštěném Production Advisor Browser QA.
 - V mobilním Chromu 390 px ověřit sedm bodů, interní odkaz na měření prahu, pět otázek půjčovně, klávesnicový fokus kotvy a absenci sběru osobních údajů. Ověřit, že tiskové tlačítko je bez JavaScriptu skryté, s JavaScriptem otevře pouze prázdný list pěti otázek, bez cen a bez ukládání dat.
 - Ověřit před/po 6. 11. 2026 bezpečné označení cen a zablokování starého kalkulátoru; nepřijmout zastaralé sazby jako aktuální.
+- Produkční read-only Mobility QA musí ověřit, že se na stránce půjčení chodítka skutečně načítá lokální tiskový JavaScript (nejen že v PHP existuje enqueue). Chybějící nebo duplicitní script blokuje akceptaci: skryté tiskové tlačítko by jinak nebylo použitelné.
 - Ověřit bezpečné uzamčení obchodních nabídek při změně kritické odpovědi a při `nevím`, absenci zdravotních odpovědí v URL, analytics a storage.
 - Při jakémkoliv failu **STOP/rollback** dle `docs/NEXT_DEPLOY_SMOKE.md`; nezaměňovat zelené CI za produkční akceptaci.
 

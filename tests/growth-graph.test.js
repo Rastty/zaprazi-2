@@ -111,6 +111,31 @@ test("28-day evidence must be dated and event counts must be whole numbers",()=>
   s.asOf=null;
   assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,null);
 });
+test("GSC 28-day totals cannot contain more clicks than impressions",()=>{
+  const s=clone(blank);
+  s.asOf="2026-11-01";
+  s.metrics={organic_clicks_28d:101,organic_impressions_28d:100};
+  s.metricSources={
+    organic_clicks_28d:"https://example.org/gsc-clicks",
+    organic_impressions_28d:"https://example.org/gsc-impressions"
+  };
+  assert.throws(()=>planGrowth(graph,s),/GSC aggregates: clicks exceed impressions/);
+  s.metrics.organic_impressions_28d=0;
+  assert.throws(()=>planGrowth(graph,s),/GSC aggregates: clicks exceed impressions/);
+  s.metrics.organic_impressions_28d=101;
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,101);
+  s.metrics.organic_clicks_28d=0;
+  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,0);
+  delete s.metrics.organic_impressions_28d;
+  delete s.metricSources.organic_impressions_28d;
+  assert.equal(planGrowth(graph,s).metrics.organic_impressions_28d,null);
+  // GA4 events are consented samples, not the same GSC population.
+  s.metrics.advisor_completes_28d=7;
+  s.metrics.advisor_starts_28d=5;
+  s.metricSources.advisor_completes_28d="https://example.org/ga4-completes";
+  s.metricSources.advisor_starts_28d="https://example.org/ga4-starts";
+  assert.equal(planGrowth(graph,s).metrics.advisor_completes_28d,7);
+});
 test("malformed states and unknown nodes fail closed",()=>{
   const s=clone(blank);
   s.nodes.affiliate_audit={status:"verified"};

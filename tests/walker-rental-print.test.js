@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {runInNewContext} from "node:vm";
 
 const read=path=>readFileSync(new URL("../"+path,import.meta.url),"utf8");
 
@@ -48,4 +49,42 @@ test("existing print helper is enabled for rental page only and remains privacy-
   assert.match(css,/\.zp-paper-checklist\{display:none\}/);
   assert.match(css,/body\.zp-paper-print-mode main > :not\(\.zp-paper-checklist\)\{display:none!important\}/);
   assert.match(css,/\[hidden\]\{display:none!important\}/);
+});
+
+test("print sheet restores the normal page when print media ends without afterprint",()=>{
+  const handlers=new Map(),mediaHandlers=new Map(),buttonHandlers=new Map();
+  const classes=new Set();
+  const button={
+    hidden:true,
+    addEventListener:(name,handler)=>buttonHandlers.set(name,handler)
+  };
+  const windowMock={
+    print:()=>{},
+    addEventListener:(name,handler)=>handlers.set(name,handler),
+    matchMedia:query=>{
+      assert.equal(query,"print");
+      return {addEventListener:(name,handler)=>mediaHandlers.set(name,handler)};
+    }
+  };
+  const documentMock={
+    querySelector:selector=>selector==="[data-zp-paper-print]"?button:
+      selector==="[data-zp-paper-checklist]"?{}:null,
+    body:{classList:{
+      add:value=>classes.add(value),
+      remove:value=>classes.delete(value)
+    }}
+  };
+  runInNewContext(read("assets/js/family-checklist-print.js"),{
+    window:windowMock,document:documentMock
+  });
+  assert.equal(button.hidden,false,"Print button should be available with JavaScript");
+  buttonHandlers.get("click")();
+  assert.equal(classes.has("zp-paper-print-mode"),true);
+  mediaHandlers.get("change")({matches:false});
+  assert.equal(classes.has("zp-paper-print-mode"),false,
+    "Cancelled print must not leave the rest of the page hidden");
+  buttonHandlers.get("click")();
+  handlers.get("afterprint")();
+  assert.equal(classes.has("zp-paper-print-mode"),false,
+    "Standard afterprint cleanup must still work");
 });

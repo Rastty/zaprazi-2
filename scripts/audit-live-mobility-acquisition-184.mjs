@@ -148,6 +148,14 @@ export function assertMobility185UX(pages,pragueDate){
   assert.ok(printList,"Printable rental call worksheet must have an ordered list");
   assert.equal((printList.match(/<li\b/gi)||[]).length,5,
     "Printable rental worksheet must include all five questions");
+  // A printed worksheet is the only copy a family may take to the rental desk.
+  // Verify the handover and return safeguards, not merely the question count.
+  for(const detail of ["nastavení, brzdy, koncovky",
+    "návod ke konkrétnímu modelu","Kdy a jak vrátit pomůcku",
+    "závadě nebo poškození"]){
+    assert.ok(printList.includes(detail),
+      "Printable rental worksheet missing safety/return detail: "+detail);
+  }
   assert.match(paper,/Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte/,
     "Printable rental worksheet must retain the safety warning");
   assert.doesNotMatch(paper,/<form\b|<input\b|<textarea\b|data-zp-merchant-link|data-monthly-price/i,

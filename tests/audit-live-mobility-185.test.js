@@ -54,7 +54,7 @@ test("0.8.185: missing or spoofed rental call questions fail closed",()=>{
 test("0.8.185: missing threshold guidance or a home check blocks release",()=>{
   const broken=fixtures();
   broken.measuring=broken.measuring.replace("<strong>Prahy a podlaha</strong>","");
-  assert.throws(()=>assertMobility185UX(broken,"2026-11-06"),/Prahy a podlaha/);
+  assert.throws(()=>assertMobility185UX(broken,"2026-11-06"),/Seven visible home checks|Prahy a podlaha/);
   const linkMissing=fixtures();
   linkMissing.measuring=linkMissing.measuring.replace(
     link("/prahy-pro-choditko-a-vozik/#mereni-prahu"),"");

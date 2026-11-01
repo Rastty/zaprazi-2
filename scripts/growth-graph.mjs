@@ -77,6 +77,13 @@ export function planGrowth(g,s){
   }
   for(const k of Object.keys(s.metricSources))
     if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k))throw new Error("Orphan metric evidence "+k);
+  // Both GSC totals cover the same 28-day window. A click requires an
+  // impression, so impossible aggregates must not influence the graph plan.
+  // Do not apply this rule to GA4 events: consent and window boundaries differ.
+  if(Object.hasOwn(s.metrics,"organic_clicks_28d")&&
+     Object.hasOwn(s.metrics,"organic_impressions_28d")&&
+     s.metrics.organic_clicks_28d>s.metrics.organic_impressions_28d)
+    throw new Error("Invalid GSC aggregates: clicks exceed impressions");
   for(const [id,record] of Object.entries(s.nodes)){
     if(!record||typeof record!=="object"||Array.isArray(record)||
         !STATES.has(record.status))throw new Error("Invalid node state "+id);

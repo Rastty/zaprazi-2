@@ -1060,7 +1060,7 @@ function zaprazi_2_footwear_guide_print_asset() {
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_footwear_guide_print_asset', 20 );
 
 /**
- * Five blank family worksheets; no forms, storage, analytics or network I/O.
+ * Six blank family worksheets; no forms, storage, analytics or network I/O.
  * The print button is hidden until its local JavaScript action is available.
  */
 function zaprazi_2_family_checklist_print_asset() {
@@ -1068,6 +1068,7 @@ function zaprazi_2_family_checklist_print_asset() {
     'nocni-cesta-z-postele-na-wc',
     'otazky-pred-propustenim-z-nemocnice',
     'co-zmerit-pred-vyberem-choditka',
+    'pujceni-choditka',
     'prispevek-na-peci-pro-seniora',
     'jak-vybrat-pecovatelskou-sluzbu',
   ) ) ) {

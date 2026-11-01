@@ -31,7 +31,7 @@ function fixtures(expired=false){
     '<h2 id="zp-home-checklist-title">Co si napsat na papír?</h2>'+
     link("/prahy-pro-choditko-a-vozik/#mereni-prahu")+
     '<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">'+labels.map((label,i)=>
-      '<div role="listitem"><span>'+String(i+1).padStart(2,"0")+'</span><strong>'+label
+      '<div role="listitem"><span>'+String(i+1).padStart(2,"0")+'</span><strong>'+label+
       '</strong><p>mokrá místa</p></div>').join("")+'</div></section>'+
     '<section><p>Teď zvolte správnou cestu</p></section>';
   return {rental,measuring};

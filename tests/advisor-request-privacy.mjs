@@ -23,6 +23,10 @@ export function requestContainsAdvisorAnswer(request, answer) {
   const namedParam = new RegExp('"name"\\s*:\\s*"' + key +
     '"\\s*,\\s*"value"\\s*:\\s*(?:\\{\\s*"(?:string_value|stringValue)"\\s*:\\s*)?"' +
     value + '"');
+  // Some SDKs serialize named telemetry fields in reverse property order.
+  // Match only adjacent value/name fields of the same parameter object.
+  const reversedNamedParam = new RegExp('"value"\\s*:\\s*(?:\\{\\s*"(?:string_value|stringValue)"\\s*:\\s*)?"' +
+    value + '"\\s*\\}?\\s*,\\s*"name"\\s*:\\s*"' + key + '"');
   const headers = typeof request.headers === "function" ? request.headers() : {};
   if (!headers || typeof headers !== "object" || Array.isArray(headers))
     throw new TypeError("Malformed request headers");
@@ -34,13 +38,13 @@ export function requestContainsAdvisorAnswer(request, answer) {
   for (const raw of surfaces) {
     let decoded = String(raw);
     for (let depth = 0; depth < 4; depth++) {
-      if (json.test(decoded) || form.test(decoded) || namedParam.test(decoded)) return true;
+      if (json.test(decoded) || form.test(decoded) || namedParam.test(decoded) || reversedNamedParam.test(decoded)) return true;
       // application/x-www-form-urlencoded uses '+' for spaces.
       // Inspect it without changing or logging the original request.
       if (decoded.includes("+")) {
         const formDecoded = decoded.replace(/\+/g, " ");
         if (json.test(formDecoded) || form.test(formDecoded) ||
-            namedParam.test(formDecoded)) return true;
+            namedParam.test(formDecoded) || reversedNamedParam.test(formDecoded)) return true;
       }
       try {
         const next = decodeURIComponent(decoded);

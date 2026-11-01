@@ -89,7 +89,7 @@ test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and a
       'function home_url($path = "") { return "https://zaprazi.cz" . $path; }',
       'function esc_url($url) { return htmlspecialchars($url, ENT_QUOTES, "UTF-8"); }',
       'include "'+template+'";'
-    ].join("\\n");
+    ].join("\n");
     return execFileSync("php",["-r",php],{
       cwd:root,env:{...process.env,ZP_TEST_DATE:date},encoding:"utf8"
     });

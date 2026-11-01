@@ -247,7 +247,7 @@ test("unsafe redirects are failed, never silently counted as healthy links",asyn
     assert.equal(report.broken.length,1,"Redirect must fail closed");
     assert.equal(report.broken[0].outcome,"unsafe_redirect");
     assert.equal(report.redirects.length,1);
-    assert.ok(!JSON.stringify(report).includes(location),
+    if(location)assert.ok(!JSON.stringify(report).includes(location),
       "Public report must not echo untrusted Location");
   }
 });

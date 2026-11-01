@@ -10,6 +10,7 @@ import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
 import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
 import { summarizeEditorialPages } from "./lib/editorial-seo-rules.mjs";
+import { publicEditorialReport } from "./lib/public-editorial-report.mjs";
 import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
 
 const base="https://zaprazi.cz";
@@ -61,14 +62,14 @@ try{
       observed.push({path,status:response?.status(),...result});
       console.log("PAGE_AUDIT",JSON.stringify({
         path,status:response?.status(),h1:result.h1.length,
-        description:result.description.length,canonical:result.canonical,
+        description:result.description.length,canonical_matches:result.canonical===base+path,
         outgoing:result.mainContentLinks.length,mobileOverflow:result.mobileOverflow
       }));
     }catch(error){
       observed.push({path,status:"fetch_error",h1:[],title:"",description:"",
         canonical:"",robots:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
-        error:String(error).slice(0,300)});
-      console.error("PAGE_AUDIT_FAILURE",path,String(error).slice(0,300));
+        error:"navigation_or_render_failure"});
+      console.error("PAGE_AUDIT_FAILURE",path,"navigation_or_render_failure");
     }finally{await page.close();}
   }
 }finally{await browser.close();}
@@ -79,7 +80,7 @@ for (const page of observed) {
   if (page.status !== 200 || !page.ogUrl) continue;
   const expected=base+page.path;
   if (page.ogUrl!==expected) {
-    report.errors.push({path:page.path,code:"OG_URL_MISMATCH",details:page.ogUrl});
+    report.errors.push({path:page.path,code:"OG_URL_MISMATCH",details:"unexpected_og_url"});
   }
 }
 // Fail on a mixed-scheme Yoast WebSite graph, even when individual page
@@ -99,7 +100,7 @@ if(knownOldCanonical && report.errors.length) {
     "Existing release has HTTP Yoast canonical; fixed by new output filter in 0.8.135.",
     "Count:",report.errors.length);
 }
-const {pages,...summary}=report;
-console.log("EDITORIAL_SEO_SUMMARY",JSON.stringify(summary));
-console.log("EDITORIAL_SEO_PAGES",JSON.stringify(pages));
+const publicReport=publicEditorialReport(report);
+console.log("EDITORIAL_SEO_SUMMARY",JSON.stringify(publicReport.summary));
+console.log("EDITORIAL_SEO_PAGES",JSON.stringify(publicReport.pages));
 if(report.errors.length && !knownOldCanonical)process.exitCode=1;

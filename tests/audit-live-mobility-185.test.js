@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {execFileSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
-import {assertMobility185UX,assertMobility185PrintAsset} from "../scripts/audit-live-mobility-acquisition-184.mjs";
+import {assertMobility185UX,assertMobility185PrintAsset,assertMobility185PrintAssetLoaded} from "../scripts/audit-live-mobility-acquisition-184.mjs";
 
 // These are only controlled DOM fixtures. The actual production acceptance
 // fetches both published pages after authorized WordPress deployment.
@@ -198,4 +198,27 @@ test("0.8.185: live rental print button requires the actual same-origin helper a
     assert.throws(()=>assertMobility185PrintAsset(broken),
       /require one live print helper script/);
   }
+});
+
+test("0.8.185: published print helper must respond with current release JavaScript",async()=>{
+  const asset='<script defer src="https://zaprazi.cz/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js?ver=185"></script>';
+  const html=fixtures().rental+asset;
+  const valid='// ZP_RELEASE_0_8_185\n'+
+    'const button = document.querySelector("[data-zp-paper-print]");\n'+
+    'button.addEventListener("click", () => window.print());\n';
+  const stub=(status,body)=>async (url,options)=>{
+    assert.equal(url,"https://zaprazi.cz/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js?ver=185");
+    assert.equal(options.redirect,"manual");
+    return {status,text:async()=>body};
+  };
+  assert.deepEqual(await assertMobility185PrintAssetLoaded(html,stub(200,valid)),
+    {print_helper_response:"verified_185"});
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(404,valid)),
+    /not publicly reachable/);
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("0_8_185","0_8_184"))),
+    /stale or does not match/);
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("data-zp-paper-print","other-selector"))),
+    /lacks the printable button handler/);
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,"")),
+    /empty or unexpected content/);
 });

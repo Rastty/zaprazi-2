@@ -6,6 +6,7 @@ Připraveno 1. 11. 2026. **Pouze release kandidát v GitHub PR; není to WordPre
 - `/pujceni-choditka/`: pět praktických otázek pro půjčovnu, přístupná kotva, bezpečné převzetí a postup při nedostupném typu; po 6. 11. 2026 se starší sazby a kauce označí jako historické a kalkulačka starých sazeb se nevykreslí. Zdroj: PR #549.
 - `/co-zmerit-pred-vyberem-choditka/`: sedm kontrol včetně prahů a kluzké podlahy; bezpečný přechod na stávající návod měření prahu. Zdroj: PR #565.
 - `/pujceni-choditka/`: volitelný tisk pěti otázek na prázdný papírový list. Používá existující lokální print helper; bez formulářů, úložiště, síťových požadavků a analytiky.
+  - Tiskový list nyní výslovně připomíná kontrolu koncovek a nastavení, návod ke konkrétnímu modelu a termín/podmínky vrácení pomůcky i postup při poškození. Regresní test i postdeploy QA ověřují, že tyto body z tisku nevypadnou.
 - Žádný nový doporučovací engine, změna pořadí produktů, obchodní CTA, analytika odpovědí, přesměrování ani tvrzení o aktuálních cenách.
 
 ## Integrace a integrita

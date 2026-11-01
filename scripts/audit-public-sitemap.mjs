@@ -137,9 +137,16 @@ function parseRobotsGroups(robots) {
 }
 
 function blocksRoot(rules) {
-  // For the exact root path, Google's equal-length Allow rule wins a tie.
-  return rules.some(r => r.key === "disallow" && r.value === "/") &&
-    !rules.some(r => r.key === "allow" && r.value === "/");
+  // Detect site-wide crawl blocks, not only the literal "Disallow: /".
+  // Google also treats "/*" and "/*$" as matching every public path.
+  // Only universal Allow rules can lift a site-wide block; an exception
+  // such as "Allow: /$" opens the homepage, not the decision pages.
+  // Resolve conflicts by longest matching rule, with Allow winning ties.
+  const universal = rules.filter(r => ["/", "/*", "/*$"].includes(r.value));
+  const longest = Math.max(0, ...universal.map(r => r.value.length));
+  return longest > 0 &&
+    universal.some(r => r.key === "disallow" && r.value.length === longest) &&
+    !universal.some(r => r.key === "allow" && r.value.length === longest);
 }
 
 export function robotsHasWildcardRootBlock(robots) {

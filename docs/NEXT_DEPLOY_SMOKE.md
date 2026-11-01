@@ -5,6 +5,7 @@
 ## 1. Před Pull + Deploy
 
 - Zkontrolovat, že release PR je sloučený, `main` a `dev` ukazují na stejný commit a `CI` je zelená.
+- Těsně před manuálním Pull + Deploy spusťte z checkoutu release commitu `npm run deploy:preflight`. Read-only kontrola načte skutečné `main` a `dev` z kanonického GitHub repozitáře a porovná je s lokálním `HEAD`. Při `PENDING_RELEASE_SYNC` **nenasazovat**; nejdřív koordinovaně synchronizovat release a znovu ověřit zelené CI. Úspěch preflightu sám o sobě **není** souhlas k deployi ani důkaz produkčního smoke.
 - Porovnat verzi v `style.css` a `functions.php` a ověřit integritní markery.
 - Zelená **predeploy** `Production Advisor Browser QA` znamená pouze úspěšnou kontrolu *dosud živé* verze. Nemá se vydávat za potvrzení budoucího nasazení.
 - Nevydávat release při nevyřešeném bezpečnostním nálezu nebo částečné integritě.

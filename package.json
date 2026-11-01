@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "deploy:preflight": "node scripts/check-deploy-ref-sync.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -249,10 +249,10 @@ get_header();
       <p class="zp-muted-copy">Vezměte si tento prázdný list k telefonátu. Odpovědi zapisujte pouze na papír; web nic neukládá ani neodesílá.</p>
       <ol class="zp-paper-questions">
         <li><strong>1. Máte bezpečně vybraný typ chodítka a kdy bude dostupný?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
-        <li><strong>2. Mohu před převzetím ověřit rozměry, nosnost, brzdy a technický stav?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Mohu před převzetím ověřit rozměry, nosnost, nastavení, brzdy, koncovky a technický stav?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
         <li><strong>3. Jaká je celková cena včetně kauce, dopravy, minimálního účtování a vrácení?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
-        <li><strong>4. Kdo pomůcku nastaví, předá návod a ukáže bezpečné použití?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
-        <li><strong>5. Jak probíhá vrácení kauce a co dělat při závadě?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Kdo pomůcku nastaví, předá návod ke konkrétnímu modelu a ukáže bezpečné použití?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Kdy a jak vrátit pomůcku, za jakých podmínek dostanu zpět kauci a co dělat při závadě nebo poškození?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
       </ol>
       <p class="zp-disclaimer">Dostupnost ani cena nepotvrzují vhodnost pomůcky. Při nejistotě o bezpečném typu či použití požádejte o odborné posouzení. Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte. Sedátko rollátoru neopravňuje k převozu sedící osoby bez výslovného povolení v návodu přesného modelu.</p>
     </div>

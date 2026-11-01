@@ -1,5 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {execFileSync} from "node:child_process";
+import {fileURLToPath} from "node:url";
 import {assertMobility185UX} from "../scripts/audit-live-mobility-acquisition-184.mjs";
 
 // These are only controlled DOM fixtures. The actual production acceptance
@@ -75,4 +77,28 @@ test("0.8.185: stale calculator or misleading current-rate CTA blocks postdeploy
   const currentCTA=fixtures(true);
   currentCTA.rental+='<button>Spočítat orientační půjčovné</button>';
   assert.throws(()=>assertMobility185UX(currentCTA,"2026-11-07"),/Expired rental CTA/);
+});
+
+test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and after expiry",()=>{
+  const root=fileURLToPath(new URL("../",import.meta.url));
+  const render=(template,date)=>{
+    const php=[
+      'function current_time($format) { return getenv("ZP_TEST_DATE"); }',
+      'function get_header() {}',
+      'function get_footer() {}',
+      'function home_url($path = "") { return "https://zaprazi.cz" . $path; }',
+      'function esc_url($url) { return htmlspecialchars($url, ENT_QUOTES, "UTF-8"); }',
+      'include "'+template+'";'
+    ].join("\\n");
+    return execFileSync("php",["-r",php],{
+      cwd:root,env:{...process.env,ZP_TEST_DATE:date},encoding:"utf8"
+    });
+  };
+  for(const date of ["2026-11-06","2026-11-07"]){
+    const pages={
+      rental:render("page-pujceni-choditka.php",date),
+      measuring:render("page-co-zmerit-pred-vyberem-choditka.php",date)
+    };
+    assert.equal(assertMobility185UX(pages,date).home_checks,7);
+  }
 });

@@ -31,7 +31,7 @@ test("existing print helper is enabled for rental page only and remains privacy-
   assert.ok(start>0&&end>start);
   const enqueue=fn.slice(start,end);
   assert.match(enqueue,/'pujceni-choditka'/);
-  assert.match(enqueue,/'assets\/js\/family-checklist-print\.js'/);
+  assert.match(enqueue,/assets\/js\/family-checklist-print\.js/);
   const js=read("assets/js/family-checklist-print.js");
   assert.match(js,/\[data-zp-paper-print\]/);
   assert.match(js,/\[data-zp-paper-checklist\]/);

@@ -15,11 +15,18 @@ test("rental call preparation can be printed without forms, network or storage",
   const questions=sheet.match(/<ol class="zp-paper-questions">([\s\S]*?)<\/ol>/)?.[1];
   assert.ok(questions,"Printable worksheet must use the shared print style");
   assert.equal((questions.match(/<li>/g)||[]).length,5);
-  for(const topic of ["typ chodítka","rozměry, nosnost, brzdy","celková cena",
-    "pomůcku nastaví","vrácení kauce"]){
+  for(const topic of ["typ chodítka","rozměry, nosnost, nastavení, brzdy, koncovky",
+    "celková cena","návod ke konkrétnímu modelu","vrátit pomůcku",
+    "závadě nebo poškození"]){
     assert.ok(questions.toLowerCase().includes(topic),"Missing printable question: "+topic);
   }
   assert.match(sheet,/Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte/);
+  assert.match(sheet,/Kdy a jak vrátit pomůcku, za jakých podmínek dostanu zpět kauci/,
+    "Paper checklist must explain aid return as well as deposit refund");
+  assert.match(sheet,/předá návod ke konkrétnímu modelu/,
+    "Paper checklist must request the exact model instructions");
+  assert.match(sheet,/nastavení, brzdy, koncovky a technický stav/,
+    "Paper checklist must retain the on-page handover safety checks");
   assert.match(sheet,/Sedátko rollátoru neopravňuje k převozu/);
   assert.doesNotMatch(sheet,/<form\b|<input\b|<textarea\b|data-zp-merchant-link|data-monthly-price|localStorage|sessionStorage|fetch\s*\(/i);
 });

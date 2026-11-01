@@ -119,3 +119,26 @@ test("malformed states and unknown nodes fail closed",()=>{
   assert.throws(()=>planGrowth(graph,s),/Unknown state node/);
   assert.throws(()=>growthCli(["--ignored"]),/Usage/);
 });
+
+test("unverified node evidence cannot leak tokens or private fields into public plans",()=>{
+  const s=clone(blank);
+  for(const status of ["pending","in_progress","paused"]){
+    s.nodes.safety_qa={status,evidenceUrl:"https://example.org/report?access_token=private"};
+    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+    s.nodes.safety_qa.evidenceUrl="https://user:secret@example.org/report";
+    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+    s.nodes.safety_qa.evidenceUrl="https://example.org/report#private-answer";
+    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+    s.nodes.safety_qa.evidenceUrl={answer:"private"};
+    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+    s.nodes.safety_qa.evidenceUrl="https://github.com/Rastty/zaprazi-2/actions/runs/123";
+    assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="safety_qa").status,
+      status==="paused"?"paused":status==="in_progress"?"in_progress":"ready");
+    delete s.nodes.safety_qa.evidenceUrl;
+    assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="safety_qa").evidenceUrl,null);
+  }
+  s.nodes.safety_qa={status:"pending",rawAnswers:{mobility:"private"}};
+  assert.throws(()=>planGrowth(graph,s),/Unsupported node state field/);
+  s.nodes.safety_qa={status:"pending",evidenceUrl:null};
+  assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+});

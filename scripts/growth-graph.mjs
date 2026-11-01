@@ -78,10 +78,16 @@ export function planGrowth(g,s){
   for(const k of Object.keys(s.metricSources))
     if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k))throw new Error("Orphan metric evidence "+k);
   for(const [id,record] of Object.entries(s.nodes)){
-    if(!record||!STATES.has(record.status))throw new Error("Invalid node state "+id);
-    if(record.status==="verified"&&
-        (!safeEvidenceUrl(record.evidenceUrl)))
+    if(!record||typeof record!=="object"||Array.isArray(record)||
+        !STATES.has(record.status))throw new Error("Invalid node state "+id);
+    // Even pending/paused evidence is rendered in public JSON and CI artifacts.
+    // Validate it before serialization; unknown fields may carry private answers.
+    if(Object.keys(record).some(k=>k!=="status"&&k!=="evidenceUrl"))
+      throw new Error("Unsupported node state field: "+id);
+    if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
+    if(Object.hasOwn(record,"evidenceUrl")&&!safeEvidenceUrl(record.evidenceUrl))
+      throw new Error("Node evidence must cite HTTPS evidence: "+id);
     // A cited PR is not enough to certify a downstream step while its safety
     // or evidence prerequisites are still unverified. Never silently mark it done.
     if(record.status==="verified"){

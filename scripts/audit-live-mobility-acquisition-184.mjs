@@ -166,12 +166,12 @@ export function assertMobility185UX(pages,pragueDate){
     const priceSection=section(rental,"ceny");
     assert.match(priceSection,/class=["']zp-stale-evidence["']/i,
       "Expired rental price cards need a visible stale-evidence warning");
-    const priceValues=[...priceSection.matchAll(/<dd\\b[^>]*>([\\s\\S]*?)<\\/dd>/gi)]
-      .map(m=>m[1].replace(/<[^>]*>/g,"").replace(/\\s+/g," ").trim());
+    const priceValues=[...priceSection.matchAll(/<dd\b[^>]*>([\s\S]*?)<\/dd>/gi)]
+      .map(m=>m[1].replace(/<[^>]*>/g,"").replace(/\s+/g," ").trim());
     assert.equal(priceValues.length,9,
       "Expected all nine displayed rental rates/deposits in three provider cards");
     for(const value of priceValues){
-      assert.match(value,/^(?:historicky\\b|ověřit u půjčovny \\(starší příklad:)/i,
+      assert.match(value,/^(?:historicky\b|ověřit u půjčovny \(starší příklad:)/i,
         "Expired rental rate/deposit appears current instead of historical");
     }
     assert.doesNotMatch(rental,/<form\\b[^>]*id="zp-walker-rental-budget"/i,

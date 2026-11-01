@@ -322,6 +322,15 @@ test("robots.txt wildcard root block fails SEO gate without confusing bot-specif
   assert.equal(robotsHasWildcardRootBlock("User-agent: Googlebot\nDisallow: /\n\nUser-agent: *\nDisallow: /wp-admin/\n"), false);
   assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /wp-admin/\n"), false);
   assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /\nAllow: /\n"), false);
+  // A wildcard block also prevents Google from crawling the entire site.
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /*\n"), true);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /*$\n"), true);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /*\nAllow: /\n"), true);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /\nAllow: /*\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /*\nAllow: /*\n"), false);
+  assert.equal(robotsHasWildcardRootBlock("User-agent: *\nDisallow: /\nAllow: /$\n"), true);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: Googlebot\nDisallow: /*\n"), true);
+  assert.equal(robotsHasGooglebotRootBlock("User-agent: *\nDisallow: /*\n\nUser-agent: Googlebot\nAllow: /\n"), false);
   assert.equal(robotsHasWildcardRootBlock("User-agent: GPTBot\nDisallow: /\nUser-agent: *\nAllow: /\n"), false);
   assert.equal(robotsHasWildcardRootBlock("USER-AGENT: *\n# comment\nDISALLOW: / # root blocked\n"), true);
 
@@ -337,6 +346,11 @@ test("robots.txt wildcard root block fails SEO gate without confusing bot-specif
   assert.deepEqual(report.required_decision_paths_missing, []);
   assert.equal(report.robots_wildcard_root_block, true);
   assert.throws(() => assertPublicSitemapHealthy(report), /robots.txt blocks public crawling/);
+  files[root + "/robots.txt"] = "User-agent: *\nDisallow: /*\nSitemap: " + index;
+  const wildcard = await auditPublicSitemap(mock(files).get);
+  assert.equal(wildcard.robots_wildcard_root_block, true);
+  assert.equal(wildcard.robots_googlebot_root_block, true);
+  assert.throws(() => assertPublicSitemapHealthy(wildcard), /blocks public crawling/);
   files[root + "/robots.txt"] = "User-agent: *\nDisallow: /wp-admin/\nSitemap: " + index;
   const allowed = await auditPublicSitemap(mock(files).get);
   assert.equal(allowed.robots_wildcard_root_block, false);

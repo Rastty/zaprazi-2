@@ -40,7 +40,7 @@ Pouze ručně či konektorem **s ověřitelným agregovaným zdrojem** zapiš do
 
 Každá číselná hodnota musí mít state.metricSources odpovídajícího klíče s HTTPS linkem na skutečný důkaz. Nevkládej zdravotní údaje, syrové odpovědi, kombinace uživatelských odpovědí, merchant deeplink tokeny ani osobní data. Při nedostupných zdrojích nech metriky prázdné. Globální GSC dotazy a URL řádky **nelze** spojovat podle pořadí; stávající scripts/gsc-opportunity-report.mjs zůstává autoritou pro lokální GSC CSV.
 
-Hodnoty ovlivňují pouze prioritu prověrky, nikoli automatické změny indexace. Při úpravě uzlu na verified je povinný evidenceUrl (např. CI/produkční smoke/GSC report). Po nasazení znovu změř za srovnatelné 14/30/60denní období; výsledek může být continue, adjust nebo rollback.
+Hodnoty ovlivňují pouze prioritu prověrky, nikoli automatické změny indexace. **Agregáty starší než 14 kalendářních dní (podle `asOf` a data v Europe/Prague) zůstávají ve výpisu označené jako ZASTARALÉ, ale nezvyšují skóre priorit. Datum v budoucnosti je chyba.** Pravidlo neprohlašuje stará data za nulová ani nepřepočítává období; k novému upliftu je nutný čerstvý agregovaný důkaz. Při úpravě uzlu na verified je povinný evidenceUrl (např. CI/produkční smoke/GSC report). Po nasazení znovu změř za srovnatelné 14/30/60denní období; výsledek může být continue, adjust nebo rollback.
 
 ## Co graf nyní nedělá
 Nevytváří sám nový kód, nečte aktuální GSC/GA4/affiliate účty, neslibuje běh osobního AI agenta 24/7. Předává auditovatelný plán a umožňuje navazujícímu autorizovanému runneru jednat; opakované kontroly běží v GitHub Actions. Je záměrně bezpečný, reprodukovatelný a pravdivý.

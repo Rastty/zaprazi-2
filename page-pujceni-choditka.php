@@ -22,6 +22,7 @@ get_header();
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
+        <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu</button>
       </div>
     </div>
   </section>
@@ -237,6 +238,23 @@ get_header();
         </article>
       </div>
       <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> ceny jsou příklady z konkrétních půjčoven a nejsou celostátním ceníkem. Dostupnost, dopravu a aktuální cenu ověřte přímo u poskytovatele.</p>
+    </div>
+  </section>
+
+  <!-- Blank paper worksheet: no form fields, stored answers, prices or outbound offers. -->
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="walker-rental-call" aria-label="Tiskový seznam otázek pro půjčovnu">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list pro rodinu</p>
+      <h2 class="zp-section-title">Pět otázek před půjčením chodítka</h2>
+      <p class="zp-muted-copy">Vezměte si tento prázdný list k telefonátu. Odpovědi zapisujte pouze na papír; web nic neukládá ani neodesílá.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Máte bezpečně vybraný typ chodítka a kdy bude dostupný?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Mohu před převzetím ověřit rozměry, nosnost, brzdy a technický stav?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Jaká je celková cena včetně kauce, dopravy, minimálního účtování a vrácení?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Kdo pomůcku nastaví, předá návod a ukáže bezpečné použití?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Jak probíhá vrácení kauce a co dělat při závadě?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer">Dostupnost ani cena nepotvrzují vhodnost pomůcky. Při nejistotě o bezpečném typu či použití požádejte o odborné posouzení. Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte. Sedátko rollátoru neopravňuje k převozu sedící osoby bez výslovného povolení v návodu přesného modelu.</p>
     </div>
   </section>
 </main>

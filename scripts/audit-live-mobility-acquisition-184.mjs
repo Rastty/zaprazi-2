@@ -174,7 +174,7 @@ export function assertMobility185UX(pages,pragueDate){
       assert.match(value,/^(?:historicky\b|ověřit u půjčovny \(starší příklad:)/i,
         "Expired rental rate/deposit appears current instead of historical");
     }
-    assert.doesNotMatch(rental,/<form\\b[^>]*id="zp-walker-rental-budget"/i,
+    assert.doesNotMatch(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
       "Expired rental calculator must be absent from rendered HTML");
     assert.doesNotMatch(rental,/data-monthly-price=/i,
       "Expired rates must not remain in calculator attributes");

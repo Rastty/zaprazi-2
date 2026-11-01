@@ -135,6 +135,24 @@ export function assertMobility185UX(pages,pragueDate){
   assert.doesNotMatch(call,/<form\b|<input\b|data-zp-merchant-link/i,
     "Call preparation must not collect answers or bypass fit gate");
 
+  // The printable rental worksheet must ship with the release, stay blank,
+  // and never smuggle prices, personal answers or merchant offers into print.
+  assert.match(rental,/data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu<\/button>/,
+    "Printable rental questions button must be hidden without JavaScript");
+  const printStart=rental.indexOf('data-zp-paper-checklist="walker-rental-call"');
+  const printEnd=rental.indexOf("</section>",printStart);
+  assert.ok(printStart>=0&&printEnd>printStart,
+    "Printable rental call worksheet not deployed");
+  const paper=rental.slice(printStart,printEnd);
+  const printList=paper.match(/<ol class="zp-paper-questions">([\s\S]*?)<\/ol>/i)?.[1];
+  assert.ok(printList,"Printable rental call worksheet must have an ordered list");
+  assert.equal((printList.match(/<li\b/gi)||[]).length,5,
+    "Printable rental worksheet must include all five questions");
+  assert.match(paper,/Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte/,
+    "Printable rental worksheet must retain the safety warning");
+  assert.doesNotMatch(paper,/<form\b|<input\b|<textarea\b|data-zp-merchant-link|data-monthly-price/i,
+    "Printable rental worksheet must remain blank and offer-free");
+
   const measureStart=measuring.indexOf("Kontrolní seznam pro rodinu");
   const measureEnd=measuring.indexOf("Teď zvolte správnou cestu",measureStart);
   assert.ok(measureStart>=0&&measureEnd>measureStart,

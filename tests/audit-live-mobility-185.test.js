@@ -16,7 +16,13 @@ function fixtures(expired=false){
     link("/co-zmerit-pred-vyberem-choditka/#co-zmerit")+link("/#poradce")+
     '</div></section>'+
     (expired
-      ?'<section><p>Přepočet není k dispozici</p><p>historicky 360 Kč</p>'+
+      ?'<section id="ceny"><p class="zp-stale-evidence">Starší ceny, ověřte u půjčovny</p>'+
+        '<dl>'+["historicky 12 Kč / den","historicky 360 Kč","historicky 1 000 Kč",
+          "historicky 10 Kč / den","historicky 300 Kč",
+          "ověřit u půjčovny (starší příklad: 1 000 Kč)",
+          "historicky 250 Kč","historicky 600 Kč","historicky 1 000 Kč"]
+          .map(v=>'<dd>'+v+'</dd>').join("")+'</dl></section>'+
+        '<section><p>Přepočet není k dispozici</p><p>historicky 360 Kč</p>'+
         '<p>Historické příklady, nikoli aktuální nabídka</p></section>'
       :'<section><form id="zp-walker-rental-budget"></form></section>');
   const labels=["Nejužší průchod","Místo pro otočení","Výška madel",
@@ -82,6 +88,21 @@ test("0.8.185: stale calculator or misleading current-rate CTA blocks postdeploy
   const currentCTA=fixtures(true);
   currentCTA.rental+='<button>Spočítat orientační půjčovné</button>';
   assert.throws(()=>assertMobility185UX(currentCTA,"2026-11-07"),/Expired rental CTA/);
+});
+
+test("0.8.185: all nine expired provider prices and deposits must be visibly historical",()=>{
+  const currentRate=fixtures(true);
+  currentRate.rental=currentRate.rental.replace("<dd>historicky 300 Kč</dd>","<dd>300 Kč</dd>");
+  assert.throws(()=>assertMobility185UX(currentRate,"2026-11-07"),
+    /appears current instead of historical/);
+  const missingRate=fixtures(true);
+  missingRate.rental=missingRate.rental.replace("<dd>historicky 250 Kč</dd>","");
+  assert.throws(()=>assertMobility185UX(missingRate,"2026-11-07"),
+    /Expected all nine displayed rental rates/);
+  const missingWarning=fixtures(true);
+  missingWarning.rental=missingWarning.rental.replace('class="zp-stale-evidence"','class="zp-note"');
+  assert.throws(()=>assertMobility185UX(missingWarning,"2026-11-07"),
+    /visible stale-evidence warning/);
 });
 
 test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and after expiry",()=>{

@@ -103,6 +103,72 @@ export function assertMobilityAcquisition(pages,release){
   return {release,pages_checked:4,acquisition_links_checked:4,waiting_links_checked:2,
     section_targets_checked:4};
 }
+
+// 0.8.185 acceptance must inspect the *deployed HTML*, not only the PHP
+// templates or the old 0.8.184 production seen by pull-request CI.
+// It is intentionally read-only: no Advisor answers, merchant clicks or storage.
+export function assertMobility185UX(pages,pragueDate){
+  assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
+  const rental=clean(pages.rental),measuring=clean(pages.measuring);
+  assert.ok(isExactAnchor(rental,"zp-otazky-pujcovna"),
+    "0.8.185 rental call-preparation anchor not deployed");
+  const callStart=rental.indexOf('id="zp-otazky-pujcovna"');
+  const callEnd=rental.indexOf("</section>",callStart);
+  assert.ok(callStart>=0&&callEnd>callStart,"Rental call preparation section missing");
+  const call=rental.slice(callStart,callEnd);
+  assert.match(call,/role="region"[^>]*tabindex="-1"[^>]*aria-labelledby="otazky-pujcovna-nadpis"/,
+    "Rental call questions must be keyboard-focusable and named");
+  const list=call.match(/<ol\b[^>]*class="zp-checklist"[^>]*>([\s\S]*?)<\/ol>/i)?.[1];
+  assert.ok(list,"Rental call questions must be a visible ordered list");
+  assert.equal((list.match(/<li\b/gi)||[]).length,5,
+    "All five rental call questions must be present");
+  for(const topic of ["Typ a dostupnost","Technická kontrola","Celkové náklady",
+    "Předání a zaučení","Vrácení a závady"]){
+    assert.ok(list.includes(topic),"Missing rental call question: "+topic);
+  }
+  assert.match(call,/Neberte automaticky jiný typ/,
+    "Unavailable rental type must not silently become a substitute");
+  assert.match(call,/pomůcku k převozu nepoužívejte/,
+    "Rollator seat must not imply transport suitability");
+  requireLinks(call,["/co-zmerit-pred-vyberem-choditka/#co-zmerit","/#poradce"],
+    "rental call preparation");
+  assert.doesNotMatch(call,/<form\b|<input\b|data-zp-merchant-link/i,
+    "Call preparation must not collect answers or bypass fit gate");
+
+  const measureStart=measuring.indexOf("Kontrolní seznam pro rodinu");
+  const measureEnd=measuring.indexOf("Teď zvolte správnou cestu",measureStart);
+  assert.ok(measureStart>=0&&measureEnd>measureStart,
+    "Seven-point home checklist not deployed");
+  const checklist=measuring.slice(measureStart,measureEnd);
+  const steps=[...checklist.matchAll(/<div>\s*<span>(\d{2})<\/span>\s*<strong>/g)]
+    .map(m=>m[1]);
+  assert.deepEqual(steps,["01","02","03","04","05","06","07"],
+    "Seven visible home checks must be in sequence");
+  assert.match(checklist,/Prahy a podlaha/);
+  assert.match(checklist,/mokrá místa/);
+  requireLinks(checklist,["/prahy-pro-choditko-a-vozik/#mereni-prahu"],
+    "threshold measuring guidance");
+  assert.doesNotMatch(checklist,/<form\b|<input\b|data-zp-merchant-link/i,
+    "Home checklist must not collect private answers or show offers");
+
+  if(pragueDate>"2026-11-06"){
+    assert.doesNotMatch(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
+      "Expired rental calculator must be absent from rendered HTML");
+    assert.doesNotMatch(rental,/data-monthly-price=/i,
+      "Expired rates must not remain in calculator attributes");
+    assert.match(rental,/Přepočet není k dispozici/);
+    assert.match(rental,/historicky 360 Kč/);
+    assert.match(rental,/Historické příklady, nikoli aktuální nabídka/);
+    assert.doesNotMatch(rental,/>Spočítat orientační půjčovné</,
+      "Expired rental CTA must not imply a current rate");
+  }else{
+    assert.match(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
+      "Current-window calculator unexpectedly missing");
+  }
+  return {rental_call_questions:5,home_checks:7,
+    rental_prices:pragueDate>"2026-11-06"?"expired_fail_closed":"within_review_window"};
+}
+
 async function get(path){
   assert.ok(Object.values(paths).includes(path)||path==="/wp-json/zaprazi/v1/affiliate-readiness");
   const url=origin+path;
@@ -127,9 +193,13 @@ export async function verifyLiveMobilityAcquisition(){
     year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
   const sukl=assertExpiredSuklEvidence(pages.insurance,pragueDate);
   const report=assertMobilityAcquisition(pages,SOURCE_THEME_RELEASE);
+  const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
+  const mobility185=(release185[0]>0||release185[1]>8||
+    (release185[1]===8&&release185[2]>=185))
+    ?assertMobility185UX(pages,pragueDate):null;
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,
-    sukl_monthly_evidence:sukl.status,
+    sukl_monthly_evidence:sukl.status,release_185_ux:mobility185,
     note:"Public read-only acceptance; not proof of traffic, suitability or commissions"
   }));
   return report;

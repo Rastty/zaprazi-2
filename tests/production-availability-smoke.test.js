@@ -2,12 +2,12 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { anchors, assertHomepage, assertMobility, runSmoke } from "../scripts/production-availability-smoke.mjs";
 
-const homepage = \`<!doctype html><html><h1>Bezpečně a samostatně doma.</h1>
+const homepage = `<!doctype html><html><h1>Bezpečně a samostatně doma.</h1>
 <a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>
-<section id="poradce"><div id="zp-mobility-advisor"></div></section>\${"x".repeat(150)}</html>\`;
-const mobility = \`<!doctype html><html><h1>Chodítka pro seniory: jak vybrat správný typ.</h1>
+<section id="poradce"><div id="zp-mobility-advisor"></div></section>${"x".repeat(150)}</html>`;
+const mobility = `<!doctype html><html><h1>Chodítka pro seniory: jak vybrat správný typ.</h1>
 <a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>
-\${"x".repeat(150)}</html>\`;
+${"x".repeat(150)}</html>`;
 const response = html => ({
   status: 200,
   headers: { get: key => key === "content-type" ? "text/html; charset=UTF-8" : null },

@@ -124,6 +124,27 @@ jobs:
         if: github.event_name != 'pull_request'
         run: node scripts/audit-live-mobility-acquisition-184.mjs
 
+  # Independent acceptance for the release-specific return-home UX.
+  # Never test future 0.8.185 HTML against an older live release on a PR.
+  # Scheduled/authorized manual dispatch checks the deployed theme version.
+  return-home-ux-185:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only browser audit dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify mobile return-home safety plan and six live guide anchors
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-return-home-ux-185.mjs
+
   editorial-seo-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 10

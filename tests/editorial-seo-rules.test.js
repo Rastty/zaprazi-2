@@ -101,8 +101,8 @@ test("multiple canonical declarations fail even when the first URL is correct",(
 
 test("live editorial DOM audit reads all robots and canonical tags, not only first",()=> {
   const source=readFileSync(new URL("../scripts/audit-live-editorial-seo.mjs",import.meta.url),"utf8");
-  assert.match(source,/querySelectorAll\\('meta\\[name="robots" i\\]'\\)/);
-  assert.match(source,/querySelectorAll\\('meta\\[name="googlebot" i\\]'\\)/);
-  assert.match(source,/querySelectorAll\\('link\\[rel~="canonical" i\\]'\\)/);
-  assert.match(source,/canonicalCount:canonicalTags\\.length/);
+  assert.ok(source.includes("querySelectorAll('meta[name=\\\"robots\\\" i]')"));
+  assert.ok(source.includes("querySelectorAll('meta[name=\\\"googlebot\\\" i]')"));
+  assert.ok(source.includes("querySelectorAll('link[rel~=\\\"canonical\\\" i]')"));
+  assert.ok(source.includes("canonicalCount:canonicalTags.length"));
 });

@@ -8,8 +8,10 @@ import {accessSync,constants} from "node:fs";
 import puppeteer from "puppeteer-core";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
 
-if(process.env.GITHUB_EVENT_NAME==="pull_request")
-  throw new Error("This acceptance requires a scheduled or authorized postdeploy run");
+// A test-only QA PR can diagnose the ALREADY deployed identical release.
+// It never substitutes for the scheduled/authorized postdeploy acceptance.
+if(process.env.GITHUB_EVENT_NAME==="pull_request" && process.env.ZP_SAME_RELEASE_QA_PR!=="1")
+  throw new Error("This acceptance requires postdeploy or an explicit same-release read-only QA PR");
 if(SOURCE_THEME_RELEASE!=="0.8.186"){
   console.log("NOT_APPLICABLE: 0.8.186 Human UX audit");
   process.exit(0);

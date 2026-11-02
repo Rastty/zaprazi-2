@@ -34,7 +34,8 @@ try{
         const content=document.querySelector("main");
         const canon=document.querySelector('link[rel="canonical"]');
         const meta=document.querySelector('meta[name="description"]');
-        const robots=document.querySelector('meta[name="robots"]');
+        const robots=document.querySelector('meta[name="robots" i]');
+        const googlebotRobots=document.querySelector('meta[name="googlebot" i]');
         const safeHref=a=>{
           try{const u=new URL(a.getAttribute("href"),location.href);
             if(u.hostname!=="zaprazi.cz")return null;
@@ -51,6 +52,7 @@ try{
           ogUrl:document.querySelector('meta[property="og:url"]')?.content||"",
           release:document.querySelector('meta[name="zaprazi-release"]')?.content||"",
           robots:robots?.content||"",
+          googlebotRobots:googlebotRobots?.content||"",
           ids:[...document.querySelectorAll("[id]")].map(x=>x.id),
           mainWords:(content?.innerText||"").split(/\s+/).filter(Boolean).length,
           mainContentLinks:[...(content?.querySelectorAll("a[href]")||[])]
@@ -59,7 +61,8 @@ try{
           yoastSchema:document.querySelector("script.yoast-schema-graph")?.textContent || ""
         };
       });
-      observed.push({path,status:response?.status(),...result});
+      observed.push({path,status:response?.status(),
+        xRobotsTag:response?.headers()?.["x-robots-tag"]||"",...result});
       console.log("PAGE_AUDIT",JSON.stringify({
         path,status:response?.status(),h1:result.h1.length,
         description:result.description.length,canonical_matches:result.canonical===base+path,
@@ -67,7 +70,7 @@ try{
       }));
     }catch(error){
       observed.push({path,status:"fetch_error",h1:[],title:"",description:"",
-        canonical:"",robots:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
+        canonical:"",robots:"",googlebotRobots:"",xRobotsTag:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
         error:"navigation_or_render_failure"});
       console.error("PAGE_AUDIT_FAILURE",path,"navigation_or_render_failure");
     }finally{await page.close();}

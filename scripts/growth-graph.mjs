@@ -70,19 +70,21 @@ export function planGrowth(g,s,now=new Date()){
   const allowedStateFields=new Set(["schemaVersion","asOf","metrics","metricSources","nodes"]);
   if(Object.keys(s).some(key=>!allowedStateFields.has(key)))
     throw new Error("Unsupported growth state field");
+  // State keys are untrusted: accidental answer text may be used as a JSON key.
+  // Never echo unknown keys into public CI logs or workflow summaries.
   const ids=new Set(g.nodes.map(n=>n.id));
   const nodeById=new Map(g.nodes.map(n=>[n.id,n]));
-  for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node "+k);
+  for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node");
   for(const [k,v] of Object.entries(s.metrics)){
     // Funnel/search event counts are discrete; only approved commission is currency.
     if(!METRICS.includes(k)||!Number.isFinite(v)||v<0||
         (k!=="approved_affiliate_commission_28d"&&!Number.isSafeInteger(v)))
-      throw new Error("Invalid or unsupported aggregate metric "+k);
+      throw new Error("Invalid or unsupported aggregate metric");
     if(!safeEvidenceUrl(s.metricSources[k]))
-      throw new Error("Aggregate metric requires explicit HTTPS evidence: "+k);
+      throw new Error("Aggregate metric requires explicit HTTPS evidence");
   }
   for(const k of Object.keys(s.metricSources))
-    if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k))throw new Error("Orphan metric evidence "+k);
+    if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k))throw new Error("Orphan metric evidence");
   // Both GSC totals cover the same 28-day window. A click requires an
   // impression, so impossible aggregates must not influence the graph plan.
   // Do not apply this rule to GA4 events: consent and window boundaries differ.

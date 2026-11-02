@@ -78,7 +78,8 @@ function positivePosition(v){
 }
 function canonicalPath(s){
   try{
-    const url=new URL(String(s).trim());
+    const raw=String(s).trim();
+    const url=new URL(raw);
     // GSC reports URL dimensions, not an inferred canonical cluster. Never
     // silently credit HTTP, slashless or duplicate-slash URLs to a clean
     // decision landing: those variants may indicate separate indexation.
@@ -86,7 +87,12 @@ function canonicalPath(s){
     if(url.protocol!=="https:"||url.origin!=="https://zaprazi.cz"||
         url.username||url.password||url.search||url.hash)return null;
     const path=url.pathname;
-    if(!path.startsWith("/")||path.includes("//")||
+    // URL() normalizes default ports, host casing and dot segments. GSC
+    // reports the original URL dimension, not the browser-normalized path.
+    // Do not silently credit those variants (or empty ?/# suffixes) to a
+    // canonical landing, even when URL() resolves them to the same pathname.
+    if(raw!=="https://zaprazi.cz"+path||
+        !path.startsWith("/")||path.includes("//")||
         /%2f|%5c/i.test(path)||!path.endsWith("/"))return null;
     return path;
   }catch{return null;}

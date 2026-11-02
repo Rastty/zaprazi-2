@@ -1,6 +1,14 @@
 name: Production Advisor Browser QA
 
 on:
+  # An explicit versioned postdeploy acknowledgment triggers exact-source
+  # read-only Chrome QA without needing workflow_dispatch credentials.
+  # This must never build, deploy or write to WordPress.
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/POSTDEPLOY_QA_TRIGGER.md"
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"

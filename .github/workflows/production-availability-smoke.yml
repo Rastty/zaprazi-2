@@ -6,6 +6,7 @@ on:
   pull_request:
     paths:
       - "scripts/production-availability-smoke.mjs"
+      - "tests/production-availability-smoke.test.js"
       - ".github/workflows/production-availability-smoke.yml"
 permissions:
   contents: read
@@ -18,5 +19,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Unit tests for read-only assertions
+        run: node --test tests/production-availability-smoke.test.js
       - name: Production homepage read-only smoke
         run: node scripts/production-availability-smoke.mjs

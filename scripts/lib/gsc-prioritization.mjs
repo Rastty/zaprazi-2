@@ -79,11 +79,16 @@ function positivePosition(v){
 function canonicalPath(s){
   try{
     const url=new URL(String(s).trim());
-    if(!["https:","http:"].includes(url.protocol)||url.hostname.toLowerCase()!=="zaprazi.cz"||
-        url.port||url.username||url.password||url.search||url.hash)return null;
-    const normalized=url.pathname.replace(/\/+/g,"/");
-    if(!normalized.startsWith("/")||/%2f|%5c/i.test(normalized))return null;
-    return normalized.endsWith("/")?normalized:normalized+"/";
+    // GSC reports URL dimensions, not an inferred canonical cluster. Never
+    // silently credit HTTP, slashless or duplicate-slash URLs to a clean
+    // decision landing: those variants may indicate separate indexation.
+    // Keep them review-only until a page-filtered GSC check proves otherwise.
+    if(url.protocol!=="https:"||url.origin!=="https://zaprazi.cz"||
+        url.username||url.password||url.search||url.hash)return null;
+    const path=url.pathname;
+    if(!path.startsWith("/")||path.includes("//")||
+        /%2f|%5c/i.test(path)||!path.endsWith("/"))return null;
+    return path;
   }catch{return null;}
 }
 function toRow(row,ix,kind){
@@ -171,7 +176,7 @@ export function renderGscReport(r){
     "**Časové období:** "+r.periodStart+" až "+r.periodEnd+" (datum deklarované při exportu).",
     "**Rozsah souboru:** "+r.exported_page_rows+" řádků Pages, z toho "+
       r.accepted_page_rows+" bezpečně rozpoznaných URL a "+
-      r.skipped_external_or_parameterized_rows+" vyřazených externích/parametrických URL.",
+      r.skipped_external_or_parameterized_rows+" vyřazených nekanonických URL (HTTP, jiný host, parametry nebo nekanonická cesta).",
     "## 1. Stávající rozhodovací a poradenské stránky — priorita redakční revize",
     table(r.core.slice(0,27),true),
     "## 2. Jiné a historické stránky — POUZE návrhy ke kontrole, žádné přesměrování",

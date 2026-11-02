@@ -102,6 +102,11 @@ try {
       overviewCards:overview?.querySelectorAll("article.zp-decision-card").length||0,
       overviewTitle:overview?.querySelector("#zp-return-overview-title")?.textContent,
       plainText:overview?.textContent,
+      checklistPresent:!!full,
+      criticalBeforeOverview:!!critical&&!!overview&&
+        !!(critical.compareDocumentPosition(overview)&Node.DOCUMENT_POSITION_FOLLOWING),
+      overviewBeforeChecklist:!!overview&&!!full&&
+        !!(overview.compareDocumentPosition(full)&Node.DOCUMENT_POSITION_FOLLOWING),
       order:!!critical&&!!overview&&!!full&&
         !!(critical.compareDocumentPosition(overview)&Node.DOCUMENT_POSITION_FOLLOWING)&&
         !!(overview.compareDocumentPosition(full)&Node.DOCUMENT_POSITION_FOLLOWING),
@@ -114,6 +119,8 @@ try {
   assert.ok(result.criticalCount>=3,"Unsafe return requires multiple explicit blockers");
   assert.equal(result.overviewCards,3,"Three practical orientation cards expected");
   assert.equal(result.overviewTitle,"Váš plán ve třech bodech");
+  console.log("LIVE_186_PLAN_DOM",JSON.stringify({critical:result.criticalCount,overviewCards:result.overviewCards,checklistPresent:result.checklistPresent,criticalBeforeOverview:result.criticalBeforeOverview,overviewBeforeChecklist:result.overviewBeforeChecklist,printAvailable:result.printAvailable}));
+  assert.equal(result.checklistPresent,true,"Original full family task list must be present");
   assert.equal(result.order,true,"Full critical blockers must precede orientation and checklist");
   assert.equal(result.printAvailable,true);
   assert.equal(result.linkLeak,false,"Health-state answer must never leak in links");

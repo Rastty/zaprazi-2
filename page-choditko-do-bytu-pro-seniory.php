@@ -73,6 +73,24 @@ get_header();
         <article class="zp-decision-card"><h3>BESCO WA17</h3><p>Čtyři pevné opěrné body. Hmotnost 2,3 kg, šířka 59 cm, výška 80–98 cm, nosnost 110 kg. Při kroku se celé chodítko mírně nadzvedává.</p></article>
         <article class="zp-decision-card"><h3>BESCO WA21</h3><p>Dvě přední kolečka a dvě zadní opěrné nohy. Hmotnost 2,8 kg, šířka 60 cm, výška 81–99 cm, nosnost 110 kg. Není potřeba zvedat celou konstrukci při každém kroku.</p></article>
       </div>
+      <p class="zp-disclaimer"><strong>Pozor na úzké dveře:</strong> šířka chodítka v katalogu není totéž jako prostor potřebný k bezpečnému průchodu. <a class="zp-text-link" href="#zp-pruchod-choditko-byt">Zkontrolovat průchod ještě před objednáním</a>.</p>
+    </div>
+  </section>
+
+  <section id="zp-pruchod-choditko-byt" class="zp-section" aria-labelledby="zp-pruchod-choditko-byt-nadpis">
+    <div class="zp-wrap">
+      <div class="zp-panel">
+        <p class="zp-kicker">Úzké dveře a malý byt</p>
+        <h2 id="zp-pruchod-choditko-byt-nadpis" class="zp-section-title">Projde chodítko dveřmi širokými 60 cm?</h2>
+        <p><strong>Ze samotného čísla to bezpečně určit nelze.</strong> WA17 má uvedenou celkovou šířku 59 cm a WA21 60 cm. Pokud má skutečný volný průchod také 60 cm, neznamená to, že je model bezpečně průchozí: člověk potřebuje prostor pro ruce, vedení rámu i manévrování.</p>
+        <ol class="zp-checklist">
+          <li><strong>Změřte skutečný volný průchod.</strong> Dveře otevřete do polohy, ve které se budou běžně používat, a měřte mezi místy, která průchod opravdu omezují — včetně vyčnívajícího kování. Neřiďte se jen nominální šířkou dveřního křídla.</li>
+          <li><strong>Porovnejte přesný model s prostředím.</strong> Ověřte celkovou šířku rozložené pomůcky podle výrobce a zda při jejím vedení zůstává bezpečný prostor pro člověka a ruce. Univerzální „rezervu v centimetrech“ nepředstíráme.</li>
+          <li><strong>Zkontrolujte celou trasu, nejen jedny dveře.</strong> Otočení u WC nebo postele, prahy, volné koberečky a kluzká podlaha mohou výběr změnit. Pokud rozměry nebo způsob chůze nejsou jisté, neobjednávejte konkrétní model podle šířky z katalogu; ověřte ho v prostředí s odbornou pomocí.</li>
+        </ol>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít podrobný měřicí seznam pro domácnost</a> · <a class="zp-text-link" href="#poradce-choditko-byt">Ověřit další bezpečný krok v poradci</a></p>
+        <p class="zp-disclaimer">Naměřená průchozí šířka ani rozměr chodítka samy o sobě nepotvrzují vhodnost pomůcky nebo bezpečnost chůze.</p>
+      </div>
     </div>
   </section>
 
@@ -156,7 +174,7 @@ get_header();
     <div class="zp-wrap zp-faq">
       <h2 class="zp-section-title">Časté otázky</h2>
       <details><summary>Jaké chodítko je vhodnější do bytu?</summary><p>Záleží hlavně na tom, zda člověk potřebuje stabilní oporu a zvládne chodítko při kroku lehce nadzvednout. Pokud ne, může být praktičtější dvoukolové provedení.</p></details>
-      <details><summary>Kolik místa chodítko potřebuje?</summary><p>WA17 má celkovou šířku 59 cm a WA21 60 cm. Před nákupem proto změřte nejužší dveře a průchody v místě, kde se bude chodítko používat.</p></details>
+      <details><summary>Kolik místa chodítko potřebuje?</summary><p>WA17 má celkovou šířku 59 cm a WA21 60 cm, ale samotná stejná šířka dveří nestačí k potvrzení průchodu. Měřte volnou šířku při otevřených dveřích, prostor pro ruce, otočení i překážky. <a class="zp-text-link" href="#zp-pruchod-choditko-byt">Jak bezpečně zkontrolovat úzký průchod</a>.</p></details>
       <details><summary>Je lehčí chodítko automaticky lepší?</summary><p>Ne. Nižší hmotnost usnadňuje manipulaci, ale typ chodítka musí odpovídat způsobu chůze a potřebné opoře.</p></details>
       <details><summary>Kdy online poradce konkrétní chodítko nedoporučí?</summary><p>Pokud člověk při chůzi běžně potřebuje fyzickou pomoc druhé osoby nebo není jasné, jak velkou oporu skutečně potřebuje.</p></details>
     </div>

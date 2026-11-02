@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_187
+// ZP_RELEASE_0_8_188
 (() => {
   "use strict";
 
@@ -12,7 +12,8 @@
     "product_click",
     "merchant_click",
     "affiliate_click",
-    "next_step_click"
+    "next_step_click",
+    "guide_advisor_click"
   ]);
 
   if (!/^G-[A-Z0-9]+$/i.test(measurementId)) {
@@ -38,7 +39,7 @@
   let gaLoaded = false;
   // Funnel stages mean unique visitors reaching a step on this page render,
   // not repeated submit clicks after changing answers.
-  const oncePerPage = new Set(["builder_start", "builder_complete", "recommendation_view"]);
+  const oncePerPage = new Set(["builder_start", "builder_complete", "recommendation_view", "guide_advisor_click"]);
   const sentOnThisPage = new Set();
 
   const readPreference = () => {
@@ -160,6 +161,26 @@
         target.pathname === window.location.pathname ||
         target.search || target.hash && target.pathname === window.location.pathname) return;
     sendEvent("next_step_click");
+  });
+
+  // Anonymous editorial-to-Advisor handoff. Only explicitly marked primary
+  // local links are eligible: no URL, title, product, diagnosis, selected
+  // answers, merchant or source-page parameter ever reaches analytics.
+  // Once per page view is a funnel interaction count, NOT unique people.
+  document.addEventListener("click", (event) => {
+    const link = event?.target?.closest?.('a[data-zp-journey="advisor"][href]');
+    if (!link || link.closest(".zp-result") ||
+        link.matches('a[rel~="sponsored"]') || link.hasAttribute("download")) return;
+    const href = link.getAttribute("href");
+    if (!href) return;
+    let destination;
+    try { destination = new URL(href, window.location.href); }
+    catch { return; }
+    if (destination.protocol !== "https:" ||
+        destination.origin !== window.location.origin ||
+        destination.search ||
+        !/^#poradce(?:-[a-z0-9-]+)?$/.test(destination.hash)) return;
+    sendEvent("guide_advisor_click");
   });
 
   const initUi = () => {

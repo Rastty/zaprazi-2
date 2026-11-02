@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_187 */
+/* ZP_RELEASE_0_8_188 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -74,7 +74,7 @@ get_header();
         <li><strong>Kde lze pomůcku ověřit a získat?</strong> S odborníkem typ vyzkoušet; podle délky potřeby prověřit <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">půjčení</a> a případné <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">předepsání na ePoukaz</a>. Nic z toho automaticky neprokazuje úhradu konkrétního výrobku.</li>
       </ol>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Začít poradcem pro bezpečnou chůzi</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Začít poradcem pro bezpečnou chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Připravit měření před výběrem</a>
       </div>
       <p class="zp-disclaimer"><strong>Podklady:</strong> <a href="https://www.nhs.uk/social-care-and-support/care-services-equipment-and-care-homes/walking-aids-wheelchairs-and-mobility-scooters/" target="_blank" rel="noopener noreferrer">NHS — walking aids</a> (rozdílná opora a kritéria výběru), <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener noreferrer">VZP — pomůcky při omezení pohyblivosti</a> (lékařské posouzení, hůl/berle vs. chodítko), <a href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV — péče a služby</a> (půjčovny a konzultace). Kontrola 28. 10. 2026. Nejde o individuální zdravotnické doporučení; pravidla úhrady je třeba znovu ověřit.</p>

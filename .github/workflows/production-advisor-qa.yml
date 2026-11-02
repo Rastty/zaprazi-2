@@ -208,6 +208,26 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-mobility-first-action-187.mjs
 
+  editorial-advisor-funnel-188:
+    # PRs check the currently deployed old release, not future theme HTML.
+    # Run this strict acceptance only after the owner's manual WordPress deploy.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install real Chrome read-only acceptance
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify six editorial journeys, release marker and privacy
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-editorial-advisor-funnel-188.mjs
+
   editorial-seo-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 10

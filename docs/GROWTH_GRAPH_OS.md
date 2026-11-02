@@ -44,3 +44,11 @@ Hodnoty ovlivňují pouze prioritu prověrky, nikoli automatické změny indexac
 
 ## Co graf nyní nedělá
 Nevytváří sám nový kód, nečte aktuální GSC/GA4/affiliate účty, neslibuje běh osobního AI agenta 24/7. Předává auditovatelný plán a umožňuje navazujícímu autorizovanému runneru jednat; opakované kontroly běží v GitHub Actions. Je záměrně bezpečný, reprodukovatelný a pravdivý.
+
+## Nový mezikrok: editorial → poradce (od následujícího release)
+
+U šesti stávajících rozhodovacích/obsahových URL lze s **výslovným souhlasem** zaznamenat obecnou událost `guide_advisor_click`. Počítá nejvýše jednu interakci daného typu za načtení stránky; **nejde o unikátního uživatele, skutečné zahájení ani dokončení poradce, klik na obchodníka, objednávku nebo provizi**. Vykreslená URL stránky v konfiguraci GA4 je očištěná o query/hash a událost nepřijímá parametry.
+
+Událost se vyvolá jen na ručně označeném primárním odkazu `data-zp-journey="advisor"` na **stejné HTTPS doméně**, směřujícím na existující kotvu poradce; bez obchodního odkazu, URL parametrů a interních akcí ze samotného výsledku poradce. Při odmítnutém nebo neznámém souhlasu se neodešle vůbec nic, ani zpětně po pozdějším souhlasu. Odpovědi, diagnózy, cílové URL, názvy produktů a kombinace potřeb se do analytiky neposílají.
+
+Při použití agregovaného BigQuery exportu (`scripts/ga4-bigquery-readonly.mjs`) vyhodnocuj tuto událost **odděleně** od `builder_start` a `builder_complete`. Rozdílné stránky a různé rozsahy souhlasu mohou znamenat, že z jejich počtů nelze vypočítat přímo konverzní poměr lidí. Nejde o důkaz zlepšení SEO. Bez ověřené GA4 a GSC evidence nech všechny metriky v `config/growth-state.json` prázdné.

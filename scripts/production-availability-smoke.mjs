@@ -35,5 +35,19 @@ for (const href of local) {
   const u = new URL(href, base);
   if (u.origin !== base.origin) throw new Error("Unexpected navigation origin");
 }
-console.log("PASS homepage HTTP 200, core content, internal navigation (" + local.length + " links).");
+// Critical Mobility entry must remain reachable and lead toward a safe Advisor.
+// This only checks static HTML: it never submits the questionnaire.
+const mobilityPath = "/choditka-pro-seniory/";
+if (!hrefs.some(h => {
+  try { const u = new URL(h,base); return u.origin === base.origin && u.pathname === mobilityPath; }
+  catch { return false; }
+})) throw new Error("Homepage lacks Mobility landing link");
+const mobility = await fetchPublic(mobilityPath);
+if (!/text\\/html/i.test(mobility.response.headers.get("content-type") || ""))
+  throw new Error("Mobility landing did not return HTML");
+if (!mobility.body.includes("Chodítka pro seniory"))
+  throw new Error("Mobility landing content missing");
+if (!/poradce/i.test(mobility.body) || !/href=["'][^"']*#([^"']*poradce|advisor)/i.test(mobility.body))
+  throw new Error("Mobility landing lacks Advisor anchor link");
+console.log("PASS homepage HTTP 200, core content, internal navigation (" + local.length + " links); Mobility landing and Advisor handoff.");
 console.log("Read-only availability probe only; NOT a Chrome functional, accessibility or safety-gate certification.");

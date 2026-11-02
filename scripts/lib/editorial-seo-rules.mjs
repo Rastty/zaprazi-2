@@ -39,6 +39,11 @@ export function summarizeEditorialPages(pages, site = "https://zaprazi.cz") {
     if (url.origin !== site || url.pathname !== p.path || url.search || url.hash) {
       add(errors, p.path, "CANONICAL_MISMATCH", p.canonical);
     }
+    // Multiple canonical declarations are ambiguous even if the first is
+    // correct. Older offline fixtures omit canonicalCount; live DOM sets it.
+    if (p.canonicalCount !== undefined && p.canonicalCount !== 1) {
+      add(errors, p.path, "CANONICAL_COUNT", String(p.canonicalCount));
+    }
     if (hasNoindex(p.robots)) add(errors, p.path, "NOINDEX", "robots_meta");
     if (hasNoindex(p.googlebotRobots)) add(errors, p.path, "GOOGLEBOT_NOINDEX", "googlebot_meta");
     if (googlebotBlockedByXRobotsTag(p.xRobotsTag))

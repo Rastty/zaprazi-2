@@ -67,7 +67,8 @@ const result={source_pages:pages.length, audited_source_paths:pages.map(p=>p.pat
   unique_safe_targets:ready.targets.length,excluded:ready.excluded,
   insecure_internal_links:ready.insecure_internal_links,
   noncanonical_internal_links:ready.noncanonical_internal_links,
-  unsafe_first_party_links:ready.unsafe_first_party_links,...checked};
+  unsafe_first_party_links:ready.unsafe_first_party_links,
+  noncanonical_slashless_links:ready.noncanonical_slashless_links,...checked};
 const fragmentReport=auditInternalFragments(fragmentTargets,idsByPath);
 const {checked_paths,...summary}=result;
 console.log("LINK_HEALTH_SUMMARY",JSON.stringify(summary));
@@ -75,5 +76,5 @@ console.log("LINK_HEALTH_TARGETS",JSON.stringify(checked_paths));
 console.log("LINK_FRAGMENT_SUMMARY",JSON.stringify(publicFragmentReport(fragmentReport)));
 if(result.broken.length||ready.insecure_internal_links.count||
     ready.noncanonical_internal_links.count||ready.unsafe_first_party_links.count||
-    fragmentReport.broken.length||fragmentReport.unchecked.length)
+    ready.noncanonical_slashless_links.count||fragmentReport.broken.length||fragmentReport.unchecked.length)
   process.exitCode=1;

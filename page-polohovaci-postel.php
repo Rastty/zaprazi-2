@@ -14,7 +14,7 @@ get_header();
       <p class="zp-muted-copy">Řešíte také hygienu a mytí vlasů člověka na lůžku? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak bezpečně umýt vlasy na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
       <p class="zp-muted-copy">Potřebujete lůžko hlavně kvůli bezpečnější hygieně a každodenní péči? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Jaký postup a pomůcky dávají smysl při hygieně ležícího</a>.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#poradce-postel">Spustit poradce</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="#poradce-postel">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
         <a class="zp-text-link" href="#kontrola-polohovaci-postele">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli' ) ); ?>">Člověk nemůže vstát z postele – typy pomůcek</a>

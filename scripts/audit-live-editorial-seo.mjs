@@ -32,10 +32,14 @@ try{
       const response=await page.goto(base+path,{waitUntil:"domcontentloaded",timeout:25000});
       const result=await page.evaluate(() => {
         const content=document.querySelector("main");
-        const canon=document.querySelector('link[rel="canonical"]');
+        const canonicalTags=[...document.querySelectorAll('link[rel~="canonical" i]')];
         const meta=document.querySelector('meta[name="description"]');
-        const robots=document.querySelector('meta[name="robots" i]');
-        const googlebotRobots=document.querySelector('meta[name="googlebot" i]');
+        // A second robots meta may silently override an innocent first tag.
+        // Audit every directive, not only querySelector's first match.
+        const robots=[...document.querySelectorAll('meta[name="robots" i]')]
+          .map(tag=>tag.content).join(", ");
+        const googlebotRobots=[...document.querySelectorAll('meta[name="googlebot" i]')]
+          .map(tag=>tag.content).join(", ");
         const safeHref=a=>{
           try{const u=new URL(a.getAttribute("href"),location.href);
             if(u.hostname!=="zaprazi.cz")return null;
@@ -48,11 +52,12 @@ try{
           title:document.title,
           h1:[...(content?.querySelectorAll("h1")||[])].map(h=>h.textContent.trim()),
           description:meta?.content||"",
-          canonical:canon?.href||"",
+          canonical:canonicalTags[0]?.href||"",
+          canonicalCount:canonicalTags.length,
           ogUrl:document.querySelector('meta[property="og:url"]')?.content||"",
           release:document.querySelector('meta[name="zaprazi-release"]')?.content||"",
-          robots:robots?.content||"",
-          googlebotRobots:googlebotRobots?.content||"",
+          robots,
+          googlebotRobots,
           ids:[...document.querySelectorAll("[id]")].map(x=>x.id),
           mainWords:(content?.innerText||"").split(/\s+/).filter(Boolean).length,
           mainContentLinks:[...(content?.querySelectorAll("a[href]")||[])]
@@ -70,7 +75,7 @@ try{
       }));
     }catch(error){
       observed.push({path,status:"fetch_error",h1:[],title:"",description:"",
-        canonical:"",robots:"",googlebotRobots:"",xRobotsTag:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
+        canonical:"",canonicalCount:0,robots:"",googlebotRobots:"",xRobotsTag:"",ids:[],mainWords:0,mainContentLinks:[],yoastSchema:"",
         error:"navigation_or_render_failure"});
       console.error("PAGE_AUDIT_FAILURE",path,"navigation_or_render_failure");
     }finally{await page.close();}

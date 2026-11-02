@@ -112,3 +112,23 @@ test("source smoke requires a usable name on both navigation links", () => {
   assert.doesNotThrow(() => assertMobility(mobility.replace("Začít poradcem</a>", '</a>').replace(
     'data-zp-journey="advisor"', 'data-zp-journey="advisor" aria-label="Začít poradcem"')));
 });
+
+
+test("source smoke rejects links hidden by ancestor markup, not just the anchor itself", () => {
+  const homeLink = '<a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>';
+  const advisorLink = '<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>';
+  const wrappers = [
+    inner => '<div hidden>' + inner + '</div>',
+    inner => '<section inert>' + inner + '</section>',
+    inner => '<div aria-hidden="true">' + inner + '</div>',
+    inner => '<div style="display:none">' + inner + '</div>',
+    inner => '<section style="visibility:hidden"><div>' + inner + '</div></section>'
+  ];
+  for (const wrap of wrappers) {
+    assert.throws(() => assertHomepage(homepage.replace(homeLink, wrap(homeLink))), /link missing/);
+    assert.throws(() => assertMobility(mobility.replace(advisorLink, wrap(advisorLink))),
+      /accessible name or is hidden/);
+    assert.doesNotThrow(() => assertHomepage(homepage.replace(homeLink, wrap(homeLink) + homeLink)),
+      "a visible sibling remains usable after the hidden ancestor closes");
+  }
+});

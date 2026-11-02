@@ -64,6 +64,12 @@ export function planGrowth(g,s,now=new Date()){
       Array.isArray(s.metrics)||typeof s.metricSources!=="object"||!s.metricSources||
       Array.isArray(s.metricSources)||typeof s.nodes!=="object"||!s.nodes||
       Array.isArray(s.nodes))throw new Error("Invalid growth state schema");
+  // State is committed to public Git history. Reject unexpected top-level
+  // payloads (including accidental raw Advisor answers) before any planning.
+  // Do not echo untrusted keys or values into public CI logs.
+  const allowedStateFields=new Set(["schemaVersion","asOf","metrics","metricSources","nodes"]);
+  if(Object.keys(s).some(key=>!allowedStateFields.has(key)))
+    throw new Error("Unsupported growth state field");
   const ids=new Set(g.nodes.map(n=>n.id));
   const nodeById=new Map(g.nodes.map(n=>[n.id,n]));
   for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node "+k);

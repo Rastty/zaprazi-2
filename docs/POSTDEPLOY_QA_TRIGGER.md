@@ -7,3 +7,9 @@
 - **Permissions:** GitHub workflow `contents: read`. No WordPress writes, no automatic deployment, no merchant clicks, no health-answer or user-data logging.
 - **Use for later releases:** update only the expected release and the acknowledgment date after the owner confirms deployment; do not conflate GitHub CI with production confirmation. Keep the content factual if QA fails.
 - **Fallback:** if GitHub Actions cannot run, do not mark release as production-verified; inspect the error and use an authorized workflow_dispatch or the next scheduled production run.
+
+## 2026-11-02 — rerun after correcting old test expectation
+
+The first exact-release production Chrome run https://github.com/Rastty/zaprazi-2/actions/runs/41449789755 verified release 0.8.187, integrity OK, all 25 slots, the new Mobility safe and blocked journeys, and all 14 existing Advisor forms. Its overall job failed at the **final** older Mobility acquisition test because it still asserted `// ZP_RELEASE_0_8_185` in the public print helper while the deployed, manifest-checked file correctly carries `// ZP_RELEASE_0_8_187`.
+
+This documented change requests a **fresh complete read-only postdeploy QA** after updating the test to match the actual source release; it does not modify WordPress. The run must be inspected before declaring the complete suite PASS.

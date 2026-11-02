@@ -188,9 +188,10 @@ test("editorial signal never counts foreign/query/non-Advisor links, sponsored o
   h.click("internal",false);
   h.click("affiliate",false);
   h.click("guide",true);
-  assert.deepEqual(h.eventNames(),[]);
+  assert.deepEqual(h.eventNames(),["next_step_click"],
+    "Existing Advisor-result navigation event must remain unchanged");
   h.click("guide",false);
-  assert.deepEqual(h.eventNames(),["guide_advisor_click"]);
+  assert.deepEqual(h.eventNames(),["next_step_click","guide_advisor_click"]);
 });
 test("editorial-to-Advisor signal obeys denied, unknown and later revoked consent",()=>{
   for(const initial of [null,"denied"]){

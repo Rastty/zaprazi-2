@@ -218,3 +218,22 @@ test("stale or future-dated aggregates never silently drive graph priority",()=>
     "Prague date must be used at the UTC/CET boundary");
   assert.throws(()=>planGrowth(graph,s,new Date("invalid")),/reference date/);
 });
+
+test("untrusted nested state keys never appear in public CI validation errors",()=>{
+  const canary="PRIVATE_HEALTH_ANSWER_CANARY";
+  const cases=[
+    {label:"unknown node",change:s=>{s.nodes[canary]={status:"pending"};},error:/Unknown state node/},
+    {label:"unknown metric",change:s=>{s.metrics[canary]=1;},error:/Invalid or unsupported aggregate metric/},
+    {label:"orphan evidence",change:s=>{s.metricSources[canary]="https://example.org/report";},error:/Orphan metric evidence/},
+    {label:"invalid metric value",change:s=>{s.metrics.organic_clicks_28d=-1;},error:/Invalid or unsupported aggregate metric/},
+    {label:"missing evidence",change:s=>{s.metrics.organic_clicks_28d=1;},error:/HTTPS evidence/}
+  ];
+  for(const scenario of cases){
+    const s=clone(blank);
+    scenario.change(s);
+    assert.throws(()=>planGrowth(graph,s),error=>
+      scenario.error.test(error.message)&&
+      !error.message.includes(canary),
+      scenario.label+" must fail closed without leaking answer-shaped keys");
+  }
+});

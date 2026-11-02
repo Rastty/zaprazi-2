@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_184 */
+/* ZP_RELEASE_0_8_185 */
 /*
 Template Name: Zápraží — Návrat z nemocnice
 */
@@ -11,12 +11,6 @@ get_header();
       <p class="zp-kicker">Zápraží · Návrat z nemocnice</p>
       <h1>Návrat z nemocnice domů: co zařídit před propuštěním a pro první noc?</h1>
       <p class="zp-lead">Neřešte všechno najednou. Během několika praktických otázek projdeme vstup domů, přesuny, chůzi, WC, koupelnu, postel a případnou návaznou domácí péči. Výsledkem je pořadí kroků, ne diagnóza.</p>
-      <p class="zp-muted-copy">Pokud má být toaleta dočasně přímo vedle postele, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">nejdřív změřte prostor pro bezpečné umístění toaletní židle</a>, ne pouze její sedák.</p>
-      <p class="zp-muted-copy">Při péči o ležícího člověka potřebujete umýt vlasy mimo koupelnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak vybrat bezpečný způsob mytí vlasů na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
-      <p class="zp-muted-copy">Po operaci kyčle nebo při omezeném ohýbání může být problém i oblékání dolní poloviny těla. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Jak připravit oblékání ponožek a kalhot doma</a>.</p>
-      <p class="zp-muted-copy">Před návratem člověka, který nezvládne koupelnu, domluvte také způsob hygieny na lůžku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Sedm kroků hygieny a kontrolní seznam</a>.</p>
-      <p class="zp-muted-copy">Je cesta domů obtížná kvůli nastupování člověka na sedadlo, nikoliv jen kvůli převozu pomůcek? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Jak bezpečně nastoupit a vystoupit z auta</a>.</p>
-      <p class="zp-muted-copy"><strong>Potřebujete zajistit dopravu na kontrolu nebo z nemocnice domů?</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Rozdíl mezi lékařem indikovaným zdravotním transportem, vlastním autem a přepravou s vozíkem</a>. Úhradu vždy posuzuje lékař podle zdravotního stavu.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-navratu">Připravit plán návratu</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Sedm otázek k vytištění před propuštěním</a>
@@ -124,6 +118,32 @@ get_header();
     </div>
   </section>
 
+
+  <section id="navrat-prakticke-navody" class="zp-section" aria-labelledby="navrat-prakticke-navody-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Navazující praktické návody</p>
+      <h2 id="navrat-prakticke-navody-title" class="zp-section-title">Máte konkrétní překážku při návratu domů?</h2>
+      <p>Nejdřív sestavte plán bezpečného vstupu, přesunů, WC, postele a potřebné péče. Tyto návody řeší jednotlivé situace až jako další krok; nenahrazují pokyny ošetřujícího týmu ani ověření bezpečného přesunu.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>WC a hygiena na lůžku</h3>
+          <p class="zp-muted-copy">Pokud má být toaleta dočasně přímo vedle postele, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">nejdřív změřte prostor pro bezpečné umístění toaletní židle</a>, ne pouze její sedák.</p>
+          <p class="zp-muted-copy">Při péči o ležícího člověka potřebujete umýt vlasy mimo koupelnu? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/myti-vlasu-na-luzku/#vyber-myti-vlasu' ) ); ?>">Jak vybrat bezpečný způsob mytí vlasů na lůžku</a>. Nejprve ověřte bezpečnou polohu a potřebu pomoci.</p>
+          <p class="zp-muted-copy">Před návratem člověka, který nezvládne koupelnu, domluvte také způsob hygieny na lůžku. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/hygiena-leziciho-seniora-doma/#vyber-hygieny-na-luzku' ) ); ?>">Sedm kroků hygieny a kontrolní seznam</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Oblékání s omezeným ohýbáním</h3>
+          <p class="zp-muted-copy">Po operaci kyčle nebo při omezeném ohýbání může být problém i oblékání dolní poloviny těla. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Jak připravit oblékání ponožek a kalhot doma</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Nastupování a doprava</h3>
+          <p class="zp-muted-copy">Je cesta domů obtížná kvůli nastupování člověka na sedadlo, nikoliv jen kvůli převozu pomůcek? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Jak bezpečně nastoupit a vystoupit z auta</a>.</p>
+          <p class="zp-muted-copy"><strong>Potřebujete zajistit dopravu na kontrolu nebo z nemocnice domů?</strong> <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">Rozdíl mezi lékařem indikovaným zdravotním transportem, vlastním autem a přepravou s vozíkem</a>. Úhradu vždy posuzuje lékař podle zdravotního stavu.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="#plan-navratu">Zpět k plánu první noci doma</a></p>
+    </div>
+  </section>
 
   <section id="domaci-zdravotni-pece-nebo-pecovatelska-sluzba" class="zp-section zp-section-soft" aria-labelledby="domaci-pece-sluzby-nadpis">
     <div class="zp-wrap">

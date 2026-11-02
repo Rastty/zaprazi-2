@@ -103,6 +103,166 @@ export function assertMobilityAcquisition(pages,release){
   return {release,pages_checked:4,acquisition_links_checked:4,waiting_links_checked:2,
     section_targets_checked:4};
 }
+
+// 0.8.185 acceptance must inspect the *deployed HTML*, not only the PHP
+// templates or the old 0.8.184 production seen by pull-request CI.
+// It is intentionally read-only: no Advisor answers, merchant clicks or storage.
+export function assertMobility185UX(pages,pragueDate){
+  assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
+  const rental=clean(pages.rental),measuring=clean(pages.measuring);
+  assert.ok(isExactAnchor(rental,"zp-otazky-pujcovna"),
+    "0.8.185 rental call-preparation anchor not deployed");
+  const callStart=rental.indexOf('id="zp-otazky-pujcovna"');
+  const callEnd=rental.indexOf("</section>",callStart);
+  assert.ok(callStart>=0&&callEnd>callStart,"Rental call preparation section missing");
+  const call=rental.slice(callStart,callEnd);
+  assert.match(call,/role="region"[^>]*tabindex="-1"[^>]*aria-labelledby="otazky-pujcovna-nadpis"/,
+    "Rental call questions must be keyboard-focusable and named");
+  const list=call.match(/<ol\b[^>]*class="zp-checklist"[^>]*>([\s\S]*?)<\/ol>/i)?.[1];
+  assert.ok(list,"Rental call questions must be a visible ordered list");
+  assert.equal((list.match(/<li\b/gi)||[]).length,5,
+    "All five rental call questions must be present");
+  for(const topic of ["Typ a dostupnost","Technická kontrola","Celkové náklady",
+    "Předání a zaučení","Vrácení a závady"]){
+    assert.ok(list.includes(topic),"Missing rental call question: "+topic);
+  }
+  assert.match(call,/Neberte automaticky jiný typ/,
+    "Unavailable rental type must not silently become a substitute");
+  assert.match(call,/pomůcku k převozu nepoužívejte/,
+    "Rollator seat must not imply transport suitability");
+  requireLinks(call,["/co-zmerit-pred-vyberem-choditka/#co-zmerit","/#poradce"],
+    "rental call preparation");
+  assert.doesNotMatch(call,/<form\b|<input\b|data-zp-merchant-link/i,
+    "Call preparation must not collect answers or bypass fit gate");
+
+  // The printable rental worksheet must ship with the release, stay blank,
+  // and never smuggle prices, personal answers or merchant offers into print.
+  assert.match(rental,/data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu<\/button>/,
+    "Printable rental questions button must be hidden without JavaScript");
+  const printStart=rental.indexOf('data-zp-paper-checklist="walker-rental-call"');
+  const printEnd=rental.indexOf("</section>",printStart);
+  assert.ok(printStart>=0&&printEnd>printStart,
+    "Printable rental call worksheet not deployed");
+  const paper=rental.slice(printStart,printEnd);
+  const printList=paper.match(/<ol class="zp-paper-questions">([\s\S]*?)<\/ol>/i)?.[1];
+  assert.ok(printList,"Printable rental call worksheet must have an ordered list");
+  assert.equal((printList.match(/<li\b/gi)||[]).length,5,
+    "Printable rental worksheet must include all five questions");
+  // A printed worksheet is the only copy a family may take to the rental desk.
+  // Verify the handover and return safeguards, not merely the question count.
+  for(const detail of ["nastavení, brzdy, koncovky",
+    "návod ke konkrétnímu modelu","Kdy a jak vrátit pomůcku",
+    "závadě nebo poškození"]){
+    assert.ok(printList.includes(detail),
+      "Printable rental worksheet missing safety/return detail: "+detail);
+  }
+  assert.match(paper,/Vadné brzdy, koncovky nebo nestabilní pomůcku nepoužívejte/,
+    "Printable rental worksheet must retain the safety warning");
+  assert.doesNotMatch(paper,/<form\b|<input\b|<textarea\b|data-zp-merchant-link|data-monthly-price/i,
+    "Printable rental worksheet must remain blank and offer-free");
+
+  const measureStart=measuring.indexOf("Kontrolní seznam pro rodinu");
+  const measureEnd=measuring.indexOf("Teď zvolte správnou cestu",measureStart);
+  assert.ok(measureStart>=0&&measureEnd>measureStart,
+    "Seven-point home checklist not deployed");
+  const checklist=measuring.slice(measureStart,measureEnd);
+  assert.match(checklist,/<h2\b[^>]*id="zp-home-checklist-title"[^>]*>/,
+    "Home checklist must have an accessible heading");
+  assert.match(checklist,/<div class="zp-check-grid" role="list" aria-labelledby="zp-home-checklist-title">/,
+    "Home checklist must expose a named list to assistive technology");
+  const steps=[...checklist.matchAll(/<div role="listitem">\s*<span>(\d{2})<\/span>\s*<strong>/g)]
+    .map(m=>m[1]);
+  assert.deepEqual(steps,["01","02","03","04","05","06","07"],
+    "Seven visible home checks must be in sequence");
+  // Seven numbered cards alone are insufficient: a deployed template could
+  // silently duplicate a topic and omit a safety-critical check.
+  for(const topic of ["Nejužší průchod","Místo pro otočení","Výška madel",
+    "Prahy a podlaha","Brzdy a sedátko","Nosnost a návod",
+    "Složení a převoz"]){
+    assert.ok(checklist.includes("<strong>"+topic+"</strong>"),
+      "Missing live home checklist topic: "+topic);
+  }
+  assert.match(checklist,/Prahy a podlaha/);
+  assert.match(checklist,/mokrá místa/);
+  requireLinks(checklist,["/prahy-pro-choditko-a-vozik/#mereni-prahu"],
+    "threshold measuring guidance");
+  assert.doesNotMatch(checklist,/<form\b|<input\b|data-zp-merchant-link/i,
+    "Home checklist must not collect private answers or show offers");
+
+  if(pragueDate>"2026-11-06"){
+    // The calculator can be disabled while individual price cards silently
+    // revert to undated, apparently current amounts. Check the *rendered*
+    // nine card values as well as the visible historical-evidence warning.
+    const priceSection=section(rental,"ceny");
+    assert.match(priceSection,/class=["']zp-stale-evidence["']/i,
+      "Expired rental price cards need a visible stale-evidence warning");
+    const priceValues=[...priceSection.matchAll(/<dd\b[^>]*>([\s\S]*?)<\/dd>/gi)]
+      .map(m=>m[1].replace(/<[^>]*>/g,"").replace(/\s+/g," ").trim());
+    assert.equal(priceValues.length,9,
+      "Expected all nine displayed rental rates/deposits in three provider cards");
+    for(const value of priceValues){
+      assert.match(value,/^(?:historicky\b|ověřit u půjčovny \(starší příklad:)/i,
+        "Expired rental rate/deposit appears current instead of historical");
+    }
+    assert.doesNotMatch(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
+      "Expired rental calculator must be absent from rendered HTML");
+    assert.doesNotMatch(rental,/data-monthly-price=/i,
+      "Expired rates must not remain in calculator attributes");
+    assert.match(rental,/Přepočet není k dispozici/);
+    assert.match(rental,/historicky 360 Kč/);
+    assert.match(rental,/Historické příklady, nikoli aktuální nabídka/);
+    assert.doesNotMatch(rental,/>Spočítat orientační půjčovné</,
+      "Expired rental CTA must not imply a current rate");
+  }else{
+    assert.match(rental,/<form\b[^>]*id="zp-walker-rental-budget"/i,
+      "Current-window calculator unexpectedly missing");
+  }
+  return {rental_call_questions:5,home_checks:7,
+    rental_prices:pragueDate>"2026-11-06"?"expired_fail_closed":"within_review_window"};
+}
+
+// A hidden print button is only usable if WordPress actually enqueues the
+// local helper on the published page. Source-level enqueue tests cannot catch
+// a production template/slug mismatch. Check real HTML, not PHP fixtures.
+function mobility185PrintAssets(html){
+  const tags=[...String(html).replace(/<!--[\s\S]*?-->/g,"")
+    .matchAll(/<script\b[^>]*>/gi)].map(m=>m[0]);
+  return tags.map(tag=>attr(tag,"src")).filter(Boolean).flatMap(src=>{
+    try{
+      const url=new URL(src,origin+"/pujceni-choditka/");
+      return url.origin===origin&&
+        url.pathname==="/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js"&&
+        !url.username&&!url.password&&!url.hash?[url]:[];
+    }catch{return [];}
+  });
+}
+export function assertMobility185PrintAsset(html){
+  assert.equal(mobility185PrintAssets(html).length,1,
+    "0.8.185 printable rental questions require one live print helper script");
+  return {print_helper_script:"present"};
+}
+
+// A script tag can exist while its URL returns 404 or a stale cached release.
+// Check the public first-party asset itself, without clicking or sending answers.
+export async function assertMobility185PrintAssetLoaded(html,fetcher=fetch){
+  assertMobility185PrintAsset(html);
+  const url=mobility185PrintAssets(html)[0];
+  const response=await fetcher(url.href,{
+    redirect:"manual",headers:{Accept:"text/javascript"},
+    signal:AbortSignal.timeout(25000)
+  });
+  assert.equal(response.status,200,
+    "0.8.185 print helper asset is not publicly reachable");
+  const body=await response.text();
+  assert.ok(body.length>100&&body.length<50000,
+    "0.8.185 print helper returned empty or unexpected content");
+  assert.match(body,/^\/\/ ZP_RELEASE_0_8_185\b/m,
+    "0.8.185 print helper is stale or does not match the deployed release");
+  assert.match(body,/data-zp-paper-print/,
+    "0.8.185 print helper lacks the printable button handler");
+  return {print_helper_response:"verified_185"};
+}
+
 async function get(path){
   assert.ok(Object.values(paths).includes(path)||path==="/wp-json/zaprazi/v1/affiliate-readiness");
   const url=origin+path;
@@ -127,9 +287,14 @@ export async function verifyLiveMobilityAcquisition(){
     year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
   const sukl=assertExpiredSuklEvidence(pages.insurance,pragueDate);
   const report=assertMobilityAcquisition(pages,SOURCE_THEME_RELEASE);
+  const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
+  const mobility185=(release185[0]>0||release185[1]>8||
+    (release185[1]===8&&release185[2]>=185))
+    ?{...assertMobility185UX(pages,pragueDate),...assertMobility185PrintAsset(pages.rental),
+      ...await assertMobility185PrintAssetLoaded(pages.rental)}:null;
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,
-    sukl_monthly_evidence:sukl.status,
+    sukl_monthly_evidence:sukl.status,release_185_ux:mobility185,
     note:"Public read-only acceptance; not proof of traffic, suitability or commissions"
   }));
   return report;

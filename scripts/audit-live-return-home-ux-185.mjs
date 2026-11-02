@@ -110,6 +110,9 @@ try{
     "The six reviewed supporting guide links must be present exactly once");
 
   await page.click('a.zp-btn[href="#plan-navratu"]');
+  // Chromium's same-document hash navigation can be queued after the click
+  // promise settles. Keep the real navigation invariant, but await the URL.
+  await page.waitForFunction(()=>location.hash==="#plan-navratu",{timeout:4000});
   const jumped=await page.evaluate(()=>({
     hash:location.hash,advisor:!!document.querySelector("#plan-navratu")
   }));

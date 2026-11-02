@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy, robotsHasWildcardRootBlock, robotsHasGooglebotRootBlock } from "../scripts/audit-public-sitemap.mjs";
+import { auditPublicSitemap, extractLocs, requiredDecisionPaths, stagedDecisionPaths, assertPublicSitemapHealthy, robotsHasWildcardRootBlock, robotsHasGooglebotRootBlock, robotsBlockedDecisionPaths } from "../scripts/audit-public-sitemap.mjs";
 
 const root = "https://zaprazi.cz";
 function mock(files) {
@@ -422,4 +422,50 @@ test("public sitemap samples never expose unlisted pathname secrets", async () =
   assert.deepEqual(noncanonical.duplicate_paths_sample, []);
   assert.ok(!JSON.stringify(noncanonical).includes(secret));
   assert.throws(() => assertPublicSitemapHealthy(noncanonical), /Noncanonical/);
+});
+
+
+test("Googlebot-specific path blocks are detected even when the site root is open", async () => {
+  const index=root+"/sitemap_index.xml";
+  const page=root+"/page-sitemap.xml";
+  const target="/choditka-pro-seniory/";
+  const robots="User-agent: *\nAllow: /\n\nUser-agent: Googlebot\n"+
+    "Disallow: /choditka-pro-seniory/\nAllow: /choditka-pro-seniory/faq/\n"+
+    "Sitemap: "+index+"\n";
+  const files={
+    [root+"/robots.txt"]:robots,
+    [index]:"<sitemapindex><loc>"+page+"</loc></sitemapindex>",
+    [page]:"<urlset>"+requiredDecisionPaths.map(path=>
+      "<url><loc>"+root+path+"</loc></url>").join("")+"</urlset>"
+  };
+  const report=await auditPublicSitemap(mock(files).get);
+  assert.equal(report.robots_googlebot_root_block,false);
+  assert.deepEqual(report.required_decision_paths_missing,[]);
+  assert.deepEqual(report.robots_googlebot_blocked_decision_paths,[target]);
+  assert.throws(()=>assertPublicSitemapHealthy(report),
+    /blocks required decision pages for Googlebot/);
+  assert.ok(!JSON.stringify(report).includes("faq/"),
+    "Public CI report must expose only curated blocked page paths, not robots rules");
+
+  // The exact same path may be reopened by a same-length Allow rule.
+  files[root+"/robots.txt"]=robots.replace(
+    "Allow: /choditka-pro-seniory/faq/",
+    "Allow: /choditka-pro-seniory/");
+  const reopened=await auditPublicSitemap(mock(files).get);
+  assert.deepEqual(reopened.robots_googlebot_blocked_decision_paths,[]);
+  assert.equal(assertPublicSitemapHealthy(reopened).status,"healthy_public_xml");
+});
+
+test("robots decision-path audit honors wildcard patterns, anchors and bot precedence", () => {
+  const target="/choditka-pro-seniory/";
+  const pathSet=[target,"/koupelna-a-wc/"];
+  const blocked=robots=>
+    robotsBlockedDecisionPaths(robots,pathSet);
+  assert.deepEqual(blocked("User-agent: *\nDisallow: /choditka-*/\n"),[target]);
+  assert.deepEqual(blocked("User-agent: *\nDisallow: /choditka-pro-seniory/$\n"),[target]);
+  assert.deepEqual(blocked("User-agent: *\nDisallow: /choditka-pro-seniory/\nAllow: /choditka-pro-seniory/\n"),[]);
+  assert.deepEqual(blocked("User-agent: *\nDisallow: /choditka-pro-seniory/\n\nUser-agent: Googlebot\nAllow: /\n"),[]);
+  assert.deepEqual(blocked("User-agent: Googlebot-Image\nDisallow: /\n\nUser-agent: *\nAllow: /\n"),[]);
+  assert.deepEqual(blocked("User-agent: Googlebot\nDisallow: /private/\n"),[]);
+  assert.deepEqual(blocked("User-agent: Googlebot\nDisallow: /choditka-pro-seniory/?answer=PRIVATE\n"),[]);
 });

@@ -200,7 +200,7 @@ test("0.8.185: live rental print button requires the actual same-origin helper a
   }
 });
 
-test("0.8.185: published print helper must respond with current release JavaScript",async()=>{
+test("0.8.185 print helper is verified against its explicit historical release",async()=>{
   const asset='<script defer src="https://zaprazi.cz/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js?ver=185"></script>';
   const html=fixtures().rental+asset;
   const valid='// ZP_RELEASE_0_8_185\n'+
@@ -211,14 +211,38 @@ test("0.8.185: published print helper must respond with current release JavaScri
     assert.equal(options.redirect,"manual");
     return {status,text:async()=>body};
   };
-  assert.deepEqual(await assertMobility185PrintAssetLoaded(html,stub(200,valid)),
-    {print_helper_response:"verified_185"});
-  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(404,valid)),
+  assert.deepEqual(await assertMobility185PrintAssetLoaded(html,stub(200,valid),"0.8.185"),
+    {print_helper_response:"verified_0.8.185"});
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(404,valid),"0.8.185"),
     /not publicly reachable/);
-  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("0_8_185","0_8_184"))),
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("0_8_185","0_8_184")),"0.8.185"),
     /stale or does not match/);
-  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("data-zp-paper-print","other-selector"))),
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,valid.replace("data-zp-paper-print","other-selector")),"0.8.185"),
     /lacks the printable button handler/);
-  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,"")),
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,stub(200,""),"0.8.185"),
     /empty or unexpected content/);
+});
+
+test("later versions must accept only the exact deployed release print helper",async()=>{
+  const validPath="https://zaprazi.cz/wp-content/themes/zaprazi-2/assets/js/family-checklist-print.js";
+  const asset='<script defer src="'+validPath+'?ver=187"></script>';
+  const html=fixtures().rental+asset;
+  const current="0.8.187";
+  const currentBody='// ZP_RELEASE_0_8_187\n'+
+    'const button=document.querySelector("[data-zp-paper-print]");\n'+
+    'button.addEventListener("click",()=>window.print());\n';
+  const fetcher=body=>async (url,options)=>{
+    assert.equal(url,validPath+"?ver=187");
+    assert.equal(options.redirect,"manual");
+    return {status:200,text:async()=>body};
+  };
+  assert.deepEqual(await assertMobility185PrintAssetLoaded(html,fetcher(currentBody),current),
+    {print_helper_response:"verified_0.8.187"});
+  for(const stale of ["0_8_185","0_8_186","0_8_188"]){
+    await assert.rejects(
+      assertMobility185PrintAssetLoaded(html,fetcher(currentBody.replace("0_8_187",stale)),current),
+      /stale or does not match/);
+  }
+  await assert.rejects(assertMobility185PrintAssetLoaded(html,fetcher(currentBody),"0.8.invalid"),
+    /Malformed checked-out release/);
 });

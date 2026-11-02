@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import { summarizeEditorialPages, googlebotBlockedByXRobotsTag } from "../scripts/lib/editorial-seo-rules.mjs";
 const good=(path,title,links=[],ids=[])=>({
   path,status:200,h1:[title],title,description:"Praktický návod "+title,
@@ -75,4 +76,33 @@ test("SEO errors never reflect untrusted X-Robots-Tag or Googlebot meta values",
   assert.ok(report.errors.some(e=>e.code==="X_ROBOTS_NOINDEX"));
   assert.ok(report.errors.some(e=>e.code==="GOOGLEBOT_NOINDEX"));
   assert.ok(!JSON.stringify(report.errors).includes(secret));
+});
+
+test("secondary robots and Googlebot noindex directives cannot hide behind an index first tag",()=> {
+  const page=good("/choditka-pro-seniory/","Chodítka");
+  // The live browser joins all meta contents in document order.
+  page.robots="index, follow, noindex";
+  page.googlebotRobots="index, follow, none";
+  const report=summarizeEditorialPages([page]);
+  assert.ok(report.errors.some(e=>e.code==="NOINDEX"));
+  assert.ok(report.errors.some(e=>e.code==="GOOGLEBOT_NOINDEX"));
+});
+
+test("multiple canonical declarations fail even when the first URL is correct",()=> {
+  const page=good("/choditka-pro-seniory/","Chodítka");
+  page.canonicalCount=2;
+  const duplicate=summarizeEditorialPages([page]);
+  assert.ok(duplicate.errors.some(e=>e.code==="CANONICAL_COUNT"));
+  page.canonicalCount=1;
+  assert.ok(!summarizeEditorialPages([page]).errors.some(e=>e.code==="CANONICAL_COUNT"));
+  page.canonicalCount=0;
+  assert.ok(summarizeEditorialPages([page]).errors.some(e=>e.code==="CANONICAL_COUNT"));
+});
+
+test("live editorial DOM audit reads all robots and canonical tags, not only first",()=> {
+  const source=readFileSync(new URL("../scripts/audit-live-editorial-seo.mjs",import.meta.url),"utf8");
+  assert.match(source,/querySelectorAll\\('meta\\[name="robots" i\\]'\\)/);
+  assert.match(source,/querySelectorAll\\('meta\\[name="googlebot" i\\]'\\)/);
+  assert.match(source,/querySelectorAll\\('link\\[rel~="canonical" i\\]'\\)/);
+  assert.match(source,/canonicalCount:canonicalTags\\.length/);
 });

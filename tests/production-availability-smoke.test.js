@@ -61,3 +61,29 @@ test("rejects HTTP failures, redirects, non-HTML and incomplete payloads", async
   await assert.rejects(runSmoke(async () => ({ ...response(homepage), headers:{get:()=> "text/plain"} })), /did not return HTML/);
   await assert.rejects(runSmoke(async () => response("short")), /unexpected HTML size/);
 });
+
+test("source smoke ignores commented, script, template and noscript decoy CTAs", () => {
+  const cta = '<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>';
+  const wrappers = [
+    value => '<!-- ' + value + ' -->',
+    value => '<script type="text/plain">' + value + '</script>',
+    value => '<template>' + value + '</template>',
+    value => '<noscript>' + value + '</noscript>',
+    value => '<style>' + value + '</style>'
+  ];
+  for (const wrap of wrappers) {
+    assert.throws(() => assertMobility(mobility.replace(cta, wrap(cta))), /one explicit/,
+      "inert CTA cannot satisfy the visitor handoff");
+    assert.doesNotThrow(() => assertMobility(mobility + wrap(cta)),
+      "inert duplicate must not make a working CTA fail");
+  }
+});
+
+test("source smoke ignores dead homepage navigation and headings in comments or scripts", () => {
+  const link = '<a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>';
+  const heading = '<h1>Bezpečně a samostatně doma.</h1>';
+  assert.throws(() => assertHomepage(homepage.replace(link, '<!-- ' + link + ' -->')), /link missing/);
+  assert.throws(() => assertHomepage(homepage.replace(heading, '<script type="text/plain">' + heading + '</script>')), /heading missing/);
+  assert.throws(() => assertHomepage(homepage.replace('id="zp-mobility-advisor"', 'id="other"') +
+    '<template><div id="zp-mobility-advisor"></div></template>'), /anchor/);
+});

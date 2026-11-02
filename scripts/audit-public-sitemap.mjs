@@ -182,7 +182,7 @@ function robotsRuleMatchesPath(value, path) {
   const anchored=value.endsWith("$");
   const body=anchored?value.slice(0,-1):value;
   const escaped=body.split("*").map(part=>
-    part.replace(/[.*+?^\${}()|[\]\\]/g,"\\async function getText(fetcher, href) {")).join(".*");
+    [...part].map(ch=>"\\.^$+?()[]{}|".includes(ch)?"\\"+ch:ch).join("")).join(".*");
   return new RegExp("^"+escaped+(anchored?"$":"")).test(path);
 }
 

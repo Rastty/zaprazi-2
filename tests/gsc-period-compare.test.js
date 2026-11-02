@@ -56,7 +56,7 @@ test("refuses incomparable periods: overlap, different duration, invalid dates",
   assert.throws(()=>compare(rows,rows,{afterFrom:"2026-10-04",afterTo:"2026-10-31"}),/start after/);
   assert.throws(()=>compare(rows,rows,{afterTo:"2026-10-31"}),/equal-length/);
   assert.throws(()=>compare(rows,rows,{beforeFrom:"2026-02-30"}),/ISO date/);
-  assert.throws(()=>compare(rows,rows,{afterFrom:"2026-12-01",afterTo:"2026-12-28",beforeFrom:"2026-11-01",beforeTo:"2026-11-28"}),/start after/);
+  assert.throws(()=>compare(rows,rows,{afterFrom:"2026-11-20",afterTo:"2026-12-17",beforeFrom:"2026-11-01",beforeTo:"2026-11-28"}),/start after/);
 });
 test("never exposes off-topic, unknown or query-bearing URL in output",()=>{
   const marker="private-secret-string";

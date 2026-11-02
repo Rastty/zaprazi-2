@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
 import { recommendMobility } from "../src/mobility/engine.js";
-import { getMobilityNextSteps, getMobilitySafeRecovery } from "../src/mobility/next-steps.js";
+import { getMobilityNextSteps, getMobilitySafeRecovery, getMobilityQuickGuide } from "../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../src/mobility/offer-fit-gate.js";
 import { canLinkEvidence } from "../src/decision/evidence-links.js";
@@ -67,7 +67,7 @@ function createMobility(overrides = {}) {
     }},
     window: { ZaPraziRuntime: { affiliateMap: {} }, dispatchEvent() {} },
     CustomEvent: class { constructor(type, options) { this.detail = options.detail; } },
-    recommendMobility, getMobilityNextSteps, getMobilitySafeRecovery, getMobilityProducts,
+    recommendMobility, getMobilityNextSteps, getMobilitySafeRecovery, getMobilityQuickGuide, getMobilityProducts,
     renderMobilityProductFitGate, installMobilityProductFitGate,
     canLinkEvidence, getRentalGuidance, getReimbursementGuidance,
     EVIDENCE_FRESHNESS_DAYS, evidenceFreshness

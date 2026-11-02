@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "scripts/audit-live-bed-cost.mjs"
+      - "scripts/audit-live-human-ux-186.mjs"
+      - "scripts/audit-live-return-home-ux-185.mjs"
       - "scripts/audit-live-release-coherence.mjs"
       - "tests/audit-live-release-coherence.test.js"
       - "scripts/audit-live-mobility-acquisition-184.mjs"

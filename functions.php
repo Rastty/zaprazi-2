@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '359ca92c5437f7ccf9956a57030dfc188145b660',
-    'src/mobility/offer-fit-gate.js' => '4446eca19cd7371cabff0a88b31501ea499de8f2',
+    'src/mobility/engine.js' => 'c5716259ac5c506c5454586a3b6fe46955140522',
+    'src/mobility/offer-fit-gate.js' => 'd9895b0e39d37e2a2f965f7113be7f81118c33c4',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 

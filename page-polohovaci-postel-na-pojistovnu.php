@@ -162,7 +162,7 @@ get_header();
         </article>
       </div>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Spustit poradce pro polohovací postel</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/polohovaci-postel/#poradce-postel' ) ); ?>">Spustit poradce pro polohovací postel</a>
       </div>
     </div>
   </section>

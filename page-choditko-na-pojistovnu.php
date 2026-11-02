@@ -20,7 +20,7 @@ get_header();
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
         <?php if ( ! $zp_sukl_is_current ) : ?>
-          <a class="zp-text-link" href="#overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
+          <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
         <?php endif; ?>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
@@ -43,9 +43,9 @@ get_header();
           <h2>Říjnový záznam už není aktuální.</h2>
           <p>Zápraží má ověřený říjnový seznam SÚKL, ale po 31. 10. 2026 už jeho částku neprezentujeme jako současný stav. U konkrétního výrobku nemáme ověřenou úhradu pro další měsíc.</p>
           <?php if ( $zp_sukl_november_active ) : ?>
-            <p><a class="zp-text-link" href="#overit-mesicni-seznam">Listopadový seznam už SÚKL zveřejnil. Zjistěte, kde ověřit nový údaj.</a></p>
+            <p><a class="zp-text-link" href="#zp-overit-mesicni-seznam">Listopadový seznam už SÚKL zveřejnil. Zjistěte, kde ověřit nový údaj.</a></p>
           <?php else : ?>
-            <p><a class="zp-text-link" href="#overit-mesicni-seznam">Otevřít postup pro ověření seznamu platného pro daný měsíc.</a></p>
+            <p><a class="zp-text-link" href="#zp-overit-mesicni-seznam">Otevřít postup pro ověření seznamu platného pro daný měsíc.</a></p>
           <?php endif; ?>
         <?php endif; ?>
       </article>
@@ -158,7 +158,7 @@ get_header();
         <h2 class="zp-section-title">MEYRA Ideal Rollator 3061982.</h2>
         <p>V oficiálním seznamu SÚKL platném pro říjen 2026 jsme ověřili tento konkrétní prostředek.</p>
         <?php if ( ! $zp_sukl_is_current ) : ?>
-          <p class="zp-stale-evidence"><strong>Pozor:</strong> tento měsíční záznam už není aktuální. Níže uvedená částka je historický údaj z října 2026, nikoli potvrzená úhrada pro dnešek. <a href="#overit-mesicni-seznam">Ověřit platný seznam SÚKL a konkrétní kód 5005963</a>.</p>
+          <p class="zp-stale-evidence"><strong>Pozor:</strong> tento měsíční záznam už není aktuální. Níže uvedená částka je historický údaj z října 2026, nikoli potvrzená úhrada pro dnešek. <a href="#zp-overit-mesicni-seznam">Ověřit platný seznam SÚKL a konkrétní kód 5005963</a>.</p>
         <?php endif; ?>
 
         <div class="zp-resource-facts">
@@ -224,7 +224,7 @@ get_header();
       </details>
       <details>
         <summary>Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?</summary>
-        <p>Ne. Částka 3 408 Kč je historický údaj z oficiálního říjnového seznamu. Samotné zveřejnění dalšího měsíčního seznamu neověřuje konkrétní výrobek. <a class="zp-text-link" href="#overit-mesicni-seznam">Jak prověřit kód 5005963 a podmínky úhrady</a>.</p>
+        <p>Ne. Částka 3 408 Kč je historický údaj z oficiálního říjnového seznamu. Samotné zveřejnění dalšího měsíčního seznamu neověřuje konkrétní výrobek. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Jak prověřit kód 5005963 a podmínky úhrady</a>.</p>
       </details>
     </div>
   </section>
@@ -235,7 +235,7 @@ get_header();
       <h2 class="zp-section-title">Ověřujte u zdroje, ne podle reklamního textu.</h2>
 
       <div class="zp-resource-sources">
-        <article id="overit-mesicni-seznam">
+        <article id="zp-overit-mesicni-seznam">
           <h3>Jak ověřit aktuální měsíční seznam úhrad ZP</h3>
           <p>Na úřední desce SÚKL otevřete <strong>Seznamy ZP</strong> a vyberte seznam hrazených prostředků na poukaz platný pro daný měsíc (nikoli seznam léků ani návrh seznamu). V dokumentu vyhledejte <strong>kód 5005963</strong> a znovu prověřte identitu výrobku, podmínky a výši úhrady s oprávněným výdejcem. Částka v seznamu neprokazuje individuální nárok, konečný doplatek ani vhodnost pro člověka.</p>
           <?php if ( $zp_sukl_november_active ) : ?>

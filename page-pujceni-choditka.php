@@ -127,6 +127,28 @@ get_header();
       <?php else : ?>
         <p class="zp-stale-evidence"><strong>Přepočet není k dispozici:</strong> podkladové sazby jsme naposledy ověřili 6. 10. 2026. Po uplynutí ověřovacího období je nejprve potřeba znovu prověřit skutečné ceny přímo u půjčoven; zastaralé částky nechceme násobit.</p>
       <?php endif; ?>
+      <div class="zp-system-empty" aria-labelledby="zp-vlastni-nabidka-nadpis">
+        <h3 id="zp-vlastni-nabidka-nadpis">Máte vlastní aktuální nabídku od půjčovny?</h3>
+        <p>Zadejte měsíční částku, kterou vám přímo sdělila půjčovna pro <strong>již bezpečně vybraný typ a model</strong>. Spočítáme pouze orientační násobek na jeden, tři nebo šest měsíců. Není to náš aktuální ceník a zadanou cenu nikam neodesíláme ani neukládáme.</p>
+        <form id="zp-walker-own-quote-budget" class="zp-rental-budget" aria-labelledby="zp-vlastni-nabidka-nadpis" hidden>
+          <div class="zp-rental-budget-fields">
+            <label for="zp-walker-own-quote-monthly"><strong>Ověřená měsíční cena půjčovného (Kč)</strong>
+              <input id="zp-walker-own-quote-monthly" type="number" min="1" max="100000" step="1" inputmode="numeric" required>
+            </label>
+            <label for="zp-walker-own-quote-months"><strong>Doba používání</strong>
+              <select id="zp-walker-own-quote-months">
+                <option value="1">1 měsíc</option>
+                <option value="3">3 měsíce</option>
+                <option value="6">6 měsíců</option>
+              </select>
+            </label>
+          </div>
+          <button type="submit" class="zp-btn">Spočítat z vlastní nabídky</button>
+          <output id="zp-walker-own-quote-result" class="zp-rental-budget-result" role="status" aria-live="polite"></output>
+        </form>
+        <noscript><p class="zp-disclaimer">Pro místní výpočet vlastní nabídky je potřeba JavaScript. Nic se neposílá na server.</p></noscript>
+        <p class="zp-muted-copy">Výpočet <strong>nezahrnuje kauci, dopravu, vratné poplatky ani minimální účtování</strong>. U více měsíců může mít půjčovna jiný dlouhodobý tarif; skutečnou konečnou cenu, dostupnost a podmínky vrácení si vždy potvrďte přímo u ní. Výpočet neposuzuje zdravotní vhodnost pomůcky.</p>
+      </div>
       <p class="zp-muted-copy">Sazby ověřené 6. 10. 2026: <a href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">RehaKomp</a> a <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">MEYRA</a>. Násobek měsíční sazby je pouze orientační; půjčovna může uplatnit minimální účtování, individuální dlouhodobé podmínky či dopravu. Kauce je samostatný dočasný výdaj, nikoliv automaticky cena pronájmu. Před objednáním ověřte aktuální termín, model a konečnou částku u poskytovatele.</p>
     </div>
   </section>

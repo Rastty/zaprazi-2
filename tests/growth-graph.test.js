@@ -145,6 +145,22 @@ test("malformed states and unknown nodes fail closed",()=>{
   assert.throws(()=>growthCli(["--ignored"]),/Usage/);
 });
 
+test("public growth state rejects unexpected top-level health or debug payloads without echoing them",()=>{
+  assert.equal(planGrowth(graph,blank).evidenceFreshness,"unknown");
+  for(const key of ["rawAnswers","healthProfile","debugPayload"]){
+    const s=clone(blank);
+    s[key]={mobility:"PRIVATE_HEALTH_ANSWER_CANARY"};
+    assert.throws(()=>planGrowth(graph,s),error=>
+      /Unsupported growth state field/.test(error.message)&&
+      !error.message.includes("PRIVATE_HEALTH_ANSWER_CANARY"));
+  }
+  const secretKey=clone(blank);
+  secretKey["PRIVATE_HEALTH_ANSWER_CANARY"]={answer:"secret"};
+  assert.throws(()=>planGrowth(graph,secretKey),error=>
+    /Unsupported growth state field/.test(error.message)&&
+    !error.message.includes("PRIVATE_HEALTH_ANSWER_CANARY"));
+});
+
 test("unverified node evidence cannot leak tokens or private fields into public plans",()=>{
   const s=clone(blank);
   for(const status of ["pending","in_progress","paused"]){

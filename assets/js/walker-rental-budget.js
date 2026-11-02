@@ -58,7 +58,7 @@ if (ownQuoteForm) {
     const months = Number(duration.value);
     // Decimal/negative/unbounded amounts and arbitrary durations are rejected.
     // Never assume an old provider's rate is current or that cost proves fit.
-    if (!/^[1-9]\\d{0,5}$/.test(raw) || !Number.isSafeInteger(rate)
+    if (!/^[1-9]\d{0,5}$/.test(raw) || !Number.isSafeInteger(rate)
       || rate > 100000 || ![1,3,6].includes(months)) {
       result.replaceChildren(document.createTextNode(
         "Nelze přepočítat. Zadejte celé měsíční půjčovné od 1 do 100 000 Kč a platnou dobu."

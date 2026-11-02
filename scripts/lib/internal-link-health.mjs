@@ -42,8 +42,8 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
-  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set();
-  let insecureInternalCount=0, noncanonicalInternalCount=0;
+  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set(), unsafeFirstPartySources=new Set();
+  let insecureInternalCount=0, noncanonicalInternalCount=0, unsafeFirstPartyCount=0;
   for (const page of sourcePages) {
     for (const href of page.links || []) {
       let u;
@@ -71,6 +71,18 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
         continue;
       }
       const path=u.pathname;
+      // First-party document links carrying a query, credentials or a custom
+      // port are not canonical navigation. In particular a query may expose
+      // private Advisor answers through URLs, logs or analytics. Never print
+      // the raw href or its parameters in public CI reports. Commerce/click
+      // routes remain excluded from this document-link gate.
+      if ((u.search || u.username || u.password || u.port) &&
+          !blockedPath.test(path) && /^\/(?:[a-z0-9_-]+\/)*$/i.test(path)) {
+        unsafeFirstPartyCount++;
+        unsafeFirstPartySources.add(page.path);
+        excluded.push({source:page.path,why:"unsafe_first_party_page_url"});
+        continue;
+      }
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
       if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
@@ -85,7 +97,8 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   return {targets:[...targets].map(([path,sources])=>({path,sources:[...sources].sort()})),
     excluded:excluded.slice(0,60),
     insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()},
-    noncanonical_internal_links:{count:noncanonicalInternalCount,sources:[...noncanonicalInternalSources].sort()}};
+    noncanonical_internal_links:{count:noncanonicalInternalCount,sources:[...noncanonicalInternalSources].sort()},
+    unsafe_first_party_links:{count:unsafeFirstPartyCount,sources:[...unsafeFirstPartySources].sort()}};
 }
 
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {

@@ -68,3 +68,50 @@ export function getMobilitySafeRecovery(result, answers = {}) {
   }
   return null;
 }
+
+
+/**
+ * A compact, presentation-only summary of the existing Mobility decision.
+ * No new medical/product decision, route, price, eligibility, or merchant CTA.
+ * Commerce remains controlled by the existing engine and model-specific fit gate.
+ */
+export function getMobilityQuickGuide(result) {
+  if (!result || result.status === "invalid_input" ||
+    typeof result.headline !== "string" || typeof result.nextStep !== "string") {
+    return null;
+  }
+  const recommendation = result.status === "candidate" &&
+    Array.isArray(result.recommendations) ? result.recommendations[0] : null;
+  const hasCandidate = !!recommendation &&
+    typeof recommendation.label === "string" &&
+    Array.isArray(recommendation.parameters) && recommendation.parameters.length > 0;
+  if (hasCandidate) {
+    const firstChecks = recommendation.parameters
+      .filter(item => typeof item === "string" && item.trim())
+      .slice(0, 2);
+    return {
+      situation: "K porovnání připadá v úvahu: " + recommendation.label +
+        ". Je to pouze kandidátní typ, nikoliv ověřená vhodnost konkrétní pomůcky.",
+      verify: firstChecks.length
+        ? "Nejdřív ověřte " + firstChecks.join(" a ") +
+          ". Všechny ostatní důležité parametry najdete níže."
+        : "Před volbou pomůcky projděte všechny důležité parametry uvedené níže.",
+      next: "Pak můžete projít kandidátní výrobky a způsoby pořízení níže. " +
+        "Odkaz na nabídku konkrétního výrobku se otevře až po jeho samostatné kontrole parametrů.",
+      isCandidate: true
+    };
+  }
+  return {
+    situation: result.headline,
+    verify: result.nextStep,
+    next: result.status === "professional_check"
+      ? "Nejdříve konzultujte bezpečný pohyb s příslušným odborníkem. " +
+        "Případná pomoc doma nenahrazuje posouzení zdravotníkem."
+      : result.status === "outside_current_slice"
+        ? "Začněte bezpečností domácího prostředí a případnou odbornou kontrolou. " +
+          "Bez prověření nevybírejte konkrétní model."
+        : "Vraťte se k chybějící informaci nebo k níže uvedenému bezpečnému kroku. " +
+          "Dokud není podstatná otázka vyjasněná, konkrétní nabídku nezobrazujeme.",
+    isCandidate: false
+  };
+}

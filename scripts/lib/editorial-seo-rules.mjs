@@ -2,6 +2,26 @@
  * Pure editorial SEO checks. Browser/network work belongs to the read-only
  * runner; these checks never edit WordPress or imply Google indexation.
  */
+// Google can be blocked by a response header even when the HTML robots meta
+// tag and sitemap look healthy. Scope bot-specific directives: Bingbot or
+// Googlebot-News restrictions must not be mistaken for Googlebot noindex.
+// Header contents are untrusted and must never be emitted to public CI logs.
+const hasNoindex = value => /(^|[,\s])(?:noindex|none)\b/i.test(value || "");
+
+export function googlebotBlockedByXRobotsTag(header) {
+  if (typeof header !== "string") return false;
+  let agent = "*";
+  for (const token of header.split(/[,\r\n]+/)) {
+    const part = token.trim();
+    const scoped = /^([a-z][a-z0-9_-]*):\s*(.*)$/i.exec(part);
+    const directive = scoped ? scoped[2] : part;
+    if (scoped) agent = scoped[1].toLowerCase();
+    if ((agent === "*" || agent === "googlebot") && hasNoindex(directive))
+      return true;
+  }
+  return false;
+}
+
 export function summarizeEditorialPages(pages, site = "https://zaprazi.cz") {
   const byPath = new Map(pages.map(p => [p.path, p]));
   const errors = [], warnings = [], edges = [];
@@ -19,7 +39,10 @@ export function summarizeEditorialPages(pages, site = "https://zaprazi.cz") {
     if (url.origin !== site || url.pathname !== p.path || url.search || url.hash) {
       add(errors, p.path, "CANONICAL_MISMATCH", p.canonical);
     }
-    if (/(^|[,\s])noindex\b/i.test(p.robots)) add(errors, p.path, "NOINDEX", p.robots);
+    if (hasNoindex(p.robots)) add(errors, p.path, "NOINDEX", "robots_meta");
+    if (hasNoindex(p.googlebotRobots)) add(errors, p.path, "GOOGLEBOT_NOINDEX", "googlebot_meta");
+    if (googlebotBlockedByXRobotsTag(p.xRobotsTag))
+      add(errors, p.path, "X_ROBOTS_NOINDEX", "response_header");
     if (p.title) {
       const norm = p.title.toLocaleLowerCase("cs").trim();
       if (titleMap.has(norm)) add(warnings, p.path, "DUPLICATE_TITLE", titleMap.get(norm));

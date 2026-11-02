@@ -134,10 +134,32 @@ test("GET probe does not follow redirects and classifies broken pages",async()=>
   assert.equal(data.checked,3);
   assert.equal(data.ok,1);
   assert.equal(data.redirects.length,1);
-  assert.equal(data.broken.length,1);
-  assert.equal(data.broken[0].status,404);
+  assert.equal(data.broken.length,2);
+  assert.equal(data.broken.find(x=>x.path==="/gone/").status,404);
+  assert.equal(data.broken.find(x=>x.path==="/old/").outcome,"redirect");
   assert.ok(called.every(x=>x.options.redirect==="manual"&&x.options.method==="GET"));
   assert.ok(called.every(x=>x.url.startsWith("https://zaprazi.cz/")));
+});
+
+test("canonical internal page redirects fail the live gate without following Location",async()=>{
+  const target=[{path:"/old-guide/",sources:["/","/choditka-pro-seniory/"]}];
+  for(const status of [301,302,307,308]){
+    let requests=0;
+    const report=await auditInternalTargets(target,async(_url,options)=>{
+      requests++;
+      assert.equal(options.redirect,"manual");
+      return {status,headers:{get:name=>name==="location"?"/new-guide/":"text/html"},
+        body:{cancel:async()=>{}}};
+    });
+    assert.equal(requests,1,"Never follow a redirect or request its destination");
+    assert.equal(report.ok,0);
+    assert.equal(report.broken.length,1,"A safe redirect is still noncanonical navigation");
+    assert.equal(report.broken[0].outcome,"redirect");
+    assert.equal(report.redirects.length,1);
+    assert.equal(report.redirects[0].redirect,"same_origin");
+    assert.ok(!JSON.stringify(report).includes("/new-guide/"),
+      "Do not expose untrusted Location in public CI logs");
+  }
 });
 
 test("HTTP 200 is healthy only when the target is an HTML document",async()=>{
@@ -235,7 +257,8 @@ test("live link audit redacts sensitive URL parameters and redirect targets from
   });
   const same=await auditInternalTargets(target,response("/next/"));
   assert.equal(same.redirects[0].redirect,"same_origin");
-  assert.equal(same.broken.length,0);
+  assert.equal(same.broken.length,1);
+  assert.equal(same.broken[0].outcome,"redirect");
 
   const sensitive=await auditInternalTargets(target,response("/next/?answer="+secret));
   assert.equal(sensitive.redirects[0].redirect,"off_origin_or_unsafe");

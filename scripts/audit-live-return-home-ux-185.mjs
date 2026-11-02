@@ -62,6 +62,14 @@ try{
   const page=await browser.newPage();
   await page.setViewport({width:390,height:844,deviceScaleFactor:1});
   await openChecked(page,path);
+  // The consent overlay can intercept the mobile primary CTA. Exercise the
+  // privacy-preserving choice before testing the actual anchor click.
+  const consentVisible=await page.$eval("#zp-analytics-consent",el=>!el.hidden);
+  if(consentVisible){
+    await page.click("#zp-analytics-deny");
+    assert.equal(await page.$eval("#zp-analytics-consent",el=>el.hidden),true,
+      "Declining analytics must clear the CTA hit target");
+  }
   const snapshot=await page.evaluate(()=>{
     const main=document.querySelector("main");
     const hero=main?.querySelector(".zp-hero");

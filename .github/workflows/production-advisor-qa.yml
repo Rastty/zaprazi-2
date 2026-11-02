@@ -145,6 +145,26 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-return-home-ux-185.mjs
 
+  # Independent 0.8.186 visitor-journey QA: real Chrome, only AFTER deploy.
+  # A PR tests the old public release, not future HTML or price entry.
+  human-ux-186:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only Chrome acceptance dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Validate own-price rental calculator and critical-first return-home summary
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-human-ux-186.mjs
+
   editorial-seo-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 10

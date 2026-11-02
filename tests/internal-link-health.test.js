@@ -91,8 +91,32 @@ test("slashless first-party page queries and credentials fail closed before cano
   assert.equal(report.excluded.filter(x=>x.why==="unsafe_first_party_page_url").length,6);
   assert.ok(!JSON.stringify(report).includes(canary));
   assert.ok(!JSON.stringify(report).includes("answer="));
-  // A slashless URL without sensitive parameters is not probed by this audit.
-  assert.ok(report.excluded.some(x=>x.why==="not_safe_public_page"));
+  // A slashless URL without sensitive parameters is noncanonical, not silently ignored.
+  assert.deepEqual(report.noncanonical_slashless_links,{count:1,sources:["/"]});
+  assert.ok(report.excluded.some(x=>x.why==="noncanonical_slashless_page"));
+});
+
+test("clean slashless internal page links are flagged without probing or leaking fragments",()=>{
+  const canary="PRIVATE_FRAGMENT_DO_NOT_LOG_20261102";
+  const report=prepareInternalLinks([
+    {path:"/",links:[
+      "/guide", "/guide/sub", "/guide/", "/", "/guide#"+canary,
+      "/go/merchant", "/wp-json/zaprazi", "/file.pdf",
+      "https://elsewhere.invalid/guide"
+    ]},
+    {path:"/guide/",links:["https://zaprazi.cz/next"]}
+  ]);
+  assert.deepEqual(report.targets,[
+    {path:"/guide/",sources:["/"]},
+    {path:"/",sources:["/"]}
+  ]);
+  assert.deepEqual(report.noncanonical_slashless_links,
+    {count:4,sources:["/","/guide/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="noncanonical_slashless_page").length,4);
+  assert.deepEqual(report.unsafe_first_party_links,{count:0,sources:[]});
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.equal(prepareInternalLinks([{path:"/",links:["/guide/"]}])
+    .noncanonical_slashless_links.count,0);
 });
 
 test("GET probe does not follow redirects and classifies broken pages",async()=>{

@@ -21,3 +21,11 @@ This documented change requests a **fresh complete read-only postdeploy QA** aft
 - **Trigger:** pushing this document to `main` starts read-only Production Advisor Browser QA for the checked-out release; the release-coherence preflight must fail on a partial deploy, mismatched source marker, incomplete 100-file manifest or unexpected affiliate readiness.
 - **New acceptance:** the `sukl-monthly-source-189` job inspects the real November SÚKL evidence handoff on the insurance walker page, historical price disclosure and source links in Chrome. Its presence is mandatory in the final run.
 - **No claim of success yet:** require completed green jobs, inspect failures if any, and avoid changing WordPress or collecting visitor health information.
+
+## 2026-11-03 — nezávislé potvrzení 0.8.190, vyžádání finální Chrome QA
+
+- **Důkaz skutečně nasazené verze:** read-only scheduled [Independent Zápraží Production Acceptance #41540159693](https://github.com/Rastty/zaprazi-2/actions/runs/41540159693) z 2026-11-02 22:47 UTC vrátil `expected=0.8.190`, `deployed=0.8.190`, `release_matches=true`, `status=verified`; job skončil zeleně. Zahrnul kontrolu veřejného readiness/integrity a vybraných obsahových a vyhledávacích cest.
+- **Co důkaz nepokrývá:** tento HTTP smoke **není** úplná Chrome akceptace všech 14 poradců. Poslední dostupné zelené `Production Advisor Browser QA` pro 0.8.190 pochází z release PR **před** finálním potvrzením nasazení; nesmí být zaměněno za postdeploy akceptaci.
+- **Účel tohoto commitu:** po zeleném PR CI a bezpečném merge do `main` spustit existující read-only workflow `Production Advisor Browser QA` přes jeho přesně omezený `push.paths` trigger. Workflow má ověřit zdrojovou verzi 0.8.190, 14 poradců, safety/fit-gates, 25/25 affiliate readiness a release-specific úzké dveře v reálném Chrome.
+- **WordPress deploy gate:** zde se **nic nenasazuje** ani neupravuje na WordPressu; `main=dev` je před změnou identické. GitHub dokumentace není sama o sobě potvrzením úspěchu Chrome QA.
+- **Akceptace:** teprve po dokončení všech relevantních zelených jobů lze 0.8.190 označit za nezávisle postdeploy ověřenou. Při FAIL zastavit další WordPress release, prověřit konkrétní job a bezpečnostní příčinu. GSC a schválené provize zůstávají UNKNOWN.

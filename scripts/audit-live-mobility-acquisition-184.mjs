@@ -244,7 +244,12 @@ export function assertMobility185PrintAsset(html){
 
 // A script tag can exist while its URL returns 404 or a stale cached release.
 // Check the public first-party asset itself, without clicking or sending answers.
-export async function assertMobility185PrintAssetLoaded(html,fetcher=fetch){
+export async function assertMobility185PrintAssetLoaded(html,fetcher=fetch,release=SOURCE_THEME_RELEASE){
+  // This feature originated in 0.8.185, but every later coordinated release
+  // re-stamps all 100 runtime files. The same-version asset check must follow
+  // the checked-out release and FAIL on a stale cached helper, never hard-code
+  // the feature's introduction version.
+  assert.match(release,/^\d+\.\d+\.\d+$/,"Malformed checked-out release");
   assertMobility185PrintAsset(html);
   const url=mobility185PrintAssets(html)[0];
   const response=await fetcher(url.href,{
@@ -252,15 +257,16 @@ export async function assertMobility185PrintAssetLoaded(html,fetcher=fetch){
     signal:AbortSignal.timeout(25000)
   });
   assert.equal(response.status,200,
-    "0.8.185 print helper asset is not publicly reachable");
+    "Printable rental helper asset is not publicly reachable");
   const body=await response.text();
   assert.ok(body.length>100&&body.length<50000,
-    "0.8.185 print helper returned empty or unexpected content");
-  assert.match(body,/^\/\/ ZP_RELEASE_0_8_185\b/m,
-    "0.8.185 print helper is stale or does not match the deployed release");
+    "Printable rental helper returned empty or unexpected content");
+  const expected="ZP_RELEASE_"+release.replaceAll(".","_");
+  assert.match(body,new RegExp("^// "+expected+"\\b","m"),
+    "Printable rental helper is stale or does not match deployed release "+release);
   assert.match(body,/data-zp-paper-print/,
-    "0.8.185 print helper lacks the printable button handler");
-  return {print_helper_response:"verified_185"};
+    "Printable rental helper lacks the printable button handler");
+  return {print_helper_response:"verified_"+release};
 }
 
 async function get(path){

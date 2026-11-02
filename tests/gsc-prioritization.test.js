@@ -28,6 +28,34 @@ test("UTF-8 BOM, quoted CSV fields, CRLF and GSC pages + queries are parsed by d
  assert.equal(q[0].query,"chodítko, půjčení");
  assert.equal(q[0].impressions,100);
 });
+test("noncanonical GSC URL variants never inflate canonical landing evidence",()=>{
+ const variants=[
+  "https://zaprazi.cz/choditka-pro-seniory/",
+  "http://zaprazi.cz/choditka-pro-seniory/",
+  "https://zaprazi.cz/choditka-pro-seniory",
+  "https://zaprazi.cz//choditka-pro-seniory/",
+  "https://www.zaprazi.cz/choditka-pro-seniory/",
+  "https://zaprazi.cz/choditka-pro-seniory/?src=campaign",
+  "https://zaprazi.cz/choditka-pro-seniory/#poradce",
+  "https://zaprazi.cz:8443/choditka-pro-seniory/",
+  "https://zaprazi.cz/choditka%2Fpro-seniory/"
+ ];
+ const csv=fixture([
+  "Top pages,Clicks,Impressions,CTR,Position",
+  ...variants.map((url,i)=>url+","+(i+1)+",100,1%,8")
+ ]);
+ const rows=parseGscCsv(csv,"page");
+ assert.deepEqual(rows.map(row=>row.path),[
+  "/choditka-pro-seniory/",...Array(variants.length-1).fill(null)
+ ]);
+ const result=analyzeGsc({pages:rows,periodStart:"2026-10-01",periodEnd:"2026-10-28"});
+ assert.equal(result.core.find(row=>row.path==="/choditka-pro-seniory/").clicks,1);
+ assert.equal(result.skipped_external_or_parameterized_rows,variants.length-1);
+ const report=renderGscReport(result);
+ assert.match(report,/nekanonických URL/);
+ assert.doesNotMatch(report,/src=campaign/);
+});
+
 test("Czech semicolon export, Czech decimal comma, grouped counts and UTF-8 are supported",()=>{
  const csv="Nejlepší stránky;Kliknutí;Zobrazení;CTR;Pozice\n"+
   "https://zaprazi.cz/rollator-pro-seniory/;1;1 234;0,08%;12,5\n";

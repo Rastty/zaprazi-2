@@ -42,15 +42,16 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
-  const targets=new Map(), excluded=[], insecureInternalSources=new Set();
-  let insecureInternalCount=0;
+  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set();
+  let insecureInternalCount=0, noncanonicalInternalCount=0;
   for (const page of sourcePages) {
     for (const href of page.links || []) {
       let u;
       try {u=new URL(href,origin+page.path);} catch {
         excluded.push({source:page.path,why:"invalid_url"});continue;
       }
-      if (u.hostname!=="zaprazi.cz" || u.protocol==="mailto:" || u.protocol==="tel:") continue;
+      if (!["zaprazi.cz","www.zaprazi.cz"].includes(u.hostname) ||
+          u.protocol==="mailto:" || u.protocol==="tel:") continue;
       if (u.protocol!=="https:" && u.protocol!=="http:") {
         excluded.push({source:page.path,why:"unsafe_protocol"});continue;
       }
@@ -60,6 +61,14 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
         insecureInternalCount++;
         insecureInternalSources.add(page.path);
         excluded.push({source:page.path,why:"http_internal"});
+      }
+      // A www first-party URL is not the canonical host. Do not fetch the
+      // alias or assume a redirect works: flag the authored href for repair.
+      if (u.hostname==="www.zaprazi.cz") {
+        noncanonicalInternalCount++;
+        noncanonicalInternalSources.add(page.path);
+        excluded.push({source:page.path,why:"noncanonical_www_host"});
+        continue;
       }
       const path=u.pathname;
       // Only benign page-like paths. Do not request search, REST, routes
@@ -75,7 +84,8 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   }
   return {targets:[...targets].map(([path,sources])=>({path,sources:[...sources].sort()})),
     excluded:excluded.slice(0,60),
-    insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()}};
+    insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()},
+    noncanonical_internal_links:{count:noncanonicalInternalCount,sources:[...noncanonicalInternalSources].sort()}};
 }
 
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {

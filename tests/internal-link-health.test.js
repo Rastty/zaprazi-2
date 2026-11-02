@@ -28,6 +28,27 @@ test("first-party HTTP hrefs are reported even if HTTPS target is healthy",()=>{
     .insecure_internal_links,{count:0,sources:[]});
 });
 
+test("www aliases are flagged as noncanonical without crawling or leaking hrefs",()=>{
+  const canary="PRIVATE_ANSWER_DO_NOT_LOG_284";
+  const report=prepareInternalLinks([
+    {path:"/",links:[
+      "https://www.zaprazi.cz/guide/",
+      "http://www.zaprazi.cz/guide/?answer="+canary,
+      "https://zaprazi.cz/guide/",
+      "https://other.example/guide/"
+    ]},
+    {path:"/guide/",links:["https://www.zaprazi.cz/next/"]}
+  ]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.noncanonical_internal_links,
+    {count:3,sources:["/","/guide/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="noncanonical_www_host").length,3);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.equal(prepareInternalLinks([{path:"/",links:["/guide/"]}])
+    .noncanonical_internal_links.count,0);
+});
+
 test("GET probe does not follow redirects and classifies broken pages",async()=>{
   const called=[];
   const mock=async(url,options)=>{

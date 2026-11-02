@@ -19,10 +19,38 @@ export function activeMarkup(html) {
     .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
 }
 
+// HTML-source smoke must not count a link inside an inert/hidden ancestor as
+// a usable journey. This is a conservative source check, not computed CSS or
+// a replacement for the independent production Chrome accessibility QA.
+const VOID_TAGS = new Set(["area","base","br","col","embed","hr","img",
+  "input","link","meta","param","source","track","wbr"]);
+function hiddenAncestorAnchorPositions(markup) {
+  const hidden = new Set(), stack = [];
+  for (const match of markup.matchAll(/<\/?([a-z][\w:-]*)\b[^>]*>/gi)) {
+    const tag = match[1].toLowerCase(), token = match[0];
+    if (token.startsWith("</")) {
+      const index = stack.findLastIndex(entry => entry.tag === tag);
+      if (index !== -1) stack.length = index;
+      continue;
+    }
+    if (tag === "a" && stack.some(entry => entry.hidden)) hidden.add(match.index);
+    const style = token.match(/\sstyle\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
+    const ariaHidden = token.match(/\saria-hidden\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
+    const isHidden = /\s(?:hidden|inert)(?=[\s=>/])/i.test(token) ||
+      ariaHidden.trim().toLowerCase() === "true" ||
+      /(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(style);
+    if (!VOID_TAGS.has(tag) && !/\/\s*>$/.test(token))
+      stack.push({tag, hidden: isHidden});
+  }
+  return hidden;
+}
+
 export function anchors(html) {
   // A tag with a valid href but no accessible name is not a usable CTA.
   // Inspect the actual paired anchor, not just an opening tag in source HTML.
-  return [...activeMarkup(html).matchAll(/<a\b[^>]*>([\s\S]*?)<\/a\s*>/gi)].map(match => {
+  const markup = activeMarkup(html);
+  const hiddenPositions = hiddenAncestorAnchorPositions(markup);
+  return [...markup.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a\s*>/gi)].map(match => {
     const opening = match[0].slice(0, match[0].indexOf(">") + 1);
     const attrs = {};
     for (const item of opening.matchAll(/\s([\w:-]+)\s*=\s*(["'])(.*?)\2/g))
@@ -30,6 +58,7 @@ export function anchors(html) {
     for (const key of ["hidden", "inert"]) {
       if (new RegExp("\\s" + key + "(?=[\\s=>/])", "i").test(opening)) attrs[key] = "";
     }
+    attrs.__hiddenAncestor = hiddenPositions.has(match.index);
     attrs.__text = match[1].replace(/<[^>]*>/g, "")
       .replace(/&(?:nbsp|#160|#x0*a0);/gi, " ").trim();
     return attrs;
@@ -41,7 +70,7 @@ export function anchors(html) {
 // usable journey even when its destination URL is correct.
 export function usableNavigationAnchor(a) {
   const named = Boolean(a.__text || (a["aria-label"] || "").trim());
-  return named && !Object.hasOwn(a, "hidden") && !Object.hasOwn(a, "inert") &&
+  return named && !a.__hiddenAncestor && !Object.hasOwn(a, "hidden") && !Object.hasOwn(a, "inert") &&
     a["aria-hidden"] !== "true" && a.tabindex !== "-1" &&
     !/(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(a.style || "");
 }

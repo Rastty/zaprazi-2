@@ -79,6 +79,14 @@ try {
   const family=await browser.newPage();
   await family.setViewport({width:390,height:844,deviceScaleFactor:1});
   await open(family,"/navrat-z-nemocnice/");
+  // Consent banner can cover the mobile submit button: choose privacy-safe
+  // "Without measurement" before performing real pointer interactions.
+  const familyConsent=await family.$eval("#zp-analytics-consent",el=>!el.hidden);
+  if(familyConsent){
+    await family.click("#zp-analytics-deny");
+    assert.equal(await family.$eval("#zp-analytics-consent",el=>el.hidden),true,
+      "Declining analytics must dismiss the mobile overlay");
+  }
   // Static, synthetic and intentionally unsafe scenario; never stored or sent.
   const answers={
     timing:"today_or_tomorrow",

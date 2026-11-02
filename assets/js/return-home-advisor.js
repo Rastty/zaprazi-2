@@ -1,6 +1,6 @@
 // ZP_RELEASE_0_8_185
 import { buildReturnHomePlan } from "../../src/return-home/engine.js";
-import { buildReturnHomeChecklist } from "../../src/return-home/checklist.js";
+import { buildReturnHomeChecklist, buildReturnHomeOverview } from "../../src/return-home/checklist.js";
 
 const form = document.querySelector("#zp-return-home-advisor");
 const result = document.querySelector("#zp-return-home-result");
@@ -104,6 +104,31 @@ if (form && result && submitButton && errorBox) {
     `;
   };
 
+  // Presentation-only orientation. All critical blockers stay ABOVE this summary.
+  const renderOverview = (plan) => {
+    const overview = buildReturnHomeOverview(plan);
+    if (!overview) return "";
+    return `
+      <section class="zp-return-overview" aria-labelledby="zp-return-overview-title">
+        <h3 id="zp-return-overview-title">Váš plán ve třech bodech</h3>
+        <div class="zp-decision-grid">
+          <article class="zp-decision-card">
+            <h4>Co víme z odpovědí</h4>
+            <p>${escapeHtml(overview.knowledge)}</p>
+          </article>
+          <article class="zp-decision-card">
+            <h4>Co ještě ověřit</h4>
+            <p>${escapeHtml(overview.verification)}</p>
+          </article>
+          <article class="zp-decision-card">
+            <h4>Co udělat jako první</h4>
+            <p>${escapeHtml(overview.action)}</p>
+          </article>
+        </div>
+        <p class="zp-muted-copy">Toto je pouze orientace v celém výsledku, ne souhlas s propuštěním. Níže projděte všechny úkoly a případné navazující poradce.</p>
+      </section>
+    `;
+  };
   // Reuse the engine output; checkboxes are only temporary notes for the family.
   // Ticking a task NEVER changes safety status or unlocks product offers.
   const renderChecklist = (plan) => {
@@ -196,6 +221,7 @@ if (form && result && submitButton && errorBox) {
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
       ${renderItems("Blokuje bezpečný návrat domů", output.blockers, "zp-critical-plan")}
+      ${renderOverview(output)}
       ${renderChecklist(output)}
       <p class="zp-disclaimer">${escapeHtml(output.acquisitionNote)}</p>
       <p class="zp-muted-copy">ZaPrazi neposuzuje, zda je člověk zdravotně způsobilý k propuštění. Tento plán řeší jen praktickou připravenost domácnosti a návazné kroky.</p>

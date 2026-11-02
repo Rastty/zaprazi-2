@@ -76,8 +76,12 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
       // private Advisor answers through URLs, logs or analytics. Never print
       // the raw href or its parameters in public CI reports. Commerce/click
       // routes remain excluded from this document-link gate.
+      // WordPress page links without a trailing slash can redirect to the
+      // canonical URL. A query or credential must be flagged before any
+      // redirect: /guide?answer=... is no safer than /guide/?answer=....
+      const pageLikePath=/^\/(?:[a-z0-9_-]+\/)*(?:[a-z0-9_-]+)?$/i.test(path);
       if ((u.search || u.username || u.password || u.port) &&
-          !blockedPath.test(path) && /^\/(?:[a-z0-9_-]+\/)*$/i.test(path)) {
+          !blockedPath.test(path) && pageLikePath) {
         unsafeFirstPartyCount++;
         unsafeFirstPartySources.add(page.path);
         excluded.push({source:page.path,why:"unsafe_first_party_page_url"});

@@ -157,7 +157,10 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
   }
   return {
     checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
-    broken:checked.filter(x=>["bad_status","network_error","non_html_200","unsafe_redirect"].includes(x.outcome)),
+    // Any redirect from an authored canonical internal page is an SEO/UX defect:
+    // even a same-origin 301 can point to an unrelated page or mask a removed guide.
+    // Do not follow Location; report only the safe outcome classification.
+    broken:checked.filter(x=>["bad_status","network_error","non_html_200","unsafe_redirect","redirect"].includes(x.outcome)),
     redirects:checked.filter(x=>x.outcome==="redirect"||x.outcome==="unsafe_redirect"), checked_paths:checked,
     limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };

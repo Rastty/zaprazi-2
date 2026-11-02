@@ -14,7 +14,8 @@ test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>
   ]);
   assert.ok(result.excluded.some(x=>x.why==="http_internal"));
   assert.deepEqual(result.insecure_internal_links,{count:1,sources:["/choditka-pro-seniory/"]});
-  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,5);
+  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,4);
+  assert.deepEqual(result.unsafe_first_party_links,{count:1,sources:["/"]});
 });
 
 test("first-party HTTP hrefs are reported even if HTTPS target is healthy",()=>{

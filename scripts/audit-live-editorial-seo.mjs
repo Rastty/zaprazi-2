@@ -12,6 +12,7 @@ import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs"
 import { summarizeEditorialPages } from "./lib/editorial-seo-rules.mjs";
 import { publicEditorialReport } from "./lib/public-editorial-report.mjs";
 import { yoastHttpsGraphErrors } from "./lib/yoast-https-graph.mjs";
+import { isSafeMainFrameNavigation } from "./lib/internal-link-health.mjs";
 
 const base="https://zaprazi.cz";
 // All current decision/problem URLs, including the newest bed-rise guide, exactly once.
@@ -22,6 +23,19 @@ if(!chrome)throw new Error("Chrome/Chromium required for public DOM audit");
 
 const browser=await puppeteer.launch({executablePath:chrome,headless:true,
   args:["--no-sandbox","--disable-setuid-sandbox","--disable-dev-shm-usage"]});
+// Puppeteer follows HTTP redirects by default. Never let an unexpected
+// redirect send this public audit to an external host, a click endpoint,
+// a different document or a URL with potentially private query parameters.
+// The same exact-navigation guard is used by the live internal-link audit.
+async function lockEditorialMainFrame(page,path){
+  await page.setRequestInterception(true);
+  page.on("request",request=>{
+    const allowed=!request.isNavigationRequest() ||
+      request.frame()!==page.mainFrame() ||
+      isSafeMainFrameNavigation(request.url(),path);
+    (allowed?request.continue():request.abort("blockedbyclient")).catch(()=>{});
+  });
+}
 const observed=[];
 try{
   for(const path of paths){
@@ -29,7 +43,10 @@ try{
     try{
       await page.setViewport({width:390,height:844,deviceScaleFactor:1});
       await page.setDefaultTimeout(12000);
+      await lockEditorialMainFrame(page,path);
       const response=await page.goto(base+path,{waitUntil:"domcontentloaded",timeout:25000});
+      if(response?.status()!==200 || page.url()!==base+path)
+        throw new Error("Source page not exact HTTP 200");
       const result=await page.evaluate(() => {
         const content=document.querySelector("main");
         const canonicalTags=[...document.querySelectorAll('link[rel~="canonical" i]')];

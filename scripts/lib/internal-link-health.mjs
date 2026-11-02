@@ -42,8 +42,8 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
-  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set(), unsafeFirstPartySources=new Set();
-  let insecureInternalCount=0, noncanonicalInternalCount=0, unsafeFirstPartyCount=0;
+  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set(), unsafeFirstPartySources=new Set(), slashlessInternalSources=new Set();
+  let insecureInternalCount=0, noncanonicalInternalCount=0, unsafeFirstPartyCount=0, slashlessInternalCount=0;
   for (const page of sourcePages) {
     for (const href of page.links || []) {
       let u;
@@ -87,6 +87,16 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
         excluded.push({source:page.path,why:"unsafe_first_party_page_url"});
         continue;
       }
+      // Clean slashless WordPress document links normally redirect to their
+      // canonical /slug/ form. Report the authored noncanonical link instead
+      // of silently excluding it or probing the redirect. Never classify
+      // commerce, WordPress API or other non-page routes as documents.
+      if (!blockedPath.test(path) && pageLikePath && path!=="/" && !path.endsWith("/")) {
+        slashlessInternalCount++;
+        slashlessInternalSources.add(page.path);
+        excluded.push({source:page.path,why:"noncanonical_slashless_page"});
+        continue;
+      }
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
       if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
@@ -102,7 +112,8 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
     excluded:excluded.slice(0,60),
     insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()},
     noncanonical_internal_links:{count:noncanonicalInternalCount,sources:[...noncanonicalInternalSources].sort()},
-    unsafe_first_party_links:{count:unsafeFirstPartyCount,sources:[...unsafeFirstPartySources].sort()}};
+    unsafe_first_party_links:{count:unsafeFirstPartyCount,sources:[...unsafeFirstPartySources].sort()},
+    noncanonical_slashless_links:{count:slashlessInternalCount,sources:[...slashlessInternalSources].sort()}};
 }
 
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {

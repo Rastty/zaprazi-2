@@ -12,7 +12,8 @@ export const SENSITIVE_KEY_PATTERN = "(?:^|[_-])(?:answer|answers|odpoved[a-z]*|
 
 const funnelEvents = Object.freeze([
   "page_view", "builder_start", "builder_complete", "recommendation_view",
-  "product_click", "merchant_click", "affiliate_click", "next_step_click"
+  "product_click", "merchant_click", "affiliate_click", "next_step_click",
+  "guide_advisor_click"
 ]);
 
 function checkedDay(day) {

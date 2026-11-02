@@ -10,8 +10,17 @@ import { resolve } from "node:path";
 export const ORIGIN = "https://zaprazi.cz";
 const MOBILITY = "/choditka-pro-seniory/";
 
+// A source-only smoke must not accept dead links or headings preserved in
+// HTML comments, scripts or inert templates as working visitor navigation.
+// This is deliberately NOT a full browser visibility or accessibility check.
+export function activeMarkup(html) {
+  return String(html)
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
+}
+
 export function anchors(html) {
-  return [...String(html).matchAll(/<a\b[^>]*>/gi)].map(match => {
+  return [...activeMarkup(html).matchAll(/<a\b[^>]*>/gi)].map(match => {
     const attrs = {};
     for (const item of match[0].matchAll(/\s([\w:-]+)\s*=\s*(["'])(.*?)\2/g))
       attrs[item[1].toLowerCase()] = item[3];
@@ -29,18 +38,20 @@ function safeInternalLink(href, currentPath, path, hash = "") {
 }
 
 export function assertHomepage(html) {
-  if (!/<h1\b[^>]*>\s*Bezpečně a samostatně doma\./i.test(html))
+  const markup = activeMarkup(html);
+  if (!/<h1\b[^>]*>\s*Bezpečně a samostatně doma\./i.test(markup))
     throw new Error("Homepage mission heading missing");
-  if (!/\bid=["']poradce["']/i.test(html) || !/\bid=["']zp-mobility-advisor["']/i.test(html))
+  if (!/\bid=["']poradce["']/i.test(markup) || !/\bid=["']zp-mobility-advisor["']/i.test(markup))
     throw new Error("Homepage Mobility Advisor anchor/form missing");
-  if (!anchors(html).some(a => safeInternalLink(a.href, "/", MOBILITY)))
+  if (!anchors(markup).some(a => safeInternalLink(a.href, "/", MOBILITY)))
     throw new Error("Homepage Mobility article link missing");
 }
 
 export function assertMobility(html) {
-  if (!/<h1\b[^>]*>\s*Chodítka pro seniory/i.test(html))
+  const markup = activeMarkup(html);
+  if (!/<h1\b[^>]*>\s*Chodítka pro seniory/i.test(markup))
     throw new Error("Mobility article heading missing");
-  const ctas = anchors(html).filter(a => a["data-zp-journey"] === "advisor");
+  const ctas = anchors(markup).filter(a => a["data-zp-journey"] === "advisor");
   if (ctas.length !== 1)
     throw new Error("Expected one explicit editorial-to-Advisor CTA");
   const cta = ctas[0];

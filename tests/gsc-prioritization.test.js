@@ -38,7 +38,14 @@ test("noncanonical GSC URL variants never inflate canonical landing evidence",()
   "https://zaprazi.cz/choditka-pro-seniory/?src=campaign",
   "https://zaprazi.cz/choditka-pro-seniory/#poradce",
   "https://zaprazi.cz:8443/choditka-pro-seniory/",
-  "https://zaprazi.cz/choditka%2Fpro-seniory/"
+  "https://zaprazi.cz/choditka%2Fpro-seniory/",
+  "https://zaprazi.cz:443/choditka-pro-seniory/",
+  "https://ZAPRAZI.cz/choditka-pro-seniory/",
+  "HTTPS://zaprazi.cz/choditka-pro-seniory/",
+  "https://zaprazi.cz/old/../choditka-pro-seniory/",
+  "https://zaprazi.cz/%2e/choditka-pro-seniory/",
+  "https://zaprazi.cz/choditka-pro-seniory/?",
+  "https://zaprazi.cz/choditka-pro-seniory/#"
  ];
  const csv=fixture([
   "Top pages,Clicks,Impressions,CTR,Position",

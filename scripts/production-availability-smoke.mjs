@@ -24,8 +24,8 @@ export function activeMarkup(html) {
 // a replacement for the independent production Chrome accessibility QA.
 const VOID_TAGS = new Set(["area","base","br","col","embed","hr","img",
   "input","link","meta","param","source","track","wbr"]);
-function hiddenAncestorAnchorPositions(markup) {
-  const hidden = new Set(), stack = [];
+function inspectSourceMarkup(markup) {
+  const hidden = new Set(), targets = [], stack = [];
   for (const match of markup.matchAll(/<\/?([a-z][\w:-]*)\b[^>]*>/gi)) {
     const tag = match[1].toLowerCase(), token = match[0];
     if (token.startsWith("</")) {
@@ -39,17 +39,22 @@ function hiddenAncestorAnchorPositions(markup) {
     const isHidden = /\s(?:hidden|inert)(?=[\s=>/])/i.test(token) ||
       ariaHidden.trim().toLowerCase() === "true" ||
       /(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(style);
+    const id = token.match(/\sid\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
+    if (id === "poradce" || id === "zp-mobility-advisor") {
+      targets.push({id, visible: !isHidden && !stack.some(entry => entry.hidden),
+        insideAdvisorSection: stack.some(entry => entry.id === "poradce" && !entry.hidden)});
+    }
     if (!VOID_TAGS.has(tag) && !/\/\s*>$/.test(token))
-      stack.push({tag, hidden: isHidden});
+      stack.push({tag, hidden: isHidden, id});
   }
-  return hidden;
+  return {hidden, targets};
 }
 
 export function anchors(html) {
   // A tag with a valid href but no accessible name is not a usable CTA.
   // Inspect the actual paired anchor, not just an opening tag in source HTML.
   const markup = activeMarkup(html);
-  const hiddenPositions = hiddenAncestorAnchorPositions(markup);
+  const hiddenPositions = inspectSourceMarkup(markup).hidden;
   return [...markup.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a\s*>/gi)].map(match => {
     const opening = match[0].slice(0, match[0].indexOf(">") + 1);
     const attrs = {};
@@ -88,8 +93,14 @@ export function assertHomepage(html) {
   const markup = activeMarkup(html);
   if (!/<h1\b[^>]*>\s*Bezpečně a samostatně doma\./i.test(markup))
     throw new Error("Homepage mission heading missing");
-  if (!/\bid=["']poradce["']/i.test(markup) || !/\bid=["']zp-mobility-advisor["']/i.test(markup))
-    throw new Error("Homepage Mobility Advisor anchor/form missing");
+  // The #poradce link must lead to the actual visible Mobility form, not
+  // to unrelated, duplicate or hidden IDs that merely exist in HTML source.
+  const targets = inspectSourceMarkup(markup).targets;
+  const sections = targets.filter(target => target.id === "poradce");
+  const forms = targets.filter(target => target.id === "zp-mobility-advisor");
+  if (sections.length !== 1 || forms.length !== 1 || !sections[0].visible ||
+      !forms[0].visible || !forms[0].insideAdvisorSection)
+    throw new Error("Homepage Mobility Advisor anchor/form missing or unusable");
   if (!anchors(markup).some(a => safeInternalLink(a.href, "/", MOBILITY) && usableNavigationAnchor(a)))
     throw new Error("Homepage Mobility article link missing");
 }

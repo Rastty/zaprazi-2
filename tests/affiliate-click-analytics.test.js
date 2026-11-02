@@ -49,7 +49,11 @@ function harness(savedConsent = null) {
     const href = ({
       affiliate:"https://www.dpbolvw.net/click-123", internal:"/pujceni-choditka/",
       external:"https://example.com/help", anchor:"#faq", query:"/pujceni-choditka/?answer=no",
-      download:"/dokument.pdf", regular:"#faq"
+      download:"/dokument.pdf", regular:"#faq",
+      guide:"/polohovaci-postel/#poradce-postel",
+      guideInline:"#poradce",guideBadQuery:"/polohovaci-postel/?answer=x#poradce-postel",
+      guideExternal:"https://example.org/polohovaci-postel/#poradce-postel",
+      guideWrongAnchor:"/polohovaci-postel/#produkty"
     })[kind] || "#faq";
     const link = {
       href,
@@ -61,6 +65,7 @@ function harness(savedConsent = null) {
     const target = {
       closest(selector) {
         if (selector === 'a[rel~="sponsored"]') return kind === "affiliate" ? link : null;
+        if (selector === 'a[data-zp-journey="advisor"][href]') return kind.startsWith("guide") ? link : null;
         if (selector === 'a[href]') return link;
         return null;
       }
@@ -163,4 +168,45 @@ test("funnel stage before consent is not retroactively sent on opt-in", () => {
   h.emit("builder_complete");
   h.emit("builder_complete");
   assert.deepEqual(h.eventNames(), ["builder_complete"]);
+});
+
+test("editorial-to-Advisor signal needs explicit consent and counts one page visit, not answer data", () => {
+  const h=harness("granted");
+  h.click("guide",false);
+  h.click("guideInline",false);
+  h.click("guide",false);
+  h.click("internal",false);
+  assert.deepEqual(h.eventNames(),["guide_advisor_click"],"one eligible editorial handoff per page view");
+  assert.ok(h.eventCalls().every(call=>call.length===2),"no URL or answer parameters");
+  assert.equal(h.appendedScripts.length,1);
+});
+test("editorial signal never counts foreign/query/non-Advisor links, sponsored offers or Advisor-result links",()=>{
+  const h=harness("granted");
+  h.click("guideExternal",false);
+  h.click("guideBadQuery",false);
+  h.click("guideWrongAnchor",false);
+  h.click("internal",false);
+  h.click("affiliate",false);
+  h.click("guide",true);
+  assert.deepEqual(h.eventNames(),["next_step_click"],
+    "Existing Advisor-result navigation event must remain unchanged");
+  h.click("guide",false);
+  assert.deepEqual(h.eventNames(),["next_step_click","guide_advisor_click"]);
+});
+test("editorial-to-Advisor signal obeys denied, unknown and later revoked consent",()=>{
+  for(const initial of [null,"denied"]){
+    const h=harness(initial);
+    h.click("guide",false);
+    assert.deepEqual(h.eventNames(),[]);
+    assert.equal(h.appendedScripts.length,0);
+  }
+  const h=harness(null);
+  h.listeners["document:DOMContentLoaded"]();
+  h.click("guide",false);
+  h.listeners["allow:click"]();
+  assert.deepEqual(h.eventNames(),[],"no replay of pre-consent activity");
+  h.click("guide",false);
+  h.listeners["deny:click"]();
+  h.click("guide",false);
+  assert.deepEqual(h.eventNames(),["guide_advisor_click"]);
 });

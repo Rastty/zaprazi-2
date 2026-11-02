@@ -71,6 +71,30 @@ test("first-party page URLs with query, credentials or custom port fail closed w
     .unsafe_first_party_links,{count:0,sources:[]});
 });
 
+test("slashless first-party page queries and credentials fail closed before canonical redirects",()=>{
+  const canary="PRIVATE_ANSWER_SLASHLESS_DO_NOT_LOG_612";
+  const report=prepareInternalLinks([{path:"/",links:[
+    "/guide?answer="+canary,
+    "/guide/sub?answer="+canary,
+    "/guide?utm_source=example",
+    "https://user:"+canary+"@zaprazi.cz/guide",
+    "https://zaprazi.cz:8443/guide",
+    "http://zaprazi.cz/guide?answer="+canary,
+    "/go/merchant?answer="+canary,
+    "/wp-json/zaprazi?answer="+canary,
+    "/guide",
+    "/guide/"
+  ]}]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.unsafe_first_party_links,{count:6,sources:["/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="unsafe_first_party_page_url").length,6);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.ok(!JSON.stringify(report).includes("answer="));
+  // A slashless URL without sensitive parameters is not probed by this audit.
+  assert.ok(report.excluded.some(x=>x.why==="not_safe_public_page"));
+});
+
 test("GET probe does not follow redirects and classifies broken pages",async()=>{
   const called=[];
   const mock=async(url,options)=>{

@@ -52,10 +52,35 @@ export function assessAcquisitionDiscovery(readiness, sitemap) {
 
 export async function checkAcquisitionDiscovery(fetcher = fetch, origin = "https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Refuse non-production origin");
-  const res = await fetcher(origin + "/wp-json/zaprazi/v1/affiliate-readiness",
-    {signal: AbortSignal.timeout(15000), headers: {Accept: "application/json"}});
-  if (res.status !== 200) throw new Error("Cannot verify live deployment release: HTTP " + res.status);
-  const readiness = await res.json();
+  const endpoint = origin + "/wp-json/zaprazi/v1/affiliate-readiness";
+  // The release gate must verify this exact production API response, not a
+  // redirected login page or a JSON response from another host. No credentials
+  // or visitor answers are sent. Never echo upstream errors into CI logs.
+  let res;
+  try {
+    res = await fetcher(endpoint, {
+      signal: AbortSignal.timeout(15000),
+      headers: {Accept: "application/json"},
+      redirect: "manual"
+    });
+  } catch {
+    throw new Error("Live release readiness request failed");
+  }
+  if (!res || !Number.isInteger(res.status)) {
+    throw new Error("Invalid live release readiness HTTP response");
+  }
+  if (res.status !== 200) {
+    throw new Error("Cannot verify live deployment release: HTTP " + res.status);
+  }
+  if (res.redirected || res.url !== endpoint) {
+    throw new Error("Live release readiness response is not from the exact production endpoint");
+  }
+  let readiness;
+  try {
+    readiness = await res.json();
+  } catch {
+    throw new Error("Invalid live release readiness JSON");
+  }
   const audit = await auditPublicSitemap(fetcher, origin);
   return assessAcquisitionDiscovery(readiness, audit);
 }

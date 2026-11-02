@@ -87,3 +87,28 @@ test("source smoke ignores dead homepage navigation and headings in comments or 
   assert.throws(() => assertHomepage(homepage.replace('id="zp-mobility-advisor"', 'id="other"') +
     '<template><div id="zp-mobility-advisor"></div></template>'), /anchor/);
 });
+
+test("source smoke requires a usable name on both navigation links", () => {
+  const homeLink = '<a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>';
+  const advisorLink = '<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>';
+  for (const replacement of [
+    '<a href="https://zaprazi.cz/choditka-pro-seniory/"></a>',
+    '<a href="https://zaprazi.cz/choditka-pro-seniory/">&nbsp;</a>',
+    '<a hidden href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>',
+    '<a aria-hidden="true" href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>',
+    '<a tabindex="-1" href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>',
+    '<a style="display:none" href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>'
+  ]) assert.throws(() => assertHomepage(homepage.replace(homeLink, replacement)), /link missing/);
+  for (const replacement of [
+    '<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce"></a>',
+    '<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">&nbsp;</a>',
+    '<a hidden class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>',
+    '<a aria-hidden="true" class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>',
+    '<a inert class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>',
+    '<a tabindex="-1" class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>',
+    '<a style="visibility:hidden" class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>'
+  ]) assert.throws(() => assertMobility(mobility.replace(advisorLink, replacement)), /accessible name or is hidden/);
+  assert.doesNotThrow(() => assertMobility(mobility.replace("Začít poradcem</a>", '<span>Začít poradcem</span></a>')));
+  assert.doesNotThrow(() => assertMobility(mobility.replace("Začít poradcem</a>", '</a>').replace(
+    'data-zp-journey="advisor"', 'data-zp-journey="advisor" aria-label="Začít poradcem"')));
+});

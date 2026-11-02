@@ -4,6 +4,9 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "scripts/audit-live-bed-cost.mjs"
+      - "scripts/audit-live-human-ux-186.mjs"
+      - "scripts/audit-live-return-home-ux-185.mjs"
       - "scripts/audit-live-release-coherence.mjs"
       - "tests/audit-live-release-coherence.test.js"
       - "scripts/audit-live-mobility-acquisition-184.mjs"
@@ -137,7 +140,8 @@ jobs:
   # Never test future 0.8.185 HTML against an older live release on a PR.
   # Scheduled/authorized manual dispatch checks the deployed theme version.
   return-home-ux-185:
-    if: github.event_name != 'pull_request'
+    # Test-only QA branch checks public release read-only; not a release acceptance.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'qa/186-live-browser-')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -152,12 +156,14 @@ jobs:
       - name: Verify mobile return-home safety plan and six live guide anchors
         env:
           CHROME_BIN: /usr/bin/google-chrome
+          ZP_SAME_RELEASE_QA_PR: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'qa/186-live-browser-') && '1' || '0' }}
         run: node scripts/audit-live-return-home-ux-185.mjs
 
   # Independent 0.8.186 visitor-journey QA: real Chrome, only AFTER deploy.
   # A PR tests the old public release, not future HTML or price entry.
   human-ux-186:
-    if: github.event_name != 'pull_request'
+    # Test-only QA branch checks public release read-only; not a release acceptance.
+    if: github.event_name != 'pull_request' || startsWith(github.head_ref, 'qa/186-live-browser-')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -172,6 +178,7 @@ jobs:
       - name: Validate own-price rental calculator and critical-first return-home summary
         env:
           CHROME_BIN: /usr/bin/google-chrome
+          ZP_SAME_RELEASE_QA_PR: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'qa/186-live-browser-') && '1' || '0' }}
         run: node scripts/audit-live-human-ux-186.mjs
 
   editorial-seo-audit:

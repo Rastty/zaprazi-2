@@ -8,8 +8,10 @@ import {accessSync,constants} from "node:fs";
 import puppeteer from "puppeteer-core";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
 
-if(process.env.GITHUB_EVENT_NAME==="pull_request")
-  throw new Error("This acceptance requires a scheduled or authorized postdeploy run");
+// A test-only QA PR can diagnose the ALREADY deployed identical release.
+// It never substitutes for the scheduled/authorized postdeploy acceptance.
+if(process.env.GITHUB_EVENT_NAME==="pull_request" && process.env.ZP_SAME_RELEASE_QA_PR!=="1")
+  throw new Error("This acceptance requires postdeploy or an explicit same-release read-only QA PR");
 if(SOURCE_THEME_RELEASE!=="0.8.186"){
   console.log("NOT_APPLICABLE: 0.8.186 Human UX audit");
   process.exit(0);
@@ -77,6 +79,14 @@ try {
   const family=await browser.newPage();
   await family.setViewport({width:390,height:844,deviceScaleFactor:1});
   await open(family,"/navrat-z-nemocnice/");
+  // Consent banner can cover the mobile submit button: choose privacy-safe
+  // "Without measurement" before performing real pointer interactions.
+  const familyConsent=await family.$eval("#zp-analytics-consent",el=>!el.hidden);
+  if(familyConsent){
+    await family.click("#zp-analytics-deny");
+    assert.equal(await family.$eval("#zp-analytics-consent",el=>el.hidden),true,
+      "Declining analytics must dismiss the mobile overlay");
+  }
   // Static, synthetic and intentionally unsafe scenario; never stored or sent.
   const answers={
     timing:"today_or_tomorrow",
@@ -102,6 +112,11 @@ try {
       overviewCards:overview?.querySelectorAll("article.zp-decision-card").length||0,
       overviewTitle:overview?.querySelector("#zp-return-overview-title")?.textContent,
       plainText:overview?.textContent,
+      checklistPresent:!!full,
+      criticalBeforeOverview:!!critical&&!!overview&&
+        !!(critical.compareDocumentPosition(overview)&Node.DOCUMENT_POSITION_FOLLOWING),
+      overviewBeforeChecklist:!!overview&&!!full&&
+        !!(overview.compareDocumentPosition(full)&Node.DOCUMENT_POSITION_FOLLOWING),
       order:!!critical&&!!overview&&!!full&&
         !!(critical.compareDocumentPosition(overview)&Node.DOCUMENT_POSITION_FOLLOWING)&&
         !!(overview.compareDocumentPosition(full)&Node.DOCUMENT_POSITION_FOLLOWING),
@@ -114,6 +129,8 @@ try {
   assert.ok(result.criticalCount>=3,"Unsafe return requires multiple explicit blockers");
   assert.equal(result.overviewCards,3,"Three practical orientation cards expected");
   assert.equal(result.overviewTitle,"Váš plán ve třech bodech");
+  console.log("LIVE_186_PLAN_DOM",JSON.stringify({critical:result.criticalCount,overviewCards:result.overviewCards,checklistPresent:result.checklistPresent,criticalBeforeOverview:result.criticalBeforeOverview,overviewBeforeChecklist:result.overviewBeforeChecklist,printAvailable:result.printAvailable}));
+  assert.equal(result.checklistPresent,true,"Original full family task list must be present");
   assert.equal(result.order,true,"Full critical blockers must precede orientation and checklist");
   assert.equal(result.printAvailable,true);
   assert.equal(result.linkLeak,false,"Health-state answer must never leak in links");

@@ -139,6 +139,18 @@ try{
     assert.match(result,/Údaje byly změněny/);
     assert.doesNotMatch(result,/Za 10 měsíců|obě cesty finančně stejně/);
     result=await submit();
+    // Chrome can complete the click before the last input blur/change and
+    // submit callbacks settle; require the fresh comparison, never accept
+    // an obsolete or pending result as evidence of success.
+    if(!/Za 12 měsíců/.test(result)) {
+      await entry.waitForFunction(()=>document.querySelector("#zp-bed-cost-result")?.textContent?.includes("Za 12 měsíců"),{timeout:4000})
+        .catch(async error=>{
+          const state=await entry.$eval("#zp-bed-cost-comparison",el=>({valid:el.checkValidity(),activeField:document.activeElement?.id||null,resultState:el.querySelector("#zp-bed-cost-result")?.textContent?.slice(0,85)}));
+          console.error("BED_COST_RECALC_STATE",JSON.stringify(state));
+          throw error;
+        });
+      result=normalize(await entry.$eval("#zp-bed-cost-result",el=>el.textContent));
+    }
     assert.match(result,/Za 12 měsíců/);
     assert.match(result,/půjčení 10 ?800/);
     assert.match(result,/nákup 10 ?000/);

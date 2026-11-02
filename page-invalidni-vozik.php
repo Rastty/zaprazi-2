@@ -12,7 +12,7 @@ get_header();
       <h1>Invalidní vozík pro seniory: mechanický, elektrický, nebo s doprovodem?</h1>
       <p class="zp-lead">Nezačínáme diagnózou ani značkou. Nejdřív rozlišíme doprovod, samostatný ruční pohon nebo elektrický pohon. Teprve potom ověřujeme bezpečné ovládání, sed, průchody, nosnost a způsob pořízení.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#poradce-vozik">Spustit poradce</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="#poradce-vozik">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
         <a class="zp-text-link" href="#bezpecne-pouzivani-voziku">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit dveře pro invalidní vozík</a>

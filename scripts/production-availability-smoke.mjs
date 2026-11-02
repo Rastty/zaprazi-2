@@ -20,12 +20,30 @@ export function activeMarkup(html) {
 }
 
 export function anchors(html) {
-  return [...activeMarkup(html).matchAll(/<a\b[^>]*>/gi)].map(match => {
+  // A tag with a valid href but no accessible name is not a usable CTA.
+  // Inspect the actual paired anchor, not just an opening tag in source HTML.
+  return [...activeMarkup(html).matchAll(/<a\b[^>]*>([\s\S]*?)<\/a\s*>/gi)].map(match => {
+    const opening = match[0].slice(0, match[0].indexOf(">") + 1);
     const attrs = {};
-    for (const item of match[0].matchAll(/\s([\w:-]+)\s*=\s*(["'])(.*?)\2/g))
+    for (const item of opening.matchAll(/\s([\w:-]+)\s*=\s*(["'])(.*?)\2/g))
       attrs[item[1].toLowerCase()] = item[3];
+    for (const key of ["hidden", "inert"]) {
+      if (new RegExp("\\s" + key + "(?=[\\s=>/])", "i").test(opening)) attrs[key] = "";
+    }
+    attrs.__text = match[1].replace(/<[^>]*>/g, "")
+      .replace(/&(?:nbsp|#160|#x0*a0);/gi, " ").trim();
     return attrs;
   });
+}
+
+// Narrow source-only guard, not a substitute for browser accessibility QA.
+// An empty, hidden or keyboard-excluded primary link must not pass as a
+// usable journey even when its destination URL is correct.
+export function usableNavigationAnchor(a) {
+  const named = Boolean(a.__text || (a["aria-label"] || "").trim());
+  return named && !Object.hasOwn(a, "hidden") && !Object.hasOwn(a, "inert") &&
+    a["aria-hidden"] !== "true" && a.tabindex !== "-1" &&
+    !/(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(a.style || "");
 }
 
 function safeInternalLink(href, currentPath, path, hash = "") {
@@ -43,7 +61,7 @@ export function assertHomepage(html) {
     throw new Error("Homepage mission heading missing");
   if (!/\bid=["']poradce["']/i.test(markup) || !/\bid=["']zp-mobility-advisor["']/i.test(markup))
     throw new Error("Homepage Mobility Advisor anchor/form missing");
-  if (!anchors(markup).some(a => safeInternalLink(a.href, "/", MOBILITY)))
+  if (!anchors(markup).some(a => safeInternalLink(a.href, "/", MOBILITY) && usableNavigationAnchor(a)))
     throw new Error("Homepage Mobility article link missing");
 }
 
@@ -55,6 +73,8 @@ export function assertMobility(html) {
   if (ctas.length !== 1)
     throw new Error("Expected one explicit editorial-to-Advisor CTA");
   const cta = ctas[0];
+  if (!usableNavigationAnchor(cta))
+    throw new Error("Editorial Advisor CTA has no usable accessible name or is hidden");
   if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce"))
     throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
   if (cta["data-zp-merchant-link"] !== undefined || /\bsponsored\b/i.test(cta.rel || ""))

@@ -170,6 +170,44 @@ export function robotsHasGooglebotRootBlock(robots) {
   return blocksRoot(applicable.flatMap(group => group.rules));
 }
 
+/**
+ * Check whether Googlebot can crawl each curated decision-page pathname.
+ * A root-wide robots gate misses a targeted "Disallow: /important-page/".
+ * Apply Google's specific Googlebot group before the wildcard group, then
+ * longest matching rule (Allow wins ties). No URLs or robots rules are logged.
+ * This checks path directives only; it is not evidence of Google indexation.
+ */
+function robotsRuleMatchesPath(value, path) {
+  if (!value || !value.startsWith("/")) return false;
+  const anchored=value.endsWith("$");
+  const body=anchored?value.slice(0,-1):value;
+  const escaped=body.split("*").map(part=>
+    part.replace(/[.*+?^\${}()|[\]\\]/g,"\\async function getText(fetcher, href) {")).join(".*");
+  return new RegExp("^"+escaped+(anchored?"$":"")).test(path);
+}
+
+export function robotsBlockedDecisionPaths(robots, paths=requiredDecisionPaths) {
+  const groups=parseRobotsGroups(robots);
+  const specific=groups.filter(group=>group.agents.includes("googlebot"));
+  const applicable=specific.length?specific:
+    groups.filter(group=>group.agents.includes("*"));
+  const rules=applicable.flatMap(group=>group.rules);
+  return paths.filter(path=>{
+    let longest=-1,blocked=false;
+    for(const rule of rules){
+      if(!robotsRuleMatchesPath(rule.value,path))continue;
+      const length=rule.value.replace(/[*$]/g,"").length;
+      if(length>longest){
+        longest=length;
+        blocked=rule.key==="disallow";
+      }else if(length===longest && rule.key==="allow"){
+        blocked=false;
+      }
+    }
+    return blocked;
+  });
+}
+
 async function getText(fetcher, href) {
   // Do not follow 3xx responses: a compromised sitemap/robots endpoint must
   // never send our read-only audit to an external host.
@@ -274,6 +312,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     robots_sitemaps: advertised,
     robots_wildcard_root_block: robotsHasWildcardRootBlock(robots),
     robots_googlebot_root_block: robotsHasGooglebotRootBlock(robots),
+    robots_googlebot_blocked_decision_paths: robotsBlockedDecisionPaths(robots),
     index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount,
       noncanonical: noncanonicalIndexCount },
     leaf_sitemaps: reports,
@@ -302,7 +341,9 @@ export function assertPublicSitemapHealthy(report) {
   if (!report || !Array.isArray(report.required_decision_paths_missing) ||
       !Array.isArray(report.robots_sitemaps) ||
       typeof report.robots_wildcard_root_block !== "boolean" ||
-      typeof report.robots_googlebot_root_block !== "boolean" || !Array.isArray(report.leaf_sitemaps) ||
+      typeof report.robots_googlebot_root_block !== "boolean" ||
+      !Array.isArray(report.robots_googlebot_blocked_decision_paths) ||
+      !Array.isArray(report.leaf_sitemaps) ||
       !Array.isArray(report.duplicate_paths_sample) || !report.index ||
       !Number.isInteger(report.noncanonical_urls_count) ||
       !Number.isInteger(report.index.noncanonical)) {
@@ -320,6 +361,10 @@ export function assertPublicSitemapHealthy(report) {
   }
   if (report.robots_googlebot_root_block) {
     throw new Error("robots.txt blocks Googlebot crawling at the site root");
+  }
+  if (report.robots_googlebot_blocked_decision_paths.length) {
+    throw new Error("robots.txt blocks required decision pages for Googlebot: " +
+      report.robots_googlebot_blocked_decision_paths.join(", "));
   }
   if (report.index.http !== 0 || report.leaf_sitemaps.some(s => s.http !== 0)) {
     throw new Error("Public sitemap contains HTTP locs instead of HTTPS");

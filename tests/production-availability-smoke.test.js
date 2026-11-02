@@ -40,6 +40,24 @@ test("rejects missing homepage advisor anchor or homepage Mobility entry", () =>
   assert.throws(() => assertHomepage(homepage.replace("https://zaprazi.cz/choditka-pro-seniory/", "https://elsewhere.test/choditka-pro-seniory/")), /link missing/);
 });
 
+
+test("homepage target anchor must contain exactly one visible Mobility Advisor form", () => {
+  const section = '<section id="poradce"><div id="zp-mobility-advisor"></div></section>';
+  for (const invalid of [
+    '<section id="poradce"></section><div id="zp-mobility-advisor"></div>',
+    '<section id="poradce" hidden><div id="zp-mobility-advisor"></div></section>',
+    '<section id="poradce"><div id="zp-mobility-advisor" style="display:none"></div></section>',
+    '<div aria-hidden="true">' + section + '</div>',
+    '<div inert>' + section + '</div>',
+    section + '<div id="poradce"></div>',
+    section + '<div id="zp-mobility-advisor"></div>'
+  ]) {
+    assert.throws(() => assertHomepage(homepage.replace(section, invalid)), /anchor\/form/);
+  }
+  assert.doesNotThrow(() => assertHomepage(homepage.replace(section,
+    '<div hidden><span>Other hidden content</span></div>' + section)));
+});
+
 test("rejects unsafe or broken editorial CTA without checking merchant links", () => {
   for (const wrong of [
     "https://example.com/#poradce",

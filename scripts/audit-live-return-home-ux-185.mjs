@@ -24,8 +24,10 @@ const versionAtLeast=(a,b)=>{
   for(let i=0;i<3;i++)if(left[i]!==right[i])return left[i]>right[i];
   return true;
 };
-if(process.env.GITHUB_EVENT_NAME==="pull_request")
-  throw new Error("Return-home live UX acceptance requires an authorized postdeploy or scheduled run");
+// A test-only QA PR may diagnose the ALREADY deployed identical release.
+// The strict source-versus-live marker check below still applies.
+if(process.env.GITHUB_EVENT_NAME==="pull_request" && process.env.ZP_SAME_RELEASE_QA_PR!=="1")
+  throw new Error("Return-home live UX acceptance requires postdeploy or a same-release QA PR");
 if(!versionAtLeast(SOURCE_THEME_RELEASE,"0.8.185")){
   console.log("NOT_APPLICABLE: live return-home UX is only required from source release 0.8.185");
   process.exit(0);

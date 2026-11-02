@@ -40,6 +40,7 @@ on:
       - "assets/js/bath-transfer-advisor.js"
       - "scripts/audit-live-search-guidance.mjs"
       - "scripts/audit-live-editorial-seo.mjs"
+      - "scripts/audit-live-sukl-handoff-189.mjs"
       - "scripts/lib/yoast-https-graph.mjs"
       - "scripts/audit-live-problem-guides.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
@@ -227,6 +228,25 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-editorial-advisor-funnel-188.mjs
+
+  sukl-monthly-source-189:
+    # PRs check the previous release. Exact 0.8.189 only after manual WordPress deploy.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only Chrome dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify official SÚKL source handoff and historical-amount guard
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-sukl-handoff-189.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

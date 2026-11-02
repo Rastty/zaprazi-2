@@ -47,7 +47,7 @@ if (!/text\\/html/i.test(mobility.response.headers.get("content-type") || ""))
   throw new Error("Mobility landing did not return HTML");
 if (!mobility.body.includes("Chodítka pro seniory"))
   throw new Error("Mobility landing content missing");
-if (!/poradce/i.test(mobility.body) || !/href=["'][^"']*#([^"']*poradce|advisor)/i.test(mobility.body))
+if (!/Spustit celý poradce|Začít poradcem|Poradce pro chůzi/i.test(mobility.body) || !/href=["\x27][^"\x27]*#/i.test(mobility.body))
   throw new Error("Mobility landing lacks Advisor anchor link");
 console.log("PASS homepage HTTP 200, core content, internal navigation (" + local.length + " links); Mobility landing and Advisor handoff.");
 console.log("Read-only availability probe only; NOT a Chrome functional, accessibility or safety-gate certification.");

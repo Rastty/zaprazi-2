@@ -35,3 +35,47 @@ if (form) {
   months.addEventListener("change", render);
   render();
 }
+
+
+// If editorial rental rates expire, families can still calculate from their
+// own freshly verified quote. This never uses the page's old rental examples.
+const ownQuoteForm = document.querySelector("#zp-walker-own-quote-budget");
+if (ownQuoteForm) {
+  const monthly = ownQuoteForm.querySelector("#zp-walker-own-quote-monthly");
+  const duration = ownQuoteForm.querySelector("#zp-walker-own-quote-months");
+  const result = ownQuoteForm.querySelector("#zp-walker-own-quote-result");
+  const hint = () => result.replaceChildren(document.createTextNode(
+    "Zadejte měsíční částku, kterou jste si ověřili přímo u půjčovny. Nic neodesíláme."
+  ));
+  ownQuoteForm.hidden = false;
+  hint();
+  monthly.addEventListener("input", hint);
+  duration.addEventListener("change", hint);
+  ownQuoteForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const raw = String(monthly.value || "").trim();
+    const rate = Number(raw);
+    const months = Number(duration.value);
+    // Decimal/negative/unbounded amounts and arbitrary durations are rejected.
+    // Never assume an old provider's rate is current or that cost proves fit.
+    if (!/^[1-9]\\d{0,5}$/.test(raw) || !Number.isSafeInteger(rate)
+      || rate > 100000 || ![1,3,6].includes(months)) {
+      result.replaceChildren(document.createTextNode(
+        "Nelze přepočítat. Zadejte celé měsíční půjčovné od 1 do 100 000 Kč a platnou dobu."
+      ));
+      return;
+    }
+    const total = rate * months;
+    const formatted = new Intl.NumberFormat("cs-CZ", {
+      style:"currency",currency:"CZK",maximumFractionDigits:0
+    }).format(total);
+    const emphasis = document.createElement("strong");
+    emphasis.textContent = formatted;
+    result.replaceChildren(
+      document.createTextNode("Pouze orientační násobek vlastní měsíční sazby na "
+        +months+" "+(months===1?"měsíc":months===3?"měsíce":"měsíců")+": "),
+      emphasis,
+      document.createTextNode(". Zkontrolujte u půjčovny více-měsíční tarif, kauci, dopravu a celkovou konečnou cenu. Výpočet není nabídka ani potvrzení vhodnosti pomůcky.")
+    );
+  });
+}

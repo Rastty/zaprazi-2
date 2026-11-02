@@ -229,7 +229,7 @@ jobs:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-editorial-advisor-funnel-188.mjs
 
-  sukI-monthly-source-189:
+  sukl-monthly-source-189:
     # PRs check the previous release. Exact 0.8.189 only after manual WordPress deploy.
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest

@@ -42,15 +42,16 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
 
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
-  const targets=new Map(), excluded=[], insecureInternalSources=new Set();
-  let insecureInternalCount=0;
+  const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set(), unsafeFirstPartySources=new Set(), slashlessInternalSources=new Set();
+  let insecureInternalCount=0, noncanonicalInternalCount=0, unsafeFirstPartyCount=0, slashlessInternalCount=0;
   for (const page of sourcePages) {
     for (const href of page.links || []) {
       let u;
       try {u=new URL(href,origin+page.path);} catch {
         excluded.push({source:page.path,why:"invalid_url"});continue;
       }
-      if (u.hostname!=="zaprazi.cz" || u.protocol==="mailto:" || u.protocol==="tel:") continue;
+      if (!["zaprazi.cz","www.zaprazi.cz"].includes(u.hostname) ||
+          u.protocol==="mailto:" || u.protocol==="tel:") continue;
       if (u.protocol!=="https:" && u.protocol!=="http:") {
         excluded.push({source:page.path,why:"unsafe_protocol"});continue;
       }
@@ -61,7 +62,41 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
         insecureInternalSources.add(page.path);
         excluded.push({source:page.path,why:"http_internal"});
       }
+      // A www first-party URL is not the canonical host. Do not fetch the
+      // alias or assume a redirect works: flag the authored href for repair.
+      if (u.hostname==="www.zaprazi.cz") {
+        noncanonicalInternalCount++;
+        noncanonicalInternalSources.add(page.path);
+        excluded.push({source:page.path,why:"noncanonical_www_host"});
+        continue;
+      }
       const path=u.pathname;
+      // First-party document links carrying a query, credentials or a custom
+      // port are not canonical navigation. In particular a query may expose
+      // private Advisor answers through URLs, logs or analytics. Never print
+      // the raw href or its parameters in public CI reports. Commerce/click
+      // routes remain excluded from this document-link gate.
+      // WordPress page links without a trailing slash can redirect to the
+      // canonical URL. A query or credential must be flagged before any
+      // redirect: /guide?answer=... is no safer than /guide/?answer=....
+      const pageLikePath=/^\/(?:[a-z0-9_-]+\/)*(?:[a-z0-9_-]+)?$/i.test(path);
+      if ((u.search || u.username || u.password || u.port) &&
+          !blockedPath.test(path) && pageLikePath) {
+        unsafeFirstPartyCount++;
+        unsafeFirstPartySources.add(page.path);
+        excluded.push({source:page.path,why:"unsafe_first_party_page_url"});
+        continue;
+      }
+      // Clean slashless WordPress document links normally redirect to their
+      // canonical /slug/ form. Report the authored noncanonical link instead
+      // of silently excluding it or probing the redirect. Never classify
+      // commerce, WordPress API or other non-page routes as documents.
+      if (!blockedPath.test(path) && pageLikePath && path!=="/" && !path.endsWith("/")) {
+        slashlessInternalCount++;
+        slashlessInternalSources.add(page.path);
+        excluded.push({source:page.path,why:"noncanonical_slashless_page"});
+        continue;
+      }
       // Only benign page-like paths. Do not request search, REST, routes
       // for click tracking or files that might trigger downloads.
       if (u.search || u.username || u.password || u.port || blockedPath.test(path) ||
@@ -75,7 +110,10 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   }
   return {targets:[...targets].map(([path,sources])=>({path,sources:[...sources].sort()})),
     excluded:excluded.slice(0,60),
-    insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()}};
+    insecure_internal_links:{count:insecureInternalCount,sources:[...insecureInternalSources].sort()},
+    noncanonical_internal_links:{count:noncanonicalInternalCount,sources:[...noncanonicalInternalSources].sort()},
+    unsafe_first_party_links:{count:unsafeFirstPartyCount,sources:[...unsafeFirstPartySources].sort()},
+    noncanonical_slashless_links:{count:slashlessInternalCount,sources:[...slashlessInternalSources].sort()}};
 }
 
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {
@@ -119,7 +157,10 @@ export async function auditInternalTargets(targets,fetcher=fetch,origin="https:/
   }
   return {
     checked:checked.length,ok:checked.filter(x=>x.outcome==="ok").length,
-    broken:checked.filter(x=>["bad_status","network_error","non_html_200","unsafe_redirect"].includes(x.outcome)),
+    // Any redirect from an authored canonical internal page is an SEO/UX defect:
+    // even a same-origin 301 can point to an unrelated page or mask a removed guide.
+    // Do not follow Location; report only the safe outcome classification.
+    broken:checked.filter(x=>["bad_status","network_error","non_html_200","unsafe_redirect","redirect"].includes(x.outcome)),
     redirects:checked.filter(x=>x.outcome==="redirect"||x.outcome==="unsafe_redirect"), checked_paths:checked,
     limitations:"Only hrefs in main on homepage and the required decision pages; read-only GET, redirects not followed. Not a scan of all legacy posts or external backlinks."
   };

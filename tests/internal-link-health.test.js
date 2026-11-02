@@ -14,7 +14,8 @@ test("core-link scanner retains safe page paths, sources and warns on HTTP",()=>
   ]);
   assert.ok(result.excluded.some(x=>x.why==="http_internal"));
   assert.deepEqual(result.insecure_internal_links,{count:1,sources:["/choditka-pro-seniory/"]});
-  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,5);
+  assert.equal(result.excluded.filter(x=>x.why==="not_safe_public_page").length,4);
+  assert.deepEqual(result.unsafe_first_party_links,{count:1,sources:["/"]});
 });
 
 test("first-party HTTP hrefs are reported even if HTTPS target is healthy",()=>{
@@ -26,6 +27,96 @@ test("first-party HTTP hrefs are reported even if HTTPS target is healthy",()=>{
   assert.deepEqual(report.insecure_internal_links,{count:2,sources:["/"]});
   assert.deepEqual(prepareInternalLinks([{path:"/",links:["/guide/"]}])
     .insecure_internal_links,{count:0,sources:[]});
+});
+
+test("www aliases are flagged as noncanonical without crawling or leaking hrefs",()=>{
+  const canary="PRIVATE_ANSWER_DO_NOT_LOG_284";
+  const report=prepareInternalLinks([
+    {path:"/",links:[
+      "https://www.zaprazi.cz/guide/",
+      "http://www.zaprazi.cz/guide/?answer="+canary,
+      "https://zaprazi.cz/guide/",
+      "https://other.example/guide/"
+    ]},
+    {path:"/guide/",links:["https://www.zaprazi.cz/next/"]}
+  ]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.noncanonical_internal_links,
+    {count:3,sources:["/","/guide/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="noncanonical_www_host").length,3);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.equal(prepareInternalLinks([{path:"/",links:["/guide/"]}])
+    .noncanonical_internal_links.count,0);
+});
+
+test("first-party page URLs with query, credentials or custom port fail closed without leaking values",()=>{
+  const canary="PRIVATE_ADVISOR_ANSWER_DO_NOT_LOG_526";
+  const report=prepareInternalLinks([{path:"/",links:[
+    "https://zaprazi.cz/guide/?answer="+canary,
+    "https://zaprazi.cz/guide/?page=2",
+    "https://user:"+canary+"@zaprazi.cz/guide/",
+    "https://zaprazi.cz:8443/guide/",
+    "http://zaprazi.cz/guide/?answer="+canary,
+    "https://zaprazi.cz/guide/",
+    "/go/merchant/?token="+canary
+  ]}]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.unsafe_first_party_links,{count:5,sources:["/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="unsafe_first_party_page_url").length,5);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.ok(!JSON.stringify(report).includes("answer="));
+  assert.deepEqual(prepareInternalLinks([{path:"/",links:["/guide/#safe"]}])
+    .unsafe_first_party_links,{count:0,sources:[]});
+});
+
+test("slashless first-party page queries and credentials fail closed before canonical redirects",()=>{
+  const canary="PRIVATE_ANSWER_SLASHLESS_DO_NOT_LOG_612";
+  const report=prepareInternalLinks([{path:"/",links:[
+    "/guide?answer="+canary,
+    "/guide/sub?answer="+canary,
+    "/guide?utm_source=example",
+    "https://user:"+canary+"@zaprazi.cz/guide",
+    "https://zaprazi.cz:8443/guide",
+    "http://zaprazi.cz/guide?answer="+canary,
+    "/go/merchant?answer="+canary,
+    "/wp-json/zaprazi?answer="+canary,
+    "/guide",
+    "/guide/"
+  ]}]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.unsafe_first_party_links,{count:6,sources:["/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="unsafe_first_party_page_url").length,6);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.ok(!JSON.stringify(report).includes("answer="));
+  // A slashless URL without sensitive parameters is noncanonical, not silently ignored.
+  assert.deepEqual(report.noncanonical_slashless_links,{count:1,sources:["/"]});
+  assert.ok(report.excluded.some(x=>x.why==="noncanonical_slashless_page"));
+});
+
+test("clean slashless internal page links are flagged without probing or leaking fragments",()=>{
+  const canary="PRIVATE_FRAGMENT_DO_NOT_LOG_20261102";
+  const report=prepareInternalLinks([
+    {path:"/",links:[
+      "/guide", "/guide/sub", "/guide/", "/", "/guide#"+canary,
+      "/go/merchant", "/wp-json/zaprazi", "/file.pdf",
+      "https://elsewhere.invalid/guide"
+    ]},
+    {path:"/guide/",links:["https://zaprazi.cz/next"]}
+  ]);
+  assert.deepEqual(report.targets,[
+    {path:"/guide/",sources:["/"]},
+    {path:"/",sources:["/"]}
+  ]);
+  assert.deepEqual(report.noncanonical_slashless_links,
+    {count:4,sources:["/","/guide/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="noncanonical_slashless_page").length,4);
+  assert.deepEqual(report.unsafe_first_party_links,{count:0,sources:[]});
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.equal(prepareInternalLinks([{path:"/",links:["/guide/"]}])
+    .noncanonical_slashless_links.count,0);
 });
 
 test("GET probe does not follow redirects and classifies broken pages",async()=>{
@@ -43,10 +134,32 @@ test("GET probe does not follow redirects and classifies broken pages",async()=>
   assert.equal(data.checked,3);
   assert.equal(data.ok,1);
   assert.equal(data.redirects.length,1);
-  assert.equal(data.broken.length,1);
-  assert.equal(data.broken[0].status,404);
+  assert.equal(data.broken.length,2);
+  assert.equal(data.broken.find(x=>x.path==="/gone/").status,404);
+  assert.equal(data.broken.find(x=>x.path==="/old/").outcome,"redirect");
   assert.ok(called.every(x=>x.options.redirect==="manual"&&x.options.method==="GET"));
   assert.ok(called.every(x=>x.url.startsWith("https://zaprazi.cz/")));
+});
+
+test("canonical internal page redirects fail the live gate without following Location",async()=>{
+  const target=[{path:"/old-guide/",sources:["/","/choditka-pro-seniory/"]}];
+  for(const status of [301,302,307,308]){
+    let requests=0;
+    const report=await auditInternalTargets(target,async(_url,options)=>{
+      requests++;
+      assert.equal(options.redirect,"manual");
+      return {status,headers:{get:name=>name==="location"?"/new-guide/":"text/html"},
+        body:{cancel:async()=>{}}};
+    });
+    assert.equal(requests,1,"Never follow a redirect or request its destination");
+    assert.equal(report.ok,0);
+    assert.equal(report.broken.length,1,"A safe redirect is still noncanonical navigation");
+    assert.equal(report.broken[0].outcome,"redirect");
+    assert.equal(report.redirects.length,1);
+    assert.equal(report.redirects[0].redirect,"same_origin");
+    assert.ok(!JSON.stringify(report).includes("/new-guide/"),
+      "Do not expose untrusted Location in public CI logs");
+  }
 });
 
 test("HTTP 200 is healthy only when the target is an HTML document",async()=>{
@@ -144,7 +257,8 @@ test("live link audit redacts sensitive URL parameters and redirect targets from
   });
   const same=await auditInternalTargets(target,response("/next/"));
   assert.equal(same.redirects[0].redirect,"same_origin");
-  assert.equal(same.broken.length,0);
+  assert.equal(same.broken.length,1);
+  assert.equal(same.broken[0].outcome,"redirect");
 
   const sensitive=await auditInternalTargets(target,response("/next/?answer="+secret));
   assert.equal(sensitive.redirects[0].redirect,"off_origin_or_unsafe");

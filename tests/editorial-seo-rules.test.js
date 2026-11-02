@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { summarizeEditorialPages } from "../scripts/lib/editorial-seo-rules.mjs";
+import {readFileSync} from "node:fs";
+import { summarizeEditorialPages, googlebotBlockedByXRobotsTag } from "../scripts/lib/editorial-seo-rules.mjs";
 const good=(path,title,links=[],ids=[])=>({
   path,status:200,h1:[title],title,description:"Praktický návod "+title,
   canonical:"https://zaprazi.cz"+path,robots:"index,follow",mainWords:170,
@@ -35,4 +36,73 @@ test("Wrong canonical, unavailable page and missing description are unambiguousl
   assert.ok(result.errors.some(e=>e.code==="HTTP_NOT_200"&&e.path==="/broken/"));
   assert.ok(result.warnings.some(w=>w.code==="MISSING_DESCRIPTION"));
   assert.ok(result.warnings.some(w=>w.code==="ZERO_CORE_CONTEXT_INBOUND"&&w.path==="/page/"));
+});
+
+test("HTTP X-Robots-Tag and Googlebot meta noindex fail the decision-page SEO gate",()=>{
+  for (const [field,value,code] of [
+    ["xRobotsTag","noindex, nofollow","X_ROBOTS_NOINDEX"],
+    ["xRobotsTag","none","X_ROBOTS_NOINDEX"],
+    ["xRobotsTag","googlebot: noindex","X_ROBOTS_NOINDEX"],
+    ["xRobotsTag","bingbot: noindex, googlebot: noindex","X_ROBOTS_NOINDEX"],
+    ["googlebotRobots","noindex,follow","GOOGLEBOT_NOINDEX"],
+    ["googlebotRobots","none","GOOGLEBOT_NOINDEX"],
+    ["robots","none","NOINDEX"]
+  ]){
+    const page=good("/choditka-pro-seniory/","Chodítka");
+    page[field]=value;
+    assert.ok(summarizeEditorialPages([page]).errors.some(e=>e.code===code),
+      field+"="+value+" should block indexability QA");
+  }
+});
+
+test("Bot-specific X-Robots directives do not falsely block generic Googlebot",()=>{
+  for (const header of [
+    "", "index, follow", "bingbot: noindex", "googlebot-news: noindex",
+    "bingbot: noindex, googlebot: index", "googlebot: index, follow"
+  ]){
+    assert.equal(googlebotBlockedByXRobotsTag(header),false);
+    const page=good("/choditka-pro-seniory/","Chodítka");
+    page.xRobotsTag=header;
+    assert.ok(!summarizeEditorialPages([page]).errors.some(e=>e.code==="X_ROBOTS_NOINDEX"));
+  }
+});
+
+test("SEO errors never reflect untrusted X-Robots-Tag or Googlebot meta values",()=>{
+  const secret="PRIVATE_ADVISOR_ANSWER_DO_NOT_LOG_20261102";
+  const page=good("/choditka-pro-seniory/","Chodítka");
+  page.xRobotsTag="googlebot: noindex, "+secret;
+  page.googlebotRobots="noindex, "+secret;
+  const report=summarizeEditorialPages([page]);
+  assert.ok(report.errors.some(e=>e.code==="X_ROBOTS_NOINDEX"));
+  assert.ok(report.errors.some(e=>e.code==="GOOGLEBOT_NOINDEX"));
+  assert.ok(!JSON.stringify(report.errors).includes(secret));
+});
+
+test("secondary robots and Googlebot noindex directives cannot hide behind an index first tag",()=> {
+  const page=good("/choditka-pro-seniory/","Chodítka");
+  // The live browser joins all meta contents in document order.
+  page.robots="index, follow, noindex";
+  page.googlebotRobots="index, follow, none";
+  const report=summarizeEditorialPages([page]);
+  assert.ok(report.errors.some(e=>e.code==="NOINDEX"));
+  assert.ok(report.errors.some(e=>e.code==="GOOGLEBOT_NOINDEX"));
+});
+
+test("multiple canonical declarations fail even when the first URL is correct",()=> {
+  const page=good("/choditka-pro-seniory/","Chodítka");
+  page.canonicalCount=2;
+  const duplicate=summarizeEditorialPages([page]);
+  assert.ok(duplicate.errors.some(e=>e.code==="CANONICAL_COUNT"));
+  page.canonicalCount=1;
+  assert.ok(!summarizeEditorialPages([page]).errors.some(e=>e.code==="CANONICAL_COUNT"));
+  page.canonicalCount=0;
+  assert.ok(summarizeEditorialPages([page]).errors.some(e=>e.code==="CANONICAL_COUNT"));
+});
+
+test("live editorial DOM audit reads all robots and canonical tags, not only first",()=> {
+  const source=readFileSync(new URL("../scripts/audit-live-editorial-seo.mjs",import.meta.url),"utf8");
+  assert.ok(source.includes("const canonicalTags=[...document.querySelectorAll("));
+  assert.ok(source.includes("const robots=[...document.querySelectorAll("));
+  assert.ok(source.includes("const googlebotRobots=[...document.querySelectorAll("));
+  assert.ok(source.includes("canonicalCount:canonicalTags.length"));
 });

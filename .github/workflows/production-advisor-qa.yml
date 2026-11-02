@@ -41,6 +41,7 @@ on:
       - "scripts/audit-live-search-guidance.mjs"
       - "scripts/audit-live-editorial-seo.mjs"
       - "scripts/audit-live-sukl-handoff-189.mjs"
+      - "scripts/audit-live-indoor-walker-doorway-190.mjs"
       - "scripts/lib/yoast-https-graph.mjs"
       - "scripts/audit-live-problem-guides.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
@@ -247,6 +248,25 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-sukl-handoff-189.mjs
+
+  indoor-walker-doorway-190:
+    # Only exact-source, postdeploy/scheduled Chrome QA. A PR tests the older live release.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only Chrome adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Audit live 60cm doorway decision and safe Advisor entry
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-indoor-walker-doorway-190.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

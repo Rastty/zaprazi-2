@@ -181,6 +181,25 @@ jobs:
           ZP_SAME_RELEASE_QA_PR: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'qa/186-live-browser-') && '1' || '0' }}
         run: node scripts/audit-live-human-ux-186.mjs
 
+  mobility-first-action-187:
+    # Real Chrome acceptance of the exact NEW release; PR builds audit OLD live version.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only Chrome acceptance dependency
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Test the new homepage Mobility first-action safety journey
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-mobility-first-action-187.mjs
+
   editorial-seo-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 10

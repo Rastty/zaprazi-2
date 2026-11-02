@@ -1,19 +1,21 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {createHash} from "node:crypto";
 const read=p=>readFileSync(new URL("../"+p,import.meta.url),"utf8");
 
-test("coordinated release 0.8.186 contains exactly 100 coherent runtime markers",()=>{
+test("release keeps the 0.8.186 human UX while all 100 runtime markers match the current version",()=>{
   const functions=read("functions.php"),css=read("style.css");
-  assert.match(css,/^Version: 0\.8\.186$/m);
-  assert.match(functions,/define\( 'ZAPRAZI_RELEASE', '0\.8\.186' \)/);
+  const version=css.match(/^Version:\s*(\d+\.\d+\.\d+)\s*$/m)?.[1];
+  assert.ok(version,"Current WordPress release must be defined");
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '"+version+"' )"));
   const begin=functions.indexOf("  $files = array(");
   const end=functions.indexOf("\n  );",begin);
   assert.ok(begin>=0&&end>begin,"Runtime manifest must be present");
   const paths=[...functions.slice(begin,end).matchAll(/'([^']+)'/g)].map(match=>match[1]);
   assert.equal(paths.length,100);
   assert.equal(new Set(paths).size,100,"Manifest must contain no duplicate paths");
-  const marker="ZP_RELEASE_0_8_186";
+  const marker="ZP_RELEASE_"+version.replaceAll(".","_");
   for(const path of paths){
     const content=read(path);
     assert.ok(content.includes(marker),"Stale runtime file: "+path);
@@ -23,12 +25,16 @@ test("coordinated release 0.8.186 contains exactly 100 coherent runtime markers"
   assert.ok(!css.includes("Version: 0.8.185"));
 });
 
-test("mobility critical blobs use current reviewed hashes, bathroom locks remain unchanged",()=>{
+test("all four critical runtime blob SHA locks match their actual checked-in content",()=>{
   const fn=read("functions.php");
-  assert.match(fn,/'src\/mobility\/engine\.js' => '3a9fc00a7f3d5c487e75626ce740599187301e93'/);
-  assert.match(fn,/'src\/mobility\/offer-fit-gate\.js' => 'a74bd06fa408d5b5f86afda46f90cd31c7593c5f'/);
-  assert.match(fn,/'src\/bathroom\/engine\.js' => 'e29555aef72f943429110692710c6f039c1c80b4'/);
-  assert.match(fn,/'src\/bathroom\/preview\.js' => 'd560bd9fb0521d969e6782b613e7468fa634b048'/);
+  for(const path of [
+    "src/mobility/engine.js","src/mobility/offer-fit-gate.js",
+    "src/bathroom/engine.js","src/bathroom/preview.js"
+  ]){
+    const content=read(path);
+    const blob=createHash("sha1").update("blob "+Buffer.byteLength(content,"utf8")+"\0"+content).digest("hex");
+    assert.ok(fn.includes("'"+path+"' => '"+blob+"'"),"Critical Git blob lock mismatch: "+path);
+  }
 });
 
 test("both user features ship without new rule engine, affiliate mutation or persisted answers",()=>{

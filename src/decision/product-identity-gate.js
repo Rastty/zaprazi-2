@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_186
+// ZP_RELEASE_0_8_187
 /**
  * Every selectable product must satisfy both editorial approvals:
  * production eligibility AND separately verified exact identity.

@@ -49,6 +49,27 @@ test("www aliases are flagged as noncanonical without crawling or leaking hrefs"
     .noncanonical_internal_links.count,0);
 });
 
+test("first-party page URLs with query, credentials or custom port fail closed without leaking values",()=>{
+  const canary="PRIVATE_ADVISOR_ANSWER_DO_NOT_LOG_526";
+  const report=prepareInternalLinks([{path:"/",links:[
+    "https://zaprazi.cz/guide/?answer="+canary,
+    "https://zaprazi.cz/guide/?page=2",
+    "https://user:"+canary+"@zaprazi.cz/guide/",
+    "https://zaprazi.cz:8443/guide/",
+    "http://zaprazi.cz/guide/?answer="+canary,
+    "https://zaprazi.cz/guide/",
+    "/go/merchant/?token="+canary
+  ]}]);
+  assert.deepEqual(report.targets,[{path:"/guide/",sources:["/"]}]);
+  assert.deepEqual(report.unsafe_first_party_links,{count:5,sources:["/"]});
+  assert.deepEqual(report.insecure_internal_links,{count:1,sources:["/"]});
+  assert.equal(report.excluded.filter(x=>x.why==="unsafe_first_party_page_url").length,5);
+  assert.ok(!JSON.stringify(report).includes(canary));
+  assert.ok(!JSON.stringify(report).includes("answer="));
+  assert.deepEqual(prepareInternalLinks([{path:"/",links:["/guide/#safe"]}])
+    .unsafe_first_party_links,{count:0,sources:[]});
+});
+
 test("GET probe does not follow redirects and classifies broken pages",async()=>{
   const called=[];
   const mock=async(url,options)=>{

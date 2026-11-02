@@ -559,3 +559,13 @@ a{color:inherit}
  .zp-sos-flow{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){.zp-hero-art img{transition:none}}
+
+/* Plain-language Mobility summary precedes the detailed safety and product result. */
+.zp-result-orientation{margin:1.2rem 0 1.5rem;padding:1.15rem 1.25rem;border:1px solid var(--zp-line);border-radius:16px;background:var(--zp-paper)}
+.zp-result-orientation h3{margin:0 0 .8rem}
+.zp-orientation-list{display:grid;gap:.65rem;list-style:none;padding:0;margin:0 0 .8rem;counter-reset:orientation}
+.zp-orientation-list li{counter-increment:orientation;position:relative;padding:.1rem 0 .3rem 2.1rem;line-height:1.5}
+.zp-orientation-list li::before{content:counter(orientation);position:absolute;left:0;top:.15rem;width:1.5rem;height:1.5rem;display:grid;place-items:center;border-radius:50%;background:var(--zp-accent);color:white;font-size:.82rem;font-weight:750}
+.zp-orientation-list strong{display:block}
+.zp-orientation-list p{margin:.15rem 0 0}
+@media(max-width:540px){.zp-result-orientation{padding:1rem}.zp-orientation-list li{padding-left:1.9rem}}

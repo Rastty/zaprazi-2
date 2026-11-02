@@ -41,6 +41,8 @@ test("new Chrome postdeploy gate matches source and does not touch decision or c
   const rental=read("page-pujceni-choditka.php");
   assert.match(result,/renderOverview\(output\)/);
   assert.match(rental,/id="zp-walker-own-quote-budget"/);
-  assert.match(read("style.css"),/^Version:\s*0\.8\.186$/m);
-  assert.match(read("functions.php"),/define\( 'ZAPRAZI_RELEASE', '0\.8\.186' \)/);
+  // A historical 0.8.186 feature test must remain valid on later releases.
+  const version=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)$/m)?.[1];
+  assert.ok(version);
+  assert.ok(read("functions.php").includes("define( 'ZAPRAZI_RELEASE', '"+version+"' )"));
 });

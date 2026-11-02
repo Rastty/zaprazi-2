@@ -1,6 +1,6 @@
-// ZP_RELEASE_0_8_186
+// ZP_RELEASE_0_8_187
 import { recommendMobility } from "../../src/mobility/engine.js";
-import { getMobilityNextSteps, getMobilitySafeRecovery } from "../../src/mobility/next-steps.js";
+import { getMobilityNextSteps, getMobilitySafeRecovery, getMobilityQuickGuide } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
@@ -409,6 +409,21 @@ if (form && result && submitButton && errorBox) {
       track("recommendation_view");
     }
 
+    // One short, plain-Czech orientation comes exclusively from the existing
+    // engine result. The full safety explanation and all fit gates follow below.
+    const quickGuide = getMobilityQuickGuide(output);
+    const quickGuideMarkup = quickGuide
+      ? `<section class="zp-result-orientation" aria-labelledby="zp-mobility-orientation-title">
+          <h3 id="zp-mobility-orientation-title">Co teď udělat</h3>
+          <ol class="zp-orientation-list">
+            <li><strong>Co víme</strong><p>${escapeHtml(quickGuide.situation)}</p></li>
+            <li><strong>Co ověřit</strong><p>${escapeHtml(quickGuide.verify)}</p></li>
+            <li><strong>Jak bezpečně pokračovat</strong><p>${escapeHtml(quickGuide.next)}</p></li>
+          </ol>
+          <p class="zp-muted-copy">Stručná orientace nenahrazuje úplné podmínky, odborné posouzení ani kontrolu konkrétního výrobku níže.</p>
+        </section>`
+      : "";
+
     // Non-commercial next step for visitors outside the model-selection slice.
     // It cannot unlock an offer or infer a medical/product recommendation.
     const environmentGuide = output.status === "outside_current_slice" ||
@@ -449,6 +464,7 @@ if (form && result && submitButton && errorBox) {
       ${statusLabel(output.status, output.missing) ? `<p class="zp-result-status">${escapeHtml(statusLabel(output.status, output.missing))}</p>` : ""}
       <h2>${escapeHtml(output.headline)}</h2>
       <p>${escapeHtml(output.nextStep)}</p>
+      ${quickGuideMarkup}
       ${recommendations}
       ${renderProducts(products, fitOptions, duration)}
       ${acquisition}

@@ -1,53 +1,86 @@
 #!/usr/bin/env node
-// Read-only production availability probe. No form submission, cookies, analytics,
-// product outbound clicks, sensitive answers or destructive actions.
-const base = new URL(process.env.ZAPRAZI_SMOKE_ORIGIN || "https://zaprazi.cz/");
-if (base.protocol !== "https:" || base.username || base.password || base.search || base.hash ||
-    base.pathname !== "/" || !["zaprazi.cz", "www.zaprazi.cz"].includes(base.hostname)) {
-  throw new Error("Only the public Zápraží HTTPS homepage is allowed");
+/**
+ * Minimal read-only production health check for the Mobility entry journey.
+ * Never submits the Advisor, follows merchant links, sends personal answers or
+ * treats source availability as a functional/safety certification.
+ */
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
+
+export const ORIGIN = "https://zaprazi.cz";
+const MOBILITY = "/choditka-pro-seniory/";
+
+export function anchors(html) {
+  return [...String(html).matchAll(/<a\b[^>]*>/gi)].map(match => {
+    const attrs = {};
+    for (const item of match[0].matchAll(/\s([\w:-]+)\s*=\s*(["'])(.*?)\2/g))
+      attrs[item[1].toLowerCase()] = item[3];
+    return attrs;
+  });
 }
-async function fetchPublic(path) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 12000);
+
+function safeInternalLink(href, currentPath, path, hash = "") {
+  if (typeof href !== "string" || !href) return false;
   try {
-    const response = await fetch(new URL(path, base), {
-      redirect: "manual", cache: "no-store", signal: controller.signal,
-      headers: { "User-Agent": "ZaPrazi-readonly-smoke/1.0" }
-    });
-    // Never follow redirects to unknown hosts, signed merchant destinations or private resources.
-    if (response.status >= 300 && response.status < 400)
-      throw new Error(path + ": unexpected redirect " + response.status);
-    if (!response.ok) throw new Error(path + ": HTTP " + response.status);
-    return { response, body: await response.text() };
-  } finally { clearTimeout(timeout); }
+    const url = new URL(href, ORIGIN + currentPath);
+    return url.origin === ORIGIN && url.username === "" && url.password === "" &&
+      url.pathname === path && url.search === "" && url.hash === hash;
+  } catch { return false; }
 }
-const {response,body} = await fetchPublic("/");
-if (!/text\/html/i.test(response.headers.get("content-type") || ""))
-  throw new Error("Homepage did not return HTML");
-for (const expected of ["Bezpečně a samostatně doma", "Domácí poradce"]) {
-  if (!body.includes(expected)) throw new Error("Missing core homepage section: " + expected);
+
+export function assertHomepage(html) {
+  if (!/<h1\b[^>]*>\s*Bezpečně a samostatně doma\./i.test(html))
+    throw new Error("Homepage mission heading missing");
+  if (!/\bid=["']poradce["']/i.test(html) || !/\bid=["']zp-mobility-advisor["']/i.test(html))
+    throw new Error("Homepage Mobility Advisor anchor/form missing");
+  if (!anchors(html).some(a => safeInternalLink(a.href, "/", MOBILITY)))
+    throw new Error("Homepage Mobility article link missing");
 }
-const hrefs = [...body.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["']/gi)].map(m => m[1]);
-const local = hrefs.filter(h => h.startsWith("/") && !h.startsWith("//"));
-if (local.length < 3) throw new Error("Unexpectedly few internal navigation links");
-// Do not request URLs that might represent questionnaire answers or personal identifiers.
-for (const href of local) {
-  const u = new URL(href, base);
-  if (u.origin !== base.origin) throw new Error("Unexpected navigation origin");
+
+export function assertMobility(html) {
+  if (!/<h1\b[^>]*>\s*Chodítka pro seniory/i.test(html))
+    throw new Error("Mobility article heading missing");
+  const ctas = anchors(html).filter(a => a["data-zp-journey"] === "advisor");
+  if (ctas.length !== 1)
+    throw new Error("Expected one explicit editorial-to-Advisor CTA");
+  const cta = ctas[0];
+  if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce"))
+    throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
+  if (cta["data-zp-merchant-link"] !== undefined || /\bsponsored\b/i.test(cta.rel || ""))
+    throw new Error("Editorial Advisor CTA must not be a merchant link");
 }
-// Critical Mobility entry must remain reachable and lead toward a safe Advisor.
-// This only checks static HTML: it never submits the questionnaire.
-const mobilityPath = "/choditka-pro-seniory/";
-if (!hrefs.some(h => {
-  try { const u = new URL(h,base); return u.origin === base.origin && u.pathname === mobilityPath; }
-  catch { return false; }
-})) throw new Error("Homepage lacks Mobility landing link");
-const mobility = await fetchPublic(mobilityPath);
-if (!/text\\/html/i.test(mobility.response.headers.get("content-type") || ""))
-  throw new Error("Mobility landing did not return HTML");
-if (!mobility.body.includes("Chodítka pro seniory"))
-  throw new Error("Mobility landing content missing");
-if (!/Spustit celý poradce|Začít poradcem|Poradce pro chůzi/i.test(mobility.body) || !/href=["\x27][^"\x27]*#/i.test(mobility.body))
-  throw new Error("Mobility landing lacks Advisor anchor link");
-console.log("PASS homepage HTTP 200, core content, internal navigation (" + local.length + " links); Mobility landing and Advisor handoff.");
-console.log("Read-only availability probe only; NOT a Chrome functional, accessibility or safety-gate certification.");
+
+async function readHtml(fetchImpl, path) {
+  // All paths are source-defined constants; never request URLs derived from
+  // visitor answers, page links, query strings or merchant destinations.
+  const response = await fetchImpl(ORIGIN + path, {
+    method: "GET", redirect: "manual", cache: "no-store",
+    headers: { Accept: "text/html", "User-Agent": "ZaPrazi-readonly-smoke/1.1" },
+    signal: AbortSignal.timeout(15000)
+  });
+  if (response.status !== 200) throw new Error(path + " returned HTTP " + response.status);
+  if (!/text\/html/i.test(response.headers.get("content-type") || ""))
+    throw new Error(path + " did not return HTML");
+  const html = await response.text();
+  if (html.length < 100 || html.length > 2500000)
+    throw new Error(path + " returned an unexpected HTML size");
+  return html;
+}
+
+export async function runSmoke(fetchImpl = fetch) {
+  const homepage = await readHtml(fetchImpl, "/");
+  assertHomepage(homepage);
+  const mobility = await readHtml(fetchImpl, MOBILITY);
+  assertMobility(mobility);
+  return "PASS: homepage, Mobility article, exact Advisor CTA and destination anchor";
+}
+
+if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {
+  runSmoke().then(message => {
+    console.log(message);
+    console.log("Read-only HTML smoke only; NOT a Chrome, safety-gate, consent or merchant-conversion test.");
+  }).catch(error => {
+    console.error("PRODUCTION_AVAILABILITY_SMOKE_FAILED:", error.message);
+    process.exitCode = 1;
+  });
+}

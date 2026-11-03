@@ -1,5 +1,11 @@
 name: Mobility merchant facts — read-only evidence
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mobility-merchant-facts.yml"
+      - "scripts/audit-mobility-merchant-facts.mjs"
+      - "src/mobility/catalog.js"
   workflow_dispatch:
   schedule:
     # Once per week; not an inventory/price feed and never affiliate traffic.

@@ -142,7 +142,7 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
     // A cited PR is not enough to certify a downstream step while its safety
     // or evidence prerequisites are still unverified. Never silently mark it done.
     if(record.status==="verified"){
-      const unmet=nodeById.get(id).dependsOn.filter(dep=>s.nodes[dep]?.status!=="verified");
+      const unmet=nodeById.get(id).dependsOn.filter(dep=>!isVerifiedForRelease(dep));
       if(unmet.length)throw new Error("Verified node requires verified dependencies: "+id+" -> "+unmet.join(", "));
     }
   }

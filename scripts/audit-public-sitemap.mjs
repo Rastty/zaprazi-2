@@ -25,7 +25,9 @@ export const requiredDecisionPaths = Object.freeze([
   "/pomucky-do-koupelny-na-pojistovnu/",
   "/nastavec-na-wc-pro-seniory/", "/sprchovaci-zidle-pro-seniory/",
   "/toaletni-zidle-pro-seniory/", "/madlo-k-wc-pro-seniory/",
+  "/toaletni-zidle-vedle-postele/", "/madlo-na-sadrokarton-u-wc/",
   "/sedatko-do-vany-pro-seniory/", "/choditko-do-bytu-pro-seniory/",
+  "/sprchova-zidle-maly-kout-80x80/",
   "/rollator-pro-seniory/", "/jak-vznika-doporuceni/",
   "/schody-pro-seniora-doma/", "/vstavani-z-kresla-pro-seniora/",
   "/senior-nemuze-vstat-z-postele/",
@@ -34,7 +36,7 @@ export const requiredDecisionPaths = Object.freeze([
   "/senior-nestihne-dojit-na-wc/",
   "/prispevek-na-peci-pro-seniora/",
   "/invalidni-vozik-do-auta/",
-  "/najezdova-rampa-na-jeden-schod/",
+  "/najezdova-rampa-na-jeden-schod/", "/prahy-pro-choditko-a-vozik/",
   "/prisavne-madlo-do-koupelny-bez-vrtani/",
   "/antidekubitni-matrace-na-polohovaci-postel/",
   "/myti-vlasu-na-luzku/",
@@ -48,12 +50,12 @@ export const requiredDecisionPaths = Object.freeze([
   "/jak-vybrat-pecovatelskou-sluzbu/"
 ]);
 
-// Proposed editorial route: add to requiredDecisionPaths only after production
-// 0.8.165 publishes it, so read-only PR audits never mistake a staged 404 for
-// a live production failure. The release's postdeploy gate must promote it.
-// All 13 formerly staged pages were confirmed in the 2026-10-29 public
-// sitemap snapshot at deployed release 0.8.183. They are now REQUIRED.
-// Only future, not-yet-deployed pages belong in this list.
+// Add an editorial route to requiredDecisionPaths only after its publication
+// has been verified in the public XML sitemap. A staged/not-yet-live URL must
+// not be treated as a production failure in a predeploy pull request.
+// The 2026-11-03 public audit of deployed 0.8.191 reported 54 canonical
+// unique URLs; the four previously untracked problem pages are now REQUIRED.
+// Future, not-yet-deployed pages belong in stagedDecisionPaths.
 export const stagedDecisionPaths = Object.freeze([]);
 
 // Only curated, non-identifying decision paths may be displayed verbatim in

@@ -135,6 +135,17 @@ export function assertLiveEditorialSeo(html, entry, xRobotsTag = "") {
   return {path:entry.path, description_length:description.length, description};
 }
 
+/**
+ * A pending release is an acceptable *predeploy* PR observation only.
+ * Scheduled, manually dispatched and main-branch production acceptance must
+ * fail rather than display a green workflow for a not-yet-deployed version.
+ */
+export function requireAcceptedRelease(readiness, eventName) {
+  if (!readiness.release_matches && eventName !== "pull_request") {
+    throw new Error("PENDING_DEPLOY: checked-out release is not live; production acceptance failed");
+  }
+}
+
 export async function verifyLiveReleaseAndGuides() {
   const readiness = checkReadiness(JSON.parse(await getText(origin+"/wp-json/zaprazi/v1/affiliate-readiness")));
   const report = { checked_at: new Date().toISOString(), site: origin, ...readiness,
@@ -143,6 +154,7 @@ export async function verifyLiveReleaseAndGuides() {
     report.status = "pending_deploy";
     console.warn("::warning::Live release "+readiness.deployed+" differs from checked-out "+readiness.expected+"; content checks will run after deploy.");
     console.log("ZP_PRODUCTION_ACCEPTANCE",JSON.stringify(report));
+    requireAcceptedRelease(readiness, process.env.GITHUB_EVENT_NAME);
     return report;
   }
   const guides = [

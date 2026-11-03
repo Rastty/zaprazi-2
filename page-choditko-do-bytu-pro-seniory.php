@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_190 */
+/* ZP_RELEASE_0_8_191 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */
@@ -88,7 +88,7 @@ get_header();
           <li><strong>Porovnejte přesný model s prostředím.</strong> Ověřte celkovou šířku rozložené pomůcky podle výrobce a zda při jejím vedení zůstává bezpečný prostor pro člověka a ruce. Univerzální „rezervu v centimetrech“ nepředstíráme.</li>
           <li><strong>Zkontrolujte celou trasu, nejen jedny dveře.</strong> Otočení u WC nebo postele, prahy, volné koberečky a kluzká podlaha mohou výběr změnit. Pokud rozměry nebo způsob chůze nejsou jisté, neobjednávejte konkrétní model podle šířky z katalogu; ověřte ho v prostředí s odbornou pomocí.</li>
         </ol>
-        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít podrobný měřicí seznam pro domácnost</a> · <a class="zp-text-link" href="#poradce-choditko-byt">Ověřit další bezpečný krok v poradci</a></p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít podrobný měřicí seznam pro domácnost</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prahy-pro-choditko-a-vozik/#mereni-prahu' ) ); ?>">Změřit a bezpečně řešit vysoký práh</a> · <a class="zp-text-link" href="#poradce-choditko-byt">Ověřit další bezpečný krok v poradci</a></p>
         <p class="zp-disclaimer">Naměřená průchozí šířka ani rozměr chodítka samy o sobě nepotvrzují vhodnost pomůcky nebo bezpečnost chůze.</p>
       </div>
     </div>

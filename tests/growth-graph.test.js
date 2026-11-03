@@ -24,27 +24,27 @@ test("missing evidence is unknown and no monetization can leapfrog safety gate",
 test("verified dependencies unlock affiliate review but only with source-backed evidence",()=>{
   const s=clone(blank);
   s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.191",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/503"};
-  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="affiliate_audit").status,"ready");
-  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="conversion_ux").status,"waiting_dependencies");
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").tasks.find(x=>x.id==="affiliate_audit").status,"ready");
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").tasks.find(x=>x.id==="conversion_ux").status,"waiting_dependencies");
   s.nodes.affiliate_audit={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/issues/509"};
-  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="conversion_ux").status,"ready");
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").tasks.find(x=>x.id==="conversion_ux").status,"ready");
   s.nodes.affiliate_audit.evidenceUrl="";
-  assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.191"),/HTTPS evidence/);
 });
 test("verified downstream nodes cannot bypass unverified safety or evidence prerequisites",()=>{
   const s=clone(blank);
   s.nodes.conversion_ux={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
-  assert.throws(()=>planGrowth(graph,s),/Verified node requires verified dependencies: conversion_ux/);
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.191"),/Verified node requires verified dependencies: conversion_ux/);
   s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.191",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
-  assert.throws(()=>planGrowth(graph,s),/conversion_ux -> affiliate_audit/);
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.191"),/conversion_ux -> affiliate_audit/);
   s.nodes.affiliate_audit={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/519"};
-  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="conversion_ux").status,"verified");
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").tasks.find(x=>x.id==="conversion_ux").status,"verified");
 
   const content=clone(blank);
   content.nodes.content_upgrade={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
-  assert.throws(()=>planGrowth(graph,content),/content_upgrade -> intent_evidence/);
+  assert.throws(()=>planGrowth(graph,content,undefined,"0.8.191"),/content_upgrade -> intent_evidence/);
   content.nodes.intent_evidence={status:"verified",evidenceUrl:"https://github.com/Rastty/zaprazi-2/pull/513"};
-  assert.equal(planGrowth(graph,content).tasks.find(x=>x.id==="content_upgrade").status,"verified");
+  assert.equal(planGrowth(graph,content,undefined,"0.8.191").tasks.find(x=>x.id==="content_upgrade").status,"verified");
 });
 test("evidence-backed aggregate data may raise review priority without inventing sales",()=>{
   const s=clone(blank);
@@ -71,7 +71,7 @@ test("public growth evidence links reject tokens, credentials and malformed HTTP
   s.asOf="2026-10-31";
   s.metrics.organic_clicks_28d=12;
   s.metricSources.organic_clicks_28d="https://example.org/gsc/aggregate-report";
-  assert.equal(planGrowth(graph,s).metrics.organic_clicks_28d,12);
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").metrics.organic_clicks_28d,12);
   for(const unsafe of [
     "https://", "https://user:secret@example.org/report",
     "https://example.org/report?access_token=private",
@@ -83,14 +83,14 @@ test("public growth evidence links reject tokens, credentials and malformed HTTP
     "https://internal.local/report", "https://[::1]/report"
   ]){
     s.metricSources.organic_clicks_28d=unsafe;
-    assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+    assert.throws(()=>planGrowth(graph,s,undefined,"0.8.191"),/HTTPS evidence/);
   }
   delete s.metrics.organic_clicks_28d;
   delete s.metricSources.organic_clicks_28d;
   s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.191",evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/123"};
-  assert.equal(planGrowth(graph,s).tasks.find(x=>x.id==="safety_qa").status,"verified");
+  assert.equal(planGrowth(graph,s,undefined,"0.8.191").tasks.find(x=>x.id==="safety_qa").status,"verified");
   s.nodes.safety_qa.evidenceUrl="https://github.com/Rastty/zaprazi-2/actions/runs/123?token=secret";
-  assert.throws(()=>planGrowth(graph,s),/HTTPS evidence/);
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.191"),/HTTPS evidence/);
 });
 test("28-day evidence must be dated and event counts must be whole numbers",()=>{
   const s=clone(blank);
@@ -240,6 +240,16 @@ test("untrusted nested state keys never appear in public CI validation errors",(
       !error.message.includes(canary),
       scenario.label+" must fail closed without leaking answer-shaped keys");
   }
+});
+
+test("new 0.8.192 source never inherits 0.8.191 production safety evidence",()=>{
+  const s=clone(blank);
+  s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.191",
+    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/41626731695"};
+  const current=planGrowth(graph,s);
+  assert.equal(current.sourceRelease,"0.8.192");
+  assert.equal(current.tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
+  assert.equal(current.tasks.find(x=>x.id==="affiliate_audit").status,"waiting_dependencies");
 });
 
 test("production safety verification is release-scoped and never auto-approves a future release",()=>{

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import {isExactAnchor,checkReadiness,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases} from "../scripts/verify-live-release-and-guides.mjs";
+import {isExactAnchor,checkReadiness,requireAcceptedRelease,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases} from "../scripts/verify-live-release-and-guides.mjs";
 const ready={release:"0.8.182",integrity:"ok",configured_total:25,slot_total:25};
 test("verify version, integrity and complete affiliate slots, distinguish pending deploy",()=>{
  assert.deepEqual(checkReadiness(ready,"0.8.182"),{expected:"0.8.182",deployed:"0.8.182",release_matches:true});
@@ -79,4 +79,17 @@ test("live SEO smoke requires unique intent-specific description and exact HTTPS
   assert.doesNotThrow(()=>assertLiveEditorialSeo(valid,entry,"index, follow"));
   assert.throws(()=>assertLiveEditorialSeo(head(meta,canonical),liveEditorialSeoCases[1]),/Wrong intent|Canonical/);
   assert.equal(liveEditorialSeoCases.length,4);
+});
+
+test("pending production release may be reported in a predeploy PR but never pass scheduled acceptance",()=>{
+ const pending=checkReadiness(ready,"0.8.191");
+ assert.equal(pending.release_matches,false);
+ assert.doesNotThrow(()=>requireAcceptedRelease(pending,"pull_request"));
+ for(const event of ["schedule","workflow_dispatch","push",undefined]){
+   assert.throws(()=>requireAcceptedRelease(pending,event),/PENDING_DEPLOY/);
+ }
+ const matched=checkReadiness(ready,"0.8.182");
+ for(const event of ["schedule","workflow_dispatch","push","pull_request",undefined]){
+   assert.doesNotThrow(()=>requireAcceptedRelease(matched,event));
+ }
 });

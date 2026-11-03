@@ -6,6 +6,7 @@
 import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
+import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 
 export const METRICS = [
   "organic_clicks_28d", "organic_impressions_28d", "advisor_starts_28d",
@@ -78,8 +79,10 @@ export function validateGraph(g){
   return g;
 }
 
-export function planGrowth(g,s,now=new Date()){
+export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE){
   validateGraph(g);
+  if(typeof sourceRelease!=="string"||!/^\d+\.\d+\.\d+$/.test(sourceRelease))
+    throw new Error("Invalid source release for graph evidence");
   if(!s||s.schemaVersion!==1||typeof s.metrics!=="object"||!s.metrics||
       Array.isArray(s.metrics)||typeof s.metricSources!=="object"||!s.metricSources||
       Array.isArray(s.metricSources)||typeof s.nodes!=="object"||!s.nodes||
@@ -94,6 +97,14 @@ export function planGrowth(g,s,now=new Date()){
   // Never echo unknown keys into public CI logs or workflow summaries.
   const ids=new Set(g.nodes.map(n=>n.id));
   const nodeById=new Map(g.nodes.map(n=>[n.id,n]));
+  // A green production QA run certifies its *specific* theme version only.
+  // On the next source release, safety_qa becomes actionable again and its
+  // dependent affiliate/UX work cannot inherit a stale safety approval.
+  const isVerifiedForRelease=id=>{
+    const record=s.nodes[id];
+    return record?.status==="verified" &&
+      (id!=="safety_qa"||record.verifiedRelease===sourceRelease);
+  };
   for(const k of Object.keys(s.nodes))if(!ids.has(k))throw new Error("Unknown state node");
   for(const [k,v] of Object.entries(s.metrics)){
     // Funnel/search event counts are discrete; only approved commission is currency.
@@ -117,8 +128,13 @@ export function planGrowth(g,s,now=new Date()){
         !STATES.has(record.status))throw new Error("Invalid node state "+id);
     // Even pending/paused evidence is rendered in public JSON and CI artifacts.
     // Validate it before serialization; unknown fields may carry private answers.
-    if(Object.keys(record).some(k=>k!=="status"&&k!=="evidenceUrl"))
+    if(Object.keys(record).some(k=>k!=="status"&&k!=="evidenceUrl"&&
+        !(id==="safety_qa"&&k==="verifiedRelease")))
       throw new Error("Unsupported node state field: "+id);
+    if(id==="safety_qa"&&record.status==="verified"&&
+        (typeof record.verifiedRelease!=="string"||
+        !/^\d+\.\d+\.\d+$/.test(record.verifiedRelease)))
+      throw new Error("Verified safety QA requires a valid release identifier");
     if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
     if(Object.hasOwn(record,"evidenceUrl")&&!safeEvidenceUrl(record.evidenceUrl))
@@ -164,18 +180,22 @@ export function planGrowth(g,s,now=new Date()){
   };
   const tasks=g.nodes.map(n=>{
     const record=s.nodes[n.id]??{status:"pending"};
-    const unmet=n.dependsOn.filter(id=>s.nodes[id]?.status!=="verified");
-    const status=record.status==="verified"?"verified":
-      record.status==="paused"?"paused":unmet.length?"waiting_dependencies":
+    const unmet=n.dependsOn.filter(id=>!isVerifiedForRelease(id));
+    const staleSafety=n.id==="safety_qa"&&record.status==="verified"&&
+      !isVerifiedForRelease(n.id);
+    const status=staleSafety?"needs_revalidation":
+      unmet.length?"waiting_dependencies":
+      record.status==="verified"?"verified":
+      record.status==="paused"?"paused":
       record.status==="in_progress"?"in_progress":"ready";
     return {id:n.id,lane:n.lane,score:n.priority+(uplift[n.id]??0),
       status,unmet,action:n.action,doneWhen:n.doneWhen,
       evidenceUrl:record.evidenceUrl??null};
   });
-  const rank={in_progress:0,ready:1,waiting_dependencies:2,paused:3,verified:4};
+  const rank={needs_revalidation:0,in_progress:1,ready:2,waiting_dependencies:3,paused:4,verified:5};
   tasks.sort((a,b)=>rank[a.status]-rank[b.status]||b.score-a.score||a.id.localeCompare(b.id));
-  return {asOf:s.asOf??null,evidenceFreshness,metrics:Object.fromEntries(METRICS.map(k=>[k,m[k]??null])),
-    tasks,next:tasks.filter(t=>t.status==="ready"||t.status==="in_progress").slice(0,3),
+  return {sourceRelease,asOf:s.asOf??null,evidenceFreshness,metrics:Object.fromEntries(METRICS.map(k=>[k,m[k]??null])),
+    tasks,next:tasks.filter(t=>["needs_revalidation","ready","in_progress"].includes(t.status)).slice(0,3),
     limitations:[
       "Chybějící metrika je unknown, nikoli nula.",
       "GSC, GA4 (consented sample) a affiliate network mají odlišnou atribuci; nepropojovat řádky ani nevyvozovat prodeje z kliků.",
@@ -195,6 +215,7 @@ export function renderGrowthPlan(p){
   };
   return [
     "# Zápraží Growth Graph — řídicí plán",
+    "Zdrojový release: "+p.sourceRelease+"; bezpečnostní schválení se nepřenáší na novou verzi.",
     "Pozorování: "+(p.asOf??"nebylo dodáno")+"; bez výkonnostních důkazů nejsou žádné výsledky přisuzovány změnám.",
     "Aktuálnost agregátů: "+(p.evidenceFreshness==="stale"?"ZASTARALÉ (více než 14 dní)":p.evidenceFreshness==="fresh"?"aktuální (nejvýše 14 dní)":"UNKNOWN")+".",
     "## Skutečné agregované metriky",

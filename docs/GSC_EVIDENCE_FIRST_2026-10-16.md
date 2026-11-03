@@ -1,9 +1,9 @@
 # Zápraží 2.0 — evidence-first SEO prioritizace z Google Search Console
 
-**16. 10. 2026 · Nástroj do repozitáře, bez zásahu do WordPressu, bez nového deploye.**
+**16. 10. 2026; aktualizace pokrytí 3. 11. 2026 · Lokální nástroj bez zásahu do WordPressu a bez deploye.**
 
 ## Co jsme zjistili
-- ZaPraží má 27 veřejných prioritních stran, které v produkčním browser QA prošly (0.8.140). Veřejné HTML a sitemap jsou ověřené, ale **neříkají, kolik lidí přichází z Googlu**.
+- Původní audit 0.8.140 pokrýval 27 prioritních stran. Veřejný sitemap audit verze 0.8.191 ze 3. 11. 2026 ověřil **52 rozhodovacích/problem URL** (plus homepage = 53 hlavních URL ve výběru GSC reportu). Veřejné HTML a sitemap jsou ověřené, ale **neříkají, kolik lidí přichází z Googlu**.
 - Web má přes 4 tisíce historických příspěvků z odlišných témat. Bez reálných GSC dotazů/kliků se nesmí plošně mazat/noindexovat/přesměrovávat.
 - Zatím není dostupné autorizované strojové čtení GSC pro `zaprazi.cz`. Instalovat Windsor.ai uživatel dříve odmítl; není to podmínka tohoto nástroje. Současný GSC výkon: **UNKNOWN**, ne nula.
 
@@ -19,7 +19,7 @@ Skutečný rozsah `--from`/`--to` přepište podle exportu; uvedená data jsou p
 
 ## Co výstup opravdu umí
 - Různé jazykové CSV hlavičky EN/CZ, 1000-row omezené GSC UI exporty, desetinné čárky, BOM, číselné oddělovače a bezpečné lokální odkazy.
-- Seřadí **27 nových prioritních URL** podle počtu zobrazení, přibližné pozice a orientačních signálů pro obsahovou revizi.
+- Seřadí **všech 52 aktuálně sledovaných rozhodovacích/problem URL plus homepage**, pokud mají v exportu GSC řádek, podle počtu zobrazení, přibližné pozice a orientačních signálů pro obsahovou revizi. Žádné historické omezení na prvních 27.
 - Zvlášť vypíše **jiné a historické URL** pouze k manuálnímu posouzení, nikdy k automatickému zásahu.
 - Zvlášť vypíše **dotazy na úrovni celé Search Console property**. Export `Queries.csv` není spárován s `Pages.csv`; pokud potřebujeme přesně „dotaz → URL“, v GSC je nutné nejprve použít filtr stránky a exportovat dotazy pro ni, nebo použít autorizované Search Analytics API s dimenzemi query/page.
 - Stránky chybějící v exportu jsou **unknown**. Nejsou automaticky označeny nulovou návštěvností, neindexovanými nebo bez potenciálu.

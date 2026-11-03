@@ -8,6 +8,10 @@
       "status": "verified",
       "verifiedRelease": "0.8.191",
       "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/41626731695"
+    },
+    "affiliate_audit": {
+      "status": "in_progress",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/41633028098"
     }
   }
 }

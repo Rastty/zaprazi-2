@@ -21,7 +21,15 @@ function safeEvidenceUrl(value){
   if(typeof value!=="string"||value.length>2048||/\s/.test(value))return false;
   try{
     const url=new URL(value);
-    return url.protocol==="https:"&&Boolean(url.hostname)&&!url.username&&
+    const host=url.hostname.toLowerCase().replace(/\.$/,"");
+    // Public evidence must not point to loopback, private network or local hosts.
+    const localHost=host==="localhost"||host.endsWith(".localhost")||host.endsWith(".local")||
+      host==="::1"||host==="[::1]"||host==="0.0.0.0"||
+      /^127(?:\.\d{1,3}){3}$/.test(host)||
+      /^10(?:\.\d{1,3}){3}$/.test(host)||
+      /^192\.168(?:\.\d{1,3}){2}$/.test(host)||
+      /^172\.(?:1[6-9]|2\d|3[01])(?:\.\d{1,3}){2}$/.test(host);
+    return url.protocol==="https:"&&Boolean(url.hostname)&&!localHost&&!url.username&&
       !url.password&&!url.search&&!url.hash;
   }catch{return false;}
 }

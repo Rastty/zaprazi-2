@@ -21,7 +21,25 @@ function safeEvidenceUrl(value){
   if(typeof value!=="string"||value.length>2048||/\s/.test(value))return false;
   try{
     const url=new URL(value);
-    return url.protocol==="https:"&&Boolean(url.hostname)&&!url.username&&
+    const host=url.hostname.toLowerCase().replace(/\.$/,"");
+    // Public evidence must not point to loopback, private network or local hosts.
+    // Public evidence must not target local, reserved or link-local addresses.
+    // Reject IPv6 literals conservatively, including mapped IPv4 and ULA.
+    const ipv6Literal=host.startsWith("[")&&host.endsWith("]");
+    const ipv4=/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/.exec(host);
+    const octets=ipv4?.slice(1).map(Number);
+    const nonPublicIPv4=Boolean(octets)&&(
+      octets.some(n=>n>255)||octets[0]===0||octets[0]===10||
+      octets[0]===127||octets[0]>=224||
+      (octets[0]===100&&octets[1]>=64&&octets[1]<=127)||
+      (octets[0]===169&&octets[1]===254)||
+      (octets[0]===172&&octets[1]>=16&&octets[1]<=31)||
+      (octets[0]===192&&(octets[1]===0||octets[1]===168))||
+      (octets[0]===198&&(octets[1]===18||octets[1]===19)));
+    const localHost=host==="localhost"||host.endsWith(".localhost")||
+      host.endsWith(".local")||host.endsWith(".internal")||
+      host==="0.0.0.0"||ipv6Literal||nonPublicIPv4;
+    return url.protocol==="https:"&&Boolean(url.hostname)&&!localHost&&!url.username&&
       !url.password&&!url.search&&!url.hash;
   }catch{return false;}
 }

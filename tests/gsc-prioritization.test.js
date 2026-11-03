@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {csvRecords,parseGscCsv,analyzeGsc,renderGscReport} from "../scripts/lib/gsc-prioritization.mjs";
 import {readFileSync} from "node:fs";
+import {requiredDecisionPaths} from "../scripts/audit-public-sitemap.mjs";
 const fixture=(lines)=>lines.join("\r\n")+"\r\n";
 const pageRows=fixture([
   "\uFEFFTop pages,Clicks,Impressions,CTR,Position",
@@ -141,3 +142,25 @@ test("No network, no filesystem writes or made-up Search Console rows in offline
  for(const pattern of [/\bfetch\s*\(/,/\bhttps\.request\b/,/\bwriteFile\b/,/writeFileSync/,/axios|XMLHttpRequest|sendBeacon/,/deletePost|wp_update_post|noindex\\s*=\\s*true/])
    assert.doesNotMatch(src+"\n"+cli,pattern);
 });
+
+test("GSC report includes every published core route, not only the historical first 27",()=>{
+ const paths=["/",...requiredDecisionPaths];
+ assert.equal(paths.length,53,"All 52 live decision routes plus homepage are monitored");
+ const csv=fixture([
+   "Top pages,Clicks,Impressions,CTR,Position",
+   ...paths.map(path=>"https://zaprazi.cz"+path+",0,25,0%,12")
+ ]);
+ const result=analyzeGsc({pages:parseGscCsv(csv,"page"),
+   periodStart:"2026-10-01",periodEnd:"2026-10-28"});
+ assert.equal(result.monitored_core_url_count,53);
+ assert.equal(result.exported_core_url_count,53);
+ assert.deepEqual(result.missing_core_from_export,[]);
+ const markdown=renderGscReport(result);
+ assert.match(markdown,/53 z 53 schválených hlavních URL/);
+ for(const path of paths){
+   assert.ok(markdown.includes("| "+path+" |"),"Missing published landing from GSC report: "+path);
+ }
+ assert.equal((markdown.match(/\| https?:\/\/zaprazi\.cz/g)||[]).length,0,
+   "Only safe canonical paths, not raw URLs, may be printed");
+});
+

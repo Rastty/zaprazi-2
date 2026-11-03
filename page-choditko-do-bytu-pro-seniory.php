@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_191 */
+/* ZP_RELEASE_0_8_192 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */
@@ -73,6 +73,7 @@ get_header();
         <article class="zp-decision-card"><h3>BESCO WA17</h3><p>Čtyři pevné opěrné body. Hmotnost 2,3 kg, šířka 59 cm, výška 80–98 cm, nosnost 110 kg. Při kroku se celé chodítko mírně nadzvedává.</p></article>
         <article class="zp-decision-card"><h3>BESCO WA21</h3><p>Dvě přední kolečka a dvě zadní opěrné nohy. Hmotnost 2,8 kg, šířka 60 cm, výška 81–99 cm, nosnost 110 kg. Není potřeba zvedat celou konstrukci při každém kroku.</p></article>
       </div>
+      <p class="zp-muted-copy" data-zp-besco-weight-sources="WA17,WA21"><strong>Odkud pochází hmotnost chodítek:</strong> U WA17 uvádí návod BESCO 2,3 kg, u WA21 2,8 kg. Obchod má současně v obecném poli „Hmotnost“ hodnoty 2,2 a 2,7 kg, ale v podrobnějším poli „Hmotnost chodítka“ uvádí stejně jako návody 2,3 a 2,8 kg. Pro naše srovnání používáme hodnoty z návodů; pokud je hmotnost rozhodující pro zvedání nebo převoz, ověřte si konkrétní provedení před pořízením. <a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/user/related_files/besco_skladaci_choditko_ctyrbodove.pdf" target="_blank" rel="noopener noreferrer">Návod BESCO WA17 (PDF)</a> · <a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/user/related_files/besco_skladaci_choditko_dvoukolove.pdf" target="_blank" rel="noopener noreferrer">Návod BESCO WA21 (PDF)</a>. <small>Podklady porovnány 3. 11. 2026.</small></p>
       <p class="zp-disclaimer"><strong>Pozor na úzké dveře:</strong> šířka chodítka v katalogu není totéž jako prostor potřebný k bezpečnému průchodu. <a class="zp-text-link" href="#zp-pruchod-choditko-byt">Zkontrolovat průchod ještě před objednáním</a>.</p>
     </div>
   </section>

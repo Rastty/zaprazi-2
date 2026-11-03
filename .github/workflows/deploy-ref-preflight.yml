@@ -1,0 +1,31 @@
+name: Zápraží release ref preflight (read-only)
+
+on:
+  # Every synchronized dev ref is checked automatically. This does NOT
+  # deploy WordPress and does not replace the release CI or production QA.
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-ref-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Compare local release HEAD to canonical main and dev
+        run: npm run deploy:preflight
+      - name: Explain read-only result
+        if: success()
+        run: |
+          echo "Refs match. This is only a Git ref preflight."
+          echo "WordPress Pull + Deploy still requires the authorized administrator."
+          echo "After deployment, require release readiness and Production Advisor Browser QA."

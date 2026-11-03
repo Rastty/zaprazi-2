@@ -9,6 +9,9 @@ on:
       - "tests/internal-link-health.test.js"
       - ".github/workflows/live-internal-link-health.yml"
   workflow_dispatch:
+  schedule:
+    # Public read-only check, off-peak. The live WordPress CMS can change without a Git PR.
+    - cron: "41 3 * * *"
 
 permissions:
   contents: read
@@ -19,6 +22,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -26,7 +31,7 @@ jobs:
         run: node --test tests/internal-link-health.test.js
       - name: Install read-only browser adapter
         run: npm install --no-save --no-package-lock puppeteer-core@24
-      - name: Verify live internal HTML links from 27 pages
+      - name: Verify all curated live decision-page links and fragment anchors
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-internal-links.mjs

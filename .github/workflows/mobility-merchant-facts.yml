@@ -1,0 +1,23 @@
+name: Mobility merchant facts — read-only evidence
+on:
+  workflow_dispatch:
+  schedule:
+    # Once per week; not an inventory/price feed and never affiliate traffic.
+    - cron: "11 5 * * 2"
+permissions:
+  contents: read
+jobs:
+  merchant-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify exact approved public merchant URL contracts offline
+        run: node --test tests/mobility-merchant-facts.test.js
+      - name: Inspect two public product pages without affiliate requests
+        run: node scripts/audit-mobility-merchant-facts.mjs

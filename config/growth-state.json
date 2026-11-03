@@ -12,6 +12,10 @@
     "affiliate_audit": {
       "status": "in_progress",
       "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/41633028098"
+    },
+    "technical_search": {
+      "status": "in_progress",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/41639462783"
     }
   }
 }

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_191 */
+/* ZP_RELEASE_0_8_192 */
 /*
 Template Name: Zápraží — Senior odmítá koupání
 */

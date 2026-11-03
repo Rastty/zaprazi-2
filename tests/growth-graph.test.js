@@ -274,3 +274,16 @@ test("production safety verification is release-scoped and never auto-approves a
   s.nodes.affiliate_audit={status:"pending",verifiedRelease:"0.8.191"};
   assert.throws(()=>planGrowth(graph,s,now,"0.8.191"),/Unsupported node state field/);
 });
+
+
+test("verified downstream state cannot inherit safety approval from an older release",()=>{
+  const s=clone(blank);
+  s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.191",
+    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/41626731695"};
+  s.nodes.affiliate_audit={status:"verified",
+    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/41633028098"};
+  assert.throws(()=>planGrowth(graph,s,new Date("2026-11-03T12:00:00Z"),"0.8.192"),
+    /Verified node requires verified dependencies: affiliate_audit/);
+  assert.equal(planGrowth(graph,s,new Date("2026-11-03T12:00:00Z"),"0.8.191")
+    .tasks.find(x=>x.id==="affiliate_audit").status,"verified");
+});

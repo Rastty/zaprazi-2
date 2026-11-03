@@ -161,6 +161,7 @@ export function analyzeGsc({pages,queries=[],periodStart,periodEnd}){
   const paths=new Set(core.map(r=>r.path));
   const missing=[...CORE].filter(path=>!paths.has(path));
   return {periodStart,periodEnd,exported_page_rows:pages.length,accepted_page_rows:accepted.length,
+    monitored_core_url_count:CORE.size,exported_core_url_count:core.length,
     skipped_external_or_parameterized_rows:ignored,core,other,queries:[...queries].sort((a,b)=>b.impressions-a.impressions),
     missing_core_from_export:missing,limitations:[
       "GSC CSV rows are a limited export, not a census of all indexed URLs.",
@@ -184,7 +185,11 @@ export function renderGscReport(r){
       r.accepted_page_rows+" bezpečně rozpoznaných URL a "+
       r.skipped_external_or_parameterized_rows+" vyřazených nekanonických URL (HTTP, jiný host, parametry nebo nekanonická cesta).",
     "## 1. Stávající rozhodovací a poradenské stránky — priorita redakční revize",
-    table(r.core.slice(0,27),true),
+    "**Pokrytí:** "+r.exported_core_url_count+" z "+r.monitored_core_url_count+
+      " schválených hlavních URL má v exportu vlastní řádek; ostatní zůstávají UNKNOWN.",
+    // Never truncate to an outdated historical set of 27 URLs. All curated
+    // published decision pages are now monitored by the live sitemap gate.
+    table(r.core,true),
     "## 2. Jiné a historické stránky — POUZE návrhy ke kontrole, žádné přesměrování",
     table(r.other.slice(0,30),false),
     "## 3. Dotazy v exportu — na úrovni celé property, ne jednotlivé URL",

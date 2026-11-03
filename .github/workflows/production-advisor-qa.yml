@@ -68,6 +68,8 @@ jobs:
           node-version: 20
       - name: Install read-only browser smoke dependency
         run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Syntax-check 0.8.191 postdeploy Chrome scenario before deployment
+        run: node --check scripts/audit-live-indoor-walker-threshold-191.mjs
       - name: Resolve current production release for PR-only checks
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz

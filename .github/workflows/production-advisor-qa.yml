@@ -42,6 +42,7 @@ on:
       - "scripts/audit-live-editorial-seo.mjs"
       - "scripts/audit-live-sukl-handoff-189.mjs"
       - "scripts/audit-live-indoor-walker-doorway-190.mjs"
+      - "scripts/audit-live-indoor-walker-threshold-191.mjs"
       - "scripts/lib/yoast-https-graph.mjs"
       - "scripts/audit-live-problem-guides.mjs"
       - "scripts/audit-live-legacy-canary-dom.mjs"
@@ -67,6 +68,8 @@ jobs:
           node-version: 20
       - name: Install read-only browser smoke dependency
         run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Syntax-check 0.8.191 postdeploy Chrome scenario before deployment
+        run: node --check scripts/audit-live-indoor-walker-threshold-191.mjs
       - name: Resolve current production release for PR-only checks
         env:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
@@ -267,6 +270,25 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-indoor-walker-doorway-190.mjs
+
+  indoor-walker-threshold-191:
+    # Real visitor click and fragment acceptance only after source release deploy.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install read-only Chrome adapter
+        run: npm install --no-save --no-package-lock puppeteer-core@24
+      - name: Verify 0.8.191 narrow-doorway to threshold guide click in Chrome
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-indoor-walker-threshold-191.mjs
 
   editorial-seo-audit:
     runs-on: ubuntu-latest

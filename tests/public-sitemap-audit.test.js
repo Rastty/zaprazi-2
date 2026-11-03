@@ -469,3 +469,22 @@ test("robots decision-path audit honors wildcard patterns, anchors and bot prece
   assert.deepEqual(blocked("User-agent: Googlebot\nDisallow: /private/\n"),[]);
   assert.deepEqual(blocked("User-agent: Googlebot\nDisallow: /choditka-pro-seniory/?answer=PRIVATE\n"),[]);
 });
+
+test("all four published high-intent practical guides are required for public sitemap and link QA",()=>{
+ const published=[
+   "/madlo-na-sadrokarton-u-wc/",
+   "/sprchova-zidle-maly-kout-80x80/",
+   "/toaletni-zidle-vedle-postele/",
+   "/prahy-pro-choditko-a-vozik/"
+ ];
+ for(const path of published){
+   assert.ok(requiredDecisionPaths.includes(path),"Unmonitored high-intent route: "+path);
+   assert.ok(!stagedDecisionPaths.includes(path),"Already-live guide incorrectly staged: "+path);
+ }
+ assert.equal(new Set(requiredDecisionPaths).size,requiredDecisionPaths.length,
+   "Sitemap path list must not count duplicates");
+ assert.equal(requiredDecisionPaths.length,52,
+   "New editorial routes require explicit sitemap QA coverage review");
+ assert.ok(!requiredDecisionPaths.includes("/ochrana-soukromi/"),
+   "Privacy page is not a problem/decision acquisition landing");
+});

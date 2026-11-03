@@ -8,7 +8,7 @@ function accepts(url){
   return ()=>planGrowth(graph,state,new Date("2026-11-03T12:00:00Z"));
 }
 test("rejects non-public evidence destinations",()=>{
-  for(const host of ["169.254.169.254","100.100.100.200","198.18.0.1","192.0.0.1","224.0.0.1","0.0.0.0","[fe80::1]","[fc00::1]","[::ffff:127.0.0.1]","localhost","service.internal"]){
+  for(const host of ["169.254.169.254","100.100.100.200","198.18.0.1","192.0.0.1","192.0.2.1","198.51.100.1","203.0.113.1","224.0.0.1","0.0.0.0","[fe80::1]","[fc00::1]","[::ffff:127.0.0.1]","localhost","service.internal"]){
     assert.throws(accepts("https://"+host+"/report"),/HTTPS evidence/,host);
   }
 });

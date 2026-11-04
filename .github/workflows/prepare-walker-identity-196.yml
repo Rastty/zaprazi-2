@@ -1,0 +1,46 @@
+name: Prepare exact 0.8.196 reimbursement identity release (isolated branch)
+on:
+  push:
+    branches:
+      - growth/walker-sukl-model-identity-196
+    paths:
+      - ".github/workflows/prepare-walker-identity-196.yml"
+permissions:
+  contents: write
+concurrency:
+  group: prepare-walker-identity-196-only
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'Rastty/zaprazi-2' && github.ref == 'refs/heads/growth/walker-sukl-model-identity-196'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: growth/walker-sukl-model-identity-196
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Prepare atomic release markers and critical SHA pins (no WordPress write)
+        run: node scripts/prepare-walker-identity-196.mjs
+      - name: Exact safety tests and PHP syntax verification before commit
+        run: |
+          set -euo pipefail
+          npm test
+          php -l functions.php
+          php -l page-choditko-na-pojistovnu.php
+          php -l front-page.php
+      - name: Commit complete tested theme release to this branch only
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -u
+          if git diff --cached --quiet; then
+            echo "No WordPress release changes"
+            exit 1
+          fi
+          git commit -m "Release 0.8.196: clarify shared ZP code versus exact MEYRA rollator variant"
+          git push origin HEAD:refs/heads/growth/walker-sukl-model-identity-196

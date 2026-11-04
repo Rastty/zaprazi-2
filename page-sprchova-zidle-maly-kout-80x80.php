@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_194 */
+/* ZP_RELEASE_0_8_195 */
 /*
 Template Name: Zápraží — Sprchová židle do malého koutu
 */

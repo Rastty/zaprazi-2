@@ -6,6 +6,7 @@
  */
 import assert from "node:assert/strict";
 import {readFileSync,writeFileSync} from "node:fs";
+import {createHash} from "node:crypto";
 const OLD="0.8.192", NEXT="0.8.193";
 const OLD_MARK="ZP_RELEASE_0_8_192", NEXT_MARK="ZP_RELEASE_0_8_193";
 const fn=readFileSync("functions.php","utf8");
@@ -44,8 +45,28 @@ for(const path of files){
   modifications.push([path,text]);
 }
 assert.ok(fn.includes("define( 'ZAPRAZI_RELEASE', '"+OLD+"' );"));
-modifications.push(["functions.php",fn.replace("define( 'ZAPRAZI_RELEASE', '"+OLD+"' );",
-  "define( 'ZAPRAZI_RELEASE', '"+NEXT+"' );")]);
+const gitBlobHash=value=>{
+  const bytes=Buffer.from(value,"utf8");
+  return createHash("sha1").update(Buffer.from("blob "+bytes.length+"\0"))
+    .update(bytes).digest("hex");
+};
+// The four critical Git blob locks must remain exact. Changing even a release
+// marker changes Git's SHA1. Recalculate only for the reviewed new bytes.
+let nextFunctions=fn.replace("define( 'ZAPRAZI_RELEASE', '"+OLD+"' );",
+  "define( 'ZAPRAZI_RELEASE', '"+NEXT+"' );");
+for(const path of [
+  "src/bathroom/engine.js","src/bathroom/preview.js",
+  "src/mobility/engine.js","src/mobility/offer-fit-gate.js"
+]){
+  const oldBytes=readFileSync(path,"utf8");
+  const nextBytes=modifications.find(([p])=>p===path)?.[1]??oldBytes;
+  const prevHash=gitBlobHash(oldBytes);
+  const nextHash=gitBlobHash(nextBytes);
+  const pin="'"+path+"' => '"+prevHash+"'";
+  assert.ok(nextFunctions.includes(pin),"Existing critical blob lock not valid: "+path);
+  nextFunctions=nextFunctions.replace(pin,"'"+path+"' => '"+nextHash+"'");
+}
+modifications.push(["functions.php",nextFunctions]);
 // Only write after validating all 101 files.
 for(const [path,text] of modifications)writeFileSync(path,text,"utf8");
 console.log("PREPARED_RELEASE_0_8_193",{files:modifications.length,

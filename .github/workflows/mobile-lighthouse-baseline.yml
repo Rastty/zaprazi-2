@@ -47,10 +47,10 @@ jobs:
           node --input-type=module -e '
             import {readFileSync,appendFileSync} from "node:fs";
             const r=JSON.parse(readFileSync("/tmp/zp-lighthouse/live-readiness.json","utf8"));
-            if(!/^\\d+\\.\\d+\\.\\d+$/.test(r.release||""))throw Error("No exact public release");
+            if(!/^\d+\.\d+\.\d+$/.test(r.release||""))throw Error("No exact public release");
             if(r.integrity!=="ok")throw Error("Deployed source integrity failure");
             if(r.configured_total!==25||r.slot_total!==25)throw Error("Configured affiliate slots changed");
-            appendFileSync(process.env.GITHUB_ENV,"ZP_LIVE_RELEASE="+r.release+"\\n");
+            appendFileSync(process.env.GITHUB_ENV,"ZP_LIVE_RELEASE="+r.release+"\n");
             console.log("PUBLIC_PRODUCTION_RELEASE",JSON.stringify({
               release:r.release,integrity:r.integrity,affiliate_slots:r.configured_total
             }));

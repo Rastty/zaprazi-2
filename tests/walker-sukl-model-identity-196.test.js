@@ -28,7 +28,8 @@ test("November: manufacturer shared reimbursement code must NOT imply one produc
   assert.match(html,/href="#zp-identita-choditka-nadpis"/);
   assert.match(html,/href="#zp-overit-mesicni-seznam"/);
   assert.match(html,/href="https:\/\/zaprazi\.cz\/#poradce"/);
-  assert.doesNotMatch(html,/Kód 5005963 jednoznačně určuje výrobek|oba modely mají totožnou úhradu/);
+  assert.doesNotMatch(html,/Kód 5005963 jednoznačně určuje výrobek|oba modely mají zaručeně totožnou úhradu/);
+  assert.match(html,/Nejde o potvrzení, že oba modely mají totožnou úhradu/);
   assert.doesNotMatch(html,/data-zp-merchant-link|data-zp-offer|<form\b|localStorage|sessionStorage/i);
 });
 test("reimbursement month and older SÚKL amount stay protected in all calendar states",()=>{
@@ -38,7 +39,7 @@ test("reimbursement month and older SÚKL amount stay protected in all calendar 
     assert.match(html,/Historická úhrada v říjnovém seznamu/);
     assert.doesNotMatch(html,/Úhrada v aktuálním říjnovém seznamu/);
     assert.match(html,/neprokazuje individuální nárok/);
-    assert.match(html,/ani že je lze zaměnit/);
+    assert.match(html,/či že je lze zaměnit/);
   }
   assert.match(november,/Listopadový seznam už SÚKL zveřejnil/);
   assert.doesNotMatch(december,/Listopadový seznam už SÚKL zveřejnil/);

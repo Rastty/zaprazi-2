@@ -81,9 +81,23 @@ try{
       assert.equal(landing.merchantShortcut,false,"Acquisition hero must not bypass product fit gate");
       assert.equal(landing.forms,0,"No answer collection on acquisition hero");
 
-      // Some WordPress navigation may commit as a same-document history update
-      // rather than a new document load. Assert the destination URL and real
-      // Advisor instead of requiring a Puppeteer NavigationResponse object.
+      // The first-visit consent banner is a real interactive overlay on
+      // small viewports. Exercise the privacy-preserving "Bez měření" option
+      // before clicking the page CTA, rather than letting automation hit a
+      // covering consent control instead of the intended link.
+      const consent=await page.evaluate(()=>{
+        const el=document.querySelector("#zp-analytics-consent");
+        return {shown:Boolean(el&&!el.hidden&&el.getClientRects().length),
+          denyExists:Boolean(document.querySelector("#zp-analytics-deny"))};
+      });
+      if(consent.shown){
+        assert.equal(consent.denyExists,true,"Consent refusal must be available");
+        await page.click("#zp-analytics-deny");
+        await page.waitForFunction(
+          ()=>document.querySelector("#zp-analytics-consent")?.hidden===true,
+          {timeout:5000}
+        );
+      }
       const navigatedPaths=[];
       page.on("framenavigated",frame=>{
         if(frame===page.mainFrame()){

@@ -18,6 +18,8 @@ on:
       - "scripts/audit-live-release-coherence.mjs"
       - "tests/audit-live-release-coherence.test.js"
       - "scripts/audit-live-mobility-acquisition-184.mjs"
+      - "scripts/audit-live-mobility-hub-194.mjs"
+      - "tests/mobility-hub-direct-advisor-194.test.js"
       - "tests/audit-live-mobility-acquisition-184.test.js"
       - "tests/advisor-request-privacy.mjs"
       - "tests/advisor-request-privacy.test.js"
@@ -153,6 +155,11 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-mobility-direct-entry-193.mjs
+      - name: Verify 0.8.194 Mobility hub hero-to-Advisor handoff in real Chrome
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-mobility-hub-194.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

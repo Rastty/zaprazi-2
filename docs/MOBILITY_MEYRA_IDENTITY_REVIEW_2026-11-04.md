@@ -31,3 +31,14 @@ Zdroj výrobce: https://www.meyra.cz/ctyrkolove-choditko-rollator.html ; produkt
 Cíl auditu je **předcházet nepravdivému obchodnímu tvrzení a nevhodnému produktu**, nikoli generovat návštěvnost nebo provize. Případná dostupnost HTTP 200 či shoda textu není ověření skutečné affiliate URL, měření kliknutí ani schválené objednávky. `affiliate_audit` v Growth Graphu musí zůstat `in_progress`, dokud chybí nezávislé důkazy identity, publisher deep-linkingu a schválených provizí.
 
 Dokumentace ani přidaný read-only monitoring **nevyžadují WordPress deploy**.
+
+## První reálný běh po sloučení (4. 11. 2026)
+
+[GitHub Actions #41831911404](https://github.com/Rastty/zaprazi-2/actions/runs/41831911404) dokončila všechny kontraktové testy **10/10 PASS** a dva samostatné public-only audity. Výsledky:
+
+- MEYRA výrobce: `matching_public_facts` — na skutečné veřejné stránce čitelný model 3061982, šířka 61,5 cm, madla 79–97 cm. Jde o důkaz konzistence veřejných výrobních údajů, ne individuální bezpečnosti.
+- MEYRA Lékárna.cz: `unverifiable`, `blocked_by_public_merchant`. Originální produktová stránka z GitHub runneru nepřístupná; stav neprokazuje chybný výrobek ani zrušený sortiment. Rozdíl v dříve veřejně indexovaných parametrech je k manuálnímu vyjasnění.
+- BESCO WA17: `review_required`, obecná 2,2 kg vs specifická 2,3 kg (současný katalog vychází z návodu 2,3 kg).
+- BESCO WA21: `review_required`, obecná 2,7 kg vs specifická 2,8 kg (současný katalog vychází z návodu 2,8 kg).
+
+**Neznámé:** schválený publisher deeplink Lékárna.cz, potvrzení přesného prodejního modelu, aktuální cena/sklad, objednávky a provize. Bez externího potvrzení neměnit `affiliate_audit` na `verified`; důkaz runu slouží pouze pro `in_progress`.

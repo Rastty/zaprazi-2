@@ -1,3 +1,4 @@
+# Retry after aligning release-dependent regressions and critical blob lock recalculation
 name: Prepare bounded 0.8.193 theme release (branch-only)
 
 on:

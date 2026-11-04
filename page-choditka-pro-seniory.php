@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_193 */
+/* ZP_RELEASE_0_8_194 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -14,9 +14,10 @@ get_header();
       <p class="zp-lead">Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Začněte prostředím a způsobem používání, potom řešte rozměry, nosnost a teprve nakonec nákup, půjčení nebo pojišťovnu.</p>
       <p class="zp-muted-copy">Člověk nechce chodítko používat? Nejdřív se pokuste pochopit proč. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Citlivý postup pro rodinu bez nátlaku</a>.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#vyber-typu">Vybrat typ chodítka</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="#vyber-typu">Porovnat typy chodítek</a>
         <a class="zp-text-link" href="#hul-nebo-choditko">Hůl, berle, nebo chodítko?</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit celý poradce pro chůzi</a>
+
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a>
         <a class="zp-text-link" href="#jak-ziskat-choditko">Koupit, půjčit, nebo řešit pojišťovnu?</a>
       </div>

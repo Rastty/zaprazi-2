@@ -25,7 +25,7 @@ export function activeMarkup(html) {
 const VOID_TAGS = new Set(["area","base","br","col","embed","hr","img",
   "input","link","meta","param","source","track","wbr"]);
 function inspectSourceMarkup(markup) {
-  const hidden = new Set(), targets = [], stack = [];
+  const hidden = new Set(), hero = new Set(), targets = [], stack = [];
   for (const match of markup.matchAll(/<\/?([a-z][\w:-]*)\b[^>]*>/gi)) {
     const tag = match[1].toLowerCase(), token = match[0];
     if (token.startsWith("</")) {
@@ -34,27 +34,31 @@ function inspectSourceMarkup(markup) {
       continue;
     }
     if (tag === "a" && stack.some(entry => entry.hidden)) hidden.add(match.index);
+    if (tag === "a" && stack.some(entry => entry.classes.includes("zp-hero")) &&
+        stack.some(entry => entry.classes.includes("zp-hero-actions")))
+      hero.add(match.index);
     const style = token.match(/\sstyle\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
     const ariaHidden = token.match(/\saria-hidden\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
     const isHidden = /\s(?:hidden|inert)(?=[\s=>/])/i.test(token) ||
       ariaHidden.trim().toLowerCase() === "true" ||
       /(?:display\s*:\s*none|visibility\s*:\s*hidden)/i.test(style);
     const id = token.match(/\sid\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "";
+    const classes = (token.match(/\sclass\s*=\s*(["'])(.*?)\1/i)?.[2] ?? "").split(/\s+/);
     if (id === "poradce" || id === "zp-mobility-advisor") {
       targets.push({id, visible: !isHidden && !stack.some(entry => entry.hidden),
         insideAdvisorSection: stack.some(entry => entry.id === "poradce" && !entry.hidden)});
     }
     if (!VOID_TAGS.has(tag) && !/\/\s*>$/.test(token))
-      stack.push({tag, hidden: isHidden, id});
+      stack.push({tag, hidden: isHidden, id, classes});
   }
-  return {hidden, targets};
+  return {hidden, hero, targets};
 }
 
 export function anchors(html) {
   // A tag with a valid href but no accessible name is not a usable CTA.
   // Inspect the actual paired anchor, not just an opening tag in source HTML.
   const markup = activeMarkup(html);
-  const hiddenPositions = inspectSourceMarkup(markup).hidden;
+  const {hidden: hiddenPositions, hero: heroPositions} = inspectSourceMarkup(markup);
   return [...markup.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a\s*>/gi)].map(match => {
     const opening = match[0].slice(0, match[0].indexOf(">") + 1);
     const attrs = {};
@@ -64,6 +68,7 @@ export function anchors(html) {
       if (new RegExp("\\s" + key + "(?=[\\s=>/])", "i").test(opening)) attrs[key] = "";
     }
     attrs.__hiddenAncestor = hiddenPositions.has(match.index);
+    attrs.__insideHero = heroPositions.has(match.index);
     attrs.__text = match[1].replace(/<[^>]*>/g, "")
       .replace(/&(?:nbsp|#160|#x0*a0);/gi, " ").trim();
     return attrs;
@@ -110,15 +115,21 @@ export function assertMobility(html) {
   if (!/<h1\b[^>]*>\s*Chodítka pro seniory/i.test(markup))
     throw new Error("Mobility article heading missing");
   const ctas = anchors(markup).filter(a => a["data-zp-journey"] === "advisor");
-  if (ctas.length !== 1)
-    throw new Error("Expected one explicit editorial-to-Advisor CTA");
-  const cta = ctas[0];
-  if (!usableNavigationAnchor(cta))
-    throw new Error("Editorial Advisor CTA has no usable accessible name or is hidden");
-  if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce"))
-    throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
-  if (cta["data-zp-merchant-link"] !== undefined || /\bsponsored\b/i.test(cta.rel || ""))
-    throw new Error("Editorial Advisor CTA must not be a merchant link");
+  // Release 0.8.195 uses the same safe Advisor handoff twice: first above the
+  // fold and later as a natural next step after explaining selection criteria.
+  // Require exactly one *hero* CTA and verify every subsequent marked CTA.
+  // A second valid CTA must not look like production downtime.
+  const primary = ctas.filter(a => a.__insideHero);
+  if (primary.length !== 1)
+    throw new Error("Expected exactly one primary hero editorial-to-Advisor CTA");
+  for (const cta of ctas) {
+    if (!usableNavigationAnchor(cta))
+      throw new Error("Editorial Advisor CTA has no usable accessible name or is hidden");
+    if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce"))
+      throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
+    if (cta["data-zp-merchant-link"] !== undefined || /\bsponsored\b/i.test(cta.rel || ""))
+      throw new Error("Editorial Advisor CTA must not be a merchant link");
+  }
 }
 
 async function readHtml(fetchImpl, path) {

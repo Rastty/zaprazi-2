@@ -6,7 +6,7 @@ const homepage = `<!doctype html><html><h1>Bezpečně a samostatně doma.</h1>
 <a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>
 <section id="poradce"><div id="zp-mobility-advisor"></div></section>${"x".repeat(150)}</html>`;
 const mobility = `<!doctype html><html><h1>Chodítka pro seniory: jak vybrat správný typ.</h1>
-<a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a>
+<section class="zp-hero"><div class="zp-hero-actions"><a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a></div></section>
 ${"x".repeat(150)}</html>`;
 const response = html => ({
   status: 200,
@@ -69,7 +69,7 @@ test("rejects unsafe or broken editorial CTA without checking merchant links", (
   ]) {
     assert.throws(() => assertMobility(mobility.replace("https://zaprazi.cz/#poradce",wrong)), /safe Mobility/);
   }
-  assert.throws(() => assertMobility(mobility.replace('data-zp-journey="advisor"', 'data-zp-journey="other"')), /one explicit/);
+  assert.throws(() => assertMobility(mobility.replace('data-zp-journey="advisor"', 'data-zp-journey="other"')), /primary hero/);
   assert.throws(() => assertMobility(mobility.replace('class="zp-btn"', 'rel="sponsored"')), /merchant/);
   assert.throws(() => assertMobility(mobility.replace('data-zp-journey="advisor"', 'data-zp-journey="advisor" data-zp-merchant-link="1"')), /merchant/);
 });
@@ -90,7 +90,7 @@ test("source smoke ignores commented, script, template and noscript decoy CTAs",
     value => '<style>' + value + '</style>'
   ];
   for (const wrap of wrappers) {
-    assert.throws(() => assertMobility(mobility.replace(cta, wrap(cta))), /one explicit/,
+    assert.throws(() => assertMobility(mobility.replace(cta, wrap(cta))), /primary hero/,
       "inert CTA cannot satisfy the visitor handoff");
     assert.doesNotThrow(() => assertMobility(mobility + wrap(cta)),
       "inert duplicate must not make a working CTA fail");
@@ -149,4 +149,28 @@ test("source smoke rejects links hidden by ancestor markup, not just the anchor 
     assert.doesNotThrow(() => assertHomepage(homepage.replace(homeLink, wrap(homeLink) + homeLink)),
       "a visible sibling remains usable after the hidden ancestor closes");
   }
+});
+
+test("production 0.8.195 two valid marked CTAs are accepted, while every one stays safety-checked", () => {
+  const additional = '<section class="zp-section"><div class="zp-hero-actions">' +
+    '<a class="zp-btn" data-zp-journey="advisor" href="/#poradce">Znovu otevřít poradce</a></div></section>';
+  const duo = mobility.replace('</html>',additional+'</html>');
+  assert.doesNotThrow(()=>assertMobility(duo));
+  for (const unsafe of [
+    additional.replace('/#poradce','https://merchant.example/'),
+    additional.replace('/#poradce','/?health=private#poradce'),
+    additional.replace('data-zp-journey="advisor"','data-zp-journey="advisor" data-zp-merchant-link="1"'),
+    additional.replace('Znovu otevřít poradce',''),
+    '<section hidden>'+additional+'</section>'
+  ]) {
+    assert.throws(()=>assertMobility(mobility.replace('</html>',unsafe+'</html>')),
+      /safe Mobility|merchant|accessible name|hidden/);
+  }
+});
+test("the actual hero is mandatory: outside repeats cannot replace or duplicate its primary CTA",()=>{
+  const hero='<section class="zp-hero"><div class="zp-hero-actions"><a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a></div></section>';
+  const outside=hero.replace('zp-hero','zp-section');
+  assert.throws(()=>assertMobility(mobility.replace(hero,outside)),/primary hero/);
+  assert.throws(()=>assertMobility(mobility.replace(hero,hero+hero)),/primary hero/);
+  assert.throws(()=>assertMobility(mobility.replace(hero,hero.replace('data-zp-journey="advisor"','data-zp-journey="other"'))),/primary hero/);
 });

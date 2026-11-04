@@ -148,6 +148,11 @@ jobs:
       - name: Strict Mobility acquisition paths (scheduled and postdeploy)
         if: github.event_name != 'pull_request'
         run: node scripts/audit-live-mobility-acquisition-184.mjs
+      - name: Verify 0.8.193 direct acquisition-to-Advisor handoffs in real Chrome
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-mobility-direct-entry-193.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

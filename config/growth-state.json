@@ -1,8 +1,14 @@
 {
   "schemaVersion": 1,
-  "asOf": null,
-  "metrics": {},
-  "metricSources": {},
+  "asOf": "2026-11-01",
+  "metrics": {
+    "organic_clicks_28d": 13,
+    "organic_impressions_28d": 893
+  },
+  "metricSources": {
+    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/41849781731",
+    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/41849781731"
+  },
   "nodes": {
     "safety_qa": {
       "status": "verified",

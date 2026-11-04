@@ -5,6 +5,8 @@ on:
     paths:
       - ".github/workflows/mobility-merchant-facts.yml"
       - "scripts/audit-mobility-merchant-facts.mjs"
+      - "scripts/audit-meyra-public-identity.mjs"
+      - "tests/meyra-public-identity.test.js"
       - "src/mobility/catalog.js"
   workflow_dispatch:
   schedule:
@@ -24,6 +26,8 @@ jobs:
         with:
           node-version: 20
       - name: Verify exact approved public merchant URL contracts offline
-        run: node --test tests/mobility-merchant-facts.test.js
+        run: node --test tests/mobility-merchant-facts.test.js tests/meyra-public-identity.test.js
       - name: Inspect two public product pages without affiliate requests
         run: node scripts/audit-mobility-merchant-facts.mjs
+      - name: Check official MEYRA 3061982 against the canonical public Lékárna product page
+        run: node scripts/audit-meyra-public-identity.mjs

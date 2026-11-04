@@ -7,7 +7,8 @@ import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
 
-if(process.env.GITHUB_EVENT_NAME==="pull_request"){
+if(process.env.GITHUB_EVENT_NAME==="pull_request" &&
+   process.env.ZP_LIVE_193_PR_DIAGNOSTIC!=="1"){
   console.log("PREDEPLOY_SKIP_0_8_193_DIRECT_ENTRY");
   process.exit(0);
 }
@@ -80,12 +81,58 @@ try{
       assert.equal(landing.merchantShortcut,false,"Acquisition hero must not bypass product fit gate");
       assert.equal(landing.forms,0,"No answer collection on acquisition hero");
 
-      const [homeResponse]=await Promise.all([
-        page.waitForNavigation({waitUntil:"domcontentloaded",timeout:30000}),
-        page.click("main .zp-hero a.zp-btn")
-      ]);
-      assert.equal(homeResponse.status(),200,"Home Advisor not available");
+      // The first-visit consent banner is a real interactive overlay on
+      // small viewports. Exercise the privacy-preserving "Bez měření" option
+      // before clicking the page CTA, rather than letting automation hit a
+      // covering consent control instead of the intended link.
+      const consent=await page.evaluate(()=>{
+        const el=document.querySelector("#zp-analytics-consent");
+        return {shown:Boolean(el&&!el.hidden&&el.getClientRects().length),
+          denyExists:Boolean(document.querySelector("#zp-analytics-deny"))};
+      });
+      if(consent.shown){
+        assert.equal(consent.denyExists,true,"Consent refusal must be available");
+        await page.click("#zp-analytics-deny");
+        await page.waitForFunction(
+          ()=>document.querySelector("#zp-analytics-consent")?.hidden===true,
+          {timeout:5000}
+        );
+      }
+      const navigatedPaths=[];
+      page.on("framenavigated",frame=>{
+        if(frame===page.mainFrame()){
+          try{
+            const u=new URL(frame.url());
+            navigatedPaths.push(u.pathname+u.hash);
+          }catch{}
+        }
+      });
+      await page.click("main .zp-hero a.zp-btn");
+      try{
+        await page.waitForFunction(
+          url=>window.location.href===url,
+          {timeout:15000,polling:250},
+          origin+"/#poradce"
+        );
+      }catch(error){
+        let current="unavailable";
+        try{
+          const u=new URL(page.url());
+          current=u.pathname+u.hash;
+        }catch{}
+        // Public paths only. Never log sensitive query strings or Advisor answers.
+        console.error("ZP_DIRECT_ENTRY_CLICK_DIAGNOSTIC",JSON.stringify({
+          source:path,destination:current,
+          browserTransitions:navigatedPaths,
+          expected:"/#poradce"
+        }));
+        throw error;
+      }
       assert.equal(page.url(),origin+"/#poradce","Unclean or incorrect Advisor handoff URL");
+      // URL can update before the target document finishes parsing. Wait for
+      // the actual interactable Advisor; a URL/hash alone is insufficient.
+      await page.waitForSelector("#poradce #zp-mobility-advisor",
+        {visible:true,timeout:18000});
       const target=await page.evaluate(()=>{
         const section=document.getElementById("poradce");
         return {

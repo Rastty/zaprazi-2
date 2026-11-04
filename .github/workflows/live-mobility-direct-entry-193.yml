@@ -1,0 +1,35 @@
+name: Live Mobility 0.8.193 direct entry (read-only)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-mobility-direct-entry-193.mjs"
+      - "tests/mobility-acquisition-direct-advisor-193.test.js"
+      - ".github/workflows/live-mobility-direct-entry-193.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-cta:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check public browser script syntax and consent-safe CTA contract
+        run: |
+          node --check scripts/audit-live-mobility-direct-entry-193.mjs
+          node --test tests/mobility-acquisition-direct-advisor-193.test.js
+      - name: Inspect actual 0.8.193 deployed entry with Chrome; no WordPress writes
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_193_PR_DIAGNOSTIC: "1"
+        run: |
+          npm install --no-save --no-package-lock puppeteer-core@24
+          node scripts/audit-live-mobility-direct-entry-193.mjs

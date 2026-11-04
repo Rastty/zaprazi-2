@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.194' );
+  define( 'ZAPRAZI_RELEASE', '0.8.195' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '25663970bd4e50e67ce0de0ee6a49b677e5bbb62',
-    'src/mobility/offer-fit-gate.js' => '51c7e91f4212680acbf0b541442e3058bb96fc6d',
+    'src/mobility/engine.js' => '41df0263954a3623e86b731f769a9fa5509723f1',
+    'src/mobility/offer-fit-gate.js' => 'a94852ef29febb95ba459db6458932951d478e76',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
@@ -948,7 +948,7 @@ function zaprazi_2_assets() {
     $uri . '/assets/js/analytics-consent.js',
     array(),
     file_exists($dir . '/assets/js/analytics-consent.js') ? filemtime($dir . '/assets/js/analytics-consent.js') : null,
-    false
+    true // Nonessential opt-in adapter after the HTML and consent controls
   );
 
   wp_add_inline_script(

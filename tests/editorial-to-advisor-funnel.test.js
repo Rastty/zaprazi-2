@@ -13,19 +13,28 @@ const routes=[
   ["page-rollator-pro-seniory.php","#poradce-rollator"]
 ];
 
-test("six relevant existing high-intent guides have one explicit safe CTA marker to a real Advisor",()=>{
+test("six high-intent guides only mark safe primary Advisor CTAs; Mobility hub has two deliberate entry points",()=>{
   for(const [file,destination] of routes){
     const source=read(file);
     const anchors=[...source.matchAll(/<a\b[^>]*data-zp-journey="advisor"[^>]*>/g)].map(m=>m[0]);
-    assert.equal(anchors.length,1,"Exactly one marked primary CTA in "+file);
-    assert.match(anchors[0],/class="zp-btn"/,"Do not track secondary or incidental links");
+    const expectedCount=file==="page-choditka-pro-seniory.php"?2:1;
+    assert.equal(anchors.length,expectedCount,"Only deliberate primary Advisor links may be tracked in "+file);
     const localDestination=destination.startsWith("#")
       ? 'href="'+destination+'"'
       : destination.includes("polohovaci-postel")
         ? "home_url( '/polohovaci-postel/#poradce-postel' )"
         : "home_url( '/#poradce' )";
-    assert.ok(anchors[0].includes(localDestination),"Wrong tracked route in "+file);
-    assert.doesNotMatch(anchors[0],/rel="sponsored"|target="_blank"|data-zp-merchant-link/);
+    for(const anchor of anchors){
+      assert.match(anchor,/class="zp-btn"/,"Do not track secondary or incidental links");
+      assert.ok(anchor.includes(localDestination),"Wrong tracked route in "+file);
+      assert.doesNotMatch(anchor,/rel="sponsored"|target="_blank"|data-zp-merchant-link/);
+    }
+    if(expectedCount===2){
+      assert.ok(source.indexOf(anchors[0])<source.indexOf('id="vyber-typu"'),
+        "First CTA must be reachable before the hub comparison");
+      assert.ok(source.lastIndexOf(anchors[1])<source.indexOf('id="vyber-typu"'),
+        "Second CTA must remain before the hub comparison");
+    }
   }
 });
 

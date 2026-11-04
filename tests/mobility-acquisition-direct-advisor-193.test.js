@@ -35,3 +35,14 @@ test("new hero does not displace high-intent rental or SÚKL guidance",()=>{
   assert.match(insurance,/id="zp-overit-mesicni-seznam"/);
   assert.match(insurance,/ePoukaz/);
 });
+
+test("0.8.193 direct-entry Chrome acceptance only runs on postdeploy production QA",()=>{
+  const workflow=read(".github/workflows/production-advisor-qa.yml");
+  const acceptance=read("scripts/audit-live-mobility-direct-entry-193.mjs");
+  assert.match(workflow,/if: github\.event_name != 'pull_request'\s*\n\s*env:\s*\n\s*CHROME_BIN: \/usr\/bin\/google-chrome\s*\n\s*run: node scripts\/audit-live-mobility-direct-entry-193\.mjs/);
+  assert.match(acceptance,/SOURCE_THEME_RELEASE!=="0\.8\.193"/);
+  assert.match(acceptance,/ready\.release,"0\.8\.193"/);
+  assert.match(acceptance,/page\.click\("main \.zp-hero a\.zp-btn"\)/);
+  assert.match(acceptance,/request\.method\(\)!=="GET"/);
+  assert.match(acceptance,/merchantClicks:0,answerPayloads:0,postRequests:0/);
+});

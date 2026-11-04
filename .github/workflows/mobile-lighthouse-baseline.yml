@@ -1,47 +1,92 @@
-name: Live Mobile Lighthouse Baseline
+name: Live Repeated Mobile Lighthouse Baseline
 
 on:
   pull_request:
     paths:
       - "scripts/audit-lighthouse-metrics.mjs"
+      - "scripts/audit-lighthouse-series.mjs"
       - "tests/lighthouse-metrics.test.js"
+      - "tests/lighthouse-series.test.js"
       - ".github/workflows/mobile-lighthouse-baseline.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/mobile-lighthouse-baseline.yml"
+      - "scripts/audit-lighthouse-series.mjs"
+      - "tests/lighthouse-series.test.js"
   workflow_dispatch:
+  schedule:
+    - cron: "37 5 * * 2"
 
 permissions:
   contents: read
 
+concurrency:
+  group: zaprazi-readonly-mobile-lighthouse
+  cancel-in-progress: false
+
 jobs:
   lab-performance:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Test report data extraction
-        run: node --test tests/lighthouse-metrics.test.js
-      - name: Install pinned Lighthouse lab tool (no repository changes)
-        run: npm install --no-save --no-package-lock lighthouse@13.5.0
-      - name: Measure three public page types, one mobile run each
-        env:
-          CHROME_PATH: /usr/bin/google-chrome
-          CI: "1"
+      - name: Test mobile report data extraction and three-run integrity
+        run: node --test tests/lighthouse-metrics.test.js tests/lighthouse-series.test.js
+      - name: Verify real public release readiness (GET only)
         run: |
           set -euo pipefail
           mkdir -p /tmp/zp-lighthouse
-          for spec in             "home|https://zaprazi.cz/"             "bathroom|https://zaprazi.cz/koupelna-a-wc/"             "article|https://zaprazi.cz/nocni-cesta-z-postele-na-wc/"
+          curl --fail --silent --show-error --max-time 20 \
+            "https://zaprazi.cz/wp-json/zaprazi/v1/affiliate-readiness" \
+            -o /tmp/zp-lighthouse/live-readiness.json
+          node --input-type=module -e '
+            import {readFileSync,appendFileSync} from "node:fs";
+            const r=JSON.parse(readFileSync("/tmp/zp-lighthouse/live-readiness.json","utf8"));
+            if(!/^\d+\.\d+\.\d+$/.test(r.release||""))throw Error("No exact public release");
+            if(r.integrity!=="ok")throw Error("Deployed source integrity failure");
+            if(r.configured_total!==25||r.slot_total!==25)throw Error("Configured affiliate slots changed");
+            appendFileSync(process.env.GITHUB_ENV,"ZP_LIVE_RELEASE="+r.release+"\n");
+            console.log("PUBLIC_PRODUCTION_RELEASE",JSON.stringify({
+              release:r.release,integrity:r.integrity,affiliate_slots:r.configured_total
+            }));
+          '
+      - name: Install pinned Lighthouse laboratory tool (no repository changes)
+        run: npm install --no-save --no-package-lock lighthouse@13.5.0
+      - name: Measure three primary page types with three independent mobile runs each
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+          CI: "1"
+          ZP_LIGHTHOUSE_SUMMARY_PATH: /tmp/zp-lighthouse/summary.json
+        run: |
+          set -euo pipefail
+          for spec in \
+            "home|https://zaprazi.cz/" \
+            "mobility|https://zaprazi.cz/choditka-pro-seniory/" \
+            "bathroom|https://zaprazi.cz/koupelna-a-wc/"
           do
             name="${spec%%|*}"
             url="${spec#*|}"
-            ./node_modules/.bin/lighthouse "$url"               --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage"               --only-categories=performance               --output=json               --output-path="/tmp/zp-lighthouse/${name}.json"               --quiet
+            for attempt in 1 2 3; do
+              echo "MOBILE_LIGHTHOUSE_SAMPLE ${name} attempt ${attempt} source ${ZP_LIVE_RELEASE}"
+              ./node_modules/.bin/lighthouse "${url}" \
+                --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" \
+                --form-factor=mobile \
+                --only-categories=performance \
+                --output=json \
+                --output-path="/tmp/zp-lighthouse/${name}-run${attempt}.json" \
+                --quiet
+            done
           done
-          node scripts/audit-lighthouse-metrics.mjs /tmp/zp-lighthouse/home.json /tmp/zp-lighthouse/bathroom.json /tmp/zp-lighthouse/article.json
+          node scripts/audit-lighthouse-series.mjs /tmp/zp-lighthouse/*-run*.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: zaprazi-mobile-lighthouse-lab
+          name: zaprazi-repeatable-mobile-lighthouse-lab
           path: /tmp/zp-lighthouse/*.json
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 14

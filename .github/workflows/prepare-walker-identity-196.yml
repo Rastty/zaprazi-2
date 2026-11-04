@@ -44,3 +44,4 @@ jobs:
           fi
           git commit -m "Release 0.8.196: clarify shared ZP code versus exact MEYRA rollator variant"
           git push origin HEAD:refs/heads/growth/walker-sukl-model-identity-196
+# retry after correcting negative assertion in model-identity test; behavior unchanged

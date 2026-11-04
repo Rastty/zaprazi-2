@@ -226,8 +226,9 @@ test("core navigation links mobility, central insurance hub and rental guidance"
   assert.match(footer, /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
   assert.match(front, /Pomůcky na pojišťovnu/);
   assert.match(front, /\/kompenzacni-pomucky-pro-seniory\/#pojistovna/);
-  assert.match(insuranceWalker, /Nejdřív vybrat vhodný typ/);
-  assert.match(insuranceWalker, /\/choditka-pro-seniory\//);
+  assert.match(insuranceWalker, /Ověřit vhodný typ v poradci/);
+  assert.match(insuranceWalker, /data-zp-journey="advisor"/);
+  assert.match(insuranceWalker, /\/choditka-pro-seniory\/#vyber-typu/);
 
   assert.match(style, /\.zp-core-nav/);
   assert.match(style, /overflow-x:auto/);

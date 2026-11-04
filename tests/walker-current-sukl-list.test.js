@@ -46,7 +46,8 @@ test("December and later never present November list as newly current",()=>{
 test("new source handoff never invents individual reimbursement or bypasses the Mobility decision",()=>{
   for(const date of ["2026-10-31","2026-11-02","2026-12-01"]){
     const html=renderAt(date);
-    assert.match(html,/Nejdřív vybrat vhodný typ/);
+    assert.match(html,/Ověřit vhodný typ v poradci/);
+    assert.match(html,/Porovnat typy chodítek/);
     assert.match(html,/Úhrada není automatický nárok/);
     assert.match(html,/kód 5005963/);
     assert.match(html,/neprokazuje individuální nárok, konečný doplatek ani vhodnost/);

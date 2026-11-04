@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_192
+// ZP_RELEASE_0_8_193
 const PROPULSION = new Set([
   "companion",
   "self_manual",

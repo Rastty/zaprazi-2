@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_192 */
+/* ZP_RELEASE_0_8_193 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -17,7 +17,8 @@ get_header();
       <h1>Chodítko na pojišťovnu v roce 2026.</h1>
       <p class="zp-lead">Prakticky a bez slibů: jak funguje ePoukaz, co znamená úhrada v seznamu SÚKL a co si ověřit dřív, než chodítko koupíte nebo objednáte.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
         <?php if ( ! $zp_sukl_is_current ) : ?>
           <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>

@@ -31,3 +31,26 @@ Každou stránku 3× nezávisle; celkem 9 Lighthouse JSON reportů. `scripts/aud
 - Pokud zůstávají GSC/GA4/síťové provize nedostupné, hodnoty `config/growth-state.json.metrics` musí zůstat prázdné (`UNKNOWN`), nikoliv nula.
 
 **Deploy:** tento PR mění **pouze read-only reportovací skript, test, workflow a dokumentaci**. Nenese novou WordPress verzi, není potřeba Pull + Deploy. Po sloučení `main` i `dev` lze audit spouštět na současném produkčním 0.8.195.
+
+
+## Doložený první výsledek — 4. 11. 2026
+
+Nezávislý read-only laboratorní běh [GitHub Actions #41845055134](https://github.com/Rastty/zaprazi-2/actions/runs/41845055134) skončil **SUCCESS** na skutečně nasazeném `0.8.195` (`integrity=ok`, 25/25 nakonfigurovaných slotů), Lighthouse 13.5.0, explicitní mobilní režim. Přesný výpočet: tři reálná oddělená laboratorní spuštění pro každou níže uvedenou URL, bez analytického souhlasu a obchodních kliků. Surové reporty a `summary.json` viz [artefakty workflow](https://github.com/Rastty/zaprazi-2/actions/runs/41845055134) (uchování nejméně 14 dní podle nastavení Actions).
+
+| Stránka | Mobilní LH skóre (min–max) | LCP medián (min–max), ms | FCP medián, ms | TBT medián, ms | CLS medián | First-party přenos medián |
+|---|---:|---:|---:|---:|---:|---:|
+| `/` | **100 (100–100)** | **1066 (1064–1398)** | 1066 | 0 | 0 | 74 KiB |
+| `/choditka-pro-seniory/` | **100 (100–100)** | **1058 (909–1059)** | 909 | 0 | 0 | 50 KiB |
+| `/koupelna-a-wc/` | **100 (100–100)** | **1062 (1061–1065)** | 1062 | 0 | 0 | 73 KiB |
+
+V žádném z 9 Lighthouse běhů nevzniklo varování a nebyl nalezen první-stranový asset nad 80 000 přenesených bajtů. TBT medián byl ve všech třech skupinách 0 ms. Všech devět skóre bylo 100/100, bez rozdílu mezi jednotlivými běhy v agregovaném skóre. Rozdílná hodnota LCP mezi jednotlivými běhy homepage (až 1398 ms) připomíná, že samotné skóre nestačí pro důkaz skutečného trendu.
+
+### Rozhodnutí pro řízení projektu
+
+- **Performance: pozastavit preventivní změny v head/footer a bezpečnostně citlivých poradenských JS.** Naměřená simulace není aktuální výkonnostní překážkou ani dokladem, že potřebujeme další optimalizační PR.
+- **Priorita se přesouvá na skutečnou akvizici**: agregovaný export GSC dotazů a URL, ověřený záměr a kontrola kanibalizace, poté jedna konkrétní existující vstupní stránka ke zlepšení.
+- **Monetizace:** udržovat affiliate identity a konkrétní produkty; neměnit pořadí doporučení podle výše provize. Bez dat schválených konverzí netvrdit prodeje, EPC ani uplift.
+- **Měření:** ponechat týdenní read-only Lighthouse, nehodnotit jediný výkyv jako regresi; před/po změnu 0.8.195 **nelze** kauzálně dokázat z říjnového a listopadového běhu, zejména když se změnil vzorek URL a podmínky.
+- **Terénní CWV a GSC:** zůstávají neznámé, protože Lighthouse neposkytuje p75 skutečných návštěv ani aktuální výkon z Google Search Console. Není podkladem pro změnu `config/growth-state.json.metrics` ani pro uzavření `technical_search` jako verified.
+
+Žádný další WordPress deploy. Jde pouze o trvale uložený auditní důkaz a navazující prioritizaci.

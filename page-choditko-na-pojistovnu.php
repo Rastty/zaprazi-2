@@ -223,6 +223,10 @@ get_header();
         <p>Ne. Rozhoduje konkrétní zdravotnický prostředek, jeho zařazení a úhradové podmínky. Nestačí, že se výrobek obecně jmenuje chodítko nebo rollátor.</p>
       </details>
       <details>
+        <summary>Stačí kód SÚKL 5005963 k výběru přesného rollátoru?</summary>
+        <p>Ne. MEYRA uvádí stejný kód zdravotnického prostředku u označení IDEAL ROLLATOR 3061982 a ROLLATOR 2 3061982-R. Před výdejem ověřte přesný model, rozměry a ovládání a u oprávněného výdejce platné podmínky poukazu; tyto varianty nelze považovat za automaticky zaměnitelné. <a class="zp-text-link" href="#zp-identita-choditka-nadpis">Proč je nutné ověřit model</a>.</p>
+      </details>
+      <details>
         <summary>Musím mít od roku 2026 papírový poukaz?</summary>
         <p>Standardně ne. Od 1. ledna 2026 je běžnou formou ePoukaz. Papírový poukaz zůstává jen pro stanovené výjimky.</p>
       </details>

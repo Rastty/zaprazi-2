@@ -90,7 +90,7 @@ test("source smoke ignores commented, script, template and noscript decoy CTAs",
     value => '<style>' + value + '</style>'
   ];
   for (const wrap of wrappers) {
-    assert.throws(() => assertMobility(mobility.replace(cta, wrap(cta))), /one explicit/,
+    assert.throws(() => assertMobility(mobility.replace(cta, wrap(cta))), /primary hero/,
       "inert CTA cannot satisfy the visitor handoff");
     assert.doesNotThrow(() => assertMobility(mobility + wrap(cta)),
       "inert duplicate must not make a working CTA fail");

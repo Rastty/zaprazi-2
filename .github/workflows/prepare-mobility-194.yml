@@ -1,0 +1,47 @@
+name: Prepare bounded 0.8.194 Mobility hub release (branch-only)
+
+on:
+  push:
+    branches:
+      - growth/mobility-hub-direct-advisor-194
+    paths:
+      - .github/workflows/prepare-mobility-194.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prepare-mobility-194-branch-only
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    if: github.repository == 'Rastty/zaprazi-2' && github.ref == 'refs/heads/growth/mobility-hub-direct-advisor-194'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: growth/mobility-hub-direct-advisor-194
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate exact source and prepare version 0.8.194 only on this branch
+        run: node scripts/prepare-mobility-194.mjs
+      - name: Full tests and PHP syntax before any release commit
+        run: |
+          npm test
+          php -l functions.php
+          php -l page-choditka-pro-seniory.php
+      - name: Commit exact release files to dedicated feature branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- functions.php style.css header.php footer.php front-page.php page-*.php assets/js src
+          if git diff --cached --quiet; then
+            echo "No release files changed"
+            exit 0
+          fi
+          git commit -m "Release 0.8.194: Mobility hub direct Advisor with comparison alternative"
+          git push origin HEAD:refs/heads/growth/mobility-hub-direct-advisor-194

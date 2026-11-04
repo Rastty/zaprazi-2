@@ -129,6 +129,10 @@ try{
         throw error;
       }
       assert.equal(page.url(),origin+"/#poradce","Unclean or incorrect Advisor handoff URL");
+      // URL can update before the target document finishes parsing. Wait for
+      // the actual interactable Advisor; a URL/hash alone is insufficient.
+      await page.waitForSelector("#poradce #zp-mobility-advisor",
+        {visible:true,timeout:18000});
       const target=await page.evaluate(()=>{
         const section=document.getElementById("poradce");
         return {

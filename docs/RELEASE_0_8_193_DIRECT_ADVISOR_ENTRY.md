@@ -15,7 +15,7 @@ Hlavní CTA používá již existující `data-zp-journey="advisor"`. Consented 
 ## QA a brány
 
 - `tests/mobility-acquisition-direct-advisor-193.test.js`: kontrakt obou hero CTA, existující kotva poradce, možnost srovnání, žádná nákupní zkratka, zachování rental/ePoukaz obsahu.
-- Úplné atomické release-markery všech 100 povinných runtime souborů + ZAPRAZI_RELEASE/style.css = 0.8.193; beze změny připnutých kritických blob hashů.
+- Úplné atomické release-markery všech 100 povinných runtime souborů + ZAPRAZI_RELEASE/style.css = 0.8.193; kritické Git blob hashe přepočítány proti přesným novým souborům a znovu ověřeny testy.
 - Po CI a bezpečném merge synchronizovat main=dev; vlastník musí provést **ruční Pull + Deploy**. Teprve poté plný Chrome smoke všech 14 poradců a konkrétní kontrolu dvou změněných URL.
 - `config/growth-state.json` se před novou akceptací **nesmí** přepsat na `safety_qa.verifiedRelease=0.8.193`: starší 0.8.192 není důkaz nové verze.
 

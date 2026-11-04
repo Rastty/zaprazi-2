@@ -7,7 +7,8 @@ import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
 
-if(process.env.GITHUB_EVENT_NAME==="pull_request"){
+if(process.env.GITHUB_EVENT_NAME==="pull_request" &&
+   process.env.ZP_LIVE_193_PR_DIAGNOSTIC!=="1"){
   console.log("PREDEPLOY_SKIP_0_8_193_DIRECT_ENTRY");
   process.exit(0);
 }

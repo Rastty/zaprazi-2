@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {execFileSync} from "node:child_process";
+import {execFileSync,spawnSync} from "node:child_process";
+import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 const root=fileURLToPath(new URL("../",import.meta.url));
 const render=date=>execFileSync("php",["-r",[
@@ -43,4 +44,21 @@ test("reimbursement month and older SÚKL amount stay protected in all calendar 
   }
   assert.match(november,/Listopadový seznam už SÚKL zveřejnil/);
   assert.doesNotMatch(december,/Listopadový seznam už SÚKL zveřejnil/);
+});
+
+test("0.8.196 Chrome QA is registered as postdeploy-only and never sends visitor answers",()=>{
+  const workflow=readFileSync(new URL("../.github/workflows/production-advisor-qa.yml",import.meta.url),"utf8");
+  const script=readFileSync(new URL("../scripts/audit-live-insurance-model-identity-196.mjs",import.meta.url),"utf8");
+  assert.match(workflow,/scripts\/audit-live-insurance-model-identity-196\.mjs/);
+  assert.match(workflow,/tests\/walker-sukl-model-identity-196\.test\.js/);
+  assert.match(workflow,/if: github\.event_name != 'pull_request'\s+env:\s+CHROME_BIN:[^\n]+\s+run: node scripts\/audit-live-insurance-model-identity-196\.mjs/);
+  assert.match(script,/SOURCE_THEME_RELEASE!=="0\.8\.196"/);
+  assert.match(script,/EXPECTED_LIVE_RELEASE,"0\.8\.196"/);
+  assert.match(script,/GITHUB_EVENT_NAME==="pull_request"/);
+  assert.match(script,/merchantAttempts,0/);
+  assert.match(script,/nonGetRequests,0/);
+  assert.doesNotMatch(script,/method:\s*["']POST["']|req\.method\(\)==="POST"/);
+  const parsed=spawnSync(process.execPath,["--check","scripts/audit-live-insurance-model-identity-196.mjs"],
+    {cwd:root,encoding:"utf8"});
+  assert.equal(parsed.status,0,"Syntax invalid: "+parsed.stderr);
 });

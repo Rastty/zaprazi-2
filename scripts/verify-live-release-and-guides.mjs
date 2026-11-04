@@ -8,6 +8,7 @@ import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
 import { parseThemeRelease } from "./lib/live-release.mjs";
+import { assertLiveWalkerWeightProvenance } from "./lib/live-walker-weight-provenance.mjs";
 
 const origin = "https://zaprazi.cz";
 const version = parseThemeRelease(readFileSync(new URL("../style.css", import.meta.url), "utf8"));
@@ -208,6 +209,11 @@ export async function verifyLiveReleaseAndGuides() {
     editorial.push({path:seo.path,description_length:seo.description_length,canonical_ok:true});
   }
   report.editorial_seo=editorial;
+  // Verify the rendered 0.8.192 BESCO source transparency, not just source PHP.
+  // Keep this gate for subsequent releases until an explicitly reviewed replacement.
+  report.walker_weight_sources=assertLiveWalkerWeightProvenance(
+    await getText(origin+"/choditko-do-bytu-pro-seniory/")
+  );
   report.status="verified";
   report.guides=pageReports;
   report.search=queries;

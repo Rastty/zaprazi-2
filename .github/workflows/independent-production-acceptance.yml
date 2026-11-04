@@ -6,11 +6,15 @@ on:
     paths:
       - "scripts/verify-live-release-and-guides.mjs"
       - "tests/verify-live-release-and-guides.test.js"
+      - "scripts/lib/live-walker-weight-provenance.mjs"
+      - "tests/live-walker-weight-provenance.test.js"
       - ".github/workflows/independent-production-acceptance.yml"
   pull_request:
     paths:
       - "scripts/verify-live-release-and-guides.mjs"
       - "tests/verify-live-release-and-guides.test.js"
+      - "scripts/lib/live-walker-weight-provenance.mjs"
+      - "tests/live-walker-weight-provenance.test.js"
       - ".github/workflows/independent-production-acceptance.yml"
   workflow_dispatch:
   schedule:
@@ -37,6 +41,6 @@ jobs:
       - name: Validate deterministic PHP search routes without WordPress
         run: php tests/search-guidance.php
       - name: Validate inspection logic with offline unit tests
-        run: node --test tests/verify-live-release-and-guides.test.js
+        run: node --test tests/verify-live-release-and-guides.test.js tests/live-walker-weight-provenance.test.js
       - name: Verify production without WordPress or affiliate writes
         run: node scripts/verify-live-release-and-guides.mjs

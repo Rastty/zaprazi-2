@@ -80,11 +80,39 @@ try{
       assert.equal(landing.merchantShortcut,false,"Acquisition hero must not bypass product fit gate");
       assert.equal(landing.forms,0,"No answer collection on acquisition hero");
 
-      const [homeResponse]=await Promise.all([
-        page.waitForNavigation({waitUntil:"domcontentloaded",timeout:30000}),
-        page.click("main .zp-hero a.zp-btn")
-      ]);
-      assert.equal(homeResponse.status(),200,"Home Advisor not available");
+      // Some WordPress navigation may commit as a same-document history update
+      // rather than a new document load. Assert the destination URL and real
+      // Advisor instead of requiring a Puppeteer NavigationResponse object.
+      const navigatedPaths=[];
+      page.on("framenavigated",frame=>{
+        if(frame===page.mainFrame()){
+          try{
+            const u=new URL(frame.url());
+            navigatedPaths.push(u.pathname+u.hash);
+          }catch{}
+        }
+      });
+      await page.click("main .zp-hero a.zp-btn");
+      try{
+        await page.waitForFunction(
+          url=>window.location.href===url,
+          {timeout:15000,polling:250},
+          origin+"/#poradce"
+        );
+      }catch(error){
+        let current="unavailable";
+        try{
+          const u=new URL(page.url());
+          current=u.pathname+u.hash;
+        }catch{}
+        // Public paths only. Never log sensitive query strings or Advisor answers.
+        console.error("ZP_DIRECT_ENTRY_CLICK_DIAGNOSTIC",JSON.stringify({
+          source:path,destination:current,
+          browserTransitions:navigatedPaths,
+          expected:"/#poradce"
+        }));
+        throw error;
+      }
       assert.equal(page.url(),origin+"/#poradce","Unclean or incorrect Advisor handoff URL");
       const target=await page.evaluate(()=>{
         const section=document.getElementById("poradce");

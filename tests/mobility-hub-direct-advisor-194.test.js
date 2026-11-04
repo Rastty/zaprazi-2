@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {spawnSync} from "node:child_process";
 
 const read=p=>readFileSync(p,"utf8");
 test("Mobility hub has one clear primary path directly into Home Advisor",()=>{
@@ -47,4 +48,10 @@ test("new 0.8.194 hub Chrome audit runs only as exact-release postdeploy QA",()=
   assert.match(script,/page\.click\("#zp-analytics-deny"\)/);
   assert.match(script,/waitForSelector\("#poradce #zp-mobility-advisor"/);
   assert.doesNotMatch(script,/[.\w]post\(|method:\s*["']POST["']|merchant_click/i);
+});
+
+
+test("read-only 0.8.194 Chrome audit parses before a production deployment",()=>{
+  const checked=spawnSync(process.execPath,["--check","scripts/audit-live-mobility-hub-194.mjs"],{encoding:"utf8"});
+  assert.equal(checked.status,0,"Chrome audit must parse: "+(checked.stderr||""));
 });

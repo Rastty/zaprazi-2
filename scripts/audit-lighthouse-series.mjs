@@ -30,7 +30,9 @@ const spread=items=>{
   return {median:median(values),min:Math.min(...values),max:Math.max(...values)};
 };
 
-export function summarizeRepeatedMobileLighthouse(reports){
+export function summarizeRepeatedMobileLighthouse(reports,{liveRelease=null}={}){
+  if(liveRelease!==null&&!/^\d+\.\d+\.\d+$/.test(liveRelease))
+    throw new Error("Malformed observed production release");
   if(!Array.isArray(reports)||reports.length!==REQUIRED_PATHS.length*REPEATS)
     throw new Error("Expected exactly "+REPEATS+" mobile Lighthouse reports for each of "+REQUIRED_PATHS.length+" fixed public URLs");
   const groups=new Map(REQUIRED_PATHS.map(path=>[path,[]]));
@@ -84,6 +86,7 @@ export function summarizeRepeatedMobileLighthouse(reports){
     source:"GitHub Actions, Lighthouse CLI lab with simulated mobile conditions",
     release_context:"Run only against independently deployed production; source release 0.8.195 at creation",
     lighthouse_version:version,
+    live_release:liveRelease,
     protocol:"Three independent Lighthouse runs per fixed URL; report median/min/max; never imply a causal speed gain",
     audit_scope:"Read-only pages without granting consent, form submits, merchant clicks or persistent health answers",
     metric_limit:"Not user field p75, not CrUX or INP, not GSC organic clicks, not purchases or approved affiliate commissions",
@@ -101,7 +104,7 @@ export function seriesMarkdown(summary){
   return [
     "### Zápraží — verified repeated mobile Lighthouse laboratory baseline",
     "",
-    "Source: Lighthouse "+summary.lighthouse_version+", **3 real synthetic mobile runs/URL**; medians, score ranges and transfer size.",
+    "Source: Lighthouse "+summary.lighthouse_version+", production release "+(summary.live_release??"unverified")+", **3 real synthetic mobile runs/URL**; medians, score ranges and transfer size.",
     "",
     "| URL | Runs | Score median (range) | LCP median ms | FCP median ms | TBT median ms | CLS median | First-party KB median |",
     "|:--|--:|--:|--:|--:|--:|--:|--:|",
@@ -115,7 +118,8 @@ export function seriesMarkdown(summary){
 
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const paths=process.argv.slice(2);
-  const result=summarizeRepeatedMobileLighthouse(paths.map(file=>JSON.parse(readFileSync(file,"utf8"))));
+  const result=summarizeRepeatedMobileLighthouse(paths.map(file=>JSON.parse(readFileSync(file,"utf8"))),
+    {liveRelease:process.env.ZP_LIVE_RELEASE??null});
   if(process.env.ZP_LIGHTHOUSE_SUMMARY_PATH)
     writeFileSync(process.env.ZP_LIGHTHOUSE_SUMMARY_PATH,JSON.stringify(result,null,2)+"\n");
   if(process.env.GITHUB_STEP_SUMMARY)

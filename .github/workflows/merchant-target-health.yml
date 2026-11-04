@@ -1,0 +1,60 @@
+name: Zápraží public merchant product health (read-only)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-canonical-merchant-targets.mjs"
+      - "tests/merchant-target-health.test.js"
+      - ".github/workflows/merchant-target-health.yml"
+  pull_request:
+    paths:
+      - "scripts/audit-canonical-merchant-targets.mjs"
+      - "tests/merchant-target-health.test.js"
+      - ".github/workflows/merchant-target-health.yml"
+  workflow_dispatch:
+  schedule:
+    # Once weekly; no repeated merchant or affiliate click traffic.
+    - cron: "12 4 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: merchant-public-targets
+  cancel-in-progress: false
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: No-network inventory and privacy tests
+        run: node --test tests/merchant-target-health.test.js
+
+  public-target-probe:
+    needs: contract
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Inspect only the 25 canonical nonaffiliate product pages
+        run: node scripts/audit-canonical-merchant-targets.mjs > merchant-public-targets.json
+      - name: Save non-sensitive canonical reachability report
+        uses: actions/upload-artifact@v4
+        with:
+          name: merchant-public-targets
+          path: merchant-public-targets.json
+          retention-days: 14

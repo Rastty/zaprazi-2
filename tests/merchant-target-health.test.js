@@ -70,5 +70,5 @@ test("bounded audit reports each slot once and distinguishes HTTP reachability f
   assert.equal(report.counts.access_unverifiable,1);
   assert.match(report.limitations,/not product identity/);
   assert.match(markdownSummary(report),/access_unverifiable/);
-  assert.throws(()=>auditCanonicalTargets(targets,()=>({status:200}),4),/Bound public requests/);
+  await assert.rejects(()=>auditCanonicalTargets(targets,()=>({status:200}),4),/Bound public requests/);
 });

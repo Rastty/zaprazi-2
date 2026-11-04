@@ -45,8 +45,8 @@ export function parsePublicMeyraEvidence(html,kind){
   const visible=visibleMerchantText(html);
   const heading=String(html).match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1]??"";
   const title=visibleMerchantText(heading);
-  const named=/\bmeyra\b/i.test(title)&&/\bideal\b/i.test(title)&&
-    /rollator|chodítko/i.test(title);
+  const named=(kind==="manufacturer"||/\bmeyra\b/i.test(title))&&
+    /\bideal\b/i.test(title)&&/rollator|chodítko/i.test(title);
   const explicitModel=new RegExp("\\b"+EXPECTED_MODEL+"\\b").test(visible);
   const width=extractField(visible,"Šířka");
   const range=visible.match(/Výška\s+madel\s*(?:\(\s*cm\s*\))?\s*:?\s*(\d{2})\s*[-–]\s*(\d{2})\b/i);

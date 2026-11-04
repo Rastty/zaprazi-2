@@ -170,6 +170,13 @@ get_header();
           <div><span>Interval v záznamu</span><strong>60 měsíců</strong></div>
           <div><span>Platnost ověřeného záznamu</span><strong>do 31. 10. 2026</strong></div>
         </div>
+
+        <div class="zp-card" role="note" aria-labelledby="zp-identita-choditka-nadpis">
+          <h3 id="zp-identita-choditka-nadpis">Stejný kód ZP ještě neurčuje přesnou variantu chodítka.</h3>
+          <p>Výrobce MEYRA veřejně uvádí kód ZP <strong>07-5005963</strong> u označení <strong>IDEAL ROLLATOR 3061982</strong> i <strong>ROLLATOR 2 3061982-R</strong>. Tyto záznamy mohou mít různé rozměry a údaje pro výběr. Samotný kód z pojišťovny tedy nestačí k tomu, abyste bez další kontroly zaměnili konkrétní výrobky.</p>
+          <p><strong>Před předpisem nebo výdejem</strong> si u lékaře a oprávněného výdejce potvrďte přesné označení vydávaného modelu, potřebnou šířku průchodu, výšku madel, nosnost a bezpečné ovládání brzd. Neověřené rozměry nedoplňujte odhadem. Aktuální úhradu a podmínky je nutné ověřit v seznamu SÚKL platném pro daný měsíc, nikoli v říjnovém příkladu.</p>
+          <p class="zp-muted-copy">Zdroje výrobce, kontrola 4. 11. 2026: <a class="zp-text-link" href="https://www.meyra.cz/ctyrkolove-choditko-rollator.html" target="_blank" rel="noopener noreferrer">IDEAL ROLLATOR (3061982)</a> a <a class="zp-text-link" href="https://www.meyra.cz/ctyrkolove-choditko-rollator2.html" target="_blank" rel="noopener noreferrer">ROLLATOR 2 (3061982-R)</a>. Nejde o potvrzení, že oba modely mají totožnou úhradu či že je lze zaměnit. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit aktuální seznam SÚKL</a>.</p>
+        </div>
       </div>
 
       <aside class="zp-resource-callout">

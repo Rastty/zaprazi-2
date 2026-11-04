@@ -1,3 +1,4 @@
+# Rerun after funnel-test update: preserve consent-safe dedup for two deliberate hub CTAs
 name: Prepare bounded 0.8.194 Mobility hub release (branch-only)
 
 on:

@@ -27,9 +27,10 @@ const mock=(path="/",num=0)=>({
 const series=()=>REQUIRED_PATHS.flatMap(path=>Array.from({length:REPEATS},(_,i)=>mock(path,i)));
 
 test("reports exact three-run mobile medians, ranges and actual significant assets",()=>{
-  const out=summarizeRepeatedMobileLighthouse(series());
+  const out=summarizeRepeatedMobileLighthouse(series(),{liveRelease:"0.8.195"});
   assert.equal(out.pages.length,3);
   assert.equal(out.lighthouse_version,"13.5.0");
+  assert.equal(out.live_release,"0.8.195");
   assert.equal(out.pages[0].score.median,98);
   assert.equal(out.pages[0].score.min,91);
   assert.equal(out.pages[0].score.max,99);
@@ -86,4 +87,9 @@ test("sample variance is visible and never automatically translated to growth or
   assert.equal(result.pages[0].sample_instability,true);
   assert.match(seriesMarkdown(result),/⚠️/);
   assert.doesNotMatch(seriesMarkdown(result),/organic clicks.*increased/i);
+});
+
+test("do not accept guessed or malformed observed production release",()=>{
+  assert.throws(()=>summarizeRepeatedMobileLighthouse(series(),{liveRelease:"release-latest"}),/Malformed observed/);
+  assert.equal(summarizeRepeatedMobileLighthouse(series()).live_release,null);
 });

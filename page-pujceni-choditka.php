@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_192 */
+/* ZP_RELEASE_0_8_193 */
 /*
 Template Name: Zápraží — Půjčení chodítka
 */
@@ -18,7 +18,8 @@ get_header();
       <p class="zp-lead">Kdy dává pronájem smysl, <?php echo $zp_rental_is_fresh ? 'kolik stojí konkrétní příklady v roce 2026' : 'jak ověřit cenu místo zastaralých příkladů z roku 2026'; ?> a co si ověřit dřív, než objednáte dopravu nebo složíte kauci.</p>
       <p class="zp-muted-copy">Chcete si půjčit <strong>rollátor se sedátkem</strong>? Než porovnáte sazby, ověřte, jestli zvládá člověk obě brzdy, bezpečné usedání a vstávání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Podle čeho vybrat bezpečné sedátko a rollátor</a>.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Nejdřív vybrat vhodný typ</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>

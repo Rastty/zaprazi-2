@@ -12,6 +12,21 @@ test("real growth graph is a prerequisite DAG with explicit feedback loops",()=>
     x.id==="safety_qa"?{...x,dependsOn:["conversion_ux"]}:x)}),/Cycle/);
   assert.throws(()=>validateGraph({...graph,nodes:[...graph.nodes,{...graph.nodes[0]}]}),/duplicate/i);
 });
+test("graph rejects repeated prerequisites and ambiguous feedback loops",()=>{
+  const duplicateDependency=clone(graph);
+  const node=duplicateDependency.nodes.find(n=>n.id==="conversion_ux");
+  node.dependsOn.push(node.dependsOn[0]);
+  assert.throws(()=>validateGraph(duplicateDependency),/Duplicate prerequisite edge/);
+
+  const duplicateFeedback=clone(graph);
+  duplicateFeedback.feedbackEdges.push({...duplicateFeedback.feedbackEdges[0]});
+  assert.throws(()=>validateGraph(duplicateFeedback),/Duplicate feedback edge/);
+
+  const selfFeedback=clone(graph);
+  selfFeedback.feedbackEdges.push({from:"safety_qa",to:"safety_qa"});
+  assert.throws(()=>validateGraph(selfFeedback),/Self-feedback edge/);
+});
+
 test("missing evidence is unknown and no monetization can leapfrog safety gate",()=>{
   const p=planGrowth(graph,blank);
   assert.equal(p.metrics.organic_clicks_28d,null);

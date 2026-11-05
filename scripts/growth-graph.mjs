@@ -244,9 +244,7 @@ export function renderGrowthPlan(p){
     ...p.tasks.map(t=>"| "+t.id+" | "+t.status+" | "+t.score+" | "+(t.unmet.join(", ")||"—")+" |"),
     "## Hranice interpretace",
     ...p.limitations.map(x=>"- "+x)
-  ].join("
-")+"
-";
+  ].join("\n")+"\n";
 }
 export function growthCli(argv){
   if(argv.length>1||argv.some(a=>a!=="--json"))
@@ -255,11 +253,9 @@ export function growthCli(argv){
   const g=JSON.parse(readFileSync(new URL("config/growth-graph.json",root),"utf8"));
   const s=JSON.parse(readFileSync(new URL("config/growth-state.json",root),"utf8"));
   const p=planGrowth(g,s);
-  return argv.includes("--json")?JSON.stringify(p,null,2)+"
-":renderGrowthPlan(p);
+  return argv.includes("--json")?JSON.stringify(p,null,2)+"\n":renderGrowthPlan(p);
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])){
   try{process.stdout.write(growthCli(process.argv.slice(2)));}
-  catch(error){process.stderr.write("GROWTH_GRAPH_FAILED: "+error.message+"
-");process.exitCode=1;}
+  catch(error){process.stderr.write("GROWTH_GRAPH_FAILED: "+error.message+"\n");process.exitCode=1;}
 }

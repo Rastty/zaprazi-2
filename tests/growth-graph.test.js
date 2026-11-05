@@ -302,3 +302,14 @@ test("verified downstream state cannot inherit safety approval from an older rel
   assert.equal(planGrowth(graph,s,new Date("2026-11-03T12:00:00Z"),"0.8.191")
     .tasks.find(x=>x.id==="affiliate_audit").status,"verified");
 });
+
+test("future safety acceptance is rejected instead of silently accepted as stale",()=>{
+  const s=clone(blank);
+  s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.197",
+    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/41842091964"};
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.196"),/future source release/);
+  s.nodes.safety_qa.verifiedRelease="0.9.0";
+  assert.throws(()=>planGrowth(graph,s,undefined,"0.8.196"),/future source release/);
+  s.nodes.safety_qa.verifiedRelease="0.8.195";
+  assert.equal(planGrowth(graph,s,undefined,"0.8.196").tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
+});

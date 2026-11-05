@@ -14,7 +14,8 @@ export const METRICS = [
   "approved_affiliate_commission_28d"
 ];
 const STATES=new Set(["pending","in_progress","verified","paused"]);
-const cleanString=s=>String(s).replace(/[|\r\n<>]/g," ").slice(0,180);
+const cleanString=s=>String(s).replace(/[|\r
+<>]/g," ").slice(0,180);
 const percent=(a,b)=>b>0?a/b:null;
 // Evidence is stored in public Git history and rendered by CI. Do not allow
 // credentials, signed query links or fragments that can expose private data.
@@ -142,7 +143,16 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
         (typeof record.verifiedRelease!=="string"||
         !/^\d+\.\d+\.\d+$/.test(record.verifiedRelease)))
       throw new Error("Verified safety QA requires a valid release identifier");
-    // A public state must not claim production acceptance of a release that\n    // has not yet become the current source. This catches mistyped version\n    // evidence rather than quietly presenting it as an ordinary stale QA.\n    if(id==="safety_qa"&&record.status==="verified"&&\n        record.verifiedRelease.split(".").map(Number).some((part,i)=>\n          part>sourceRelease.split(".").map(Number)[i]&&\n          record.verifiedRelease.split(".").slice(0,i).every((prev,j)=>\n            Number(prev)===Number(sourceRelease.split(".")[j]))))\n      throw new Error("Safety QA cannot certify a future source release");\n    if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
+    // A public state must not claim production acceptance of a release that
+    // has not yet become the current source. This catches mistyped version
+    // evidence rather than quietly presenting it as an ordinary stale QA.
+    if(id==="safety_qa"&&record.status==="verified"&&
+        record.verifiedRelease.split(".").map(Number).some((part,i)=>
+          part>sourceRelease.split(".").map(Number)[i]&&
+          record.verifiedRelease.split(".").slice(0,i).every((prev,j)=>
+            Number(prev)===Number(sourceRelease.split(".")[j]))))
+      throw new Error("Safety QA cannot certify a future source release");
+    if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
     if(Object.hasOwn(record,"evidenceUrl")&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Node evidence must cite HTTPS evidence: "+id);
@@ -235,7 +245,9 @@ export function renderGrowthPlan(p){
     ...p.tasks.map(t=>"| "+t.id+" | "+t.status+" | "+t.score+" | "+(t.unmet.join(", ")||"—")+" |"),
     "## Hranice interpretace",
     ...p.limitations.map(x=>"- "+x)
-  ].join("\n")+"\n";
+  ].join("
+")+"
+";
 }
 export function growthCli(argv){
   if(argv.length>1||argv.some(a=>a!=="--json"))
@@ -244,9 +256,11 @@ export function growthCli(argv){
   const g=JSON.parse(readFileSync(new URL("config/growth-graph.json",root),"utf8"));
   const s=JSON.parse(readFileSync(new URL("config/growth-state.json",root),"utf8"));
   const p=planGrowth(g,s);
-  return argv.includes("--json")?JSON.stringify(p,null,2)+"\n":renderGrowthPlan(p);
+  return argv.includes("--json")?JSON.stringify(p,null,2)+"
+":renderGrowthPlan(p);
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])){
   try{process.stdout.write(growthCli(process.argv.slice(2)));}
-  catch(error){process.stderr.write("GROWTH_GRAPH_FAILED: "+error.message+"\n");process.exitCode=1;}
+  catch(error){process.stderr.write("GROWTH_GRAPH_FAILED: "+error.message+"
+");process.exitCode=1;}
 }

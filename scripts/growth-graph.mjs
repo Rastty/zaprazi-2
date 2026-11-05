@@ -14,8 +14,7 @@ export const METRICS = [
   "approved_affiliate_commission_28d"
 ];
 const STATES=new Set(["pending","in_progress","verified","paused"]);
-const cleanString=s=>String(s).replace(/[|\r
-<>]/g," ").slice(0,180);
+const cleanString=s=>String(s).replace(/[|\r\n<>]/g," ").slice(0,180);
 const percent=(a,b)=>b>0?a/b:null;
 // Evidence is stored in public Git history and rendered by CI. Do not allow
 // credentials, signed query links or fragments that can expose private data.

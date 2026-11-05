@@ -57,6 +57,8 @@ export function validateGraph(g){
         !Array.isArray(n.dependsOn)||typeof n.action!=="string"||!n.action||
         typeof n.doneWhen!=="string"||!n.doneWhen)
       throw new Error("Invalid or duplicate graph node");
+    if(new Set(n.dependsOn).size!==n.dependsOn.length)
+      throw new Error("Duplicate prerequisite edge");
     ids.add(n.id);
   }
   const visiting=new Set(),visited=new Set(),byId=new Map(g.nodes.map(n=>[n.id,n]));
@@ -73,8 +75,13 @@ export function validateGraph(g){
   }
   for(const n of g.nodes)visit(n.id);
   if(!Array.isArray(g.feedbackEdges))throw new Error("Missing feedback edges");
+  const feedbackSeen=new Set();
   for(const e of g.feedbackEdges){
-    if(!ids.has(e.from)||!ids.has(e.to))throw new Error("Unknown feedback node");
+    if(!e||!ids.has(e.from)||!ids.has(e.to))throw new Error("Unknown feedback node");
+    if(e.from===e.to)throw new Error("Self-feedback edge");
+    const key=e.from+" -> "+e.to;
+    if(feedbackSeen.has(key))throw new Error("Duplicate feedback edge");
+    feedbackSeen.add(key);
   }
   return g;
 }

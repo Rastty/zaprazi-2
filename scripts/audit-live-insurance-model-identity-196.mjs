@@ -83,7 +83,9 @@ try{
     for(const s of ["IDEAL ROLLATOR 3061982","ROLLATOR 2 3061982-R","07-5005963",
       "Samotný kód z pojišťovny tedy nestačí",
       "rozměry nedoplňujte odhadem","aktuální úhradu"])
-      assert.ok(data.noteText.includes(s),"Missing visitor-visible source/fit warning: "+s);
+      assert.ok(data.noteText.includes(s),
+        "Missing visitor-visible source/fit warning: "+s+
+        " | noteText="+JSON.stringify(data.noteText.replace(/\s+/g," ").trim().slice(0,2200)));
     assert.ok(data.links.includes("https://www.meyra.cz/ctyrkolove-choditko-rollator.html"));
     assert.ok(data.links.includes("https://www.meyra.cz/ctyrkolove-choditko-rollator2.html"));
     assert.ok(data.links.includes(origin+"/choditko-na-pojistovnu/#zp-overit-mesicni-seznam")||

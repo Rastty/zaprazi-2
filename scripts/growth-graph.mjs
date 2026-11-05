@@ -142,7 +142,7 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
         (typeof record.verifiedRelease!=="string"||
         !/^\d+\.\d+\.\d+$/.test(record.verifiedRelease)))
       throw new Error("Verified safety QA requires a valid release identifier");
-    if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
+    // A public state must not claim production acceptance of a release that\n    // has not yet become the current source. This catches mistyped version\n    // evidence rather than quietly presenting it as an ordinary stale QA.\n    if(id==="safety_qa"&&record.status==="verified"&&\n        record.verifiedRelease.split(".").map(Number).some((part,i)=>\n          part>sourceRelease.split(".").map(Number)[i]&&\n          record.verifiedRelease.split(".").slice(0,i).every((prev,j)=>\n            Number(prev)===Number(sourceRelease.split(".")[j]))))\n      throw new Error("Safety QA cannot certify a future source release");\n    if(record.status==="verified"&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Verified node must cite HTTPS evidence: "+id);
     if(Object.hasOwn(record,"evidenceUrl")&&!safeEvidenceUrl(record.evidenceUrl))
       throw new Error("Node evidence must cite HTTPS evidence: "+id);

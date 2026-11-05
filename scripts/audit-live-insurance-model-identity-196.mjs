@@ -85,7 +85,7 @@ try{
       "rozměry nedoplňujte odhadem","aktuální úhradu"])
       assert.ok(data.noteText.includes(s),
         "Missing visitor-visible source/fit warning: "+s+
-        " | noteText="+JSON.stringify(data.noteText.replace(/\\s+/g," ").trim().slice(0,2200)));
+        " | noteText="+JSON.stringify(data.noteText.replace(/\s+/g," ").trim().slice(0,2200)));
     assert.ok(data.links.includes("https://www.meyra.cz/ctyrkolove-choditko-rollator.html"));
     assert.ok(data.links.includes("https://www.meyra.cz/ctyrkolove-choditko-rollator2.html"));
     assert.ok(data.links.includes(origin+"/choditko-na-pojistovnu/#zp-overit-mesicni-seznam")||

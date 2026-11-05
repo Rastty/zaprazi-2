@@ -91,8 +91,7 @@ test("public growth evidence links reject tokens, credentials and malformed HTTP
     "https://", "https://user:secret@example.org/report",
     "https://example.org/report?access_token=private",
     "https://example.org/report#patient-answer",
-    "https://example.org/report
-leak", "http://example.org/report",
+    "https://example.org/report\nleak", "http://example.org/report",
     "https://localhost/report", "https://localhost./report",
     "https://127.0.0.1/report", "https://192.168.1.2/report",
     "https://10.0.0.1/report", "https://172.16.0.1/report",

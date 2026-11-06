@@ -124,9 +124,22 @@ export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
     noncanonical_slashless_links:{count:slashlessInternalCount,sources:[...slashlessInternalSources].sort()}};
 }
 
+function assertSafeAuditSources(targets) {
+  // These labels are copied into public CI artifacts. Defend against callers
+  // bypassing prepareInternalLinks with sensitive or noncanonical source URLs.
+  for (const target of targets) {
+    if (!Array.isArray(target.sources) || target.sources.length === 0 ||
+        target.sources.some(source => {
+          try { assertCanonicalSourcePage(source); return false; }
+          catch { return true; }
+        })) throw new Error("Unsafe audit source labels");
+  }
+}
+
 export async function auditInternalTargets(targets,fetcher=fetch,origin="https://zaprazi.cz") {
   if (origin!=="https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
   if (targets.length>120)throw new Error("Refusing unbounded crawl");
+  assertSafeAuditSources(targets);
   const checked=[];
   // Small batches avoid hammering a production WP instance.
   for(let offset=0;offset<targets.length;offset+=4){
@@ -208,6 +221,7 @@ export function prepareInternalFragments(sourcePages,origin="https://zaprazi.cz"
 
 export function auditInternalFragments(targets,idsByPath) {
   if(targets.length>240)throw new Error("Refusing unbounded fragment scan");
+  assertSafeAuditSources(targets);
   const broken=[],unchecked=[];
   for(const target of targets){
     const ids=idsByPath.get(target.path);

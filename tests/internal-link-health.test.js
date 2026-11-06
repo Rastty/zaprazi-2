@@ -401,3 +401,21 @@ test("public internal-link reports reject noncanonical or sensitive source label
   assert.deepEqual(prepareInternalLinks([{path:"/guide/",links:["/safe/"]}]).targets,
     [{path:"/safe/",sources:["/guide/"]}]);
 });
+
+
+test("direct internal-link and fragment audits reject unsafe source labels before public reports",async()=>{
+  const secret="PRIVATE_HEALTH_ANSWER_NEVER_LOG_20261106";
+  const unsafe=[{path:"/guide/",sources:["/guide/?answer="+secret]}];
+  let requests=0;
+  await assert.rejects(auditInternalTargets(unsafe,async()=>{requests++;}),error=>
+    /Unsafe audit source labels/.test(String(error))&&!String(error).includes(secret));
+  assert.equal(requests,0,"No network request is permitted for untrusted report labels");
+  assert.throws(()=>auditInternalFragments([
+    {path:"/guide/",fragment:"intro",sources:["/go/merchant/"]}
+  ],new Map()),/Unsafe audit source labels/);
+  const valid=await auditInternalTargets([{path:"/guide/",sources:["/"]}],async()=>({
+    status:200,headers:{get:name=>name==="content-type"?"text/html":""},
+    body:{cancel:async()=>{}}
+  }));
+  assert.equal(valid.ok,1);
+});

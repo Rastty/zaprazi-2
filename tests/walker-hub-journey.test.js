@@ -103,3 +103,17 @@ test("Outdoor walker choice explains brake check before gated advisor",()=>{
   assert.ok(card.includes("home_url( '/rollator-pro-seniory/#poradce-rollator' )"));
   assert.doesNotMatch(card,/data-zp-merchant-link|affiliateMap|data-zp-offer/i);
 });
+
+
+test("Insurance acquisition card warns about unreimbursable advance retail purchase",()=>{
+  const hub=read("page-choditka-pro-seniory.php");
+  const start=hub.indexOf("<h3>Pojišťovna</h3>");
+  const end=hub.indexOf("</article>",start);
+  assert.ok(start>=0&&end>start,"Missing insurance acquisition card");
+  const insurance=hub.slice(start,end);
+  assert.match(insurance,/nekupujte chodítko z vlastních peněz/);
+  assert.match(insurance,/není možné ani s následným doporučením lékaře/);
+  assert.match(insurance,/https:\/\/www\.vzp\.cz\/o-nas\/tiskove-centrum\/otazky-tydne\/proplaceni-choditka/);
+  assert.ok(insurance.includes("home_url( '/choditko-na-pojistovnu/' )"));
+  assert.doesNotMatch(insurance,/data-zp-merchant-link|data-zp-offer|affiliateMap|[?&](?:answer|health|diagnosis)=/i);
+});

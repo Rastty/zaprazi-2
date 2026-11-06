@@ -321,12 +321,12 @@ test("current production safety acceptance unlocks only the matching release",()
   const state=JSON.parse(readFileSync(new URL("../config/growth-state.json",import.meta.url),"utf8"));
   const evidence=state.nodes.safety_qa;
   assert.equal(evidence.status,"verified");
-  assert.equal(evidence.verifiedRelease,"0.8.196");
+  assert.equal(evidence.verifiedRelease,"0.8.197");
   assert.match(evidence.evidenceUrl,/^https:\/\/github\.com\/Rastty\/zaprazi-2\/actions\/runs\/\d+$/);
-  const accepted=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.196");
+  const accepted=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.197");
   assert.equal(accepted.tasks.find(x=>x.id==="safety_qa").status,"verified");
   assert.equal(accepted.tasks.find(x=>x.id==="affiliate_audit").status,"in_progress");
-  const future=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.197");
+  const future=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.198");
   assert.equal(future.tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
   assert.equal(future.tasks.find(x=>x.id==="affiliate_audit").status,"waiting_dependencies");
   assert.equal(future.tasks.find(x=>x.id==="conversion_ux").status,"waiting_dependencies");

@@ -95,6 +95,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Venku nebo doma i venku</h3>
           <p>Čtyřkolový rollátor umožňuje plynulejší chůzi, ale vyžaduje bezpečné ovládání ručních brzd.</p>
+          <p><strong>Před rozhodnutím ověřte:</strong> zda člověk dokáže brzdy stisknout, bezpečně zastavit a zajistit parkovací brzdu podle návodu. Pokud to není jisté, nejdřív požádejte o praktické posouzení a nácvik; samotný výběr online nestačí.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Poradce pro rollátor</a></p>
         </article>
         <article class="zp-decision-card">

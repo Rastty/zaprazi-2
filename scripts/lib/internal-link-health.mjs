@@ -40,11 +40,19 @@ export function isSafeMainFrameNavigation(url, expectedPath, origin="https://zap
   } catch {return false;}
 }
 
+function assertCanonicalSourcePage(path) {
+  // Source labels enter public CI reports; never allow private URL parameters,
+  // fragments or commerce routes to masquerade as editorial page paths.
+  if (typeof path !== "string" || !/^\/(?:[a-z0-9_-]+\/)*$/i.test(path) ||
+      blockedPath.test(path)) throw new Error("Unsafe source page path");
+}
+
 export function prepareInternalLinks(sourcePages, origin="https://zaprazi.cz") {
   if (origin !== "https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
   const targets=new Map(), excluded=[], insecureInternalSources=new Set(), noncanonicalInternalSources=new Set(), unsafeFirstPartySources=new Set(), slashlessInternalSources=new Set();
   let insecureInternalCount=0, noncanonicalInternalCount=0, unsafeFirstPartyCount=0, slashlessInternalCount=0;
   for (const page of sourcePages) {
+    assertCanonicalSourcePage(page.path);
     for (const href of page.links || []) {
       let u;
       try {u=new URL(href,origin+page.path);} catch {
@@ -177,6 +185,7 @@ export function prepareInternalFragments(sourcePages,origin="https://zaprazi.cz"
   if (origin!=="https://zaprazi.cz") throw new Error("Only exact production origin is allowed");
   const targets=new Map();
   for(const page of sourcePages){
+    assertCanonicalSourcePage(page.path);
     for(const href of page.links||[]){
       let url;
       try {url=new URL(href,origin+page.path);} catch {continue;}

@@ -389,3 +389,15 @@ test("DOM link crawler only permits exact expected top-frame URL",()=>{
   assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/go/merchant/","/go/merchant/"),false);
   assert.equal(isSafeMainFrameNavigation("https://zaprazi.cz/guide/","/guide/","https://elsewhere.invalid"),false);
 });
+
+
+test("public internal-link reports reject noncanonical or sensitive source labels",()=>{
+  const bad=["/guide/?answer=PRIVATE", "/guide/#health", "/go/merchant/",
+    "https://zaprazi.cz/guide/", "/guide", "/%67uide/", "/wp-json/"];
+  for(const path of bad){
+    assert.throws(()=>prepareInternalLinks([{path,links:["/safe/"]}]),/Unsafe source page path/);
+    assert.throws(()=>prepareInternalFragments([{path,links:["/safe/#section"]}]),/Unsafe source page path/);
+  }
+  assert.deepEqual(prepareInternalLinks([{path:"/guide/",links:["/safe/"]}]).targets,
+    [{path:"/safe/",sources:["/guide/"]}]);
+});

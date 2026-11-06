@@ -91,3 +91,15 @@ test("Walker acquisition checklist makes the next call actionable without ungate
   assert.match(read("front-page.php"),/id="poradce"/);
   assert.match(read("page-co-zmerit-pred-vyberem-choditka.php"),/id="co-zmerit"/);
 });
+
+test("Outdoor walker choice explains brake check before gated advisor",()=>{
+  const hub=read("page-choditka-pro-seniory.php");
+  const start=hub.indexOf("<h3>Venku nebo doma i venku</h3>");
+  const end=hub.indexOf("<h3>Při chůzi běžně pomáhá druhá osoba</h3>",start);
+  assert.ok(start>=0&&end>start);
+  const card=hub.slice(start,end);
+  assert.match(card,/brzdy stisknout, bezpečně zastavit a zajistit parkovací brzdu/);
+  assert.match(card,/praktické posouzení a nácvik/);
+  assert.ok(card.includes("home_url( '/rollator-pro-seniory/#poradce-rollator' )"));
+  assert.doesNotMatch(card,/data-zp-merchant-link|affiliateMap|data-zp-offer/i);
+});

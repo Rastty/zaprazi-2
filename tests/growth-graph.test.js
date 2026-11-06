@@ -257,12 +257,14 @@ test("untrusted nested state keys never appear in public CI validation errors",(
   }
 });
 
-test("new 0.8.196 source never inherits verified 0.8.195 production safety evidence",()=>{
+test("a new source release never inherits verified production safety evidence from an earlier release",()=>{
   const s=clone(blank);
-  s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.195",
-    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/41842091964"};
+  s.nodes.safety_qa={status:"verified",verifiedRelease:"0.8.196",
+    evidenceUrl:"https://github.com/Rastty/zaprazi-2/actions/runs/42156137841"};
   const current=planGrowth(graph,s);
-  assert.equal(current.sourceRelease,"0.8.196");
+  assert.match(current.sourceRelease,/^\d+\.\d+\.\d+$/);
+  assert.notEqual(current.sourceRelease,s.nodes.safety_qa.verifiedRelease,
+    "A new source release must require its own production QA");
   assert.equal(current.tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
   assert.equal(current.tasks.find(x=>x.id==="affiliate_audit").status,"waiting_dependencies");
 });

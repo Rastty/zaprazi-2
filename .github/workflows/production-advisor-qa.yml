@@ -21,7 +21,9 @@ on:
       - "scripts/audit-live-mobility-hub-194.mjs"
       - "scripts/audit-live-consent-footer-195.mjs"
       - "scripts/audit-live-insurance-model-identity-196.mjs"
+      - "scripts/audit-live-walker-safety-197.mjs"
       - "tests/walker-sukl-model-identity-196.test.js"
+      - "tests/audit-live-walker-safety-197.test.js"
       - "tests/analytics-footer-loading-195.test.js"
       - "tests/mobility-hub-direct-advisor-194.test.js"
       - "tests/audit-live-mobility-acquisition-184.test.js"
@@ -174,6 +176,11 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-insurance-model-identity-196.mjs
+      - name: Verify exact 0.8.197 walker brake and reimbursement warnings in real Chrome
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-walker-safety-197.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

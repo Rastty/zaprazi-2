@@ -194,6 +194,7 @@ get_header();
         <article>
           <h3>Pojišťovna</h3>
           <p>Některé konkrétní zdravotnické prostředky mohou být hrazené, ale retail nákup a výdej na ePoukaz jsou dvě odlišné cesty.</p>
+          <p><strong>Nejdřív ověřte ePoukaz:</strong> Pokud plánujete úhradu pojišťovnou, nekupujte chodítko z vlastních peněz s očekáváním pozdějšího proplacení. VZP uvádí, že dodatečné proplacení takového nákupu není možné ani s následným doporučením lékaře. <a class="zp-text-link zp-text-link-light" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener noreferrer">Ověřit u VZP</a>.</p>
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Chodítko na pojišťovnu 2026</a></p>
         </article>
       </div>

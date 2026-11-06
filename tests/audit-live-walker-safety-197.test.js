@@ -18,6 +18,11 @@ test("0.8.197 walker Chrome acceptance is postdeploy-only with exact release, pr
   assert.match(script,/není možné ani s následným doporučením lékaře/);
   assert.match(script,/proplaceni-choditka/);
   assert.match(script,/poradce-rollator/);
+  assert.match(script,/insuranceGuideSelector/);
+  assert.ok(script.includes('a[href="${origin}/choditko-na-pojistovnu/"]'),
+    "Chrome must select the exact safe internal ePoukaz guide");
+  assert.equal(script.includes('await page.click("#jak-ziskat-choditko .zp-acquire-grid article:nth-child(3) a[href]");'),false,
+    "Never click the first insurance card link: it is the official external VZP source");
   assert.match(script,/merchantAttempts,0/);
   assert.match(script,/nonGetRequests,0/);
   assert.doesNotMatch(script,/method:\s*["']POST["']|data-zp-affiliate-target/);

@@ -128,7 +128,13 @@ try{
     assert.equal(await page.$eval('meta[name="zaprazi-integrity"]',e=>e.content),"ok");
 
     await page.goto(origin+"/choditka-pro-seniory/",{waitUntil:"domcontentloaded",timeout:30000});
-    await page.click("#jak-ziskat-choditko .zp-acquire-grid article:nth-child(3) a[href]");
+    // The insurance card also contains an external VZP source link that opens a new
+    // tab. Never click the first link: explicitly select the internal guide route.
+    const insuranceGuideSelector=
+      `#jak-ziskat-choditko .zp-acquire-grid article:nth-child(3) a[href="${origin}/choditko-na-pojistovnu/"]`;
+    assert.equal(await page.$eval(insuranceGuideSelector,a=>a.href),
+      origin+"/choditko-na-pojistovnu/","Expected exact insurance guide link");
+    await page.click(insuranceGuideSelector);
     await page.waitForFunction(expected=>location.href===expected,{timeout:18000},
       origin+"/choditko-na-pojistovnu/");
     assert.equal(await page.$eval('meta[name="zaprazi-release"]',e=>e.content),"0.8.197");

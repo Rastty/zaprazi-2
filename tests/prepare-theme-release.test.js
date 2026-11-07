@@ -14,7 +14,7 @@ test("0.8.198 real runtime inventory can be planned as 0.8.199, without disk cha
   const before=readFileSync(new URL("../style.css",import.meta.url),"utf8");
   const paths=parseReleaseManifest(oldPhp);
   assert.equal(paths.length,100);
-  assert.equal(sources.size,101);
+  assert.equal(sources.size,103); // 100 manifest files, PHP and 2 separately pinned Bathroom blobs
   const plan=planRelease(sources,"0.8.199");
   assert.equal(plan.current,"0.8.198");
   assert.equal(plan.next,"0.8.199");
@@ -27,7 +27,7 @@ test("0.8.198 real runtime inventory can be planned as 0.8.199, without disk cha
     assert.ok(!updated.includes("ZP_RELEASE_0_8_198"),"Old marker in "+path);
   }
   for(const path of CRITICAL_FILES){
-    const expected=gitBlobSha(plan.files.get(path));
+    const expected=gitBlobSha(plan.files.get(path)??sources.get(path));
     assert.equal(plan.pins[path].next,expected);
     assert.ok(plan.files.get("functions.php").includes("'"+path+"' => '"+expected+"'"));
     assert.equal(plan.pins[path].previous,gitBlobSha(sources.get(path)));

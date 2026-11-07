@@ -76,6 +76,29 @@ export function classifyMeyraPublicResponse(response,expected){
   return parsePublicMeyraEvidence(response.html,expected.kind);
 }
 
+// Cap public HTML reads even when a merchant omits or lies about Content-Length.
+// Do not store or print response bodies; oversize evidence remains unverifiable.
+export async function readBoundedPublicHtml(response, maxBytes=MAX_BODY){
+  if(!response.body?.getReader) return null;
+  const reader=response.body.getReader();
+  const chunks=[];
+  let bytes=0;
+  try{
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      bytes+=value.byteLength;
+      if(bytes>maxBytes)return null;
+      chunks.push(value);
+    }
+    return new TextDecoder("utf-8",{fatal:false}).decode(
+      Uint8Array.from(chunks.flatMap(chunk=>Array.from(chunk))));
+  }finally{
+    try{await reader.cancel();}catch{/* stream already closed */}
+    reader.releaseLock();
+  }
+}
+
 export async function auditMeyraIdentity(fetcher=fetch){
   const records=meyraPublicEvidenceTargets();
   const results=[];
@@ -91,7 +114,7 @@ export async function auditMeyraIdentity(fetcher=fetch){
       const html=response.status===200&&response.url===record.url&&
         /^text\/html/i.test(contentType)&&
         (!Number.isFinite(declared)||declared<=MAX_BODY)
-          ?await response.text():"";
+          ?await readBoundedPublicHtml(response):"";
       results.push(classifyMeyraPublicResponse({status:response.status,
         url:response.url,html},record));
     }catch{

@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS} from "../scripts/audit-live-release-coherence.mjs";
-import {inspectPendingReadiness,observePublicDeploy,decideDispatch,
+import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,decideDispatch,
   dispatchWhenReady} from "../scripts/auto-postdeploy-qa.mjs";
 
 const origin="https://zaprazi.cz";
@@ -15,6 +15,16 @@ const readiness=(release=SOURCE_THEME_RELEASE)=>({
 const html=(release=SOURCE_THEME_RELEASE,integrity="ok")=>
   '<!doctype html><head><meta name="zaprazi-release" content="'+release+
   '"><meta name="zaprazi-integrity" content="'+integrity+'"></head>';
+const insurancePage=(release="0.8.199")=>html(release)+
+  '<section class="zp-section" id="rychla-cesta-na-epoukaz">'+
+    '<h2>Jak získat chodítko na pojišťovnu?</h2>'+
+    '<ol><li>Ověřte bezpečný typ pomůcky</li>'+
+      '<li>Zeptejte se předepisujícího lékaře na možnost ePoukazu</li>'+
+      '<li>U oprávněného výdejce ověřte přesný model</li></ol>'+
+    '<p>Neplaťte předem v očekávání zpětného proplacení.</p>'+
+    '<a href="https://zaprazi.cz/#poradce">Otevřít poradce</a>'+
+    '<a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka">VZP</a>'+
+  '</section>';
 const historicalRun=(status="completed",conclusion="success",head_sha=sha)=>({
   event:"workflow_dispatch",head_branch:"main",head_sha,status,conclusion
 });
@@ -35,22 +45,59 @@ test("old 0.8.198 live is a pending deploy, never an accepted 0.8.199",async()=>
   assert.equal(await dispatchWhenReady(state,{}),"no_dispatch_unverified_public_release");
 });
 
-test("only exact 0.8.199 across two 25/25 readiness reads and four pages becomes QA-ready",async()=>{
+test("0.8.199 must serve five coherent pages including its real ePoukaz answer before QA",async()=>{
   const called=[];
   const fetchMock=async(url,options)=>{
     called.push({url,options});
     return {status:200,url,
-      json:async()=>readiness("0.8.199"),text:async()=>html("0.8.199")};
+      json:async()=>readiness("0.8.199"),
+      text:async()=>url===origin+"/choditko-na-pojistovnu/"?insurancePage():html("0.8.199")};
   };
   const state=await observePublicDeploy(fetchMock,"0.8.199");
   assert.deepEqual(state,{status:"ready_for_full_qa",source_release:"0.8.199",
-    live_release:"0.8.199",pages:4,affiliate_slots:25,readiness_checks:2});
+    live_release:"0.8.199",pages:5,insurance_first_answer:"verified",
+    affiliate_slots:25,readiness_checks:2});
   assert.deepEqual(called.map(c=>c.url),[
-    readinessUrl,...RELEASE_CHECK_PATHS.map(p=>origin+p),readinessUrl
+    readinessUrl,...RELEASE_CHECK_PATHS.map(p=>origin+p),
+    origin+"/choditko-na-pojistovnu/",readinessUrl
   ]);
   assert.ok(called.every(c=>c.options.method==="GET"&&c.options.redirect==="error"));
   assert.ok(called.every(c=>!c.url.includes("?")));
   assert.ok(called.every(c=>c.url.startsWith(origin)));
+});
+
+
+test("0.8.199 feature gate blocks missing, stale or unsafe ePoukaz content",async()=>{
+  assert.equal(verifyInsuranceFirstAnswer(insurancePage(),"0.8.199"),true);
+  for(const bad of [
+    html("0.8.199"),
+    insurancePage("0.8.198"),
+    insurancePage().replace("U oprávněného výdejce ověřte přesný model",""),
+    insurancePage().replace("Neplaťte předem v očekávání zpětného proplacení.",""),
+    insurancePage().replace("https://zaprazi.cz/#poradce","https://example.org/"),
+    insurancePage().replace("https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka",
+      "https://merchant.example/"),
+    insurancePage().replace("</ol>","<li>Kupte bez posouzení</li></ol>"),
+    insurancePage().replace("</section>","<form><input name='health'></form></section>"),
+    insurancePage()+insurancePage()
+  ]) assert.throws(()=>verifyInsuranceFirstAnswer(bad,"0.8.199"));
+  assert.throws(()=>verifyInsuranceFirstAnswer(insurancePage(),"0.8.200"));
+
+  // Matching metadata on the generic four pages MUST NOT hide stale/missing
+  // content on the most important changed URL in this release.
+  for(const feature of [html("0.8.199"),insurancePage("0.8.198"),
+    insurancePage().replace("Neplaťte předem v očekávání zpětného proplacení.","")]){
+    const requested=[];
+    const result=await observePublicDeploy(async url=>{
+      requested.push(url);
+      return {status:200,url,json:async()=>readiness("0.8.199"),
+        text:async()=>url===origin+"/choditko-na-pojistovnu/"?feature:html("0.8.199")};
+    },"0.8.199");
+    assert.equal(result.status,"blocked_mixed_or_incomplete_live_release");
+    assert.ok(requested.includes(origin+"/choditko-na-pojistovnu/"));
+    assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
+    assert.ok(!JSON.stringify(result).includes("health"));
+  }
 });
 
 test("partial, misconfigured, duplicate or mixed release never unlocks a QA request",async()=>{

@@ -16,8 +16,8 @@ get_header();
       <p class="zp-muted-copy">Víte už, kde bude člověk pomůcku používat? Můžete přejít přímo do specializovaného poradce. Výsledek není potvrzením vhodnosti konkrétního chodítka — bezpečné ovládání a rozměry se teprve ověřují.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Hlavně doma: poradce pro chodítko</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Venku: poradce pro rollátor a brzdy</a>
+        <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Hlavně doma: poradce pro chodítko</a>
+        <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Venku: poradce pro rollátor a brzdy</a>
         <a class="zp-text-link" href="#vyber-typu">Porovnat typy chodítek</a>
       </div>
       <p class="zp-muted-copy">Nejste si jistí rozdílem mezi <a class="zp-text-link" href="#hul-nebo-choditko">holí, berlí a chodítkem</a>? Před výběrem si připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a> a prověřte, zda pomůcku <a class="zp-text-link" href="#jak-ziskat-choditko">koupit, půjčit, nebo řešit pojišťovnu</a>.</p>

@@ -63,3 +63,25 @@ Veřejné produktové stránky byly znovu dohledány nezávislou veřejnou webov
 - `scripts/audit-canonical-merchant-targets.mjs` přidává do týdenního reportu strukturovanou `identity_review_queue`. Způsobí-li další read-only GET i HTTP 200, výsledek zůstává `reachable_not_identity_or_affiliate_verified`, **ne** obchodní aktivací. HTTP 403/404 zůstávají předmětem kontroly. Žádné další síťové requesty se neposílají.
 - Regresní testy zablokují nechtěné přesměrování na kategorii, jinou variantu, cizí doménu nebo URL s tracking query, pokud není aktualizována evidence a výslovně prověřena identita.
 - `affiliate_audit` zůstává **in_progress**. Nelze z této aktualizace odvodit skutečné návštěvnické prokliky, vyplacené provize ani nárůst návštěvnosti. Úprava je pouze evidence + read-only monitor; nevyžaduje WordPress Pull + Deploy.
+
+## Nová produkční veřejná evidence — audit 7. 11. 2026, 14:08 UTC
+
+Bezprostředně po sloučení [PR #707](https://github.com/Rastty/zaprazi-2/pull/707) proběhl celý [public merchant target workflow #42380167071](https://github.com/Rastty/zaprazi-2/actions/runs/42380167071) na `main` commit `f2dfb880696162fd0b2c60598ee71ef6aec4697b`. `contract` i `public-target-probe` skončily **success**. Strukturovaný JSON artefakt `merchant-public-targets` má kontrolní čas **2026-11-07T14:08:40.967Z**, přesně 25 klíčů a následující výsledek:
+
+| Výsledek (aktuální GitHub runner) | Počet |
+|---|---:|
+| HTTP 200 — identita/partnerská cesta dosud neověřena | **23** |
+| HTTP 404/410 | **0** |
+| HTTP 403 — access_unverifiable | **2** |
+| Přesměrování/5xx/síťové chyby | **0** |
+| **Celkem** | **25** |
+
+**XAVIER:** slot `zdrava-obuv-cz:xavier` tentokrát vrátil **HTTP 200** (`reachable_not_identity_or_affiliate_verified`). Dřívější **404** z workflow #42333076522 se tedy při novém měření **neopakovala**; nezměnila se však automaticky jistota konkrétní velikosti, skladovosti ani skutečného publisher deeplinku. To je odlišné od tvrzení, že původní chyba nikdy neexistovala. Priority P1 ponechány pro business ověření.
+
+**MEYRA Ideal:** `lekarna-cz:meyra-ideal-3061982` stále **HTTP 403**, `automated_access_blocked_manual_recheck`. Nezaměnit 3061982 a 3061982-R; bez přímého ověření rozměrů, varianty a partnerské cesty neměnit obchodní směrování ani kompatibilitu.
+
+**DMA EH-CMDA:** `drmax-cz:dma-eh-cmda` stále **HTTP 403**, `automated_access_blocked_manual_recheck`. Veřejný indexovaný produktový listing neprokazuje přístup z návštěvnického browseru ani správný publisher redirect.
+
+Nová `identity_review_queue` v artefaktu pro všechna tři P1 místa výslovně uvádí `identity_evidence=public_listing_only`, `publisher_deeplink=unverified` a `approved_commission=unverified`. **Žádný** počet v tabulce nepředstavuje ověřený affiliate prodej či připsanou provizi. Kvůli jednomu 200 nevypínat fit-gate ani nezaměňovat přesný produkt.
+
+**Následující praktický postup:** provést uživatelský prohlížečový smoke s oprávněným přístupem pro oba HTTP 403 a publisher deeplinky všech tří cílů, bez ukládání identifikátorů či zkoušení nákupů. Teprve pak uvažovat o úpravě kanonické či partnerské cesty. Tento zápis je evidence-only a **nevyžaduje WordPress nasazení**.

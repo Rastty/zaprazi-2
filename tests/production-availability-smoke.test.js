@@ -6,7 +6,7 @@ const homepage = `<!doctype html><html><h1>Bezpečně a samostatně doma.</h1>
 <a href="https://zaprazi.cz/choditka-pro-seniory/">Vybrat chodítko</a>
 <section id="poradce"><div id="zp-mobility-advisor"></div></section>${"x".repeat(150)}</html>`;
 const mobility = `<!doctype html><html><h1>Chodítka pro seniory: jak vybrat správný typ.</h1>
-<section class="zp-hero"><div class="zp-hero-actions"><a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a></div></section>
+<section class="zp-hero"><div class="zp-hero-actions"><a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a><a class="zp-text-link" data-zp-journey="advisor" href="https://zaprazi.cz/choditko-do-bytu-pro-seniory/#poradce-choditko-byt">Hlavně doma: poradce pro chodítko</a><a class="zp-text-link" data-zp-journey="advisor" href="https://zaprazi.cz/rollator-pro-seniory/#poradce-rollator">Venku: poradce pro rollátor a brzdy</a></div></section>
 ${"x".repeat(150)}</html>`;
 const response = html => ({
   status: 200,
@@ -151,7 +151,7 @@ test("source smoke rejects links hidden by ancestor markup, not just the anchor 
   }
 });
 
-test("production 0.8.195 two valid marked CTAs are accepted, while every one stays safety-checked", () => {
+test("a valid later generic CTA is allowed while every marked link stays safety-checked", () => {
   const additional = '<section class="zp-section"><div class="zp-hero-actions">' +
     '<a class="zp-btn" data-zp-journey="advisor" href="/#poradce">Znovu otevřít poradce</a></div></section>';
   const duo = mobility.replace('</html>',additional+'</html>');
@@ -168,9 +168,49 @@ test("production 0.8.195 two valid marked CTAs are accepted, while every one sta
   }
 });
 test("the actual hero is mandatory: outside repeats cannot replace or duplicate its primary CTA",()=>{
-  const hero='<section class="zp-hero"><div class="zp-hero-actions"><a class="zp-btn" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Začít poradcem</a></div></section>';
+  const hero="<section class=\"zp-hero\"><div class=\"zp-hero-actions\"><a class=\"zp-btn\" data-zp-journey=\"advisor\" href=\"https://zaprazi.cz/#poradce\">Začít poradcem</a><a class=\"zp-text-link\" data-zp-journey=\"advisor\" href=\"https://zaprazi.cz/choditko-do-bytu-pro-seniory/#poradce-choditko-byt\">Hlavně doma: poradce pro chodítko</a><a class=\"zp-text-link\" data-zp-journey=\"advisor\" href=\"https://zaprazi.cz/rollator-pro-seniory/#poradce-rollator\">Venku: poradce pro rollátor a brzdy</a></div></section>";
   const outside=hero.replace('zp-hero','zp-section');
   assert.throws(()=>assertMobility(mobility.replace(hero,outside)),/primary hero/);
   assert.throws(()=>assertMobility(mobility.replace(hero,hero+hero)),/primary hero/);
   assert.throws(()=>assertMobility(mobility.replace(hero,hero.replace('data-zp-journey="advisor"','data-zp-journey="other"'))),/primary hero/);
+});
+
+
+test("0.8.200 hero has exactly one general, one indoor and one outdoor tracked route",()=>{
+  assert.doesNotThrow(()=>assertMobility(mobility));
+  const specialized=[
+    'https://zaprazi.cz/choditko-do-bytu-pro-seniory/#poradce-choditko-byt',
+    'https://zaprazi.cz/rollator-pro-seniory/#poradce-rollator'
+  ];
+  for(const route of specialized){
+    assert.throws(()=>assertMobility(mobility.replace(route,route.replace('#poradce','#wrong'))),
+      /safe Mobility/,"Cannot use an unverified Advisor anchor");
+    assert.throws(()=>assertMobility(mobility.replace(route,'https://merchant.example/#poradce')),
+      /safe Mobility/,"Cannot point a tracked handoff to an external merchant");
+    assert.throws(()=>assertMobility(mobility.replace(route,route+'?answers=private')),
+      /safe Mobility/,"Cannot include private answers in the URL");
+  }
+  for(const label of ["Hlavně doma: poradce pro chodítko","Venku: poradce pro rollátor a brzdy"]){
+    assert.throws(()=>assertMobility(mobility.replace(label+'</a>','</a>')),
+      /accessible name or is hidden/,"All specialist links need accessible names");
+  }
+});
+
+test("0.8.200 specialist routes must be complete, unique, visible and not sponsored",()=>{
+  const specialist=[
+    '<a class="zp-text-link" data-zp-journey="advisor" href="https://zaprazi.cz/choditko-do-bytu-pro-seniory/#poradce-choditko-byt">Hlavně doma: poradce pro chodítko</a>',
+    '<a class="zp-text-link" data-zp-journey="advisor" href="https://zaprazi.cz/rollator-pro-seniory/#poradce-rollator">Venku: poradce pro rollátor a brzdy</a>'
+  ];
+  for(const link of specialist){
+    assert.throws(()=>assertMobility(mobility.replace(link,'')),/primary hero/);
+    assert.throws(()=>assertMobility(mobility.replace(link,link+link)),/primary hero/);
+    assert.throws(()=>assertMobility(mobility.replace(link,link.replace('data-zp-journey="advisor"','data-zp-journey="other"'))),
+      /primary hero/);
+    assert.throws(()=>assertMobility(mobility.replace(link,link.replace('class="zp-text-link"','class="zp-text-link" hidden'))),
+      /accessible name or is hidden/);
+    assert.throws(()=>assertMobility(mobility.replace(link,link.replace('class="zp-text-link"','class="zp-text-link" rel="sponsored"'))),
+      /merchant/);
+    assert.throws(()=>assertMobility(mobility.replace(link,link.replace('class="zp-text-link"','class="zp-btn"'))),
+      /safe Mobility/);
+  }
 });

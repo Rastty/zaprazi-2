@@ -40,8 +40,13 @@ export function parseReleaseManifest(php){
       /\.(?:php|js|css)$/.test(path),"Unsafe manifest path");
   }
   assert.ok(paths.includes("style.css"),"CSS must be covered by manifest");
-  for(const path of CRITICAL_FILES)
-    assert.ok(paths.includes(path),"Critical blob omitted from manifest");
+  // Only two Mobility files are in the 100-file marker manifest.
+  // The Bathroom engine and preview are separately appended at runtime and
+  // guarded exclusively by their exact Git blob hashes.
+  for(const path of CRITICAL_FILES.filter(p=>p.startsWith("src/mobility/")))
+    assert.ok(paths.includes(path),"Mobility critical file omitted from manifest");
+  assert.match(php,/\$files = array_merge\( \$files, array_keys\( \$critical_git_blobs \) \)/,
+    "Critical blob paths must be appended to runtime integrity walk");
   return paths;
 }
 
@@ -87,7 +92,8 @@ export function planRelease(contents,nextVersion){
   const pins={};
   for(const path of CRITICAL_FILES){
     const original=contents.get(path);
-    const oldSha=gitBlobSha(original),newSha=gitBlobSha(changed.get(path));
+    const oldSha=gitBlobSha(original),
+      newSha=gitBlobSha(changed.get(path)??original);
     const before="'"+path+"' => '"+oldSha+"'";
     const after="'"+path+"' => '"+newSha+"'";
     updatedPhp=oneReplace(updatedPhp,before,after,"critical Git blob pin: "+path);
@@ -113,6 +119,8 @@ export function loadReleaseFiles(root=ROOT){
   const files=new Map([["functions.php",php]]);
   for(const path of paths)
     files.set(path,readFileSync(safeLocalPath(root,path),"utf8"));
+  for(const path of CRITICAL_FILES)
+    if(!files.has(path))files.set(path,readFileSync(safeLocalPath(root,path),"utf8"));
   return files;
 }
 

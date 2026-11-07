@@ -15,7 +15,7 @@ Jediné hlavní CTA „Ověřit vhodný typ v poradci“ dál vede do `/#poradce
 ## Release integrita
 
 - `style.css Version: 0.8.198` a `functions.php ZAPRAZI_RELEASE=0.8.198`.
-- Všech 100 ne-kritických souborů z runtime manifestu má marker `ZP_RELEASE_0_8_198`. Přesné Git blob hash piny čtyř kritických rozhodovacích souborů zůstávají stejné, protože se jejich rozhodovací kód nemění.
+- Všech 100 ne-kritických souborů z runtime manifestu má marker `ZP_RELEASE_0_8_198`. Kontrolní Git blob piny obou kritických Mobility souborů jsou přepočítané po změně release markeru; piny dvou Bathroom souborů zůstávají stejné. Rozhodovací logika se nemění.
 - Nová statická regrese kontroluje dva skutečné interní cíle, existující kotvy, jedinou hlavní cestu a žádné merchant ani health parametry.
 - Nový `scripts/audit-live-walker-hero-198.mjs` po skutečném deployi v mobilním Chromu odmítne volitelné měření, klikne obě cesty, ověří správné kotvy, verzi 0.8.198 a integrity `ok`. Blokuje externí a non-GET requests, nemá nákupní interakce.
 

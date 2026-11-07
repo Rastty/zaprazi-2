@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-11-07",
+  "evidenceScope": "public_product_listing_only_not_affiliate_or_purchase_verification",
+  "items": [
+    {
+      "slot": "zdrava-obuv-cz:xavier",
+      "priority": "P1",
+      "canonicalUrl": "https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/",
+      "productIdentity": "PodoWell XAVIER extra-wide black unisex footwear; K+; 5031 variant series",
+      "publicEvidenceUrls": [
+        "https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/"
+      ],
+      "evidenceObservation": "public_html_observed_2026-11-07",
+      "unresolvedConflict": "automated_canonical_http_404_vs_public_product_listing",
+      "action": "manual_check_same_exact_product_size_and_publisher_deeplink"
+    },
+    {
+      "slot": "lekarna-cz:meyra-ideal-3061982",
+      "priority": "P1",
+      "canonicalUrl": "https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/",
+      "productIdentity": "MEYRA IDEAL ROLLATOR 3061982; not ROLLATOR 2 3061982-R",
+      "publicEvidenceUrls": [
+        "https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/",
+        "https://eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191"
+      ],
+      "evidenceObservation": "public_indexed_product_html_and_manufacturer_model_2026-11-07",
+      "unresolvedConflict": "automated_http_403_and_merchant_manufacturer_dimension_discrepancy",
+      "action": "manual_check_exact_3061982_variant_dimensions_and_publisher_deeplink"
+    },
+    {
+      "slot": "drmax-cz:dma-eh-cmda",
+      "priority": "P1",
+      "canonicalUrl": "https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1",
+      "productIdentity": "DMA EH-CMDA 4-in-1 toilet chair; EAN 8034055107553",
+      "publicEvidenceUrls": [
+        "https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1"
+      ],
+      "evidenceObservation": "older_public_indexed_product_html_seen_2026-11-07",
+      "unresolvedConflict": "automated_canonical_http_403_unverifiable",
+      "action": "manual_check_exact_model_live_target_and_publisher_deeplink"
+    }
+  ]
+}

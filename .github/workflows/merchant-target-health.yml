@@ -6,11 +6,15 @@ on:
     paths:
       - "scripts/audit-canonical-merchant-targets.mjs"
       - "tests/merchant-target-health.test.js"
+      - "tests/merchant-identity-watchlist.test.js"
+      - "data/merchant-identity-watchlist.json"
       - ".github/workflows/merchant-target-health.yml"
   pull_request:
     paths:
       - "scripts/audit-canonical-merchant-targets.mjs"
       - "tests/merchant-target-health.test.js"
+      - "tests/merchant-identity-watchlist.test.js"
+      - "data/merchant-identity-watchlist.json"
       - ".github/workflows/merchant-target-health.yml"
   workflow_dispatch:
   schedule:
@@ -36,7 +40,7 @@ jobs:
         with:
           node-version: 20
       - name: No-network inventory and privacy tests
-        run: node --test tests/merchant-target-health.test.js
+        run: node --test tests/merchant-target-health.test.js tests/merchant-identity-watchlist.test.js
 
   public-target-probe:
     needs: contract

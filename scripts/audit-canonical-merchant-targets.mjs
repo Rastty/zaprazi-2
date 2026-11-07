@@ -107,6 +107,82 @@ export async function auditCanonicalTargets(targets, fetchImpl=fetch, concurrenc
     checked_at:new Date().toISOString(), total:items.length, counts, results:items,
     limitations:"HTTP 200 is not product identity, price, stock, valid affiliate deeplink, real click or approved commission. Blocked requests are UNKNOWN, not dead products."};
 }
+/**
+ * Three curated public product-identity leads. Their presence must NEVER turn
+ * a 404/403 into an approved sale, or make a publisher deeplink "verified".
+ * This is only a human-review queue, attached to the existing weekly HTTP
+ * audit without further requests, redirects, or merchant/affiliate clicks.
+ */
+export function buildIdentityReviewQueue(report, targets, watchlist) {
+  assert.equal(watchlist?.schemaVersion,1,"Unsupported watchlist schema");
+  assert.equal(watchlist?.evidenceScope,
+    "public_product_listing_only_not_affiliate_or_purchase_verification");
+  assert.match(watchlist?.reviewedAt||"",/^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(Array.isArray(watchlist.items),"Missing identity watchlist");
+  const expectedKeys=[
+    "zdrava-obuv-cz:xavier",
+    "lekarna-cz:meyra-ideal-3061982",
+    "drmax-cz:dma-eh-cmda"
+  ];
+  assert.equal(watchlist.items.length,expectedKeys.length,"Review of priority keys required");
+  const canonical=new Map(targets.map(x=>[x.key,x.url]));
+  const observations=new Map(report.results.map(x=>[x.key,x]));
+  const seen=new Set();
+  const review=[];
+  const evidenceHosts=new Set([...Object.values(expectedHosts),"eshop.meyra.cz"]);
+  for(const item of watchlist.items){
+    assert.ok(expectedKeys.includes(item.slot),"Unexpected priority merchant slot");
+    assert.ok(!seen.has(item.slot),"Duplicate priority merchant slot");
+    seen.add(item.slot);
+    assert.equal(item.priority,"P1","Do not silently downgrade unresolved commercial risk");
+    assert.equal(item.canonicalUrl,canonical.get(item.slot),
+      "Public watchlist must match EXACT current canonical PHP target");
+    assert.ok(typeof item.productIdentity==="string" &&
+      item.productIdentity.length>=10 && item.productIdentity.length<=180);
+    assert.ok(Array.isArray(item.publicEvidenceUrls)&&
+      item.publicEvidenceUrls.length>=1&&item.publicEvidenceUrls.length<=2);
+    assert.ok(item.publicEvidenceUrls.includes(item.canonicalUrl),
+      "Evidence must refer to exact canonical product URL");
+    for(const source of item.publicEvidenceUrls){
+      const u=new URL(source);
+      assert.equal(u.protocol,"https:");
+      assert.ok(evidenceHosts.has(u.hostname),"Unexpected public evidence host");
+      assert.equal(u.username,"");
+      assert.equal(u.password,"");
+      assert.equal(u.search,"","Never log tracking tokens in source evidence");
+      assert.equal(u.hash,"");
+      assert.equal(u.href,source,"Evidence URL normalization not allowed");
+    }
+    assert.match(item.evidenceObservation||"",
+      /^(?:public_html_observed|public_indexed_product_html_and_manufacturer_model|older_public_indexed_product_html_seen)_2026-11-07$/);
+    assert.match(item.unresolvedConflict||"",
+      /^(?:automated_canonical_http_404_vs_public_product_listing|automated_http_403_and_merchant_manufacturer_dimension_discrepancy|automated_canonical_http_403_unverifiable)$/);
+    assert.match(item.action||"",/^manual_check_[a-z0-9_]+_publisher_deeplink$/);
+    const probe=observations.get(item.slot);
+    assert.ok(probe,"Missing exact canonical audit result for watched slot");
+    const reviewState=probe.status==="not_found_review"
+      ?"conflicting_public_evidence_manual_recheck"
+      :probe.status==="access_unverifiable"
+        ?"automated_access_blocked_manual_recheck"
+        :probe.status==="http_ok_identity_unverified"
+          ?"reachable_not_identity_or_affiliate_verified"
+          :"needs_manual_review";
+    review.push({
+      slot:item.slot,priority:item.priority,
+      current_http_status:probe.http_status,
+      current_probe_status:probe.status,
+      review_state:reviewState,
+      identity_evidence:"public_listing_only",
+      publisher_deeplink:"unverified",
+      approved_commission:"unverified",
+      manual_action:item.action,
+      evidence_date:watchlist.reviewedAt
+    });
+  }
+  assert.deepEqual([...seen].sort(),[...expectedKeys].sort());
+  return review;
+}
+
 export function markdownSummary(report) {
   const summary=Object.entries(report.counts).map(([key,value])=>"- "+key+": **"+value+"**").join("\n");
   const exceptions=report.results.filter(x=>x.status!=="http_ok_identity_unverified")
@@ -114,12 +190,18 @@ export function markdownSummary(report) {
   return "## Public merchant target audit\n"+report.checked_at+"\n\n"+summary+
     "\n\n### Needs manual follow-up or verification\n| Slot | HTTP | State |\n|---|---:|---|\n"+
     (exceptions||"| — | — | No non-200 results; exact identities still unverified |")+
+    (Array.isArray(report.identity_review_queue) ?
+      "\n\n### Priority product identity follow-ups (NOT verified affiliate)\n| Slot | Probe | Review | Affiliate | Next check |\n|---|---|---|---|---|\n" +
+      report.identity_review_queue.map(x=>
+        "| "+x.slot+" | "+x.current_probe_status+" | "+x.review_state+" | "+x.publisher_deeplink+" | "+x.manual_action+" |").join("\n") : "")+
     "\n\n**Limit:** "+report.limitations+"\n";
 }
 export async function main() {
   const php=readFileSync(new URL("../functions.php",import.meta.url),"utf8");
   const targets=extractCanonicalTargets(php);
   const report=await auditCanonicalTargets(targets);
+  const watchlist=JSON.parse(readFileSync(new URL("../data/merchant-identity-watchlist.json",import.meta.url),"utf8"));
+  report.identity_review_queue=buildIdentityReviewQueue(report,targets,watchlist);
   process.stdout.write(JSON.stringify(report,null,2)+"\n");
   if(process.env.GITHUB_STEP_SUMMARY)
     appendFileSync(process.env.GITHUB_STEP_SUMMARY,markdownSummary(report),"utf8");

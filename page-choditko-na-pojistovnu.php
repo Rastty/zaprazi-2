@@ -33,7 +33,7 @@ get_header();
       <p class="zp-kicker">Odpověď bez dlouhého hledání</p>
       <h2 id="rychla-cesta-na-epoukaz-nadpis" class="zp-section-title">Jak získat chodítko na pojišťovnu? Nejdřív ověřit, teprve potom objednávat.</h2>
       <ol class="zp-guide-steps">
-        <li><strong>Ověřte bezpečný typ pomůcky.</strong> Pevné chodítko a rollátor nejsou zaměnitelné. Pokud člověk padá, potřebuje fyzickou pomoc nebo nedokáže bezpečně brzdit, požádejte nejdřív o odborné posouzení. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Začít orientačním poradcem</a>.</li>
+        <li><strong>Ověřte bezpečný typ pomůcky.</strong> Pevné chodítko a rollátor nejsou zaměnitelné. Pokud člověk padá, potřebuje fyzickou pomoc nebo nedokáže bezpečně brzdit, požádejte nejdřív o odborné posouzení. <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Začít orientačním poradcem</a>.</li>
         <li><strong>Zeptejte se předepisujícího lékaře na možnost ePoukazu.</strong> Lékař musí posoudit podmínky pro konkrétní prostředek; samotný název „chodítko“ ani článek na internetu nezaručují úhradu. <a class="zp-text-link" href="#postup">Projít celý postup předpisu</a>.</li>
         <li><strong>U oprávněného výdejce ověřte přesný model, aktuální úhradu a případný doplatek.</strong> Nepředpokládejte, že běžný e-shop přijme ePoukaz nebo že dva podobně označené modely lze zaměnit. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Jak ověřit platný seznam SÚKL</a>.</li>
       </ol>

@@ -92,7 +92,7 @@ export async function readBoundedPublicHtml(response, maxBytes=MAX_BODY){
       chunks.push(value);
     }
     return new TextDecoder("utf-8",{fatal:false}).decode(
-      Uint8Array.from(chunks.flatMap(chunk=>Array.from(chunk))));
+      Buffer.concat(chunks.map(chunk=>Buffer.from(chunk)),bytes));
   }finally{
     try{await reader.cancel();}catch{/* stream already closed */}
     reader.releaseLock();

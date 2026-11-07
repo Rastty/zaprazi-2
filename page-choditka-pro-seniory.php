@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_197 */
+/* ZP_RELEASE_0_8_198 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -13,14 +13,14 @@ get_header();
       <h1>Chodítka pro seniory: jak vybrat správný typ doma i venku.</h1>
       <p class="zp-lead">Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Začněte prostředím a způsobem používání, potom řešte rozměry, nosnost a teprve nakonec nákup, půjčení nebo pojišťovnu.</p>
       <p class="zp-muted-copy">Člověk nechce chodítko používat? Nejdřív se pokuste pochopit proč. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Citlivý postup pro rodinu bez nátlaku</a>.</p>
+      <p class="zp-muted-copy">Víte už, kde bude člověk pomůcku používat? Můžete přejít přímo do specializovaného poradce. Výsledek není potvrzením vhodnosti konkrétního chodítka — bezpečné ovládání a rozměry se teprve ověřují.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Hlavně doma: poradce pro chodítko</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Venku: poradce pro rollátor a brzdy</a>
         <a class="zp-text-link" href="#vyber-typu">Porovnat typy chodítek</a>
-        <a class="zp-text-link" href="#hul-nebo-choditko">Hůl, berle, nebo chodítko?</a>
-
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a>
-        <a class="zp-text-link" href="#jak-ziskat-choditko">Koupit, půjčit, nebo řešit pojišťovnu?</a>
       </div>
+      <p class="zp-muted-copy">Nejste si jistí rozdílem mezi <a class="zp-text-link" href="#hul-nebo-choditko">holí, berlí a chodítkem</a>? Před výběrem si připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a> a prověřte, zda pomůcku <a class="zp-text-link" href="#jak-ziskat-choditko">koupit, půjčit, nebo řešit pojišťovnu</a>.</p>
       </div>
       <figure class="zp-hero-art">
         <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/chuze-s-oporou.svg' ); ?>" width="720" height="510" decoding="async" loading="eager" fetchpriority="high" alt="Starší člověk kráčí s chodítkem po rovné cestě, poblíž jde blízký člověk.">

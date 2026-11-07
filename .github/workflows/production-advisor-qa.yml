@@ -23,6 +23,9 @@ on:
       - "scripts/audit-live-insurance-model-identity-196.mjs"
       - "scripts/audit-live-walker-safety-197.mjs"
       - "scripts/audit-live-walker-hero-198.mjs"
+      - "scripts/audit-live-insurance-first-199.mjs"
+      - "tests/walker-insurance-first-answer.test.js"
+      - "tests/audit-live-insurance-first-199.test.js"
       - "tests/walker-hero-direct-paths-198.test.js"
       - "tests/walker-sukl-model-identity-196.test.js"
       - "tests/audit-live-walker-safety-197.test.js"
@@ -188,6 +191,11 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-walker-hero-198.mjs
+      - name: Verify 0.8.199 ePoukaz first-screen safe answer and Advisor handoff in Chrome
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-insurance-first-199.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

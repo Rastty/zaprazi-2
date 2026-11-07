@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_198 */
+/* ZP_RELEASE_0_8_199 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -25,6 +25,19 @@ get_header();
         <?php endif; ?>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
+    </div>
+  </section>
+
+  <section id="rychla-cesta-na-epoukaz" class="zp-section zp-section-soft" aria-labelledby="rychla-cesta-na-epoukaz-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Odpověď bez dlouhého hledání</p>
+      <h2 id="rychla-cesta-na-epoukaz-nadpis" class="zp-section-title">Jak získat chodítko na pojišťovnu? Nejdřív ověřit, teprve potom objednávat.</h2>
+      <ol class="zp-guide-steps">
+        <li><strong>Ověřte bezpečný typ pomůcky.</strong> Pevné chodítko a rollátor nejsou zaměnitelné. Pokud člověk padá, potřebuje fyzickou pomoc nebo nedokáže bezpečně brzdit, požádejte nejdřív o odborné posouzení. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Začít orientačním poradcem</a>.</li>
+        <li><strong>Zeptejte se předepisujícího lékaře na možnost ePoukazu.</strong> Lékař musí posoudit podmínky pro konkrétní prostředek; samotný název „chodítko“ ani článek na internetu nezaručují úhradu. <a class="zp-text-link" href="#postup">Projít celý postup předpisu</a>.</li>
+        <li><strong>U oprávněného výdejce ověřte přesný model, aktuální úhradu a případný doplatek.</strong> Nepředpokládejte, že běžný e-shop přijme ePoukaz nebo že dva podobně označené modely lze zaměnit. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Jak ověřit platný seznam SÚKL</a>.</li>
+      </ol>
+      <p class="zp-disclaimer"><strong>Neplaťte předem v očekávání zpětného proplacení.</strong> VZP výslovně upozorňuje, že soukromě zakoupené chodítko následně neproplatí ani po dodatečném doporučení lékaře. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener noreferrer">Oficiální odpověď VZP</a> (ověřeno 7. 11. 2026).</p>
     </div>
   </section>
 

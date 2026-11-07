@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-07",
   "metrics": {
     "organic_clicks_28d": 11,
     "organic_impressions_28d": 884
@@ -12,8 +12,8 @@
   "nodes": {
     "safety_qa": {
       "status": "verified",
-      "verifiedRelease": "0.8.198",
-      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42363477297"
+      "verifiedRelease": "0.8.199",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42370559160"
     },
     "affiliate_audit": {
       "status": "in_progress",

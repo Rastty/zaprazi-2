@@ -68,6 +68,10 @@ export async function checkCanonicalTarget(target, fetchImpl=fetch) {
       headers: { Accept: "text/html" },
       signal: AbortSignal.timeout(12000)
     });
+    // Never read the body or redirect destination; only inspect the public content type.
+    const contentType = response.headers?.get?.("content-type");
+    const nonHtml = typeof contentType === "string" && contentType.length > 0 &&
+      !/^text\/html(?:\s*;|\s*$)/i.test(contentType);
     // No reading response body/redirect destination: never leak tracking tokens.
     if (response.body?.cancel) await response.body.cancel();
     // A successful HTTP status from a different final URL is not evidence that
@@ -75,7 +79,8 @@ export async function checkCanonicalTarget(target, fetchImpl=fetch) {
     const unexpectedFinalUrl = typeof response.url === "string" &&
       response.url !== target.url;
     return { key:target.key, merchant:target.merchant,
-      status:unexpectedFinalUrl ? "redirect_review" : statusOf(response.status),
+      status:unexpectedFinalUrl ? "redirect_review" :
+        (response.status === 200 && nonHtml ? "unexpected_content_review" : statusOf(response.status)),
       http_status:response.status, checked_at:checkedAt };
   } catch {
     return { key:target.key, merchant:target.merchant, status:"network_unverifiable",
@@ -93,7 +98,7 @@ export async function auditCanonicalTargets(targets, fetchImpl=fetch, concurrenc
     }
   }));
   const counts={http_ok_identity_unverified:0,redirect_review:0,not_found_review:0,
-    access_unverifiable:0,upstream_unavailable:0,unexpected_status_review:0,network_unverifiable:0};
+    access_unverifiable:0,upstream_unavailable:0,unexpected_status_review:0,unexpected_content_review:0,network_unverifiable:0};
   for(const result of items) counts[result.status]++;
   return {scope:"25 exact PUBLIC canonical merchant product targets; no tracking or affiliate URLs",
     checked_at:new Date().toISOString(), total:items.length, counts, results:items,

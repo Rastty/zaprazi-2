@@ -9,8 +9,16 @@ test("0.8.198 two safe direct Walker entries are postdeploy Chrome-verified",()=
   const script=read("scripts/audit-live-walker-hero-198.mjs");
   const theme=read("style.css");
   const functions=read("functions.php");
-  assert.match(theme,/Version: 0\.8\.198/);
-  assert.match(functions,/define\( 'ZAPRAZI_RELEASE', '0\.8\.198' \)/);
+  // The 0.8.198 behavior remains present after future theme releases.
+  // The historical 0.8.198 postdeploy script is intentionally version-locked,
+  // but a current 0.8.199+ source must not fail merely for advancing safely.
+  const version=theme.match(/^Version:\s*(\d+)\.(\d+)\.(\d+)\s*$/m);
+  assert.ok(version,"Current theme version header required");
+  const [major,minor,patch]=version.slice(1).map(Number);
+  assert.ok(major>0||(major===0&&(minor>8||(minor===8&&patch>=198))),
+    "Original Walker hero behavior requires release 0.8.198 or later");
+  assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '"+version.slice(1).join(".")+"' );"),
+    "PHP and CSS theme release must match");
   assert.match(wf,/scripts\/audit-live-walker-hero-198\.mjs/);
   assert.match(wf,/tests\/walker-hero-direct-paths-198\.test\.js/);
   assert.match(wf,/Verify 0\.8\.198 direct indoor and outdoor walker Advisor links in real Chrome\s+if: github\.event_name != 'pull_request'/);

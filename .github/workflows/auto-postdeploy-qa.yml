@@ -1,0 +1,39 @@
+name: Zápraží auto postdeploy QA gate (read-only monitor)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/auto-postdeploy-qa.mjs"
+      - "tests/auto-postdeploy-qa.test.js"
+      - ".github/workflows/auto-postdeploy-qa.yml"
+  workflow_dispatch:
+  schedule:
+    # Detect a manually deployed release hourly. Never write to WordPress.
+    - cron: "31 * * * *"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: zaprazi-postdeploy-qa-dispatch
+  cancel-in-progress: false
+
+jobs:
+  observe-and-dispatch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Verify all fail-closed rules without network access
+        run: node --test tests/auto-postdeploy-qa.test.js
+      - name: Check public WordPress release and dispatch full QA only if verified
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/auto-postdeploy-qa.mjs

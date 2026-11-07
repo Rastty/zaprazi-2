@@ -47,6 +47,17 @@ test("request never follows merchant redirects, sends no referral, cookie, answe
   assert.deepEqual(Object.keys(calls[0].opts.headers),["Accept"]);
   assert.ok(!("url" in result),"Never log canonical or redirect location in report");
 });
+test("HTTP 200 at a different final URL is not canonical product evidence and never leaks URL",async()=>{
+  const target=extractCanonicalTargets(small,2)[0];
+  const redirected="https://www.rehabilitacnipomucky.cz/other-product/?secret=do-not-log";
+  const result=await checkCanonicalTarget(target,async()=>({status:200,url:redirected}));
+  assert.equal(result.status,"redirect_review");
+  assert.equal(result.http_status,200);
+  assert.ok(!JSON.stringify(result).includes(redirected));
+  assert.ok(!("url" in result));
+  const exact=await checkCanonicalTarget(target,async()=>({status:200,url:target.url}));
+  assert.equal(exact.status,"http_ok_identity_unverified");
+});
 test("404/410 are review, blocking/throttling and failures are UNKNOWN not proven broken",async()=>{
   assert.equal(statusOf(200),"http_ok_identity_unverified");
   assert.equal(statusOf(404),"not_found_review");

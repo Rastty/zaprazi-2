@@ -19,13 +19,13 @@ Read-only public canonical product target probe: [Merchant Health workflow #4233
 3. **P1 — `drmax-cz:dma-eh-cmda`**: `access_unverifiable`, HTTP 403. Same UNKNOWN treatment; do not bypass anti-bot controls.
 4. **P2 — 22 HTTP 200 results**, including Mobility BESCO WA17 and WA21: response reachability alone does not verify product identity, availability, specifications or affiliate deeplink validity. Keep product-level evidence requirements and existing fit gates.
 
-## Nezávislá kontrola XAVIER — 7. 11. 2026
+## Nezávislá veřejná evidence XAVIER — prověřeno 7. 11. 2026
 
-- **Zdroj výrobku:** [PodoWell XAVIER u Štěpánková & C.](https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/) (veřejná produktová HTML stránka načtená nezávislým webovým crawlerem dne 7. 11. 2026).
-- **Pozorovaná identita:** nadpis odpovídá „PodoWell XAVIER … unisex černá“, obchod uvádí kód varianty `5031/40`, šířku K+, plnou špičku a zapínání na suchý zip. Jde tedy o relevantní *produktový* důkaz pro stejnojmenný model, ne o alternativní výrobek. Stav varianty a cena se mohou změnit; neukládat je jako trvalý údaj.
-- **Rozpor zdrojů:** izolovaná kontrola z GitHub Actions (#42333076522) vrátila HTTP 404 na stejnou kanonickou URL, ale nezávislý crawler následně zobrazil produkt. Samotný původní status 404 **nestačí** k závěru, že se XAVIER přestal prodávat. Rozdíl může souviset s časem požadavku nebo prostředím; příčina není ověřena.
-- **Rozhodnutí:** **ponechat existující produktovou identitu, pořadí a routing beze změny**, dokud neproběhne aktuální kontrola cílové stránky v běžném prohlížeči a ověření skutečné publisher affiliate URL. Nepřesměrovávat na kategorii, nepřepínat na jiný produkt a neodemykat žádný fit-gate.
-- **Nevyřešené:** reálná dostupnost všech velikostí, zobrazení na konkrétním zařízení, aktuální odpověď z GitHub runneru, affiliate atribuce ani provize. Pro dva případy HTTP 403 platí nadále UNKNOWN.
+- **Zdroj identity:** [PodoWell XAVIER u Štěpánková & C.](https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/). Při kontrole dne 7. 11. se zobrazila *indexovaná kopie* produktové HTML stránky; její poskytovatel uváděl poslední crawl přibližně **6 dní před kontrolou**. To není aktuální live HTTP ani prohlížečový test obchodníka.
+- **Doložená identita v této kopii:** nadpis odpovídá „PodoWell XAVIER … unisex černá“, stránka uvádí kód varianty `5031/40`, šířku K+, plnou špičku a zapínání na suchý zip. Evidence svědčí pro existenci stejnojmenného modelu při posledním crawlu, **nepotvrzuje dostupnost ani platnost URL dnes**.
+- **Rozpor zdrojů:** GitHub Actions #42333076522 dne 7. 11. skutečně vrátil na kanonickou URL HTTP 404. Starší indexovaná kopie nemůže vyvrátit nynější 404, ale naznačuje, že stránka v nedávné době existovala. Důvod rozdílu a současný stav zůstávají **NEOVĚŘENÉ**.
+- **Rozhodnutí:** dočasně neměnit produktovou identitu, pořadí ani routing **bez aktuálního manuálního ověření** cílové stránky v běžném prohlížeči a skutečné publisher affiliate URL. Stejně tak ze staré kopie nevyvozovat, že je aktuální prodejní cesta funkční. Nenahrazovat automaticky jiným produktem ani neobcházet fit-gate.
+- **Potřebný další důkaz:** aktuální reakce v běžném prohlížeči včetně přesné identity a varianty, kontrola přímé produktové a affiliate cesty bez záznamu tracking tokenů. Dvě odpovědi HTTP 403 zůstávají UNKNOWN. Pokus o lokální kontrolu přímým HTTP požadavkem nebylo možné dokončit pro nedostupné DNS v kontrolním prostředí (nikoli pro potvrzený stav obchodu).
 
 ## Acceptance for follow-up
 

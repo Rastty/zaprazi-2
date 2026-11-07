@@ -316,18 +316,28 @@ test("future safety acceptance is rejected instead of silently accepted as stale
   assert.equal(planGrowth(graph,s,undefined,"0.8.196").tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
 });
 
-// Keep the public Growth Graph's safety gate tied to a real, release-specific QA run.
-test("current production safety acceptance unlocks only the matching release",()=>{
+// A release-specific production acceptance must not silently authorize
+// later WordPress releases, nor make CI depend on a historical hardcoded patch.
+test("current production safety acceptance unlocks only its verified release",()=>{
   const state=JSON.parse(readFileSync(new URL("../config/growth-state.json",import.meta.url),"utf8"));
+  const css=readFileSync(new URL("../style.css",import.meta.url),"utf8");
+  const sourceRelease=css.match(/^Version:\s*(\d+\.\d+\.\d+)\s*$/m)?.[1];
+  assert.ok(sourceRelease,"Actual theme release required");
   const evidence=state.nodes.safety_qa;
   assert.equal(evidence.status,"verified");
-  assert.equal(evidence.verifiedRelease,"0.8.197");
+  assert.match(evidence.verifiedRelease,/^\d+\.\d+\.\d+$/);
   assert.match(evidence.evidenceUrl,/^https:\/\/github\.com\/Rastty\/zaprazi-2\/actions\/runs\/\d+$/);
-  const accepted=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.197");
+  const evaluatedAt=new Date("2026-11-07T10:00:00Z");
+  const accepted=planGrowth(graph,state,evaluatedAt,evidence.verifiedRelease);
   assert.equal(accepted.tasks.find(x=>x.id==="safety_qa").status,"verified");
   assert.equal(accepted.tasks.find(x=>x.id==="affiliate_audit").status,"in_progress");
-  const future=planGrowth(graph,state,new Date("2026-11-06T06:00:00Z"),"0.8.198");
+  const [major,minor,patch]=evidence.verifiedRelease.split(".").map(Number);
+  const nextRelease=[major,minor,patch+1].join(".");
+  const future=planGrowth(graph,state,evaluatedAt,nextRelease);
   assert.equal(future.tasks.find(x=>x.id==="safety_qa").status,"needs_revalidation");
   assert.equal(future.tasks.find(x=>x.id==="affiliate_audit").status,"waiting_dependencies");
   assert.equal(future.tasks.find(x=>x.id==="conversion_ux").status,"waiting_dependencies");
+  const actualSource=planGrowth(graph,state,evaluatedAt,sourceRelease);
+  assert.equal(actualSource.tasks.find(x=>x.id==="safety_qa").status,
+    sourceRelease===evidence.verifiedRelease?"verified":"needs_revalidation");
 });

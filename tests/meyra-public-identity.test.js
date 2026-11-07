@@ -61,7 +61,7 @@ test("monitor performs only two bounded public GETs, no redirects, affiliate or 
     const page=html(kind,kind==="manufacturer"?"3061982":"473021",
       kind==="manufacturer"?"61,5":"59",kind==="manufacturer"?"79 - 97":"79 - 99");
     return {status:200,url,headers:{get:n=>n==="content-type"?"text/html":null},
-      async text(){return page;}};
+      body:new ReadableStream({start(controller){controller.enqueue(new TextEncoder().encode(page));controller.close();}})};
   };
   const result=await auditMeyraIdentity(fetcher);
   assert.equal(seen.length,2);

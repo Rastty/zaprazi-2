@@ -95,3 +95,17 @@ test("HTTP 200 serving non-HTML is not treated as a reachable product page",asyn
   assert.equal(report.counts.unexpected_content_review,1);
   assert.ok(!JSON.stringify(report).includes(target.url));
 });
+
+
+test("body cleanup failure does not mask a real merchant HTTP response",async()=>{
+  const target=extractCanonicalTargets(small,2)[0];
+  for(const status of [200,404,403]){
+    const result=await checkCanonicalTarget(target,async()=>({
+      status,url:target.url,headers:{get:()=>"text/html"},
+      body:{cancel:async()=>{throw Error("private stream detail must not leak");}}
+    }));
+    assert.equal(result.http_status,status);
+    assert.equal(result.status,statusOf(status));
+    assert.ok(!JSON.stringify(result).includes("private stream detail"));
+  }
+});

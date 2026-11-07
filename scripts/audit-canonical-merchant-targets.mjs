@@ -73,7 +73,10 @@ export async function checkCanonicalTarget(target, fetchImpl=fetch) {
     const nonHtml = typeof contentType === "string" && contentType.length > 0 &&
       !/^text\/html(?:\s*;|\s*$)/i.test(contentType);
     // No reading response body/redirect destination: never leak tracking tokens.
-    if (response.body?.cancel) await response.body.cancel();
+    // Body cleanup is best-effort: a locked/already-closed stream must not
+    // erase a valid HTTP status and turn a 404 into network_unverifiable.
+    try { if (response.body?.cancel) await response.body.cancel(); }
+    catch { /* Keep the status; never inspect or log the response body. */ }
     // A successful HTTP status from a different final URL is not evidence that
     // the canonical product page was reached. Never expose that URL in reports.
     const unexpectedFinalUrl = typeof response.url === "string" &&

@@ -130,7 +130,7 @@ test("invalid status, redirect, MIME, and too-large own origin responses fail cl
   await assert.rejects(auditLiveRuntime(async url=>
     url.endsWith("/affiliate-readiness")
       ?response(JSON.stringify(readiness),"application/json",url)
-      :response(html.repeat(500),"text/html",url)
+      :response(html.repeat(2000),"text/html",url)
   ,php,"0.8.200"),/RESPONSE_TOO_LARGE/);
 });
 

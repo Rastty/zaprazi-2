@@ -19,6 +19,14 @@ Read-only public canonical product target probe: [Merchant Health workflow #4233
 3. **P1 — `drmax-cz:dma-eh-cmda`**: `access_unverifiable`, HTTP 403. Same UNKNOWN treatment; do not bypass anti-bot controls.
 4. **P2 — 22 HTTP 200 results**, including Mobility BESCO WA17 and WA21: response reachability alone does not verify product identity, availability, specifications or affiliate deeplink validity. Keep product-level evidence requirements and existing fit gates.
 
+## Nezávislá kontrola XAVIER — 7. 11. 2026
+
+- **Zdroj výrobku:** [PodoWell XAVIER u Štěpánková & C.](https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/) (veřejná produktová HTML stránka načtená nezávislým webovým crawlerem dne 7. 11. 2026).
+- **Pozorovaná identita:** nadpis odpovídá „PodoWell XAVIER … unisex černá“, obchod uvádí kód varianty `5031/40`, šířku K+, plnou špičku a zapínání na suchý zip. Jde tedy o relevantní *produktový* důkaz pro stejnojmenný model, ne o alternativní výrobek. Stav varianty a cena se mohou změnit; neukládat je jako trvalý údaj.
+- **Rozpor zdrojů:** izolovaná kontrola z GitHub Actions (#42333076522) vrátila HTTP 404 na stejnou kanonickou URL, ale nezávislý crawler následně zobrazil produkt. Samotný původní status 404 **nestačí** k závěru, že se XAVIER přestal prodávat. Rozdíl může souviset s časem požadavku nebo prostředím; příčina není ověřena.
+- **Rozhodnutí:** **ponechat existující produktovou identitu, pořadí a routing beze změny**, dokud neproběhne aktuální kontrola cílové stránky v běžném prohlížeči a ověření skutečné publisher affiliate URL. Nepřesměrovávat na kategorii, nepřepínat na jiný produkt a neodemykat žádný fit-gate.
+- **Nevyřešené:** reálná dostupnost všech velikostí, zobrazení na konkrétním zařízení, aktuální odpověď z GitHub runneru, affiliate atribuce ani provize. Pro dva případy HTTP 403 platí nadále UNKNOWN.
+
 ## Acceptance for follow-up
 
 - Record merchant-approved exact product identity, canonical URL, checked date and source before any offer routing change. Do not store signed/tracking URLs or credentials in public artifacts.

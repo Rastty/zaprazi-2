@@ -20,7 +20,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Venku: poradce pro rollátor a brzdy</a>
         <a class="zp-text-link" href="#vyber-typu">Porovnat typy chodítek</a>
       </div>
-      <p class="zp-muted-copy">Nejste si jistí rozdílem mezi <a class="zp-text-link" href="#hul-nebo-choditko">holí, berlí a chodítkem</a>? Před výběrem si připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">sedm měření</a> a prověřte, zda pomůcku <a class="zp-text-link" href="#jak-ziskat-choditko">koupit, půjčit, nebo řešit pojišťovnu</a>.</p>
+      <p class="zp-muted-copy">Nejste si jistí rozdílem mezi <a class="zp-text-link" href="#hul-nebo-choditko">holí, berlí a chodítkem</a>? Před výběrem si připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a> a prověřte, zda pomůcku <a class="zp-text-link" href="#jak-ziskat-choditko">koupit, půjčit, nebo řešit pojišťovnu</a>.</p>
       </div>
       <figure class="zp-hero-art">
         <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/illustrations/chuze-s-oporou.svg' ); ?>" width="720" height="510" decoding="async" loading="eager" fetchpriority="high" alt="Starší člověk kráčí s chodítkem po rovné cestě, poblíž jde blízký člověk.">

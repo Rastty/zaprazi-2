@@ -70,7 +70,12 @@ export async function checkCanonicalTarget(target, fetchImpl=fetch) {
     });
     // No reading response body/redirect destination: never leak tracking tokens.
     if (response.body?.cancel) await response.body.cancel();
-    return { key:target.key, merchant:target.merchant, status:statusOf(response.status),
+    // A successful HTTP status from a different final URL is not evidence that
+    // the canonical product page was reached. Never expose that URL in reports.
+    const unexpectedFinalUrl = typeof response.url === "string" &&
+      response.url !== target.url;
+    return { key:target.key, merchant:target.merchant,
+      status:unexpectedFinalUrl ? "redirect_review" : statusOf(response.status),
       http_status:response.status, checked_at:checkedAt };
   } catch {
     return { key:target.key, merchant:target.merchant, status:"network_unverifiable",

@@ -9,10 +9,13 @@
 import {fileURLToPath,pathToFileURL} from "node:url";
 import {resolve} from "node:path";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
-import {RELEASE_CHECK_PATHS,verifyReleaseCoherence} from "./audit-live-release-coherence.mjs";
+import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers} from "./audit-live-release-coherence.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
+const INSURANCE_PATH="/choditko-na-pojistovnu/";
+const INSURANCE_FIRST_RELEASE="0.8.199";
+const VZP_SOURCE="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka";
 const REPO="Rastty/zaprazi-2";
 const WORKFLOW="production-advisor-qa.yml";
 const VERSION=/^\d+\.\d+\.\d+$/;
@@ -26,7 +29,7 @@ function publicSummary(status,sourceRelease,liveRelease=null){
 }
 
 async function getPublic(url,accept,fetchImpl){
-  if(url!==READINESS&&!RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
+  if(url!==READINESS&&url!==ORIGIN+INSURANCE_PATH&&!RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
     throw new Error("Unexpected public probe URL");
   const response=await fetchImpl(url,{
     method:"GET",redirect:"error",cache:"no-store",
@@ -36,6 +39,50 @@ async function getPublic(url,accept,fetchImpl){
   if(response?.status!==200||response.url&&response.url!==url)
     throw new Error("Public probe failed");
   return response;
+}
+
+
+/**
+ * Release-specific feature proof, not just a matching theme version marker.
+ * The 0.8.199 value proposition is a real first-screen three-step answer
+ * including a safe path to the Advisor and the official VZP warning.
+ * This is deliberately NOT a clinical, merchant or conversion acceptance.
+ */
+export function verifyInsuranceFirstAnswer(html,expected){
+  if(expected!==INSURANCE_FIRST_RELEASE)
+    throw new Error("Not a 0.8.199 feature check");
+  const metadata=readReleaseMarkers(html);
+  if(metadata.release!==expected)
+    throw new Error("Insurance landing release does not match source");
+
+  const candidates=[...String(html).matchAll(/<section\b[^>]*>/gi)]
+    .filter(m=>/\bid\s*=\s*(["'])rychla-cesta-na-epoukaz\1/i.test(m[0]));
+  if(candidates.length!==1)
+    throw new Error("Missing or duplicate ePoukaz first-answer section");
+  const start=candidates[0].index+candidates[0][0].length;
+  const end=html.indexOf("</section>",start);
+  if(end<=start)throw new Error("Malformed ePoukaz first-answer section");
+  const section=html.slice(start,end).replace(/<!--[\s\S]*?-->/g,"")
+    .replace(/<(?:script|style|noscript|template)\b[^>]*>[\s\S]*?<\/(?:script|style|noscript|template)\s*>/gi,"");
+  const text=section.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  const required=[
+    "Jak získat chodítko na pojišťovnu",
+    "Ověřte bezpečný typ pomůcky",
+    "Zeptejte se předepisujícího lékaře",
+    "U oprávněného výdejce ověřte přesný model",
+    "Neplaťte předem v očekávání zpětného proplacení"
+  ];
+  for(const phrase of required)
+    if(!text.includes(phrase))throw new Error("ePoukaz first answer is incomplete");
+  if((section.match(/<li\b/gi)||[]).length!==3||!/<ol\b/i.test(section))
+    throw new Error("ePoukaz first answer must have exactly three steps");
+  const links=[...section.matchAll(/<a\b[^>]*>/gi)].map(m=>
+    m[0].match(/\bhref\s*=\s*(["'])([^"']+)\1/i)?.[2]).filter(Boolean);
+  if(!links.includes(ORIGIN+"/#poradce")||!links.includes(VZP_SOURCE))
+    throw new Error("Missing safe Advisor or primary VZP route");
+  if(/<form\b|data-zp-offer|data-zp-merchant-link|affiliateMap/i.test(section))
+    throw new Error("ePoukaz guidance must not bypass fit gate");
+  return true;
 }
 
 export function inspectPendingReadiness(data,expected){
@@ -65,11 +112,19 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
     const html=await (await getPublic(ORIGIN+path,"text/html",fetchImpl)).text();
     pages.push({path,html});
   }
+  // Exact 0.8.199 rollout: verify the actual newly published ePoukaz
+  // feature, not just generic version metadata on unrelated pages.
+  const featureHtml=expected===INSURANCE_FIRST_RELEASE
+    ?await (await getPublic(ORIGIN+INSURANCE_PATH,"text/html",fetchImpl)).text()
+    :null;
   const after=await (await getPublic(READINESS,"application/json",fetchImpl)).json();
   try {
     const proof=verifyReleaseCoherence({before,after,pages,expected});
+    if(featureHtml!==null)verifyInsuranceFirstAnswer(featureHtml,expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
-      pages:proof.pages,affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
+      pages:proof.pages+(featureHtml!==null?1:0),
+      ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
+      affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.
     return publicSummary("blocked_mixed_or_incomplete_live_release",expected);

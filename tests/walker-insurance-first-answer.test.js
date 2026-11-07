@@ -48,7 +48,8 @@ test("Rendered November quick answer leads to safe existing internal paths and o
   assert.ok(html.includes('id="postup"'));
   assert.ok(html.includes('id="zp-overit-mesicni-seznam"'));
   assert.match(summary,/target="_blank" rel="noopener noreferrer"/);
-  assert.doesNotMatch(summary,/(?:[?&](?:answer|diagnosis|health|patient)=)|<form\b|data-zp-journey="advisor"|data-zp-merchant-link/i);
+  assert.doesNotMatch(summary,/(?:[?&](?:answer|diagnosis|health|patient)=)|<form\b|data-zp-merchant-link/i);
+  assert.match(summary,/data-zp-journey="advisor"/);
   assert.match(html,/Historická úhrada v říjnovém seznamu/);
   assert.doesNotMatch(html,/Úhrada v aktuálním říjnovém seznamu/);
 });

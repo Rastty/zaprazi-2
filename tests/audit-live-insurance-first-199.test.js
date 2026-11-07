@@ -8,8 +8,13 @@ test("release 0.8.199 verifies safe first-screen ePoukaz path only after real de
   const script=read("scripts/audit-live-insurance-first-199.mjs");
   const workflow=read(".github/workflows/production-advisor-qa.yml");
   const css=read("style.css"),php=read("functions.php");
-  assert.match(css,/^Version: 0\.8\.199\s*$/m);
-  assert.match(php,/define\( 'ZAPRAZI_RELEASE', '0\.8\.199' \);/);
+  // The historical browser scenario is pinned to its original release,
+  // but its static contract must not block newer, separately verified releases.
+  const parsed=css.match(/^Version:\s*(\d+)\.(\d+)\.(\d+)\s*$/m);
+  assert.ok(parsed,"Theme source version required");
+  const [major,minor,patch]=parsed.slice(1).map(Number);
+  assert.ok(major>0||(major===0&&(minor>8||(minor===8&&patch>=199))));
+  assert.ok(php.includes("define( 'ZAPRAZI_RELEASE', '"+parsed.slice(1).join(".")+"' );"));
   assert.match(workflow,/scripts\/audit-live-insurance-first-199\.mjs/);
   assert.match(workflow,/tests\/audit-live-insurance-first-199\.test\.js/);
   assert.match(workflow,

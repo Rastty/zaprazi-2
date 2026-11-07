@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_199 */
+/* ZP_RELEASE_0_8_200 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */
@@ -11,7 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Chůze doma</p>
       <h1>Chodítko do bytu pro seniory: čtyřbodové, nebo dvoukolové?</h1>
       <p class="zp-lead">Nejdůležitější rozdíl není značka, ale způsob používání. Čtyřbodové chodítko se při kroku lehce nadzvedává. Dvoukolové se posouvá po předních kolečkách a zadní nohy zůstávají opěrné.</p>
-      <a class="zp-btn" href="#poradce-choditko-byt">Spustit poradce</a>
+      <a class="zp-btn" data-zp-journey="advisor" href="#poradce-choditko-byt">Ověřit vhodný typ v poradci</a>
       <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Nejdřív změřit dveře, madla a prostor doma</a> · <a class="zp-text-link" href="#rozhodnuti-choditko-byt">Co udělat před nákupem</a> · <a class="zp-text-link" href="#bezpecne-pouziti-choditka">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
     </div>
   </section>

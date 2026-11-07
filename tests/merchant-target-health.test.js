@@ -83,3 +83,15 @@ test("bounded audit reports each slot once and distinguishes HTTP reachability f
   assert.match(markdownSummary(report),/access_unverifiable/);
   await assert.rejects(()=>auditCanonicalTargets(targets,()=>({status:200}),4),/Bound public requests/);
 });
+
+test("HTTP 200 serving non-HTML is not treated as a reachable product page",async()=>{
+  const target=extractCanonicalTargets(small,2)[0];
+  const fake=(type)=>({status:200,url:target.url,headers:{get:(name)=>name==="content-type"?type:null}});
+  assert.equal((await checkCanonicalTarget(target,async()=>fake("application/json"))).status,"unexpected_content_review");
+  assert.equal((await checkCanonicalTarget(target,async()=>fake("text/plain; charset=utf-8"))).status,"unexpected_content_review");
+  assert.equal((await checkCanonicalTarget(target,async()=>fake("text/html; charset=UTF-8"))).status,"http_ok_identity_unverified");
+  assert.equal((await checkCanonicalTarget(target,async()=>fake(null))).status,"http_ok_identity_unverified");
+  const report=await auditCanonicalTargets([target],async()=>fake("application/pdf"));
+  assert.equal(report.counts.unexpected_content_review,1);
+  assert.ok(!JSON.stringify(report).includes(target.url));
+});

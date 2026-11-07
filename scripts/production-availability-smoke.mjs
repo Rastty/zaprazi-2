@@ -115,21 +115,39 @@ export function assertMobility(html) {
   if (!/<h1\b[^>]*>\s*Chodítka pro seniory/i.test(markup))
     throw new Error("Mobility article heading missing");
   const ctas = anchors(markup).filter(a => a["data-zp-journey"] === "advisor");
-  // Release 0.8.195 uses the same safe Advisor handoff twice: first above the
-  // fold and later as a natural next step after explaining selection criteria.
-  // Require exactly one *hero* CTA and verify every subsequent marked CTA.
-  // A second valid CTA must not look like production downtime.
-  const primary = ctas.filter(a => a.__insideHero);
-  if (primary.length !== 1)
-    throw new Error("Expected exactly one primary hero editorial-to-Advisor CTA");
+  // 0.8.200 deliberately has three tracked first-screen choices: general,
+  // indoor and outdoor. These distinct routes are safety-gated Advisors,
+  // never merchant links. A fourth generic CTA later in the guide is valid.
+  const requiredHero = [
+    {kind:"general",className:"zp-btn",path:"/",hash:"#poradce"},
+    {kind:"indoor",className:"zp-text-link",path:"/choditko-do-bytu-pro-seniory/",hash:"#poradce-choditko-byt"},
+    {kind:"outdoor",className:"zp-text-link",path:"/rollator-pro-seniory/",hash:"#poradce-rollator"}
+  ];
+  const hero = ctas.filter(a => a.__insideHero);
+  if (hero.length !== requiredHero.length)
+    throw new Error("Expected exactly three primary hero editorial-to-Advisor CTAs");
+  const seen = new Set();
   for (const cta of ctas) {
     if (!usableNavigationAnchor(cta))
       throw new Error("Editorial Advisor CTA has no usable accessible name or is hidden");
-    if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce"))
-      throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
     if (cta["data-zp-merchant-link"] !== undefined || /\bsponsored\b/i.test(cta.rel || ""))
       throw new Error("Editorial Advisor CTA must not be a merchant link");
+    if (cta.__insideHero) {
+      const classes = String(cta.class || "").split(/\s+/);
+      const matches = requiredHero.filter(entry =>
+        classes.includes(entry.className) &&
+        safeInternalLink(cta.href, MOBILITY, entry.path, entry.hash));
+      if (matches.length !== 1)
+        throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
+      if (seen.has(matches[0].kind))
+        throw new Error("Duplicate primary hero Advisor route");
+      seen.add(matches[0].kind);
+    } else if (!safeInternalLink(cta.href, MOBILITY, "/", "#poradce")) {
+      throw new Error("Editorial CTA does not point to the safe Mobility Advisor anchor");
+    }
   }
+  if (seen.size !== requiredHero.length)
+    throw new Error("Missing safe primary hero Advisor destination");
 }
 
 async function readHtml(fetchImpl, path) {

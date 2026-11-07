@@ -36,3 +36,30 @@ Read-only public canonical product target probe: [Merchant Health workflow #4233
 - No raw Advisor answers, user-level data or health-derived analytics.
 
 The counts are a snapshot at the probe timestamp, not a guarantee of current availability.
+
+## Druhá vrstva důkazů — veřejná produktová identita (7. 11. 2026)
+
+Veřejné produktové stránky byly znovu dohledány nezávislou veřejnou webovou vrstvou, nikoli živým autentizovaným proklikem publisher affiliate URL. Původní GitHub HTTP audit s výsledky **22 × 200 / 1 × 404 / 2 × 403** zůstává skutečnou historickou evidencí svého runneru a není tímto záznamem zpětně „opraven“. Nezaměňovat načtené/indexované produktové HTML s důkazem aktuální skladovosti, plně funkčního checkoutu nebo připsané provize.
+
+### XAVIER — P1, veřejný produkt existuje, konflikt 404 NEUZAVŘEN
+
+- Veřejná produktová stránka [PodoWell XAVIER — Štěpánková & C.](https://www.zdrava-obuv-eshop.cz/xavier-ortopedicka-obuv-extrasiroka-pro-otekle-nohy-unisex-cerna-podowell/) byla 7. 11. 2026 načtena s identitou **PodoWell XAVIER**, variantami řady **5031**, šířkou **K+**, černým provedením, širokým otevíráním a suchými zipy. Aktuálně zobrazený katalog uváděl u velikostí možnost objednat dodání, nikoliv jistou okamžitou dostupnost; nesmí se přepisovat do trvalé cenové či skladové evidence.
+- Tentýž kanonický cíl v předchozím read-only GitHub probe #42333076522 vrátil **HTTP 404**. Jde o **rozpor dvou pozorování**, nikoli automaticky vyvrácenou závadu. Příští kontrola: přesná produktová cesta a požadovaná velikost v běžném autorizovaném prohlížeči, následně pravý publisher deeplink, bez změny produktové identity nebo nahrazení kategorií.
+
+### MEYRA Ideal — P1, pozor na variantu a technické údaje
+
+- Produktový cíl [Lékárna.cz MEYRA Ideal Rollator](https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/) je veřejně dohledatelný jako čtyřkolové chodítko. Současně [výrobce MEYRA](https://eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191) uvádí katalogové číslo **3061982**. Nezaměňovat za **ROLLATOR 2, 3061982-R**.
+- Mezi různými materiály k modelu a merchant listingy přetrvávají rozdíly v rozměrech, které mohou souviset s generací / provedením. Automatické potvrzení modelu pouze z názvu by bylo nebezpečné. Dřívější **HTTP 403** znamená jen neověřitelnou dostupnost z daného automatického běhu; potřebujeme vizuální identitu přesného produktu, skutečné rozměry z odpovídajícího návodu a ověření publisher deeplinku.
+- Lékárna.cz výslovně sděluje, že online nákup tohoto výrobku nelze uhradit poukazem na zdravotnické pomůcky. Nadále oddělovat přímý nákup od ověření možnosti úhrady jiným postupem.
+
+### DMA EH-CMDA — P1, produktová identita bez potvrzené obchodní cesty
+
+- Veřejný katalog [Dr.Max — DMA EH-CMDA toaletní židle 4v1](https://www.drmax.cz/dma-eh-cmda-toaletni-zidle-4v1) uvádí přesně model **EH-CMDA** a EAN **8034055107553**. Jde o indexovaný záznam, jehož dostupnost pro běžného kupujícího při této kontrole nebyla autorizovaným prohlížečem samostatně ověřena.
+- Dřívější HTTP **403** je stále `access_unverifiable`; bez obcházení ochranných mechanismů zkontrolovat skutečný retail cíl a skutečnou partnerskou cestu. Neodemykat nabídku na základě pouhé shody EAN.
+
+### Operacionalizace
+
+- `data/merchant-identity-watchlist.json` udržuje **3 přesné P1 sloty**, jejich kanonické URL, veřejné produktové indicie a požadavek na lidské ověření. **Neobsahuje** publisher tracking URL, přihlašovací údaje ani osobní data.
+- `scripts/audit-canonical-merchant-targets.mjs` přidává do týdenního reportu strukturovanou `identity_review_queue`. Způsobí-li další read-only GET i HTTP 200, výsledek zůstává `reachable_not_identity_or_affiliate_verified`, **ne** obchodní aktivací. HTTP 403/404 zůstávají předmětem kontroly. Žádné další síťové requesty se neposílají.
+- Regresní testy zablokují nechtěné přesměrování na kategorii, jinou variantu, cizí doménu nebo URL s tracking query, pokud není aktualizována evidence a výslovně prověřena identita.
+- `affiliate_audit` zůstává **in_progress**. Nelze z této aktualizace odvodit skutečné návštěvnické prokliky, vyplacené provize ani nárůst návštěvnosti. Úprava je pouze evidence + read-only monitor; nevyžaduje WordPress Pull + Deploy.

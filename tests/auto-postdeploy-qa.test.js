@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS} from "../scripts/audit-live-release-coherence.mjs";
-import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,decideDispatch,
+import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,verifyMobilityGuideHandoffs,decideDispatch,
   dispatchWhenReady} from "../scripts/auto-postdeploy-qa.mjs";
 
 const origin="https://zaprazi.cz";
@@ -197,4 +197,59 @@ test("a prior success never repeats automated QA, even if the public release is 
   });
   assert.equal(result,"already_verified_for_this_commit");
   assert.deepEqual(requests,["GET","GET"]);
+});
+
+const walkerHubPage=(release="0.8.200")=>html(release)+
+ '<section><a data-zp-journey="advisor" href="https://zaprazi.cz/choditko-do-bytu-pro-seniory/#poradce-choditko-byt">Doma</a>'+
+ '<a data-zp-journey="advisor" href="https://zaprazi.cz/rollator-pro-seniory/#poradce-rollator">Venku</a></section>';
+const indoorPage=(release="0.8.200")=>html(release)+
+ '<section id="poradce-choditko-byt"><a data-zp-journey="advisor" href="#poradce-choditko-byt">Ověřit vhodný typ</a></section>';
+const insuranceTracked=(release="0.8.200")=>
+  insurancePage(release).replace('href="https://zaprazi.cz/#poradce"',
+    'data-zp-journey="advisor" href="https://zaprazi.cz/#poradce"');
+
+test("0.8.200 release gate reads all seven pages and verifies the real high-intent handoffs",async()=>{
+ const requested=[];
+ const get=async(url,options)=>{
+  requested.push({url,options});
+  return {status:200,url,json:async()=>readiness("0.8.200"),text:async()=>(
+    url===origin+"/choditka-pro-seniory/"?walkerHubPage():
+    url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage():
+    url===origin+"/choditko-na-pojistovnu/"?insuranceTracked():
+    html("0.8.200"))};
+ };
+ const state=await observePublicDeploy(get,"0.8.200");
+ assert.deepEqual(state,{status:"ready_for_full_qa",source_release:"0.8.200",
+   live_release:"0.8.200",pages:7,insurance_first_answer:"verified",
+   mobility_guide_handoffs:"verified",affiliate_slots:25,readiness_checks:2});
+ assert.deepEqual(requested.map(x=>x.url),[
+   readinessUrl,...RELEASE_CHECK_PATHS.map(path=>origin+path),
+   origin+"/choditko-na-pojistovnu/",origin+"/choditka-pro-seniory/",
+   origin+"/choditko-do-bytu-pro-seniory/",readinessUrl
+ ]);
+ assert.ok(requested.every(x=>x.options.method==="GET"&&x.options.redirect==="error"));
+ assert.ok(requested.every(x=>!x.url.includes("?")));
+});
+
+test("no missing, stale or counterfeit Advisor link can unlock 0.8.200 acceptance",async()=>{
+ const good={hub:walkerHubPage(),indoor:indoorPage(),insurance:insuranceTracked()};
+ assert.equal(verifyMobilityGuideHandoffs(good,"0.8.200"),true);
+ const bad=[
+   {...good,hub:walkerHubPage().replace('data-zp-journey="advisor" href="https://zaprazi.cz/rollator','href="https://zaprazi.cz/rollator')},
+   {...good,hub:walkerHubPage().replace('/#poradce-choditko-byt','/?source=sensitive#poradce-choditko-byt')},
+   {...good,indoor:indoorPage().replace('data-zp-journey="advisor"','data-not-measured="1"')},
+   {...good,indoor:indoorPage("0.8.199")},
+   {...good,insurance:insurancePage("0.8.200")},
+   {...good,insurance:insuranceTracked().replace('id="rychla-cesta-na-epoukaz"','id="old-insurance-answer"')}
+ ];
+ for(const sample of bad)assert.throws(()=>verifyMobilityGuideHandoffs(sample,"0.8.200"));
+ assert.throws(()=>verifyMobilityGuideHandoffs(good,"0.8.199"));
+ const fetchMock=async url=>({status:200,url,json:async()=>readiness("0.8.200"),
+   text:async()=>(
+    url===origin+"/choditka-pro-seniory/"?bad[0].hub:
+    url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage():
+    url===origin+"/choditko-na-pojistovnu/"?insuranceTracked():html("0.8.200"))});
+ const blocked=await observePublicDeploy(fetchMock,"0.8.200");
+ assert.equal(blocked.status,"blocked_mixed_or_incomplete_live_release");
+ assert.equal(await dispatchWhenReady(blocked,{}),"no_dispatch_unverified_public_release");
 });

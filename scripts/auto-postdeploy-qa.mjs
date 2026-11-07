@@ -15,6 +15,12 @@ const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
 const INSURANCE_PATH="/choditko-na-pojistovnu/";
 const INSURANCE_FIRST_RELEASE="0.8.199";
+const MOBILITY_HANDOFF_RELEASE="0.8.200";
+const WALKER_HUB_PATH="/choditka-pro-seniory/";
+const INDOOR_WALKER_PATH="/choditko-do-bytu-pro-seniory/";
+const atLeast=(version,min)=>VERSION.test(version)&&
+  version.split(".").map(Number).reduce((acc,n,i)=>acc===0?
+    Math.sign(n-Number(min.split(".")[i])):acc,0)>=0;
 const VZP_SOURCE="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka";
 const REPO="Rastty/zaprazi-2";
 const WORKFLOW="production-advisor-qa.yml";
@@ -29,7 +35,9 @@ function publicSummary(status,sourceRelease,liveRelease=null){
 }
 
 async function getPublic(url,accept,fetchImpl){
-  if(url!==READINESS&&url!==ORIGIN+INSURANCE_PATH&&!RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
+  if(url!==READINESS&&url!==ORIGIN+INSURANCE_PATH&&url!==ORIGIN+WALKER_HUB_PATH&&
+    url!==ORIGIN+INDOOR_WALKER_PATH&&
+    !RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
     throw new Error("Unexpected public probe URL");
   const response=await fetchImpl(url,{
     method:"GET",redirect:"error",cache:"no-store",
@@ -49,8 +57,8 @@ async function getPublic(url,accept,fetchImpl){
  * This is deliberately NOT a clinical, merchant or conversion acceptance.
  */
 export function verifyInsuranceFirstAnswer(html,expected){
-  if(expected!==INSURANCE_FIRST_RELEASE)
-    throw new Error("Not a 0.8.199 feature check");
+  if(!atLeast(expected,INSURANCE_FIRST_RELEASE))
+    throw new Error("Not a 0.8.199+ feature check");
   const metadata=readReleaseMarkers(html);
   if(metadata.release!==expected)
     throw new Error("Insurance landing release does not match source");
@@ -85,6 +93,38 @@ export function verifyInsuranceFirstAnswer(html,expected){
   return true;
 }
 
+
+function hasExactTrackedAnchor(html,expectedHref){
+  const matches=[...String(html).matchAll(/<a\b[^>]*>/gi)]
+    .filter(m=>/\bdata-zp-journey\s*=\s*(["'])advisor\1/i.test(m[0]))
+    .map(m=>m[0].match(/\bhref\s*=\s*(["'])([^"']+)\1/i)?.[2])
+    .filter(Boolean);
+  return matches.includes(expectedHref);
+}
+
+/** Verify the specific user-facing change in 0.8.200, not a version stamp. */
+export function verifyMobilityGuideHandoffs({hub,indoor,insurance},expected){
+  if(!atLeast(expected,MOBILITY_HANDOFF_RELEASE))
+    throw new Error("Not a 0.8.200+ feature check");
+  for(const html of [hub,indoor,insurance]){
+    if(readReleaseMarkers(html).release!==expected)
+      throw new Error("Mobility landing has stale or mixed release");
+  }
+  if(!hasExactTrackedAnchor(hub,ORIGIN+"/choditko-do-bytu-pro-seniory/#poradce-choditko-byt")||
+     !hasExactTrackedAnchor(hub,ORIGIN+"/rollator-pro-seniory/#poradce-rollator"))
+    throw new Error("Missing exact tracked Walker hub Advisor routes");
+  if(!hasExactTrackedAnchor(indoor,"#poradce-choditko-byt")||
+     !indoor.includes('id="poradce-choditko-byt"'))
+    throw new Error("Missing indoor Walker Advisor action or target");
+  // A generic hero CTA is insufficient: this action must exist inside the
+  // new first-answer section itself and must point to the original Advisor.
+  const start=insurance.indexOf('id="rychla-cesta-na-epoukaz"');
+  const end=start<0?-1:insurance.indexOf("</section>",start);
+  if(end<=start||!hasExactTrackedAnchor(insurance.slice(start,end),ORIGIN+"/#poradce"))
+    throw new Error("Missing ePoukaz first-answer Advisor handoff");
+  return true;
+}
+
 export function inspectPendingReadiness(data,expected){
   if(!data||typeof data!=="object"||Array.isArray(data)||!VERSION.test(data.release))
     return publicSummary("blocked_invalid_readiness",expected);
@@ -114,16 +154,25 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
   }
   // Exact 0.8.199 rollout: verify the actual newly published ePoukaz
   // feature, not just generic version metadata on unrelated pages.
-  const featureHtml=expected===INSURANCE_FIRST_RELEASE
+  const featureHtml=atLeast(expected,INSURANCE_FIRST_RELEASE)
     ?await (await getPublic(ORIGIN+INSURANCE_PATH,"text/html",fetchImpl)).text()
+    :null;
+  const hubHtml=atLeast(expected,MOBILITY_HANDOFF_RELEASE)
+    ?await (await getPublic(ORIGIN+WALKER_HUB_PATH,"text/html",fetchImpl)).text()
+    :null;
+  const indoorHtml=atLeast(expected,MOBILITY_HANDOFF_RELEASE)
+    ?await (await getPublic(ORIGIN+INDOOR_WALKER_PATH,"text/html",fetchImpl)).text()
     :null;
   const after=await (await getPublic(READINESS,"application/json",fetchImpl)).json();
   try {
     const proof=verifyReleaseCoherence({before,after,pages,expected});
     if(featureHtml!==null)verifyInsuranceFirstAnswer(featureHtml,expected);
+    if(hubHtml!==null)
+      verifyMobilityGuideHandoffs({hub:hubHtml,indoor:indoorHtml,insurance:featureHtml},expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
-      pages:proof.pages+(featureHtml!==null?1:0),
+      pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
+      ...(hubHtml!==null?{mobility_guide_handoffs:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

@@ -13,28 +13,40 @@ const routes=[
   ["page-rollator-pro-seniory.php","#poradce-rollator"]
 ];
 
-test("six high-intent guides only mark safe primary Advisor CTAs; Mobility hub has two deliberate entry points",()=>{
+test("guide tracking covers only the four deliberate Mobility hub actions and primary actions elsewhere",()=>{
   for(const [file,destination] of routes){
     const source=read(file);
     const anchors=[...source.matchAll(/<a\b[^>]*data-zp-journey="advisor"[^>]*>/g)].map(m=>m[0]);
-    const expectedCount=file==="page-choditka-pro-seniory.php"?2:1;
-    assert.equal(anchors.length,expectedCount,"Only deliberate primary Advisor links may be tracked in "+file);
-    const localDestination=destination.startsWith("#")
-      ? 'href="'+destination+'"'
-      : destination.includes("polohovaci-postel")
-        ? "home_url( '/polohovaci-postel/#poradce-postel' )"
-        : "home_url( '/#poradce' )";
-    for(const anchor of anchors){
-      assert.match(anchor,/class="zp-btn"/,"Do not track secondary or incidental links");
-      assert.ok(anchor.includes(localDestination),"Wrong tracked route in "+file);
-      assert.doesNotMatch(anchor,/rel="sponsored"|target="_blank"|data-zp-merchant-link/);
+    const hub=file==="page-choditka-pro-seniory.php";
+    assert.equal(anchors.length,hub?4:1,"Unexpected tracked Advisor links in "+file);
+    if(hub){
+      const primary=anchors.filter(a=>/class="zp-btn"/.test(a));
+      const specialist=anchors.filter(a=>/class="zp-text-link"/.test(a));
+      assert.equal(primary.length,2,"Preserve two explicit main Advisor CTAs");
+      assert.equal(specialist.length,2,"Track exactly two specialist Advisor entry points");
+      for(const a of primary)
+        assert.ok(a.includes("home_url( '/#poradce' )"));
+      const targets=[
+        "home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' )",
+        "home_url( '/rollator-pro-seniory/#poradce-rollator' )"
+      ];
+      for(let i=0;i<specialist.length;i++)
+        assert.ok(specialist[i].includes(targets[i]),"Wrong specialist target");
+      for(const a of specialist)
+        assert.ok(source.indexOf(a)<source.indexOf('id="vyber-typu"'),
+          "Specialist entry must be available before detailed comparison");
+    }else{
+      const localDestination=destination.startsWith("#")
+        ? 'href="'+destination+'"'
+        : destination.includes("polohovaci-postel")
+          ? "home_url( '/polohovaci-postel/#poradce-postel' )"
+          : "home_url( '/#poradce' )";
+      assert.match(anchors[0],/class="zp-btn"/,"Only deliberate main Advisor CTA");
+      assert.ok(anchors[0].includes(localDestination),"Wrong tracked route in "+file);
     }
-    if(expectedCount===2){
-      assert.ok(source.indexOf(anchors[0])<source.indexOf('id="vyber-typu"'),
-        "First CTA must be reachable before the hub comparison");
-      assert.ok(source.lastIndexOf(anchors[1])<source.indexOf('id="vyber-typu"'),
-        "Second CTA must remain before the hub comparison");
-    }
+    for(const anchor of anchors)
+      assert.doesNotMatch(anchor,
+        /rel="sponsored"|target="_blank"|data-zp-merchant-link|[?&](?:answer|diagnosis|health)=/i);
   }
 });
 

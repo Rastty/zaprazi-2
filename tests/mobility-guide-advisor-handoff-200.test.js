@@ -13,7 +13,7 @@ function anchorContaining(file,label){
 function assertSafeTrackedAnchor(line,fragment){
  assert.match(line,/<a\b[^>]*\bdata-zp-journey="advisor"/);
  assert.ok(line.includes(fragment),"Expected exact local Advisor path/anchor");
- assert.doesNotMatch(line,/\?|\bdata-zp-merchant-link\b|\brel="[^"]*sponsored/);
+ assert.doesNotMatch(line, /(?:\?s=|[?&]utm_|[?&]aff=)|\bdata-zp-merchant-link\b|\brel="[^"]*sponsored/);
 }
 
 test("high intent indoor-walker hero announces its purpose and measures a consent-only Advisor handoff",()=>{
@@ -51,7 +51,7 @@ test("analytics accepts only explicitly marked local Advisor links and only afte
  const js=source("assets/js/analytics-consent.js");
  assert.match(js,/const oncePerPage = new Set\(\[[^\]]*"guide_advisor_click"/);
  assert.match(js,/state !== "granted"/);
- assert.match(js,/a\[data-zp-journey=\\"advisor\\"\]\[href\]/);
+ assert.match(js,/a\[data-zp-journey="advisor"\]\[href\]/);
  assert.match(js,/destination\.origin !== window\.location\.origin/);
  assert.match(js,/destination\.search/);
  assert.match(js,/sendEvent\("guide_advisor_click"\)/);

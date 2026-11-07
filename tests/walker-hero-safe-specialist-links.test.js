@@ -39,7 +39,8 @@ test("Direct guide links never skip fit gates, send answers or impersonate comme
     .map(match => match[0]).filter(anchor => /#poradce-choditko-byt|#poradce-rollator/.test(anchor));
   assert.equal(direct.length, 2);
   for (const anchor of direct) {
-    assert.doesNotMatch(anchor, /data-zp-journey|target="_blank"|rel="sponsored"|data-zp-merchant-link|[?&](?:answer|diagnosis|health)=/i);
+    assert.match(anchor, /data-zp-journey="advisor"/);
+    assert.doesNotMatch(anchor, /target="_blank"|rel="sponsored"|data-zp-merchant-link|[?&](?:answer|diagnosis|health)=/i);
     assert.match(anchor, /esc_url\( home_url\(/);
   }
   assert.doesNotMatch(hero, /affiliateMap|data-zp-offer|checkout|merchant_click|localStorage|sessionStorage|fetch\(/i);

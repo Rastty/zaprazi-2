@@ -30,7 +30,12 @@ test("every safety guide is accessible directly from its existing Advisor hero",
     assert.equal((source.match(new RegExp('data-zp-editorial-guide="[^"]+"',"g"))||[]).length,
       path==="page-nastavec-na-wc-pro-seniory.php"?2:1,
       "Expected original safety guide plus dedicated measured-height guide only on WC riser");
-    assert.match(header, /Spustit poradce/);
+    if(path==="page-choditko-do-bytu-pro-seniory.php") {
+      assert.match(header,/Ověřit vhodný typ v poradci/);
+      assert.match(header,/data-zp-journey="advisor" href="#poradce-choditko-byt"/);
+    }else{
+      assert.match(header,/Spustit poradce/);
+    }
     assert.match(header, /Co ověřit před výběrem/);
   }
 });

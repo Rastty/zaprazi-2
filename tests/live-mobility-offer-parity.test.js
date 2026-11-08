@@ -6,9 +6,11 @@ import {MOBILITY_PRODUCTS} from "../src/mobility/catalog.js";
 import {recommendMobility} from "../src/mobility/engine.js";
 
 const reportFor=(s,overrides={})=>({
-  cardCount:1,linkCount:1,runtimeMatches:true,sponsored:true,
-  sameModel:true,requiredControlsOk:true,hasBrakeControl:s.brakes,
-  hidden:true,otherModelsLocked:true,...overrides
+  cardCount:1,linkCount:s.id==="meyra"?2:1,affiliateCount:1,
+  directCount:s.id==="meyra"?1:0,directMatches:true,
+  runtimeMatches:true,sponsored:true,sameModel:true,
+  requiredControlsOk:true,hasBrakeControl:s.brakes,hidden:true,
+  directVisibilityMatches:true,otherModelsLocked:true,...overrides
 });
 
 test("three unique primary Mobility routes use real eligible sourced exact models",()=>{
@@ -20,6 +22,8 @@ test("three unique primary Mobility routes use real eligible sourced exact model
     assert.equal(model.productionEligible,true);
     assert.equal(model.identityStatus,"verified");
     assert.equal(model.offers.filter(o=>o.affiliateKey===s.key).length,1);
+    assert.equal(model.offers.filter(o=>!o.affiliateKey).length,s.id==="meyra"?1:0,
+      "Exact manufacturer route must remain separately documented");
     assert.ok(model.name.includes(s.title));
     assert.equal(s.brakes,model.solutionFamily==="rollator");
   }
@@ -61,7 +65,9 @@ test("wrong affiliate slot, missing disclosure, variant or brake gate must fail"
   for(const s of SCENARIOS){
     for(const [field,value] of [
       ["runtimeMatches",false],["sponsored",false],["sameModel",false],
-      ["linkCount",0],["cardCount",0],["requiredControlsOk",false],
+      ["linkCount",0],["affiliateCount",2],["directCount",99],
+      ["directMatches",false],["directVisibilityMatches",false],
+      ["cardCount",0],["requiredControlsOk",false],
       ["hasBrakeControl",!s.brakes]
     ]){
       assert.throws(()=>validOfferCard(reportFor(s,{[field]:value}),s,false));

@@ -66,3 +66,17 @@ test("release 0.8.201 updates all 100 manifest markers and exact critical Git bl
     assert.ok(fn.includes(pinLine),"Critical source identity mismatch: "+file);
   }
 });
+
+test("exact-release postdeploy browser audit is read-only and never runs on undeployed PR HTML",()=>{
+  const workflow=read(".github/workflows/production-advisor-qa.yml");
+  const runner=read("scripts/audit-live-insurance-prep-201.mjs");
+  assert.match(workflow,/node scripts\/audit-live-insurance-prep-201\.mjs/);
+  assert.match(workflow,/if: github\.event_name != 'pull_request'[\s\S]{0,180}node scripts\/audit-live-insurance-prep-201\.mjs/);
+  assert.match(runner,/GITHUB_EVENT_NAME==="pull_request"/);
+  assert.match(runner,/SOURCE_THEME_RELEASE!=="0\.8\.201"/);
+  assert.match(runner,/EXPECTED_LIVE_RELEASE,"0\.8\.201"/);
+  assert.match(runner,/request\.method\(\)==="GET"/);
+  assert.match(runner,/const origin="https:\/\/zaprazi\.cz"/);
+  assert.match(runner,/INSURANCE_201_CHROME_PASS/);
+  assert.doesNotMatch(runner,/page\.click\(["']a\[rel|wp_insert_post|wp_update_post|update_option/);
+});

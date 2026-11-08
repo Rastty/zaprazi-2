@@ -7,7 +7,9 @@ const read=path=>readFileSync(new URL("../"+path,import.meta.url),"utf8");
 const page=read("page-choditko-na-pojistovnu.php");
 const fn=read("functions.php");
 const css=read("style.css");
-const expected="0.8.201";
+const expected=css.match(/^Version:\s*(\d+\.\d+\.\d+)\s*$/m)?.[1];
+assert.ok(expected,"Theme release version required");
+const marker="ZP_RELEASE_"+expected.replaceAll(".","_");
 
 test("one existing insurance URL now gives actionable, noncommercial doctor and dispenser preparation",()=>{
   assert.equal((page.match(/id="priprava-pro-lekare"/g)||[]).length,1);
@@ -41,9 +43,9 @@ test("source links stay official, actionable and do not turn into premature reta
   assert.match(section,/pojišťovna následně automaticky neproplácí/);
 });
 
-test("release 0.8.201 updates all 100 manifest markers and exact critical Git blob pins",()=>{
-  assert.match(css,/^Version: 0\.8\.201$/m);
-  assert.match(fn,/define\( 'ZAPRAZI_RELEASE', '0\.8\.201' \)/);
+test("current source release matches all 100 manifest markers and exact critical Git blob pins",()=>{
+  assert.match(css,new RegExp("^Version: "+expected.replaceAll(".","\\.")+"$","m"));
+  assert.ok(fn.includes("define( 'ZAPRAZI_RELEASE', '"+expected+"' );"));
   const list=fn.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
   assert.ok(list,"Production integrity manifest required");
   const paths=[...list[1].matchAll(/'([^']+)'/g)].map(x=>x[1]);
@@ -51,10 +53,11 @@ test("release 0.8.201 updates all 100 manifest markers and exact critical Git bl
   assert.equal(new Set(paths).size,100);
   for(const file of paths){
     const source=read(file);
-    assert.ok(source.includes("ZP_RELEASE_0_8_201"),"Stale/partial marker: "+file);
-    assert.ok(!source.includes("ZP_RELEASE_0_8_200"),"Old marker still present: "+file);
+    assert.ok(source.includes(marker),"Stale/partial marker: "+file);
+    assert.equal((source.match(/ZP_RELEASE_\d+_\d+_\d+/g)||[]).filter(v=>v!==marker).length,0,
+      "Mixed release marker: "+file);
   }
-  assert.ok(page.startsWith("<?php\n/* ZP_RELEASE_0_8_201 */"));
+  assert.ok(page.startsWith("<?php\n/* "+marker+" */"));
   for(const file of [
     "src/bathroom/engine.js","src/bathroom/preview.js",
     "src/mobility/engine.js","src/mobility/offer-fit-gate.js"

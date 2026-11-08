@@ -13,7 +13,7 @@ test("one existing insurance URL now gives actionable, noncommercial doctor and 
   assert.equal((page.match(/id="priprava-pro-lekare"/g)||[]).length,1);
   assert.equal((page.match(/href="#priprava-pro-lekare"/g)||[]).length,1);
   assert.equal((page.match(/<h1\b/g)||[]).length,1);
-  assert.match(page,/<h1>Chodítko na pojišťovnu 2026: ePoukaz a správný postup\.<\/h1>/);
+  assert.match(page,/<h1>Chodítko na pojišťovnu v roce 2026\.<\/h1>/);
   assert.match(page,/Na co se zeptat lékaře a výdejny, abyste nekupovali naslepo/);
   const start=page.indexOf('<section id="priprava-pro-lekare"');
   const end=page.indexOf('<section class="zp-wrap">',start);

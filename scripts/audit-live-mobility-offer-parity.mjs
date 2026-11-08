@@ -6,7 +6,8 @@
  * Never clicks merchants or follows CJ/eHUB redirects.
  */
 import assert from "node:assert/strict";
-import puppeteer from "puppeteer-core";
+import {fileURLToPath} from "node:url";
+import {resolve} from "node:path";
 import {EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
 
 const ORIGIN="https://zaprazi.cz";
@@ -89,6 +90,7 @@ async function evaluateSafety(page){
 }
 
 export async function runBrowserAcceptance(){
+  const puppeteer=(await import("puppeteer-core")).default;
   const browser=await puppeteer.launch({
     executablePath:process.env.CHROME_BIN||"/usr/bin/google-chrome",
     headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]
@@ -181,7 +183,7 @@ export async function runBrowserAcceptance(){
   }finally{await browser.close();}
 }
 
-if(process.argv[1]&&new URL(import.meta.url).pathname===process.argv[1]){
+if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])){
   runBrowserAcceptance().then(summary=>{
     console.log("MOBILITY_3_OFFERS_CHROME_PASS "+JSON.stringify(summary));
   }).catch(error=>{

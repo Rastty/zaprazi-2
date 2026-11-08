@@ -7,7 +7,7 @@ Prometheus [ověřený GSC 28d export](https://github.com/Rastty/prometheus-grow
 ## Co návštěvník reálně získá
 
 U existující indexované stránky `/choditko-na-pojistovnu/`, bez vytváření nové URL a dalšího archivu:
-- jasnější H1 a první CTA na praktickou přípravu;
+- zachovaný původní SEO nadpis H1 a nový doplňující vstup na praktickou přípravu;
 - dvě čitelné varianty rozhovoru: **lékař** (bezpečná potřeba, zda může být předepsán ePoukaz) a **oprávněná výdejna** (přesný model, úhrada, doplatek);
 - příklady otázek v běžné češtině, bez sběru zdravotních údajů;
 - odkaz na sedm měření, původní bezpečný poradce a oficiální zdroje;

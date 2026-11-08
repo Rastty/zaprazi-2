@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_200 */
+/* ZP_RELEASE_0_8_201 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -19,6 +19,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
+        <a class="zp-text-link" href="#priprava-pro-lekare">Co říct lékaři a výdejně</a>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
         <?php if ( ! $zp_sukl_is_current ) : ?>
           <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
@@ -38,6 +39,38 @@ get_header();
         <li><strong>U oprávněného výdejce ověřte přesný model, aktuální úhradu a případný doplatek.</strong> Nepředpokládejte, že běžný e-shop přijme ePoukaz nebo že dva podobně označené modely lze zaměnit. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Jak ověřit platný seznam SÚKL</a>.</li>
       </ol>
       <p class="zp-disclaimer"><strong>Neplaťte předem v očekávání zpětného proplacení.</strong> VZP výslovně upozorňuje, že soukromě zakoupené chodítko následně neproplatí ani po dodatečném doporučení lékaře. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener noreferrer">Oficiální odpověď VZP</a> (ověřeno 7. 11. 2026).</p>
+    </div>
+  </section>
+
+
+  <section id="priprava-pro-lekare" class="zp-section" aria-labelledby="priprava-pro-lekare-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Praktická příprava pro rodinu · před objednávkou</p>
+      <h2 id="priprava-pro-lekare-nadpis" class="zp-section-title">Na co se zeptat lékaře a výdejny, abyste nekupovali naslepo.</h2>
+      <p>Nemusíte znát kód pomůcky ani odhadovat diagnózu. Připravte si praktické informace o používání chodítka a rozdělte si dvě různé otázky: <strong>je ePoukaz pro člověka a daný typ pomůcky možný?</strong> a <strong>jaký přesný model lze vydat a za jakých podmínek?</strong></p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Nejdřív lékař: potřeba a případný předpis</h3>
+          <ul>
+            <li>Kde člověk chodítko potřebuje (doma, venku), jakou oporu při chůzi potřebuje a zda zvládá bezpečně brzdy.</li>
+            <li>Zda je již určený bezpečný typ pomůcky, nebo je potřeba odborné posouzení.</li>
+            <li><strong>Otázka:</strong> „Připadá pro tento konkrétní typ pomůcky v naší situaci v úvahu předpis na ePoukaz? Jaký je správný další krok?“</li>
+          </ul>
+          <p class="zp-muted-copy">Lékař posuzuje podmínky předpisu. Zápraží nárok ani vhodnost neurčuje. <a class="zp-text-link" href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/" target="_blank" rel="noopener noreferrer">Pravidla předpisu podle SÚKL</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Potom výdejna: přesný model, cena a poukaz</h3>
+          <ul>
+            <li>Je výdejce oprávněný vydat daný prostředek na ePoukaz a má příslušný přesný model?</li>
+            <li>Jaká je platná úhrada, skutečný doplatek a dostupnost před výdejem?</li>
+            <li><strong>Otázka:</strong> „Jaké je přesné označení a rozměry modelu, který mi vydáte, a kolik případně doplatím?“</li>
+          </ul>
+          <p class="zp-muted-copy">Běžný e-shop není automaticky výdejna na poukaz. Stejný kód nemusí prokázat shodu varianty. <a class="zp-text-link" href="#zp-identita-choditka-nadpis">Proč ověřit přesný model rollátoru</a>.</p>
+        </article>
+      </div>
+      <p class="zp-disclaimer"><strong>Než utratíte peníze:</strong> chodítko koupené z vlastních prostředků pojišťovna následně automaticky neproplácí ani po dodatečném doporučení lékaře. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener noreferrer">Ověřit u VZP</a>.</p>
+      <p>Neznáte šířku průchodů nebo nastavení madel? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Připravit si sedm konkrétních měření před výběrem chodítka</a>. Pokud je chůze nejistá nebo člověk potřebuje fyzickou pomoc, nejdřív řešte bezpečný postup s odborníkem.</p>
+      <p class="zp-muted-copy">Zdroje postupu: SÚKL a VZP, veřejné informace zkontrolovány 8. 11. 2026. Tento seznam je příprava na rozhovor, nikoli lékařský předpis nebo potvrzení úhrady.</p>
     </div>
   </section>
 

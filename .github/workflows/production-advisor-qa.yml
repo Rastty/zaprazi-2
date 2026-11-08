@@ -12,6 +12,8 @@ on:
   pull_request:
     paths:
       - "tests/production-advisor-smoke.mjs"
+      - "scripts/audit-live-mobility-offer-parity.mjs"
+      - "tests/live-mobility-offer-parity.test.js"
       - "scripts/audit-live-bed-cost.mjs"
       - "scripts/audit-live-human-ux-186.mjs"
       - "scripts/audit-live-return-home-ux-185.mjs"
@@ -116,6 +118,10 @@ jobs:
           ZP_LIVE_ORIGIN: https://zaprazi.cz
           CHROME_BIN: /usr/bin/google-chrome
         run: node tests/production-advisor-smoke.mjs
+      - name: Verify exact live WA17, WA21 and MEYRA affiliate slots behind model fit gates
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-mobility-offer-parity.mjs
       - name: Check night-toilet issue routing and reciprocal links in deployed DOM
         env:
           CHROME_BIN: /usr/bin/google-chrome

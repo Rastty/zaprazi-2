@@ -7,7 +7,7 @@
 - `merchant_click`: outbound merchant link click, tracked or untracked
 - `affiliate_click`: specifically a click on a generated Advisor result offer marked `rel=sponsored`, only when approved affiliate mapping is actually active and prior consent allows analytics
 
-All custom events are **event name only**, with no product ID, network, merchant ID, questionnaire answers or destination URI. Consent denial or revocation suppresses custom events. GA4 automatic enhanced measurement (e.g. outbound link clicks and link_url) is a **separate** setting in GA4 and must be reviewed for privacy.
+All custom events are **event name only**, with no product ID, network, merchant ID, questionnaire answers, acquisition-choice category or destination URI. Since 0.8.203 `next_step_click` also records only generic opted-in useful-link clicks from the seven-measurement walker guide to two safe information pages. The guide-to-Advisor handoff remains `guide_advisor_click`, not a second `next_step_click`. Neither event verifies a rental, reimbursement, qualified product fit, sale or commission. Consent denial or revocation suppresses custom events. GA4 automatic enhanced measurement (e.g. outbound link clicks and link_url) is a **separate** setting in GA4 and must be reviewed for privacy.
 
 ## Reading data and making decisions
 A customer visit from an affiliate link is **not** a conversion. Affiliate program reporting is authoritative for confirmed sales, reversals and commissions. Some visitors do not consent to GA, so event totals describe only a consented sample; use careful trends, not absolute conversion claims.

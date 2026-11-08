@@ -100,7 +100,8 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
     if(/(?:^|[/=?&#])(?:undefined|null)(?:$|[/=?&#])/i.test(href))
       fail("URL_UNRESOLVED",key);
     for(const name of url.searchParams.keys()){
-      if(FORBIDDEN_PARAMS.has(name.toLowerCase().replace(/[-_]/g,"")))
+      if(FORBIDDEN_PARAMS.has(name.toLowerCase().replace(/[-_]/g,"")) ||
+         /^(?:answers?|diagnos(?:is|es)?|health|medical|patient|disability|birth|email|phone|address)/.test(name.toLowerCase().replace(/[^a-z0-9]/g,"")))
         fail("URL_SENSITIVE_PARAMETER",key);
     }
     const merchant=key.split(":")[0];

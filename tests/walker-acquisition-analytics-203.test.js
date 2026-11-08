@@ -106,7 +106,7 @@ test("public notice accurately describes two additional generic routes",()=>{
   const page=read("page-ochrana-soukromi.php");
   assert.match(page,/dvě obecné návazné cesty z návodu na měření chodítka/);
   assert.match(page,/Nezaznamenáváme, kterou možnost návštěvník zvolil/);
-  assert.match(page,/Cílovou adresu/);
+  assert.match(page,/cílovou adresu/);
   const walker=read("page-co-zmerit-pred-vyberem-choditka.php");
   assert.match(walker,/id="co-po-mereni"/);
   for(const target of [

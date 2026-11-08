@@ -43,10 +43,12 @@ test("three exact internal pathways are safe, real and do not hand off to mercha
   assert.doesNotMatch(section,/href="https?:\/\/|target="_blank"|[?&](?:diagnosis|health|answer)=/);
 });
 
-test("0.8.202 release contains all 100 markers and consistent exact critical Git blob pins",()=>{
+test("current release contains all 100 markers and consistent exact critical Git blob pins",()=>{
   const fn=read("functions.php");
-  assert.match(read("style.css"),/^Version: 0\.8\.202$/m);
-  assert.match(fn,/define\( 'ZAPRAZI_RELEASE', '0\.8\.202' \)/);
+  const release=read("style.css").match(/^Version: (0\.8\.\d+)$/m)?.[1];
+  assert.ok(release,"Theme version must be 0.8.x");
+  assert.ok(fn.includes("define( 'ZAPRAZI_RELEASE', '"+release+"' );"));
+  const marker="ZP_RELEASE_"+release.replaceAll(".","_");
   const manifest=fn.match(/function zaprazi_2_release_integrity_ok\(\)[\s\S]*?\$files = array\(([\s\S]*?)\n  \);/);
   assert.ok(manifest);
   const files=[...manifest[1].matchAll(/'([^']+)'/g)].map(m=>m[1]);
@@ -54,8 +56,9 @@ test("0.8.202 release contains all 100 markers and consistent exact critical Git
   assert.equal(new Set(files).size,100);
   for(const path of files){
     const body=read(path);
-    assert.ok(body.includes("ZP_RELEASE_0_8_202"),"No current marker: "+path);
-    assert.ok(!body.includes("ZP_RELEASE_0_8_201"),"Stale marker: "+path);
+    assert.ok(body.includes(marker),"No current marker: "+path);
+    assert.ok(!(body.match(/ZP_RELEASE_\d+_\d+_\d+/g)||[]).some(x=>x!==marker),
+      "Mixed release markers in "+path);
   }
   for(const path of ["src/bathroom/engine.js","src/bathroom/preview.js",
     "src/mobility/engine.js","src/mobility/offer-fit-gate.js"]){

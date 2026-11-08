@@ -76,3 +76,23 @@ test("Privacy canary flags suspicious custom parameter names without reading val
   assert.ok(privacy.includes("COUNTIF(has_user_properties)"));
   assert.ok(privacy.includes("COUNTIF(suspicious_user_property_key)"));
 });
+
+
+test("cohort SQL counts only consented, exact public pages with aggregate labels and no identities",()=>{
+  const {guideHandoffs}=buildGa4ReadOnlyQueries(options);
+  assert.ok(guideHandoffs.includes("prometheus-503317.analytics_527349118.events_*"));
+  assert.match(guideHandoffs,/_TABLE_SUFFIX BETWEEN '20261026' AND '20261027'/);
+  assert.match(guideHandoffs,/privacy_info\.analytics_storage = 'Yes'/);
+  assert.match(guideHandoffs,/public_page_cohort/);
+  for(const cohort of ["walker_measurements","walker_insurance"])
+    assert.ok(guideHandoffs.includes("'"+cohort+"'"),cohort);
+  for(const path of ["/co-zmerit-pred-vyberem-choditka/","/choditko-na-pojistovnu/"])
+    assert.ok(guideHandoffs.includes("https://zaprazi.cz"+path),path);
+  for(const event of ["page_view","next_step_click","guide_advisor_click"])
+    assert.ok(guideHandoffs.includes("COUNTIF(event_name = '"+event+"')"));
+  assert.match(guideHandoffs,/GROUP BY public_page_cohort/);
+  assert.doesNotMatch(guideHandoffs,/user_pseudo_id|user_id|event_timestamp|device\.|geo\.|traffic_source\.|TO_JSON|STRUCT\(/i);
+  assert.doesNotMatch(guideHandoffs,/SELECT\s+(?:p\.value|event_params|user_properties)\b|SELECT\s+\*/i);
+  assert.doesNotMatch(guideHandoffs,/\b(?:DELETE|UPDATE|INSERT|MERGE|CREATE|DROP|EXPORT\s+DATA)\b/i);
+  assert.ok(ga4Cli(Object.values(options)).includes("generic_next_step_clicks"));
+});

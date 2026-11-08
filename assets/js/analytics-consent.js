@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_202
+// ZP_RELEASE_0_8_203
 (() => {
   "use strict";
 
@@ -146,20 +146,32 @@
     sendEvent("affiliate_click");
   });
 
-  // Count an actual move from an Advisor result to another *local* page.
-  // No destination, product, problem or selection is ever sent to GA4.
-  // In-page anchors, downloads, external sites and sponsored CTAs are excluded.
+  // A generic useful-next-step click: from an Advisor result, or exactly
+  // two educational handoffs on the seven-measurements guide. The event
+  // carries ONLY its name: not which choice, destination, answers or product.
+  // Consent and private-search fail closed in sendEvent.
   document.addEventListener("click", (event) => {
     const link = event?.target?.closest?.('a[href]');
-    if (!link || !link.closest(".zp-result") || link.matches('a[rel~="sponsored"]')) return;
+    if (!link || link.matches('a[rel~="sponsored"]') || link.hasAttribute("download")) return;
+    const inAdvisorResult = Boolean(link.closest(".zp-result"));
+    const inWalkerGuide = !inAdvisorResult &&
+      window.location.pathname === "/co-zmerit-pred-vyberem-choditka/" &&
+      Boolean(link.closest("#co-po-mereni"));
+    if (!inAdvisorResult && !inWalkerGuide) return;
     const href = link.getAttribute("href");
-    if (!href || href.startsWith("#") || link.hasAttribute("download")) return;
+    if (!href || href.startsWith("#")) return;
     let target;
     try { target = new URL(href, window.location.href); }
     catch { return; }
-    if (target.origin !== window.location.origin ||
+    if (target.protocol !== "https:" || target.origin !== window.location.origin ||
         target.pathname === window.location.pathname ||
         target.search || target.hash && target.pathname === window.location.pathname) return;
+    // Only the two already safe informational options count from the guide.
+    // The Advisor link separately emits guide_advisor_click, not two events.
+    if (inWalkerGuide && ![
+      "/choditko-na-pojistovnu/#priprava-pro-lekare",
+      "/pujceni-choditka/#rozpocet-pujceni-choditka"
+    ].includes(target.pathname + target.hash)) return;
     sendEvent("next_step_click");
   });
 

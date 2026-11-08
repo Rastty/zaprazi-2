@@ -115,3 +115,19 @@ test("public notice accurately describes two additional generic routes",()=>{
     "/#poradce"
   ])assert.ok(walker.includes(target));
 });
+
+
+test("strict Chrome postdeploy checker cannot transmit fake analytics or merchant requests",()=>{
+  const workflow=read(".github/workflows/production-advisor-qa.yml");
+  const script=read("scripts/audit-live-walker-next-step-events-203.mjs");
+  assert.match(workflow,/node scripts\/audit-live-walker-next-step-events-203\.mjs/);
+  assert.match(workflow,/if: github\.event_name != 'pull_request'[\s\S]{0,180}run: node scripts\/audit-live-walker-next-step-events-203\.mjs/);
+  assert.match(script,/GITHUB_EVENT_NAME==="pull_request"/);
+  assert.match(script,/SOURCE_THEME_RELEASE!=="0\.8\.203"/);
+  assert.match(script,/EXPECTED_LIVE_RELEASE,"0\.8\.203"/);
+  assert.match(script,/request\.method\(\)==="GET"/);
+  assert.match(script,/request\.abort\("blockedbyclient"\)/);
+  assert.match(script,/e=>e\.preventDefault\(\)/);
+  assert.match(script,/WALKER_NEXT_STEP_203_CHROME_PASS/);
+  assert.doesNotMatch(script,/wp_insert_post|wp_update_post|fetch\("https:\/\/www\.googletagmanager|page\.click\(/);
+});

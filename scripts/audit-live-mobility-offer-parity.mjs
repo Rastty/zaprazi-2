@@ -9,6 +9,7 @@ import assert from "node:assert/strict";
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 import {EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
+import {MOBILITY_PRODUCTS} from "../src/mobility/catalog.js";
 
 const ORIGIN="https://zaprazi.cz";
 export const SCENARIOS=Object.freeze([
@@ -25,25 +26,37 @@ export const SCENARIOS=Object.freeze([
 
 export function validOfferCard(result,expected,unlocked=false){
   assert.equal(result.cardCount,1,expected.id+": exact card must exist once");
-  assert.equal(result.linkCount,1,expected.id+": exact merchant link must exist once");
+  assert.equal(result.linkCount,expected.id==="meyra"?2:1,
+    expected.id+": exact source-backed merchant link count required");
+  assert.equal(result.affiliateCount,1,expected.id+": exactly one approved affiliate CTA");
+  assert.equal(result.directCount,expected.id==="meyra"?1:0,
+    expected.id+": manufacturer route must remain separate");
+  assert.equal(result.directMatches,true,expected.id+": direct manufacturer path/rel mismatch");
   assert.equal(result.runtimeMatches,true,expected.id+": CTA must use THIS product's runtime affiliate slot");
   assert.equal(result.sponsored,true,expected.id+": publisher disclosure and safe target required");
   assert.equal(result.sameModel,true,expected.id+": exact model title mismatch");
   assert.equal(result.requiredControlsOk,true,expected.id+": corrupted model-specific fit checklist");
   assert.equal(result.hasBrakeControl,expected.brakes,expected.id+": incorrect braking gate");
   assert.equal(result.hidden,!unlocked,expected.id+": merchant link prematurely shown or not unlocked");
+  assert.equal(result.directVisibilityMatches,true,expected.id+": direct offer bypassed model gate");
   assert.equal(result.otherModelsLocked,true,expected.id+": another product card was accidentally unlocked");
 }
 
 async function readCard(page,expected){
-  // No tracking URL leaves page.evaluate. Only booleans and counts.
-  return page.evaluate(({key,title})=>{
+  const model=MOBILITY_PRODUCTS.find(p=>p.offers?.some(o=>o.affiliateKey===expected.key));
+  assert.ok(model,"Canonical model missing in source catalog");
+  const directUrls=model.offers.filter(o=>!o.affiliateKey).map(o=>o.url);
+  // Public canonical manufacturer URLs are passed into the browser but never logged.
+  // Publisher tracking URLs never leave the browser-side equality checks.
+  return page.evaluate(({key,title,directUrls})=>{
     const root=document.querySelector("#zp-mobility-result");
     const cards=[...root?.querySelectorAll(".zp-product-card")||[]];
     const matching=cards.filter(card=>card.querySelector("h4")?.textContent.includes(title));
     const card=matching[0];
-    const link=card?.querySelector("a[data-zp-merchant-link]");
     const links=card?[...card.querySelectorAll("a[data-zp-merchant-link]")]:[];
+    const sponsoredLinks=links.filter(a=>(a.getAttribute("rel")||"").split(/\s+/).includes("sponsored"));
+    const directLinks=links.filter(a=>!sponsoredLinks.includes(a));
+    const link=sponsoredLinks[0];
     const gate=card?.querySelector(".zp-mobility-fit-gate");
     const expectedKeys=gate?.getAttribute("data-zp-fit-required")?.split(",")||[];
     const actual=[...gate?.querySelectorAll("[data-zp-mobility-fit-confirm]")||[]]
@@ -55,19 +68,28 @@ async function readCard(page,expected){
     return {
       cardCount:matching.length,
       linkCount:links.length,
+      affiliateCount:sponsoredLinks.length,
+      directCount:directLinks.length,
+      directMatches:directLinks.length===directUrls.length&&
+        directLinks.every((a,i)=>a.getAttribute("href")===directUrls[i]&&
+          a.getAttribute("target")==="_blank"&&
+          ["noopener","nofollow"].every(x=>(a.getAttribute("rel")||"").split(/\s+/).includes(x))&&
+          !a.closest(".zp-offer")?.querySelector(".zp-affiliate-label")),
       sameModel:Boolean(card&&card.querySelector("h4")?.textContent.includes(title)),
       runtimeMatches:Boolean(link&&typeof runtime?.[key]==="string"&&
         link.getAttribute("href")===runtime[key]),
       sponsored:Boolean(link&&link.getAttribute("target")==="_blank"&&
         ["noopener","nofollow","sponsored"].every(token=>rel.includes(token))&&
-        card.querySelector(".zp-affiliate-label")?.textContent.includes("Partnerský odkaz")),
+        link.closest(".zp-offer")?.querySelector(".zp-affiliate-label")?.textContent.includes("Partnerský odkaz")),
       requiredControlsOk:expectedKeys.length>=3&&expectedKeys.length===actual.length&&
         new Set(actual).size===actual.length&&expectedKeys.every((x,i)=>x===actual[i]),
       hasBrakeControl:actual.includes("brakes"),
       hidden:Boolean(link?.closest("[hidden]")),
+      directVisibilityMatches:directLinks.every(a=>
+        Boolean(a.closest("[hidden]"))===Boolean(link?.closest("[hidden]"))),
       otherModelsLocked
     };
-  },{key:expected.key,title:expected.title});
+  },{key:expected.key,title:expected.title,directUrls});
 }
 
 async function choose(page,name,value){

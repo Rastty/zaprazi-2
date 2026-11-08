@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_201 */
+/* ZP_RELEASE_0_8_202 */
 /*
 Template Name: Zápraží — Invalidní vozík do auta
 */

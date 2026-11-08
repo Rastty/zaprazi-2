@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_201 */
+/* ZP_RELEASE_0_8_202 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */
@@ -105,6 +105,32 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Projít hlavní poradce pro chůzi</a></p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section id="co-po-mereni" class="zp-section zp-section-soft" aria-labelledby="co-po-mereni-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Až budete znát rozměry a bezpečný typ pomůcky</p>
+      <h2 id="co-po-mereni-nadpis" class="zp-section-title">Koupit, půjčit, nebo ověřit ePoukaz? Vyberte správný další krok.</h2>
+      <p>Měření je jen první část rozhodnutí. Nejdřív musí být jasné, jakou oporu člověk potřebuje a zda konkrétní typ bezpečně zvládá. Pak můžete porovnat různé možnosti získání pomůcky; žádná z nich sama o sobě neprokazuje individuální vhodnost ani nárok na úhradu.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Prověřit úhradu přes ePoukaz</h3>
+          <p>Pokud přichází v úvahu hrazená zdravotnická pomůcka, předem proberte možnost předpisu s lékařem. U oprávněného výdejce potvrďte přesný model, aktuální pravidla a případný doplatek. Běžný nákup v e-shopu není automaticky výdej na poukaz.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/#priprava-pro-lekare' ) ); ?>">Co říct lékaři a na co se zeptat výdejny</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Dočasně půjčit chodítko</h3>
+          <p>Pro přechodnou potřebu porovnejte dobu půjčení, kauci, dopravu a dostupnost <strong>bezpečně určeného</strong> typu. Půjčení samo o sobě neznamená, že ho hradí pojišťovna.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#rozpocet-pujceni-choditka' ) ); ?>">Spočítat orientační rozpočet půjčení</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Porovnat konkrétní modely pro přímý nákup</h3>
+          <p>Teprve po orientačním výběru bezpečného typu porovnejte nosnost, šířku, výšku madel a ovládání. Konkrétní obchodní nabídky v poradci se zobrazí až po samostatném potvrzení potřebných kontrol výrobku.</p>
+          <p><a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit typ a pak porovnat možnosti nákupu</a></p>
+        </article>
+      </div>
+      <p class="zp-disclaimer"><strong>Pozor:</strong> Pokud člověk při chůzi padá, potřebuje fyzickou pomoc nebo neovládá brzdy, nezačínejte nákupem ani půjčením naslepo. Nejdřív požádejte o odborné posouzení. Soukromě koupené chodítko nelze dodatečně automaticky proplatit z ePoukazu.</p>
     </div>
   </section>
 

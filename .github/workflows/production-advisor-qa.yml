@@ -27,6 +27,8 @@ on:
       - "scripts/audit-live-walker-hero-198.mjs"
       - "scripts/audit-live-insurance-first-199.mjs"
       - "scripts/audit-live-insurance-prep-201.mjs"
+      - "scripts/audit-live-walker-acquisition-202.mjs"
+      - "tests/walker-measurement-acquisition-202.test.js"
       - "tests/insurance-doctor-dispenser-201.test.js"
       - "tests/walker-insurance-first-answer.test.js"
       - "tests/audit-live-insurance-first-199.test.js"
@@ -216,6 +218,11 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-insurance-prep-201.mjs
+      - name: Verify 0.8.202 walker measurements hand off safely to buy rent or ePoukaz
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-walker-acquisition-202.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

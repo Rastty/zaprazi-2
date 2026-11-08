@@ -114,13 +114,43 @@ export function buildGa4ReadOnlyQueries({project, propertyId, start, end}) {
     "  COUNTIF(event_name IN ("+funnelNames+") AND host IS NOT NULL AND host NOT IN ('zaprazi.cz','www.zaprazi.cz')) AS funnel_events_on_other_hosts",
     "FROM inspected;"
   ].join("\n");
-  return {funnel, privacy, sourceIntegrity};
+  // Only two predeclared public guide cohorts. A fixed label, not a URL or
+  // sensitive response, is the only dimension; counts are consented events,
+  // not people, product suitability, approved commissions or causal uplift.
+  const guideHandoffs = [
+    "-- Opt-in-only, aggregate public guide handoffs. No user or answer rows.",
+    "-- Do not compare as a conversion rate without deduplication and source QA.",
+    "WITH scoped AS (",
+    " SELECT event_name,",
+    " CASE",
+    " WHEN EXISTS (SELECT 1 FROM UNNEST(event_params) p",
+    "   WHERE p.key = 'page_location' AND p.value.string_value IN",
+    "   ('https://zaprazi.cz/co-zmerit-pred-vyberem-choditka/',",
+    "    'https://www.zaprazi.cz/co-zmerit-pred-vyberem-choditka/')) THEN 'walker_measurements'",
+    " WHEN EXISTS (SELECT 1 FROM UNNEST(event_params) p",
+    "   WHERE p.key = 'page_location' AND p.value.string_value IN",
+    "   ('https://zaprazi.cz/choditko-na-pojistovnu/',",
+    "    'https://www.zaprazi.cz/choditko-na-pojistovnu/')) THEN 'walker_insurance'",
+    " ELSE NULL END AS public_page_cohort",
+    " FROM "+source,
+    " WHERE "+where,
+    " AND privacy_info.analytics_storage = 'Yes'",
+    " AND event_name IN ('page_view','next_step_click','guide_advisor_click')",
+    ")",
+    "SELECT public_page_cohort,",
+    " COUNTIF(event_name = 'page_view') AS consented_page_views,",
+    " COUNTIF(event_name = 'next_step_click') AS generic_next_step_clicks,",
+    " COUNTIF(event_name = 'guide_advisor_click') AS guide_advisor_clicks",
+    "FROM scoped WHERE public_page_cohort IS NOT NULL",
+    "GROUP BY public_page_cohort ORDER BY public_page_cohort;"
+  ].join("\n");
+  return {funnel, privacy, sourceIntegrity, guideHandoffs};
 }
 
 export function ga4Cli(args) {
   if (args.length !== 4) throw new Error("Usage: node scripts/ga4-bigquery-readonly.mjs PROJECT PROPERTY_ID START_YYYYMMDD END_YYYYMMDD");
-  const {funnel, privacy, sourceIntegrity} = buildGa4ReadOnlyQueries({project:args[0],propertyId:args[1],start:args[2],end:args[3]});
-  return sourceIntegrity + "\n\n" + funnel + "\n\n" + privacy + "\n";
+  const {funnel, privacy, sourceIntegrity, guideHandoffs} = buildGa4ReadOnlyQueries({project:args[0],propertyId:args[1],start:args[2],end:args[3]});
+  return sourceIntegrity + "\n\n" + funnel + "\n\n" + guideHandoffs + "\n\n" + privacy + "\n";
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {

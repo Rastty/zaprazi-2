@@ -55,7 +55,7 @@ try{
         const links=cards.map(c=>c.querySelector("a[href]"));
         document.addEventListener("click",e=>e.preventDefault(),true);
         links.forEach(a=>a?.dispatchEvent(new MouseEvent("click",{bubbles:true,cancelable:true})));
-        const entries=[...window.dataLayer||[]].map(v=>Array.from(v));
+        const entries=Array.from(window.dataLayer||[],v=>Array.from(v));
         const events=entries.filter(v=>v[0]==="event");
         const cfg=entries.find(v=>v[0]==="config");
         return {

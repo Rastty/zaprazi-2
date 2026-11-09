@@ -80,12 +80,15 @@ function zaprazi_2_https_sitemap_entry( $entry, $type = '', $post = null ) {
       $entry['loc'] !== 'https://zaprazi.cz/' . $slug . '/' ) {
     return $entry;
   }
-  // WordPress may contain a newer substantive change. Never overwrite it.
-  $recorded = isset( $entry['lastmod'] ) && is_string( $entry['lastmod'] )
-    ? strtotime( $entry['lastmod'] ) : false;
+  // Yoast's POST/PAGE sitemap uses the internal 'mod' entry key, which
+  // its renderer turns into the public XML <lastmod> element. Setting an
+  // internal 'lastmod' key is ignored: that was the 0.8.205 production bug.
+  // WordPress may contain a newer substantive edit; never overwrite it.
+  $recorded = isset( $entry['mod'] ) && is_string( $entry['mod'] )
+    ? strtotime( $entry['mod'] ) : false;
   $verified = strtotime( $dates[ $slug ] );
   if ( false !== $verified && ( false === $recorded || $recorded < $verified ) ) {
-    $entry['lastmod'] = $dates[ $slug ];
+    $entry['mod'] = $dates[ $slug ];
   }
   return $entry;
 }

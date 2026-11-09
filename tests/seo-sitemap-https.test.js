@@ -23,7 +23,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
     "require 'src/seo/https-sitemaps.php';",
     "$urls = array('http://zaprazi.cz/sitemap_index.xml', 'http://zaprazi.cz', 'http://zaprazi.cz.attacker.invalid/x', 'http://other.example/page', 'https://zaprazi.cz/ok', '/relative/');",
     "$index = zaprazi_2_https_sitemap_index_links(array(array('loc' => 'http://zaprazi.cz/page-sitemap.xml', 'mod' => 'keep'), array('loc' => 'https://other.example/sitemap.xml'), array('invalid' => 'keep')));",
-    "$entry = zaprazi_2_https_sitemap_entry(array('loc' => 'http://zaprazi.cz/page/', 'lastmod' => '2026-10-11'));",
+    "$entry = zaprazi_2_https_sitemap_entry(array('loc' => 'http://zaprazi.cz/page/', 'mod' => '2026-10-11'));",
     "$robots = zaprazi_2_https_robots_sitemap(\"User-agent: *\nSitemap: http://zaprazi.cz/sitemap_index.xml\nSitemap: http://other.example/sitemap.xml\n\");",
     "echo json_encode(array('urls' => array_map('zaprazi_2_https_sitemap_url', $urls), 'index' => $index, 'entry' => $entry, 'robots' => $robots, 'registered' => $registered, 'false_entry' => zaprazi_2_https_sitemap_entry(false), 'false_index' => zaprazi_2_https_sitemap_index_links(false)));"
   ].join("\n");
@@ -39,7 +39,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
     {loc: "https://zaprazi.cz/page-sitemap.xml", mod: "keep"},
     {loc: "https://other.example/sitemap.xml"}, {invalid: "keep"}
   ]);
-  assert.deepEqual(result.entry, {loc: "https://zaprazi.cz/page/", lastmod: "2026-10-11"});
+  assert.deepEqual(result.entry, {loc: "https://zaprazi.cz/page/", mod: "2026-10-11"});
   assert.match(result.robots, /^Sitemap: https:\/\/zaprazi.cz\/sitemap_index\.xml$/m);
   assert.match(result.robots, /^Sitemap: http:\/\/other\.example\/sitemap\.xml$/m);
   assert.deepEqual(Object.keys(result.registered).sort(),

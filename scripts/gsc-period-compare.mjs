@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
  * Local-only, read-only comparison of two *equally long, non-overlapping*
- * Search Console "Pages" CSV exports. No GA4 join, WordPress or API writes.
+ * Search Console "Pages" CSV exports OR two finalized, sanitized Prometheus
+ * GSC JSON artifacts. No GA4 join, WordPress or API writes.
  *
  * Example:
  * node scripts/gsc-period-compare.mjs \
@@ -50,7 +51,7 @@ function known(rows) {
     if(filtered.has(row.path))throw new Error("Duplicate canonical page in GSC export");
     if(!Number.isSafeInteger(row.clicks)||!Number.isSafeInteger(row.impressions)||
       row.clicks<0||row.impressions<0||row.clicks>row.impressions||
-      !Number.isFinite(row.position)||row.position<0)
+      (row.position!==null&&(!Number.isFinite(row.position)||row.position<0)))
       throw new Error("Invalid GSC page metrics");
     filtered.set(row.path,row);
   }
@@ -60,13 +61,19 @@ function known(rows) {
 /**
  * Prometheus already captures a source-bound, query-free GSC JSON snapshot.
  * Reuse the same comparison engine instead of asking an owner to export CSV.
+ * Producer: Rastty/prometheus-growth-os/ops/zaprazi-gsc-readonly-v1.mjs
+ * Empty-impression rows have ctr=null; missing average position is null.
  * Fail closed on missing/fabricated evidence, invalid metrics or foreign URLs.
  * Only allowlisted per-page aggregate fields are returned, never raw queries.
  */
 export function parseSanitizedGscSnapshot(snapshot) {
   if(!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot)||
     snapshot.schemaVersion!==1||snapshot.status!=="evidence_available"||
-    snapshot.site!=="zaprazi.cz"||snapshot.property?.url!=="https://zaprazi.cz/"||
+    snapshot.site!=="zaprazi.cz"||
+    !["https://zaprazi.cz/","sc-domain:zaprazi.cz"].includes(snapshot.property?.url)||
+    !["siteOwner","siteFullUser","siteRestrictedUser"].includes(snapshot.property?.permission)||
+    snapshot.property?.hostRestricted!==true||
+    snapshot.source!=="Google Search Console Search Analytics API"||
     snapshot.period?.dataState!=="final"||snapshot.period?.searchType!=="web"||
     snapshot.period?.days!==28||!Array.isArray(snapshot.trackedPages)||
     snapshot.trackedPages.length===0)
@@ -83,9 +90,10 @@ export function parseSanitizedGscSnapshot(snapshot) {
     if(!page||!CORE.has(page.path)||seen.has(page.path)||
       !Number.isSafeInteger(page.clicks)||!Number.isSafeInteger(page.impressions)||
       page.clicks<0||page.impressions<page.clicks||
-      !Number.isFinite(page.position)||page.position<0||
-      !Number.isFinite(page.ctr)||page.ctr<0||page.ctr>1||
-      Math.abs(page.ctr-(page.impressions?page.clicks/page.impressions:0))>0.00015)
+      (page.position!==null&&(!Number.isFinite(page.position)||page.position<0))||
+      (page.impressions===0?page.ctr!==null:
+        !Number.isFinite(page.ctr)||page.ctr<0||page.ctr>1||
+        Math.abs(page.ctr-page.clicks/page.impressions)>0.00015))
       throw new Error("Invalid canonical aggregate GSC page evidence");
     seen.add(page.path);
     return {path:page.path,clicks:page.clicks,impressions:page.impressions,

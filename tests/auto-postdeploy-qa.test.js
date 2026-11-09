@@ -256,10 +256,10 @@ test("no missing, stale or counterfeit Advisor link can unlock 0.8.200 acceptanc
 
 const insuranceSearchPage=(release="0.8.210")=>
   insuranceTracked(release)+
-  '<section class="zp-hero"><p><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena '+
-  'při splnění podmínek. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně.</p>'+
+  '<section class="zp-hero"><p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena '+
+  'při splnění podmínek. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně. '+ 
   '<a href="#rychla-cesta-na-epoukaz">Tři kroky</a>'+
-  '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></section>'+
+  '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p></section>'+
   '<section id="zp-overit-mesicni-seznam"></section>'+
   '<p><a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/">SÚKL 1</a>'+
   '<a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/">SÚKL 2</a></p>';
@@ -267,6 +267,18 @@ const insuranceSearchPage=(release="0.8.210")=>
 test("0.8.210 exact live hero must answer the insurance query with safe next steps",async()=>{
   const good=insuranceSearchPage();
   assert.equal(verifyInsuranceSearchHero(good,"0.8.210"),true);
+  const repeated=good.replace(
+    '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p></section>',
+    '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p>'+
+    '<div class="zp-hero-actions"><a href="#zp-overit-mesicni-seznam">Seznam SÚKL</a></div></section>');
+  assert.notEqual(repeated,good,"A second real hero CTA is present");
+  assert.equal(verifyInsuranceSearchHero(repeated,"0.8.210"),true,
+    "The already published extra monthly-list CTA is safe");
+  const missingQuickLink=repeated.replace(
+    '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p>',
+    '<a href="#missing-real-answer">Platná úhrada</a></p>');
+  assert.throws(()=>verifyInsuranceSearchHero(missingQuickLink,"0.8.210"),
+    "A hero action link must never substitute for the actual first answer");
   for(const bad of [
     insuranceSearchPage("0.8.209"),
     insuranceTracked("0.8.210"),

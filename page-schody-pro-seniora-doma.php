@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_205 */
+/* ZP_RELEASE_0_8_206 */
 /*
 Template Name: Zápraží — Schody pro seniora doma
 */

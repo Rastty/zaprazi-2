@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_205
+// ZP_RELEASE_0_8_206
 import { getBathroomProducts } from "./catalog.js";
 import { formatBathroomFacts } from "./product-facts-display.js";
 import { previewBathroomCandidates } from "./preview.js";

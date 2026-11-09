@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS} from "../scripts/audit-live-release-coherence.mjs";
-import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,verifyMobilityGuideHandoffs,decideDispatch,
+import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,verifyInsuranceSearchHero,verifyMobilityGuideHandoffs,decideDispatch,
   dispatchWhenReady} from "../scripts/auto-postdeploy-qa.mjs";
 
 const origin="https://zaprazi.cz";
@@ -252,4 +252,57 @@ test("no missing, stale or counterfeit Advisor link can unlock 0.8.200 acceptanc
  const blocked=await observePublicDeploy(fetchMock,"0.8.200");
  assert.equal(blocked.status,"blocked_mixed_or_incomplete_live_release");
  assert.equal(await dispatchWhenReady(blocked,{}),"no_dispatch_unverified_public_release");
+});
+
+const insuranceSearchPage=(release="0.8.210")=>
+  insuranceTracked(release)+
+  '<section class="zp-hero"><p><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena '+
+  'při splnění podmínek. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně.</p>'+
+  '<a href="#rychla-cesta-na-epoukaz">Tři kroky</a>'+
+  '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></section>'+
+  '<section id="zp-overit-mesicni-seznam"></section>'+
+  '<p><a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/">SÚKL 1</a>'+
+  '<a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/">SÚKL 2</a></p>';
+
+test("0.8.210 exact live hero must answer the insurance query with safe next steps",async()=>{
+  const good=insuranceSearchPage();
+  assert.equal(verifyInsuranceSearchHero(good,"0.8.210"),true);
+  for(const bad of [
+    insuranceSearchPage("0.8.209"),
+    insuranceTracked("0.8.210"),
+    good.replace("Rychlá odpověď:", "Co je nového?"),
+    good.replace("Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně.",""),
+    good.replace('href="#rychla-cesta-na-epoukaz"','href="https://untrusted.example/"'),
+    good.replace('id="zp-overit-mesicni-seznam"','id="missing-sukl-section"'),
+    good.replace("pro-predepisovani-", "pro-predpisovani-"),
+    good.replace("</section><section id=\"zp-overit",'<form><input name="health"></form></section><section id="zp-overit')
+  ]) assert.throws(()=>verifyInsuranceSearchHero(bad,"0.8.210"));
+  assert.throws(()=>verifyInsuranceSearchHero(insuranceSearchPage("0.8.209"),"0.8.209"));
+});
+
+test("0.8.210 release must expose the actual new insurance search answer before QA dispatch",async()=>{
+  const calls=[];
+  const fetchMock=async url=>{
+    calls.push(url);
+    return {status:200,url,
+      json:async()=>readiness("0.8.210"),
+      text:async()=>url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage():
+        url===origin+"/choditka-pro-seniory/"?walkerHubPage("0.8.210"):
+        url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage("0.8.210"):
+        html("0.8.210")};
+  };
+  const state=await observePublicDeploy(fetchMock,"0.8.210");
+  assert.deepEqual(state,{status:"ready_for_full_qa",source_release:"0.8.210",
+    live_release:"0.8.210",pages:7,insurance_first_answer:"verified",
+    insurance_search_hero:"verified",mobility_guide_handoffs:"verified",
+    affiliate_slots:25,readiness_checks:2});
+  assert.equal(calls.length,2+RELEASE_CHECK_PATHS.length+3);
+  const broken=await observePublicDeploy(async url=>({status:200,url,
+    json:async()=>readiness("0.8.210"),
+    text:async()=>url===origin+"/choditko-na-pojistovnu/"?insuranceTracked("0.8.210"):
+      url===origin+"/choditka-pro-seniory/"?walkerHubPage("0.8.210"):
+      url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage("0.8.210"):
+      html("0.8.210")}),"0.8.210");
+  assert.equal(broken.status,"blocked_mixed_or_incomplete_live_release");
+  assert.equal(await dispatchWhenReady(broken,{}),"no_dispatch_unverified_public_release");
 });

@@ -15,7 +15,9 @@ test("0.8.207 first-screen safety guidance precedes choice and original safety-f
   assert.ok(comparison > heroSafety && decision > comparison && types > decision && acquisition > types,
     "Established full support comparison must precede product-type choice");
   assert.equal(source.split('id="vyber-typu"').length - 1, 1, "Do not clone decision modules");
-  assert.match(source, /ZP_RELEASE_0_8_207/);
+  const css = readFileSync(new URL("../style.css", import.meta.url), "utf8");
+  const release = css.split("Version: ")[1]?.split("\n")[0].trim().replaceAll(".", "_");
+  assert.ok(release && source.includes("ZP_RELEASE_" + release), "Walker hub marker must match active theme release");
 });
 test("First screen warns against unsupervised aid choice and preserves existing safe next steps", () => {
   const first = source.slice(0, comparison);

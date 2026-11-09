@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_204 */
+/* ZP_RELEASE_0_8_205 */
 /*
 Template Name: Zápraží — Bezpečný byt pro seniora
 */

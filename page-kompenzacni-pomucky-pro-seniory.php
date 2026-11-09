@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_204 */
+/* ZP_RELEASE_0_8_205 */
 /*
 Template Name: Zápraží — Kompenzační pomůcky pro seniory
 */
@@ -30,6 +30,7 @@ get_header();
           <h3>Chůze a opora</h3>
           <p>Čtyřbodové nebo dvoukolové chodítko a venkovní rollátor se liší způsobem používání. Rozhoduje prostředí, potřebná opora, schopnost pomůcku posouvat a bezpečné ovládání brzd.</p>
           <p>Je vhodnější vycházková hůl, francouzská berle nebo chodítko? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#hul-nebo-choditko' ) ); ?>">Porovnat typy opory podle situace</a>.</p>
+          <p>Než budete hledat konkrétní model, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">změřte doma průchody, výšku madel a prostor pro otočení</a>. Samotné rozměry ale neurčují bezpečný způsob chůze.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Přehled chodítek pro seniory</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Spustit poradce</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/' ) ); ?>">Chodítko do bytu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/' ) ); ?>">Rollátor</a></p>
         </article>
 

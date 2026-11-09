@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_204 */
+/* ZP_RELEASE_0_8_205 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -43,13 +43,53 @@ function zaprazi_2_https_sitemap_index_links( $links ) {
 add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 20 );
 
 /** Yoast post, taxonomy and author sitemap entries. */
-function zaprazi_2_https_sitemap_entry( $entry ) {
-  if ( is_array( $entry ) && isset( $entry['loc'] ) ) {
-    $entry['loc'] = zaprazi_2_https_sitemap_url( $entry['loc'] );
+/**
+ * Dates below are evidence-backed significant template/content revisions.
+ * Theme deploys do not update WP post_modified, so Yoast would otherwise
+ * advertise obsolete lastmod values. Do not stamp arbitrary pages or bump the
+ * timestamp for deploys that only change release markers.
+ *
+ * 2026-11-09: rental first-answer + tariff source, insurance SEO copy;
+ * bathroom and aid hub: substantive new contextual navigation in 0.8.205.
+ */
+function zaprazi_2_material_sitemap_page_dates() {
+  return array(
+    'pujceni-choditka' => '2026-11-09T00:00:00+00:00',
+    'choditko-na-pojistovnu' => '2026-11-09T00:00:00+00:00',
+    'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
+    'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
+  );
+}
+
+function zaprazi_2_https_sitemap_entry( $entry, $type = '', $post = null ) {
+  if ( ! is_array( $entry ) || ! isset( $entry['loc'] ) ) {
+    return $entry;
+  }
+  $entry['loc'] = zaprazi_2_https_sitemap_url( $entry['loc'] );
+
+  // Yoast uses type "post" for both WP posts and pages. Never change
+  // archive, taxonomy, author or unapproved/orphan URL metadata.
+  if ( 'post' !== $type || ! is_object( $post ) ||
+      ! isset( $post->post_type, $post->post_status, $post->post_name ) ||
+      'page' !== $post->post_type || 'publish' !== $post->post_status ) {
+    return $entry;
+  }
+  $dates = zaprazi_2_material_sitemap_page_dates();
+  $slug = $post->post_name;
+  if ( ! is_string( $slug ) || ! isset( $dates[ $slug ] ) ||
+      $entry['loc'] !== 'https://zaprazi.cz/' . $slug . '/' ) {
+    return $entry;
+  }
+  // WordPress may contain a newer substantive change. Never overwrite it.
+  $recorded = isset( $entry['lastmod'] ) && is_string( $entry['lastmod'] )
+    ? strtotime( $entry['lastmod'] ) : false;
+  $verified = strtotime( $dates[ $slug ] );
+  if ( false !== $verified && ( false === $recorded || $recorded < $verified ) ) {
+    $entry['lastmod'] = $dates[ $slug ];
   }
   return $entry;
 }
-add_filter( 'wpseo_sitemap_entry', 'zaprazi_2_https_sitemap_entry', 20 );
+add_filter( 'wpseo_sitemap_entry', 'zaprazi_2_https_sitemap_entry', 20, 3 );
 
 /** WordPress / Yoast virtual robots.txt: only rewrite our exact Sitemap URL. */
 function zaprazi_2_https_robots_sitemap( $output ) {

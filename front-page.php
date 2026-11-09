@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_204 */ get_header(); ?>
+/* ZP_RELEASE_0_8_205 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">
@@ -24,8 +24,8 @@
       <p class="zp-kicker">Co potřebujete vyřešit?</p>
       <h2 class="zp-section-title">Začněte situací, ne názvem pomůcky.</h2>
       <div class="zp-decision-grid">
-        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor podle prostředí, potřebné opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Vybrat chodítko nebo rollátor</a> · <a class="zp-text-link" href="#poradce">Spustit poradce</a></p></article>
-        <article class="zp-decision-card"><h3>Koupelna a WC</h3><p>Zvýšení WC, opory, sprchovací nebo toaletní řešení podle přesunu a prostoru.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu a WC</a></p></article>
+        <article class="zp-decision-card"><h3>Chůze a opora</h3><p>Chodítko nebo rollátor podle prostředí, potřebné opory a bezpečného ovládání.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/' ) ); ?>">Vybrat chodítko nebo rollátor</a> · <a class="zp-text-link" href="#poradce">Spustit poradce</a></p><p>Úzké dveře nebo nejistá výška madel? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm věcí, které před výběrem chodítka změřit</a>.</p></article>
+        <article class="zp-decision-card"><h3>Koupelna a WC</h3><p>Zvýšení WC, opory, sprchovací nebo toaletní řešení podle přesunu a prostoru.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/koupelna-a-wc/' ) ); ?>">Řešit koupelnu a WC</a></p><p>Potřebujete bezpečně sedět při sprchování? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Co ověřit před výběrem sprchovací židle</a>.</p></article>
         <article class="zp-decision-card"><h3>Polohovací postel</h3><p>Výběr vhodného typu, prostor, nosnost a rozhodnutí mezi půjčením, koupí a pojišťovnou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/' ) ); ?>">Řešit polohovací postel</a></p></article>
         <article class="zp-decision-card"><h3>Invalidní vozík</h3><p>Mechanický nebo elektrický vozík podle pohonu, sedu, průchodů a způsobu pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řešit invalidní vozík</a></p></article>
         <article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>Co musí fungovat první noc doma: vstup, přesuny, WC, postel a návazná péče.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba' ) ); ?>">Zdravotní péče, nebo pečovatelská služba?</a></p></article>

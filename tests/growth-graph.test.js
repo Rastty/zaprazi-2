@@ -327,7 +327,8 @@ test("current production safety acceptance unlocks only its verified release",()
   assert.equal(evidence.status,"verified");
   assert.match(evidence.verifiedRelease,/^\d+\.\d+\.\d+$/);
   assert.match(evidence.evidenceUrl,/^https:\/\/github\.com\/Rastty\/zaprazi-2\/actions\/runs\/\d+$/);
-  const evaluatedAt=new Date("2026-11-07T10:00:00Z");
+  // Evaluate against the current evidence snapshot, not an outdated fixed day.
+  const evaluatedAt=new Date(state.asOf+"T10:00:00Z");
   const accepted=planGrowth(graph,state,evaluatedAt,evidence.verifiedRelease);
   assert.equal(accepted.tasks.find(x=>x.id==="safety_qa").status,"verified");
   assert.equal(accepted.tasks.find(x=>x.id==="affiliate_audit").status,"in_progress");

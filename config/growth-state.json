@@ -12,8 +12,8 @@
   "nodes": {
     "safety_qa": {
       "status": "verified",
-      "verifiedRelease": "0.8.204",
-      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42587307000"
+      "verifiedRelease": "0.8.205",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42596595266"
     },
     "affiliate_audit": {
       "status": "in_progress",
@@ -21,7 +21,7 @@
     },
     "technical_search": {
       "status": "in_progress",
-      "evidenceUrl": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42590120773"
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42601353178"
     },
     "intent_evidence": {
       "status": "in_progress",

@@ -54,6 +54,12 @@ test("Only four genuinely changed page types receive bounded sitemap lastmod sig
   assert.equal(x.r1.loc,"https://zaprazi.cz/pujceni-choditka/");
   assert.equal(x.r1.mod,"2026-11-09T00:00:00+00:00");
   assert.ok(!Object.hasOwn(x.r1,"lastmod"),"Yoast renderer consumes mod, not lastmod");
+  // Yoast's sitemap_url() translates internal 'mod' to the public XML
+  // <lastmod>; a plausible-looking 'lastmod' array field is ignored.
+  const renderedDate=entry=>entry.mod?new Date(entry.mod).toISOString().slice(0,10):null;
+  assert.equal(renderedDate(x.r1),"2026-11-09");
+  assert.equal(renderedDate(x.r2),"2026-11-10");
+  assert.equal(renderedDate(x.r3),"2026-10-01");
   assert.equal(x.r2.mod,"2026-11-10T12:00:00+00:00");
   assert.equal(x.r3.mod,"2026-10-01");
   assert.equal(x.r4.mod,"2026-10-02T10:00:00+00:00");

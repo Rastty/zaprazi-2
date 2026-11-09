@@ -1,6 +1,13 @@
 name: Public SEO Sitemap Audit
 
 on:
+  # A single verified WordPress deploy acknowledgment also checks the public
+  # XML sitemap. Chrome QA is triggered separately by the same exact file.
+  # This is read-only and does not change WordPress or submit URLs to Google.
+  push:
+    branches: [main]
+    paths:
+      - "docs/POSTDEPLOY_QA_TRIGGER.md"
   pull_request:
     paths:
       - "scripts/audit-public-sitemap.mjs"

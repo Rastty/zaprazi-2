@@ -170,3 +170,58 @@ test("Snapshot mode requires exactly two flags and never accepts raw query outpu
   assert.ok(!output.includes("SENSITIVE_QUERY_NEVER_REPORT"));
   assert.ok(!output.includes("SENSITIVE_HEALTH_ANSWER"));
 });
+
+
+test("real Prometheus GSC property domain fallback is allowed, but two scopes cannot be blended",()=>{
+  const a=older(),b=newer();
+  a.property.url="sc-domain:zaprazi.cz";
+  b.property.url="sc-domain:zaprazi.cz";
+  const parsed=parseSanitizedGscSnapshot(a);
+  assert.equal(parsed.property,"sc-domain:zaprazi.cz");
+  assert.equal(compareSanitizedGscSnapshots(a,b).matched.length,2);
+  b.property.url="https://zaprazi.cz/";
+  assert.throws(()=>compareSanitizedGscSnapshots(a,b),/property changed/);
+  const unverified=older();
+  unverified.property.permission="siteUnverifiedUser";
+  assert.throws(()=>parseSanitizedGscSnapshot(unverified),/Invalid finalized/);
+  const unscoped=older();
+  unscoped.property.hostRestricted=false;
+  assert.throws(()=>parseSanitizedGscSnapshot(unscoped),/Invalid finalized/);
+});
+
+test("Prometheus producer's exact empty or unknown metrics remain UNKNOWN, not fake zero CTR",()=>{
+  const zero={path:"/rollator-pro-seniory/",clicks:0,impressions:0,
+    ctr:null,position:null};
+  const noPosition={path:"/co-zmerit-pred-vyberem-choditka/",
+    clicks:0,impressions:9,ctr:0,position:null};
+  const old=older(),latest=newer();
+  old.trackedPages.push(zero,noPosition);
+  latest.trackedPages.push({...zero}, {...noPosition});
+  const r=compareSanitizedGscSnapshots(old,latest);
+  const observed=r.matched.find(row=>row.path===zero.path);
+  assert.equal(observed.baselineCtr,null);
+  assert.equal(observed.currentCtr,null);
+  assert.equal(observed.baselinePosition,null);
+  assert.match(renderGscComparison(r),/n\/a/);
+  const bad=older();
+  bad.trackedPages.push({...zero,ctr:0});
+  assert.throws(()=>parseSanitizedGscSnapshot(bad),/Invalid canonical aggregate/);
+  const positionMissing=older();
+  positionMissing.trackedPages[0]={...positionMissing.trackedPages[0],position:"UNKNOWN"};
+  assert.throws(()=>parseSanitizedGscSnapshot(positionMissing),/Invalid canonical aggregate/);
+});
+
+test("rejects forged source and preserves all existing CSV report behavior",()=>{
+  const bad=older();
+  bad.source="SENSITIVE_SOURCE_NOT_GSC";
+  assert.throws(()=>parseSanitizedGscSnapshot(bad),/Invalid finalized/);
+  const standard=compare([
+    [url("/pujceni-choditka/"),10,200],
+    [url("/choditka-pro-seniory/"),1,150]
+  ],[
+    [url("/pujceni-choditka/"),4,230],
+    [url("/choditka-pro-seniory/"),2,240]
+  ]);
+  assert.equal(standard.matched.length,2);
+  assert.equal(standard.matchedTotals.afterClicks,6);
+});

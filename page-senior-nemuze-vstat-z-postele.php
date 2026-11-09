@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_210 */
+/* ZP_RELEASE_0_8_211 */
 /*
 Template Name: Zápraží — Senior nemůže vstát z postele
 */
@@ -11,6 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Vstávání z postele · Bezpečný domov</p>
       <h1>Senior nemůže vstát z postele: pomůže madlo, hrazda, nebo polohovací postel?</h1>
       <p class="zp-lead">Někdo se nedokáže z lehu posadit, jiný sedí na okraji postele, ale nezvládne vstát. To jsou <strong>dva různé problémy a nemusí je vyřešit stejná pomůcka</strong>. Projděte nejprve bezpečnost, typ obtíže a prostor kolem lůžka – teprve pak má smysl ověřovat konkrétní zařízení.</p>
+      <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Když senior nemůže vstát z postele, nejdřív zjistěte, zda se nedokáže posadit, zvednout ze sedu, nebo bezpečně pokračovat v chůzi. <strong>Při náhlém zhoršení nebo po pádu jej nezkoušejte zvedat silou</strong> a zajistěte potřebnou zdravotní pomoc. Při dlouhodobých obtížích proberte bezpečný přesun s odborníkem a připravte rozměry lůžka; madlo, hrazda ani polohovací postel nejsou automatickým řešením pro každého. <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Co udělat dnes podle situace</a> · <a class="zp-text-link" href="#kontroly-postele">Co doma ověřit</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#co-delat-postel">Co řešit jako první</a>
         <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Co udělat dnes</a>

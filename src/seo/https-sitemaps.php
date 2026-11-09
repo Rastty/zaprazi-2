@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_210 */
+/* ZP_RELEASE_0_8_211 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -62,6 +62,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
     'choditka-pro-seniory' => '2026-11-09T00:00:00+00:00',
+    'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
   );
 }
 

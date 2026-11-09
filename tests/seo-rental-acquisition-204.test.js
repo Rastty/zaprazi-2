@@ -11,7 +11,7 @@ const sourceVersion = css.match(/^Version:\s*(\d+\.\d+\.\d+)$/m)?.[1];
 const marker = "ZP_RELEASE_" + sourceVersion?.replaceAll(".", "_");
 
 test("SEO rental and insurance keep the current release markers and source identity", () => {
-  assert.match(sourceVersion, /^\d+\\.\d+\\.\d+$/);
+  assert.match(sourceVersion, /^[0-9]+[.][0-9]+[.][0-9]+$/);
   assert.ok(functions.includes("define( 'ZAPRAZI_RELEASE', '" + sourceVersion + "' );"));
   assert.ok(page.includes(marker));
   assert.ok(insurance.includes(marker));

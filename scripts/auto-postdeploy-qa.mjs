@@ -111,13 +111,15 @@ export function verifyInsuranceSearchHero(html,expected){
   const end=html.indexOf("</section>",start);
   if(end<=start)throw new Error("Insurance hero malformed");
   const hero=html.slice(start,end);
-  const plain=hero.replace(/<!--[\s\S]*?-->/g,"").replace(/<[^>]+>/g," ")
+  const answer=hero.match(/<p class="zp-muted-copy">([\s\S]*?)<\/p>/)?.[1];
+  if(!answer)throw new Error("Missing exact quick-answer paragraph");
+  const plain=answer.replace(/<!--[\s\S]*?-->/g,"").replace(/<[^>]+>/g," ")
     .replace(/\s+/g," ").trim();
   for(const phrase of ["Rychlá odpověď:", "Některá chodítka mohou být hrazena",
     "Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně"])
     if(!plain.includes(phrase))throw new Error("Missing search-first insurance answer");
   for(const target of ["rychla-cesta-na-epoukaz","zp-overit-mesicni-seznam"]){
-    const hrefs=[...hero.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1]);
+    const hrefs=[...answer.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1]);
     if(hrefs.filter(href=>href==="#"+target).length!==1)
       throw new Error("Missing or duplicate first-screen navigation");
     if([...html.matchAll(new RegExp('\\bid=["\\u0027]'+target+'["\\u0027]','g'))].length!==1)

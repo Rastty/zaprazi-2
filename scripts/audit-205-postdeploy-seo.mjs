@@ -17,6 +17,10 @@ export const SOURCE_DATES=Object.freeze({
   "/co-zmerit-pred-vyberem-choditka/":"2026-11-08",
   "/choditka-pro-seniory/":"2026-11-09"
 });
+export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
+  Object.entries(SOURCE_DATES).filter(([path])=>
+    path!=="/co-zmerit-pred-vyberem-choditka/"&&path!=="/choditka-pro-seniory/")
+));
 const HOME_CARDS=Object.freeze([
   {heading:"Chůze a opora",path:"/co-zmerit-pred-vyberem-choditka/",word:"změřit"},
   {heading:"Koupelna a WC",path:"/sprchovaci-zidle-pro-seniory/",word:"sprchovací"}
@@ -43,7 +47,7 @@ export function assertHomepageCards(html) {
   }
   return {linksVerified:HOME_CARDS.length,paths:HOME_CARDS.map(x=>x.path)};
 }
-export function assertMaterialLastmod(xml, now="2026-11-09") {
+export function assertMaterialLastmod(xml, now="2026-11-09", expectedDates=SOURCE_DATES) {
   if(typeof xml!=="string"||!/<urlset\b/i.test(xml)||xml.length<100)
     throw Error("SITEMAP_XML_UNAVAILABLE");
   const validNow=/^\d{4}-\d{2}-\d{2}$/.test(now)?now:null;
@@ -52,7 +56,7 @@ export function assertMaterialLastmod(xml, now="2026-11-09") {
   if(rows.length<4)throw Error("SITEMAP_MISSING_URLS");
   const verified=[];
   const stale=[];
-  for(const [path,minimumDate] of Object.entries(SOURCE_DATES)) {
+  for(const [path,minimumDate] of Object.entries(expectedDates)) {
     const hits=rows.filter(x=>{
       const loc=x[1].match(/<loc>([^<]+)<\/loc>/i)?.[1];
       return loc&&urlPath(loc)===path;
@@ -70,19 +74,35 @@ export function assertMaterialLastmod(xml, now="2026-11-09") {
     JSON.stringify(stale));
   return {lastmodsVerified:verified.length,pages:verified};
 }
-async function fetchPublic(path) {
+export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE,liveRelease,integrity}) {
+  if(integrity!=="ok")throw Error("SITEMAP_LIVE_INTEGRITY_FAILED");
+  if(liveRelease===sourceRelease)return {dates:SOURCE_DATES,mode:"postdeploy_exact_release"};
+  if(event==="pull_request"&&sourceRelease==="0.8.209"&&liveRelease==="0.8.208")
+    return {dates:PREDEPLOY_BASELINE_DATES,mode:"predeploy_verified_baseline_only"};
+  throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
+}
+async function fetchPublic(path,accept="text/html,application/xml,text/xml") {
   const url=ORIGIN+path;
   const response=await fetch(url,{redirect:"error",signal:AbortSignal.timeout(15000),
-    headers:{"Accept":"text/html,application/xml,text/xml"}});
+    headers:{"Accept":accept}});
   if(response.status!==200)throw Error("PUBLIC_SEO_HTTP_NOT_200");
   const content=await response.text();
   if(content.length>4_000_000)throw Error("PUBLIC_SEO_BODY_TOO_LARGE");
   return content;
 }
 export async function verifyPublicSeo205(now=new Date().toISOString().slice(0,10)) {
-  const [html,xml]=await Promise.all([fetchPublic("/"),fetchPublic("/page-sitemap.xml")]);
-  return {...assertHomepageCards(html),...assertMaterialLastmod(xml,now),
-    release:SOURCE_THEME_RELEASE,status:"verified_read_only",
+  const [html,xml,json]=await Promise.all([
+    fetchPublic("/"),fetchPublic("/page-sitemap.xml"),
+    fetchPublic("/wp-json/zaprazi/v1/affiliate-readiness","application/json")
+  ]);
+  const readiness=JSON.parse(json);
+  if(readiness?.configured_total!==25||readiness?.slot_total!==25)
+    throw Error("SITEMAP_READINESS_INCOMPLETE");
+  const scope=selectLiveSitemapScope({event:process.env.GITHUB_EVENT_NAME,
+    liveRelease:readiness.release,integrity:readiness.integrity});
+  return {...assertHomepageCards(html),...assertMaterialLastmod(xml,now,scope.dates),
+    source_release:SOURCE_THEME_RELEASE,live_release:readiness.release,
+    check_scope:scope.mode,status:"verified_read_only",
     limitations:"Public links and sitemap freshness signals; NOT evidence of Google indexing, traffic or commission"};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {

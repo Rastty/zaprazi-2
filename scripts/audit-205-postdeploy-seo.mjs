@@ -48,6 +48,7 @@ export function assertMaterialLastmod(xml, now="2026-11-09") {
   const rows=[...xml.matchAll(/<url>([\s\S]*?)<\/url>/gi)];
   if(rows.length<4)throw Error("SITEMAP_MISSING_URLS");
   const verified=[];
+  const stale=[];
   for(const [path,minimumDate] of Object.entries(SOURCE_DATES)) {
     const hits=rows.filter(x=>{
       const loc=x[1].match(/<loc>([^<]+)<\/loc>/i)?.[1];
@@ -59,9 +60,11 @@ export function assertMaterialLastmod(xml, now="2026-11-09") {
     if(!valid||!Number.isFinite(Date.parse(raw)))throw Error("SITEMAP_LASTMOD_UNVERIFIED");
     const recorded=new Date(raw).toISOString().slice(0,10);
     if(recorded<minimumDate||recorded>validNow)
-      throw Error("SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW");
-    verified.push({path,lastmod:recorded});
+      stale.push({path,lastmod:recorded});
+    else verified.push({path,lastmod:recorded});
   }
+  if(stale.length)throw Error("SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW "+
+    JSON.stringify(stale));
   return {lastmodsVerified:verified.length,pages:verified};
 }
 async function fetchPublic(path) {

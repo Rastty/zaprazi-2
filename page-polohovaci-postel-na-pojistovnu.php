@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_211 */
+/* ZP_RELEASE_0_8_212 */
 /*
 Template Name: Zápraží — Polohovací postel na pojišťovnu
 */

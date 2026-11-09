@@ -181,7 +181,7 @@ test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and a
       rental:render("page-pujceni-choditka.php",date),
       measuring:render("page-co-zmerit-pred-vyberem-choditka.php",date)
     };
-    assert.equal(assertMobility185UX(pages,date).home_checks,7);
+    assert.equal(assertMobility185UX(pages,date,"2026-12-09").home_checks,7);
   }
 });
 

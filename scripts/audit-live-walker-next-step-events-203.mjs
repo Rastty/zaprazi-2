@@ -18,6 +18,11 @@ if(SOURCE_THEME_RELEASE!=="0.8.203"){
 assert.equal(EXPECTED_LIVE_RELEASE,"0.8.203");
 
 const ORIGIN="https://zaprazi.cz";
+const DESTINATIONS=[
+  {path:"/choditko-na-pojistovnu/",hash:"#priprava-pro-lekare"},
+  {path:"/pujceni-choditka/",hash:"#rozpocet-pujceni-choditka"},
+  {path:"/",hash:"#poradce"}
+];
 const puppeteer=(await import("puppeteer-core")).default;
 const browser=await puppeteer.launch({
   executablePath:process.env.CHROME_BIN||"/usr/bin/google-chrome",
@@ -60,6 +65,15 @@ try{
         const cfg=entries.find(v=>v[0]==="config");
         return {
           release,integrity,cards:cards.length,links:links.length,
+          paths:links.map(link=>{
+            if(!link)return null;
+            try{
+              const u=new URL(link.href,location.href);
+              return u.protocol==="https:" && u.origin===location.origin &&
+                !u.search && !u.username && !u.password
+                ? {path:u.pathname,hash:u.hash} : null;
+            }catch{return null}
+          }),
           measured:events.map(v=>({name:v[1],argc:v.length})),
           page:cfg?.[2]?.page_location||null,
           ref:cfg?.[2]?.page_referrer||null,
@@ -70,6 +84,8 @@ try{
       assert.equal(result.integrity,"ok");
       assert.equal(result.cards,3);
       assert.equal(result.links,3);
+      assert.deepEqual(result.paths,DESTINATIONS,
+        "All three handoffs must remain on exact safe public paths and anchors");
       if(consent==="granted"){
         assert.deepEqual(result.measured.map(v=>v.name),
           ["next_step_click","next_step_click","guide_advisor_click"]);
@@ -78,6 +94,25 @@ try{
         assert.equal(result.page,ORIGIN+"/co-zmerit-pred-vyberem-choditka/");
         assert.equal(result.loadedGoogleTag,true);
         assert.ok(externalBlocked>0,"Google tag request should be blocked by QA");
+        // Since the older 0.8.202-only checker is release-guarded, preserve
+        // its real destination-anchor acceptance for the 0.8.203 release.
+        for(const destination of DESTINATIONS){
+          const targetResponse=await page.goto(ORIGIN+destination.path,{
+            waitUntil:"networkidle2",timeout:40000
+          });
+          assert.equal(targetResponse?.status(),200,"Destination must return HTTP 200");
+          const evidence=await page.evaluate(anchorId=>({
+            release:document.querySelector('meta[name="zaprazi-release"]')?.content,
+            integrity:document.querySelector('meta[name="zaprazi-integrity"]')?.content,
+            path:location.pathname,search:location.search,
+            count:[...document.querySelectorAll("[id]")].filter(el=>el.id===anchorId).length
+          }),destination.hash.slice(1));
+          assert.equal(evidence.release,"0.8.203");
+          assert.equal(evidence.integrity,"ok");
+          assert.equal(evidence.path,destination.path,"No unrelated redirect");
+          assert.equal(evidence.search,"","No query/answer transport");
+          assert.equal(evidence.count,1,"Target fragment must exist exactly once");
+        }
       }else{
         assert.deepEqual(result.measured,[]);
         assert.equal(result.loadedGoogleTag,false);

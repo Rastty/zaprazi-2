@@ -129,5 +129,13 @@ test("strict Chrome postdeploy checker cannot transmit fake analytics or merchan
   assert.match(script,/request\.abort\("blockedbyclient"\)/);
   assert.match(script,/e=>e\.preventDefault\(\)/);
   assert.match(script,/WALKER_NEXT_STEP_203_CHROME_PASS/);
+  // Prevent losing the three real destination-anchor checks when the
+  // release-specific 0.8.202 Chrome script becomes NOT_APPLICABLE.
+  for(const fragment of [
+    "priprava-pro-lekare","rozpocet-pujceni-choditka","poradce"
+  ]) assert.ok(script.includes(fragment));
+  assert.match(script,/assert\.deepEqual\(result\.paths,DESTINATIONS/);
+  assert.match(script,/await page\.goto\(ORIGIN\+destination\.path/);
+  assert.match(script,/assert\.equal\(evidence\.count,1/);
   assert.doesNotMatch(script,/wp_insert_post|wp_update_post|fetch\("https:\/\/www\.googletagmanager|page\.click\(/);
 });

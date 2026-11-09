@@ -33,7 +33,7 @@ test("high-intent insurance and rental pages have distinct truthful title and Yo
   assert.match(description, /jak řešit ePoukaz/);
   assert.match(description, /u koho ověřit úhradu a doplatek/);
   assert.match(description, /Čtyři kroky před objednáním/);
-  assert.match(description, /Staré ceny ověřte znovu/);
+  assert.match(description, /Sazby jsou příklady, ne závazná nabídka/);
   assert.doesNotMatch(description, /aktuální ceník|garantovaná úhrada|0 Kč doplatek/i);
 });
 
@@ -50,7 +50,7 @@ test("rental first screen resolves the practical rental intent without new URL o
   assert.match(section, /Ověřte, co půjčovna skutečně nabízí/);
   assert.match(section, /Porovnejte celkovou cenu/);
   assert.match(section, /Domluvte bezpečné předání/);
-  assert.match(section, /Starší příklady cen níže nejsou aktuální nabídkou/);
+  assert.match(section, /Sazby níže jsou příklady z veřejných ceníků/);
   for (const path of ["/choditka-pro-seniory/", "/co-zmerit-pred-vyberem-choditka/",
     "/choditko-na-pojistovnu/"]) assert.ok(section.includes(path));
   for (const anchor of ["rozpocet-pujceni-choditka", "zp-otazky-pujcovna"])

@@ -50,11 +50,12 @@ test("call preparation reuses existing light-on-dark accessible card style",()=>
 
 test("dated rental examples do not show historical deposits as current",()=>{
   const page=read("page-pujceni-choditka.php");
-  assert.match(page,/\$zp_rental_fresh_through = '2026-11-06'/);
+  assert.match(page,/\$zp_rental_fresh_through = '2026-12-09'/);
   assert.match(page,/\$zp_rental_today <= \$zp_rental_fresh_through/);
-  assert.equal((page.match(/\$zp_rental_is_fresh \? '1 000 Kč' : 'historicky 1 000 Kč'/g)||[]).length,2,
-    "Both fixed 1,000 Kč deposits must be marked historical after expiry");
-  assert.match(page,/\$zp_rental_is_fresh \? 'typicky 1 000 Kč u ověřených půjčovních položek' : 'ověřit u půjčovny \(starší příklad: 1 000 Kč\)'/);
+  assert.equal((page.match(/\$zp_rental_is_fresh \? '1 000 Kč' : 'historicky 1 000 Kč'/g)||[]).length,1,
+    "Only MEYRA has a currently reverified fixed 1,000 Kč deposit");
+  assert.equal((page.match(/ověřit u půjčovny \(starší příklad: 1 000 Kč\)/g)||[]).length,2,
+    "Both RehaKomp deposits remain unverified, even while price rates are fresh");
   assert.doesNotMatch(page,/<dd>1 000 Kč<\/dd>/);
   assert.match(page,/Přepočet není k dispozici/);
 });

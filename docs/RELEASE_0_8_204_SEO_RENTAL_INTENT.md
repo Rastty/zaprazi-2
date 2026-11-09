@@ -16,3 +16,10 @@ V existujícím Yoast/fallback title adaptéru zavádíme konkrétní odlišné 
 - CI, PHP lint, testy bezpečnosti a postdeploy live Chrome musí projít. WordPress změna bude dostupná až po Pull + Deploy; merge není publikace.
 - Neměnit produktové fit-gates, pořadí doporučení, obchodní odkazy, ceny, skryté odpovědi či consent.
 - Kontrolovat ve srovnatelném 28denním GSC okně **URL-level** impressions, clicks, CTR, position; nemoct slíbit zisk nebo růst z 5 zobrazení. Před další redakční úpravou chtít stránkově filtrované dotazy; u provizí zachovat UNKNOWN.
+
+## Ověření veřejných ceníků 9. 11. 2026 (po prvním návrhu PR)
+
+- RehaKomp oficiální ceník: https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek — čtyřkolové venkovní 12 Kč/den a 360 Kč/měsíc; pevné čtyřbodové 10 Kč/den a 300 Kč/měsíc (veřejná stránka otevřena 9. 11. 2026). **Současná veřejná tabulka nepotvrzuje konkrétní vratnou kauci RehaKomp**, proto zůstává jen explicitně historický příklad a pokyn ověřit ji.
+- MEYRA ČR oficiální ceník: https://www.meyra.cz/cenik-meyra.html — kategorie chodítko 250 Kč/týden, 600 Kč/měsíc, vratná kauce 1 000 Kč, veřejný ceník s platností od 1. 1. 2026, znovu otevřen a ověřen 9. 11. 2026. Není to potvrzení dostupnosti konkrétní varianty.
+- Šablona nyní označuje ověření sazeb 9. 11. 2026 a fail-closed expiraci 9. 12. 2026. Do té doby opět umožňuje pouze nezávaznou místní kalkulačku násobku zdrojovaných měsíčních sazeb; kauce a doprava nejsou součástí výpočtu. Po expiraci je příkladová kalkulačka skrytá, vlastní návštěvníkem zadaná nabídka zůstává dostupná.
+- Aktualizované PHP-render testy ověřují obě hranice expirace 9./10. 12. 2026. Bez dohodnuté dostupnosti nelze ceny vydávat za individuální nabídku.

@@ -1285,7 +1285,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Chodítko na pojišťovnu v roce 2026: jak řešit ePoukaz, u koho ověřit úhradu a doplatek a proč nekupovat pomůcku předem. Praktický postup.';
   }
   if ( is_page( 'pujceni-choditka' ) ) {
-    return 'Jak půjčit chodítko nebo rollátor? Čtyři kroky před objednáním: bezpečný typ, dostupnost, kauce, celkové náklady a předání. Staré ceny ověřte znovu.';
+    return 'Jak půjčit chodítko nebo rollátor? Čtyři kroky před objednáním: bezpečný typ, dostupnost, kauce, celkové náklady a předání. Sazby jsou příklady, ne závazná nabídka.';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Jak vybrat pomůcky do koupelny pro seniory: nástavec na WC, madlo, sprchovací či toaletní židli a sedátko do vany podle přesunu, prostoru a stability.';

@@ -148,3 +148,13 @@ This documented change requests a **fresh complete read-only postdeploy QA** aft
 - **Trigger reason:** This documentation-only `main` push invokes the existing full `Production Advisor Browser QA` with the **latest** 203 Chrome checker, including all 14 Advisors, existing safety and affiliate checks, and exactly three safe walker acquisition destinations and events. Unlike PR checks, this must execute the production-only release-specific scenario against the actual deployed site.
 - **Acceptance gate:** Record verified 0.8.203 in `config/growth-state.json` only after the complete workflow is `completed/success` and its 203 Chrome step logs `WALKER_NEXT_STEP_203_CHROME_PASS`. If any job fails, inspect logs and repair rather than asserting acceptance.
 - **Scope:** Read-only public browser probes; no WordPress writes, merchant CTA activation, external analytics requests, personal-data collection or premature sales/SEO uplift claims.
+
+## 2026-11-09 — 0.8.208 live owner acknowledgment and strict production QA request
+
+- **Owner acknowledgment:** the owner confirmed WordPress Pull + Deploy in project chat on 2026-11-09, after release #735 and test-only PR #736.
+- **Independently observed release before QA:** authenticated read-only WordPress site_info showed active zaprazi-2 version 0.8.208; read-only /wp-json/zaprazi/v1/affiliate-readiness returned release=0.8.208, integrity=ok, configured_total=25 and slot_total=25, with no missing group slots.
+- **Git source:** main=dev=036ba43001db63ecc1647e07366a7421018ad0d2, and main CI [#42616838851](https://github.com/Rastty/zaprazi-2/actions/runs/42616838851) was successful. This acknowledgment-only commit must not change WordPress source or release number.
+- **Trigger:** merge this document-only PR to main so the existing Production Advisor Browser QA push-path trigger runs exact checked-out 0.8.208 against public production after the owner's deploy.
+- **Acceptance:** the production run must complete successfully, including live release coherence, all 14 Advisor safety and fit-gates, return-home/mobile journey, privacy, merchant route integrity and 25/25 configuration. Only then can a separate state/evidence update mark release 0.8.208 verified.
+- **Safeguards:** no WordPress writes, merchant clicks, health-answer logging, new URLs, product ranking changes or affiliation changes. The earlier post-merge QA run [#42614413098](https://github.com/Rastty/zaprazi-2/actions/runs/42614413098) failed because live was still 0.8.207; it does not prove a 0.8.208 regression.
+- **SEO business metrics:** index coverage and approved commissions remain independently measurable; release readiness alone does not establish increased organic sessions or orders.

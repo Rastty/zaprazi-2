@@ -28,7 +28,7 @@ test("Indexed parent pages expose plain crawlable, context-relevant links to two
   assert.doesNotMatch(home,/data-zp-affiliate-link|data-zp-merchant-link/);
 });
 
-test("Only four genuinely changed page types receive bounded sitemap lastmod signal",()=>{
+test("Only materially changed canonical pages receive bounded sitemap lastmod",()=>{
   const code=[
     "define('ABSPATH','/');",
     "$registered=[];",
@@ -74,5 +74,5 @@ test("Only four genuinely changed page types receive bounded sitemap lastmod sig
   assert.deepEqual(Object.keys(x.dates).sort(),[
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
     "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",
-    "choditka-pro-seniory"].sort());
+    "choditka-pro-seniory","senior-nemuze-vstat-z-postele"].sort());
 });

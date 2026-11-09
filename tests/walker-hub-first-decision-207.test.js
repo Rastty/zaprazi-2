@@ -19,7 +19,7 @@ test("0.8.207 first-screen safety guidance precedes choice and original safety-f
 });
 test("First screen warns against unsupervised aid choice and preserves existing safe next steps", () => {
   const first = source.slice(0, comparison);
-  for (const phrase of ["fyzické přidržování", "opakovaně padá", "nedokáže bezpečně stát", "odborné posouzení", "ověření ovládání a rozměrů"]) {
+  for (const phrase of ["fyzické přidržování", "opakovaně padá", "nedokáže bezpečně stát", "odborné posouzení", "bezpečné ovládání a rozměry se teprve ověřují"]) {
     assert.ok(first.includes(phrase), "Missing important safety limit: " + phrase);
   }
   for (const path of ["/choditko-do-bytu-pro-seniory/#poradce-choditko-byt", "/rollator-pro-seniory/#poradce-rollator", "/#poradce"]) {

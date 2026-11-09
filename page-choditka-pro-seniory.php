@@ -13,7 +13,7 @@ get_header();
       <h1>Chodítka pro seniory: jak vybrat správný typ doma i venku.</h1>
       <p class="zp-lead">Pevné chodítko, dvoukolové chodítko a čtyřkolový rollátor nejsou zaměnitelné. Začněte prostředím a způsobem používání, potom řešte rozměry, nosnost a teprve nakonec nákup, půjčení nebo pojišťovnu.</p>
       <p class="zp-muted-copy">Člověk nechce chodítko používat? Nejdřív se pokuste pochopit proč. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Citlivý postup pro rodinu bez nátlaku</a>.</p>
-      <p class="zp-muted-copy">Víte už, kde bude člověk pomůcku používat? Můžete přejít přímo do specializovaného poradce. Výsledek není potvrzením vhodnosti konkrétního chodítka — bezpečné ovládání a rozměry se teprve ověřují.</p>
+      <p class="zp-muted-copy"><strong>Nejdřív ověřte bezpečný způsob chůze.</strong> Pokud člověk při chůzi běžně potřebuje fyzické přidržování, opakovaně padá nebo nedokáže bezpečně stát, nevybírejte konkrétní chodítko jen podle internetu; nejprve požádejte o odborné posouzení. Jinak pokračujte podle prostředí: doma, venku nebo obojí. Ani dokončený poradce nepotvrzuje vhodnost konkrétního modelu bez ověření ovládání a rozměrů.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Hlavně doma: poradce pro chodítko</a>
@@ -29,32 +29,6 @@ get_header();
     </div>
   </section>
 
-
-  <section id="vyber-typu" class="zp-section">
-    <div class="zp-wrap">
-      <p class="zp-kicker">Rychlé rozhodnutí</p>
-      <h2 class="zp-section-title">Kde bude člověk chodítko hlavně používat?</h2>
-      <div class="zp-decision-grid">
-        <article class="zp-decision-card">
-          <h3>Hlavně doma</h3>
-          <p>Řešte hlavně stabilitu, schopnost chodítko posouvat a šířku dveří. Rozdíl mezi čtyřbodovým a dvoukolovým provedením je zásadní.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Poradce pro chodítko do bytu</a></p>
-        </article>
-        <article class="zp-decision-card">
-          <h3>Venku nebo doma i venku</h3>
-          <p>Čtyřkolový rollátor umožňuje plynulejší chůzi, ale vyžaduje bezpečné ovládání ručních brzd.</p>
-          <p><strong>Před rozhodnutím ověřte:</strong> zda člověk dokáže brzdy stisknout, bezpečně zastavit a zajistit parkovací brzdu podle návodu. Pokud to není jisté, nejdřív požádejte o praktické posouzení a nácvik; samotný výběr online nestačí.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Poradce pro rollátor</a></p>
-        </article>
-        <article class="zp-decision-card">
-          <h3>Při chůzi běžně pomáhá druhá osoba</h3>
-          <p>V takové situaci nechceme konkrétní chodítko vybírat jen podle internetu. Nejdřív je potřeba ověřit bezpečný způsob chůze a vhodný typ opory.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Projít bezpečnostní poradce</a></p>
-        </article>
-      </div>
-      <p class="zp-muted-copy">Pokud vybíráte <strong>chodítko se sedátkem na odpočinek</strong>, záleží i na bezpečném zabrzdění, usednutí a vstávání; samotná čtyři kolečka nestačí. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Kdy dává smysl rollátor se sedátkem</a>.</p>
-    </div>
-  </section>
 
   <section id="hul-nebo-choditko" class="zp-section zp-section-soft" aria-labelledby="hul-nebo-choditko-nadpis">
     <div class="zp-wrap">
@@ -105,6 +79,32 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Připravit měření před výběrem</a>
       </div>
       <p class="zp-disclaimer"><strong>Podklady:</strong> <a href="https://www.nhs.uk/social-care-and-support/care-services-equipment-and-care-homes/walking-aids-wheelchairs-and-mobility-scooters/" target="_blank" rel="noopener noreferrer">NHS — walking aids</a> (rozdílná opora a kritéria výběru), <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/zdravotnicke-pomucky-pro-imobilni-pacienty" target="_blank" rel="noopener noreferrer">VZP — pomůcky při omezení pohyblivosti</a> (lékařské posouzení, hůl/berle vs. chodítko), <a href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV — péče a služby</a> (půjčovny a konzultace). Kontrola 28. 10. 2026. Nejde o individuální zdravotnické doporučení; pravidla úhrady je třeba znovu ověřit.</p>
+    </div>
+  </section>
+
+  <section id="vyber-typu" class="zp-section">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rychlé rozhodnutí</p>
+      <h2 class="zp-section-title">Kde bude člověk chodítko hlavně používat?</h2>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Hlavně doma</h3>
+          <p>Řešte hlavně stabilitu, schopnost chodítko posouvat a šířku dveří. Rozdíl mezi čtyřbodovým a dvoukolovým provedením je zásadní.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Poradce pro chodítko do bytu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Venku nebo doma i venku</h3>
+          <p>Čtyřkolový rollátor umožňuje plynulejší chůzi, ale vyžaduje bezpečné ovládání ručních brzd.</p>
+          <p><strong>Před rozhodnutím ověřte:</strong> zda člověk dokáže brzdy stisknout, bezpečně zastavit a zajistit parkovací brzdu podle návodu. Pokud to není jisté, nejdřív požádejte o praktické posouzení a nácvik; samotný výběr online nestačí.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Poradce pro rollátor</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Při chůzi běžně pomáhá druhá osoba</h3>
+          <p>V takové situaci nechceme konkrétní chodítko vybírat jen podle internetu. Nejdřív je potřeba ověřit bezpečný způsob chůze a vhodný typ opory.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Projít bezpečnostní poradce</a></p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Pokud vybíráte <strong>chodítko se sedátkem na odpočinek</strong>, záleží i na bezpečném zabrzdění, usednutí a vstávání; samotná čtyři kolečka nestačí. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Kdy dává smysl rollátor se sedátkem</a>.</p>
     </div>
   </section>
 

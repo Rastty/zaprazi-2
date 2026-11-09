@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_203 */
+/* ZP_RELEASE_0_8_204 */
 /*
 Template Name: Zápraží — Půjčení chodítka
 */
@@ -20,11 +20,26 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
+        <a class="zp-text-link" href="#jak-pujcit-choditko">Jak postupovat při půjčení chodítka</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 6. 10. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
         <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu</button>
       </div>
+    </div>
+  </section>
+
+  <section id="jak-pujcit-choditko" class="zp-section zp-section-soft" aria-labelledby="jak-pujcit-choditko-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rychlá odpověď · půjčení bez nákupu naslepo</p>
+      <h2 id="jak-pujcit-choditko-nadpis" class="zp-section-title">Jak půjčit chodítko nebo rollátor? Čtyři kroky před objednáním.</h2>
+      <ol class="zp-guide-steps">
+        <li><strong>Nejdřív bezpečný typ.</strong> Pevné čtyřbodové, dvoukolové chodítko a brzděný rollátor nejsou zaměnitelné. Pokud člověk padá, potřebuje fyzickou pomoc nebo nezvládá brzdy, vyžádejte si odborné posouzení. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat rozdíly mezi typy</a>.</li>
+        <li><strong>Ověřte, co půjčovna skutečně nabízí.</strong> Zeptejte se na přesný model, dostupnost, nosnost, výšku madel, šířku průchodů a stav brzd nebo koncovek. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Co předem změřit doma</a>.</li>
+        <li><strong>Porovnejte celkovou cenu, ne jen sazbu za den.</strong> Zjistěte minimální dobu pronájmu, měsíční cenu, vratnou kauci, dopravu, vrácení a případné poplatky. Starší příklady cen níže nejsou aktuální nabídkou. <a class="zp-text-link" href="#rozpocet-pujceni-choditka">Jak pracovat s vlastní nabídkou půjčovny</a>.</li>
+        <li><strong>Domluvte bezpečné předání.</strong> Před převzetím ověřte funkčnost, návod k přesnému modelu, nastavení a postup při závadě. Neberte automaticky jiný typ jen proto, že je skladem. <a class="zp-text-link" href="#zp-otazky-pujcovna">Pět otázek pro půjčovnu</a>.</li>
+      </ol>
+      <p class="zp-disclaimer"><strong>Půjčení nezaručuje vhodnost ani úhradu pojišťovnou.</strong> U nejisté stability chůze, brzd nebo přesunu řešte nejprve bezpečný způsob používání s odborníkem. Případný ePoukaz a přímý nákup mají jiné podmínky: <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/#rychla-cesta-na-epoukaz' ) ); ?>">Jak postupovat u pojišťovny</a>.</p>
     </div>
   </section>
 

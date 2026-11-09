@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_209 */
+/* ZP_RELEASE_0_8_210 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -16,6 +16,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Úhrada zdravotnické pomůcky</p>
       <h1>Chodítko na pojišťovnu v roce 2026.</h1>
       <p class="zp-lead">Prakticky a bez slibů: jak funguje ePoukaz, co znamená úhrada v seznamu SÚKL a co si ověřit dřív, než chodítko koupíte nebo objednáte.</p>
+      <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena z veřejného zdravotního pojištění, ale pouze při splnění podmínek pro konkrétní zdravotnický prostředek, správném předpisu a výdeji. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně. <a class="zp-text-link" href="#rychla-cesta-na-epoukaz">Tři kroky před nákupem</a> · <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit platnou úhradu u SÚKL</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
@@ -313,7 +314,7 @@ get_header();
         <article>
           <h3>SÚKL: pravidla předepisování a výdeje od roku 2026</h3>
           <p>Ověřeno 6. 10. 2026.</p>
-          <a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predpisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/" target="_blank" rel="noopener">Otevřít pravidla SÚKL</a>
+          <a href="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/" target="_blank" rel="noopener">Otevřít pravidla SÚKL</a>
         </article>
         <article>
           <h3>VZP: zpětné proplacení zakoupeného chodítka není možné</h3>

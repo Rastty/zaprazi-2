@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-11-07",
+  "asOf": "2026-11-09",
   "metrics": {
-    "organic_clicks_28d": 11,
-    "organic_impressions_28d": 884
+    "organic_clicks_28d": 9,
+    "organic_impressions_28d": 941
   },
   "metricSources": {
-    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42235726854",
-    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42235726854"
+    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42587662860",
+    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42587662860"
   },
   "nodes": {
     "safety_qa": {
       "status": "verified",
-      "verifiedRelease": "0.8.203",
-      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42580371430"
+      "verifiedRelease": "0.8.204",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/42587307000"
     },
     "affiliate_audit": {
       "status": "in_progress",
@@ -25,7 +25,7 @@
     },
     "intent_evidence": {
       "status": "in_progress",
-      "evidenceUrl": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42235726854"
+      "evidenceUrl": "https://github.com/Rastty/prometheus-growth-os/actions/runs/42587662860"
     }
   }
 }

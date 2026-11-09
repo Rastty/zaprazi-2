@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assertHomepageCards,assertMaterialLastmod,SOURCE_DATES,PREDEPLOY_BASELINE_DATES,selectLiveSitemapScope} from "../scripts/audit-205-postdeploy-seo.mjs";
+import {assertHomepageCards,assertMaterialLastmod,assertBedFirstAnswer,SOURCE_DATES,PREDEPLOY_BASELINE_DATES,selectLiveSitemapScope} from "../scripts/audit-205-postdeploy-seo.mjs";
 
 const html=String.raw`<html><main>
 <article class="zp-decision-card"><h3>Chůze a opora</h3>
@@ -22,9 +22,9 @@ test("Exact visible homepage decision cards link to matching useful guides",()=>
   assert.throws(()=>assertHomepageCards(html.replace("/co-zmerit-pred-vyberem-choditka/","/co-zmerit-pred-vyberem-choditka/?symptom=x")),
     /MISSING_CONTEXTUAL_HOME_LINK/);
 });
-test("Only six exact substantial changes must have real not-in-future sitemap dates",()=>{
+test("All seven exactly material changes have real non-future sitemap dates",()=>{
   const v=assertMaterialLastmod(xml,"2026-11-10");
-  assert.equal(v.lastmodsVerified,6);
+  assert.equal(v.lastmodsVerified,7);
   assert.deepEqual(v.pages.map(x=>x.path),Object.keys(SOURCE_DATES));
   assert.throws(()=>assertMaterialLastmod(xml.replaceAll("<lastmod>","<lastmid>"),"2026-11-10"),
     /SITEMAP_LASTMOD_UNVERIFIED/);
@@ -46,10 +46,54 @@ test("Only prior four changed pages are asserted before 0.8.209 deploy; full six
   assert.equal(assertMaterialLastmod(xml,"2026-11-10",pre.dates).lastmodsVerified,4);
   const post=selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.209",liveRelease:"0.8.209",integrity:"ok"});
   assert.equal(post.mode,"postdeploy_exact_release");
-  assert.equal(assertMaterialLastmod(xml,"2026-11-10",post.dates).lastmodsVerified,6);
+  assert.equal(assertMaterialLastmod(xml,"2026-11-10",post.dates).lastmodsVerified,7);
   for(const opts of [
     {event:"schedule",sourceRelease:"0.8.209",liveRelease:"0.8.208",integrity:"ok"},
     {event:"pull_request",sourceRelease:"0.8.209",liveRelease:"0.8.207",integrity:"ok"},
     {event:"pull_request",sourceRelease:"0.8.209",liveRelease:"0.8.208",integrity:"partial"}
   ])assert.throws(()=>selectLiveSitemapScope(opts),/SITEMAP_LIVE_/);
+});
+
+
+const liveBed=String.raw`<!doctype html>
+<head><meta name="zaprazi-release" content="0.8.211">
+<meta name="zaprazi-integrity" content="ok"></head>
+<main>
+<section class="zp-hero"><div class="zp-wrap">
+<h1>Senior nemůže vstát z postele</h1>
+<p class="zp-muted-copy"><strong>Rychlá odpověď:</strong>
+Když se nedokáže posadit nebo zvednout ze sedu, při náhlém zhoršení
+jej nezkoušejte zvedat silou; situaci ověřte s odborníkem.
+<a href="#rozhodnuti-vstavani-postel">Co udělat dnes</a>
+<a href="#kontroly-postele">Co změřit</a></p>
+<div class="zp-hero-actions"><a href="#rozhodnuti-vstavani-postel">Zopakovat bezpečnou navigaci</a></div>
+</div></section>
+<section id="rozhodnuti-vstavani-postel"></section>
+<section id="kontroly-postele"></section></main>`;
+
+test("0.8.211 actual first-screen safety answer and repeated safe navigation pass",()=>{
+  const result=assertBedFirstAnswer(liveBed,"0.8.211");
+  assert.equal(result.bedFirstAnswer,"verified");
+  assert.equal(result.bedAnchorsVerified,2);
+  for(const v of [
+    liveBed.replace('content="0.8.211"','content="0.8.210"'),
+    liveBed.replace('content="ok"','content="partial"'),
+    liveBed.replace("Rychlá odpověď:","Něco jiného:"),
+    liveBed.replace("nezkoušejte zvedat silou","zkuste jej zvednout"),
+    liveBed.replace('href="#kontroly-postele"','href="#chybi-kotva"'),
+    liveBed.replace('<section id="kontroly-postele"></section>',''),
+    liveBed.replace('<section id="kontroly-postele"></section>',
+      '<section id="kontroly-postele"></section><section id="kontroly-postele"></section>'),
+    liveBed.replace('<div class="zp-hero-actions">','<form><input name="health"></form><div class="zp-hero-actions">'),
+    liveBed.replace("</section>\n<section id=\"rozhodnuti",'<p class="zp-muted-copy">Rychlá odpověď: duplicitní</p></section>\n<section id="rozhodnuti')
+  ])assert.throws(()=>assertBedFirstAnswer(v,"0.8.211"));
+});
+test("0.8.211's dated bed page must appear once, with actual verified date",()=>{
+  assert.equal(Object.keys(SOURCE_DATES).length,7);
+  assert.equal(SOURCE_DATES["/senior-nemuze-vstat-z-postele/"],"2026-11-09");
+  const missing=xml.replace(/<url><loc>https:\/\/zaprazi\.cz\/senior-nemuze-vstat-z-postele\/<\/loc>[\s\S]*?<\/url>/,"");
+  assert.throws(()=>assertMaterialLastmod(missing,"2026-11-10"),/SITEMAP_MISSING_OR_DUPLICATE_PAGE/);
+  const invalid=xml.replace('<loc>https://zaprazi.cz/senior-nemuze-vstat-z-postele/</loc><lastmod>2026-11-09',
+    '<loc>https://zaprazi.cz/senior-nemuze-vstat-z-postele/</loc><lastmod>2026-10-09');
+  assert.throws(()=>assertMaterialLastmod(invalid,"2026-11-10"),/SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
 });

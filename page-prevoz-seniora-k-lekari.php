@@ -11,12 +11,13 @@ get_header();
       <p class="zp-kicker">Zápraží · Doprava k lékaři · Plán pro rodinu</p>
       <h1>Jak zajistit převoz seniora k lékaři? Kdy je sanita hrazená a co když nezvládá auto?</h1>
       <p class="zp-lead">Máte termín vyšetření, ale maminka nebo tatínek neujde cestu na zastávku, nezvládne schody, potřebuje invalidní vozík nebo se nedokáže bezpečně přesunout na sedadlo auta? <strong>Nejdřív rozlište zdravotní transport, běžnou dopravu s pomocí a akutní situaci.</strong> Nemusíte hned kupovat pomůcku ani objednávat drahý převoz naslepo.</p>
+      <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Sanitku hrazenou zdravotní pojišťovnou nelze zajistit jen kvůli věku nebo špatnému spojení. Pokud zdravotní stav neumožňuje běžnou dopravu, o potřebě přepravy rozhoduje ošetřující lékař a případně vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. U plánovaného vyšetření ověřte, kdo vystaví příkaz na cestu tam; cestu zpět musí znovu posoudit lékař, který péči poskytl. Pokud je běžná doprava bezpečná, lze plánovat odvoz s vhodnou pomocí. <strong>Při náhlých závažných potížích volejte 155</strong>, nikoli běžnou přepravní službu. <a class="zp-text-link" href="#vyber-dopravy">Rozhodnout podle situace</a> · <a class="zp-text-link" href="#otazky-pro-lekare">Co ověřit s lékařem</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-dopravy">Najít správný postup podle situace</a>
         <a class="zp-text-link" href="#otazky-pro-lekare">7 otázek před objednáním</a>
         <a class="zp-text-link" href="#kontrolni-seznam-prevoz">Kontrolní seznam pro cestu</a>
       </div>
-      <p class="zp-muted-copy">Česká pravidla · ověřeno podle VZP a NZIP 28. 10. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
+      <p class="zp-muted-copy">Česká pravidla · zdroje VZP a NZIP znovu ověřeny 9. 11. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
     </div>
   </section>
 

@@ -74,5 +74,5 @@ test("Only materially changed canonical pages receive bounded sitemap lastmod",(
   assert.deepEqual(Object.keys(x.dates).sort(),[
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
     "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",
-    "choditka-pro-seniory","senior-nemuze-vstat-z-postele"].sort());
+    "choditka-pro-seniory","senior-nemuze-vstat-z-postele","prevoz-seniora-k-lekari"].sort());
 });

@@ -16,6 +16,7 @@ const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
 const INSURANCE_PATH="/choditko-na-pojistovnu/";
 const INSURANCE_FIRST_RELEASE="0.8.199";
 const MOBILITY_HANDOFF_RELEASE="0.8.200";
+const INSURANCE_SEARCH_RELEASE="0.8.210";
 const WALKER_HUB_PATH="/choditka-pro-seniory/";
 const INDOOR_WALKER_PATH="/choditko-do-bytu-pro-seniory/";
 const atLeast=(version,min)=>VERSION.test(version)&&
@@ -94,6 +95,43 @@ export function verifyInsuranceFirstAnswer(html,expected){
 }
 
 
+/**
+ * Verify the actual 0.8.210 search-first hero on the live WordPress page.
+ * Read-only: no tracking URLs, clinical answers, affiliate links or user input.
+ */
+export function verifyInsuranceSearchHero(html,expected){
+  if(!atLeast(expected,INSURANCE_SEARCH_RELEASE))
+    throw new Error("Not a 0.8.210+ feature check");
+  if(readReleaseMarkers(html).release!==expected)
+    throw new Error("Insurance search hero release does not match source");
+
+  const heroes=[...String(html).matchAll(/<section\s+class=["']zp-hero["']\s*>/gi)];
+  if(heroes.length!==1)throw new Error("Expected exactly one insurance hero");
+  const start=heroes[0].index+heroes[0][0].length;
+  const end=html.indexOf("</section>",start);
+  if(end<=start)throw new Error("Insurance hero malformed");
+  const hero=html.slice(start,end);
+  const plain=hero.replace(/<!--[\s\S]*?-->/g,"").replace(/<[^>]+>/g," ")
+    .replace(/\s+/g," ").trim();
+  for(const phrase of ["Rychlá odpověď:", "Některá chodítka mohou být hrazena",
+    "Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně"])
+    if(!plain.includes(phrase))throw new Error("Missing search-first insurance answer");
+  for(const target of ["rychla-cesta-na-epoukaz","zp-overit-mesicni-seznam"]){
+    const hrefs=[...hero.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>/gi)].map(m=>m[1]);
+    if(hrefs.filter(href=>href==="#"+target).length!==1)
+      throw new Error("Missing or duplicate first-screen navigation");
+    if([...html.matchAll(new RegExp('\\bid=["\\u0027]'+target+'["\\u0027]','g'))].length!==1)
+      throw new Error("Missing or duplicate anchor destination");
+  }
+  const good="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/";
+  const officialFaqs=[...String(html).matchAll(/href=["'](https:\/\/sukl\.gov\.cz\/faq\/[^"']+)["']/gi)].map(m=>m[1]);
+  if(officialFaqs.length<2||officialFaqs.some(url=>url!==good))
+    throw new Error("Missing or inconsistent official FAQ source");
+  if(/<form\b|data-zp-offer|data-zp-merchant-link|affiliateMap/i.test(hero))
+    throw new Error("Search-first hero must never bypass the Advisor");
+  return true;
+}
+
 function hasExactTrackedAnchor(html,expectedHref){
   const matches=[...String(html).matchAll(/<a\b[^>]*>/gi)]
     .filter(m=>/\bdata-zp-journey\s*=\s*(["'])advisor\1/i.test(m[0]))
@@ -167,11 +205,15 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
   try {
     const proof=verifyReleaseCoherence({before,after,pages,expected});
     if(featureHtml!==null)verifyInsuranceFirstAnswer(featureHtml,expected);
+    if(featureHtml!==null&&atLeast(expected,INSURANCE_SEARCH_RELEASE))
+      verifyInsuranceSearchHero(featureHtml,expected);
     if(hubHtml!==null)
       verifyMobilityGuideHandoffs({hub:hubHtml,indoor:indoorHtml,insurance:featureHtml},expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
       pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
+      ...(featureHtml!==null&&atLeast(expected,INSURANCE_SEARCH_RELEASE)?
+        {insurance_search_hero:"verified"}:{}),
       ...(hubHtml!==null?{mobility_guide_handoffs:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_208 */
+/* ZP_RELEASE_0_8_209 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -51,6 +51,8 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  *
  * 2026-11-09: rental first-answer + tariff source, insurance SEO copy;
  * bathroom and aid hub: substantive new contextual navigation in 0.8.205.
+ * 2026-11-08: walker measurement guide gained safe acquisition paths in PR #718.
+ * 2026-11-09: walker hub gained explicit first-screen safety guidance in PR #734.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
@@ -58,6 +60,8 @@ function zaprazi_2_material_sitemap_page_dates() {
     'choditko-na-pojistovnu' => '2026-11-09T00:00:00+00:00',
     'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
+    'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
+    'choditka-pro-seniory' => '2026-11-09T00:00:00+00:00',
   );
 }
 

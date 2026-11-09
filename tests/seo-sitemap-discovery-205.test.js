@@ -38,14 +38,18 @@ test("Only four genuinely changed page types receive bounded sitemap lastmod sig
     "$rent=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'pujceni-choditka'];",
     "$r1=zaprazi_2_https_sitemap_entry($before,'post',$rent);",
     "$r2=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/pujceni-choditka/','mod'=>'2026-11-10T12:00:00+00:00'],'post',$rent);",
-    "$unrelated=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'co-zmerit-pred-vyberem-choditka'];",
-    "$r3=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/co-zmerit-pred-vyberem-choditka/','mod'=>'2026-10-01'],'post',$unrelated);",
+    "$unrelated=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'senior-malo-pije'];",
+    "$r3=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/senior-malo-pije/','mod'=>'2026-10-01'],'post',$unrelated);",
     "$draft=(object)['post_type'=>'page','post_status'=>'draft','post_name'=>'pujceni-choditka'];",
     "$r4=zaprazi_2_https_sitemap_entry($before,'post',$draft);",
     "$r5=zaprazi_2_https_sitemap_entry(['loc'=>'https://other.example/pujceni-choditka/','mod'=>'2026-10-01'],'post',$rent);",
     "$r6=zaprazi_2_https_sitemap_entry($before,'taxonomy',$rent);",
+    "$measured=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'co-zmerit-pred-vyberem-choditka'];",
+    "$walker=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'choditka-pro-seniory'];",
+    "$r7=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/co-zmerit-pred-vyberem-choditka/','mod'=>'2026-10-01'],'post',$measured);",
+    "$r8=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/choditka-pro-seniory/','mod'=>'2026-10-01'],'post',$walker);",
     "$dates=zaprazi_2_material_sitemap_page_dates();",
-    "echo json_encode(compact('registered','r1','r2','r3','r4','r5','r6','dates'));"
+    "echo json_encode(compact('registered','r1','r2','r3','r4','r5','r6','r7','r8','dates'));"
   ].join("\n");
   const x=JSON.parse(execFileSync("php",["-r",code],{
     cwd:root.pathname,encoding:"utf8"
@@ -65,7 +69,10 @@ test("Only four genuinely changed page types receive bounded sitemap lastmod sig
   assert.equal(x.r4.mod,"2026-10-02T10:00:00+00:00");
   assert.equal(x.r5.mod,"2026-10-01");
   assert.equal(x.r6.mod,"2026-10-02T10:00:00+00:00");
+  assert.equal(x.r7.mod,"2026-11-08T00:00:00+00:00");
+  assert.equal(x.r8.mod,"2026-11-09T00:00:00+00:00");
   assert.deepEqual(Object.keys(x.dates).sort(),[
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
-    "kompenzacni-pomucky-pro-seniory"].sort());
+    "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",
+    "choditka-pro-seniory"].sort());
 });

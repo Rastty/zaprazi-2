@@ -22,9 +22,9 @@ test("Exact visible homepage decision cards link to matching useful guides",()=>
   assert.throws(()=>assertHomepageCards(html.replace("/co-zmerit-pred-vyberem-choditka/","/co-zmerit-pred-vyberem-choditka/?symptom=x")),
     /MISSING_CONTEXTUAL_HOME_LINK/);
 });
-test("Only four exact substantial changes must have real not-in-future sitemap dates",()=>{
+test("Only six exact substantial changes must have real not-in-future sitemap dates",()=>{
   const v=assertMaterialLastmod(xml,"2026-11-10");
-  assert.equal(v.lastmodsVerified,4);
+  assert.equal(v.lastmodsVerified,6);
   assert.deepEqual(v.pages.map(x=>x.path),Object.keys(SOURCE_DATES));
   assert.throws(()=>assertMaterialLastmod(xml.replaceAll("<lastmod>","<lastmid>"),"2026-11-10"),
     /SITEMAP_LASTMOD_UNVERIFIED/);

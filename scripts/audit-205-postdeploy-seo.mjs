@@ -2,17 +2,20 @@
 /**
  * Exact read-only 0.8.205 postdeploy SEO check.
  * Proves two contextual homepage links and four evidence-backed Yoast
- * lastmod signals on published pages. Public pages only; never submit URLs,
+ * lastmod signals plus two evidence-backed Mobility revisions on published pages. Public pages only; never submit URLs,
  * write to WordPress or expose raw HTML/XML in CI logs.
  */
 import {pathToFileURL} from "node:url";
+import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 export const SOURCE_DATES=Object.freeze({
   "/pujceni-choditka/":"2026-11-09",
   "/choditko-na-pojistovnu/":"2026-11-09",
   "/koupelna-a-wc/":"2026-11-09",
-  "/kompenzacni-pomucky-pro-seniory/":"2026-11-09"
+  "/kompenzacni-pomucky-pro-seniory/":"2026-11-09",
+  "/co-zmerit-pred-vyberem-choditka/":"2026-11-08",
+  "/choditka-pro-seniory/":"2026-11-09"
 });
 const HOME_CARDS=Object.freeze([
   {heading:"Chůze a opora",path:"/co-zmerit-pred-vyberem-choditka/",word:"změřit"},
@@ -79,7 +82,7 @@ async function fetchPublic(path) {
 export async function verifyPublicSeo205(now=new Date().toISOString().slice(0,10)) {
   const [html,xml]=await Promise.all([fetchPublic("/"),fetchPublic("/page-sitemap.xml")]);
   return {...assertHomepageCards(html),...assertMaterialLastmod(xml,now),
-    release:"0.8.206",status:"verified_read_only",
+    release:SOURCE_THEME_RELEASE,status:"verified_read_only",
     limitations:"Public links and sitemap freshness signals; NOT evidence of Google indexing, traffic or commission"};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {

@@ -63,7 +63,7 @@ test("dated rental examples do not show historical deposits as current",()=>{
 
 test("rental price entry and FAQ remain explicitly dated when price evidence expires",()=>{
   const page=read("page-pujceni-choditka.php");
-  assert.match(page,/href="#ceny">Příklady cen \(ověřeno 6\. 10\. 2026\)/);
+  assert.match(page,/href="#ceny">Příklady cen \(ověřeno 9\. 11\. 2026\)/);
   assert.doesNotMatch(page,/href="#ceny">Aktuální příklady cen/);
   const prices=page.slice(page.indexOf('<section id="ceny"'),page.indexOf('<section id="rozpocet-pujceni-choditka"'));
   assert.match(prices,/href="#zp-otazky-pujcovna">Připravit pět otázek pro půjčovnu/);

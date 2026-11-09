@@ -21,6 +21,7 @@ const CORE=new Set(["/",...requiredDecisionPaths]);
 const DAY=86_400_000;
 const flags=new Set(["--before-pages","--before-from","--before-to",
   "--after-pages","--after-from","--after-to"]);
+const snapshotFlags=new Set(["--before-snapshot","--after-snapshot"]);
 const fmt=n=>new Intl.NumberFormat("cs-CZ").format(n);
 const signed=n=>(n>0?"+":"")+fmt(n);
 const percent=n=>n===null?"n/a":(100*n).toLocaleString("cs-CZ",{maximumFractionDigits:2})+" %";
@@ -54,6 +55,57 @@ function known(rows) {
     filtered.set(row.path,row);
   }
   return filtered;
+}
+
+/**
+ * Prometheus already captures a source-bound, query-free GSC JSON snapshot.
+ * Reuse the same comparison engine instead of asking an owner to export CSV.
+ * Fail closed on missing/fabricated evidence, invalid metrics or foreign URLs.
+ * Only allowlisted per-page aggregate fields are returned, never raw queries.
+ */
+export function parseSanitizedGscSnapshot(snapshot) {
+  if(!snapshot||typeof snapshot!=="object"||Array.isArray(snapshot)||
+    snapshot.schemaVersion!==1||snapshot.status!=="evidence_available"||
+    snapshot.site!=="zaprazi.cz"||snapshot.property?.url!=="https://zaprazi.cz/"||
+    snapshot.period?.dataState!=="final"||snapshot.period?.searchType!=="web"||
+    snapshot.period?.days!==28||!Array.isArray(snapshot.trackedPages)||
+    snapshot.trackedPages.length===0)
+    throw new Error("Invalid finalized Prometheus GSC snapshot");
+  const period=days(snapshot.period.startDate,snapshot.period.endDate);
+  if(period.length!==28)throw new Error("GSC snapshot must contain 28 final days");
+  const sitewide=snapshot.sitewide;
+  if(!sitewide||!Number.isSafeInteger(sitewide.clicks)||
+    !Number.isSafeInteger(sitewide.impressions)||sitewide.clicks<0||
+    sitewide.impressions<sitewide.clicks)
+    throw new Error("Invalid GSC snapshot sitewide evidence");
+  const seen=new Set();
+  const rows=snapshot.trackedPages.map(page=>{
+    if(!page||!CORE.has(page.path)||seen.has(page.path)||
+      !Number.isSafeInteger(page.clicks)||!Number.isSafeInteger(page.impressions)||
+      page.clicks<0||page.impressions<page.clicks||
+      !Number.isFinite(page.position)||page.position<0||
+      !Number.isFinite(page.ctr)||page.ctr<0||page.ctr>1||
+      Math.abs(page.ctr-(page.impressions?page.clicks/page.impressions:0))>0.00015)
+      throw new Error("Invalid canonical aggregate GSC page evidence");
+    seen.add(page.path);
+    return {path:page.path,clicks:page.clicks,impressions:page.impressions,
+      ctr:page.ctr,position:page.position};
+  });
+  return {property:snapshot.property.url,from:snapshot.period.startDate,
+    to:snapshot.period.endDate,rows};
+}
+
+export function compareSanitizedGscSnapshots(before,after) {
+  const old=parseSanitizedGscSnapshot(before);
+  const recent=parseSanitizedGscSnapshot(after);
+  if(old.property!==recent.property)
+    throw new Error("GSC property changed between evidence periods");
+  return {...compareGscPeriods({
+    before:old.rows,after:recent.rows,
+    beforeFrom:old.from,beforeTo:old.to,
+    afterFrom:recent.from,afterTo:recent.to
+  }),source:"prometheus_sanitized_gsc_final",
+    trackedBefore:old.rows.length,trackedAfter:recent.rows.length};
 }
 
 /** Only matched, allowlisted page rows are compared. Missing CSV rows are UNKNOWN. */
@@ -120,6 +172,9 @@ export function renderGscComparison(r) {
     "**Bezpečně párované hlavní stránky:** "+r.matched.length+
       ". Mimo schválené hlavní URL / parametrické / jiné hosty: "+
       r.ignoredBefore+" dříve, "+r.ignoredAfter+" nyní.",
+    ...(r.source==="prometheus_sanitized_gsc_final"?[
+      "**Zdroj:** anonymizovaný finální 28denní agregát Prometheus / GSC; sledovaných URL "+
+        r.trackedBefore+" dříve, "+r.trackedAfter+" nyní. Absence URL není nula."]:[]),
     "## 10 prioritních kontrol podle změny kliků\n"+table.join("\n"),
     "## Pouze v dřívějším exportu — nynější výkon UNKNOWN\n"+paths(r.baselineOnly),
     "## Pouze v novějším exportu — dřívější výkon UNKNOWN\n"+paths(r.currentOnly),
@@ -135,14 +190,23 @@ export function renderGscComparison(r) {
 export function cliArgs(argv) {
   const found={};
   for(let i=0;i<argv.length;i++){
-    if(!flags.has(argv[i])||i+1>=argv.length||found[argv[i]])
-      throw new Error("Expected six unique GSC comparison flags");
+    if(!flags.has(argv[i])&&!snapshotFlags.has(argv[i])||
+      i+1>=argv.length||found[argv[i]])
+      throw new Error("Expected six unique CSV flags or two unique sanitized snapshot flags");
     found[argv[i]]=argv[++i];
   }
-  if([...flags].some(f=>!found[f]))throw new Error("All six GSC comparison flags are required");
-  return found;
+  if(Object.keys(found).length===2&&
+    [...snapshotFlags].every(f=>found[f]))return found;
+  if(Object.keys(found).length===6&&
+    [...flags].every(f=>found[f]))return found;
+  throw new Error("All six CSV flags are required, or both sanitized snapshot flags are required");
 }
 export function reportFromFiles(args) {
+  if(args["--before-snapshot"]&&args["--after-snapshot"]){
+    const before=JSON.parse(readFileSync(args["--before-snapshot"],"utf8"));
+    const after=JSON.parse(readFileSync(args["--after-snapshot"],"utf8"));
+    return renderGscComparison(compareSanitizedGscSnapshots(before,after));
+  }
   const before=parseGscCsv(readFileSync(args["--before-pages"],"utf8"),"page");
   const after=parseGscCsv(readFileSync(args["--after-pages"],"utf8"),"page");
   return renderGscComparison(compareGscPeriods({before,after,

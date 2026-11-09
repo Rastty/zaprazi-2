@@ -23,8 +23,8 @@ const renderRentalAt = date => {
 };
 
 test("rental calculator renders through the last verified day, then fails closed",()=>{
-  const lastDay=renderRentalAt("2026-11-06");
-  const expired=renderRentalAt("2026-11-07");
+  const lastDay=renderRentalAt("2026-12-09");
+  const expired=renderRentalAt("2026-12-10");
   assert.match(lastDay,/<form id="zp-walker-rental-budget"/);
   assert.match(lastDay,/data-monthly-price="360"/);
   assert.match(lastDay,/Spočítat orientační půjčovné/);
@@ -39,7 +39,7 @@ test("rental calculator renders through the last verified day, then fails closed
 });
 
 test("expired rendered cards, FAQ and source notes disclose historical rental amounts",()=>{
-  const expired=renderRentalAt("2026-11-07");
+  const expired=renderRentalAt("2026-12-10");
   const prices=expired.slice(expired.indexOf('<section id="ceny"'),expired.indexOf('<section id="rozpocet-pujceni-choditka"'));
   assert.match(prices,/historicky 12 Kč \/ den/);
   assert.match(prices,/historicky 360 Kč/);
@@ -53,8 +53,8 @@ test("expired rendered cards, FAQ and source notes disclose historical rental am
 });
 
 test("dated rental entry and provider links never claim live pricing after expiry",()=>{
-  const fresh=renderRentalAt("2026-11-06");
-  const expired=renderRentalAt("2026-11-07");
+  const fresh=renderRentalAt("2026-12-09");
+  const expired=renderRentalAt("2026-12-10");
   assert.match(fresh,/kolik stojí konkrétní příklady v roce 2026/);
   assert.doesNotMatch(fresh,/jak ověřit cenu místo zastaralých příkladů/);
   assert.match(expired,/jak ověřit cenu místo zastaralých příkladů z roku 2026/);
@@ -70,7 +70,7 @@ test("dated rental entry and provider links never claim live pricing after expir
 });
 
 test("manufacturer instructions and rollator transport warning survive both rental price states",()=>{
-  for(const date of ["2026-11-06","2026-11-07"]){
+  for(const date of ["2026-12-09","2026-12-10"]){
     const html=renderRentalAt(date);
     const start=html.indexOf('id="zp-otazky-pujcovna"');
     const end=html.indexOf("</section>",start);
@@ -84,7 +84,7 @@ test("manufacturer instructions and rollator transport warning survive both rent
 });
 
 test("rental is never presented as an unsupervised suitability trial after surgery",()=>{
-  for(const date of ["2026-11-06","2026-11-07"]){
+  for(const date of ["2026-12-09","2026-12-10"]){
     const html=renderRentalAt(date);
     assert.match(html,/Samotné zapůjčení neprokazuje, že je pomůcka pro konkrétního člověka vhodná/);
     assert.match(html,/bezpečně vybraný typ i jeho parametry už máte ověřené/);

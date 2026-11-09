@@ -10,7 +10,7 @@ test("rental planner uses only sourced monthly prices and stops when evidence is
   assert.match(page,/id="rozpocet-pujceni-choditka"/);
   assert.match(page,/<\?php if \( \$zp_rental_is_fresh \) : \?>/);
   assert.match(page,/Přepočet není k dispozici/);
-  assert.match(page,/6\. 10\. 2026/);
+  assert.match(page,/9\. 11\. 2026/);
   assert.match(page,/data-monthly-price="360"/);
   assert.match(page,/data-monthly-price="300"/);
   assert.match(page,/data-monthly-price="600"/);

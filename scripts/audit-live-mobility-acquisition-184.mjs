@@ -107,8 +107,10 @@ export function assertMobilityAcquisition(pages,release){
 // 0.8.185 acceptance must inspect the *deployed HTML*, not only the PHP
 // templates or the old 0.8.184 production seen by pull-request CI.
 // It is intentionally read-only: no Advisor answers, merchant clicks or storage.
-export function assertMobility185UX(pages,pragueDate){
+export function assertMobility185UX(pages,pragueDate,rentalFreshThrough="2026-11-06"){
   assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
+  assert.ok(["2026-11-06","2026-12-09"].includes(rentalFreshThrough),
+    "Accept only source-verified rental evidence expiry");
   const rental=clean(pages.rental),measuring=clean(pages.measuring);
   assert.ok(isExactAnchor(rental,"zp-otazky-pujcovna"),
     "0.8.185 rental call-preparation anchor not deployed");
@@ -189,7 +191,7 @@ export function assertMobility185UX(pages,pragueDate){
   assert.doesNotMatch(checklist,/<form\b|<input\b|data-zp-merchant-link/i,
     "Home checklist must not collect private answers or show offers");
 
-  if(pragueDate>"2026-11-06"){
+  if(pragueDate>rentalFreshThrough){
     // The calculator can be disabled while individual price cards silently
     // revert to undated, apparently current amounts. Check the *rendered*
     // nine card values as well as the visible historical-evidence warning.
@@ -218,7 +220,7 @@ export function assertMobility185UX(pages,pragueDate){
       "Current-window calculator unexpectedly missing");
   }
   return {rental_call_questions:5,home_checks:7,
-    rental_prices:pragueDate>"2026-11-06"?"expired_fail_closed":"within_review_window"};
+    rental_prices:pragueDate>rentalFreshThrough?"expired_fail_closed":"within_review_window"};
 }
 
 // A hidden print button is only usable if WordPress actually enqueues the
@@ -296,7 +298,9 @@ export async function verifyLiveMobilityAcquisition(){
   const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
   const mobility185=(release185[0]>0||release185[1]>8||
     (release185[1]===8&&release185[2]>=185))
-    ?{...assertMobility185UX(pages,pragueDate),...assertMobility185PrintAsset(pages.rental),
+    ?{...assertMobility185UX(pages,pragueDate,
+      (release185[0]>0||release185[1]>8||(release185[1]===8&&release185[2]>=204))
+        ?"2026-12-09":"2026-11-06"),...assertMobility185PrintAsset(pages.rental),
       ...await assertMobility185PrintAssetLoaded(pages.rental)}:null;
   console.log("ZP_MOBILITY_ACQUISITION_POSTDEPLOY",JSON.stringify({
     status:"verified",...report,integrity:"ok",affiliate_slots:25,

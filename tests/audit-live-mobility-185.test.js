@@ -176,12 +176,12 @@ test("0.8.185: rendered PHP templates satisfy postdeploy acceptance before and a
       cwd:root,env:{...process.env,ZP_TEST_DATE:date},encoding:"utf8"
     });
   };
-  for(const date of ["2026-11-06","2026-11-07"]){
+  for(const date of ["2026-12-09","2026-12-10"]){
     const pages={
       rental:render("page-pujceni-choditka.php",date),
       measuring:render("page-co-zmerit-pred-vyberem-choditka.php",date)
     };
-    assert.equal(assertMobility185UX(pages,date).home_checks,7);
+    assert.equal(assertMobility185UX(pages,date,"2026-12-09").home_checks,7);
   }
 });
 

@@ -197,7 +197,7 @@ test("resource registry creates insurance and rental pages without overwriting c
   assert.match(rental, /360 Kč/);
   assert.match(rental, /600 Kč/);
   assert.match(rental, /1 000 Kč/);
-  assert.match(rental, /2026-11-06/);
+  assert.match(rental, /2026-12-09/);
   assert.match(rental, /historick/i);
 
   assert.match(insurance, /zpětně proplatit/i);

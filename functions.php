@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.203' );
+  define( 'ZAPRAZI_RELEASE', '0.8.204' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '4dbf51c85f75c67a823827828deb9559cfd5843d',
-    'src/mobility/offer-fit-gate.js' => '0a6d83338d627665ec334618cc3dbb4eb23300df',
+    'src/mobility/engine.js' => '51fdad00c4000b2a70c17e83c13ca6b566066213',
+    'src/mobility/offer-fit-gate.js' => '31a77d89d9520d04b72958b454df97111d8b68f3',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
@@ -1132,6 +1132,12 @@ function zaprazi_2_front_title( $title ) {
   if ( is_front_page() ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
   }
+  if ( is_page( 'choditko-na-pojistovnu' ) ) {
+    return 'Chodítko na pojišťovnu 2026: ePoukaz a postup | Zápraží';
+  }
+  if ( is_page( 'pujceni-choditka' ) ) {
+    return 'Půjčení chodítka: cena, kauce a postup | Zápraží';
+  }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží';
   }
@@ -1199,6 +1205,12 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_front_title', 20 );
 function zaprazi_2_wpseo_title( $title ) {
   if ( is_front_page() ) {
     return 'Zápraží: domácí poradce pro bezpečný a samostatný život doma';
+  }
+  if ( is_page( 'choditko-na-pojistovnu' ) ) {
+    return 'Chodítko na pojišťovnu 2026: ePoukaz a postup | Zápraží';
+  }
+  if ( is_page( 'pujceni-choditka' ) ) {
+    return 'Půjčení chodítka: cena, kauce a postup | Zápraží';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Pomůcky do koupelny pro seniory: WC, sprcha a vana | Zápraží';
@@ -1268,6 +1280,12 @@ add_filter( 'wpseo_title', 'zaprazi_2_wpseo_title', 20 );
 function zaprazi_2_wpseo_description( $description ) {
   if ( is_front_page() ) {
     return 'Praktický domácí poradce pro chůzi, koupelnu a WC, polohovací postel, invalidní vozík, návrat z nemocnice a každodenní soběstačnost.';
+  }
+  if ( is_page( 'choditko-na-pojistovnu' ) ) {
+    return 'Chodítko na pojišťovnu v roce 2026: jak řešit ePoukaz, u koho ověřit úhradu a doplatek a proč nekupovat pomůcku předem. Praktický postup.';
+  }
+  if ( is_page( 'pujceni-choditka' ) ) {
+    return 'Jak půjčit chodítko nebo rollátor? Čtyři kroky před objednáním: bezpečný typ, dostupnost, kauce, celkové náklady a předání. Sazby jsou příklady, ne závazná nabídka.';
   }
   if ( zaprazi_2_is_bathroom_page() ) {
     return 'Jak vybrat pomůcky do koupelny pro seniory: nástavec na WC, madlo, sprchovací či toaletní židli a sedátko do vany podle přesunu, prostoru a stability.';

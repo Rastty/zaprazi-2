@@ -17,7 +17,7 @@ const renderAt=date=>execFileSync("php",["-r",[
   env:{...process.env,ZP_TEST_DATE:date},encoding:"utf8"});
 
 test("user-entered quote is available before and after editorial price evidence expiry",()=>{
-  for(const date of ["2026-11-06","2026-11-07"]){
+  for(const date of ["2026-12-09","2026-12-10"]){
     const html=renderAt(date);
     const section=html.slice(html.indexOf('<section id="rozpocet-pujceni-choditka"'),
       html.indexOf('<section class="zp-section">',html.indexOf('<section id="rozpocet-pujceni-choditka"')));
@@ -29,7 +29,7 @@ test("user-entered quote is available before and after editorial price evidence 
     assert.match(section,/výpočet neposuzuje zdravotní vhodnost/i);
     assert.doesNotMatch(section,/\baction="https?:/);
   }
-  const fresh=renderAt("2026-11-06"),stale=renderAt("2026-11-07");
+  const fresh=renderAt("2026-12-09"),stale=renderAt("2026-12-10");
   assert.match(fresh,/id="zp-walker-rental-budget"/);
   assert.match(fresh,/data-monthly-price="360"/);
   assert.doesNotMatch(stale,/id="zp-walker-rental-budget"/);

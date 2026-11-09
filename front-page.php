@@ -1,15 +1,16 @@
 <?php
-/* ZP_RELEASE_0_8_207 */ get_header(); ?>
+/* ZP_RELEASE_0_8_208 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">
       <div class="zp-hero-copy">
       <p class="zp-kicker">Zápraží · Cesta k lepšímu životu</p>
       <h1>Bezpečně a samostatně doma.</h1>
-      <p class="zp-lead">Praktický domácí poradce pro chvíle, kdy potřebujete rychle vyřešit konkrétní problém: chůzi, koupelnu a WC, postel, invalidní vozík, návrat z nemocnice nebo běžnou soběstačnost. Nezačínáme katalogem produktů, ale situací člověka doma.</p>
+      <p class="zp-lead">Senior spadl, vrací se z nemocnice nebo potřebuje bezpečnější pohyb doma? Začněte tím, co se právě děje. Pomůžeme najít praktický další krok, vhodný typ řešení a možnosti jeho pořízení — bez zbytečných nákupů.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#co-resite">Vybrat, co právě řeším</a>
-        <a class="zp-text-link" href="#poradce">Rovnou poradce pro chůzi</a>
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Senior spadl: co dělat teď</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a>
+        <a class="zp-text-link" href="#co-resite">Vybrat pomůcku podle situace</a>
       </div>
       </div>
       <figure class="zp-hero-art">

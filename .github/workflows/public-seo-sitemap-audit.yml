@@ -39,5 +39,5 @@ jobs:
         env:
           ZP_REQUIRE_DISCOVERY: "1"
         run: node scripts/check-acquisition-sitemap.mjs
-      - name: Verify current 0.8.205 homepage contextual links and four dated page sitemap entries
+      - name: Verify current 0.8.206 homepage contextual links and four dated page sitemap entries
         run: node scripts/audit-205-postdeploy-seo.mjs

@@ -79,7 +79,7 @@ async function fetchPublic(path) {
 export async function verifyPublicSeo205(now=new Date().toISOString().slice(0,10)) {
   const [html,xml]=await Promise.all([fetchPublic("/"),fetchPublic("/page-sitemap.xml")]);
   return {...assertHomepageCards(html),...assertMaterialLastmod(xml,now),
-    release:"0.8.205",status:"verified_read_only",
+    release:"0.8.206",status:"verified_read_only",
     limitations:"Public links and sitemap freshness signals; NOT evidence of Google indexing, traffic or commission"};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href) {

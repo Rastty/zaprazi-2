@@ -9,7 +9,7 @@ import {
 test("MEYRA reimbursement uses the verified current monthly SÚKL record", () => {
   const guidance = getReimbursementGuidance(
     ["meyra-ideal-3061982"],
-    new Date("2026-10-06T12:00:00Z")
+    new Date("2026-11-10T12:00:00Z")
   );
   assert.equal(guidance.length, 1);
   assert.equal(guidance[0].sourceType, "official_sukl_monthly");
@@ -17,8 +17,10 @@ test("MEYRA reimbursement uses the verified current monthly SÚKL record", () =>
   assert.equal(guidance[0].officialVerification.suklCode, "5005963");
   assert.equal(guidance[0].officialVerification.amountKc, 3408);
   assert.equal(guidance[0].officialVerification.copayKc, null);
-  assert.equal(guidance[0].officialVerification.validFor, "2026-10");
-  assert.equal(guidance[0].officialVerification.validThrough, "2026-10-31");
+  assert.equal(guidance[0].officialVerification.validFor, "2026-11");
+  assert.equal(guidance[0].officialVerification.validThrough, "2026-11-30");
+  assert.equal(guidance[0].checkedAt, "2026-11-10");
+  assert.match(guidance[0].officialVerification.sourceUrl, /ZPSCAU_20261101\.pdf$/);
   assert.equal(guidance[0].displayAmountKc, 3408);
 });
 
@@ -53,7 +55,7 @@ test("unknown products do not invent acquisition evidence", () => {
 test("manufacturer claim remains separate from official monthly verification", () => {
   const guidance = getReimbursementGuidance(
     ["meyra-ideal-3061982"],
-    new Date("2026-10-06T12:00:00Z")
+    new Date("2026-11-10T12:00:00Z")
   )[0];
 
   assert.equal(guidance.manufacturerClaim.retailPriceKc, 3408);
@@ -87,19 +89,32 @@ test("fresh rental evidence keeps exact pricing available", () => {
   assert.equal(rentals[0].displayPricing.perMonthKc, 360);
 });
 
-test("monthly SÚKL reimbursement expires immediately after its valid month", () => {
-  const october = getReimbursementGuidance(
-    ["meyra-ideal-3061982"],
-    new Date("2026-10-31T12:00:00Z")
+test("November SÚKL row becomes usable only after verified date and expires on 1 December",()=>{
+  const beforeCheck=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-11-09T12:00:00Z")
   )[0];
-  assert.equal(october.freshnessStatus, "fresh");
-  assert.equal(october.displayAmountKc, 3408);
+  assert.equal(beforeCheck.freshnessStatus,"unknown");
+  assert.equal(beforeCheck.displayAmountKc,null);
 
-  const november = getReimbursementGuidance(
-    ["meyra-ideal-3061982"],
-    new Date("2026-11-01T00:00:00Z")
+  const current=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-11-10T12:00:00Z")
   )[0];
-  assert.equal(november.freshnessStatus, "stale");
-  assert.equal(november.displayAmountKc, null);
-  assert.match(november.displayMessage, /už není platný pro aktuální měsíc/i);
+  assert.equal(current.freshnessStatus,"fresh");
+  assert.equal(current.officialVerification.validFor,"2026-11");
+  assert.equal(current.displayAmountKc,3408);
+  assert.equal(current.officialVerification.copayKc,null);
+  assert.match(current.displayMessage,/Individuální nárok ani konečný doplatek tím nejsou potvrzeny/i);
+
+  const lastDay=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-11-30T12:00:00Z")
+  )[0];
+  assert.equal(lastDay.freshnessStatus,"fresh");
+  assert.equal(lastDay.displayAmountKc,3408);
+
+  const expired=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-12-01T00:00:00Z")
+  )[0];
+  assert.equal(expired.freshnessStatus,"stale");
+  assert.equal(expired.displayAmountKc,null);
+  assert.match(expired.displayMessage,/už není platný pro aktuální měsíc/i);
 });

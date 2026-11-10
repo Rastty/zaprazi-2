@@ -1,7 +1,7 @@
 import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../evidence/freshness.js";
 
 const OFFICIAL_SUKL_LISTS_URL = "https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/";
-const OFFICIAL_SUKL_OCTOBER_2026_PDF = "https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V018PP@SUKLAA/26D0TRRB@SUKLAA/ZPSCAU_20261001.pdf";
+const OFFICIAL_SUKL_NOVEMBER_2026_PDF = "https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA/26D0TU21@SUKLAA/ZPSCAU_20261101.pdf";
 
 export const MOBILITY_ACQUISITION = Object.freeze({
   "meyra-ideal-3061982": {
@@ -9,8 +9,8 @@ export const MOBILITY_ACQUISITION = Object.freeze({
       status: "official_record_verified_check_conditions",
       zpCode: "07-5005963",
       sourceType: "official_sukl_monthly",
-      sourceUrl: OFFICIAL_SUKL_OCTOBER_2026_PDF,
-      checkedAt: "2026-10-06",
+      sourceUrl: OFFICIAL_SUKL_NOVEMBER_2026_PDF,
+      checkedAt: "2026-11-10",
       manufacturerClaim: {
         coverage: "full",
         retailPriceKc: 3408,
@@ -30,18 +30,18 @@ export const MOBILITY_ACQUISITION = Object.freeze({
       },
       officialVerification: {
         status: "verified_current_month",
-        sourceUrl: OFFICIAL_SUKL_OCTOBER_2026_PDF,
+        sourceUrl: OFFICIAL_SUKL_NOVEMBER_2026_PDF,
         listsUrl: OFFICIAL_SUKL_LISTS_URL,
         suklCode: "5005963",
         reimbursementGroup: "07.03.02.03",
         amountKc: 3408,
         copayKc: null,
-        validFor: "2026-10",
-        validThrough: "2026-10-31",
+        validFor: "2026-11",
+        validThrough: "2026-11-30",
         intervalMonths: 60,
         prescriberCodes: ["GER", "ORP", "NEU", "ORT", "PRL", "REH", "CHI", "REV"]
       },
-      userMessage: "Aktuální oficiální Seznam ZP SÚKL k 1. 10. 2026 uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč. Individuální nárok ani konečný doplatek tím nejsou potvrzeny; před pořízením je stále potřeba splnit aktuální podmínky a správný postup ePoukazu."
+      userMessage: "Oficiální finální Seznam ZP SÚKL k 1. 11. 2026 (strana 10, kód 5005963) uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč platnou pro listopad 2026. Individuální nárok ani konečný doplatek tím nejsou potvrzeny; před pořízením je stále potřeba splnit aktuální podmínky a správný postup ePoukazu."
     },
     rental: {
       status: "verified_example_check_availability",

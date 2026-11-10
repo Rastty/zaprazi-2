@@ -26,6 +26,10 @@ test("Rollator 60 cm doorway answer is findable and evidence-specific", () => {
   assert.ok(guide.includes("eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191"));
   assert.ok(guide.includes("www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf"));
   assert.ok(guide.includes("www.meyra.cz/upload/files/produkty/Hole-berle-choditka/navod-k-pouziti-ideal-rollator.pdf"));
+  assert.ok(guide.includes("eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-rollator-2/428"));
+  assert.match(guide, /ROLLATOR 2, kód 3061982-R/);
+  assert.match(guide, /IDEAL ROLLATOR 3061982 \(61,5 cm\)/);
+  assert.match(guide, /Ani katalogových 59 cm u jiné varianty nepotvrzuje/);
   assert.ok(guide.includes("/co-zmerit-pred-vyberem-choditka/#co-zmerit"));
   assert.ok(guide.includes("/choditko-do-bytu-pro-seniory/#poradce-choditko-byt"));
   assert.ok(guide.includes('href="#poradce-rollator"'));

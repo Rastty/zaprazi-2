@@ -33,17 +33,21 @@ test("November: manufacturer shared reimbursement code must NOT imply one produc
   assert.match(html,/Nejde o potvrzení, že oba modely mají totožnou úhradu/);
   assert.doesNotMatch(html,/data-zp-merchant-link|data-zp-offer|<form\b|localStorage|sessionStorage/i);
 });
-test("reimbursement month and older SÚKL amount stay protected in all calendar states",()=>{
-  const october=render("2026-10-31"),november=render("2026-11-04"),december=render("2026-12-01");
+test("October, November and December amount labels preserve model identity and monthly validity",()=>{
+  const october=render("2026-10-31"),november=render("2026-11-10"),december=render("2026-12-01");
   assert.match(october,/Úhrada v aktuálním říjnovém seznamu/);
-  for(const html of [november,december]){
-    assert.match(html,/Historická úhrada v říjnovém seznamu/);
-    assert.doesNotMatch(html,/Úhrada v aktuálním říjnovém seznamu/);
+  assert.match(november,/Úhrada v aktuálním listopadovém seznamu/);
+  assert.match(november,/Listopad 2026: úhrada 3 408 Kč/);
+  assert.match(november,/ZPSCAU_20261101\.pdf/);
+  assert.match(december,/Historická úhrada v listopadovém seznamu/);
+  assert.match(december,/Poslední ověřený záznam už není aktuální/);
+  assert.doesNotMatch(december,/Úhrada v aktuálním listopadovém seznamu/);
+  for(const html of [october,november,december]){
     assert.match(html,/neprokazuje individuální nárok/);
     assert.match(html,/či že je lze zaměnit/);
+    assert.match(html,/ROLLATOR 2 3061982-R/);
+    assert.match(html,/IDEAL ROLLATOR 3061982/);
   }
-  assert.match(november,/Listopadový seznam už SÚKL zveřejnil/);
-  assert.doesNotMatch(december,/Listopadový seznam už SÚKL zveřejnil/);
 });
 
 test("0.8.196 Chrome QA is registered as postdeploy-only and never sends visitor answers",()=>{

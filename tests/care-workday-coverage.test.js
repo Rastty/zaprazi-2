@@ -39,6 +39,19 @@ test("The no-data schedule contains four actionable coverage windows and fallbac
     "No sensitive schedule collection, commerce or automatic tracking");
 });
 
+test("Day-center option and employment schedule are evidence-based, not blanket promises", () => {
+  const cards = section.match(/<article class="zp-decision-card">[\s\S]*?<\/article>/g) || [];
+  assert.equal(cards.length, 5, "Keep five distinct relevant support paths");
+  assert.match(section, /denní stacionář nebo denní centrum/i);
+  assert.match(section, /Ověřte rozsah pomoci, dopravu, provozní dny, kapacitu i podmínky přijetí/);
+  assert.match(section, /denní stacionář nemusí pokrýt ráno, večer ani noc/);
+  assert.match(section, /pružnou pracovní dobu, částečný úvazek nebo práci na dálku/);
+  assert.match(section, /nelze předpokládat automatické schválení home office/i);
+  assert.match(section, /Právní nároky a postup závisejí na konkrétních podmínkách/i);
+  assert.ok(cards[3].includes('https://mpsv.gov.cz/pece-a-sluzby'));
+  assert.ok(cards[4].includes('https://mpsv.gov.cz/pece-a-prace'));
+});
+
 test("MPSV evidence and every contextual link lead to a real destination", () => {
   assert.match(section, /https:\/\/mpsv\.gov\.cz\/pece-a-sluzby/);
   assert.match(section, /https:\/\/mpsv\.gov\.cz\/pece-a-prace/);

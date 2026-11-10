@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_215 */
+/* ZP_RELEASE_0_8_216 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -107,6 +107,53 @@ function zaprazi_2_https_sitemap_entry( $entry, $type = '', $post = null ) {
   return $entry;
 }
 add_filter( 'wpseo_sitemap_entry', 'zaprazi_2_https_sitemap_entry', 20, 3 );
+
+/**
+ * Align Yoast WebPage dateModified with the SAME 10 evidence-backed material
+ * page revisions used by the public XML sitemap. PHP template edits do not
+ * update WordPress post_modified, so its default schema timestamp can be stale.
+ * Never rewrite publication dates or arbitrary pages, and never move a more
+ * recent genuine WordPress modification backwards. This is not a freshness
+ * stamp for routine deployment/version changes.
+ */
+function zaprazi_2_yoast_material_webpage_date( $data ) {
+  if ( ! is_array( $data ) || ! is_page() ) {
+    return $data;
+  }
+  $post = get_queried_object();
+  if ( ! is_object( $post ) ||
+       ! isset( $post->post_type, $post->post_status, $post->post_name ) ||
+       'page' !== $post->post_type || 'publish' !== $post->post_status ) {
+    return $data;
+  }
+  $dates = zaprazi_2_material_sitemap_page_dates();
+  $slug = $post->post_name;
+  if ( ! is_string( $slug ) || ! isset( $dates[ $slug ] ) ) {
+    return $data;
+  }
+  // The canonical WebPage identity, not a similar path, is authoritative.
+  $canonical = 'https://zaprazi.cz/' . $slug . '/';
+  if ( ! isset( $data['url'], $data['@id'] ) ||
+       $data['url'] !== $canonical || $data['@id'] !== $canonical ) {
+    return $data;
+  }
+  $verified = strtotime( $dates[ $slug ] );
+  if ( false === $verified || $verified > time() ) {
+    return $data;
+  }
+  $published = isset( $data['datePublished'] ) && is_string( $data['datePublished'] )
+    ? strtotime( $data['datePublished'] ) : false;
+  if ( false !== $published && $verified < $published ) {
+    return $data;
+  }
+  $existing = isset( $data['dateModified'] ) && is_string( $data['dateModified'] )
+    ? strtotime( $data['dateModified'] ) : false;
+  if ( false === $existing || $existing < $verified ) {
+    $data['dateModified'] = $dates[ $slug ];
+  }
+  return $data;
+}
+add_filter( 'wpseo_schema_webpage', 'zaprazi_2_yoast_material_webpage_date', 20 );
 
 /** WordPress / Yoast virtual robots.txt: only rewrite our exact Sitemap URL. */
 function zaprazi_2_https_robots_sitemap( $output ) {

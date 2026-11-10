@@ -5,8 +5,8 @@ import { readFileSync } from "node:fs";
 
 const source = readFileSync(new URL("../src/seo/https-sitemaps.php", import.meta.url), "utf8");
 
-test("Public SEO scheme fix is output-only and restricted to five Yoast/robots filters", () => {
-  for (const name of ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url"]) {
+test("Public SEO scheme fix is output-only and restricted to six Yoast/robots filters", () => {
+  for (const name of ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url", "wpseo_schema_webpage"]) {
     assert.ok(source.includes("add_filter( '" + name + "'"), "Missing filter: " + name);
   }
   assert.doesNotMatch(source, /add_filter\(\s*'(home_url|site_url|option_home|option_siteurl)'/);
@@ -43,7 +43,8 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
   assert.match(result.robots, /^Sitemap: https:\/\/zaprazi.cz\/sitemap_index\.xml$/m);
   assert.match(result.robots, /^Sitemap: http:\/\/other\.example\/sitemap\.xml$/m);
   assert.deepEqual(Object.keys(result.registered).sort(),
-    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url"].sort());
+    ["wpseo_sitemap_index_links", "wpseo_sitemap_entry", "robots_txt", "wpseo_canonical", "wpseo_opengraph_url", "wpseo_schema_webpage"].sort());
+  assert.equal(result.registered.wpseo_schema_webpage[0], "zaprazi_2_yoast_material_webpage_date");
   assert.equal(result.registered.robots_txt[2], 2);
   assert.equal(result.registered.wpseo_canonical[0], "zaprazi_2_https_sitemap_url");
   assert.equal(result.registered.wpseo_opengraph_url[0], "zaprazi_2_https_sitemap_url");

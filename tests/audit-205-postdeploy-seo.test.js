@@ -48,6 +48,11 @@ test("Only prior four changed pages are asserted before 0.8.209 deploy; full six
   assert.equal(pending.mode,"predeploy_verified_214_dates_only");
   assert.equal(assertMaterialLastmod(xml,"2026-11-10",pending.dates).lastmodsVerified,10);
   assert.throws(()=>selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.215",liveRelease:"0.8.214",integrity:"ok"}),/SITEMAP_LIVE_RELEASE_MISMATCH/);
+  const pending216=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.216",liveRelease:"0.8.215",integrity:"ok"});
+  assert.equal(pending216.mode,"predeploy_verified_215_dates_only");
+  assert.equal(Object.keys(pending216.dates).length,10);
+  assert.throws(()=>selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.216",liveRelease:"0.8.215",integrity:"ok"}),/SITEMAP_LIVE_RELEASE_MISMATCH/);
+  assert.throws(()=>selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.216",liveRelease:"0.8.214",integrity:"ok"}),/SITEMAP_LIVE_RELEASE_MISMATCH/);
   const post=selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.215",liveRelease:"0.8.215",integrity:"ok"});
   assert.equal(post.mode,"postdeploy_exact_release");
   assert.equal(assertMaterialLastmod(xml,"2026-11-10",post.dates).lastmodsVerified,10);

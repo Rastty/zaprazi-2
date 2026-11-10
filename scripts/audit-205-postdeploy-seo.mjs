@@ -150,6 +150,10 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   // without granting production acceptance to the undeployed 0.8.215.
   if(event==="pull_request"&&sourceRelease==="0.8.215"&&liveRelease==="0.8.214")
     return {dates:SOURCE_DATES,mode:"predeploy_verified_214_dates_only"};
+  // 0.8.216 changes only WebPage metadata using the SAME verified ten
+  // content dates. Only the exact live 0.8.215 predecessor is PR-safe.
+  if(event==="pull_request"&&sourceRelease==="0.8.216"&&liveRelease==="0.8.215")
+    return {dates:SOURCE_DATES,mode:"predeploy_verified_215_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

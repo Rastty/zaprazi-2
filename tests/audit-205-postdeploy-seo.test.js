@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assertHomepageCards,assertMaterialLastmod,assertBedFirstAnswer,SOURCE_DATES,PREDEPLOY_BASELINE_DATES,selectLiveSitemapScope} from "../scripts/audit-205-postdeploy-seo.mjs";
+import {assertHomepageCards,assertMaterialLastmod,assertBedFirstAnswer,materialLastmodDates,SOURCE_DATES,PREDEPLOY_BASELINE_DATES,selectLiveSitemapScope} from "../scripts/audit-205-postdeploy-seo.mjs";
 
 const html=String.raw`<html><main>
 <article class="zp-decision-card"><h3>Chůze a opora</h3>
@@ -22,9 +22,9 @@ test("Exact visible homepage decision cards link to matching useful guides",()=>
   assert.throws(()=>assertHomepageCards(html.replace("/co-zmerit-pred-vyberem-choditka/","/co-zmerit-pred-vyberem-choditka/?symptom=x")),
     /MISSING_CONTEXTUAL_HOME_LINK/);
 });
-test("All seven exactly material changes have real non-future sitemap dates",()=>{
+test("All 10 source-declared material changes have bounded real sitemap dates",()=>{
   const v=assertMaterialLastmod(xml,"2026-11-10");
-  assert.equal(v.lastmodsVerified,7);
+  assert.equal(v.lastmodsVerified,10);
   assert.deepEqual(v.pages.map(x=>x.path),Object.keys(SOURCE_DATES));
   assert.throws(()=>assertMaterialLastmod(xml.replaceAll("<lastmod>","<lastmid>"),"2026-11-10"),
     /SITEMAP_LASTMOD_UNVERIFIED/);
@@ -44,9 +44,13 @@ test("Only prior four changed pages are asserted before 0.8.209 deploy; full six
   const pre=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.209",liveRelease:"0.8.208",integrity:"ok"});
   assert.equal(pre.mode,"predeploy_verified_baseline_only");
   assert.equal(assertMaterialLastmod(xml,"2026-11-10",pre.dates).lastmodsVerified,4);
-  const post=selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.209",liveRelease:"0.8.209",integrity:"ok"});
+  const pending=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.215",liveRelease:"0.8.214",integrity:"ok"});
+  assert.equal(pending.mode,"predeploy_verified_214_dates_only");
+  assert.equal(assertMaterialLastmod(xml,"2026-11-10",pending.dates).lastmodsVerified,10);
+  assert.throws(()=>selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.215",liveRelease:"0.8.214",integrity:"ok"}),/SITEMAP_LIVE_RELEASE_MISMATCH/);
+  const post=selectLiveSitemapScope({event:"schedule",sourceRelease:"0.8.215",liveRelease:"0.8.215",integrity:"ok"});
   assert.equal(post.mode,"postdeploy_exact_release");
-  assert.equal(assertMaterialLastmod(xml,"2026-11-10",post.dates).lastmodsVerified,7);
+  assert.equal(assertMaterialLastmod(xml,"2026-11-10",post.dates).lastmodsVerified,10);
   for(const opts of [
     {event:"schedule",sourceRelease:"0.8.209",liveRelease:"0.8.208",integrity:"ok"},
     {event:"pull_request",sourceRelease:"0.8.209",liveRelease:"0.8.207",integrity:"ok"},
@@ -89,11 +93,37 @@ test("0.8.211 actual first-screen safety answer and repeated safe navigation pas
   ])assert.throws(()=>assertBedFirstAnswer(v,"0.8.211"));
 });
 test("0.8.211's dated bed page must appear once, with actual verified date",()=>{
-  assert.equal(Object.keys(SOURCE_DATES).length,7);
+  assert.equal(Object.keys(SOURCE_DATES).length,10);
   assert.equal(SOURCE_DATES["/senior-nemuze-vstat-z-postele/"],"2026-11-09");
   const missing=xml.replace(/<url><loc>https:\/\/zaprazi\.cz\/senior-nemuze-vstat-z-postele\/<\/loc>[\s\S]*?<\/url>/,"");
   assert.throws(()=>assertMaterialLastmod(missing,"2026-11-10"),/SITEMAP_MISSING_OR_DUPLICATE_PAGE/);
   const invalid=xml.replace('<loc>https://zaprazi.cz/senior-nemuze-vstat-z-postele/</loc><lastmod>2026-11-09',
     '<loc>https://zaprazi.cz/senior-nemuze-vstat-z-postele/</loc><lastmod>2026-10-09');
   assert.throws(()=>assertMaterialLastmod(invalid,"2026-11-10"),/SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
+});
+
+
+test("all 10 source material lastmods are captured; no hardcoded seven-page blind spot",()=>{
+  assert.equal(Object.keys(SOURCE_DATES).length,10);
+  assert.equal(SOURCE_DATES["/choditko-na-pojistovnu/"],"2026-11-10");
+  assert.equal(SOURCE_DATES["/rollator-pro-seniory/"],"2026-11-10");
+  assert.equal(SOURCE_DATES["/jak-vybrat-pecovatelskou-sluzbu/"],"2026-11-10");
+  assert.equal(SOURCE_DATES["/navrat-z-nemocnice/"],"2026-11-10");
+  assert.throws(()=>assertMaterialLastmod(
+    xml.replace(/<url><loc>https:\/\/zaprazi\.cz\/rollator-pro-seniory\/<\/loc>[\s\S]*?<\/url>/,""),
+    "2026-11-10"),/SITEMAP_MISSING_OR_DUPLICATE_PAGE/);
+  const source="function zaprazi_2_material_sitemap_page_dates() { return array(\n"+
+    Object.entries(SOURCE_DATES).map(([path,date])=>
+      "'"+path.slice(1,-1)+"' => '"+date+"T00:00:00+00:00',").join("\n")+
+    "\n); }";
+  assert.deepEqual(materialLastmodDates(source),SOURCE_DATES);
+  assert.throws(()=>materialLastmodDates(source.replace(
+    "'pujceni-choditka' => '2026-11-09T00:00:00+00:00',",
+    "'pujceni-choditka' => '2026-11-09T00:00:00+00:00',\n"+
+    "'pujceni-choditka' => '2026-11-09T00:00:00+00:00',"
+  )),/SITEMAP_MATERIAL_DATE_DUPLICATE/);
+  assert.throws(()=>materialLastmodDates(source.replace(
+    "'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00',",
+    "'rollator-pro-seniory' => '2026-13-10T00:00:00+00:00',"
+  )),/SITEMAP_MATERIAL_DATE_INVALID/);
 });

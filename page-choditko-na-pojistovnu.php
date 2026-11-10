@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_212 */
+/* ZP_RELEASE_0_8_213 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -222,6 +222,7 @@ get_header();
           <h3 id="zp-identita-choditka-nadpis">Stejný kód ZP ještě neurčuje přesnou variantu chodítka.</h3>
           <p>Výrobce MEYRA veřejně uvádí kód ZP <strong>07-5005963</strong> u označení <strong>IDEAL ROLLATOR 3061982</strong> i <strong>ROLLATOR 2 3061982-R</strong>. Tyto záznamy mohou mít různé rozměry a údaje pro výběr. Samotný kód z pojišťovny tedy nestačí k tomu, abyste bez další kontroly zaměnili konkrétní výrobky.</p>
           <p><strong>Před předpisem nebo výdejem</strong> si u lékaře a oprávněného výdejce potvrďte přesné označení vydávaného modelu, potřebnou šířku průchodu, výšku madel, nosnost a bezpečné ovládání brzd. Neověřené rozměry nedoplňujte odhadem. Aktuální úhradu a podmínky je nutné ověřit v seznamu SÚKL platném pro daný měsíc, nikoli v říjnovém příkladu.</p>
+          <p><strong>Máte doma jen 60 cm volného průchodu?</strong> Dvě podobně pojmenovaná chodítka nelze zaměnit ani kvůli rozměrům: IDEAL ROLLATOR 3061982 má aktuálně uvedenou šířku 61,5 cm a ROLLATOR 2 3061982-R šířku 59 cm. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-uzke-dvere' ) ); ?>">Zkontrolovat 60cm dveře a rozdílné varianty MEYRA krok za krokem</a>. Samotných 59 cm u jiného modelu však ještě nepotvrzuje bezpečný průchod člověka s pomůckou; ověřte konkrétní vydávanou variantu a prostor pro manipulaci.</p>
           <p class="zp-muted-copy">Zdroje výrobce, kontrola 4. 11. 2026: <a class="zp-text-link" href="https://www.meyra.cz/ctyrkolove-choditko-rollator.html" target="_blank" rel="noopener noreferrer">IDEAL ROLLATOR (3061982)</a> a <a class="zp-text-link" href="https://www.meyra.cz/ctyrkolove-choditko-rollator2.html" target="_blank" rel="noopener noreferrer">ROLLATOR 2 (3061982-R)</a>. Nejde o potvrzení, že oba modely mají totožnou úhradu či že je lze zaměnit. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit aktuální seznam SÚKL</a>.</p>
         </div>
       </div>

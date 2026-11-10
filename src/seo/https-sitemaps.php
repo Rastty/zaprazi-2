@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_212 */
+/* ZP_RELEASE_0_8_213 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -56,15 +56,19 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-10: workday-care guidance materially expanded and reciprocal
  * hospital-return entry added in PR #753, with caregiver employment rights
  * source clarification in release #754.
+ * 2026-11-10: rollator 60cm doorway evidence, model-variant clarification
+ * and contextual entries from the walker hub and insurance page in release
+ * 0.8.213. Material edits on exactly those three existing canonical pages.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
     'pujceni-choditka' => '2026-11-09T00:00:00+00:00',
-    'choditko-na-pojistovnu' => '2026-11-09T00:00:00+00:00',
+    'choditko-na-pojistovnu' => '2026-11-10T00:00:00+00:00',
     'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
-    'choditka-pro-seniory' => '2026-11-09T00:00:00+00:00',
+    'choditka-pro-seniory' => '2026-11-10T00:00:00+00:00',
+    'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
     'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',

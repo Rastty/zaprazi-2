@@ -74,6 +74,8 @@ on:
       - "tests/audit-live-rollator-doorway-213.test.js"
       - "scripts/audit-live-transport-rate-214.mjs"
       - "tests/audit-live-transport-rate-214.test.js"
+      - "scripts/audit-live-sukl-november-215.mjs"
+      - "tests/audit-live-sukl-november-215.test.js"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -169,6 +171,13 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-transport-rate-214.mjs
+      # Final November SÚKL 5005963 row is source-verified but not deployed in PR.
+      # Only the owner-deployed exact release may satisfy the production gate.
+      - name: Verify 0.8.215 November SÚKL reimbursement and month expiry
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-sukl-november-215.mjs
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:
           CHROME_BIN: /usr/bin/google-chrome

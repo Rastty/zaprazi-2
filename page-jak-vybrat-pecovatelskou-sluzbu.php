@@ -105,6 +105,7 @@ get_header();
         <article class="zp-decision-card">
           <h3>Pomoci může i úprava pracovní doby</h3>
           <p>Vedle hledání služby můžete se zaměstnavatelem probrat <strong>pružnou pracovní dobu, částečný úvazek nebo práci na dálku</strong>. Právní nároky a postup závisejí na konkrétních podmínkách péče a zaměstnání: nelze předpokládat automatické schválení home office nebo okamžité volno. Připravte si konkrétní návrh pokrytí dne a ověřte aktuální pravidla na MPSV.</p>
+          <p><strong>Pokud převážně sami dlouhodobě pečujete o člověka ve stupni závislosti II–IV:</strong> podle MPSV můžete jako zaměstnanec písemně požádat o kratší pracovní dobu nebo jinou vhodnou úpravu. Zaměstnavatel může takovou žádost odmítnout jen při vážných provozních důvodech, které musí písemně sdělit. <strong>Práce na dálku je jiný režim:</strong> automatické schválení home office z toho neplyne, ale u této skupiny musí zaměstnavatel písemně odůvodnit případné zamítnutí žádosti. Nezaměňujte podmínky pro oba typy žádosti a ověřte vlastní situaci podle aktuálních pravidel MPSV.</p>
           <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-prace" target="_blank" rel="noopener noreferrer">MPSV: sladění péče a práce</a></p>
         </article>
       </div>

@@ -72,6 +72,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
     'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',
+    'otazky-pred-propustenim-z-nemocnice' => '2026-11-10T00:00:00+00:00',
   );
 }
 

@@ -2990,7 +2990,7 @@ function zaprazi_2_resource_title( $title ) {
     return 'Noční cesta z postele na WC: 7 bodů kontroly | Zápraží';
   }
   if ( zaprazi_2_is_discharge_questions_page() ) {
-    return 'Na co se zeptat před propuštěním z nemocnice | Zápraží';
+    return 'Propuštění z nemocnice: 7 otázek pro rodinu | Zápraží';
   }
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Chodítko na pojišťovnu 2026: ePoukaz, úhrada a postup | Zápraží';
@@ -3061,7 +3061,7 @@ function zaprazi_2_resource_description( $description ) {
     return 'Noční cesta z postele na WC: praktická kontrola světla, překážek, vstávání, chůze a bezpečného návratu. Sedm bodů a návazní poradci.';
   }
   if ( zaprazi_2_is_discharge_questions_page() ) {
-    return 'Praktické otázky před propuštěním z nemocnice: propouštěcí zpráva, domácí péče, zdravotnická doprava, pomoc rodině a první noc doma.';
+    return 'Propuštění z nemocnice: 7 otázek pro lékaře, sestru a rodinu. Co dělat, když doma není zajištěná péče? Praktický tisknutelný seznam.';
   }
   if ( zaprazi_2_is_insurance_walker_page() ) {
     return 'Jak v roce 2026 funguje chodítko na pojišťovnu: ePoukaz, podmínky úhrady, platnost poukazu a měsíčně ověřovaný příklad MEYRA Ideal podle SÚKL.';

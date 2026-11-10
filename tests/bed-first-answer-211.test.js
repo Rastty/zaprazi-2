@@ -24,7 +24,10 @@ test("0.8.211: first-screen answer explains the right bed decision without an un
   assert.equal((php.match(/<h1>/g)||[]).length,1,"Single original H1 preserved");
   assert.doesNotMatch(answer,/data-zp-merchant-link|data-zp-offer|affiliateMap|<form\b|name="health"|href="https?:/);
   const version=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)$/m)?.[1];
-  assert.equal(version,"0.8.211");
+  assert.match(version ?? "", /^\d+\.\d+\.\d+$/, "Theme release must be valid semver");
+  const [major, minor, patch] = version.split(".").map(Number);
+  assert.ok(major > 0 || minor > 8 || (minor === 8 && patch >= 211),
+    "Bed first-answer guarantee is required from release 0.8.211 onward");
   assert.ok(php.includes("ZP_RELEASE_"+version.replaceAll(".","_")));
 });
 

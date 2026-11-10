@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_211 */
+/* ZP_RELEASE_0_8_212 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -53,6 +53,9 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * bathroom and aid hub: substantive new contextual navigation in 0.8.205.
  * 2026-11-08: walker measurement guide gained safe acquisition paths in PR #718.
  * 2026-11-09: walker hub gained explicit first-screen safety guidance in PR #734.
+ * 2026-11-10: workday-care guidance materially expanded and reciprocal
+ * hospital-return entry added in PR #753, with caregiver employment rights
+ * source clarification in release #754.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
@@ -63,6 +66,8 @@ function zaprazi_2_material_sitemap_page_dates() {
     'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
     'choditka-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
+    'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
+    'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',
   );
 }
 

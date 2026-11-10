@@ -48,6 +48,11 @@ test("Day-center option and employment schedule are evidence-based, not blanket 
   assert.match(section, /pružnou pracovní dobu, částečný úvazek nebo práci na dálku/);
   assert.match(section, /nelze předpokládat automatické schválení home office/i);
   assert.match(section, /Právní nároky a postup závisejí na konkrétních podmínkách/i);
+  assert.match(section, /převážně sami dlouhodobě pečujete o člověka ve stupni závislosti II–IV/i);
+  assert.match(section, /písemně požádat o kratší pracovní dobu nebo jinou vhodnou úpravu/i);
+  assert.match(section, /při vážných provozních důvodech, které musí písemně sdělit/i);
+  assert.match(section, /Práce na dálku je jiný režim/i);
+  assert.match(section, /písemně odůvodnit případné zamítnutí žádosti/i);
   assert.ok(cards[3].includes('https://mpsv.gov.cz/pece-a-sluzby'));
   assert.ok(cards[4].includes('https://mpsv.gov.cz/pece-a-prace'));
 });

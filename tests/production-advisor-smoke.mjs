@@ -1170,12 +1170,29 @@ try {
         ["nzip.cz", "www.nzip.cz", "vzp.cz", "www.vzp.cz"].includes(a.hostname.toLowerCase())).length,
       internal:[...document.querySelectorAll("main a[href]")].map(a=>a.getAttribute("href"))
         .filter(Boolean),
-      overflow:document.documentElement.scrollWidth-window.innerWidth
+      overflow:document.documentElement.scrollWidth-window.innerWidth,
+      dischargeFirstAnswer:document.querySelector("#rychla-odpoved-propusteni")?.textContent||"",
+      dischargeCareSteps:document.querySelectorAll("#nezajistena-pece-po-propusteni ol.zp-guide-steps > li").length,
+      dischargeCareSection:document.querySelector("#nezajistena-pece-po-propusteni")?.textContent||"",
+      dischargeCareAnchor:document.querySelector('#rychla-odpoved-propusteni a[href="#nezajistena-pece-po-propusteni"]')?.getAttribute("href")||""
     }));
     assert.equal(seo.headings.length,1,"Discharge questions must have one H1");
     assert.match(seo.headings[0],/Na co se zeptat v nemocnici před propuštěním domů/);
-    assert.match(seo.title,/Na co se zeptat před propuštěním z nemocnice/);
-    assert.match(seo.description,/propouštěcí zpráva|domácí péče/);
+    // Intentional 0.8.217 SEO title/description refresh. The older published
+    // versions retain their own exact historical acceptance expectations.
+    if(releaseAtLeast("0.8.217")){
+      assert.match(seo.title,/Propuštění z nemocnice: 7 otázek pro rodinu/);
+      assert.match(seo.description,/7 otázek pro lékaře, sestru a rodinu.*doma není zajištěná péče/);
+      assert.match(seo.dischargeFirstAnswer,/doma není zajištěná nezbytná péče/);
+      assert.equal(seo.dischargeCareAnchor,"#nezajistena-pece-po-propusteni",
+        "First-screen answer must link to real help");
+      assert.equal(seo.dischargeCareSteps,4,"All four noncommercial care next steps must be visible");
+      assert.match(seo.dischargeCareSection,/sociálního pracovníka/);
+      assert.match(seo.dischargeCareSection,/není příslib prodloužení hospitalizace/);
+    }else{
+      assert.match(seo.title,/Na co se zeptat před propuštěním z nemocnice/);
+      assert.match(seo.description,/propouštěcí zpráva|domácí péče/);
+    }
     assert.equal(new URL(seo.canonical).pathname,path,"Discharge article canonical must be self-reference");
     assert.ok(seo.official>=4,"Discharge questions need official evidence links");
     assert.ok(seo.internal.some(h=>h.includes("/navrat-z-nemocnice/")),"No link to first-night Advisor");

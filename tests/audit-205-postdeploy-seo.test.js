@@ -93,7 +93,7 @@ test("0.8.211 actual first-screen safety answer and repeated safe navigation pas
   ])assert.throws(()=>assertBedFirstAnswer(v,"0.8.211"));
 });
 test("0.8.211's dated bed page must appear once, with actual verified date",()=>{
-  assert.equal(Object.keys(SOURCE_DATES).length,7);
+  assert.equal(Object.keys(SOURCE_DATES).length,10);
   assert.equal(SOURCE_DATES["/senior-nemuze-vstat-z-postele/"],"2026-11-09");
   const missing=xml.replace(/<url><loc>https:\/\/zaprazi\.cz\/senior-nemuze-vstat-z-postele\/<\/loc>[\s\S]*?<\/url>/,"");
   assert.throws(()=>assertMaterialLastmod(missing,"2026-11-10"),/SITEMAP_MISSING_OR_DUPLICATE_PAGE/);

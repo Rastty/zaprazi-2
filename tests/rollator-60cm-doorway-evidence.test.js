@@ -18,16 +18,30 @@ test("Rollator 60 cm doorway answer is findable and evidence-specific", () => {
   assert.match(guide, /61,5 cm/);
   assert.match(guide, /60 cm/);
   assert.match(guide, /59 cm/);
+  assert.match(guide, /615 mm/);
+  assert.match(guide, /02\/2018/);
   assert.match(guide, /rozdíln|liší/i, "Conflicting product documentation must be disclosed");
   assert.match(guide, /přesné dodávané varianty/);
   assert.match(guide, /10\. 11\. 2026/);
   assert.ok(guide.includes("eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191"));
   assert.ok(guide.includes("www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf"));
+  assert.ok(guide.includes("www.meyra.cz/upload/files/produkty/Hole-berle-choditka/navod-k-pouziti-ideal-rollator.pdf"));
   assert.ok(guide.includes("/co-zmerit-pred-vyberem-choditka/#co-zmerit"));
   assert.ok(guide.includes("/choditko-do-bytu-pro-seniory/#poradce-choditko-byt"));
   assert.ok(guide.includes('href="#poradce-rollator"'));
   assert.equal((guide.match(/<article class="zp-decision-card">/g) || []).length, 3);
   assert.doesNotMatch(guide, /data-zp-merchant-link|data-zp-offer|rel="[^"]*sponsored|<form|<input|<textarea/);
+});
+
+test("Existing mobility hub links to one canonical rollator 60 cm answer", () => {
+  const hub = read("page-choditka-pro-seniory.php");
+  const rollator = read("page-rollator-pro-seniory.php");
+  assert.ok(hub.includes("/rollator-pro-seniory/#rollator-uzke-dvere"),
+    "Contextual link from the existing mobility hub is missing");
+  assert.ok(rollator.includes('id="rollator-uzke-dvere"'),
+    "Target anchor cannot be absent");
+  assert.equal((hub.match(/\/rollator-pro-seniory\/#rollator-uzke-dvere/g) || []).length, 1,
+    "Do not build an artificial link farm");
 });
 
 test("The producer still uses conservative current width and safe fit gates", () => {

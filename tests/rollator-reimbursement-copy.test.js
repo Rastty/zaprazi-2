@@ -28,7 +28,7 @@ test("November official row is shown only while valid and never promises a final
   assert.equal(before.displayAmountKc,null);
   assert.equal(verified.officialVerification.validFor,"2026-11");
   assert.equal(verified.officialVerification.validThrough,"2026-11-30");
-  assert.match(verified.officialVerification.sourceUrl,/ZPSCAU_20261101\\.pdf$/);
+  assert.ok(verified.officialVerification.sourceUrl.endsWith("ZPSCAU_20261101.pdf"));
   assert.equal(verified.officialVerification.copayKc,null);
   assert.equal(verified.displayAmountKc,3408);
   assert.equal(december.displayAmountKc,null);

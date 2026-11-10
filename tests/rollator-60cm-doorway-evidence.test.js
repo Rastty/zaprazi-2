@@ -48,6 +48,28 @@ test("Existing mobility hub links to one canonical rollator 60 cm answer", () =>
     "Do not build an artificial link farm");
 });
 
+test("Insurance-first visitors reach the exact variant/doorway safety answer", () => {
+  const insurance = read("page-choditko-na-pojistovnu.php");
+  const rollator = read("page-rollator-pro-seniory.php");
+  const identity = insurance.indexOf('id="zp-identita-choditka-nadpis"');
+  const next = insurance.indexOf('<aside class="zp-resource-callout">', identity);
+  assert.ok(identity > 0 && next > identity, "Existing ePoukaz variant section is required");
+  const note = insurance.slice(identity, next);
+
+  assert.ok(note.includes("/rollator-pro-seniory/#rollator-uzke-dvere"),
+    "Use the existing canonical rollator anchor rather than a new SEO URL");
+  assert.equal((insurance.match(/\/rollator-pro-seniory\/#rollator-uzke-dvere/g) || []).length, 1);
+  assert.ok(rollator.includes('id="rollator-uzke-dvere"'));
+  assert.match(note, /IDEAL ROLLATOR 3061982/);
+  assert.match(note, /ROLLATOR 2 3061982-R/);
+  assert.match(note, /61,5 cm/);
+  assert.match(note, /59 cm/);
+  assert.match(note, /nepotvrzuje bezpečný průchod/);
+  assert.match(note, /ověřte konkrétní vydávanou variantu/);
+  assert.match(note, /Aktuální úhradu a podmínky je nutné ověřit/);
+  assert.doesNotMatch(note, /data-zp-merchant-link|data-zp-offer|<form|<input|<textarea/);
+});
+
 test("The producer still uses conservative current width and safe fit gates", () => {
   const catalog = read("src/mobility/catalog.js");
   const start = catalog.indexOf('id: "meyra-ideal-3061982"');

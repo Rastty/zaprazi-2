@@ -23,6 +23,11 @@ test("0.8.212 care page is accepted by exact-source Chrome only after deploy",()
   assert.match(audit,/care\.schedule,4/);
   assert.match(audit,/care\.cards,5/);
   assert.match(audit,/hospital-to-care contextual link/);
+  assert.match(audit,/verifyPublicSitemapDates/);
+  assert.match(audit,/sitemap_index\\.xml/);
+  assert.match(audit,/page-sitemap/);
+  assert.match(audit,/Material care edit has stale public sitemap lastmod/);
+  assert.match(audit,/Date\\.parse\\(mod\\)>=Date\\.parse/);
   assert.match(audit,/externalRequestsSent:0/);
   assert.match(audit,/affiliateClicks:0/);
   assert.doesNotMatch(audit,/page\.click\(|\.submit\(|method:\s*["']POST["']|fetch\([^)]*,\s*\{[^}]*method:/i);

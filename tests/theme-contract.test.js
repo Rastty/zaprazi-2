@@ -173,11 +173,12 @@ test("insurance-walker resource page is created once and never overwrites existi
 test("insurance resource page fails closed after the verified SÚKL month expires", () => {
   const page = read("page-choditko-na-pojistovnu.php");
 
-  assert.match(page, /\$zp_sukl_valid_through = '2026-10-31'/);
+  assert.match(page, /\$zp_sukl_november_active/);
   assert.match(page, /current_time\( 'Y-m-d' \)/);
   assert.match(page, /\$zp_sukl_is_current/);
-  assert.match(page, /Říjnový záznam už není aktuální/);
-  assert.match(page, /historický údaj z října 2026/i);
+  assert.match(page, /Poslední ověřený záznam už není aktuální/);
+  assert.match(page, /Po 30\. 11\. 2026 ji nepovažujte za současný údaj/);
+  assert.match(page, /Historická úhrada v listopadovém seznamu/);
 });
 
 
@@ -994,7 +995,7 @@ test("high-intent resource FAQ schema mirrors visible insurance and rental FAQs"
     "Je každé chodítko hrazené pojišťovnou?",
     "Musím mít od roku 2026 papírový poukaz?",
     "Mohu chodítko s ePoukazem koupit v libovolném e-shopu?",
-    "Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?"
+    "Je listopadová úhrada 3 408 Kč automatickým nárokem bez doplatku?"
   ];
 
   const rentalQuestions = [
@@ -1014,7 +1015,7 @@ test("high-intent resource FAQ schema mirrors visible insurance and rental FAQs"
     assert.ok(rental.includes(question));
   }
 
-  assert.match(functions, /nepovažuje za aktuální, dokud neověří nový měsíční seznam/);
+  assert.match(functions, /Po 30\. 11\. 2026 už jde o historický údaj/);
   assert.match(functions, /Ceny a dostupnost se mohou změnit/);
 });
 

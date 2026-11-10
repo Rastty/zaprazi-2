@@ -19,32 +19,41 @@ const renderAt = date => {
   });
 };
 
-test("October verified figures expire, with November pointing to the published ZP list only", () => {
+test("November 5005963 amount is verified in final SÚKL PDF, not a generic publication",()=>{
   const october=renderAt("2026-10-31");
-  const november=renderAt("2026-11-02");
+  const november=renderAt("2026-11-10");
   assert.match(october,/Úhrada v aktuálním říjnovém seznamu/);
-  assert.doesNotMatch(october,/Listopadový seznam už SÚKL zveřejnil/);
-  assert.match(november,/Historická úhrada v říjnovém seznamu/);
-  assert.doesNotMatch(november,/Úhrada v aktuálním říjnovém seznamu/);
-  assert.match(november,/Listopadový seznam už SÚKL zveřejnil/);
+  assert.doesNotMatch(october,/Úhrada v aktuálním listopadovém seznamu/);
+  assert.match(november,/Úhrada v aktuálním listopadovém seznamu/);
+  assert.match(november,/Listopad 2026: úhrada 3 408 Kč/);
+  assert.match(november,/konkrétní řádek ověřen 10\. 11\./);
+  assert.match(november,/5005963 · IDEAL ROLLATOR 3061982 · úhrada 3 408 Kč/);
+  assert.match(november,/strana 10 z 92/);
   assert.match(november,/sukl313250\/2026/);
-  assert.match(november,/href="https:\/\/eud\.sukl\.gov\.cz\/pub\/deska\/40000001\/athena\/26V01973@SUKLAA"/);
-  assert.match(november,/nemáme jednotlivý záznam kódu 5005963 pro listopad ověřený/);
-  assert.match(november,/historický údaj z října 2026, nikoli potvrzená úhrada pro dnešek/);
+  assert.match(november,/ZPSCAU_20261101\.pdf/);
+  assert.match(november,/26V01973@SUKLAA\/26D0TU21@SUKLAA/);
+  assert.doesNotMatch(november,/nemáme jednotlivý záznam kódu 5005963 pro listopad ověřený/);
+  assert.doesNotMatch(november,/Historická úhrada v říjnovém seznamu/);
+  assert.match(november,/Úhrada není automatický nárok/);
 });
 
-test("December and later never present November list as newly current",()=>{
+test("December expires the November amount and points to the current official index",()=>{
   const december=renderAt("2026-12-01");
-  assert.doesNotMatch(december,/Listopadový seznam už SÚKL zveřejnil/);
-  assert.doesNotMatch(december,/Otevřít oficiální listopadový seznam/);
-  assert.match(december,/vyberte seznam hrazených prostředků na poukaz platný pro daný měsíc/);
-  assert.match(december,/href="https:\/\/eud\.sukl\.gov\.cz\/pub\/deska\/40000001\/athena\/\?kategorie_id=11"/);
-  assert.match(december,/Historická úhrada v říjnovém seznamu/);
-  assert.doesNotMatch(december,/Úhrada v aktuálním říjnovém seznamu/);
+  const january=renderAt("2027-01-05");
+  for(const html of [december,january]){
+    assert.doesNotMatch(html,/Úhrada v aktuálním listopadovém seznamu/);
+    assert.doesNotMatch(html,/Listopad 2026: úhrada 3 408 Kč/);
+    assert.match(html,/Historická úhrada v listopadovém seznamu/);
+    assert.match(html,/Poslední ověřený záznam už není aktuální/);
+    assert.match(html,/Po 30\. 11\. 2026 ji nepovažujte za současný údaj/);
+    assert.match(html,/úřední desku SÚKL — Seznamy ZP/);
+    assert.match(html,/href="https:\/\/eud\.sukl\.gov\.cz\/pub\/deska\/40000001\/athena\/\?kategorie_id=11"/);
+    assert.doesNotMatch(html,/Listopad 2026 — konkrétní řádek ověřen 10\. 11\./);
+  }
 });
 
 test("new source handoff never invents individual reimbursement or bypasses the Mobility decision",()=>{
-  for(const date of ["2026-10-31","2026-11-02","2026-12-01"]){
+  for(const date of ["2026-10-31","2026-11-10","2026-12-01","2027-01-05"]){
     const html=renderAt(date);
     assert.match(html,/Ověřit vhodný typ v poradci/);
     assert.match(html,/Porovnat typy chodítek/);

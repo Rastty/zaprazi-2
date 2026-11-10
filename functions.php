@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.214' );
+  define( 'ZAPRAZI_RELEASE', '0.8.215' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '4bd33b2c3c74d27a80bda3f2e79bb43f96d70508',
-    'src/mobility/offer-fit-gate.js' => '212d460364328c43e8d7308f20d792ef4f13b9d6',
+    'src/mobility/engine.js' => 'adcac4a963f93d48126c654c5e07de160309ecc5',
+    'src/mobility/offer-fit-gate.js' => '25ef9925b5c0f0c45d97b21d50b57d9348ede513',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
@@ -1442,8 +1442,8 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ne automaticky. Maloobchodní prodej a výdej prostředku na poukaz jsou odlišné cesty. Před objednáním ověřte, zda konkrétní výdejce ePoukaz pro daný prostředek zpracuje.',
       ),
       array(
-        'question' => 'Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?',
-        'answer'   => 'Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu Zápraží tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.',
+        'question' => 'Je listopadová úhrada 3 408 Kč automatickým nárokem bez doplatku?',
+        'answer'   => 'Ne. SÚKL v oficiálním listopadovém seznamu uvádí u IDEAL ROLLATOR 3061982, kód 5005963, úhradu 3 408 Kč. To ale nepotvrzuje individuální nárok ani konečný doplatek, možnost uplatnit ePoukaz u libovolného e-shopu nebo zaměnitelnost podobně pojmenovaných modelů. Po 30. 11. 2026 už jde o historický údaj.',
       ),
     );
   } elseif ( zaprazi_2_is_rental_walker_page() ) {

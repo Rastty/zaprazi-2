@@ -13,7 +13,7 @@ test("0.8.213 dates match three actual material mobility edits, not arbitrary pa
       "Material sitemap date missing: "+slug);
   assert.ok(source.includes("\x27pujceni-choditka\x27 => \x272026-11-09T00:00:00+00:00\x27"),
     "Do not stamp an unrelated older rental edit");
-  assert.ok(read("page-rollator-pro-seniory.php").includes(\x27id="rollator-uzke-dvere"\x27));
+  assert.ok(read("page-rollator-pro-seniory.php").includes('id="rollator-uzke-dvere"'));
   assert.ok(read("page-choditka-pro-seniory.php").includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
   assert.ok(read("page-choditko-na-pojistovnu.php").includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
   const cases=[

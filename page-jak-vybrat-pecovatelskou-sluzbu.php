@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-pecovatelske-sluzby-kroky">Projít 7 kroků výběru</a>
         <a class="zp-text-link" href="#vyhledat-pecovatelskou-sluzbu-v-registru">Najít oficiální registr</a>
+        <a class="zp-text-link" href="#pece-o-rodice-pri-praci">Kdo pomůže, když chodím do práce?</a>
         <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro poskytovatele</button>
       </div>
       <p class="zp-muted-copy">Pro ČR · ověřeno proti veřejným informacím MPSV 28. 10. 2026. Nepožadujeme jména, adresy, diagnózy ani číslo účtu. Zápraží nesjednává služby a nezaručuje dostupnost nebo nárok.</p>
@@ -64,6 +65,60 @@ get_header();
         <li><strong>Připravte záložní plán.</strong> Pokud služba nemá kapacitu, ptejte se na jiné registrované poskytovatele a obraťte se na sociální odbor obce s rozšířenou působností nebo krajský úřad. Neznamená to, že službu určitě získáte k určitému dni. Urgentní bezpečnost a potřebnou zdravotní péči řešte nezávisle na čekací době.</li>
       </ol>
       <p class="zp-section-note">Při hledání služby udržujte rozhodování u člověka, pro kterého pomoc plánujete, a podle potřeby řešte zákonné zastoupení. Tento návod neslouží k výběru podle provize a nepřidává katalog neověřených firem.</p>
+    </div>
+  </section>
+
+  <section id="pece-o-rodice-pri-praci" class="zp-section" aria-labelledby="pece-o-rodice-pri-praci-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když rodič potřebuje pomoc a rodina chodí do práce</p>
+      <h2 id="pece-o-rodice-pri-praci-nadpis" class="zp-section-title">Jak zajistit péči o rodiče doma, když přes den chodíte do práce?</h2>
+      <p><strong>Nejdřív zjistěte, které části dne musí někdo skutečně pokrýt.</strong> Jedna návštěva pečovatelské služby nemusí zajistit pomoc mezi návštěvami ani celodenní dohled. Sepsaný plán vám pomůže ověřit, co zvládne rodina, na které úkony potřebujete registrovanou službu a co není bezpečně zajištěno. Nejde o posouzení zdravotního stavu ani o příslib volné kapacity.</p>
+      <h3>Čtyři časová okna: kdo přijde, co udělá a kdo jej zastoupí?</h3>
+      <ol class="zp-guide-steps">
+        <li><strong>Ráno před odchodem do práce.</strong> Kdo pomůže s bezpečným vstáváním, hygienou, WC, jídlem a přípravou na den? Co musí proběhnout předtím, než rodina odejde? Zdravotní úkony řešte s ošetřujícím týmem, ne automaticky s pečovatelskou službou.</li>
+        <li><strong>Přes den, když rodina není doma.</strong> Rozlišujte domluvené návštěvy od potřeby průběžné přítomnosti. Kdo přijde ve skutečně potřebnou dobu, kdo zajistí jídlo a WC a kdo bude reagovat, pokud domluvená pomoc nepřijde? Přístup do bytu a kontakt pro případ výpadku musí být předem bezpečně domluvené.</li>
+        <li><strong>Po návratu domů a večer.</strong> Kdo zajistí jídlo, hygienu, bezpečný přesun a přípravu na noc? Ověřte, zda služba může přijet i později odpoledne; provozní doba a skutečná kapacita se liší podle poskytovatele.</li>
+        <li><strong>Noc, víkendy a nečekané výpadky.</strong> Potřebuje člověk pomoc i mimo běžné hodiny? Kdo zastoupí rodinu při směně, nemoci nebo dovolené? Pokud zůstává nezbytná pomoc nepokrytá, řešte s místním sociálním pracovníkem jiný nebo širší plán péče.</li>
+      </ol>
+      <p class="zp-section-note"><strong>Praktický zápis na papír:</strong> ke každému ze čtyř oken napište úkon, potvrzenou osobu či službu, konkrétní čas a náhradní kontakt. <strong>„Zavolali jsme poskytovateli“ není totéž jako potvrzený termín.</strong> Tuto tabulku ani zdravotní údaje na Zápraží nevyplňujete a nic se neodesílá.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Potřebujete pravidelnou pomoc s určitými úkony</h3>
+          <p>Prověřte terénní pečovatelskou službu a konkrétní návštěvní časy. Ptejte se na dostupnost v obci, rozsah pomoci, skutečné zahájení a cenu. Samotný zápis v registru neznamená, že poskytovatel má volno.</p>
+          <p><a class="zp-text-link" href="#vyhledat-pecovatelskou-sluzbu-v-registru">Jak hledat registrovaného poskytovatele</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Potřebujete delší nebo pružnější přítomnost</h3>
+          <p>Prověřte osobní asistenci a její skutečně domluvitelný rozsah. Název služby nezaručuje osmihodinové pokrytí, víkend ani noc; každou směnu a její zastoupení si potvrďte s poskytovatelem.</p>
+          <p><a class="zp-text-link" href="#otazky-pro-pecovatelskou-sluzbu">Na co se ptát na hodiny a zastupitelnost</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Rodina už péči dlouhodobě nezvládá sama</h3>
+          <p>Vedle terénní pomoci se ptejte na odlehčovací služby a další vhodné registrované formy podpory. S možnostmi podle místní dostupnosti může pomoci sociální odbor obce; nepočítejte s automatickým přijetím.</p>
+          <p><a class="zp-text-link" href="#kdyz-sluzba-nema-kapacitu">Co dělat, když je služba obsazená</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Pomoc během dne může probíhat i mimo domov</h3>
+          <p>Pokud člověk potřebuje pomoc během pracovní doby a je pro něj bezpečné a vhodné dojíždění, prověřte také <strong>denní stacionář nebo denní centrum</strong>. Nejde o službu, která automaticky přijede domů. Ověřte rozsah pomoci, dopravu, provozní dny, kapacitu i podmínky přijetí; denní stacionář nemusí pokrýt ráno, večer ani noc.</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV: možnosti péče mimo domov přes den</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Pomoci může i úprava pracovní doby</h3>
+          <p>Vedle hledání služby můžete se zaměstnavatelem probrat <strong>pružnou pracovní dobu, částečný úvazek nebo práci na dálku</strong>. Právní nároky a postup závisejí na konkrétních podmínkách péče a zaměstnání: nelze předpokládat automatické schválení home office nebo okamžité volno. Připravte si konkrétní návrh pokrytí dne a ověřte aktuální pravidla na MPSV.</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-prace" target="_blank" rel="noopener noreferrer">MPSV: sladění péče a práce</a></p>
+        </article>
+      </div>
+      <div class="zp-system-empty">
+        <h3>Co když rodič nemůže zůstat bezpečně sám ani část dne?</h3>
+        <p>Samotné SOS tlačítko ani krátká návštěva nejsou náhradou potřebné přítomnosti a pomoci. Nespoléhejte na neověřený rozpis. Ještě před ponecháním člověka samotného požádejte o plán odpovídající jeho skutečným potřebám: sociálního pracovníka obce, při propuštění z nemocnice nemocniční tým a u zdravotních výkonů lékaře. Při akutním ohrožení zdraví nebo života volejte 155.</p>
+      </div>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#vyhledat-pecovatelskou-sluzbu-v-registru">Ověřit službu v registru MPSV</a>
+        <a class="zp-text-link" href="#otazky-pro-pecovatelskou-sluzbu">Připravit 8 otázek pro telefonát</a>
+        <a class="zp-text-link" href="#smlouva-a-cena-pecovatelske-sluzby">Co ověřit ve smlouvě a ceně</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba' ) ); ?>">Pokud péče navazuje na nemocnici</a>
+      </div>
+      <p class="zp-muted-copy">Oficiální podklady: <a href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV — Péče a služby</a> a <a href="https://mpsv.gov.cz/pece-a-prace" target="_blank" rel="noopener noreferrer">MPSV — Péče a práce</a> (kontrola 10. 11. 2026). Zápraží neověřilo kapacity místních služeb ani neposoudilo individuální potřebu nepřetržité péče. Rozpis je příprava pro rozhovor s rodinou a poskytovatelem, nikoli objednávka služby.</p>
     </div>
   </section>
 

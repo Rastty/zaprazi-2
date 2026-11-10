@@ -74,6 +74,48 @@ export function assertExpiredSuklEvidence(html,pragueDate){
   return {status:"expired_record_clearly_historical"};
 }
 
+
+/**
+ * Track the source release's monthly SÚKL evidence, not a permanently frozen
+ * October 2026 milestone. Keep strict October acceptance for <=0.8.214;
+ * 0.8.215+ has a separately verified November row that must appear current
+ * ONLY during November, and historical after 30 November.
+ *
+ * This is rendered public-page QA only, never an entitlement decision.
+ */
+export function assertMonthlySuklEvidence(html,pragueDate,release=SOURCE_THEME_RELEASE){
+  assert.match(pragueDate,/^\d{4}-\d{2}-\d{2}$/,"Expected Prague calendar date");
+  assert.match(release,/^\d+\.\d+\.\d+$/,"Expected source release");
+  const [major,minor,patch]=release.split(".").map(Number);
+  if(!(major>0||minor>8||(minor===8&&patch>=215)))
+    return assertExpiredSuklEvidence(html,pragueDate);
+  if(pragueDate<"2026-11-01")return assertExpiredSuklEvidence(html,pragueDate);
+
+  const rendered=clean(html);
+  if(pragueDate<="2026-11-30"){
+    assert.match(rendered,/<h2>\s*Listopad 2026: úhrada 3\s*408 Kč\./i,
+      "Current verified November SÚKL headline missing");
+    assert.match(rendered,/IDEAL ROLLATOR 3061982,\s*kód 5005963/i,
+      "November source model and SÚKL code missing");
+    assert.match(rendered,/Úhrada v aktuálním listopadovém seznamu/i,
+      "November SÚKL row must be labeled with the valid month");
+    assert.doesNotMatch(rendered,/Úhrada v aktuálním říjnovém seznamu/i,
+      "Expired October record must not appear current in November");
+    return {status:"november_record_verified_current_month"};
+  }
+  assert.match(rendered,/<h2>\s*Poslední ověřený záznam už není aktuální\./i,
+    "Expired November SÚKL record missing prominent stale headline");
+  assert.match(rendered,/class=["']zp-stale-evidence["']/i,
+    "Expired November SÚKL record missing visible stale-evidence warning");
+  assert.match(rendered,/Historická úhrada v listopadovém seznamu/i,
+    "Expired November SÚKL amount missing historical label");
+  assert.doesNotMatch(rendered,/Úhrada v aktuálním listopadovém seznamu/i,
+    "Expired November SÚKL amount is still presented as current");
+  assert.doesNotMatch(rendered,/<h2>\s*Listopad 2026: úhrada 3\s*408 Kč\./i,
+    "Expired November amount remains in the current-summary headline");
+  return {status:"november_record_expired_fail_closed"};
+}
+
 export function assertMobilityAcquisition(pages,release){
   for(const [key,path] of Object.entries(paths)){
     assertPublicPage(pages[key],path,release);
@@ -293,7 +335,7 @@ export async function verifyLiveMobilityAcquisition(){
   // expiry in Europe/Prague, not according to a potentially different CI TZ.
   const pragueDate=new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Prague",
     year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
-  const sukl=assertExpiredSuklEvidence(pages.insurance,pragueDate);
+  const sukl=assertMonthlySuklEvidence(pages.insurance,pragueDate,SOURCE_THEME_RELEASE);
   const report=assertMobilityAcquisition(pages,SOURCE_THEME_RELEASE);
   const release185=SOURCE_THEME_RELEASE.split(".").map(Number);
   const mobility185=(release185[0]>0||release185[1]>8||

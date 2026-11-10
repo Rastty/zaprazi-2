@@ -15,13 +15,23 @@ test("rollator article never confuses manufacturer's copay claim with verified o
   assert.ok((article.match(/home_url\( '\/choditko-na-pojistovnu\/' \)/g) || []).length >= 2);
 });
 
-test("dated official reimbursement is displayed only for a valid month and never asserts a final copay", () => {
-  const october = getReimbursementGuidance(["meyra-ideal-3061982"], new Date("2026-10-10T10:00:00Z"))[0];
-  const november = getReimbursementGuidance(["meyra-ideal-3061982"], new Date("2026-11-01T12:00:00Z"))[0];
-  assert.equal(october.officialVerification.validFor, "2026-10");
-  assert.equal(october.officialVerification.copayKc, null);
-  assert.equal(october.displayAmountKc, 3408);
-  assert.equal(november.displayAmountKc, null);
-  assert.equal(november.freshnessStatus, "stale");
-  assert.match(november.displayMessage, /už není platný/);
+test("November official row is shown only while valid and never promises a final copay",()=>{
+  const before=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-11-09T12:00:00Z")
+  )[0];
+  const verified=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-11-10T12:00:00Z")
+  )[0];
+  const december=getReimbursementGuidance(
+    ["meyra-ideal-3061982"],new Date("2026-12-01T12:00:00Z")
+  )[0];
+  assert.equal(before.displayAmountKc,null);
+  assert.equal(verified.officialVerification.validFor,"2026-11");
+  assert.equal(verified.officialVerification.validThrough,"2026-11-30");
+  assert.match(verified.officialVerification.sourceUrl,/ZPSCAU_20261101\\.pdf$/);
+  assert.equal(verified.officialVerification.copayKc,null);
+  assert.equal(verified.displayAmountKc,3408);
+  assert.equal(december.displayAmountKc,null);
+  assert.equal(december.freshnessStatus,"stale");
+  assert.match(december.displayMessage,/už není platný/);
 });

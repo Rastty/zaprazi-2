@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {assertMobilityAcquisition,assertExpiredSuklEvidence} from "../scripts/audit-live-mobility-acquisition-184.mjs";
+import {assertMobilityAcquisition,assertExpiredSuklEvidence,assertMonthlySuklEvidence} from "../scripts/audit-live-mobility-acquisition-184.mjs";
 
 const origin="https://zaprazi.cz",version="0.8.184";
 const href=path=>'<a href="'+origin+path+'">Praktický krok</a>';
@@ -85,4 +85,57 @@ test("expired October SÚKL amount is clearly historical in public Mobility HTML
     /still appears current/);
   assert.throws(()=>assertExpiredSuklEvidence(valid+"<h2>MEYRA Ideal: 3 408 Kč.</h2>","2026-11-01"),
     /current hero claim/);
+});
+
+
+const novemberRow='<article class="zp-card"><h2>Listopad 2026: úhrada 3 408 Kč.</h2>'+
+  '<p>IDEAL ROLLATOR 3061982, kód 5005963, ověřený příklad pro listopad 2026.</p></article>'+
+  '<div class="zp-resource-facts"><span>Úhrada v aktuálním listopadovém seznamu</span>'+
+  '<strong>3 408 Kč</strong></div>';
+const novemberHistorical='<article class="zp-card"><h2>Poslední ověřený záznam už není aktuální.</h2>'+
+  '<p>Po 30. 11. 2026 ověřte nový seznam.</p></article>'+
+  '<p class="zp-stale-evidence">Pozor: ověřená listopadová částka už není aktuální.</p>'+
+  '<div><span>Historická úhrada v listopadovém seznamu</span><strong>3 408 Kč</strong></div>';
+
+test("0.8.215: valid November official row replaces obsolete October-only QA gate",()=>{
+  assert.deepEqual(assertMonthlySuklEvidence(novemberRow,"2026-11-01","0.8.215"),
+    {status:"november_record_verified_current_month"});
+  assert.deepEqual(assertMonthlySuklEvidence(novemberRow,"2026-11-30","0.8.215"),
+    {status:"november_record_verified_current_month"});
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow.replace("Listopad 2026: úhrada","Úhrada"),
+    "2026-11-10","0.8.215"),/November SÚKL headline/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow.replace("kód 5005963","kód 0000000"),
+    "2026-11-10","0.8.215"),/model and SÚKL code/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow.replace("Úhrada v aktuálním listopadovém seznamu",
+    "Historická úhrada v listopadovém seznamu"),"2026-11-10","0.8.215"),
+    /labeled with the valid month/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow+
+    "<span>Úhrada v aktuálním říjnovém seznamu</span>","2026-11-10","0.8.215"),
+    /October record must not appear current/);
+});
+
+test("0.8.215: December and later must visibly expire November amount without deleting historical facts",()=>{
+  assert.deepEqual(assertMonthlySuklEvidence(novemberHistorical,"2026-12-01","0.8.215"),
+    {status:"november_record_expired_fail_closed"});
+  assert.deepEqual(assertMonthlySuklEvidence(novemberHistorical,"2027-01-01","0.8.216"),
+    {status:"november_record_expired_fail_closed"});
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow,"2026-12-01","0.8.215"),
+    /stale headline/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberHistorical.replace('class="zp-stale-evidence"',
+    'class="zp-note"'),"2026-12-01","0.8.215"),/visible stale-evidence warning/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberHistorical.replace("Historická úhrada",
+    "Úhrada"),"2026-12-01","0.8.215"),/historical label/);
+  assert.throws(()=>assertMonthlySuklEvidence(novemberHistorical+
+    "<span>Úhrada v aktuálním listopadovém seznamu</span>","2026-12-01","0.8.215"),
+    /still presented as current/);
+});
+
+test("0.8.214 and earlier still require October historical warning in November",()=>{
+  const legacy='<h2>Říjnový záznam už není aktuální.</h2>'+
+    '<p class="zp-stale-evidence">Pozor, již historické.</p>'+
+    '<span>Historická úhrada v říjnovém seznamu</span>';
+  assert.deepEqual(assertMonthlySuklEvidence(legacy,"2026-11-10","0.8.214"),
+    {status:"expired_record_clearly_historical"});
+  assert.throws(()=>assertMonthlySuklEvidence(novemberRow,"2026-11-10","0.8.214"),
+    /stale headline/);
 });

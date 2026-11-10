@@ -127,6 +127,7 @@ get_header();
           <h3>Čtyřkolový rollátor</h3>
           <p>Je určený pro plynulejší pohyb po kolečkách. Typicky má ruční brzdy a často i sedátko pro odpočinek.</p>
           <p><strong>Ověřený příklad:</strong> MEYRA Ideal 3061982 — šířka 61,5 cm, nosnost 130 kg.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-uzke-dvere' ) ); ?>">Projde rollátor 60cm dveřmi? Zkontrolovat rozdílné údaje výrobce</a></p>
         </article>
       </div>
     </div>

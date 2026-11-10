@@ -132,6 +132,42 @@ try{
     evidence.push({path:returnPath,contextualLinks:source.incoming});
   }finally{await page.close();}
 }finally{await browser.close();}
+// WordPress theme changes do not update WP post_modified. Confirm the two
+// materially changed canonical pages advertise their real update date in the
+// PUBLIC Yoast XML. This does not claim Google indexed or reranked either page.
+async function verifyPublicSitemapDates(){
+  const indexResponse=await fetch(ORIGIN+"/sitemap_index.xml",{redirect:"error"});
+  assert.equal(indexResponse.status,200,"Public sitemap index not available");
+  const index=await indexResponse.text();
+  const children=[...index.matchAll(/<loc>\s*https:\/\/zaprazi\.cz\/(page-sitemap\d*\.xml)\s*<\/loc>/gi)]
+    .map(match=>match[1]);
+  assert.ok(children.length>0&&children.length<=10,"Missing/unsafe page sitemap list");
+  const target=new Map([
+    [carePath,0],[returnPath,0]
+  ]);
+  for(const child of children){
+    const response=await fetch(ORIGIN+"/"+child,{redirect:"error"});
+    assert.equal(response.status,200,"Page sitemap not available");
+    const xml=await response.text();
+    assert.match(xml,/<urlset\b/i,"Not a Yoast page URL set");
+    for(const entry of xml.matchAll(/<url\b[^>]*>([\s\S]*?)<\/url>/gi)){
+      const body=entry[1];
+      const loc=body.match(/<loc>\s*(https:\/\/zaprazi\.cz\/[^<]+)\s*<\/loc>/i)?.[1];
+      if(!loc)continue;
+      const parsed=new URL(loc);
+      if(parsed.search||parsed.hash||parsed.origin!==ORIGIN||!target.has(parsed.pathname))continue;
+      const mod=body.match(/<lastmod>\s*([^<]+)\s*<\/lastmod>/i)?.[1];
+      assert.ok(mod&&Number.isFinite(Date.parse(mod)),"Missing/invalid lastmod");
+      assert.ok(Date.parse(mod)>=Date.parse("2026-11-10T00:00:00+00:00"),
+        "Material care edit has stale public sitemap lastmod");
+      target.set(parsed.pathname,target.get(parsed.pathname)+1);
+    }
+  }
+  for(const [path,count] of target)
+    assert.equal(count,1,"Missing/duplicated canonical care sitemap URL: "+path);
+  return {canonicalCarePages:target.size,minimumMaterialDate:"2026-11-10"};
+}
+const sitemap=await verifyPublicSitemapDates();
 console.log("CARE_WORKDAY_212_CHROME_PASS "+
-  JSON.stringify({release:SOURCE_THEME_RELEASE,evidence,externalRequestsSent:0,
+  JSON.stringify({release:SOURCE_THEME_RELEASE,evidence,sitemap,externalRequestsSent:0,
     nonGetRequestsSent:0,formsSubmitted:0,affiliateClicks:0}));

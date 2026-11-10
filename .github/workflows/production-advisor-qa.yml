@@ -75,6 +75,8 @@ on:
       - "scripts/audit-live-transport-rate-214.mjs"
       - "tests/audit-live-transport-rate-214.test.js"
       - "scripts/audit-live-sukl-november-215.mjs"
+      - "scripts/audit-live-schema-material-dates-216.mjs"
+      - "tests/audit-live-schema-material-dates-216.test.js"
       - "tests/audit-live-sukl-november-215.test.js"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
@@ -178,6 +180,10 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-sukl-november-215.mjs
+      - name: Verify 0.8.216 material Yoast WebPage dateModified on every sourced page
+        if: github.event_name != 'pull_request'
+        run: node scripts/audit-live-schema-material-dates-216.mjs
+
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:
           CHROME_BIN: /usr/bin/google-chrome

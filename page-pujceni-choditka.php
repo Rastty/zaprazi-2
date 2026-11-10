@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_213 */
+/* ZP_RELEASE_0_8_214 */
 /*
 Template Name: Zápraží — Půjčení chodítka
 */

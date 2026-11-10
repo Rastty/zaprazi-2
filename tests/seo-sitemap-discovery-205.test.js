@@ -75,5 +75,6 @@ test("Only materially changed canonical pages receive bounded sitemap lastmod",(
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
     "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",
     "choditka-pro-seniory","rollator-pro-seniory","senior-nemuze-vstat-z-postele",
-    "jak-vybrat-pecovatelskou-sluzbu","navrat-z-nemocnice"].sort());
+    "jak-vybrat-pecovatelskou-sluzbu","navrat-z-nemocnice",
+    "otazky-pred-propustenim-z-nemocnice"].sort());
 });

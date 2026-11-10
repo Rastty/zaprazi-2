@@ -80,7 +80,7 @@ export async function main(){
   assert.equal(ready.configured_total,25,"SCHEMA_AFFILIATE_READINESS_INCOMPLETE");
   assert.equal(ready.slot_total,25,"SCHEMA_AFFILIATE_READINESS_INCOMPLETE");
   const entries=Object.entries(SOURCE_DATES);
-  assert.equal(entries.length,10,"SCHEMA_SOURCE_EXPECTED_TEN");
+  assert.equal(entries.length,11,"SCHEMA_SOURCE_EXPECTED_ELEVEN");
   const now=new Date();
   for(const [path,date] of entries){
     const html=await publicGet(ORIGIN+path,"text/html");

@@ -48,8 +48,8 @@ test("non-destructive WordPress publication and SEO identity are wired",()=>{
   assert.match(f,/page-otazky-pred-propustenim-z-nemocnice\.php/);
   assert.match(f,/zaprazi_discharge_questions_v1/);
   assert.match(f,/zaprazi_2_is_discharge_questions_page/);
-  assert.match(f,/Na co se zeptat před propuštěním z nemocnice \| Zápraží/);
-  assert.match(f,/Praktické otázky před propuštěním z nemocnice:/);
+  assert.match(f,/Propuštění z nemocnice: 7 otázek pro rodinu \| Zápraží/);
+  assert.match(f,/Propuštění z nemocnice: 7 otázek pro lékaře, sestru a rodinu/);
   assert.match(f,/zaprazi_2_discharge_questions_meta_fallback/);
 });
 

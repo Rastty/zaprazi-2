@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_216 */
+/* ZP_RELEASE_0_8_217 */
 /*
 Template Name: Zápraží — Otázky před propuštěním z nemocnice
 */
@@ -11,8 +11,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Příprava propuštění</p>
       <h1>Na co se zeptat v nemocnici před propuštěním domů? Praktický seznam pro rodinu</h1>
       <p class="zp-lead">Před odchodem z nemocnice si s personálem ujasněte, co bude potřeba zařídit doma, kdo za co odpovídá a kam se obrátit, když nastane problém. Připravili jsme otázky, které si můžete projít při rozhovoru s ošetřujícím týmem. Nejsou to pokyny k léčbě ani náhrada individuálních doporučení.</p>
-      <p class="zp-muted-copy">Před propuštěním se vyplatí požádat také o nácvik oblékání ponožek a kalhot. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Co ověřit při oblékání bez předklonu</a>.</p>
-      <p class="zp-muted-copy">Před propuštěním domluvte také bezpečný přesun do auta a potřebnou pomoc při cestě domů. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">Sedm kontrol před přepravou seniora v autě</a>.</p>
+      <p class="zp-muted-copy" id="rychla-odpoved-propusteni"><strong>Rychlá odpověď:</strong> Před propuštěním z nemocnice si nechte vysvětlit propouštěcí zprávu a léky, termíny kontrol, bezpečný odvoz, potřebnou pomoc doma a kontakt pro případ potíží. <strong>Pokud doma není zajištěná nezbytná péče, řekněte to ošetřujícímu týmu ještě před odchodem</strong> a požádejte o rozhovor se sociálním pracovníkem; pouhý seznam kontaktů neznamená domluvenou pomoc. <a class="zp-text-link" href="#nezajistena-pece-po-propusteni">Co udělat, když rodina péči nezvládne</a> · <a class="zp-text-link" href="#otazky-pred-propustenim">Sedm otázek k rozhovoru</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#otazky-pred-propustenim">Projít otázky</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Sestavit plán první noci doma</a>
@@ -35,6 +34,22 @@ get_header();
         <article class="zp-decision-card"><h3>6. Jaké pomůcky mají smysl?</h3><p>Nejdřív zjistěte skutečnou potřebu a bezpečné použití. U případné pomůcky rozlišujte půjčení, nákup a ověření úhrady.</p></article>
         <article class="zp-decision-card"><h3>7. Co když doma péče není zajištěna?</h3><p>Řekněte to nemocničnímu týmu ještě před propuštěním. Požádejte o kontakt na sociálního pracovníka a o koordinaci dostupné pomoci.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="nezajistena-pece-po-propusteni" class="zp-section zp-section-soft" aria-labelledby="nezajistena-pece-po-propusteni-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když se rodina nemůže postarat</p>
+      <h2 id="nezajistena-pece-po-propusteni-nadpis" class="zp-section-title">Chtějí seniora propustit z nemocnice, ale doma nemá zajištěnou péči. Co teď?</h2>
+      <p>Nečekejte až na cestu domů. Ještě na oddělení přesně sdělte, které nezbytné činnosti nejsou zajištěné: například bezpečný přesun, osobní hygiena, jídlo nebo pomoc v noci. O zdravotním postupu a propuštění rozhoduje ošetřující tým; tento návod není příslib prodloužení hospitalizace.</p>
+      <ol class="zp-guide-steps">
+        <li><strong>Řekněte včas, co rodina reálně nezvládne.</strong> Nepotvrzujte převzetí péče, kterou nemáte skutečně domluvenou nebo bezpečně zajištěnou. Požádejte o rozhovor s ošetřujícím lékařem a sestrou.</li>
+        <li><strong>Požádejte o nemocničního sociálního pracovníka.</strong> Proberte dostupné služby, potřebnou pomoc v první den a koho kontaktovat, když se nepodaří termín zajistit. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vybrat-pecovatelskou-sluzbu/#otazky-pro-pecovatelskou-sluzbu' ) ); ?>">Na co se ptát skutečného poskytovatele</a>.</li>
+        <li><strong>Oddělte zdravotní a sociální péči.</strong> Potřebné návštěvy zdravotní sestry posuzuje a indikuje lékař. Pomoc s hygienou, jídlem nebo domácností se řeší jinou cestou; pouhý telefonní kontakt ještě neprokazuje přijetí do služby. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba' ) ); ?>">Vysvětlit rozdíly mezi službami</a>.</li>
+        <li><strong>Před odchodem ověřte konkrétní navazující krok.</strong> Kdo, kdy a kde pomůže, kdo zajistí bezpečnou dopravu, jaké pokyny má rodina v propouštěcí zprávě a komu zavolat, pokud pomoc nezačne? Pokud něco stále chybí, oznamte to týmu a požádejte o koordinaci dalšího postupu.</li>
+      </ol>
+      <p class="zp-muted-copy">Další praktické kontroly: <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nastupovani-seniora-do-auta/#situace-nastupovani-auto' ) ); ?>">bezpečný přesun do auta</a> a podle individuálních pokynů také <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">nácvik oblékání bez předklonu</a>.</p>
+      <p class="zp-disclaimer"><strong>Podklad a hranice:</strong> <a class="zp-text-link" href="https://www.nzip.cz/clanek/290-propusteni-z-nemocnice" target="_blank" rel="noopener noreferrer">Ministerstvo zdravotnictví / NZIP: Propuštění z nemocnice</a> a <a class="zp-text-link" href="https://oporadiakonie.cz/rada/tlaci-na-vas-v-nemocnici-abyste-si-blizkeho-vzali-domu/" target="_blank" rel="noopener noreferrer">Opora Diakonie: Když rodina nemá péči zajištěnou</a> (obsah ověřen 10. 11. 2026). Nehodnotíme diagnózu, právní nárok ani bezpečnost konkrétního propuštění.</p>
     </div>
   </section>
 

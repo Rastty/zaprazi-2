@@ -11,6 +11,28 @@ const hub=read("page-choditka-pro-seniory.php");
 const insurance=read("page-choditko-na-pojistovnu.php");
 const sitemap=read("src/seo/https-sitemaps.php");
 
+test("Safe doorway caveat recognizes Czech imperative/case but never waives the warning",()=>{
+  const section=rollator.split('<section id="rollator-uzke-dvere"')[1]?.split('<section id="rollator-se-sedatkem"')[0];
+  assert.ok(section,"Canonical doorway answer must exist");
+  const visible=section.replace(/<[^>]+>/g," ");
+  // A real production page uses "Ověřte" in a sentence, not lower-case
+  // "ověřte"; the previous exact-case check falsely rejected that wording.
+  const isNoGuaranteedFit=text=>/nepotvrzuje/i.test(text)&&/ověř(?:te|it|ení)/i.test(text);
+  assert.ok(isNoGuaranteedFit(visible),"Actual current safety warning must pass");
+  for(const example of [
+    "Katalogový rozměr nepotvrzuje průchod. Ověřte skutečný kus.",
+    "Údaj nepotvrzuje bezpečnost. Je nutné ověřit rozměry.",
+    "Údaj NEPOTVRZUJE bezpečnost a požadujeme ověření."
+  ]) assert.ok(isNoGuaranteedFit(example));
+  for(const example of [
+    "Model se vždy vejde, bezpečný průchod je zaručen.",
+    "Ověřte model, vždy projde.",
+    "Katalog nepotvrzuje nic dalšího; objednat bez kontroly."
+  ]) assert.equal(isNoGuaranteedFit(example),false,"Missing refusal or verification remains blocked");
+  assert.ok(audit.includes("noGuaranteedFit:/nepotvrzuje/i.test(text)&&/ověř(?:te|it|ení)/i.test(text)"),
+    "Browser checker must use the tested case-insensitive Czech safety clause");
+});
+
 test("0.8.213 Chrome acceptance is exact-release, production-only and read-only",()=>{
   assert.match(workflow,/scripts\/audit-live-rollator-doorway-213\.mjs/);
   assert.match(workflow,/tests\/audit-live-rollator-doorway-213\.test\.js/);

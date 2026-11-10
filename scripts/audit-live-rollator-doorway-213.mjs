@@ -89,7 +89,7 @@ try{
         allManufacturerSources:official.every(h=>links.includes(h)),
         accurateWidth:/61,5 cm/.test(text)&&/59 cm/.test(text)&&/615 mm/.test(text),
         modelIdentity:/3061982-R/.test(text)&&/IDEAL ROLLATOR 3061982/.test(text),
-        noGuaranteedFit:/nepotvrzuje/.test(text)&&/ověřte/.test(text),
+        noGuaranteedFit:/nepotvrzuje/i.test(text)&&/ověř(?:te|it|ení)/i.test(text),
         brakingAndSafety:/brzd/.test(text)&&/Nezkoušejte průchod vynutit/.test(text),
         measuringGuide:links.includes(location.origin+"/co-zmerit-pred-vyberem-choditka/#co-zmerit"),
         privateAdvisor:links.includes(location.origin+"/choditko-do-bytu-pro-seniory/#poradce-choditko-byt"),

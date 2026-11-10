@@ -94,6 +94,8 @@ Target WCAG 2.2 AA:
 6. Open a PR explaining behavior, safety boundaries, tests and known gaps.
 7. Do not merge failing work.
 
+**Owner standing authorization (2026-11-10):** For subsequent routine, non-destructive release PRs, the owner authorized the project runner to decide and merge without repeating a per-PR approval request, provided all latest immutable-head CI, required legacy and predeploy QA, clean mergeability, current main/dev state, release-manifest and product-fit/privacy gates pass. Recheck the PR head under an expected-SHA merge guard; synchronize dev only by safe fast-forward. The owner still performs the separate WordPress Deployer Pull + Deploy unless a distinct, approved deployment method exists. Demand exact-release postdeploy evidence before recording verification or revenue. Stop and seek explicit owner decision for destructive/irreversible, materially unsafe or outside-scope changes, or revoked permission. Complete current deployment acceptance before another overlapping runtime release. Full operating procedure: `docs/DEPLOYMENT.md`.
+
 ## Migration rules
 
 Old ZaPrazi URLs receive one verdict: KEEP / MERGE / REPURPOSE / REMOVE.

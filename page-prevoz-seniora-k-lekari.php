@@ -3,6 +3,10 @@
 /*
 Template Name: Zápraží — Převoz seniora k lékaři
 */
+// The published insurer rate is explicitly limited to trips in 2026.
+// Expire the amount automatically; never infer future-year reimbursement.
+$zp_prevoz_date = current_time( 'Y-m-d' );
+$zp_prevoz_2026_rate_current = $zp_prevoz_date >= '2026-01-01' && $zp_prevoz_date <= '2026-12-31';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -11,12 +15,13 @@ get_header();
       <p class="zp-kicker">Zápraží · Doprava k lékaři · Plán pro rodinu</p>
       <h1>Jak zajistit převoz seniora k lékaři? Kdy je sanita hrazená a co když nezvládá auto?</h1>
       <p class="zp-lead">Máte termín vyšetření, ale maminka nebo tatínek neujde cestu na zastávku, nezvládne schody, potřebuje invalidní vozík nebo se nedokáže bezpečně přesunout na sedadlo auta? <strong>Nejdřív rozlište zdravotní transport, běžnou dopravu s pomocí a akutní situaci.</strong> Nemusíte hned kupovat pomůcku ani objednávat drahý převoz naslepo.</p>
+      <p class="zp-muted-copy" id="rychla-odpoved-prevoz"><strong>Rychlá odpověď:</strong> Zdravotní pojišťovna může hradit plánovanou sanitní dopravu k lékaři, jen když zdravotní stav neumožňuje běžnou cestu a lékař vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. Samotný věk, chybějící auto nebo špatné spojení nárok nezakládají. Cestu tam a případnou cestu zpět posuzují lékaři samostatně; <a class="zp-text-link" href="#kdo-vystavuje-prikaz">podívejte se, kdo příkaz vystavuje</a>. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Oficiální podmínky VZP</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-dopravy">Najít správný postup podle situace</a>
         <a class="zp-text-link" href="#otazky-pro-lekare">7 otázek před objednáním</a>
         <a class="zp-text-link" href="#kontrolni-seznam-prevoz">Kontrolní seznam pro cestu</a>
       </div>
-      <p class="zp-muted-copy">Česká pravidla · ověřeno podle VZP a NZIP 28. 10. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
+      <p class="zp-muted-copy">Česká pravidla · zdravotnická doprava ověřena podle VZP a NZIP 10. 11. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
     </div>
   </section>
 
@@ -71,6 +76,11 @@ get_header();
           <h3>Schválená cesta soukromým vozidlem</h3>
           <p><strong>Když:</strong> lékař potvrdil zdravotní důvody pro transport a předem schválil alternativu soukromým vozidlem řízeným jinou osobou. Pak může být za splnění pravidel možná náhrada cestovních nákladů.</p>
           <p><strong>Postup:</strong> podmínky, doklady a aktuální sazbu ověřte <strong>před cestou</strong> u lékaře a vlastní pojišťovny. Samotný odvoz autem bez předchozí indikace nárok nezakládá.</p>
+          <?php if ( $zp_prevoz_2026_rate_current ) : ?>
+            <p class="zp-section-note"><strong>Ověřená sazba pro rok 2026: 7,98 Kč/km.</strong> VZP ji uvádí pro cesty uskutečněné od 1. 1. do 31. 12. 2026, nikoli jako univerzální příspěvek za každou jízdu. Předem musí být zdravotní indikace a souhlas lékaře se soukromým vozidlem řízeným jinou osobou. Podle podmínek pojišťovny se počítá jen uznatelná cesta s pacientem a vzdálenost k odpovídajícímu poskytovateli, ne libovolné kilometry rodiny. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/prispevek-na-dopravu-taxi-sluzbou" target="_blank" rel="noopener noreferrer">Oficiální sazba a podmínky VZP (ověřeno 10. 11. 2026)</a>.</p>
+          <?php else : ?>
+            <p class="zp-section-note"><strong>Historická sazba 2026 již není aktuální.</strong> Zde ji proto neuvádíme. Pro rok a datum své cesty si vždy ověřte sazbu, dokumenty a podmínky předem u <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">zdravotní pojišťovny</a>.</p>
+          <?php endif; ?>
           <p><a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Podmínky a aktuální sazba u VZP</a></p>
         </article>
       </div>

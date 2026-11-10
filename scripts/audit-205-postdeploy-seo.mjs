@@ -1,23 +1,44 @@
 #!/usr/bin/env node
 /**
  * Exact read-only 0.8.205 postdeploy SEO check.
- * Proves two contextual homepage links and four evidence-backed Yoast
- * lastmod signals, two Mobility revisions and the live 0.8.211 bed guide. Published pages only. Public pages only; never submit URLs,
- * write to WordPress or expose raw HTML/XML in CI logs.
+ * Proves contextual homepage links, ALL source-declared material Yoast
+ * lastmod signals and the live 0.8.211+ bed first answer. A predeploy PR can
+ * check the exact vetted 0.8.214 baseline for source 0.8.215. The audit is
+ * read-only: no URLs are submitted to Google, and raw HTML/XML is not logged.
  */
 import {pathToFileURL} from "node:url";
+import {readFileSync} from "node:fs";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 
 const ORIGIN="https://zaprazi.cz";
-export const SOURCE_DATES=Object.freeze({
-  "/pujceni-choditka/":"2026-11-09",
-  "/choditko-na-pojistovnu/":"2026-11-09",
-  "/koupelna-a-wc/":"2026-11-09",
-  "/kompenzacni-pomucky-pro-seniory/":"2026-11-09",
-  "/co-zmerit-pred-vyberem-choditka/":"2026-11-08",
-  "/choditka-pro-seniory/":"2026-11-09",
-  "/senior-nemuze-vstat-z-postele/":"2026-11-09"
-});
+/**
+ * Bound public SEO acceptance to the SAME canonical source-of-truth list
+ * actually used by WordPress/Yoast; never silently omit new material pages.
+ * Fail closed on unrecognized PHP structure, duplicate slugs, dates or paths.
+ * Extract only static curated literals; no PHP execution or remote input.
+ */
+export function materialLastmodDates(source) {
+  if(typeof source!=="string")throw Error("SITEMAP_SOURCE_UNAVAILABLE");
+  const block=source.match(/function\s+zaprazi_2_material_sitemap_page_dates\(\)\s*\{\s*return\s+array\(([\s\S]*?)\);\s*\}/);
+  if(!block)throw Error("SITEMAP_MATERIAL_DATE_DECLARATION_MISSING");
+  const raw=block[1].replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g,"");
+  const lines=raw.split("\n").map(x=>x.trim()).filter(Boolean);
+  const dates={};
+  for(const line of lines){
+    const found=line.match(/^'([a-z0-9]+(?:-[a-z0-9]+)*)'\s*=>\s*'(\d{4}-\d{2}-\d{2})T00:00:00\+00:00',?$/);
+    if(!found)throw Error("SITEMAP_MATERIAL_DATE_ENTRY_INVALID");
+    const [_,slug,date]=found;
+    if(Object.hasOwn(dates,"/"+slug+"/"))throw Error("SITEMAP_MATERIAL_DATE_DUPLICATE");
+    if(new Date(date+"T00:00:00.000Z").toISOString().slice(0,10)!==date)
+      throw Error("SITEMAP_MATERIAL_DATE_INVALID");
+    dates["/"+slug+"/"]=date;
+  }
+  if(lines.length<7||lines.length>53)throw Error("SITEMAP_MATERIAL_DATE_COUNT_INVALID");
+  return Object.freeze(dates);
+}
+export const SOURCE_DATES=materialLastmodDates(
+  readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8")
+);
 export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
   Object.entries(SOURCE_DATES).filter(([path])=>
     path!=="/co-zmerit-pred-vyberem-choditka/"&&path!=="/choditka-pro-seniory/"&&
@@ -118,6 +139,12 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   if(liveRelease===sourceRelease)return {dates:SOURCE_DATES,mode:"postdeploy_exact_release"};
   if(event==="pull_request"&&sourceRelease==="0.8.209"&&liveRelease==="0.8.208")
     return {dates:PREDEPLOY_BASELINE_DATES,mode:"predeploy_verified_baseline_only"};
+  // The merged 0.8.215 theme may still await WordPress Pull & Deploy.
+  // 0.8.214 and 0.8.215 share this EXACT same material date map, as
+  // confirmed by the release commits. PR tests may audit the live 0.8.214
+  // without granting production acceptance to the undeployed 0.8.215.
+  if(event==="pull_request"&&sourceRelease==="0.8.215"&&liveRelease==="0.8.214")
+    return {dates:SOURCE_DATES,mode:"predeploy_verified_214_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {
@@ -141,7 +168,7 @@ export async function verifyPublicSeo205(now=new Date().toISOString().slice(0,10
   const scope=selectLiveSitemapScope({event:process.env.GITHUB_EVENT_NAME,
     liveRelease:readiness.release,integrity:readiness.integrity});
   return {...assertHomepageCards(html),...assertMaterialLastmod(xml,now,scope.dates),
-    ...assertBedFirstAnswer(bedHtml,SOURCE_THEME_RELEASE),
+    ...assertBedFirstAnswer(bedHtml,readiness.release),
     source_release:SOURCE_THEME_RELEASE,live_release:readiness.release,
     check_scope:scope.mode,status:"verified_read_only",
     limitations:"Public links and sitemap freshness signals; NOT evidence of Google indexing, traffic or commission"};

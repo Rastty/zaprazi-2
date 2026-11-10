@@ -70,10 +70,10 @@ test("Only materially changed canonical pages receive bounded sitemap lastmod",(
   assert.equal(x.r5.mod,"2026-10-01");
   assert.equal(x.r6.mod,"2026-10-02T10:00:00+00:00");
   assert.equal(x.r7.mod,"2026-11-08T00:00:00+00:00");
-  assert.equal(x.r8.mod,"2026-11-09T00:00:00+00:00");
+  assert.equal(x.r8.mod,"2026-11-10T00:00:00+00:00");
   assert.deepEqual(Object.keys(x.dates).sort(),[
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
     "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",
-    "choditka-pro-seniory","senior-nemuze-vstat-z-postele",
+    "choditka-pro-seniory","rollator-pro-seniory","senior-nemuze-vstat-z-postele",
     "jak-vybrat-pecovatelskou-sluzbu","navrat-z-nemocnice"].sort());
 });

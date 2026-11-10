@@ -97,6 +97,16 @@ get_header();
           <p>Vedle terénní pomoci se ptejte na odlehčovací služby a další vhodné registrované formy podpory. S možnostmi podle místní dostupnosti může pomoci sociální odbor obce; nepočítejte s automatickým přijetím.</p>
           <p><a class="zp-text-link" href="#kdyz-sluzba-nema-kapacitu">Co dělat, když je služba obsazená</a></p>
         </article>
+        <article class="zp-decision-card">
+          <h3>Pomoc během dne může probíhat i mimo domov</h3>
+          <p>Pokud člověk potřebuje pomoc během pracovní doby a je pro něj bezpečné a vhodné dojíždění, prověřte také <strong>denní stacionář nebo denní centrum</strong>. Nejde o službu, která automaticky přijede domů. Ověřte rozsah pomoci, dopravu, provozní dny, kapacitu i podmínky přijetí; denní stacionář nemusí pokrýt ráno, večer ani noc.</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-sluzby" target="_blank" rel="noopener noreferrer">MPSV: možnosti péče mimo domov přes den</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Pomoci může i úprava pracovní doby</h3>
+          <p>Vedle hledání služby můžete se zaměstnavatelem probrat <strong>pružnou pracovní dobu, částečný úvazek nebo práci na dálku</strong>. Právní nároky a postup závisejí na konkrétních podmínkách péče a zaměstnání: nelze předpokládat automatické schválení home office nebo okamžité volno. Připravte si konkrétní návrh pokrytí dne a ověřte aktuální pravidla na MPSV.</p>
+          <p><a class="zp-text-link" href="https://mpsv.gov.cz/pece-a-prace" target="_blank" rel="noopener noreferrer">MPSV: sladění péče a práce</a></p>
+        </article>
       </div>
       <div class="zp-system-empty">
         <h3>Co když rodič nemůže zůstat bezpečně sám ani část dne?</h3>

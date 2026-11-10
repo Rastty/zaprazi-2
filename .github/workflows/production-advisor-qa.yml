@@ -72,6 +72,8 @@ on:
       - "tests/audit-live-care-workday-212.test.js"
       - "scripts/audit-live-rollator-doorway-213.mjs"
       - "tests/audit-live-rollator-doorway-213.test.js"
+      - "scripts/audit-live-transport-rate-214.mjs"
+      - "tests/audit-live-transport-rate-214.test.js"
       - "scripts/audit-live-legacy-canary-dom.mjs"
       - ".github/workflows/production-advisor-qa.yml"
   workflow_dispatch:
@@ -160,6 +162,13 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-rollator-doorway-213.mjs
+      # Only the published release may attest the new 2026-only rate.
+      # Pull-request QA intentionally tests the old live WordPress release.
+      - name: Verify 0.8.214 transport eligibility and expiry-safe official rate
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-transport-rate-214.mjs
       - name: Verify live walker problem-to-advisor decision routing and reciprocal links
         env:
           CHROME_BIN: /usr/bin/google-chrome

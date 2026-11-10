@@ -29,7 +29,8 @@ export function materialLastmodDates(source) {
     if(!found)throw Error("SITEMAP_MATERIAL_DATE_ENTRY_INVALID");
     const [_,slug,date]=found;
     if(Object.hasOwn(dates,"/"+slug+"/"))throw Error("SITEMAP_MATERIAL_DATE_DUPLICATE");
-    if(new Date(date+"T00:00:00.000Z").toISOString().slice(0,10)!==date)
+    if(!Number.isFinite(Date.parse(date+"T00:00:00.000Z"))||
+       new Date(date+"T00:00:00.000Z").toISOString().slice(0,10)!==date)
       throw Error("SITEMAP_MATERIAL_DATE_INVALID");
     dates["/"+slug+"/"]=date;
   }
@@ -39,10 +40,14 @@ export function materialLastmodDates(source) {
 export const SOURCE_DATES=materialLastmodDates(
   readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8")
 );
+// Legacy exact 0.8.208 baseline for the one historic 0.8.209 PR gate.
+// Do not extend this allowlist when later releases add new canonical pages.
+const LEGACY_208_MATERIAL_PATHS=new Set([
+  "/pujceni-choditka/","/choditko-na-pojistovnu/",
+  "/koupelna-a-wc/","/kompenzacni-pomucky-pro-seniory/"
+]);
 export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
-  Object.entries(SOURCE_DATES).filter(([path])=>
-    path!=="/co-zmerit-pred-vyberem-choditka/"&&path!=="/choditka-pro-seniory/"&&
-    path!=="/senior-nemuze-vstat-z-postele/")
+  Object.entries(SOURCE_DATES).filter(([path])=>LEGACY_208_MATERIAL_PATHS.has(path))
 ));
 const HOME_CARDS=Object.freeze([
   {heading:"Chůze a opora",path:"/co-zmerit-pred-vyberem-choditka/",word:"změřit"},

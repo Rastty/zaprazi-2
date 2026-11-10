@@ -12,7 +12,7 @@ get_header();
       <h1>Rollátor pro seniory: kdy dává smysl čtyřkolové chodítko s brzdami?</h1>
       <p class="zp-lead">Rollátor dává smysl jen tehdy, když člověk bezpečně zvládá ruční brzdy. Vedle šířky a výšky řešte také sedátko, skládání, nosnost a prostor pro bezpečné otáčení.</p>
       <a class="zp-btn" data-zp-journey="advisor" href="#poradce-rollator">Spustit poradce</a>
-      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
+      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#rollator-uzke-dvere">Projde rollátor dveřmi 60 cm?</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
     </div>
   </section>
 
@@ -57,6 +57,31 @@ get_header();
       </div>
 
       <section id="zp-rollator-result" class="zp-result" aria-live="polite" tabindex="-1" hidden></section>
+    </div>
+  </section>
+
+  <section id="rollator-uzke-dvere" class="zp-section zp-section-soft" aria-labelledby="rollator-uzke-dvere-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Úzké dveře · Kontrola před nákupem</p>
+      <h2 id="rollator-uzke-dvere-nadpis" class="zp-section-title">Projde rollátor dveřmi širokými 60 cm?</h2>
+      <p><strong>Nerozhoduje název modelu, ale skutečná volná šířka průchodu a přesně dodaná varianta.</strong> Aktuální produktový detail výrobce MEYRA uvádí pro Ideal Rollator 3061982 celkovou šířku <strong>61,5 cm</strong>. Pokud naměříte mezi otevřenými dveřmi a zárubní opravdu jen <strong>60 cm</strong>, podle tohoto údaje se takto široký model nevejde. Nezkoušejte průchod vynutit ani automaticky nevybírejte jinou pomůcku pouze podle centimetru.</p>
+      <p><strong>Pozor, veřejné podklady se liší:</strong> starší návod MEYRA označený pro model 3061982 uvádí <strong>59 cm</strong>. Rozdíl není doklad, že konkrétní objednávaný kus projde; může jít o odlišnou revizi nebo dokumentaci. Před závazným výběrem požádejte výrobce či výdejce o rozměr <strong>přesné dodávané varianty</strong>, ideálně potvrzený pro nejširší místo rozloženého rollátoru včetně vystupujících částí.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Změřte skutečný průchod</h3>
+          <p>Otevřete dveře do běžné polohy a změřte nejužší volný prostor mezi křídlem, klikou a zárubní. Nezapomeňte na místo k otočení u WC, postele nebo v předsíni.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Ověřte přesný kus, ne podobný katalog</h3>
+          <p>Požádejte o kód přesné varianty, aktuální návod a celkovou provozní šířku. Rozporných 59 a 61,5 cm neberte jako toleranci ani příslib průjezdu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Před koupí řešte i bezpečnost chůze</h3>
+          <p>Volný průchod sám nestačí. Ověřte ovládání ruční i parkovací brzdy, stabilitu a skutečnou trasu. Je-li použití nejisté, vhodný typ opory nejprve posuďte s odborníkem.</p>
+        </article>
+      </div>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Otevřít sedm měření pro chodítko a rollátor</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit jiné typy opory pro byt</a> · <a class="zp-text-link" href="#poradce-rollator">Vrátit se k poradci pro rollátor</a></p>
+      <p class="zp-muted-copy">Kontrola veřejných podkladů 10. 11. 2026: <a class="zp-text-link" href="https://eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191" target="_blank" rel="noopener">MEYRA, produktový detail 3061982 (61,5 cm)</a> a <a class="zp-text-link" href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf" target="_blank" rel="noopener">MEYRA, starší návod 3061982 (59 cm)</a>. Bez potvrzení konkrétní dodávky neprohlašujeme individuální průchodnost ani vhodnost.</p>
     </div>
   </section>
 

@@ -1442,8 +1442,8 @@ function zaprazi_2_resource_faq_schema() {
         'answer'   => 'Ne automaticky. Maloobchodní prodej a výdej prostředku na poukaz jsou odlišné cesty. Před objednáním ověřte, zda konkrétní výdejce ePoukaz pro daný prostředek zpracuje.',
       ),
       array(
-        'question' => 'Je úhrada 3 408 Kč u MEYRA Ideal garantovaná i v listopadu?',
-        'answer'   => 'Ne. Částka 3 408 Kč je ověřená v oficiálním seznamu platném pro říjen 2026. Od 1. listopadu Zápraží tento údaj nepovažuje za aktuální, dokud neověří nový měsíční seznam.',
+        'question' => 'Je listopadová úhrada 3 408 Kč automatickým nárokem bez doplatku?',
+        'answer'   => 'Ne. SÚKL v oficiálním listopadovém seznamu uvádí u IDEAL ROLLATOR 3061982, kód 5005963, úhradu 3 408 Kč. To ale nepotvrzuje individuální nárok ani konečný doplatek, možnost uplatnit ePoukaz u libovolného e-shopu nebo zaměnitelnost podobně pojmenovaných modelů. Po 30. 11. 2026 už jde o historický údaj.',
       ),
     );
   } elseif ( zaprazi_2_is_rental_walker_page() ) {

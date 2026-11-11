@@ -131,7 +131,7 @@ const safeText=s=>String(s).replaceAll("|","\\|").replaceAll(/\r|\n/g," ")
 function number(n){return new Intl.NumberFormat("cs-CZ").format(n);}
 function percent(r){return r===null?"n/a":(r*100).toLocaleString("cs-CZ",{maximumFractionDigits:2})+" %";}
 function score(row){
-  if(row.impressions<20)return 0;
+  if(row.impressions<20||!Number.isFinite(row.position))return 0;
   const exposure=row.impressions>=1000?3:row.impressions>=100?2:1;
   const reach=row.position>=4&&row.position<=20?2:row.position>20&&row.position<=40?1:0;
   const ctrOpportunity=row.position>=4&&row.position<=10&&row.impressions>=100&&row.ctr!==null&&row.ctr<0.02?1:0;
@@ -139,6 +139,7 @@ function score(row){
 }
 function action(row,isCore){
   if(!isCore)return "REVIEW_ONLY — nejdřív obsah, GSC dotazy a externí odkazy";
+  if(!Number.isFinite(row.position))return "POZICE UNKNOWN — nelze hodnotit ranking";
   if(row.impressions<20)return "NÍZKÁ EVIDENCE — bez změny, sledovat";
   if(row.position>=4&&row.position<=20)return "PROVĚŘIT TITULEK/INTENT + CESTU K PORADCI";
   if(row.impressions>=100&&row.position<4&&row.ctr!==null&&row.ctr<0.02)
@@ -176,7 +177,7 @@ export function renderGscReport(r,options={}){
   if(options.source && !snapshot)throw new Error("Unsupported GSC report source");
   const line=(row,isCore)=>"| "+safeText(row.path??row.query)+" | "+number(row.clicks)+
     " | "+number(row.impressions)+" | "+percent(row.ctr)+" | "+
-    row.position.toLocaleString("cs-CZ",{maximumFractionDigits:2})+" | "+
+    (Number.isFinite(row.position)?row.position.toLocaleString("cs-CZ",{maximumFractionDigits:2}):"n/a")+" | "+
     (isCore?score(row):"—")+" | "+(row.path?action(row,isCore):"Samostatný dotaz, bez přiřazené URL")+" |";
   const header="| URL nebo dotaz | Kliky | Zobrazení | CTR | Pozice | Skóre revize | Další krok |\n|---|---:|---:|---:|---:|---:|---|";
   const table=(rows,isCore)=>header+"\n"+(rows.length?rows.map(row=>line(row,isCore)).join("\n"):"| — | — | — | — | — | — | Bez doložených řádků |");

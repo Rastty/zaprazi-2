@@ -12,6 +12,7 @@ import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 import {parseGscCsv,analyzeGsc,renderGscReport} from "./lib/gsc-prioritization.mjs";
 import {parseSanitizedGscSnapshot} from "./gsc-period-compare.mjs";
+import {renderSafeIntentEvidence} from "./lib/gsc-safe-intents.mjs";
 
 export function cliArgs(argv){
   const options={};
@@ -40,12 +41,19 @@ export function reportFromSanitizedSnapshot(snapshot){
   const analysis=analyzeGsc({
     pages:data.rows,queries:[],periodStart:data.from,periodEnd:data.to
   });
+  // Keep the new bounded intent readout *before* the 53-URL table so the
+  // existing 38-line Core Actions summary shows useful page-level direction.
+  // Both optional and missing buckets pass through the strict privacy guard.
+  const main=renderGscReport(analysis,{source:"prometheus_final_28d"});
+  const tableAnchor="## 1b. Všechny doložené hlavní URL";
+  if(!main.includes(tableAnchor))throw new Error("GSC report structure changed");
+  const safeIntents=renderSafeIntentEvidence(snapshot.queryIntentEvidence);
   return [
     "**Zdroj:** Prometheus — finální anonymizovaný 28denní Search Console agregát ("+
       data.property+"). Jen "+data.rows.length+" sledovaných existujících URL; "+
       "chybějící řádek = UNKNOWN, nikoli nulové zobrazení nebo deindexace. "+
       "Dotazové řádky nejsou součástí tohoto agregátu.",
-    renderGscReport(analysis,{source:"prometheus_final_28d"})
+    main.replace(tableAnchor,safeIntents+"\n\n"+tableAnchor)
   ].join("\n\n");
 }
 export function reportFromFiles(args){

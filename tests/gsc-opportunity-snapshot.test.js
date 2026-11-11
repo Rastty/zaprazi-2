@@ -157,3 +157,94 @@ test("unsafe or sparse Core intent buckets can never become an editorial recomme
    status:"no_safe_groups_or_unavailable",pagesWithSafeGroups:0,pages:[]};
  assert.match(reportFromSanitizedSnapshot(noGroups),/UNKNOWN: pro dané finální období/);
 });
+
+
+const indexPaths=[
+ "/", "/choditko-na-pojistovnu/", "/pujceni-choditka/",
+ "/rollator-pro-seniory/", "/choditka-pro-seniory/",
+ "/choditko-do-bytu-pro-seniory/", "/co-zmerit-pred-vyberem-choditka/",
+ "/kompenzacni-pomucky-pro-seniory/", "/koupelna-a-wc/",
+ "/sprchovaci-zidle-pro-seniory/", "/navrat-z-nemocnice/",
+ "/invalidni-vozik/", "/polohovaci-postel/", "/bezpecny-byt-pro-seniora/",
+ "/sobestacnost/"
+];
+const excludedIndexPaths=new Set([
+ "/choditka-pro-seniory/",
+ "/choditko-do-bytu-pro-seniory/",
+ "/co-zmerit-pred-vyberem-choditka/",
+ "/sprchovaci-zidle-pro-seniory/"
+]);
+const indexEvidence=()=>{
+ const pages=indexPaths.map(path=>excludedIndexPaths.has(path)?{
+   path,status:"excluded",verdict:"NEUTRAL",coverage:"discovered_not_indexed",
+   robots:"UNKNOWN",indexing:"UNKNOWN",pageFetch:"UNKNOWN",
+   googleCanonical:"unknown",userCanonical:"unknown",lastCrawlDate:null,
+   sitemapReported:true,reviewPriority:"coverage_review"
+ }:{
+   path,status:"indexed",verdict:"PASS",coverage:"submitted_indexed",
+   robots:"ALLOWED",indexing:"INDEXING_ALLOWED",pageFetch:"SUCCESSFUL",
+   googleCanonical:"matches",userCanonical:"matches",lastCrawlDate:"2026-10-07",
+   sitemapReported:true,reviewPriority:"monitor"
+ });
+ return {
+   status:"google_indexed_version_only",
+   source:"GSC URL Inspection API — indexed-version snapshot, NOT live URL test",
+   pages,inspected:15,indexed:11,excluded:4,error:0,unknown:0,
+   limitations:["UNTRUSTED_RAW_INDEX_DATA"],
+   reviewCandidates:[],externalBusinessWrites:0
+ };
+};
+test("Google indexed-version summary preserves 11/15 and four not-yet-crawled URLs",()=>{
+ const snapshot=genuineShape();
+ snapshot.indexInspectionEvidence=indexEvidence();
+ const report=reportFromSanitizedSnapshot(snapshot);
+ assert.match(report,/15 pevně sledovaných URL:\*\* 11 indexovaných/);
+ assert.match(report,/4 nyní nezařazené/);
+ assert.match(report,/\/choditka-pro-seniory\/ \| Mimo index/);
+ assert.match(report,/\/co-zmerit-pred-vyberem-choditka\/ \| Mimo index/);
+ assert.match(report,/Objeveno, zatím bez doloženého crawl/);
+ assert.match(report,/nikoli právě načtený WordPress/);
+ assert.doesNotMatch(report,/UNTRUSTED_RAW_INDEX_DATA/);
+ assert.doesNotMatch(report,/Google stránku blokuje noindex|automaticky přesměrovat/);
+ assert.ok(report.indexOf("## Indexace Google")<report.indexOf("## 1b. Všechny doložené hlavní URL"),
+   "owner short summary sees indexation evidence before long SEO table");
+});
+test("bad or partial indexed-version evidence fails closed, never leaks unknown paths",()=>{
+ const corrupt=[
+  d=>{d.indexed=12;},
+  d=>{d.pages.pop();},
+  d=>{d.status="live-index-test";},
+  d=>{d.source="unverified";},
+  d=>{d.pages[0].path="/private-medical-SECRET/";},
+  d=>{d.pages[4].coverage="SECRET_UNTRUSTED_REASON";},
+  d=>{d.pages[4].lastCrawlDate="unvalidated_timestamp";},
+  d=>{d.pages[4].verdict="PASS";},
+  d=>{d.pages[4].rawUrl="https://private-medical-SECRET.example";},
+  d=>{d.pages[1].sitemapReported="not known";},
+  d=>{d.pages[4].robots="RAW_ROBOTS_SECRET";},
+  d=>{d.pages[4].reviewPriority="DELETE_ALL_NOT_INDEXED";},
+  d=>{d.pages[4].status="indexed";},
+  d=>{d.pages[4].googleCanonical="SECRET_CANONICAL_URL";},
+ ];
+ for(const edit of corrupt){
+  const snapshot=genuineShape();snapshot.indexInspectionEvidence=indexEvidence();
+  edit(snapshot.indexInspectionEvidence);
+  const report=reportFromSanitizedSnapshot(snapshot);
+  assert.match(report,/UNKNOWN: chybí ověřený úplný výsledek 15 URL/);
+  assert.doesNotMatch(report,/private-medical-SECRET|SECRET_UNTRUSTED_REASON|DELETE_ALL_NOT_INDEXED|SECRET_CANONICAL_URL|RAW_ROBOTS_SECRET/);
+  assert.match(report,/choditko-na-pojistovnu/,"trusted performance rows remain available");
+ }
+ assert.match(reportFromSanitizedSnapshot(genuineShape()),
+   /UNKNOWN: chybí ověřený úplný výsledek 15 URL/);
+});
+test("index review does not confuse GSC first crawl with organic impressions",()=>{
+ const snapshot=genuineShape();
+ snapshot.indexInspectionEvidence=indexEvidence();
+ // One indexed page with no performance row, and one excluded page with
+ // performance signals, remain valid independent dimensions.
+ snapshot.trackedPages[0].path="/choditka-pro-seniory/";
+ const report=reportFromSanitizedSnapshot(snapshot);
+ assert.match(report,/\/choditka-pro-seniory\/ \| Mimo index/);
+ assert.match(report,/60/);
+ assert.doesNotMatch(report,/všechny stránky mají nulové zobrazení/);
+});

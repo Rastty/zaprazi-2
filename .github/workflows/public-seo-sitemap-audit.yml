@@ -14,7 +14,9 @@ on:
       - "scripts/check-acquisition-sitemap.mjs"
       - "tests/public-sitemap-audit.test.js"
       - "scripts/audit-205-postdeploy-seo.mjs"
+      - "scripts/audit-index-watch-live.mjs"
       - "tests/audit-205-postdeploy-seo.test.js"
+      - "tests/audit-index-watch-live.test.js"
       - "tests/acquisition-sitemap-gate.test.js"
       - ".github/workflows/public-seo-sitemap-audit.yml"
   workflow_dispatch:
@@ -37,7 +39,7 @@ jobs:
         with:
           node-version: 20
       - name: Unit tests for safe sitemap parser
-        run: node --test tests/public-sitemap-audit.test.js tests/acquisition-sitemap-gate.test.js tests/audit-205-postdeploy-seo.test.js
+        run: node --test tests/public-sitemap-audit.test.js tests/acquisition-sitemap-gate.test.js tests/audit-205-postdeploy-seo.test.js tests/audit-index-watch-live.test.js
       - name: Inspect live public sitemap and enforce deployed decision URL discovery
         env:
           ZP_REQUIRE_REQUIRED_PATHS: "1"
@@ -48,3 +50,6 @@ jobs:
         run: node scripts/check-acquisition-sitemap.mjs
       - name: Verify current live contextual links and evidence-backed dated sitemap entries
         run: node scripts/audit-205-postdeploy-seo.mjs
+      - name: Check live HTTP, self-canonical, index directives and sitemap on four GSC excluded pages
+        # Only exact public URLs; rejects redirects; no indexing requests or WP writes.
+        run: node scripts/audit-index-watch-live.mjs

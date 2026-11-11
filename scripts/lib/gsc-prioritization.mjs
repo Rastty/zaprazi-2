@@ -131,7 +131,7 @@ const safeText=s=>String(s).replaceAll("|","\\|").replaceAll(/\r|\n/g," ")
 function number(n){return new Intl.NumberFormat("cs-CZ").format(n);}
 function percent(r){return r===null?"n/a":(r*100).toLocaleString("cs-CZ",{maximumFractionDigits:2})+" %";}
 function score(row){
-  if(row.impressions<20)return 0;
+  if(row.impressions<20||!Number.isFinite(row.position))return 0;
   const exposure=row.impressions>=1000?3:row.impressions>=100?2:1;
   const reach=row.position>=4&&row.position<=20?2:row.position>20&&row.position<=40?1:0;
   const ctrOpportunity=row.position>=4&&row.position<=10&&row.impressions>=100&&row.ctr!==null&&row.ctr<0.02?1:0;
@@ -139,6 +139,7 @@ function score(row){
 }
 function action(row,isCore){
   if(!isCore)return "REVIEW_ONLY — nejdřív obsah, GSC dotazy a externí odkazy";
+  if(!Number.isFinite(row.position))return "POZICE UNKNOWN — nelze hodnotit ranking";
   if(row.impressions<20)return "NÍZKÁ EVIDENCE — bez změny, sledovat";
   if(row.position>=4&&row.position<=20)return "PROVĚŘIT TITULEK/INTENT + CESTU K PORADCI";
   if(row.impressions>=100&&row.position<4&&row.ctr!==null&&row.ctr<0.02)
@@ -171,17 +172,21 @@ export function analyzeGsc({pages,queries=[],periodStart,periodEnd}){
       "Other/legacy URLs are review-only: never bulk noindex, delete, merge or redirect without additional evidence."
     ]};
 }
-export function renderGscReport(r){
+export function renderGscReport(r,options={}){
+  const snapshot=options.source==="prometheus_final_28d";
+  if(options.source && !snapshot)throw new Error("Unsupported GSC report source");
   const line=(row,isCore)=>"| "+safeText(row.path??row.query)+" | "+number(row.clicks)+
     " | "+number(row.impressions)+" | "+percent(row.ctr)+" | "+
-    row.position.toLocaleString("cs-CZ",{maximumFractionDigits:2})+" | "+
+    (Number.isFinite(row.position)?row.position.toLocaleString("cs-CZ",{maximumFractionDigits:2}):"n/a")+" | "+
     (isCore?score(row):"—")+" | "+(row.path?action(row,isCore):"Samostatný dotaz, bez přiřazené URL")+" |";
   const header="| URL nebo dotaz | Kliky | Zobrazení | CTR | Pozice | Skóre revize | Další krok |\n|---|---:|---:|---:|---:|---:|---|";
   const table=(rows,isCore)=>header+"\n"+(rows.length?rows.map(row=>line(row,isCore)).join("\n"):"| — | — | — | — | — | — | Bez doložených řádků |");
   return [
-    "# Zápraží — SEO příležitosti z reálného exportu Google Search Console",
+    snapshot
+      ? "# Zápraží — SEO příležitosti z finálního GSC agregátu Prometheus"
+      : "# Zápraží — SEO příležitosti z reálného exportu Google Search Console",
     "**Časové období:** "+r.periodStart+" až "+r.periodEnd+" (datum deklarované při exportu).",
-    "**Rozsah souboru:** "+r.exported_page_rows+" řádků Pages, z toho "+
+    (snapshot?"**Rozsah povolených sledovaných URL:** ":"**Rozsah souboru:** ")+r.exported_page_rows+" řádků Pages, z toho "+
       r.accepted_page_rows+" bezpečně rozpoznaných URL a "+
       r.skipped_external_or_parameterized_rows+" vyřazených nekanonických URL (HTTP, jiný host, parametry nebo nekanonická cesta).",
     "## 1. Stávající rozhodovací a poradenské stránky — priorita redakční revize",
@@ -191,9 +196,13 @@ export function renderGscReport(r){
     // published decision pages are now monitored by the live sitemap gate.
     table(r.core,true),
     "## 2. Jiné a historické stránky — POUZE návrhy ke kontrole, žádné přesměrování",
-    table(r.other.slice(0,30),false),
-    "## 3. Dotazy v exportu — na úrovni celé property, ne jednotlivé URL",
-    table(r.queries.slice(0,20),false),
+    ...(snapshot
+      ? ["Prometheus snapshot obsahuje pouze povolené hlavní URL; historické stránky mimo whitelist nejsou tímto přehledem vyhodnocené."]
+      : [table(r.other.slice(0,30),false)]),
+    "## 3. Dotazy",
+    ...(snapshot
+      ? ["Dotazové řádky nejsou součástí tohoto anonymizovaného agregátu; absence údajů neznamená nulovou poptávku."]
+      : ["Na úrovni celé property, ne jednotlivé URL.",table(r.queries.slice(0,20),false)]),
     "## 4. Hlavní URL, které **nejsou v omezeném exportu** (výkon neznámý)",
     r.missing_core_from_export.length?r.missing_core_from_export.map(x=>"- "+x+" — **unknown**, nikoliv 0").join("\n"):"Všechny hlavní URL jsou v dodaném exportu zastoupené.",
     "## Interpretace a bezpečnost",

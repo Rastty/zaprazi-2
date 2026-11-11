@@ -210,12 +210,15 @@ export function renderGscReport(r,options={}){
     "## 1. Stávající rozhodovací a poradenské stránky — priorita redakční revize",
     "**Pokrytí:** "+r.exported_core_url_count+" z "+r.monitored_core_url_count+
       " schválených hlavních URL má v exportu vlastní řádek; ostatní zůstávají UNKNOWN.",
-    // Never truncate to an outdated historical set of 27 URLs. All curated
-    // published decision pages are now monitored by the live sitemap gate.
-    table(r.core,true),
+    // Keep early signals above the full 53-URL table so the Core Actions
+    // 38-line owner summary exposes them without needing to download artifacts.
     "## 1a. Rané signály (10–19 zobrazení, 0 kliků, pozice 4–12)",
     "Jde jen o **malý skutečný GSC vzorek**, ne prokázanou chybu CTR ani důvod k hromadnému přepisu. Zkontrolujte nejvýše jednu existující URL: stránkově filtrované dotazy, skutečný SERP, unikátní odpověď a bezpečnou cestu k poradci. Není-li důkaz, obsah neměňte.",
     signalTable,
+    "## 1b. Všechny doložené hlavní URL",
+    // Never truncate to an outdated historical set of 27 URLs. All curated
+    // published decision pages are now monitored by the live sitemap gate.
+    table(r.core,true),
     "## 2. Jiné a historické stránky — POUZE návrhy ke kontrole, žádné přesměrování",
     ...(snapshot
       ? ["Prometheus snapshot obsahuje pouze povolené hlavní URL; historické stránky mimo whitelist nejsou tímto přehledem vyhodnocené."]

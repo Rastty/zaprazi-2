@@ -51,8 +51,7 @@ export function renderSafeIntentEvidence(evidence) {
     !Array.isArray(evidence.pages)||evidence.pages.length>6)return unavailable;
   if(!["privacy_aggregated","no_safe_groups_or_unavailable"].includes(evidence.status))
     return unavailable;
-  if(evidence.status==="no_safe_groups_or_unavailable")
-    return evidence.pages.length===0&&evidence.pagesWithSafeGroups===0?unavailable:unavailable;
+  if(evidence.status==="no_safe_groups_or_unavailable")return unavailable;
   if(evidence.pages.length!==evidence.pagesWithSafeGroups||
     evidence.pages.length===0)return unavailable;
 

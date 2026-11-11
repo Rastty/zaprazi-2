@@ -4,7 +4,7 @@ import {readFileSync,mkdtempSync,writeFileSync,rmSync} from "node:fs";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
 import {spawnSync} from "node:child_process";
-import {planFromFinalGsc,renderFinalGscGrowthPlan} from "../scripts/growth-plan-from-gsc.mjs";
+import {planFromFinalGsc,renderFinalGscGrowthPlan,growthFromGscCli} from "../scripts/growth-plan-from-gsc.mjs";
 
 const graph=JSON.parse(readFileSync(new URL("../config/growth-graph.json",import.meta.url),"utf8"));
 const state=JSON.parse(readFileSync(new URL("../config/growth-state.json",import.meta.url),"utf8"));
@@ -84,14 +84,9 @@ test("CLI reads private snapshot in memory, emits safe plan and makes no writes"
  try{
   const path=join(dir,"final.json");
   writeFileSync(path,JSON.stringify(sample()));
-  const result=spawnSync(process.execPath,["scripts/growth-plan-from-gsc.mjs","--snapshot",path],
-    {encoding:"utf8",timeout:12000,env:{...process.env,GITHUB_RUN_ID:runId}});
-  // The CLI uses the real current Prague date. Tests run against Nov 2026
-  // in CI; static planning API above remains deterministic beyond this date.
-  assert.equal(result.status,0,result.stderr);
-  assert.match(result.stdout,/8/);
-  assert.doesNotMatch(result.stdout,/NEVER_EXPOSE_RAW_QUERY/);
-  assert.doesNotMatch(result.stderr,/NEVER_EXPOSE_RAW_QUERY/);
+  const output=growthFromGscCli(["--snapshot",path],{GITHUB_RUN_ID:runId},now);
+  assert.match(output,/8/);
+  assert.doesNotMatch(output,/NEVER_EXPOSE_RAW_QUERY/);
   const secret=spawnSync(process.execPath,["scripts/growth-plan-from-gsc.mjs","--snapshot",path],
     {encoding:"utf8",timeout:12000,env:{...process.env,GITHUB_RUN_ID:"INVALID_SECRET"}});
   assert.notEqual(secret.status,0);

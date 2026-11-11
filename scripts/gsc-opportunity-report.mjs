@@ -13,6 +13,7 @@ import {resolve} from "node:path";
 import {parseGscCsv,analyzeGsc,renderGscReport} from "./lib/gsc-prioritization.mjs";
 import {parseSanitizedGscSnapshot} from "./gsc-period-compare.mjs";
 import {renderSafeIntentEvidence} from "./lib/gsc-safe-intents.mjs";
+import {renderGoogleIndexReview} from "./lib/gsc-index-review.mjs";
 
 export function cliArgs(argv){
   const options={};
@@ -53,7 +54,9 @@ export function reportFromSanitizedSnapshot(snapshot){
       data.property+"). Jen "+data.rows.length+" sledovaných existujících URL; "+
       "chybějící řádek = UNKNOWN, nikoli nulové zobrazení nebo deindexace. "+
       "Dotazové řádky nejsou součástí tohoto agregátu.",
-    main.replace(tableAnchor,safeIntents+"\n\n"+tableAnchor)
+    main.replace(tableAnchor,
+      renderGoogleIndexReview(snapshot.indexInspectionEvidence)+"\n\n"+
+      safeIntents+"\n\n"+tableAnchor)
   ].join("\n\n");
 }
 export function reportFromFiles(args){

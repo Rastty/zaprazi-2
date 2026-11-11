@@ -71,7 +71,7 @@ export function renderFinalGscGrowthPlan(plan) {
     renderGrowthPlan(plan)
   ].join("\n\n");
 }
-export function growthFromGscCli(argv,env=process.env) {
+export function growthFromGscCli(argv,env=process.env,now=new Date()) {
   if(argv.length!==2||argv[0]!=="--snapshot"||!argv[1]||
       argv[1].startsWith("--"))throw Error("Usage: --snapshot FILE");
   const path=argv[1];
@@ -81,7 +81,7 @@ export function growthFromGscCli(argv,env=process.env) {
   const graph=JSON.parse(readFileSync(new URL("config/growth-graph.json",root),"utf8"));
   const state=JSON.parse(readFileSync(new URL("config/growth-state.json",root),"utf8"));
   return renderFinalGscGrowthPlan(planFromFinalGsc(
-    graph,state,snapshot,env.GITHUB_RUN_ID
+    graph,state,snapshot,env.GITHUB_RUN_ID,now
   ));
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])) {

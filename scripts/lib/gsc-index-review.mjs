@@ -98,7 +98,7 @@ export function renderGoogleIndexReview(data){
       "| URL | Google eviduje | Bezpečný další krok |",
       "|---|---|---|",
       ...selected.map(r=>"| "+r.path+" | "+
-        (r.status==="excluded"?"Mimo index":r.status==="error"?"Chyba":"UNKNOWN")+
+        (r.status==="excluded"?"Mimo index":r.status==="error"?"Chyba":r.status==="indexed"?"Indexováno, ověřit":"UNKNOWN")+
         " | "+stage(r)+" |")
     ]:["**Není doložená žádná otevřená indexační položka v tomto omezeném vzorku.**"]),
     "**Pozor:** Google URL Inspection vrací poslední indexovanou/evidovanou verzi, "+

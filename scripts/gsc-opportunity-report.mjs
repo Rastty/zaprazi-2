@@ -8,20 +8,47 @@ import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 import {parseGscCsv,analyzeGsc,renderGscReport} from "./lib/gsc-prioritization.mjs";
+import {parseSanitizedGscSnapshot} from "./gsc-period-compare.mjs";
 
 export function cliArgs(argv){
   const options={};
   for(let i=0;i<argv.length;i++){
-    if(!["--pages","--queries","--from","--to"].includes(argv[i])||i+1>=argv.length)
-      throw new Error("Allowed flags: --pages FILE --queries FILE --from YYYY-MM-DD --to YYYY-MM-DD");
+    if(!["--pages","--queries","--from","--to","--snapshot"].includes(argv[i])||i+1>=argv.length)
+      throw new Error("Allowed: --snapshot FILE, or --pages FILE [--queries FILE] --from YYYY-MM-DD --to YYYY-MM-DD");
     if(options[argv[i]])throw new Error("Repeated flag "+argv[i]);
     options[argv[i]]=argv[++i];
+  }
+  // Reuse the existing read-only, strictly host-bound Prometheus final snapshot.
+  // Mixing modes could falsely attach manually asserted dates to an API capture.
+  if(options["--snapshot"]){
+    if(Object.keys(options).length!==1)
+      throw new Error("--snapshot must be the sole flag");
+    return options;
   }
   if(!options["--pages"]||!options["--from"]||!options["--to"])
     throw new Error("Required: --pages FILE --from YYYY-MM-DD --to YYYY-MM-DD");
   return options;
 }
+export function reportFromSanitizedSnapshot(snapshot){
+  // Exact property, 28 final days, allowlisted paths and count/CTR checks are
+  // validated by the existing site-native GSC snapshot contract. No queries,
+  // user URLs, credentials, or health answers are displayed or persisted.
+  const data=parseSanitizedGscSnapshot(snapshot);
+  const analysis=analyzeGsc({
+    pages:data.rows,queries:[],periodStart:data.from,periodEnd:data.to
+  });
+  return [
+    "**Zdroj:** Prometheus — finální anonymizovaný 28denní Search Console agregát ("+
+      data.property+"). Jen "+data.rows.length+" sledovaných existujících URL; "+
+      "chybějící řádek = UNKNOWN, nikoli nulové zobrazení nebo deindexace. "+
+      "Dotazové řádky nejsou součástí tohoto agregátu.",
+    renderGscReport(analysis,{source:"prometheus_final_28d"})
+  ].join("\n\n");
+}
 export function reportFromFiles(args){
+  if(args["--snapshot"])
+    return reportFromSanitizedSnapshot(JSON.parse(readFileSync(args["--snapshot"],"utf8")));
+
   const pages=parseGscCsv(readFileSync(args["--pages"],"utf8"),"page");
   const queries=args["--queries"]
     ?parseGscCsv(readFileSync(args["--queries"],"utf8"),"query"):[];

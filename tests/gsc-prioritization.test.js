@@ -185,7 +185,7 @@ test("early GSC evidence gets a separate exploratory review queue, not a false C
    ],periodStart:"2026-10-11",periodEnd:"2026-11-07"
  });
  const output=renderGscReport(r,{source:"prometheus_final_28d"});
- const section=output.split("## 1a. Rané signály")[1]?.split("## 2.")[0];
+ const section=output.split("## 1a. Rané signály")[1]?.split("## 1b.")[0];
  assert.ok(section,"The early signal section must be visible");
  assert.ok(section.indexOf("/senior-nemuze-vstat-z-postele/")<
    section.indexOf("/otazky-pred-propustenim-z-nemocnice/"),
@@ -207,7 +207,7 @@ test("early GSC queue is empty without qualified observed page rows",()=>{
    path:"/pujceni-choditka/",impressions:2,clicks:0,position:8,ctr:0
  }],periodStart:"2026-10-11",periodEnd:"2026-11-07"});
  const output=renderGscReport(r,{source:"prometheus_final_28d"});
- const section=output.split("## 1a. Rané signály")[1]?.split("## 2.")[0];
+ const section=output.split("## 1a. Rané signály")[1]?.split("## 1b.")[0];
  assert.match(section,/Zatím žádný doložený raný signál/);
  assert.doesNotMatch(section,/\/pujceni-choditka\//);
 });

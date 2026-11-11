@@ -164,3 +164,50 @@ test("GSC report includes every published core route, not only the historical fi
    "Only safe canonical paths, not raw URLs, may be printed");
 });
 
+
+
+test("early GSC evidence gets a separate exploratory review queue, not a false CTR claim",()=>{
+ const page=(path,impressions,clicks,position)=>({
+   path,impressions,clicks,position,ctr:impressions?clicks/impressions:null
+ });
+ const r=analyzeGsc({
+   pages:[
+     page("/otazky-pred-propustenim-z-nemocnice/",13,0,6.69),
+     page("/senior-nemuze-vstat-z-postele/",19,0,5.79),
+     page("/pujceni-choditka/",10,0,12),
+     page("/rollator-pro-seniory/",20,0,6),
+     page("/choditko-na-pojistovnu/",9,0,5),
+     page("/choditka-pro-seniory/",18,1,7),
+     page("/co-zmerit-pred-vyberem-choditka/",18,0,null),
+     page("/choditko-do-bytu-pro-seniory/",17,0,3.99),
+     page("/sprchovaci-zidle-pro-seniory/",11,0,12.01),
+     page("/unlisted-secret-health-answer/",17,0,7)
+   ],periodStart:"2026-10-11",periodEnd:"2026-11-07"
+ });
+ const output=renderGscReport(r,{source:"prometheus_final_28d"});
+ const section=output.split("## 1a. Rané signály")[1]?.split("## 2.")[0];
+ assert.ok(section,"The early signal section must be visible");
+ assert.ok(section.indexOf("/senior-nemuze-vstat-z-postele/")<
+   section.indexOf("/otazky-pred-propustenim-z-nemocnice/"),
+   "Highest genuine exposure first, never predicted score");
+ assert.match(section,/\/pujceni-choditka\//);
+ for(const path of ["/rollator-pro-seniory/","/choditko-na-pojistovnu/",
+   "/choditka-pro-seniory/","/co-zmerit-pred-vyberem-choditka/",
+   "/choditko-do-bytu-pro-seniory/","/sprchovaci-zidle-pro-seniory/",
+   "/unlisted-secret-health-answer/"])
+   assert.ok(!section.includes(path),"Unqualified or unknown URL must not leak: "+path);
+ assert.match(section,/malý skutečný GSC vzorek/);
+ assert.match(section,/ne prokázanou chybu CTR/);
+ assert.match(section,/dotazy filtrované na tuto URL/);
+ assert.ok(!section.includes("nejlepší CTR"));
+ assert.ok(!section.includes("garantovaný"));
+});
+test("early GSC queue is empty without qualified observed page rows",()=>{
+ const r=analyzeGsc({pages:[{
+   path:"/pujceni-choditka/",impressions:2,clicks:0,position:8,ctr:0
+ }],periodStart:"2026-10-11",periodEnd:"2026-11-07"});
+ const output=renderGscReport(r,{source:"prometheus_final_28d"});
+ const section=output.split("## 1a. Rané signály")[1]?.split("## 2.")[0];
+ assert.match(section,/Zatím žádný doložený raný signál/);
+ assert.doesNotMatch(section,/\/pujceni-choditka\//);
+});

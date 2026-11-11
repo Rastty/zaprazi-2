@@ -2,6 +2,9 @@
 /**
  * Usage: node scripts/gsc-opportunity-report.mjs --pages /private/Pages.csv
  *   --queries /private/Queries.csv --from 2026-09-01 --to 2026-09-28
+ * Or consume the existing approved Prometheus 28-day final snapshot:
+ *   node scripts/gsc-opportunity-report.mjs --snapshot /private/prometheus-zaprazi-gsc.json
+ * Only finalized, host-bound, allowlisted data are accepted in snapshot mode.
  * Works offline; no GSC credentials, no data uploaded to GitHub or WordPress.
  */
 import {readFileSync} from "node:fs";

@@ -65,7 +65,7 @@ test("exact public HTML GET never follows redirects, accepts only 200 HTML",asyn
  const requests=[];
  const ok=async(url,opts)=>{
    requests.push({url,redirect:opts.redirect});
-   return new Response(html(path),{status:200,headers});
+   return new Response(html(path),{status:200,headers:headers()});
  };
  const result=await fetchLiveIndexability(path,ok,"0.8.217");
  assert.equal(result.http,200);

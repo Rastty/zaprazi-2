@@ -76,7 +76,7 @@ test("exact public HTML GET never follows redirects, accepts only 200 HTML",asyn
      headers:{"content-type":"application/json"}}),"0.8.217"),/NOT_HTML/);
  await assert.rejects(fetchLiveIndexability(path,async()=>{throw Error("TOKEN_IN_ERROR")}),
    /NETWORK_OR_REDIRECT_FAILED/);
- await assert.rejects(fetchLiveIndexability("/out/click",ok),"0.8.217"),/UNAUTHORIZED/);
+ await assert.rejects(fetchLiveIndexability("/out/click",ok,"0.8.217"),/UNAUTHORIZED/);
 });
 test("source is a read-only audit with no GSC credentials, writes or merchant navigation",()=>{
  const source=readFileSync(new URL("../scripts/audit-index-watch-live.mjs",import.meta.url),"utf8");

@@ -181,6 +181,24 @@ export function renderGscReport(r,options={}){
     (isCore?score(row):"—")+" | "+(row.path?action(row,isCore):"Samostatný dotaz, bez přiřazené URL")+" |";
   const header="| URL nebo dotaz | Kliky | Zobrazení | CTR | Pozice | Skóre revize | Další krok |\n|---|---:|---:|---:|---:|---:|---|";
   const table=(rows,isCore)=>header+"\n"+(rows.length?rows.map(row=>line(row,isCore)).join("\n"):"| — | — | — | — | — | — | Bez doložených řádků |");
+
+  // On a young property 10–19 genuine impressions can contain useful intent
+  // evidence, even though they are far too few for an asserted CTR defect.
+  // This is an exploratory REVIEW QUEUE, not a second ranking score. Keep
+  // missing pages, zero-impression rows and unknown positions out of it.
+  const firstSignals=r.core.filter(row=>
+    row.impressions>=10&&row.impressions<20&&row.clicks===0&&
+    Number.isFinite(row.position)&&row.position>=4&&row.position<=12
+  ).sort((a,b)=>b.impressions-a.impressions||a.position-b.position).slice(0,5);
+  const signalTable=[
+    "| Ověřená hlavní URL | Zobrazení | Kliky | Průměrná pozice | Co ověřit |",
+    "|---|---:|---:|---:|---|",
+    ...(firstSignals.length?firstSignals.map(row=>
+      "| "+safeText(row.path)+" | "+number(row.impressions)+" | "+
+      number(row.clicks)+" | "+row.position.toLocaleString("cs-CZ",{maximumFractionDigits:2})+
+      " | SERP a dotazy filtrované na tuto URL; případný chybějící první krok |"
+    ):["| — | — | — | — | Zatím žádný doložený raný signál |"])
+  ].join("\n");
   return [
     snapshot
       ? "# Zápraží — SEO příležitosti z finálního GSC agregátu Prometheus"
@@ -195,6 +213,9 @@ export function renderGscReport(r,options={}){
     // Never truncate to an outdated historical set of 27 URLs. All curated
     // published decision pages are now monitored by the live sitemap gate.
     table(r.core,true),
+    "## 1a. Rané signály (10–19 zobrazení, 0 kliků, pozice 4–12)",
+    "Jde jen o **malý skutečný GSC vzorek**, ne prokázanou chybu CTR ani důvod k hromadnému přepisu. Zkontrolujte nejvýše jednu existující URL: stránkově filtrované dotazy, skutečný SERP, unikátní odpověď a bezpečnou cestu k poradci. Není-li důkaz, obsah neměňte.",
+    signalTable,
     "## 2. Jiné a historické stránky — POUZE návrhy ke kontrole, žádné přesměrování",
     ...(snapshot
       ? ["Prometheus snapshot obsahuje pouze povolené hlavní URL; historické stránky mimo whitelist nejsou tímto přehledem vyhodnocené."]

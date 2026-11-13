@@ -11,6 +11,7 @@ import {resolve} from "node:path";
 import {auditPublicSitemap,assertPublicSitemapHealthy}
   from "./audit-public-sitemap.mjs";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
+import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 export const INDEX_WATCH_PATHS=Object.freeze([
@@ -76,8 +77,8 @@ export async function fetchLiveIndexability(path,fetcher=fetch,release=SOURCE_TH
   if(!WATCH.has(path))throw Error("INDEX_LIVE_UNAUTHORIZED_PATH");
   let response;
   try{
-    response=await fetcher(ORIGIN+path,{redirect:"error",
-      signal:AbortSignal.timeout(15000),headers:{"Accept":"text/html"}});
+    response=await fetchPublicWithNetworkRetry(fetcher,ORIGIN+path,
+      {redirect:"error",headers:{"Accept":"text/html"}});
   }catch{throw Error("INDEX_LIVE_NETWORK_OR_REDIRECT_FAILED");}
   if(response.status!==200)throw Error("INDEX_LIVE_HTTP_NOT_200");
   const ct=response.headers?.get?.("content-type")||"";

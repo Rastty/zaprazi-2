@@ -8,6 +8,7 @@
  */
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 
 export const requiredDecisionPaths = Object.freeze([
   "/choditka-pro-seniory/", "/koupelna-a-wc/",
@@ -217,9 +218,7 @@ async function getText(fetcher, href) {
   // tokens or upstream response text. Public CI must not print them.
   let response;
   try {
-    response = await fetcher(href, {
-      signal: AbortSignal.timeout(15000), redirect: "manual"
-    });
+    response = await fetchPublicWithNetworkRetry(fetcher,href,{redirect:"manual"});
   } catch {
     throw new Error("Sitemap request failed (network error)");
   }

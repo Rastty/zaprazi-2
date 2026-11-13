@@ -10,6 +10,7 @@ import {pathToFileURL} from "node:url";
 import {resolve} from "node:path";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {SOURCE_DATES} from "./audit-205-postdeploy-seo.mjs";
+import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -61,9 +62,8 @@ export function assertMaterialWebpageSchema(html,path,minDate,release,now=new Da
 async function publicGet(url,accept){
   if(url!==READINESS&&!Object.keys(SOURCE_DATES).some(path=>url===ORIGIN+path))
     throw Error("SCHEMA_UNEXPECTED_HOST_OR_URL");
-  const res=await fetch(url,{method:"GET",redirect:"error",cache:"no-store",
-    headers:{Accept:accept,"Cache-Control":"no-cache"},
-    signal:AbortSignal.timeout(20000)});
+  const res=await fetchPublicWithNetworkRetry(fetch,url,{method:"GET",redirect:"error",cache:"no-store",
+    headers:{Accept:accept,"Cache-Control":"no-cache"}});
   if(res.status!==200||(res.url&&res.url!==url))throw Error("SCHEMA_PUBLIC_GET_FAILED");
   const body=await res.text();
   if(body.length<100||body.length>2000000)throw Error("SCHEMA_PUBLIC_BODY_INVALID");

@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.218' );
+  define( 'ZAPRAZI_RELEASE', '0.8.219' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '528790234c719d8a7774e437671ffee718706de5',
-    'src/mobility/offer-fit-gate.js' => '3390395c1fb952f67a450346c43a6540c427ba75',
+    'src/mobility/engine.js' => 'e466cd25df5b27a978e2632e560480baa6a70794',
+    'src/mobility/offer-fit-gate.js' => '226cfd4f26930b1bee8b44ec7b4da843074ae996',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
@@ -1060,7 +1060,7 @@ function zaprazi_2_footwear_guide_print_asset() {
 add_action( 'wp_enqueue_scripts', 'zaprazi_2_footwear_guide_print_asset', 20 );
 
 /**
- * Six blank family worksheets; no forms, storage, analytics or network I/O.
+ * Seven blank family worksheets; no forms, storage, analytics or network I/O.
  * The print button is hidden until its local JavaScript action is available.
  */
 function zaprazi_2_family_checklist_print_asset() {
@@ -1071,6 +1071,7 @@ function zaprazi_2_family_checklist_print_asset() {
     'pujceni-choditka',
     'prispevek-na-peci-pro-seniora',
     'jak-vybrat-pecovatelskou-sluzbu',
+    'choditko-na-pojistovnu',
   ) ) ) {
     return;
   }

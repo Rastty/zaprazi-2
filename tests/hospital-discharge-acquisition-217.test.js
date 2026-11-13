@@ -18,7 +18,10 @@ test("217 discharge guide gives a first-screen answer without unsafe commercial 
  assert.match(block,/https:\/\/oporadiakonie\.cz\/rada\/tlaci-na-vas-v-nemocnici-abyste-si-blizkeho-vzali-domu\//);
  assert.doesNotMatch(block,/<form\b|<input\b|<textarea\b|data-zp-merchant-link|affil/i);
  assert.match(block,/není příslib prodloužení hospitalizace/i);
- assert.match(page,/ZP_RELEASE_0_8_217/);
+ const themeVersion=read("style.css").match(/^Version:\s*(\d+\.\d+\.\d+)\s*$/m)?.[1];
+ assert.ok(themeVersion,"Theme release version must exist");
+ assert.ok(page.includes("ZP_RELEASE_"+themeVersion.replaceAll(".","_")),
+   "Discharge guide must carry the current theme release marker");
 });
 test("217 dated revision and SEO metadata honor exact-live predecessor gate",()=>{
  assert.match(php,/return 'Propuštění z nemocnice: 7 otázek pro rodinu \| Zápraží';/);

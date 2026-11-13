@@ -2,8 +2,47 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import {isExactAnchor,checkReadiness,requireAcceptedRelease,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases} from "../scripts/verify-live-release-and-guides.mjs";
+import {isExactAnchor,checkReadiness,requireAcceptedRelease,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases,getPage} from "../scripts/verify-live-release-and-guides.mjs";
 const ready={release:"0.8.182",integrity:"ok",configured_total:25,slot_total:25};
+
+test("production readback retries only transient network errors without changing its exact-host and no-redirect contract", async()=>{
+ const url="https://zaprazi.cz/senior-nemuze-vstat-z-postele/";
+ let calls=0;
+ const waits=[];
+ const fetcher=async (requested, options)=>{
+   calls++;
+   assert.equal(requested,url);
+   assert.equal(options.redirect,"manual");
+   assert.equal(options.headers.Accept,"text/html,application/json");
+   assert.ok(options.signal instanceof AbortSignal);
+   if(calls<3)throw new TypeError("temporary network interruption");
+   return {status:200,text:async()=>"<html>ready</html>",
+     headers:{get:()=>"index, follow"}};
+ };
+ const page=await getPage(url,{fetcher,wait:async ms=>waits.push(ms)});
+ assert.deepEqual(page,{body:"<html>ready</html>",xRobotsTag:"index, follow"});
+ assert.equal(calls,3);
+ assert.deepEqual(waits,[400,800]);
+});
+
+test("production readback fails closed on unsafe hosts, HTTP errors, bad payloads and exhausted transport retries", async()=>{
+ const url="https://zaprazi.cz/senior-nemuze-vstat-z-postele/";
+ let calls=0;
+ const response=(status,body="ok")=>({status,text:async()=>body,
+   headers:{get:()=>null}});
+ const fetcher=async()=>{calls++;return response(302);};
+ await assert.rejects(getPage("https://other.example/page",{fetcher,wait:async()=>{}}),/Only allow same-origin/);
+ assert.equal(calls,0,"A foreign host must not be contacted");
+ await assert.rejects(getPage(url,{fetcher,wait:async()=>{}}),/GET failed/);
+ assert.equal(calls,1,"A redirect is not a transient failure");
+ await assert.rejects(getPage(url,{fetcher:async()=>{calls++;return response(200,"");},wait:async()=>{}}),/Unexpected payload size/);
+ assert.equal(calls,2,"Invalid HTML must never be retried");
+ const waits=[];
+ await assert.rejects(getPage(url,{fetcher:async()=>{calls++;throw new TypeError("internal DNS details");},
+   wait:async ms=>waits.push(ms)}),/LIVE_PUBLIC_TRANSIENT_FETCH_FAILURE/);
+ assert.equal(calls,5);
+ assert.deepEqual(waits,[400,800]);
+});
 test("verify version, integrity and complete affiliate slots, distinguish pending deploy",()=>{
  assert.deepEqual(checkReadiness(ready,"0.8.182"),{expected:"0.8.182",deployed:"0.8.182",release_matches:true});
  assert.equal(checkReadiness(ready,"0.8.183").release_matches,false);

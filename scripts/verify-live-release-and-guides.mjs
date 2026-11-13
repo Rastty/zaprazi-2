@@ -62,16 +62,34 @@ function sanitizeSourceUrl(raw) {
   assert.equal(u.port, "");
   return u.href;
 }
-async function getPage(url) {
+/**
+ * Retry only transient transport failures of bounded same-origin public GETs.
+ * HTTP responses (including redirects), wrong releases, partial integrity,
+ * invalid content and failed SEO assertions must always fail immediately.
+ * A short network interruption must not turn a healthy deployment red.
+ */
+export async function getPage(url, {
+  fetcher = fetch,
+  wait = ms => new Promise(resolve => setTimeout(resolve, ms))
+} = {}) {
   const safe = sanitizeSourceUrl(url);
-  const response = await fetch(safe, {
-    redirect: "manual", headers: { Accept: "text/html,application/json" },
-    signal: AbortSignal.timeout(25000)
-  });
-  assert.equal(response.status, 200, "GET failed for "+safe+" ("+response.status+")");
-  const body = await response.text();
-  assert.ok(body.length>0 && body.length<2500000, "Unexpected payload size "+safe);
-  return {body, xRobotsTag:response.headers.get("x-robots-tag") ?? ""};
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const response = await fetcher(safe, {
+        redirect: "manual", headers: { Accept: "text/html,application/json" },
+        signal: AbortSignal.timeout(25000)
+      });
+      assert.equal(response.status, 200, "GET failed for "+safe+" ("+response.status+")");
+      const body = await response.text();
+      assert.ok(body.length>0 && body.length<2500000, "Unexpected payload size "+safe);
+      return {body, xRobotsTag:response.headers.get("x-robots-tag") ?? ""};
+    } catch (error) {
+      const transient = error instanceof TypeError || error?.name === "TimeoutError";
+      if (!transient) throw error;
+      if (attempt === 2) throw Error("LIVE_PUBLIC_TRANSIENT_FETCH_FAILURE");
+      await wait(400 * (attempt + 1));
+    }
+  }
 }
 async function getText(url) {
   return (await getPage(url)).body;

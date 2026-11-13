@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.217' );
+  define( 'ZAPRAZI_RELEASE', '0.8.218' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => 'b64de0d897d3fe7b10a559829dde944570f8e40c',
-    'src/mobility/offer-fit-gate.js' => '27db783437ff0f764d901ce5ab421c1760a767f5',
+    'src/mobility/engine.js' => '528790234c719d8a7774e437671ffee718706de5',
+    'src/mobility/offer-fit-gate.js' => '3390395c1fb952f67a450346c43a6540c427ba75',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 
@@ -2965,6 +2965,7 @@ function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior žije sám: SOS tlačítko, hodinky či tísňová péče | Zápraží';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Nastupování seniora do auta: bezpečné pomůcky | Zápraží';
+  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy je sanitka hrazená? | Zápraží';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: praktický postup | Zápraží';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Ponožky a kalhoty bez ohýbání: pomůcky | Zápraží';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku: bezpečný postup a pomůcky | Zápraží';
@@ -2973,7 +2974,7 @@ function zaprazi_2_resource_title( $title ) {
   if ( is_page( 'prahy-pro-choditko-a-vozik' ) ) return 'Vysoký práh a chodítko: 7 kontrol před úpravou | Zápraží';
   if ( is_page( 'sprchova-zidle-maly-kout-80x80' ) ) return 'Sprchová židle do koutu 80×80: co změřit | Zápraží';
   if ( is_page( 'senior-spadl-doma' ) ) return 'Senior spadl doma: co dělat, kdy volat 155 | Zápraží';
-  if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nemůže vstát z postele: co pomůže? | Zápraží';
+  if ( is_page( 'senior-nemuze-vstat-z-postele' ) ) return 'Senior nemůže vstát z postele: co dělat bezpečně | Zápraží';
   if ( is_page( 'vstavani-z-kresla-pro-seniora' ) ) return 'Senior nemůže vstát z křesla: co pomůže bezpečně | Zápraží';
   if ( is_page( 'schody-pro-seniora-doma' ) ) return 'Senior nezvládá schody doma: jak vyřešit přístup | Zápraží';
   if ( zaprazi_2_is_bathroom_measurements_page() ) return 'Co změřit v koupelně před výběrem pomůcky | Zápraží';

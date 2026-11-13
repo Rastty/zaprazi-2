@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_217 */
+/* ZP_RELEASE_0_8_218 */
 /*
 Template Name: Zápraží — Oblékání ponožek a kalhot bez předklonu
 */

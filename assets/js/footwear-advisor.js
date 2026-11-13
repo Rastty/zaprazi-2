@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_217
+// ZP_RELEASE_0_8_218
 import { chooseEasyFootwear } from "../../src/footwear/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 

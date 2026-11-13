@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_218 */
+/* ZP_RELEASE_0_8_219 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -21,6 +21,7 @@ get_header();
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
         <a class="zp-text-link" href="#priprava-pro-lekare">Co říct lékaři a výdejně</a>
+        <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro lékaře a výdejnu</button>
         <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
         <?php if ( ! $zp_sukl_is_current ) : ?>
           <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
@@ -335,6 +336,23 @@ get_header();
       </div>
 
       <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka vysvětluje postup a ověřené veřejné údaje. Nejde o diagnózu, preskripci ani potvrzení individuálního nároku na úhradu.</p>
+    </div>
+  </section>
+  <section class="zp-section zp-paper-checklist" data-zp-paper-checklist="walker-epoukaz-visit" aria-label="Prázdný pracovní list pro rozhovor s lékařem a výdejnou">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zápraží · pracovní list pro rodinu</p>
+      <h2 class="zp-section-title">Chodítko na pojišťovnu: otázky před ePoukazem a výdejem</h2>
+      <p>Vezměte si tento prázdný seznam k rozhovoru s lékařem a oprávněným výdejcem. Zápraží údaje nikam neposílá ani neukládá; zdravotní a osobní údaje do webu nevyplňujte.</p>
+      <ol class="zp-paper-questions">
+        <li><strong>1. Je nejdřív potřeba odborně ověřit bezpečný typ chodítka a ovládání?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>2. Připadá v naší situaci pro konkrétní prostředek v úvahu ePoukaz? Kdo ho může předepsat?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>3. Jaké je přesné označení modelu a kód zdravotnického prostředku? Nezaměňujeme varianty?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>4. Je výdejce oprávněný tento model vydat na ePoukaz a je skutečně dostupný?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>5. Jaká platí aktuální úhrada, případný doplatek a podmínky výdeje?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+        <li><strong>6. Kdo před předáním ověří rozměry, nosnost, nastavení, brzdy a návod přesného modelu?</strong><span class="zp-paper-note-line" aria-hidden="true"></span><span class="zp-paper-note-line" aria-hidden="true"></span></li>
+      </ol>
+      <p class="zp-disclaimer"><strong>Předem nekupujte chodítko s očekáváním zpětného proplacení.</strong> Zápraží nepotvrzuje vhodnost pomůcky ani nárok na úhradu. Při nejisté chůzi nebo potřebě fyzické pomoci požádejte nejdřív o odborné posouzení.</p>
+      <p class="zp-muted-copy">Zdroje a pravidla s datem ověření: zaprazi.cz/choditko-na-pojistovnu/ · SÚKL a VZP. Bez záznamu osobních údajů na webu.</p>
     </div>
   </section>
 </main>

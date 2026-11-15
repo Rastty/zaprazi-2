@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_221
+// ZP_RELEASE_0_8_222
 import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const MOBILITY_PRODUCTS = Object.freeze([
   {
@@ -22,6 +22,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       "při chůzi se celé chodítko mírně nadzvedává a posouvá",
       "vhodnost a nastavení výšky je podle návodu potřeba konzultovat s odborníkem"
     ],
+    specDiscrepancyNotice: "Pozor na rozdílné údaje o hmotnosti WA17: návod BESCO a podrobné parametry prodejce uvádějí 2,3 kg, obecný údaj prodejce 2,2 kg. Pokud chodítko budete zvedat nebo přenášet, ověřte hmotnost konkrétního dodaného modelu.",
     evidence: [
       {
         type: "instruction_manual",
@@ -63,6 +64,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       "při nastavení musí být výška shodná na všech nohách",
       "vhodnost a nastavení výšky je podle návodu potřeba konzultovat s odborníkem"
     ],
+    specDiscrepancyNotice: "Pozor na rozdílné údaje o hmotnosti WA21: návod BESCO a podrobné parametry prodejce uvádějí 2,8 kg, obecný údaj prodejce 2,7 kg. Pokud chodítko budete zvedat nebo přenášet, ověřte hmotnost konkrétního dodaného modelu.",
     evidence: [
       {
         type: "instruction_manual",
@@ -139,13 +141,19 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       "nastavitelná výška madel",
       "sedátko, podnos a košík",
       "uvedení SÚKL kódu neznamená automaticky potvrzený individuální nárok na úhradu",
-      "u rozměrů, které se mezi oficiálním návodem a produktovou stránkou liší, ZaPrazi zatím přesnou hodnotu nezobrazuje"
+      "ověřte přesnou variantu 3061982; označení 3061982-R (ROLLATOR 2) není totožný model"
     ],
+    specDiscrepancyNotice: "Pozor na různé oficiální podklady k MEYRA Ideal 3061982: aktuální stránka výrobce a novější návod uvádějí šířku 61,5 cm a nastavení madel 79–97 cm; starší návod z roku 2018 uvádí 59 cm a 79–99 cm. Před potvrzením průchodnosti a výšky ověřte přesné dodané provedení u výrobce nebo prodejce.",
     evidence: [
       {
         type: "manufacturer_manual",
         url: "https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/navod-k-pouziti-ideal-rollator.pdf",
-        checkedAt: "2026-10-06"
+        checkedAt: "2026-11-15"
+      },
+      {
+        type: "manufacturer_older_manual",
+        url: "https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf",
+        checkedAt: "2026-11-15"
       },
       {
         type: "manufacturer_product_page",

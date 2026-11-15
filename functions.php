@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.221' );
+  define( 'ZAPRAZI_RELEASE', '0.8.222' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => 'b0b5466e2c654636d445feb61dfdb10661bdb6b0',
-    'src/mobility/offer-fit-gate.js' => 'd82b7be05f2cb43d337122077f1f4105332c7599',
+    'src/mobility/engine.js' => 'a8776049f8c9ea51f1da5e592390cc148b5e21ae',
+    'src/mobility/offer-fit-gate.js' => '0911cbe74e35bdc605b521fc942d6b706b84527b',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 

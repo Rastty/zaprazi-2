@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_221
+// ZP_RELEASE_0_8_222
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
@@ -94,7 +94,8 @@ if(form&&result&&submit&&errors){
     const configured=offer.affiliateKey?affiliateMap[offer.affiliateKey]:null;
     const affiliateUrl=typeof configured==="string"&&configured.startsWith("https://")?configured:null;
     const url=affiliateUrl||offer.url;
-    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${allow?renderMobilityProductFitGate(`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-rollator-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`,{requireBrakeFit:p.solutionFamily==="rollator",requireSeatFit:!!form.querySelector('input[name="seatNeeded"]:checked'),requireTransportFit:!!form.querySelector('input[name="transportNeed"]:checked')}):""}</article>`;
+    const specWarning=p.specDiscrepancyNotice?`<p class="zp-stale-evidence" data-zp-spec-discrepancy="1"><strong>Ověřte rozdílné parametry:</strong> ${esc(p.specDiscrepancyNotice)}</p>`:"";
+    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${specWarning}${allow?renderMobilityProductFitGate(`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-rollator-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`,{requireBrakeFit:p.solutionFamily==="rollator",requireSeatFit:!!form.querySelector('input[name="seatNeeded"]:checked'),requireTransportFit:!!form.querySelector('input[name="transportNeed"]:checked')}):""}</article>`;
   };
   submit.addEventListener("click",()=>{
     if(!validate()) return;

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_221
+// ZP_RELEASE_0_8_222
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityNextSteps, getMobilitySafeRecovery, getMobilityQuickGuide } from "../../src/mobility/next-steps.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
@@ -166,6 +166,7 @@ if (form && result && submitButton && errorBox) {
   const evidenceLabel = (type) => ({
     instruction_manual: "Návod k použití",
     manufacturer_manual: "Návod výrobce",
+    manufacturer_older_manual: "Starší návod výrobce (rozdílné rozměry)",
     manufacturer_product_page: "Stránka výrobce",
     merchant_identity: "Stránka obchodníka",
     linked_instruction_manual_identity_conflict: "Připojený návod – konflikt identity"
@@ -215,6 +216,7 @@ if (form && result && submitButton && errorBox) {
               <p class="zp-product-family">${escapeHtml(familyLabel(product.solutionFamily))}</p>
               <h4>${escapeHtml(product.name)}</h4>
               <ul class="zp-facts">${productFacts(product)}</ul>
+              ${product.specDiscrepancyNotice ? `<p class="zp-stale-evidence" data-zp-spec-discrepancy="1"><strong>Ověřte rozdílné parametry:</strong> ${escapeHtml(product.specDiscrepancyNotice)}</p>` : ""}
               <details>
                 <summary>Co ještě ověřit</summary>
                 <ul>${product.selectionNotes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>

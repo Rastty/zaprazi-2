@@ -6,7 +6,9 @@ on:
       - "scripts/audit-public-sitemap.mjs"
       - "scripts/audit-live-internal-links.mjs"
       - "scripts/lib/internal-link-health.mjs"
+      - "scripts/lib/contextual-link-discovery.mjs"
       - "tests/internal-link-health.test.js"
+      - "tests/contextual-link-discovery.test.js"
       - ".github/workflows/live-internal-link-health.yml"
   workflow_dispatch:
   # After successful exact-release main Chrome QA, scan live links immediately.
@@ -41,10 +43,10 @@ jobs:
         with:
           node-version: 20
       - name: Unit-test bounded first-party link checker
-        run: node --test tests/internal-link-health.test.js
+        run: node --test tests/internal-link-health.test.js tests/contextual-link-discovery.test.js
       - name: Install read-only browser adapter
         run: npm install --no-save --no-package-lock puppeteer-core@24
-      - name: Verify all curated live decision-page links and fragment anchors
+      - name: Verify live decision links, anchors and contextual discoverability
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-internal-links.mjs

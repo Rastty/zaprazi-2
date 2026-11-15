@@ -7,6 +7,7 @@ import puppeteer from "puppeteer-core";
 import { requiredDecisionPaths } from "./audit-public-sitemap.mjs";
 import { liveVerifiedProblemPaths } from "./lib/live-verified-problem-paths.mjs";
 import { prepareInternalLinks, auditInternalTargets, prepareInternalFragments, auditInternalFragments, publicFragmentReport, isSafeMainFrameNavigation } from "./lib/internal-link-health.mjs";
+import {contextualLinkDiscovery} from "./lib/contextual-link-discovery.mjs";
 
 const origin="https://zaprazi.cz";
 const chrome=[process.env.CHROME_BIN,"/usr/bin/google-chrome","/usr/bin/chromium"].filter(Boolean)
@@ -62,6 +63,8 @@ try{
   }
 }finally{await browser.close();}
 const ready=prepareInternalLinks(pages);
+const discovery=contextualLinkDiscovery(ready.targets,pages.map(page=>page.path),
+  [...new Set([...requiredDecisionPaths,...liveVerifiedProblemPaths])]);
 const checked=await auditInternalTargets(ready.targets);
 const result={source_pages:pages.length, audited_source_paths:pages.map(p=>p.path),links_total:pages.reduce((a,p)=>a+p.links.length,0),
   unique_safe_targets:ready.targets.length,excluded:ready.excluded,
@@ -74,6 +77,9 @@ const {checked_paths,...summary}=result;
 console.log("LINK_HEALTH_SUMMARY",JSON.stringify(summary));
 console.log("LINK_HEALTH_TARGETS",JSON.stringify(checked_paths));
 console.log("LINK_FRAGMENT_SUMMARY",JSON.stringify(publicFragmentReport(fragmentReport)));
+const {pages:discoveryPages,...discoverySummary}=discovery;
+console.log("LINK_CONTEXTUAL_DISCOVERY",JSON.stringify(discoverySummary));
+if(discoveryPages)console.log("LINK_CONTEXTUAL_PAGES",JSON.stringify(discoveryPages));
 if(result.broken.length||ready.insecure_internal_links.count||
     ready.noncanonical_internal_links.count||ready.unsafe_first_party_links.count||
     ready.noncanonical_slashless_links.count||fragmentReport.broken.length||fragmentReport.unchecked.length)

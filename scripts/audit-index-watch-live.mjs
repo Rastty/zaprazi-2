@@ -14,6 +14,7 @@ import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 
 const ORIGIN="https://zaprazi.cz";
+const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
 export const INDEX_WATCH_PATHS=Object.freeze([
   "/choditka-pro-seniory/",
   "/choditko-do-bytu-pro-seniory/",
@@ -91,7 +92,31 @@ export async function fetchLiveIndexability(path,fetcher=fetch,release=SOURCE_TH
   try{html=await response.text();}catch{throw Error("INDEX_LIVE_HTML_UNREADABLE");}
   return inspectIndexabilityHtml(path,html,response.headers,release);
 }
-export async function auditIndexWatch(fetcher=fetch,release=SOURCE_THEME_RELEASE){
+/** Only the exact independently verified predecessor is allowed on 0.8.221 PRs.
+ * A push/schedule or any unrelated future release must audit its own live code.
+ */
+export function selectIndexWatchScope(event,sourceRelease,readiness){
+  if(readiness?.integrity!=="ok"||readiness?.configured_total!==25||
+     readiness?.slot_total!==25)throw Error("INDEX_LIVE_READINESS_INCOMPLETE");
+  if(readiness.release===sourceRelease)
+    return {release:sourceRelease,mode:"exact_live_source"};
+  if(event==="pull_request"&&sourceRelease==="0.8.221"&&readiness.release==="0.8.220")
+    return {release:"0.8.220",mode:"predeploy_verified_220_only"};
+  throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
+}
+async function fetchReadiness(fetcher){
+  let response;
+  try{response=await fetchPublicWithNetworkRetry(fetcher,READINESS,
+    {redirect:"error",headers:{Accept:"application/json"}});}
+  catch{throw Error("INDEX_LIVE_READINESS_NETWORK_FAILED");}
+  if(response.status!==200||(response.url&&response.url!==READINESS))
+    throw Error("INDEX_LIVE_READINESS_HTTP_FAILED");
+  let readiness;
+  try{readiness=await response.json();}
+  catch{throw Error("INDEX_LIVE_READINESS_INVALID");}
+  return readiness;
+}
+export async function auditIndexWatch(fetcher=fetch,release=SOURCE_THEME_RELEASE,event=process.env.GITHUB_EVENT_NAME){
   // Existing full public XML/robots gate proves each watched path has an
   // exact canonical URL in page-sitemap and no known Googlebot path block.
   const sitemap=await auditPublicSitemap(fetcher);
@@ -100,10 +125,12 @@ export async function auditIndexWatch(fetcher=fetch,release=SOURCE_THEME_RELEASE
     if(sitemap.required_decision_path_locations?.[path]?.url!==ORIGIN+path)
       throw Error("INDEX_LIVE_NOT_IN_PAGE_SITEMAP");
   }
+  const scope=selectIndexWatchScope(event,release,await fetchReadiness(fetcher));
   const pages=await Promise.all(INDEX_WATCH_PATHS.map(path=>
-    fetchLiveIndexability(path,fetcher,release)));
+    fetchLiveIndexability(path,fetcher,scope.release)));
   return {status:"live_technical_checks_passed",scope:"four_fixed_google_excluded_candidates",
-    release,checked:pages.length,pages,
+    sourceRelease:release,liveRelease:scope.release,releaseCheck:scope.mode,
+    checked:pages.length,pages,
     evidence:"public HTML + robots.txt + sitemap, not Googlebot live inspection",
     limitations:"No conclusion about Google crawl, indexing decision, SERP ranking, duplicates or traffic. No Google indexing requests or site writes."};
 }

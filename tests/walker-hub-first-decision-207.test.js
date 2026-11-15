@@ -10,10 +10,10 @@ const decision = source.indexOf('<section id="vyber-typu"');
 const types = source.indexOf("Tři běžné typy chodítek.");
 const acquisition = source.indexOf('id="jak-ziskat-choditko"');
 
-test("0.8.207 first-screen safety guidance precedes choice and original safety-first comparison", () => {
+test("first-screen safety guidance precedes the quick choice and keeps full support comparison", () => {
   assert.ok(heroSafety > 0 && firstActions > heroSafety, "Safety stop must be visible before first CTA");
-  assert.ok(comparison > heroSafety && decision > comparison && types > decision && acquisition > types,
-    "Established full support comparison must precede product-type choice");
+  assert.ok(decision > heroSafety && comparison > decision && types > comparison && acquisition > types,
+    "Decision must follow the safety warning, then retain educational comparison and acquisition");
   assert.equal(source.split('id="vyber-typu"').length - 1, 1, "Do not clone decision modules");
   const css = readFileSync(new URL("../style.css", import.meta.url), "utf8");
   const release = css.split("Version: ")[1]?.split("\n")[0].trim().replaceAll(".", "_");

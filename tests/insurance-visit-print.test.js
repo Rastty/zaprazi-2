@@ -15,6 +15,7 @@ test("insurance visit checklist is discoverable and safely printable", () => {
   const questions = sheet.match(/<ol class="zp-paper-questions">([\s\S]*?)<\/ol>/)?.[1];
   assert.ok(questions, "Shared print worksheet structure must be used");
   assert.equal((questions.match(/<li>/g) || []).length, 6);
+  assert.doesNotMatch(questions, /<li>\s*<strong>\s*\d+[.)]/, "Ordered list adds visible numbers; avoid printing duplicate numbering");
   for (const phrase of [
     "bezpečný typ chodítka",
     "ePoukaz",

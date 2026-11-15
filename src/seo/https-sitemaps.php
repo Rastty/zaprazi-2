@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_220 */
+/* ZP_RELEASE_0_8_221 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -59,6 +59,9 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-10: rollator 60cm doorway evidence, model-variant clarification
  * and contextual entries from the walker hub and insurance page in release
  * 0.8.213. Material edits on exactly those three existing canonical pages.
+ * 2026-11-15: walker hub gained a substantive first-screen home/outdoor/
+ * assisted-walking decision route in 0.8.220; the other two 0.8.213
+ * mobility pages were not materially revised by this release.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
@@ -67,7 +70,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
-    'choditka-pro-seniory' => '2026-11-10T00:00:00+00:00',
+    'choditka-pro-seniory' => '2026-11-15T00:00:00+00:00',
     'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
@@ -110,7 +113,7 @@ function zaprazi_2_https_sitemap_entry( $entry, $type = '', $post = null ) {
 add_filter( 'wpseo_sitemap_entry', 'zaprazi_2_https_sitemap_entry', 20, 3 );
 
 /**
- * Align Yoast WebPage dateModified with the SAME 10 evidence-backed material
+ * Align Yoast WebPage dateModified with the SAME evidence-backed material
  * page revisions used by the public XML sitemap. PHP template edits do not
  * update WordPress post_modified, so its default schema timestamp can be stale.
  * Never rewrite publication dates or arbitrary pages, and never move a more

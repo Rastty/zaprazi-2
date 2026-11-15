@@ -9,7 +9,8 @@ const pages=["rollator-pro-seniory","choditka-pro-seniory","choditko-na-pojistov
 
 test("0.8.213 dates match three actual material mobility edits, not arbitrary pages",()=>{
   for(const slug of pages)
-    assert.ok(source.includes("\x27"+slug+"\x27 => \x272026-11-10T00:00:00+00:00\x27"),
+    assert.ok(source.includes("\x27"+slug+"\x27 => \x27"+
+      (slug==="choditka-pro-seniory"?"2026-11-15":"2026-11-10")+"T00:00:00+00:00\x27"),
       "Material sitemap date missing: "+slug);
   assert.ok(source.includes("\x27pujceni-choditka\x27 => \x272026-11-09T00:00:00+00:00\x27"),
     "Do not stamp an unrelated older rental edit");
@@ -41,7 +42,8 @@ test("0.8.213 dates match three actual material mobility edits, not arbitrary pa
   const result=JSON.parse(execFileSync("php",["-r",php],{
     cwd:new URL("../",import.meta.url).pathname,encoding:"utf8"}));
   assert.equal(result.length,cases.length);
-  for(const i of [0,1,2]) assert.equal(result[i].mod,"2026-11-10T00:00:00+00:00");
+  for(const i of [0,1,2]) assert.equal(result[i].mod,
+    (i===1?"2026-11-15":"2026-11-10")+"T00:00:00+00:00");
   for(const i of [3,4,5,6,7,8]) assert.equal(result[i].mod,cases[i][1],
     "Do not overwrite newer, foreign, draft, post, unrelated or dated rental record");
   assert.ok(result.every(r=>!("lastmod" in r)),"Yoast uses mod, not lastmod");

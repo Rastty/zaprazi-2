@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {
-  INDEX_WATCH_PATHS,inspectIndexabilityHtml,fetchLiveIndexability
+  INDEX_WATCH_PATHS,inspectIndexabilityHtml,fetchLiveIndexability,selectIndexWatchScope
 } from "../scripts/audit-index-watch-live.mjs";
 const ORIGIN="https://zaprazi.cz";
 const path=INDEX_WATCH_PATHS[0];
@@ -46,6 +46,19 @@ test("canonical, robots and release gates are independent and fail closed",()=>{
  const good=inspectIndexabilityHtml(path,
    html(path,'<meta name="robots" content="index, follow">'),headers(),"0.8.217");
  assert.equal(good.explicitNoindex,false);
+});
+test("0.8.221 PR checks exact 0.8.220 production, never approves a predeploy source",()=>{
+ const live={release:"0.8.220",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.221",live),
+   {release:"0.8.220",mode:"predeploy_verified_220_only"});
+ assert.deepEqual(selectIndexWatchScope("push","0.8.220",live),
+   {release:"0.8.220",mode:"exact_live_source"});
+ for(const [event,source,value] of [
+   ["push","0.8.221",live],["schedule","0.8.221",live],
+   ["pull_request","0.8.222",live],["pull_request","0.8.221",{...live,release:"0.8.219"}],
+   ["pull_request","0.8.221",{...live,integrity:"partial"}],
+   ["pull_request","0.8.221",{...live,slot_total:24}]
+ ])assert.throws(()=>selectIndexWatchScope(event,source,value),/INDEX_LIVE_/);
 });
 test("commented or scripted fake canonical/meta tags never satisfy the real head",()=>{
  const decoys=[

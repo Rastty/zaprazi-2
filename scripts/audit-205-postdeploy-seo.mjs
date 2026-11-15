@@ -48,7 +48,16 @@ const LEGACY_208_MATERIAL_PATHS=new Set([
 ]);
 export const PREDEPLOY_216_MATERIAL_DATES=Object.freeze(Object.fromEntries(
   Object.entries(SOURCE_DATES).filter(([path])=>path!=="/otazky-pred-propustenim-z-nemocnice/")
+    .map(([path,date])=>[path,path==="/choditka-pro-seniory/"?"2026-11-10":date])
 ));
+// Exact live 0.8.220 has the old 10 November walker metadata, even though
+// its substantive decision routing was deployed on 15 November. The 0.8.221
+// PR must validate only this independently observed predecessor value, not
+// pretend that the new candidate metadata has reached WordPress.
+export const PREDEPLOY_220_MATERIAL_DATES=Object.freeze({
+  ...SOURCE_DATES,
+  "/choditka-pro-seniory/":"2026-11-10"
+});
 export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
   Object.entries(SOURCE_DATES).filter(([path])=>LEGACY_208_MATERIAL_PATHS.has(path))
 ));
@@ -161,6 +170,8 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   // exact 0.8.216 ten-date deployed baseline only.
   if(event==="pull_request"&&sourceRelease==="0.8.217"&&liveRelease==="0.8.216")
     return {dates:PREDEPLOY_216_MATERIAL_DATES,mode:"predeploy_verified_216_dates_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.221"&&liveRelease==="0.8.220")
+    return {dates:PREDEPLOY_220_MATERIAL_DATES,mode:"predeploy_verified_220_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

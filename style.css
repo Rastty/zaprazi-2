@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.224
+Version: 0.8.225
 Text Domain: zaprazi-2
 */
 
@@ -48,6 +48,23 @@ a{color:inherit}
 .zp-hero{padding:76px 0 64px}
 .zp-kicker{text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;font-weight:800;color:var(--zp-accent)}
 .zp-hero h1{font-size:clamp(2.7rem,7vw,5.8rem);line-height:.98;letter-spacing:-.05em;max-width:10ch;margin:.25em 0}
+.page-template-page-senior-nemuze-vstat-z-postele .zp-hero{padding:42px 0 38px}
+.zp-bed-hero-layout{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:36px;align-items:start}
+.zp-bed-hero-layout h1{font-size:clamp(2.45rem,4vw,3.5rem);line-height:1.07;letter-spacing:-.045em;max-width:none;margin:.22em 0 .36em}
+.zp-bed-hero-layout .zp-lead{font-size:1.08rem;line-height:1.55;margin-bottom:0}
+.zp-bed-hero-action{padding:20px 22px;background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:var(--zp-radius);box-shadow:var(--zp-shadow)}
+.zp-bed-hero-action .zp-disclaimer{margin:0 0 16px}
+.zp-bed-hero-action .zp-hero-actions{gap:10px 16px;align-items:center;margin-bottom:16px}
+.zp-bed-hero-action .zp-btn,.zp-bed-hero-action .zp-text-link{margin-top:0}
+.zp-bed-hero-action .zp-muted-copy{font-size:.95rem;line-height:1.5;margin:12px 0 0}
+.zp-bed-hero-action .zp-bed-hero-meta{font-size:.84rem;border-top:1px solid var(--zp-line);padding-top:12px}
+@media(max-width:860px){
+  .page-template-page-senior-nemuze-vstat-z-postele .zp-hero{padding:28px 0 36px}
+  .zp-bed-hero-layout{grid-template-columns:1fr;gap:20px}
+  .zp-bed-hero-layout h1{font-size:clamp(2.1rem,5.4vw,3rem)}
+  .zp-bed-hero-layout .zp-lead{max-width:none}
+  .zp-bed-hero-action{padding:18px}
+}
 .zp-lead{max-width:700px;font-size:1.18rem;color:#485149}
 .zp-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:12px 20px;border:0;border-radius:999px;background:var(--zp-accent);color:#fff;text-decoration:none;font:inherit;font-weight:800;margin-top:18px;cursor:pointer}
 .zp-btn:hover{filter:brightness(.94)}
@@ -309,7 +326,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_224 */
+/* ZP_RELEASE_0_8_225 */
 
 
 .zp-affiliate-policy {

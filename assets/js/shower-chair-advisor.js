@@ -1,9 +1,10 @@
-// ZP_RELEASE_0_8_222
+// ZP_RELEASE_0_8_223
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../../src/bathroom/measurement-next-step.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
+import { renderBathroomOfferFreshness } from "../../src/bathroom/source-transparency.js";
 
 const form = document.querySelector("#zp-shower-chair-advisor");
 const result = document.querySelector("#zp-shower-chair-result");
@@ -98,6 +99,7 @@ if (form && result && submitButton && errorBox) {
             <strong>${escapeHtml(offer.merchantName)}</strong>
             <a class="zp-link-btn" data-zp-shower-merchant-link="1" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="${affiliateUrl ? "noopener nofollow sponsored" : "noopener nofollow"}">${affiliateUrl ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}</a>
             ${affiliateUrl ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
+            ${renderBathroomOfferFreshness(offer, escapeHtml)}
           </div>
         ` : '<p class="zp-disclaimer">Obchodní odkaz zatím není další krok. Nejdřív dokončete uvedenou bezpečnostní nebo rozměrovou kontrolu.</p>'}
       </article>

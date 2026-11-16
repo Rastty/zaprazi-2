@@ -1,10 +1,11 @@
-// ZP_RELEASE_0_8_222
+// ZP_RELEASE_0_8_223
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 import { resetBathroomLoadFitOnBathVariantChange } from "../../src/bathroom/variant-fit.js";
+import { renderBathroomOfferFreshness } from "../../src/bathroom/source-transparency.js";
 
 const form = document.querySelector("#zp-bathroom-advisor");
 const result = document.querySelector("#zp-bathroom-result");
@@ -176,6 +177,7 @@ if (form && result && submitButton && errorBox) {
                 ${offer.isAffiliate ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}
               </a>
               ${offer.isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
+              ${renderBathroomOfferFreshness(offer, escapeHtml)}
             </div>
           `;
         }).join("")}

@@ -1,4 +1,5 @@
-// ZP_RELEASE_0_8_222
+// ZP_RELEASE_0_8_223
+import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../evidence/freshness.js";
 /**
  * Public source provenance for a product already accepted by the decision
  * engine. Evidence is not an additional shop or affiliate navigation path.
@@ -55,4 +56,19 @@ export function renderBathroomProductEvidence(product,escapeHtml){
   return '<details class="zp-sources"><summary>Odkud máme parametry výrobku?</summary>'+
     '<p class="zp-muted-copy">Zdroje byly zkontrolovány v uvedených dnech. Nejde o dnešní potvrzení ceny, skladové dostupnosti ani vhodnosti pro konkrétního člověka.</p>'+
     '<ul>'+entries+'</ul></details>';
+}
+
+/**
+ * Merchant offer evidence expires much sooner than stable technical dimensions.
+ * Keep the safe product suggestion and its outbound link available, but never
+ * imply that a dated merchant observation confirms today's price or stock.
+ */
+export function renderBathroomOfferFreshness(offer, escapeHtml, now = new Date()) {
+  if (typeof escapeHtml !== "function") throw new Error("HTML escaping is required");
+  const { status } = evidenceFreshness(offer?.checkedAt, EVIDENCE_FRESHNESS_DAYS.merchantOffer, now);
+  if (status === "fresh") return "";
+  const message = status === "stale"
+    ? `Obchodní nabídka nebyla v posledních ${EVIDENCE_FRESHNESS_DAYS.merchantOffer} dnech znovu ověřena (${dateLabel(offer.checkedAt)}).`
+    : "Datum poslední kontroly obchodní nabídky není spolehlivě doloženo.";
+  return `<p class="zp-stale-evidence" data-zp-bath-offer-freshness="${status}">${escapeHtml(message)} Před nákupem ověřte přesnou variantu, cenu a dostupnost přímo u prodejce.</p>`;
 }

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_223 */
+/* ZP_RELEASE_0_8_224 */
 /*
 Template Name: Zápraží — Pomůcky do koupelny na pojišťovnu
 */

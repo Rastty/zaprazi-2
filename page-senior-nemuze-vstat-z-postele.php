@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_223 */
+/* ZP_RELEASE_0_8_224 */
 /*
 Template Name: Zápraží — Senior nemůže vstát z postele
 */
@@ -9,12 +9,13 @@ get_header();
   <section class="zp-hero">
     <div class="zp-wrap">
       <p class="zp-kicker">Zápraží · Vstávání z postele · Bezpečný domov</p>
-      <h1>Senior nemůže vstát z postele: pomůže madlo, hrazda, nebo polohovací postel?</h1>
-      <p class="zp-lead">Někdo se nedokáže z lehu posadit, jiný sedí na okraji postele, ale nezvládne vstát. To jsou <strong>dva různé problémy a nemusí je vyřešit stejná pomůcka</strong>. Projděte nejprve bezpečnost, typ obtíže a prostor kolem lůžka – teprve pak má smysl ověřovat konkrétní zařízení.</p>
+      <h1>Senior nemůže vstát z postele: co udělat a kdy volat pomoc?</h1>
+      <p class="zp-lead">Nejdřív rozlište <strong>náhlé zhoršení od dlouhodobých obtíží</strong>. Potom zjistěte, zda člověku nejde posazení, postavení nebo další bezpečný krok. Madlo, hrazda ani polohovací postel nemusí řešit stejnou situaci.</p>
       <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Když senior nemůže vstát z postele, nejdřív zjistěte, zda se nedokáže posadit, zvednout ze sedu, nebo bezpečně pokračovat v chůzi. <strong>Při náhlém zhoršení nebo po pádu jej nezkoušejte zvedat silou</strong> a zajistěte potřebnou zdravotní pomoc. Při dlouhodobých obtížích proberte bezpečný přesun s odborníkem a připravte rozměry lůžka; madlo, hrazda ani polohovací postel nejsou automatickým řešením pro každého. <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Co udělat dnes podle situace</a> · <a class="zp-text-link" href="#kontroly-postele">Co doma ověřit</a>.</p>
+      <p class="zp-disclaimer" role="note"><strong>Náhlá výrazná slabost, porucha vědomí nebo podezření na vážný úraz?</strong> Nezkoušejte člověka silou postavit; při akutním ohrožení volejte v ČR 155. <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Rozlišit akutní a dlouhodobou situaci</a>.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="#co-delat-postel">Co řešit jako první</a>
-        <a class="zp-text-link" href="#rozhodnuti-vstavani-postel">Co udělat dnes</a>
+        <a class="zp-btn" href="#rozhodnuti-vstavani-postel">Co udělat teď podle situace</a>
+        <a class="zp-text-link" href="#co-delat-postel">Rozlišit typ obtíží</a>
         <a class="zp-text-link" href="#kontroly-postele">Sedm věcí k ověření</a>
       </div>
       <p class="zp-muted-copy">Praktický průvodce pro rodiny · podklady zkontrolovány 25. 10. 2026 · bez dotazníku, ukládání zdravotních údajů a neověřených nákupních nabídek.</p>
@@ -23,6 +24,8 @@ get_header();
 
   <section class="zp-section" id="co-delat-postel">
     <div class="zp-wrap">
+      <details class="zp-fit-help zp-bed-decision-details">
+        <summary>Potřebujete nejdřív rozlišit, kde přesně vstávání selhává? Otevřít vysvětlení</summary>
       <p class="zp-kicker">Nejdřív bezpečný postup</p>
       <h2 class="zp-section-title">Kde přesně vstávání z postele selhává?</h2>
       <div class="zp-decision-grid">
@@ -47,6 +50,7 @@ get_header();
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Otázky pro nemocnici před návratem domů</a></p>
         </article>
       </div>
+      </details>
     </div>
   </section>
 

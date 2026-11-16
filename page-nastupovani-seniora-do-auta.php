@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_223 */
+/* ZP_RELEASE_0_8_224 */
 /*
 Template Name: Zápraží — Nastupování seniora do auta
 */

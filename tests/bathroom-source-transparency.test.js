@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {getBathroomProducts} from "../src/bathroom/catalog.js";
-import {renderBathroomProductEvidence} from "../src/bathroom/source-transparency.js";
+import {renderBathroomProductEvidence,renderBathroomOfferFreshness} from "../src/bathroom/source-transparency.js";
 
 const escapeHtml=value=>String(value??"")
   .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
@@ -42,7 +42,7 @@ test("Untrusted evidence cannot become script or merchant shortcut",()=>{
 test("Specialist UI cards include the helper and affiliate disclosure without altering candidate gating",()=>{
   for(const key of ["toilet-support","bath-transfer"]){
     const src=readFileSync(new URL("../assets/js/"+key+"-advisor.js",import.meta.url),"utf8");
-    assert.match(src,/import \{ renderBathroomProductEvidence \} from/);
+    assert.match(src,/import \{ renderBathroomProductEvidence(?:, renderBathroomOfferFreshness)? \} from/);
     assert.match(src,/renderBathroomProductEvidence\(p,esc\)/);
     assert.match(src,/zp-affiliate-label/);
     assert.match(src,/Partnerský odkaz/);
@@ -55,4 +55,22 @@ test("Missing source data returns no panel and escaped content is mandatory",()=
   assert.equal(renderBathroomProductEvidence({evidence:[]},escapeHtml),"");
   assert.equal(renderBathroomProductEvidence({},escapeHtml),"");
   assert.throws(()=>renderBathroomProductEvidence({evidence:[{type:"test"}]},null));
+});
+
+test("Merchant offer age is disclosed across every bathroom Advisor without disabling its link",()=>{
+  const now=new Date("2026-11-16T12:00:00Z");
+  const expired=renderBathroomOfferFreshness({checkedAt:"2026-10-07"},escapeHtml,now);
+  assert.match(expired,/data-zp-bath-offer-freshness="stale"/);
+  assert.match(expired,/7\. 10\. 2026/);
+  assert.match(expired,/cenu a dostupnost přímo u prodejce/);
+  assert.doesNotMatch(expired,/<a\b|skladem|proplacen/);
+  assert.equal(renderBathroomOfferFreshness({checkedAt:"2026-11-16"},escapeHtml,now),"");
+  assert.match(renderBathroomOfferFreshness({checkedAt:"invalid"},escapeHtml,now),/data-zp-bath-offer-freshness="unknown"/);
+  assert.match(renderBathroomOfferFreshness({checkedAt:'<script>alert(1)</script>'},escapeHtml,now),/není spolehlivě doloženo/);
+  assert.throws(()=>renderBathroomOfferFreshness({},null,now),/escaping/);
+  for(const key of ["bathroom","toilet-riser","toilet-chair","shower-chair","toilet-support","bath-transfer"]){
+    const src=readFileSync(new URL("../assets/js/"+key+"-advisor.js",import.meta.url),"utf8");
+    assert.match(src,/renderBathroomOfferFreshness\(/,key+" must show merchant freshness near offer");
+    assert.match(src,/data-zp-[a-z-]+-merchant-link/,key+" must preserve gated outbound links");
+  }
 });

@@ -1,23 +1,42 @@
 <?php
-/* ZP_RELEASE_0_8_226 */
+/* ZP_RELEASE_0_8_227 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */
 get_header();
 ?>
-<main id="main-content" tabindex="-1">
+<main id="main-content" class="zp-measure-page" tabindex="-1">
   <section class="zp-hero">
-    <div class="zp-wrap">
-      <p class="zp-kicker">Zápraží · Mobilita · Praktický kontrolní seznam</p>
-      <h1>Co změřit před výběrem chodítka nebo rollátoru? Sedm věcí doma.</h1>
-      <p class="zp-lead">Než vyberete konkrétní model, zkontrolujte výšku madel, nejužší průchody, prostor pro otočení, podlahu a způsob používání. U rollátoru navíc brzdy a sedátko. Většinu údajů získáte doma s metrem a papírem; bezpečnost chůze ale samotné měření nepotvrdí.</p>
-      <p class="zp-muted-copy">Hledáte <strong>chodítko se sedátkem</strong>? Výška sedu, parkovací brzdy a možnost bezpečně vstát jsou další samostatné kontroly. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Jak vybrat rollátor se sedátkem pro odpočinek</a>.</p>
-      <div class="zp-hero-actions">
-        <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#hul-nebo-choditko' ) ); ?>">Nejdřív rozlišit hůl, berli a chodítko</a>
-              <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
+    <div class="zp-wrap zp-measure-hero-layout">
+      <div class="zp-measure-hero-intro">
+        <p class="zp-kicker">Zápraží · Mobilita · Praktický kontrolní seznam</p>
+        <h1>Co změřit před výběrem chodítka nebo rollátoru? Sedm věcí doma.</h1>
+        <p class="zp-lead">Vezměte metr a projděte sedm kontrol doma — od šířky dveří po brzdy a nosnost. <strong>Samotné rozměry ale nepotvrdí, že člověk s pomůckou bezpečně chodí.</strong></p>
+        <div class="zp-hero-actions">
+          <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
+          <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nevím, jaký typ: otevřít poradce</a>
+        </div>
+        <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
       </div>
-      <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
+      <aside class="zp-measure-hero-card" aria-labelledby="zp-measure-hero-list-title">
+        <p class="zp-kicker">Všech 7 kontrol na jednom místě</p>
+        <h2 id="zp-measure-hero-list-title">Co si před výběrem ověřit</h2>
+        <ol class="zp-measure-hero-list">
+          <li>Typ opory a trasa</li>
+          <li>Výška madel</li>
+          <li>Dveře a místo k otočení</li>
+          <li>Podlaha a prahy</li>
+          <li>Brzdy a sedátko</li>
+          <li>Nosnost a nastavení</li>
+          <li>Skládání a převoz</li>
+        </ol>
+        <p class="zp-measure-hero-safety"><strong>Nejistá chůze, pády nebo fyzická pomoc další osoby?</strong> Vhodný typ opory nejprve řešte s odborníkem; měření není zkouška bezpečnosti.</p>
+        <div class="zp-measure-hero-more">
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#hul-nebo-choditko' ) ); ?>">Rozlišit hůl, berli a chodítko</a>
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-se-sedatkem' ) ); ?>">Brzdy a sedátko rollátoru</a>
+          <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout seznam pro rodinu</button>
+        </div>
+      </aside>
     </div>
   </section>
 

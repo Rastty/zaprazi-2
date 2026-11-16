@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_225 */
+/* ZP_RELEASE_0_8_226 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
@@ -10,24 +10,38 @@ $zp_sukl_is_current = $zp_sukl_october_current || $zp_sukl_november_active;
 
 get_header();
 ?>
-<main id="main-content" tabindex="-1">
+<main id="main-content" class="zp-insurance-page" tabindex="-1">
   <section class="zp-hero">
-    <div class="zp-wrap">
-      <p class="zp-kicker">Zápraží · Úhrada zdravotnické pomůcky</p>
-      <h1>Chodítko na pojišťovnu v roce 2026.</h1>
-      <p class="zp-lead">Prakticky a bez slibů: jak funguje ePoukaz, co znamená úhrada v seznamu SÚKL a co si ověřit dřív, než chodítko koupíte nebo objednáte.</p>
-      <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena z veřejného zdravotního pojištění, ale pouze při splnění podmínek pro konkrétní zdravotnický prostředek, správném předpisu a výdeji. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně. <a class="zp-text-link" href="#rychla-cesta-na-epoukaz">Tři kroky před nákupem</a> · <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit platnou úhradu u SÚKL</a>.</p>
-      <div class="zp-hero-actions">
-        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
-        <a class="zp-text-link" href="#priprava-pro-lekare">Co říct lékaři a výdejně</a>
-        <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro lékaře a výdejnu</button>
-        <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
-        <?php if ( ! $zp_sukl_is_current ) : ?>
-          <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
-        <?php endif; ?>
-        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
+    <div class="zp-wrap zp-insurance-hero-layout">
+      <div class="zp-insurance-hero-intro">
+        <p class="zp-kicker">Zápraží · Úhrada zdravotnické pomůcky</p>
+        <h1>Chodítko na pojišťovnu v roce 2026.</h1>
+        <p class="zp-lead">Jak funguje ePoukaz, co se vyplatí ověřit u lékaře a výdejny a proč <strong>chodítko nekupovat předem v očekávání proplacení</strong>.</p>
       </div>
+      <aside class="zp-insurance-hero-card" aria-labelledby="zp-insurance-hero-steps-title">
+        <p class="zp-kicker">Odpověď pro rodinu · před nákupem</p>
+        <h2 id="zp-insurance-hero-steps-title">Tři kroky k ověření úhrady.</h2>
+        <div class="zp-hero-actions">
+          <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
+          <a class="zp-text-link" href="#rychla-cesta-na-epoukaz">Projít postup před nákupem</a>
+        </div>
+        <ol class="zp-insurance-hero-steps">
+          <li><strong>Typ:</strong> nejdřív ověřit, jakou oporu člověk bezpečně potřebuje.</li>
+          <li><strong>Lékař:</strong> zeptat se na možnost předpisu konkrétní pomůcky na ePoukaz.</li>
+          <li><strong>Výdejna:</strong> potvrdit přesný model, aktuální úhradu a doplatek před výdejem.</li>
+        </ol>
+        <p class="zp-muted-copy"><strong>Rychlá odpověď:</strong> Některá chodítka mohou být hrazena z veřejného zdravotního pojištění, ale pouze při splnění podmínek pro konkrétní zdravotnický prostředek, správném předpisu a výdeji. Nestačí koupit chodítko v e-shopu a poslat účtenku pojišťovně. <a class="zp-text-link" href="#rychla-cesta-na-epoukaz">Tři kroky před nákupem</a> · <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit platnou úhradu u SÚKL</a>.</p>
+        <div class="zp-insurance-hero-more">
+          <a class="zp-text-link" href="#priprava-pro-lekare">Co říct lékaři a výdejně</a>
+          <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro lékaře a výdejnu</button>
+          <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
+          <?php if ( ! $zp_sukl_is_current ) : ?>
+            <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
+          <?php endif; ?>
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
+        </div>
+      </aside>
     </div>
   </section>
 

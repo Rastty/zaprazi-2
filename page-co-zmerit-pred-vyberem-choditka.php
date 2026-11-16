@@ -26,7 +26,7 @@ get_header();
           <li>Výška madel</li>
           <li>Dveře a místo k otočení</li>
           <li>Podlaha a prahy</li>
-          <li>Brzdy a sedátko</li>
+          <li>Výška sedu, parkovací brzdy a sedátko (u rollátoru)</li>
           <li>Nosnost a nastavení</li>
           <li>Skládání a převoz</li>
         </ol>

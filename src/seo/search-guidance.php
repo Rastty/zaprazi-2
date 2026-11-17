@@ -59,6 +59,24 @@ function zaprazi_2_search_guidance_for_query( $query ) {
     );
   }
 
+  // A working family member needs a time-coverage plan, not a job board or
+  // an automatic product recommendation. Keep this narrow: a named relative,
+  // an explicit care/support problem AND a work-time conflict are required.
+  // Immediate fall/medical concerns must still reach the safety-first routes
+  // below instead of a routine planning checklist.
+  $family_care_context = preg_match( '/\b(?:mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|babic[a-z]*|ded[a-z]*|senior[a-z]*)\b/', $query );
+  $care_during_work = preg_match( '/\b(?:prac[a-z]*|zamestn[a-z]*|smen[a-z]*)\b/', $query ) &&
+    preg_match( '/\b(?:pec[ei]|pecovat[a-z]*|postar[a-z]*|hlid[a-z]*|dohled|pomoc[a-z]*|zajistit|byt\s+(?:s|u))\b/', $query );
+  $job_seeking = preg_match( '/\b(?:hledam\s+praci|nabidka\s+prace|pracovni\s+misto|volne\s+misto|uchazec[a-z]*)\b/', $query );
+  $urgent_care = preg_match( '/\b(?:spadl[a-z]*|upadl[a-z]*|pad\s+senior[a-z]*|nemuze\s+(?:vstat|dychat)|bezvedom[a-z]*)\b/', $query );
+  if ( $family_care_context && $care_during_work && ! $job_seeking && ! $urgent_care ) {
+    return array(
+      array( '/jak-vybrat-pecovatelskou-sluzbu/#pece-o-rodice-pri-praci', 'Kdo pomůže rodiči, když chodíte do práce?', 'Rozdělte den podle potřeb a skutečně zajištěných návštěv; ověřte i bezpečný plán při výpadku pomoci.' ),
+      array( '/jak-vybrat-pecovatelskou-sluzbu/#vyhledat-pecovatelskou-sluzbu-v-registru', 'Najít pomoc ve veřejném registru MPSV', 'V místě bydliště ověřte konkrétní úkony, čas a volnou kapacitu. Registrace není příslib služby.' ),
+      array( '/senior-doma-sam-sos-pomoc/#jak-funguje-pomoc-sos', 'Co zajistit, když je člověk část dne sám?', 'Domluvte reakci na přivolání pomoci; samotné SOS zařízení nenahradí osobní péči.' ),
+    );
+  }
+
   // Explicit social-service intent: an independent, locally available registered
   // provider must be checked before the family negotiates capacity and costs.
   // Do not match generic "domaci pece": that may mean clinical home nursing.

@@ -13,6 +13,8 @@ on:
     paths:
       - "tests/production-advisor-smoke.mjs"
       - "scripts/audit-live-mobility-offer-parity.mjs"
+      - "scripts/audit-live-mobility-specialist-offers-230.mjs"
+      - "tests/audit-live-mobility-specialist-offers-230.test.js"
       - "tests/live-mobility-offer-parity.test.js"
       - "scripts/audit-live-bed-cost.mjs"
       - "scripts/audit-live-human-ux-186.mjs"
@@ -138,6 +140,13 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-mobility-offer-parity.mjs
+      # This new UI exists only after 0.8.230 WordPress Pull + Deploy.
+      # PR validation still checks the previous live production, never future HTML.
+      - name: Check specialist Mobility offer disclosure and fit gates
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-mobility-specialist-offers-230.mjs
       - name: Check night-toilet issue routing and reciprocal links in deployed DOM
         env:
           CHROME_BIN: /usr/bin/google-chrome

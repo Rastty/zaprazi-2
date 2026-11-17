@@ -14,6 +14,10 @@ import {parseGscCsv,analyzeGsc,renderGscReport} from "./lib/gsc-prioritization.m
 import {parseSanitizedGscSnapshot} from "./gsc-period-compare.mjs";
 import {renderSafeIntentEvidence} from "./lib/gsc-safe-intents.mjs";
 import {renderGoogleIndexReview} from "./lib/gsc-index-review.mjs";
+import {renderMaterialEditWindow} from "./lib/gsc-material-edit-window.mjs";
+
+const MATERIAL_EDITS=JSON.parse(readFileSync(
+  new URL("../config/gsc-material-edits.json",import.meta.url),"utf8"));
 
 export function cliArgs(argv){
   const options={};
@@ -56,7 +60,9 @@ export function reportFromSanitizedSnapshot(snapshot){
       "Dotazové řádky nejsou součástí tohoto agregátu.",
     main.replace(tableAnchor,
       renderGoogleIndexReview(snapshot.indexInspectionEvidence)+"\n\n"+
-      safeIntents+"\n\n"+tableAnchor)
+      safeIntents+"\n\n"+
+      renderMaterialEditWindow({from:data.from,to:data.to},MATERIAL_EDITS)+
+      "\n\n"+tableAnchor)
   ].join("\n\n");
 }
 export function reportFromFiles(args){

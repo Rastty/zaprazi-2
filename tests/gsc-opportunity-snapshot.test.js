@@ -5,6 +5,7 @@ import {tmpdir} from "node:os";
 import {join} from "node:path";
 import {spawnSync} from "node:child_process";
 import {cliArgs,reportFromFiles,reportFromSanitizedSnapshot} from "../scripts/gsc-opportunity-report.mjs";
+import {reviewMaterialEditWindow,renderMaterialEditWindow} from "../scripts/lib/gsc-material-edit-window.mjs";
 
 const genuineShape=()=>({
   schemaVersion:1,status:"evidence_available",site:"zaprazi.cz",
@@ -34,6 +35,29 @@ test("single authorized final 28-day Prometheus snapshot produces bounded editor
   assert.match(report,/53 schválených hlavních URL/);
   assert.doesNotMatch(report,/NEVER_SHOW_RAW_PRIVATE_QUERY|NEVER_SHOW_HEALTH_ANSWER/);
   assert.doesNotMatch(report,/0 kliků = neindexováno|garantovaná změna pozice/);
+  assert.match(report,/GSC končí před změnou/);
+  assert.match(report,/pull\/814/);
+  assert.match(report,/Git merge.*WordPress nasazení/);
+});
+test("material-edit review refuses pre-release attribution and validates the source manifest",()=>{
+  const change={path:"/choditka-pro-seniory/",mergedDate:"2026-11-17",
+    pullRequest:"https://github.com/Rastty/zaprazi-2/pull/814"};
+  const manifest={schemaVersion:1,changes:[change]};
+  const evaluateWindow=(from,to)=>reviewMaterialEditWindow({from,to},manifest)[0].window;
+  assert.equal(evaluateWindow("2026-10-15","2026-11-11"),"gsc_predates_merge");
+  assert.equal(evaluateWindow("2026-11-01","2026-11-28"),"gsc_mixed_window");
+  assert.equal(evaluateWindow("2026-11-18","2026-12-15"),"gsc_after_merge_window");
+  assert.match(renderMaterialEditWindow({from:"2026-11-18",to:"2026-12-15"},manifest),
+    /deploy neověřen/);
+  for(const bad of [
+    {...change,path:"/private-health-secret/"},
+    {...change,mergedDate:"2026-02-31"},
+    {...change,pullRequest:"https://example.org/pull/814?token=SECRET"}
+  ])assert.throws(()=>reviewMaterialEditWindow({from:"2026-10-15",to:"2026-11-11"},
+    {schemaVersion:1,changes:[bad]}));
+  assert.throws(()=>reviewMaterialEditWindow({from:"2026-10-15",to:"2026-11-11"},
+    {schemaVersion:1,changes:[change,change]}));
+  assert.throws(()=>reviewMaterialEditWindow({from:"2026-11-12",to:"2026-11-11"},manifest));
 });
 test("refuse invented, stale, foreign or private snapshot without printing its fields",()=>{
   const changes=[

@@ -12,6 +12,21 @@ function zaprazi_2_search_guidance_for_query( $query ) {
   }
   $query = substr( $query, 0, 160 );
 
+  // An actual fall takes priority over planned transport, care arrangements,
+  // and lifting/product searches. A family asking for a ride after a fall
+  // must see the urgent safety assessment before a routine transport guide.
+  // Require person/home context to avoid hijacking the retired technical archive.
+  if (
+    preg_match( '/\b(?:spadl[a-z]*|upadl[a-z]*|pad[a-z]*|zakopl[a-z]*)\b/', $query ) &&
+    preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|clovek[a-z]*|osob[a-z]*|doma|bytu|chodbe)\b/', $query )
+  ) {
+    return array(
+      array( '/senior-spadl-doma/#prvni-krok-pad', 'Senior spadl doma: co udělat hned', 'Nejdřív rozpoznat naléhavost a přivolat potřebnou pomoc. Výběr pomůcek až později.' ),
+      array( '/senior-spadl-doma/#plan-po-padu', 'Sedm kroků po pádu pro rodinu', 'Praktický plán po zajištění bezpečí, včetně odborného posouzení a domácích rizik.' ),
+      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Prevence dalšího pádu doma', 'Prověřte překážky, osvětlení a nebezpečné přesuny v domácnosti.' ),
+    );
+  }
+
   // A caregiver asking about lifting a person between bed and wheelchair
   // needs transfer-risk assessment before a wheelchair or bed product.
   // Do not match "zvedaci postel" or "zvedaci kreslo": those are product
@@ -188,20 +203,6 @@ function zaprazi_2_search_guidance_for_query( $query ) {
       array( '/senior-nemuze-vstat-z-postele/#co-delat-postel', 'Když člověk nevstane z postele', 'Rozlišit posazení, postavení, bezpečný přesun a typ opory bez neověřeného nákupu.' ),
       array( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli', 'Madlo, hrazda, nebo zábrana?', 'Tyto výrobky mají různý účel a rizika; ověřte kompatibilitu lůžka a matrace.' ),
       array( '/polohovaci-postel/#poradce-postel', 'Poradce pro polohovací postel', 'Pokud je vhodný tento typ zařízení, poradce prověří jeho parametry a bezpečnost.' ),
-    );
-  }
-
-  // An actual fall is an urgent life-situation intent, not a product name.
-  // Require an explicit person/home context so "spadl vykon" or "cerpadla"
-  // cannot hijack unrelated historical archive searches.
-  if (
-    preg_match( '/\b(?:spadl[a-z]*|upadl[a-z]*|pad[a-z]*|zakopl[a-z]*)\b/', $query ) &&
-    preg_match( '/\b(?:senior[a-z]*|babic[a-z]*|ded[a-z]*|mamink[a-z]*|tatink[a-z]*|rodic[a-z]*|clovek[a-z]*|osob[a-z]*|doma|bytu|chodbe)\b/', $query )
-  ) {
-    return array(
-      array( '/senior-spadl-doma/#prvni-krok-pad', 'Senior spadl doma: co udělat hned', 'Nejdřív rozpoznat naléhavost a přivolat potřebnou pomoc. Výběr pomůcek až později.' ),
-      array( '/senior-spadl-doma/#plan-po-padu', 'Sedm kroků po pádu pro rodinu', 'Praktický plán po zajištění bezpečí, včetně odborného posouzení a domácích rizik.' ),
-      array( '/bezpecny-byt-pro-seniora/#audit-bytu', 'Prevence dalšího pádu doma', 'Prověřte překážky, osvětlení a nebezpečné přesuny v domácnosti.' ),
     );
   }
 

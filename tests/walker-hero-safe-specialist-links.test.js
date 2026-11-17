@@ -6,10 +6,8 @@ const read = path => readFileSync(new URL("../" + path, import.meta.url), "utf8"
 
 test("Walker hub first screen offers safe direct indoor and rollator questionnaires", () => {
   const hub = read("page-choditka-pro-seniory.php");
-  const heroStart = hub.indexOf('<section class="zp-hero zp-illustrated-hero">');
-  const heroEnd = hub.indexOf("</section>", heroStart);
-  assert.ok(heroStart >= 0 && heroEnd > heroStart);
-  const hero = hub.slice(heroStart, heroEnd);
+  const hero = hub.match(/<section class="zp-hero zp-illustrated-hero(?: zp-[a-z0-9-]+)*">([\s\S]*?)<\/section>/)?.[1];
+  assert.ok(hero, "Illustrated walker hero must remain present");
 
   const indoorPath = "/choditko-do-bytu-pro-seniory/#poradce-choditko-byt";
   const outdoorPath = "/rollator-pro-seniory/#poradce-rollator";
@@ -29,7 +27,7 @@ test("Walker hub first screen offers safe direct indoor and rollator questionnai
 
 test("Direct guide links never skip fit gates, send answers or impersonate commerce CTAs", () => {
   const hub = read("page-choditka-pro-seniory.php");
-  const hero = hub.split('<section class="zp-hero zp-illustrated-hero">')[1]?.split("</section>")[0];
+  const hero = hub.match(/<section class="zp-hero zp-illustrated-hero(?: zp-[a-z0-9-]+)*">([\s\S]*?)<\/section>/)?.[1];
   assert.ok(hero);
   const primary = [...hero.matchAll(/<a\s+class="zp-btn"[^>]*>/g)];
   assert.equal(primary.length, 1, "Retain only one visually primary fallback");

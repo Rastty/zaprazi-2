@@ -173,6 +173,29 @@ check_route('pecovatelska sluzba','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecov
 check_route('osobni asistence','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
 check_route('kde najdu pecovatelskou sluzbu','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
 check_route('registr poskytovatelu sluzeb','/jak-vybrat-pecovatelskou-sluzbu/#vyber-pecovatelske-sluzby-kroky',3);
+// Specific family/work conflicts must reach the already published practical
+// coverage plan. A generic employment search or an acute fall must not.
+foreach (array(
+  'pece o rodice pri praci',
+  'kdo se postara o maminku kdyz jsem v praci',
+  'jak zajistit pomoc tatinkovi kdyz chodim do prace',
+  'nemuzu byt s babickou doma kvuli praci',
+) as $q) {
+  check_route($q,'/jak-vybrat-pecovatelskou-sluzbu/#pece-o-rodice-pri-praci',3);
+}
+foreach (array(
+  'hledam praci pecovatelka pro seniory',
+  'pracovni misto osobni asistent seniora',
+  'prace pro seniory',
+  'pece o zahradu pri praci',
+) as $q) {
+  foreach(zaprazi_2_search_guidance_for_query($q) as $route) {
+    if(($route[0]??'')==='/jak-vybrat-pecovatelskou-sluzbu/#pece-o-rodice-pri-praci') {
+      fwrite(STDERR,"False work/care rescue: ".$q."\n"); exit(1);
+    }
+  }
+}
+check_route('senior spadl doma kdyz jsem v praci potrebuje pomoc','/senior-spadl-doma/#prvni-krok-pad',3);
 foreach(array('domaci zdravotni pece','domaci pece','prispevek na peci','samolepici folie na okna','pece o zahradu','osobni auto asistence') as $q) {
  foreach(zaprazi_2_search_guidance_for_query($q) as $route) {
   if(str_starts_with($route[0]??'','/jak-vybrat-pecovatelskou-sluzbu/')) {

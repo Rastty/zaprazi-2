@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.227
+Version: 0.8.228
 Text Domain: zaprazi-2
 */
 
@@ -371,7 +371,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_227 */
+/* ZP_RELEASE_0_8_228 */
 
 
 .zp-affiliate-policy {
@@ -605,6 +605,17 @@ a{color:inherit}
 .zp-hero-copy{min-width:0}
 .zp-illustrated-hero h1{font-size:clamp(2.3rem,4.6vw,4rem);line-height:1.08;max-width:18ch}
 .zp-illustrated-hero .zp-lead{max-width:620px}
+/* High-intent walker-hub entry: put the safety stop and real advisor action
+   within reach, without changing the other illustrated guide templates. */
+.zp-walker-hub-hero{padding:34px 0 38px}
+.zp-walker-hub-layout{align-items:start;gap:32px}
+.zp-walker-hub-hero h1{font-size:clamp(2.25rem,3.65vw,3.45rem);line-height:1.06;letter-spacing:-.038em;max-width:none;margin:.18em 0 .34em}
+.zp-walker-hub-hero .zp-lead{font-size:1.04rem;line-height:1.5;margin:0 0 12px}
+.zp-walker-hub-safety{background:var(--zp-paper);border-left:4px solid var(--zp-accent);border-radius:10px;padding:12px 15px;margin:0 0 14px;font-size:.93rem;line-height:1.47}
+.zp-walker-hub-hero .zp-hero-actions{gap:6px 13px;align-items:center}
+.zp-walker-hub-hero .zp-hero-actions .zp-btn{margin:0}
+.zp-walker-hub-hero .zp-hero-actions .zp-text-link{display:inline-flex;align-items:center;min-height:44px;margin:0;font-size:.93rem}
+.zp-walker-hub-hero .zp-walker-hub-related{margin-top:17px}
 .zp-hero-art{min-width:0;margin:0;position:relative}
 .zp-hero-art img{display:block;width:100%;height:auto;aspect-ratio:720/510;border-radius:26px;box-shadow:0 20px 56px rgba(100,67,44,.11);background:#f6dfc8}
 .zp-hero-art figcaption{text-align:center;color:#555c53;font-size:.86rem;margin-top:9px}
@@ -618,6 +629,9 @@ a{color:inherit}
  .zp-hero-layout{grid-template-columns:minmax(0,1fr)}
  .zp-hero-art{max-width:580px;margin:auto}
  .zp-illustrated-hero h1{max-width:22ch}
+ .zp-walker-hub-hero{padding:24px 0 30px}
+ .zp-walker-hub-hero h1{font-size:clamp(2rem,5.4vw,3rem);max-width:none}
+ .zp-walker-hub-layout{gap:24px}
  .zp-sos-flow{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){.zp-hero-art img{transition:none}}

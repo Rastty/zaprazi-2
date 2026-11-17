@@ -12,8 +12,8 @@ for(const [name,img,h1Text] of pages){
   const php=read(name),svg=read("assets/illustrations/"+img);
   assert.equal((php.match(/<h1\b/g)||[]).length,1);
   assert.ok(php.includes(h1Text),"original H1 missing");
-  assert.match(php,/class="zp-hero zp-illustrated-hero"/);
-  assert.match(php,/class="zp-wrap zp-hero-layout"/);
+  assert.match(php,/class="zp-hero zp-illustrated-hero(?: zp-[a-z0-9-]+)*"/);
+  assert.match(php,/class="zp-wrap zp-hero-layout(?: zp-[a-z0-9-]+)*"/);
   assert.equal((php.match(/class="zp-hero-art"/g)||[]).length,1);
   assert.ok(php.includes("'/assets/illustrations/"+img+"'"),"missing correct first-party image");
   assert.match(php,/width="720" height="510" decoding="async" loading="eager" fetchpriority="high"/);

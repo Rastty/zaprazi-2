@@ -247,6 +247,20 @@ check_route('senior spadl doma','/senior-spadl-doma/#prvni-krok-pad',3);
 check_route('maminka upadla v bytu','/senior-spadl-doma/#prvni-krok-pad',3);
 check_route('pad seniora','/senior-spadl-doma/#prvni-krok-pad',3);
 check_route('opakovane pady doma','/senior-spadl-doma/#prvni-krok-pad',3);
+// A fall must outrank ordinary transport, moving a person, and care funding.
+// These combined queries previously entered earlier, routine-intent branches.
+foreach (array(
+  'maminka spadla doma potrebuje odvoz k lekari',
+  'senior upadl v bytu chci objednat sanitku',
+  'senior spadl pri presunu z postele na vozik',
+  'babicka upadla doma kdyz jsem v praci potrebuji zajistit pomoc',
+  'senior spadl doma prispevek na peci'
+) as $q) {
+  check_route($q,'/senior-spadl-doma/#prvni-krok-pad',3);
+}
+// Planned care remains the correct route without an explicit fall.
+check_route('sanitka k doktorovi','/prevoz-seniora-k-lekari/#urgentni-situace-prevoz',3);
+check_route('presun z postele na vozik','/senior-nemuze-vstat-z-postele/#presun-z-postele-na-vozik',3);
 foreach (array('cerpadla','spadl vykon solarnich panelu','pad napeti') as $unrelated) {
   $routes = zaprazi_2_search_guidance_for_query($unrelated);
   foreach ($routes as $route) {

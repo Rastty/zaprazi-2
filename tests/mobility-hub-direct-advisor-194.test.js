@@ -6,8 +6,7 @@ import {spawnSync} from "node:child_process";
 const read=p=>readFileSync(p,"utf8");
 test("Mobility hub has one clear primary path directly into Home Advisor",()=>{
   const template=read("page-choditka-pro-seniory.php");
-  const hero=template.split('<section class="zp-hero zp-illustrated-hero">')[1]
-    ?.split("</section>")[0];
+  const hero=template.match(/<section class="zp-hero zp-illustrated-hero(?: zp-[a-z0-9-]+)*">([\s\S]*?)<\/section>/)?.[1];
   assert.ok(hero,"Missing original Mobility hub hero");
   const primary=hero.match(/<a class="zp-btn"[^>]*>[^<]*<\/a>/g)??[];
   assert.equal(primary.length,1,"Exactly one visual primary CTA on the hub");

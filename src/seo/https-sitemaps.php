@@ -28,14 +28,36 @@ function zaprazi_2_https_sitemap_url( $url ) {
 add_filter( 'wpseo_canonical', 'zaprazi_2_https_sitemap_url', PHP_INT_MAX );
 add_filter( 'wpseo_opengraph_url', 'zaprazi_2_https_sitemap_url', PHP_INT_MAX );
 
-/** Yoast root sitemap index: retain providers, entries, metadata and order. */
+/**
+ * Yoast index dates come from wp_posts.post_modified, while our verified
+ * template revisions update individual page sitemap entries without touching
+ * that WordPress column. Keep the page-sitemap index date in sync with the
+ * latest *evidenced* revision. Never stamp deploy time or alter other providers.
+ */
 function zaprazi_2_https_sitemap_index_links( $links ) {
   if ( ! is_array( $links ) ) {
     return $links;
   }
+  $latest_date = null;
+  $latest_stamp = false;
+  foreach ( zaprazi_2_material_sitemap_page_dates() as $date ) {
+    $stamp = is_string( $date ) ? strtotime( $date ) : false;
+    if ( false !== $stamp && ( false === $latest_stamp || $stamp > $latest_stamp ) ) {
+      $latest_date = $date;
+      $latest_stamp = $stamp;
+    }
+  }
   foreach ( $links as $index => $link ) {
     if ( is_array( $link ) && isset( $link['loc'] ) ) {
       $links[ $index ]['loc'] = zaprazi_2_https_sitemap_url( $link['loc'] );
+      if ( 'https://zaprazi.cz/page-sitemap.xml' === $links[ $index ]['loc'] &&
+           false !== $latest_stamp ) {
+        $existing = isset( $link['lastmod'] ) && is_string( $link['lastmod'] )
+          ? strtotime( $link['lastmod'] ) : false;
+        if ( false === $existing || $existing < $latest_stamp ) {
+          $links[ $index ]['lastmod'] = $latest_date;
+        }
+      }
     }
   }
   return $links;

@@ -1,8 +1,9 @@
-// ZP_RELEASE_0_8_229
+// ZP_RELEASE_0_8_230
 import { recommendMobility } from "../../src/mobility/engine.js";
 import { getMobilityProducts } from "../../src/mobility/catalog.js";
 import { renderMobilityProductFitGate, installMobilityProductFitGate } from "../../src/mobility/offer-fit-gate.js";
 import { getMobilityNextSteps, getMobilitySafeRecovery } from "../../src/mobility/next-steps.js";
+import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
 const form=document.querySelector("#zp-indoor-walker-advisor");
 const result=document.querySelector("#zp-indoor-walker-result");
@@ -94,8 +95,10 @@ if(form&&result&&submit&&errors){
     const configured=offer.affiliateKey?affiliateMap[offer.affiliateKey]:null;
     const affiliateUrl=typeof configured==="string"&&configured.startsWith("https://")?configured:null;
     const url=affiliateUrl||offer.url;
+    const offerFreshness=evidenceFreshness(offer.checkedAt,EVIDENCE_FRESHNESS_DAYS.merchantOffer);
+    const offerWarning=offerFreshness.status==="fresh"?"":'<p class="zp-stale-evidence">Nabídka nebyla v posledních 30 dnech znovu ověřena. Před nákupem zkontrolujte aktuální cenu a dostupnost.</p>';
     const specWarning=p.specDiscrepancyNotice?`<p class="zp-stale-evidence" data-zp-spec-discrepancy="1"><strong>Ověřte rozdílné parametry:</strong> ${esc(p.specDiscrepancyNotice)}</p>`:"";
-    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>hmotnost: ${esc(p.facts.weightKg)} kg</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${specWarning}${allow?renderMobilityProductFitGate(`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><a class="zp-link-btn" data-zp-indoor-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a></div>`,{requireBrakeFit:p.solutionFamily==="rollator",requireTransportFit:!!form.querySelector('input[name="transportNeed"]:checked')}):""}</article>`;
+    return `<article class="zp-product-card"><h4>${esc(p.name)}</h4><ul class="zp-facts"><li>výška: ${esc(p.facts.heightCm)} cm</li><li>šířka: ${esc(p.facts.widthCm)} cm</li><li>hmotnost: ${esc(p.facts.weightKg)} kg</li><li>nosnost: ${esc(p.facts.maxUserWeightKg)} kg</li></ul>${specWarning}${allow?renderMobilityProductFitGate(`<div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small><strong>${esc(offer.merchantName)}</strong><p>${esc(offer.note)}</p>${offerWarning}<a class="zp-link-btn" data-zp-indoor-merchant-link="1" href="${esc(url)}" target="_blank" rel="${affiliateUrl?"noopener nofollow sponsored":"noopener nofollow"}">${affiliateUrl?"Zobrazit cenu a dostupnost":"Zobrazit produkt a dostupnost"}</a>${affiliateUrl?'<small class="zp-affiliate-label">Partnerský odkaz</small>':""}</div>`,{requireBrakeFit:p.solutionFamily==="rollator",requireTransportFit:!!form.querySelector('input[name="transportNeed"]:checked')}):""}</article>`;
   };
   submit.addEventListener("click",()=>{
     if(!validate()) return;

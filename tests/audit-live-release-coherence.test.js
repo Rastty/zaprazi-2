@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {EXPECTED_LIVE_RELEASE} from "../scripts/lib/live-release.mjs";
 import {
-  readReleaseMarkers,verifyReleaseCoherence,RELEASE_CHECK_PATHS
+  auditLiveReleaseCoherence,readReleaseMarkers,verifyReleaseCoherence,RELEASE_CHECK_PATHS
 } from "../scripts/audit-live-release-coherence.mjs";
 
 const html=(release="0.8.185",integrity="ok")=>
@@ -71,4 +72,34 @@ test("never reflects a sensitive value in an error",()=>{
     assert.ok(!error.message.includes(secret));
     return true;
   });
+});
+
+test("preflight retries a transport exception then checks the full exact release snapshot",async t=>{
+  let requests=0;
+  t.mock.method(globalThis,"fetch",async (url,options)=>{
+    requests++;
+    assert.equal(options.method,"GET");
+    assert.equal(options.redirect,"error");
+    assert.equal(options.cache,"no-store");
+    assert.equal(new URL(url).origin,"https://zaprazi.cz");
+    if(requests===1)throw new TypeError("transient network failure");
+    if(url.endsWith("/affiliate-readiness"))
+      return new Response(JSON.stringify(readiness(EXPECTED_LIVE_RELEASE)),{status:200});
+    return new Response(html(EXPECTED_LIVE_RELEASE),{status:200});
+  });
+  assert.deepEqual(await auditLiveReleaseCoherence(),{
+    release:EXPECTED_LIVE_RELEASE,integrity:"ok",pages:4,
+    affiliate_slots:25,readiness_checks:2
+  });
+  assert.equal(requests,7);
+});
+
+test("preflight fails immediately on HTTP 503; retry cannot hide a bad server status",async t=>{
+  let requests=0;
+  t.mock.method(globalThis,"fetch",async ()=>{
+    requests++;
+    return new Response("unavailable",{status:503});
+  });
+  await assert.rejects(auditLiveReleaseCoherence(),/HTTP status is not 200/);
+  assert.equal(requests,1);
 });

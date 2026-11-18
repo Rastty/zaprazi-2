@@ -9,6 +9,7 @@ import assert from "node:assert/strict";
 import { readFileSync, appendFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
+import { auditOfferObservationAge, markdownOfferAgeSummary } from "./lib/merchant-offer-age-audit.mjs";
 
 const expectedHosts = Object.freeze({
   "rehabilitacni-pomucky-cz": "www.rehabilitacnipomucky.cz",
@@ -194,12 +195,17 @@ export function markdownSummary(report) {
       "\n\n### Priority product identity follow-ups (NOT verified affiliate)\n| Slot | Probe | Review | Affiliate | Next check |\n|---|---|---|---|---|\n" +
       report.identity_review_queue.map(x=>
         "| "+x.slot+" | "+x.current_probe_status+" | "+x.review_state+" | "+x.publisher_deeplink+" | "+x.manual_action+" |").join("\n") : "")+
-    "\n\n**Limit:** "+report.limitations+"\n";
+    "\n\n**Limit:** "+report.limitations+"\n"+
+    (report.offer_evidence_age ? markdownOfferAgeSummary(report.offer_evidence_age) : "");
 }
 export async function main() {
   const php=readFileSync(new URL("../functions.php",import.meta.url),"utf8");
   const targets=extractCanonicalTargets(php);
+  // Local, deterministic source-date audit. Does not refresh timestamps after
+  // the HTTP probe; freshness and reachability must remain separate evidence.
+  const offerEvidenceAge=auditOfferObservationAge(targets);
   const report=await auditCanonicalTargets(targets);
+  report.offer_evidence_age=offerEvidenceAge;
   const watchlist=JSON.parse(readFileSync(new URL("../data/merchant-identity-watchlist.json",import.meta.url),"utf8"));
   report.identity_review_queue=buildIdentityReviewQueue(report,targets,watchlist);
   process.stdout.write(JSON.stringify(report,null,2)+"\n");

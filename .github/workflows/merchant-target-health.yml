@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "scripts/audit-canonical-merchant-targets.mjs"
+      - "scripts/lib/merchant-offer-age-audit.mjs"
+      - "tests/merchant-offer-age-audit.test.js"
       - "tests/merchant-target-health.test.js"
       - "tests/merchant-identity-watchlist.test.js"
       - "data/merchant-identity-watchlist.json"
@@ -12,6 +14,8 @@ on:
   pull_request:
     paths:
       - "scripts/audit-canonical-merchant-targets.mjs"
+      - "scripts/lib/merchant-offer-age-audit.mjs"
+      - "tests/merchant-offer-age-audit.test.js"
       - "tests/merchant-target-health.test.js"
       - "tests/merchant-identity-watchlist.test.js"
       - "data/merchant-identity-watchlist.json"
@@ -40,7 +44,7 @@ jobs:
         with:
           node-version: 20
       - name: No-network inventory and privacy tests
-        run: node --test tests/merchant-target-health.test.js tests/merchant-identity-watchlist.test.js
+        run: node --test tests/merchant-target-health.test.js tests/merchant-identity-watchlist.test.js tests/merchant-offer-age-audit.test.js
 
   public-target-probe:
     needs: contract
@@ -54,7 +58,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Inspect only the 25 canonical nonaffiliate product pages
+      - name: Inspect 25 canonical nonaffiliate targets and source observation ages
         run: node scripts/audit-canonical-merchant-targets.mjs > merchant-public-targets.json
       - name: Save non-sensitive canonical reachability report
         uses: actions/upload-artifact@v4

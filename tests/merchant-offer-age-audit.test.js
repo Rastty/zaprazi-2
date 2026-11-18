@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { extractCanonicalTargets, markdownSummary } from "../scripts/audit-canonical-merchant-targets.mjs";
-import { curatedOfferObservations, auditOfferObservationAge, markdownOfferAgeSummary } from "../scripts/lib/merchant-offer-age-audit.mjs";
+import { curatedOfferObservations, auditOfferObservationAge, mobilityOfferRecheckQueue, markdownOfferAgeSummary } from "../scripts/lib/merchant-offer-age-audit.mjs";
 
 const php = readFileSync(new URL("../functions.php", import.meta.url), "utf8");
 const targets = extractCanonicalTargets(php);
@@ -48,4 +48,34 @@ test("source mismatches, extra or missing keys, duplicate records and invalid au
   changed[0].url="https://merchant.test/other";
   assert.throws(()=>auditOfferObservationAge(targets,changed,now),/mismatch/);
   assert.throws(()=>auditOfferObservationAge(targets,observations,new Date("invalid")),/Invalid audit date/);
+});
+
+test("P0 Slice 1 offers become a focused review queue without creating merchant or payout evidence", () => {
+  const report = auditOfferObservationAge(targets, observations, now);
+  const queue = mobilityOfferRecheckQueue(report);
+  assert.deepEqual(queue.map(x => x.slot), [
+    "rehabilitacni-pomucky-cz:besco-wa17",
+    "rehabilitacni-pomucky-cz:besco-wa21",
+    "lekarna-cz:meyra-ideal-3061982"
+  ]);
+  assert.ok(queue.every(x => x.priority === "P0" && x.source_status === "stale" &&
+    x.source_age_days === 43 && x.publisher_deeplink === "not_verified_by_source_age" &&
+    x.approved_commission === "not_verified_by_source_age"));
+  report.mobility_recheck_queue = queue;
+  const summary = markdownOfferAgeSummary(report);
+  assert.match(summary, /P0 Slice 1/);
+  assert.match(summary, /independent/);
+  assert.doesNotMatch(JSON.stringify(queue) + summary, /https?:\/\/|utm_|subid=|clickid=/i);
+});
+
+test("P0 queue closes only when a source observation is fresh; other groups remain untouched", () => {
+  const fresh = observations.map(x => ({ ...x, checkedAt: x.group === "mobility" ? "2026-11-18" : x.checkedAt }));
+  assert.deepEqual(mobilityOfferRecheckQueue(auditOfferObservationAge(targets, fresh, now)), []);
+  const mixed = observations.map(x => ({ ...x, checkedAt: x.key.endsWith("besco-wa17") ? "2026-11-18" : x.checkedAt }));
+  assert.equal(mobilityOfferRecheckQueue(auditOfferObservationAge(targets, mixed, now)).length, 2);
+  const report = auditOfferObservationAge(targets, observations, now);
+  assert.throws(() => mobilityOfferRecheckQueue({...report,results: report.results.slice(1)}), /Missing exact/);
+  assert.throws(() => mobilityOfferRecheckQueue({...report,results: [...report.results,report.results[0]]}), /Duplicate/);
+  assert.throws(() => mobilityOfferRecheckQueue({...report,results: report.results.map(x =>
+    x.key.endsWith("besco-wa17") ? {...x,group:"bed"} : x)}), /Missing exact/);
 });

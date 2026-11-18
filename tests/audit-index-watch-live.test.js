@@ -60,6 +60,20 @@ test("0.8.221 PR checks exact 0.8.220 production, never approves a predeploy sou
    ["pull_request","0.8.221",{...live,slot_total:24}]
  ])assert.throws(()=>selectIndexWatchScope(event,source,value),/INDEX_LIVE_/);
 });
+test("0.8.234 PR checks exact live 0.8.233 only and never claims production acceptance",()=>{
+ const live={release:"0.8.233",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.234",live),
+   {release:"0.8.233",mode:"predeploy_verified_233_only"});
+ assert.deepEqual(selectIndexWatchScope("schedule","0.8.234",{...live,release:"0.8.234"}),
+   {release:"0.8.234",mode:"exact_live_source"});
+ for(const [event,source,readiness] of [
+   ["push","0.8.234",live],
+   ["schedule","0.8.234",live],
+   ["pull_request","0.8.234",{...live,release:"0.8.232"}],
+   ["pull_request","0.8.234",{...live,integrity:"partial"}],
+   ["pull_request","0.8.234",{...live,configured_total:24}]
+ ])assert.throws(()=>selectIndexWatchScope(event,source,readiness),/INDEX_LIVE_/);
+});
 test("commented or scripted fake canonical/meta tags never satisfy the real head",()=>{
  const decoys=[
    '<!-- <link rel="canonical" href="'+ORIGIN+path+'"> -->',

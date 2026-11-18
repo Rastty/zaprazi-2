@@ -23,7 +23,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
     "require 'src/seo/https-sitemaps.php';",
     "$urls = array('http://zaprazi.cz/sitemap_index.xml', 'http://zaprazi.cz', 'http://zaprazi.cz.attacker.invalid/x', 'http://other.example/page', 'https://zaprazi.cz/ok', '/relative/');",
     "$index = zaprazi_2_https_sitemap_index_links(array(array('loc' => 'http://zaprazi.cz/page-sitemap.xml', 'lastmod' => '2026-10-28T17:25:22+00:00', 'mod' => 'keep'), array('loc' => 'https://other.example/sitemap.xml', 'lastmod' => '2026-10-01T00:00:00+00:00'), array('invalid' => 'keep')));",
-    "$index_newer = zaprazi_2_https_sitemap_index_links(array(array('loc' => 'https://zaprazi.cz/page-sitemap.xml', 'lastmod' => '2026-11-16T12:00:00+00:00'), array('loc' => 'https://zaprazi.cz/post-sitemap.xml', 'lastmod' => '2026-10-01T00:00:00+00:00')));",
+    "$index_newer = zaprazi_2_https_sitemap_index_links(array(array('loc' => 'https://zaprazi.cz/page-sitemap.xml', 'lastmod' => '2026-11-19T12:00:00+00:00'), array('loc' => 'https://zaprazi.cz/post-sitemap.xml', 'lastmod' => '2026-10-01T00:00:00+00:00')));",
     "$entry = zaprazi_2_https_sitemap_entry(array('loc' => 'http://zaprazi.cz/page/', 'mod' => '2026-10-11'));",
     "$robots = zaprazi_2_https_robots_sitemap(\"User-agent: *\nSitemap: http://zaprazi.cz/sitemap_index.xml\nSitemap: http://other.example/sitemap.xml\n\");",
     "echo json_encode(array('urls' => array_map('zaprazi_2_https_sitemap_url', $urls), 'index' => $index, 'index_newer' => $index_newer, 'entry' => $entry, 'robots' => $robots, 'registered' => $registered, 'false_entry' => zaprazi_2_https_sitemap_entry(false), 'false_index' => zaprazi_2_https_sitemap_index_links(false)));"
@@ -41,7 +41,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
     {loc: "https://other.example/sitemap.xml", lastmod: "2026-10-01T00:00:00+00:00"}, {invalid: "keep"}
   ]);
   assert.deepEqual(result.index_newer, [
-    {loc: "https://zaprazi.cz/page-sitemap.xml", lastmod: "2026-11-16T12:00:00+00:00"},
+    {loc: "https://zaprazi.cz/page-sitemap.xml", lastmod: "2026-11-19T12:00:00+00:00"},
     {loc: "https://zaprazi.cz/post-sitemap.xml", lastmod: "2026-10-01T00:00:00+00:00"}
   ]);
   assert.deepEqual(result.entry, {loc: "https://zaprazi.cz/page/", mod: "2026-10-11"});

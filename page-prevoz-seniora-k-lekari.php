@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_231 */
+/* ZP_RELEASE_0_8_232 */
 /*
 Template Name: Zápraží — Převoz seniora k lékaři
 */

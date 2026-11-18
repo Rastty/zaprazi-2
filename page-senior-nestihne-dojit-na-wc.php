@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */
+/* ZP_RELEASE_0_8_234 */
 /*
 Template Name: Zápraží — Senior nestihne dojít na WC
 */

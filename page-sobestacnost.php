@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */
+/* ZP_RELEASE_0_8_234 */
 /*
 Template Name: Zápraží — Soběstačnost
 */
@@ -13,6 +13,7 @@ get_header();
       <h1>Pomůcky pro sebeobsluhu a soběstačnost seniorů: co pomůže s pitím, jídlem a otevíráním?</h1>
       <p class="zp-lead">Začínáme konkrétní činností: napít se, udržet nádobu, připravit jednoduché jídlo jednou rukou nebo otevřít běžný obal. Neptáme se na diagnózu a nedoporučujeme produkt jen proto, že je v nabídce partnera.</p>
       <p class="zp-muted-copy">Senior téměř nepije nebo často odmítá nápoje? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#varovne-priznaky-malo-pije' ) ); ?>">Nejdřív ověřte dehydrataci, bezpečné polykání a lékařský limit tekutin</a>. Hrnek není odpovědí na každou situaci.</p>
+      <p class="zp-muted-copy">Senior <strong>nechce jíst nebo nechtěně hubne</strong>? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#senior-nechce-jist' ) ); ?>">Jak rozlišit nechutenství, polykání a obtížnou manipulaci s jídlem</a>. Pomůcky pro sebeobsluhu nejsou léčba nechutenství.</p>
       <p class="zp-muted-copy">Problémem není pití nebo otevírání, ale <strong>oblékání ponožek či kalhot bez hlubokého předklonu</strong>? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/oblekani-ponozek-a-kalhot-bez-ohybani/#podle-problemu-oblekani' ) ); ?>">Porovnat navlékač, podavač a bezpečné oblékání</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#poradce-sobestacnost">Spustit poradce</a>

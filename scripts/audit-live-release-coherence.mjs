@@ -6,6 +6,7 @@
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 import {EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
+import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 
 export const RELEASE_CHECK_PATHS=Object.freeze([
   "/", "/koupelna-a-wc/", "/navrat-z-nemocnice/",
@@ -75,10 +76,9 @@ export function verifyReleaseCoherence({before,after,pages,expected}){
 }
 
 async function get(url,accept){
-  const response=await fetch(url,{
+  const response=await fetchPublicWithNetworkRetry(fetch,url,{
     method:"GET",redirect:"error",cache:"no-store",
-    headers:{Accept:accept,"Cache-Control":"no-cache"},
-    signal:AbortSignal.timeout(20000)
+    headers:{Accept:accept,"Cache-Control":"no-cache"}
   });
   if(response.status!==200)fail("Production preflight HTTP status is not 200");
   return response;

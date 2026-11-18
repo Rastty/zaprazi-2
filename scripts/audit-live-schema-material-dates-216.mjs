@@ -2,8 +2,9 @@
 /**
  * Exact-live 0.8.216 read-only Yoast Schema acceptance.
  * WordPress PHP-template edits do not change WP post_modified. Audit the
- * SAME ten sourced material page dates as the XML sitemap, never freshness
- * guesses. No merchant clicks, forms, GSC writes, URLs with private answers.
+ * SAME curated source-declared material page dates as the XML sitemap,
+ * including newly evidenced revisions. Never freshness guesses. No merchant
+ * clicks, forms, GSC writes or URLs with private answers.
  */
 import assert from "node:assert/strict";
 import {pathToFileURL} from "node:url";
@@ -80,7 +81,11 @@ export async function main(){
   assert.equal(ready.configured_total,25,"SCHEMA_AFFILIATE_READINESS_INCOMPLETE");
   assert.equal(ready.slot_total,25,"SCHEMA_AFFILIATE_READINESS_INCOMPLETE");
   const entries=Object.entries(SOURCE_DATES);
-  assert.equal(entries.length,11,"SCHEMA_SOURCE_EXPECTED_ELEVEN");
+  // The source parser already validates each unique slug/date and its count
+  // bound. A new reviewed material page must be checked live automatically;
+  // an old fixed 11-page assertion falsely blocked release 0.8.234's 12th.
+  assert.ok(entries.length>=11&&entries.length<=53,
+    "SCHEMA_SOURCE_MATERIAL_COUNT_OUTSIDE_REVIEWED_BOUNDS");
   const now=new Date();
   for(const [path,date] of entries){
     const html=await publicGet(ORIGIN+path,"text/html");

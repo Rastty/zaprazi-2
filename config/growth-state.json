@@ -12,8 +12,8 @@
   "nodes": {
     "safety_qa": {
       "status": "verified",
-      "verifiedRelease": "0.8.230",
-      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/44142891459"
+      "verifiedRelease": "0.8.232",
+      "evidenceUrl": "https://github.com/Rastty/zaprazi-2/actions/runs/44321589866"
     },
     "affiliate_audit": {
       "status": "in_progress",

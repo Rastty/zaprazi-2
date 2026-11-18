@@ -125,6 +125,11 @@ export function buildIdentityReviewQueue(report, targets, watchlist) {
     "lekarna-cz:meyra-ideal-3061982",
     "drmax-cz:dma-eh-cmda"
   ];
+  const expectedPriority={
+    "zdrava-obuv-cz:xavier":"P1",
+    "lekarna-cz:meyra-ideal-3061982":"P0",
+    "drmax-cz:dma-eh-cmda":"P1"
+  };
   assert.equal(watchlist.items.length,expectedKeys.length,"Review of priority keys required");
   const canonical=new Map(targets.map(x=>[x.key,x.url]));
   const observations=new Map(report.results.map(x=>[x.key,x]));
@@ -135,7 +140,7 @@ export function buildIdentityReviewQueue(report, targets, watchlist) {
     assert.ok(expectedKeys.includes(item.slot),"Unexpected priority merchant slot");
     assert.ok(!seen.has(item.slot),"Duplicate priority merchant slot");
     seen.add(item.slot);
-    assert.equal(item.priority,"P1","Do not silently downgrade unresolved commercial risk");
+    assert.equal(item.priority,expectedPriority[item.slot],"Do not silently downgrade unresolved model risk");
     assert.equal(item.canonicalUrl,canonical.get(item.slot),
       "Public watchlist must match EXACT current canonical PHP target");
     assert.ok(typeof item.productIdentity==="string" &&
@@ -161,18 +166,24 @@ export function buildIdentityReviewQueue(report, targets, watchlist) {
     assert.match(item.action||"",/^manual_check_[a-z0-9_]+_publisher_deeplink$/);
     const probe=observations.get(item.slot);
     assert.ok(probe,"Missing exact canonical audit result for watched slot");
+    // Reaching a merchant page cannot resolve a known manufacturer/retailer
+    // model and dimension conflict. Exact delivered variant still needs proof.
+    const knownVariantConflict=item.slot==="lekarna-cz:meyra-ideal-3061982"&&
+      item.unresolvedConflict==="automated_http_403_and_merchant_manufacturer_dimension_discrepancy";
     const reviewState=probe.status==="not_found_review"
       ?"conflicting_public_evidence_manual_recheck"
       :probe.status==="access_unverifiable"
         ?"automated_access_blocked_manual_recheck"
         :probe.status==="http_ok_identity_unverified"
-          ?"reachable_not_identity_or_affiliate_verified"
+          ?(knownVariantConflict?"reachable_but_model_dimension_conflict_manual_recheck":
+            "reachable_not_identity_or_affiliate_verified")
           :"needs_manual_review";
     review.push({
       slot:item.slot,priority:item.priority,
       current_http_status:probe.http_status,
       current_probe_status:probe.status,
       review_state:reviewState,
+      unresolved_conflict:item.unresolvedConflict,
       identity_evidence:"public_listing_only",
       publisher_deeplink:"unverified",
       approved_commission:"unverified",
@@ -192,9 +203,9 @@ export function markdownSummary(report) {
     "\n\n### Needs manual follow-up or verification\n| Slot | HTTP | State |\n|---|---:|---|\n"+
     (exceptions||"| — | — | No non-200 results; exact identities still unverified |")+
     (Array.isArray(report.identity_review_queue) ?
-      "\n\n### Priority product identity follow-ups (NOT verified affiliate)\n| Slot | Probe | Review | Affiliate | Next check |\n|---|---|---|---|---|\n" +
+      "\n\n### Priority product identity follow-ups (NOT verified affiliate)\n| Slot | Priority | Probe | Conflict | Review | Affiliate | Next check |\n|---|---|---|---|---|---|---|\n" +
       report.identity_review_queue.map(x=>
-        "| "+x.slot+" | "+x.current_probe_status+" | "+x.review_state+" | "+x.publisher_deeplink+" | "+x.manual_action+" |").join("\n") : "")+
+        "| "+x.slot+" | "+x.priority+" | "+x.current_probe_status+" | "+x.unresolved_conflict+" | "+x.review_state+" | "+x.publisher_deeplink+" | "+x.manual_action+" |").join("\n") : "")+
     "\n\n**Limit:** "+report.limitations+"\n"+
     (report.offer_evidence_age ? markdownOfferAgeSummary(report.offer_evidence_age) : "");
 }

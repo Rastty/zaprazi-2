@@ -123,6 +123,7 @@ function zaprazi_2_release_integrity_ok() {
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
     'src/mobility/engine.js' => 'b479eb156f494d606e3feefa980fdbe9d61ff893',
     'src/mobility/offer-fit-gate.js' => '839edf5485b7d845cded7758f4c72837dd3dff95',
+    'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
 

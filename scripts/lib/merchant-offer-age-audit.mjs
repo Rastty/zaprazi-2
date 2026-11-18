@@ -13,6 +13,15 @@ import { adlSelfCareCandidates } from "../../src/adl/engine.js";
 import { FOOTWEAR_CANDIDATES } from "../../src/footwear/engine.js";
 import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../../src/evidence/freshness.js";
 
+// The only production Mobility offer slots in Slice 1. Keep this short queue
+// separate from the broader 25-slot merchant monitor and identity watchlist:
+// an old observation calls for a human source recheck, not a product removal.
+const MOBILITY_P0_SLOTS = Object.freeze([
+  "rehabilitacni-pomucky-cz:besco-wa17",
+  "rehabilitacni-pomucky-cz:besco-wa21",
+  "lekarna-cz:meyra-ideal-3061982"
+]);
+
 export function curatedOfferObservations() {
   const catalogs = [
     ["mobility", MOBILITY_PRODUCTS],
@@ -72,6 +81,51 @@ export function auditOfferObservationAge(targets, observations = curatedOfferObs
   };
 }
 
+/**
+ * A bounded follow-up for the first complete purchase journey. No new requests
+ * and no automatic date refresh: verification of the exact merchant model,
+ * mutable offer, publisher route and approved commission are separate tasks.
+ */
+export function mobilityOfferRecheckQueue(report) {
+  assert.ok(report && Array.isArray(report.results), "Missing dated offer report");
+  const byKey = new Map();
+  for (const row of report.results) {
+    assert.ok(typeof row.key === "string" && !byKey.has(row.key), "Duplicate or invalid dated offer key");
+    byKey.set(row.key, row);
+  }
+  return MOBILITY_P0_SLOTS.flatMap(slot => {
+    const source = byKey.get(slot);
+    assert.ok(source && source.group === "mobility", "Missing exact Slice 1 merchant evidence: " + slot);
+    assert.ok(["fresh", "stale", "unknown"].includes(source.status), "Invalid source state");
+    if (source.status === "fresh") return [];
+    return [{
+      slot,
+      priority: "P0",
+      source_status: source.status,
+      source_age_days: source.age_days,
+      source_checked_at: source.source_checked_at,
+      next_action: "manual_exact_variant_and_current_merchant_offer_recheck",
+      publisher_deeplink: "not_verified_by_source_age",
+      approved_commission: "not_verified_by_source_age"
+    }];
+  });
+}
+
+export function markdownMobilityRecheckQueue(queue) {
+  assert.ok(Array.isArray(queue), "Missing Slice 1 review queue");
+  return "\n\n### P0 Slice 1 — dated Mobility offers requiring manual recheck\n" +
+    "| Product slot | Source state | Last observed | Age (days) | Next action |\n" +
+    "|---|---|---|---:|---|\n" +
+    (queue.length ? queue.map(x => "| " + x.slot + " | " + x.source_status + " | " +
+      (x.source_checked_at ?? "UNKNOWN") + " | " + (x.source_age_days ?? "UNKNOWN") +
+      " | " + x.next_action + " |").join("\n") :
+      "| — | — | — | — | No aged Mobility source observations |") +
+    "\n\nRecheck exact delivered model/variant and today's merchant product evidence. " +
+    "Publisher deeplink tracking and network-approved commissions need **independent** evidence; " +
+    "an HTTP 200, refreshed date or configured slot does not establish either. " +
+    "Do not change suitability, rank or fit gates from this queue.\n";
+}
+
 export function markdownOfferAgeSummary(report) {
   const pending = report.results.filter(x => x.status !== "fresh");
   return "\n\n### Dated merchant evidence (source only)\n" +
@@ -83,5 +137,6 @@ export function markdownOfferAgeSummary(report) {
     (pending.length ? pending.map(x => "| " + x.key + " | " + x.group + " | " +
       (x.source_checked_at ?? "UNKNOWN") + " | " + (x.age_days ?? "UNKNOWN") +
       " | " + x.status + " |").join("\n") : "| — | — | — | — | No pending source dates |") +
-    "\n\n**Limit:** " + report.limitations + "\n";
+    "\n\n**Limit:** " + report.limitations + "\n" +
+    (report.mobility_recheck_queue ? markdownMobilityRecheckQueue(report.mobility_recheck_queue) : "");
 }

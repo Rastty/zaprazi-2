@@ -9,7 +9,7 @@ import assert from "node:assert/strict";
 import { readFileSync, appendFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { resolve } from "node:path";
-import { auditOfferObservationAge, markdownOfferAgeSummary } from "./lib/merchant-offer-age-audit.mjs";
+import { auditOfferObservationAge, mobilityOfferRecheckQueue, markdownOfferAgeSummary } from "./lib/merchant-offer-age-audit.mjs";
 
 const expectedHosts = Object.freeze({
   "rehabilitacni-pomucky-cz": "www.rehabilitacnipomucky.cz",
@@ -204,6 +204,7 @@ export async function main() {
   // Local, deterministic source-date audit. Does not refresh timestamps after
   // the HTTP probe; freshness and reachability must remain separate evidence.
   const offerEvidenceAge=auditOfferObservationAge(targets);
+  offerEvidenceAge.mobility_recheck_queue=mobilityOfferRecheckQueue(offerEvidenceAge);
   const report=await auditCanonicalTargets(targets);
   report.offer_evidence_age=offerEvidenceAge;
   const watchlist=JSON.parse(readFileSync(new URL("../data/merchant-identity-watchlist.json",import.meta.url),"utf8"));

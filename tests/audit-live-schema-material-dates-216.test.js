@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {assertMaterialWebpageSchema} from "../scripts/audit-live-schema-material-dates-216.mjs";
+import {SOURCE_DATES} from "../scripts/audit-205-postdeploy-seo.mjs";
 
 const release="0.8.216",path="/choditko-na-pojistovnu/";
 const sourceDate="2026-11-10",url="https://zaprazi.cz"+path;
@@ -45,4 +46,19 @@ test("reject wrong source, canonical, identity, release, integrity or duplicates
     /SCHEMA_LIVE_INTEGRITY_FAILED/);
   assert.throws(()=>assertMaterialWebpageSchema(html({twice:true}),path,sourceDate,release,now),
     /SCHEMA_WEBPAGE_NODE_MISSING_OR_DUPLICATE/);
+});
+test("0.8.234 hydration revision has a twelfth independently checked schema date",()=>{
+  const hydrationPath="/senior-malo-pije/",hydrationUrl="https://zaprazi.cz"+hydrationPath;
+  const date="2026-11-18",live="0.8.234",clock=new Date("2026-11-19T00:00:00Z");
+  assert.equal(Object.keys(SOURCE_DATES).length,12);
+  assert.equal(SOURCE_DATES[hydrationPath],date);
+  const valid=html({canonical:hydrationUrl,pageUrl:hydrationUrl,id:hydrationUrl,
+    mod:"2026-11-18T00:00:00+00:00",version:live});
+  assert.deepEqual(assertMaterialWebpageSchema(valid,hydrationPath,date,live,clock),
+    {path:hydrationPath,verified:true});
+  assert.throws(()=>assertMaterialWebpageSchema(valid.replace("2026-11-18T00:00:00+00:00",
+    "2026-11-15T00:00:00+00:00"),hydrationPath,date,live,clock),
+    /SCHEMA_MODIFIED_MATERIAL_DATE_NOT_VERIFIED/);
+  assert.throws(()=>assertMaterialWebpageSchema(valid,hydrationPath,date,"0.8.233",clock),
+    /SCHEMA_LIVE_RELEASE_MISMATCH/);
 });

@@ -37,7 +37,7 @@ test("Actual PHP callback rewrites only our exact HTTP host and preserves metada
     "https://zaprazi.cz/ok", "/relative/"
   ]);
   assert.deepEqual(result.index, [
-    {loc: "https://zaprazi.cz/page-sitemap.xml", lastmod: "2026-11-15T00:00:00+00:00", mod: "keep"},
+    {loc: "https://zaprazi.cz/page-sitemap.xml", lastmod: "2026-11-18T00:00:00+00:00", mod: "keep"},
     {loc: "https://other.example/sitemap.xml", lastmod: "2026-10-01T00:00:00+00:00"}, {invalid: "keep"}
   ]);
   assert.deepEqual(result.index_newer, [

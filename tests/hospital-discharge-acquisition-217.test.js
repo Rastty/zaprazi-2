@@ -27,7 +27,7 @@ test("217 dated revision and SEO metadata honor exact-live predecessor gate",()=
  assert.match(php,/return 'Propuštění z nemocnice: 7 otázek pro rodinu \| Zápraží';/);
  assert.match(php,/return 'Propuštění z nemocnice: 7 otázek pro lékaře, sestru a rodinu/);
  assert.equal(SOURCE_DATES["/otazky-pred-propustenim-z-nemocnice/"],"2026-11-10");
- assert.equal(Object.keys(SOURCE_DATES).length,11);
+ assert.equal(Object.keys(SOURCE_DATES).length,12);
  assert.equal(Object.keys(PREDEPLOY_216_MATERIAL_DATES).length,10);
  const before=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.217",liveRelease:"0.8.216",integrity:"ok"});
  assert.equal(before.mode,"predeploy_verified_216_dates_only");

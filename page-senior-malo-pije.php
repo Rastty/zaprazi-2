@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */
+/* ZP_RELEASE_0_8_234 */
 /*
 Template Name: Zápraží — Senior málo pije
 */
@@ -90,6 +90,38 @@ get_header();
 <details><summary>Pomůže brčko, když při pití kašle?</summary><p>Ne automaticky. Opakované zakuckávání může znamenat poruchu polykání, kterou má posoudit zdravotník. Brčko ani zahušťování podle domácího odhadu nemusí být bezpečné.</p></details>
 <details><summary>Jaké jsou příznaky dehydratace?</summary><p>Může se objevit tmavší moč, méně močení, sucho v ústech, závrať nebo neobvyklá únava. Tyto příznaky nejsou samy o sobě diagnózou. Závažná zmatenost a porucha vědomí vyžadují akutní pomoc.</p></details>
 <details><summary>Kdy má smysl speciální hrnek?</summary><p>Pokud člověk bezpečně polyká, ale nedokáže hrnek dobře držet či naklánět. Vhodnou pomůcku vybírejte podle úchopu a skutečné manipulace, nikoli podle reklamního slibu.</p></details>
+</div></section>
+
+<section id="senior-nechce-jist" class="zp-section zp-section-soft" aria-labelledby="senior-nechce-jist-title"><div class="zp-wrap">
+<p class="zp-kicker">Když nejde jen o pití · Pro rodinu</p>
+<h2 id="senior-nechce-jist-title" class="zp-section-title">Senior nechce jíst: co zjistit dřív, než začnete přemlouvat nebo kupovat pomůcky?</h2>
+<p>Nechutenství není automaticky tvrdohlavost. Může souviset s bolestí, léky, nemocí, náladou, obtížným kousáním nebo polykáním; z pouhého odmítání jídla příčinu nepoznáme. <strong>Nejdřív odlište zdravotní riziko od obtížné manipulace s jídlem.</strong> Pokud člověk jí málo delší dobu nebo nechtěně hubne, obraťte se na praktického lékaře. O tom, zda je potřeba nutriční péče, rozhoduje odborné posouzení.</p>
+<div class="zp-decision-grid">
+<article class="zp-decision-card"><h3>Akutní dušení nebo porucha vědomí</h3><p><strong>Volejte 155.</strong> Při vážném dušení, závažné dušnosti nebo poruše vědomí nezkoušejte člověku podávat další jídlo či tekutiny. Nejde o situaci pro domácí výběr pomůcky.</p></article>
+<article class="zp-decision-card"><h3>Kašle při jídle nebo špatně polyká</h3><p><strong>Neřešte to improvizovanou změnou konzistence, brčkem ani nuceným krmením.</strong> Potíže s polykáním musí posoudit lékař; vhodnost upravené stravy či tekutin určuje odborník podle vyšetření. Při neschopnosti bezpečně přijímat jídlo či tekutiny zajistěte neodkladné zdravotnické posouzení.</p></article>
+<article class="zp-decision-card"><h3>Trvalé nechutenství nebo nechtěné hubnutí</h3><p><strong>Objednejte praktického lékaře.</strong> Připravte přibližnou dobu trvání, změny hmotnosti, obtíže, seznam léků a to, co člověk skutečně snědl. Závažná podvýživa a nevysvětlený úbytek hmotnosti vyžadují zjištění příčiny, nikoli univerzální jídelníček z internetu.</p></article>
+<article class="zp-decision-card"><h3>Jíst chce, ale nezvládá přípravu nebo příbor</h3><p>Pokud člověk <strong>bezpečně kouše a polyká</strong>, ale problém je v úchopu, stabilitě misky nebo přípravě jídla jednou rukou, lze ověřit praktické podmínky používání pomůcky. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/#poradce-sobestacnost' ) ); ?>">Poradce pro soběstačnost</a> neřeší nechutenství ani polykání.</p></article>
+</div>
+<h3>Sedm otázek pro klidný rozhovor a přípravu návštěvy lékaře</h3>
+<ol class="zp-guide-steps zp-guide-checklist">
+<li><strong>Co se změnilo a od kdy?</strong> Jí méně než dřív, vynechává celé porce nebo odmítá určité konzistence?</li>
+<li><strong>Je polykání bezpečné?</strong> Objevuje se kašel při jídle, nemožnost sousto polknout nebo jiné nové potíže? Neprovádějte riskantní domácí testy.</li>
+<li><strong>Co mu vadí?</strong> Bolest v ústech, špatně sedící zubní náhrada, nevolnost, změněná chuť, únava nebo jiná obtíž? Příčinu má vyhodnotit zdravotník.</li>
+<li><strong>Kolik skutečně snědl?</strong> Zapište orientačně jídla a pití během běžného dne. Změnu hmotnosti sledujte jen pokud to lze bezpečně a přiměřeně.</li>
+<li><strong>Má doporučenou dietu či omezení?</strong> Pokud ano, neměňte je sami. Stravu upravenou kvůli polykání nemíchejte podle univerzálních návodů.</li>
+<li><strong>Je jídlo dostupné a příjemné?</strong> Pokud bezpečně jí, nabídněte známé oblíbené jídlo, vhodné prostředí a společnost bez nátlaku; při přetrvávajícím nechutenství to nenahrazuje lékaře.</li>
+<li><strong>Kdo převezme další krok?</strong> Při trvajících obtížích kontaktujte praktika, u rizika podvýživy se ptejte na nutričního terapeuta; při podezření na poruchu polykání na příslušné odborné vyšetření.</li>
+</ol>
+<p class="zp-section-note">Seznam si lze vytisknout; na webu nic nevyplňujete. <strong>Nedoporučujeme kalorický cíl, výživový doplněk, změnu léků ani texturu stravy bez individuálního posouzení.</strong></p>
+<div class="zp-hero-actions"><a class="zp-btn" href="#varovne-priznaky-malo-pije">Zkontrolovat i bezpečnost pití</a><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/#poradce-sobestacnost' ) ); ?>">Je problém jen v úchopu a přípravě jídla?</a></div>
+<h3>Oficiální podklady k nechutenství a bezpečnému polykání</h3>
+<ul>
+<li><a class="zp-text-link" href="https://www.nzip.cz/rejstrikovy-pojem/1947" target="_blank" rel="noopener noreferrer">NZIP: Nechutenství</a> – příznak s různými příčinami, při delším trvání návštěva praktika.</li>
+<li><a class="zp-text-link" href="https://www.nzip.cz/clanek/1498-podvaha-a-podvyziva" target="_blank" rel="noopener noreferrer">NZIP: Podváha a podvýživa</a> – nechtěný úbytek hmotnosti a potřeba odborného posouzení.</li>
+<li><a class="zp-text-link" href="https://www.nzip.cz/rejstrikovy-pojem/1949" target="_blank" rel="noopener noreferrer">NZIP: Porucha polykání</a> – příčinu dysfagie musí objasnit lékař.</li>
+<li><a class="zp-text-link" href="https://www.nzip.cz/clanek/1873-diety-s-upravenou-texturou-stravy" target="_blank" rel="noopener noreferrer">NZIP: Diety s upravenou texturou</a> – úprava konzistence podle odborného vyšetření, nikoli domácí odhad.</li>
+</ul>
+<p class="zp-muted-copy">Podklady zkontrolovány 18. 11. 2026. Obecná redakční orientace, bez doložené externí klinické revize; nenahrazuje lékaře, nutričního terapeuta ani vyšetření polykání.</p>
 </div></section>
 
 <section id="zdroje-senior-malo-pije" class="zp-section"><div class="zp-wrap">

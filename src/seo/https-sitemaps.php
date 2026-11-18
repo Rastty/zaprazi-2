@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */
+/* ZP_RELEASE_0_8_234 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -84,6 +84,9 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-15: walker hub gained a substantive first-screen home/outdoor/
  * assisted-walking decision route in 0.8.220; the other two 0.8.213
  * mobility pages were not materially revised by this release.
+ * 2026-11-18: existing senior hydration guide gained a distinct, source-backed
+ * refusal-to-eat and safe-swallowing decision section, with two contextual
+ * entries. This is a material editorial revision of that one canonical URL.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
@@ -98,6 +101,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
     'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',
     'otazky-pred-propustenim-z-nemocnice' => '2026-11-10T00:00:00+00:00',
+    'senior-malo-pije' => '2026-11-18T00:00:00+00:00',
   );
 }
 

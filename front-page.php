@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */ get_header(); ?>
+/* ZP_RELEASE_0_8_234 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">
@@ -31,7 +31,7 @@
         <article class="zp-decision-card"><h3>Invalidní vozík</h3><p>Mechanický nebo elektrický vozík podle pohonu, sedu, průchodů a způsobu pořízení.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/' ) ); ?>">Řešit invalidní vozík</a></p></article>
         <article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>Co musí fungovat první noc doma: vstup, přesuny, WC, postel a návazná péče.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Připravit návrat domů</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/#domaci-zdravotni-pece-nebo-pecovatelska-sluzba' ) ); ?>">Zdravotní péče, nebo pečovatelská služba?</a></p></article>
         <article class="zp-decision-card"><h3>Senior je doma sám</h3><p>Jak zajistit, aby po pádu nebo při nevolnosti někdo převzal přivolání pomoci — přes telefon, SOS hodinky nebo tísňovou péči.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-doma-sam-sos-pomoc/#vyber-sos-pomoci' ) ); ?>">Jak vybrat spolehlivý způsob pomoci</a></p></article>
-        <article class="zp-decision-card"><h3>Každodenní soběstačnost</h3><p>Samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řešit soběstačnost</a></p></article>
+        <article class="zp-decision-card"><h3>Každodenní soběstačnost</h3><p>Samostatné pití, stabilizace nádoby a jednoduché jídlo jednou rukou.</p><p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/sobestacnost/' ) ); ?>">Řešit soběstačnost</a></p><p>Senior odmítá jídlo nebo nechtěně hubne? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-malo-pije/#senior-nechce-jist' ) ); ?>">Nejdřív rozlišit nechutenství a potíže s polykáním</a>.</p></article>
       </div>
       <p class="zp-section-note">Nevíte, do které oblasti začít? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/' ) ); ?>">Přehled kompenzačních pomůcek pro seniory podle situace</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Pomůcky na pojišťovnu</a>.</p>
     </div>

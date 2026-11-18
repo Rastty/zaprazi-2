@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_233 */
+/* ZP_RELEASE_0_8_234 */
 /*
 Template Name: Zápraží — Příspěvek na péči pro seniora
 */

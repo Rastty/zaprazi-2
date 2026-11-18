@@ -92,8 +92,8 @@ export async function fetchLiveIndexability(path,fetcher=fetch,release=SOURCE_TH
   try{html=await response.text();}catch{throw Error("INDEX_LIVE_HTML_UNREADABLE");}
   return inspectIndexabilityHtml(path,html,response.headers,release);
 }
-/** Only the exact independently verified predecessor is allowed on 0.8.221 PRs.
- * A push/schedule or any unrelated future release must audit its own live code.
+/** Only independently verified exact predecessors are permitted in PR gates.
+ * A push/schedule or any unrelated release must audit its own live code.
  */
 export function selectIndexWatchScope(event,sourceRelease,readiness){
   if(readiness?.integrity!=="ok"||readiness?.configured_total!==25||
@@ -102,6 +102,10 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
     return {release:sourceRelease,mode:"exact_live_source"};
   if(event==="pull_request"&&sourceRelease==="0.8.221"&&readiness.release==="0.8.220")
     return {release:"0.8.220",mode:"predeploy_verified_220_only"};
+  // Editorial 0.8.234 does not alter these four watched canonical pages.
+  // Check precisely the live 0.8.233 predecessor until owner deploys.
+  if(event==="pull_request"&&sourceRelease==="0.8.234"&&readiness.release==="0.8.233")
+    return {release:"0.8.233",mode:"predeploy_verified_233_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

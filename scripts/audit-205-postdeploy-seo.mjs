@@ -40,6 +40,12 @@ export function materialLastmodDates(source) {
 export const SOURCE_DATES=materialLastmodDates(
   readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8")
 );
+// The eating-refusal editorial block is new in candidate 0.8.234. A PR
+// against independently verified live 0.8.233 must not claim its new Yoast
+// date is deployed. Keep every older page in the live acceptance scope.
+const PRE_234_MATERIAL_DATES=Object.freeze(Object.fromEntries(
+  Object.entries(SOURCE_DATES).filter(([path])=>path!=="/senior-malo-pije/")
+));
 // Legacy exact 0.8.208 baseline for the one historic 0.8.209 PR gate.
 // Do not extend this allowlist when later releases add new canonical pages.
 const LEGACY_208_MATERIAL_PATHS=new Set([
@@ -47,7 +53,7 @@ const LEGACY_208_MATERIAL_PATHS=new Set([
   "/koupelna-a-wc/","/kompenzacni-pomucky-pro-seniory/"
 ]);
 export const PREDEPLOY_216_MATERIAL_DATES=Object.freeze(Object.fromEntries(
-  Object.entries(SOURCE_DATES).filter(([path])=>path!=="/otazky-pred-propustenim-z-nemocnice/")
+  Object.entries(PRE_234_MATERIAL_DATES).filter(([path])=>path!=="/otazky-pred-propustenim-z-nemocnice/")
     .map(([path,date])=>[path,path==="/choditka-pro-seniory/"?"2026-11-10":date])
 ));
 // Exact live 0.8.220 has the old 10 November walker metadata, even though
@@ -55,9 +61,10 @@ export const PREDEPLOY_216_MATERIAL_DATES=Object.freeze(Object.fromEntries(
 // PR must validate only this independently observed predecessor value, not
 // pretend that the new candidate metadata has reached WordPress.
 export const PREDEPLOY_220_MATERIAL_DATES=Object.freeze({
-  ...SOURCE_DATES,
+  ...PRE_234_MATERIAL_DATES,
   "/choditka-pro-seniory/":"2026-11-10"
 });
+export const PREDEPLOY_233_MATERIAL_DATES=PRE_234_MATERIAL_DATES;
 export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
   Object.entries(SOURCE_DATES).filter(([path])=>LEGACY_208_MATERIAL_PATHS.has(path))
 ));
@@ -172,6 +179,8 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
     return {dates:PREDEPLOY_216_MATERIAL_DATES,mode:"predeploy_verified_216_dates_only"};
   if(event==="pull_request"&&sourceRelease==="0.8.221"&&liveRelease==="0.8.220")
     return {dates:PREDEPLOY_220_MATERIAL_DATES,mode:"predeploy_verified_220_dates_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.234"&&liveRelease==="0.8.233")
+    return {dates:PREDEPLOY_233_MATERIAL_DATES,mode:"predeploy_verified_233_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

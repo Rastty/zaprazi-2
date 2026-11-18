@@ -25,11 +25,12 @@ test("release keeps the 0.8.186 human UX while all 100 runtime markers match the
   assert.ok(!css.includes("Version: 0.8.185"));
 });
 
-test("all four critical runtime blob SHA locks match their actual checked-in content",()=>{
+test("all five critical runtime blob SHA locks match their actual checked-in content",()=>{
   const fn=read("functions.php");
   for(const path of [
     "src/mobility/engine.js","src/mobility/offer-fit-gate.js",
-    "src/bathroom/engine.js","src/bathroom/preview.js"
+    "src/bathroom/engine.js","src/bathroom/preview.js",
+    "src/evidence/freshness.js"
   ]){
     const content=read(path);
     const blob=createHash("sha1").update("blob "+Buffer.byteLength(content,"utf8")+"\0"+content).digest("hex");

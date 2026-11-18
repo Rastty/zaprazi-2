@@ -1,6 +1,7 @@
-// ZP_RELEASE_0_8_232
+// ZP_RELEASE_0_8_233
 import { chooseEasyFootwear } from "../../src/footwear/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
+import { merchantOfferPresentation } from "../../src/evidence/freshness.js";
 
 const form = document.querySelector("#zp-footwear-advisor");
 const result = document.querySelector("#zp-footwear-result");
@@ -77,6 +78,8 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel && size
     const resolvedUrl = affiliateUrl || candidate.sourceUrl;
     const allowOffer = output.status === "candidate";
     const canLinkSource = canLinkEvidence(candidate.sourceUrl, [candidate.sourceUrl], allowOffer);
+    // The listed price is a dated merchant observation, not a current quote.
+    const offerFreshness = merchantOfferPresentation(candidate.checkedAt);
 
     return `
       <section class="zp-product-section">
@@ -85,7 +88,7 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel && size
           <h4>${escapeHtml(candidate.product)}</h4>
           <ul class="zp-facts">
             ${candidate.facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("")}
-            ${allowOffer ? `<li>Cena při ověření ${escapeHtml(candidate.checkedAt)}: ${escapeHtml(candidate.listedPriceCzk)} Kč (aktuální cenu zkontrolujte u prodejce)</li>` : ""}
+            ${allowOffer && offerFreshness.showDatedPrice ? `<li>Cena při ověření ${escapeHtml(candidate.checkedAt)}: ${escapeHtml(candidate.listedPriceCzk)} Kč (aktuální cenu zkontrolujte u prodejce)</li>` : ""}
           </ul>
           ${output.checks?.length ? `<h5>Co ještě ověřit</h5><ul>${output.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>` : ""}
           <details class="zp-sources">
@@ -97,6 +100,7 @@ if (form && result && submitButton && errorBox && sizeStage && sizeModel && size
           ${allowOffer ? `
             <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
               <strong>${escapeHtml(candidate.merchant)}</strong>
+              ${offerFreshness.message ? `<p class="zp-stale-evidence" data-zp-offer-freshness="${offerFreshness.status}">${escapeHtml(offerFreshness.message)} U obuvi ověřte také správnou velikost.</p>` : ""}
               <a class="zp-link-btn" data-zp-footwear-merchant-link="1" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="${affiliateUrl ? "noopener nofollow sponsored" : "noopener nofollow"}">${affiliateUrl ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}</a>
               ${affiliateUrl ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
             </div>

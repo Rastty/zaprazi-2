@@ -23,7 +23,7 @@ test("current runtime can prepare exactly one patch version without writes",()=>
   const before=readFileSync(new URL("../style.css",import.meta.url),"utf8");
   const paths=parseReleaseManifest(php);
   assert.equal(paths.length,100);
-  assert.equal(sources.size,103); // 100 marker files, PHP, 2 separately pinned Bathroom blobs
+  assert.equal(sources.size,104); // 100 marker files, PHP, 3 separately pinned runtime blobs
   const plan=planRelease(sources,nextVersion);
   assert.equal(plan.current,currentVersion);
   assert.equal(plan.next,nextVersion);

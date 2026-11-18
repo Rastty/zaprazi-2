@@ -18,7 +18,8 @@ export const CRITICAL_FILES=Object.freeze([
   "src/bathroom/engine.js",
   "src/bathroom/preview.js",
   "src/mobility/engine.js",
-  "src/mobility/offer-fit-gate.js"
+  "src/mobility/offer-fit-gate.js",
+  "src/evidence/freshness.js"
 ]);
 
 export function gitBlobSha(content){

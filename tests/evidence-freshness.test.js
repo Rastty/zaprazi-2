@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import {
   EVIDENCE_FRESHNESS_DAYS,
   evidenceAgeDays,
-  evidenceFreshness
+  evidenceFreshness,
+  merchantOfferPresentation
 } from "../src/evidence/freshness.js";
 
 test("evidence age is deterministic from injected reference time", () => {
@@ -23,6 +24,21 @@ test("merchant offer becomes stale after the configured boundary", () => {
   const result = evidenceFreshness("2026-10-06", EVIDENCE_FRESHNESS_DAYS.merchantOffer, now);
   assert.equal(result.status, "stale");
   assert.equal(result.ageDays, 31);
+});
+
+test("merchant presentation distinguishes fresh, expired, and unknown evidence without inferring stock", () => {
+  const now = new Date("2026-11-18T12:00:00Z");
+  const fresh = merchantOfferPresentation("2026-11-10", now);
+  assert.deepEqual(fresh, {status:"fresh",showDatedPrice:true,message:null});
+  const stale = merchantOfferPresentation("2026-10-07", now);
+  assert.equal(stale.status,"stale");
+  assert.equal(stale.showDatedPrice,false);
+  assert.match(stale.message,/30 dnech.*cenu a dostupnost/);
+  const unknown = merchantOfferPresentation("2026-02-30", now);
+  assert.equal(unknown.status,"unknown");
+  assert.equal(unknown.showDatedPrice,false);
+  assert.match(unknown.message,/není spolehlivě doloženo/);
+  assert.doesNotMatch(stale.message+unknown.message,/není skladem|vyprodán|neplatný partnerský odkaz/);
 });
 
 test("future or malformed checked dates fail closed as unknown", () => {

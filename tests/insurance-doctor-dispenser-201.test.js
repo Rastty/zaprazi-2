@@ -60,7 +60,8 @@ test("current source release matches all 100 manifest markers and exact critical
   assert.ok(page.startsWith("<?php\n/* "+marker+" */"));
   for(const file of [
     "src/bathroom/engine.js","src/bathroom/preview.js",
-    "src/mobility/engine.js","src/mobility/offer-fit-gate.js"
+    "src/mobility/engine.js","src/mobility/offer-fit-gate.js",
+    "src/evidence/freshness.js"
   ]){
     const body=read(file);
     const bytes=Buffer.from(body,"utf8");

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_232 */
+/* ZP_RELEASE_0_8_233 */
 /*
 Template Name: Zápraží — Co změřit v koupelně před výběrem pomůcky
 */

@@ -1,6 +1,7 @@
-// ZP_RELEASE_0_8_232
+// ZP_RELEASE_0_8_233
 import { chooseAdlSelfCareAid } from "../../src/adl/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
+import { merchantOfferPresentation } from "../../src/evidence/freshness.js";
 
 const form = document.querySelector("#zp-adl-advisor");
 const result = document.querySelector("#zp-adl-result");
@@ -107,6 +108,7 @@ if (form && result && submitButton && errorBox) {
     const resolvedUrl = affiliateUrl || candidate.sourceUrl;
     const allowOffer = output.status === "candidate";
     const canLinkSource = canLinkEvidence(candidate.sourceUrl, [candidate.sourceUrl], allowOffer);
+    const offerFreshness = merchantOfferPresentation(candidate.checkedAt);
 
     return `
       <section class="zp-product-section">
@@ -127,6 +129,7 @@ if (form && result && submitButton && errorBox) {
           ${allowOffer ? `
             <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
               <strong>${escapeHtml(candidate.merchant)}</strong>
+              ${offerFreshness.message ? `<p class="zp-stale-evidence" data-zp-offer-freshness="${offerFreshness.status}">${escapeHtml(offerFreshness.message)}</p>` : ""}
               <a class="zp-link-btn" data-zp-adl-merchant-link="1" href="${escapeHtml(resolvedUrl)}" target="_blank" rel="${affiliateUrl ? "noopener nofollow sponsored" : "noopener nofollow"}">${affiliateUrl ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}</a>
               ${affiliateUrl ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
             </div>

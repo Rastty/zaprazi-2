@@ -1,0 +1,57 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
+import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
+import {latestReviewedSitemapDate,inspectPageSitemapIndexDate,auditLiveSitemapIndexDate}
+  from "../scripts/audit-live-sitemap-index-date.mjs";
+
+const php=readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8");
+const origin="https://zaprazi.cz";
+const reviewed=latestReviewedSitemapDate(php);
+const index=date=>`<sitemapindex><sitemap><loc>${origin}/post-sitemap.xml</loc><lastmod>2026-10-01T00:00:00+00:00</lastmod></sitemap><sitemap><loc>${origin}/page-sitemap.xml</loc><lastmod>${date}</lastmod></sitemap></sitemapindex>`;
+const ready=JSON.stringify({release:SOURCE_THEME_RELEASE,integrity:"ok",configured_total:25,slot_total:25});
+
+test("uses only the existing reviewed material revisions",()=>{
+  assert.equal(reviewed,"2026-11-15T00:00:00+00:00");
+  assert.throws(()=>latestReviewedSitemapDate("<?php"),/WHITELIST_MISSING/);
+  assert.throws(()=>latestReviewedSitemapDate(php.replace("'choditka-pro-seniory' =>", "'navrat-z-nemocnice' =>")),/DUPLICATE/);
+});
+
+test("postdeploy index must be at least as fresh as the reviewed page revision",()=>{
+  assert.deepEqual(inspectPageSitemapIndexDate(index(reviewed),reviewed),
+    {status:"verified",indexLastmod:reviewed,latestReviewedDate:reviewed,scope:"exact_page_sitemap_only"});
+  assert.equal(inspectPageSitemapIndexDate(index("2026-11-16T12:00:00+00:00"),reviewed).status,"verified");
+  assert.throws(()=>inspectPageSitemapIndexDate(index("2026-10-28T17:25:22+00:00"),reviewed),/STALE/);
+  assert.throws(()=>inspectPageSitemapIndexDate(index("nonsense"),reviewed),/INVALID_FORMAT/);
+});
+
+test("rejects absent, duplicated, external or untrusted page entry",()=>{
+  const good=index(reviewed);
+  assert.throws(()=>inspectPageSitemapIndexDate(good.replace(`${origin}/page-sitemap.xml`,"https://evil.example/page-sitemap.xml"),reviewed),/PAGE_ENTRY/);
+  assert.throws(()=>inspectPageSitemapIndexDate(good.replace("</sitemapindex>",`<sitemap><loc>${origin}/page-sitemap.xml</loc><lastmod>${reviewed}</lastmod></sitemap></sitemapindex>`),reviewed),/PAGE_ENTRY/);
+  assert.throws(()=>inspectPageSitemapIndexDate(good.replace(
+    `<loc>${origin}/page-sitemap.xml</loc><lastmod>${reviewed}</lastmod>`,
+    `<loc>${origin}/page-sitemap.xml</loc><lastmod>${reviewed}</lastmod><lastmod>${reviewed}</lastmod>`
+  ),reviewed),/LASTMOD/);
+  assert.throws(()=>inspectPageSitemapIndexDate(`<!-- ${good} -->`,reviewed),/XML_INVALID/);
+});
+
+test("never reports an older or incomplete production release as successful",async()=>{
+  const responses={
+    [origin+"/wp-json/zaprazi/v1/affiliate-readiness"]:ready,
+    [origin+"/sitemap_index.xml"]:index(reviewed)
+  };
+  const urls=[];
+  const fetcher=async url=>{
+    urls.push(url);
+    return {status:responses[url]===undefined?404:200,url,text:async()=>responses[url]};
+  };
+  const result=await auditLiveSitemapIndexDate(fetcher,php);
+  assert.equal(result.status,"verified");
+  assert.equal(result.release,SOURCE_THEME_RELEASE);
+  assert.deepEqual(urls,Object.keys(responses));
+  responses[origin+"/wp-json/zaprazi/v1/affiliate-readiness"]=ready.replace(SOURCE_THEME_RELEASE,"0.8.231");
+  urls.length=0;
+  await assert.rejects(auditLiveSitemapIndexDate(fetcher,php),/NOT_DEPLOYED/);
+  assert.deepEqual(urls,[origin+"/wp-json/zaprazi/v1/affiliate-readiness"],"do not fetch index on wrong release");
+});

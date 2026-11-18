@@ -31,7 +31,7 @@ test("exact three historical merchant-risk entries match 25 PHP canonical produc
   assert.equal(watchlist.reviewedAt,"2026-11-07");
   assert.equal(watchlist.items.length,3);
   for(const item of watchlist.items){
-    assert.equal(item.priority,"P1");
+    assert.equal(item.priority,item.slot==="lekarna-cz:meyra-ideal-3061982"?"P0":"P1");
     assert.equal(item.canonicalUrl,targets.find(x=>x.key===item.slot)?.url);
     assert.ok(item.publicEvidenceUrls.includes(item.canonicalUrl));
   }
@@ -52,6 +52,7 @@ test("snapshot 404 and bot-blocked 403 remain unresolved, despite public product
     "conflicting_public_evidence_manual_recheck");
   assert.equal(row("lekarna-cz:meyra-ideal-3061982").review_state,
     "automated_access_blocked_manual_recheck");
+  assert.equal(row("lekarna-cz:meyra-ideal-3061982").priority,"P0");
   assert.equal(row("drmax-cz:dma-eh-cmda").review_state,
     "automated_access_blocked_manual_recheck");
   for(const item of review){
@@ -59,7 +60,8 @@ test("snapshot 404 and bot-blocked 403 remain unresolved, despite public product
     assert.equal(item.publisher_deeplink,"unverified");
     assert.equal(item.approved_commission,"unverified");
     assert.match(item.manual_action,/^manual_check_/);
-    assert.equal(item.priority,"P1");
+    assert.equal(item.priority,item.slot==="lekarna-cz:meyra-ideal-3061982"?"P0":"P1");
+    assert.match(item.unresolved_conflict,/^automated_/);
   }
   report.identity_review_queue=review;
   const summary=markdownSummary(report);
@@ -68,7 +70,7 @@ test("snapshot 404 and bot-blocked 403 remain unresolved, despite public product
   assert.doesNotMatch(JSON.stringify(review),/https?:\/\/|[?]subid=/);
 });
 
-test("even fresh HTTP 200 cannot auto-close source-identity and publisher-deeplink checks",()=>{
+test("even HTTP 200 cannot erase a known MEYRA model/measurement conflict or publisher-deeplink unknown",()=>{
   const report=makeReport();
   for(const result of report.results)
     if(watchlist.items.some(x=>x.slot===result.key)){
@@ -76,8 +78,15 @@ test("even fresh HTTP 200 cannot auto-close source-identity and publisher-deepli
       result.http_status=200;
     }
   const review=buildIdentityReviewQueue(report,targets,watchlist);
-  assert.ok(review.every(x=>x.review_state==="reachable_not_identity_or_affiliate_verified"));
+  const meyra=review.find(x=>x.slot==="lekarna-cz:meyra-ideal-3061982");
+  assert.equal(meyra.review_state,"reachable_but_model_dimension_conflict_manual_recheck");
+  assert.equal(meyra.priority,"P0");
+  assert.match(meyra.unresolved_conflict,/dimension_discrepancy/);
+  assert.ok(review.filter(x=>x!==meyra).every(x=>x.review_state==="reachable_not_identity_or_affiliate_verified"));
   assert.ok(review.every(x=>x.publisher_deeplink==="unverified"));
+  const summary=markdownSummary({...report,identity_review_queue:review});
+  assert.match(summary,/reachable_but_model_dimension_conflict_manual_recheck/);
+  assert.match(summary,/dimension_discrepancy/);
 });
 
 test("reject a silent merchant/model swap, affiliate tracking URL, missing source or downgraded risk",()=>{
@@ -89,6 +98,7 @@ test("reject a silent merchant/model swap, affiliate tracking URL, missing sourc
     mutate(x=>{x.items[0].publicEvidenceUrls[0]="https://evil.example/product";}),
     mutate(x=>{x.items[1].publicEvidenceUrls=[];}),
     mutate(x=>{x.items[0].priority="P3";}),
+    mutate(x=>{x.items[1].priority="P1";}),
     mutate(x=>{x.items[2].action="https://affiliate.example?token=secret";}),
     mutate(x=>{x.items[2].slot=x.items[1].slot;}),
     mutate(x=>{x.items.pop();}),

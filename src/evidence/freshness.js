@@ -59,3 +59,18 @@ export function evidenceFreshness(checkedAt, maxAgeDays, now = new Date(), valid
     ageDays
   };
 }
+
+/**
+ * Presentation-only honesty for a dated merchant observation. It never makes
+ * a product eligible, verifies inventory, or changes an affiliate destination.
+ * The historical numeric price may be shown only during the offer window.
+ */
+export function merchantOfferPresentation(checkedAt, now = new Date()) {
+  const freshness = evidenceFreshness(checkedAt, EVIDENCE_FRESHNESS_DAYS.merchantOffer, now);
+  const message = freshness.status === "fresh" ? null :
+    (freshness.status === "stale"
+      ? `Obchodní nabídka nebyla v posledních ${EVIDENCE_FRESHNESS_DAYS.merchantOffer} dnech znovu ověřena.`
+      : "Datum poslední kontroly obchodní nabídky není spolehlivě doloženo.") +
+    " Před nákupem ověřte přesný model, cenu a dostupnost přímo u prodejce.";
+  return { status: freshness.status, showDatedPrice: freshness.status === "fresh", message };
+}

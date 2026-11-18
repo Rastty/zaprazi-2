@@ -1,7 +1,8 @@
-// ZP_RELEASE_0_8_232
+// ZP_RELEASE_0_8_233
 import { recommendAdjustableBed } from "../../src/bed/engine.js";
 import { getAdjustableBedProducts } from "../../src/bed/catalog.js";
 import { previewAdjustableBed } from "../../src/decision/product-preview.js";
+import { merchantOfferPresentation } from "../../src/evidence/freshness.js";
 
 const form = document.querySelector("#zp-bed-advisor");
 const result = document.querySelector("#zp-bed-result");
@@ -97,6 +98,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
         <div class="zp-product-grid">
           ${products.map((product) => {
             const offer = resolveOffer(product.offers[0]);
+            const offerFreshness = merchantOfferPresentation(offer.checkedAt);
             return `
               <article class="zp-product-card">
                 <h4>${escapeHtml(product.name)}</h4>
@@ -105,6 +107,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
                 <details class="zp-sources"><summary>Zdroje a datum ověření</summary><ul>${product.evidence.map((source) => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">Ověřit zdroj</a> <small>ověřeno ${escapeHtml(source.checkedAt)}</small></li>`).join("")}</ul></details>
                 <div class="zp-offer"><small class="zp-affiliate-policy">Výběr produktu se neřídí výší provize.</small>
                   <strong>${escapeHtml(offer.merchantName)}</strong>
+                  ${offerFreshness.message ? `<p class="zp-stale-evidence" data-zp-offer-freshness="${offerFreshness.status}">${escapeHtml(offerFreshness.message)}</p>` : ""}
                   <a class="zp-link-btn" data-zp-bed-merchant-link="1" href="${escapeHtml(offer.resolvedUrl)}" target="_blank" rel="${offer.isAffiliate ? "noopener nofollow sponsored" : "noopener nofollow"}">${offer.isAffiliate ? "Zobrazit cenu a dostupnost" : "Zobrazit produkt a dostupnost"}</a>
                   ${offer.isAffiliate ? '<small class="zp-affiliate-label">Partnerský odkaz</small>' : ""}
                 </div>

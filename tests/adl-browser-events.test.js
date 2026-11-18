@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import vm from "node:vm";
 import { chooseAdlSelfCareAid } from "../src/adl/engine.js";
+import { merchantOfferPresentation } from "../src/evidence/freshness.js";
 
 function createAdl() {
   const listeners = {};
@@ -68,7 +69,8 @@ function createAdl() {
     window:{ZaPraziRuntime:{affiliateMap:{}},dispatchEvent(e){emitted.push(e.detail.event);}},
     CustomEvent: class { constructor(type, opts){this.detail=opts.detail;} },
     chooseAdlSelfCareAid,
-    canLinkEvidence: ()=>false
+    canLinkEvidence: ()=>false,
+    merchantOfferPresentation:(checkedAt)=>merchantOfferPresentation(checkedAt,new Date("2026-11-18T12:00:00Z"))
   };
   const script=fs.readFileSync(new URL("../assets/js/adl-advisor.js",import.meta.url),"utf8")
     .replace(/^import .*;\s*$/gm,"");
@@ -96,6 +98,7 @@ test("ADL candidate reveals model-specific fit before any purchase link",()=>{
   h.form.change("productFit","yes");
   h.button.click();
   assert.match(h.result.innerHTML,/data-zp-adl-merchant-link/);
+  assert.match(h.result.innerHTML,/data-zp-offer-freshness="stale"/);
   assert.ok(h.emitted.includes("recommendation_view"));
   h.form.change("mainProblem","swallowing_or_medical");
   assert.equal(h.groups.get("productFit").hidden,true);

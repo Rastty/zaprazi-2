@@ -7,8 +7,9 @@ import { getAdjustableBedProducts } from "../src/bed/catalog.js";
 import { recommendWheelchair } from "../src/wheelchair/engine.js";
 import { getWheelchairProducts } from "../src/wheelchair/catalog.js";
 import { previewAdjustableBed, previewWheelchair } from "../src/decision/product-preview.js";
+import { merchantOfferPresentation } from "../src/evidence/freshness.js";
 
-function create(kind) {
+function create(kind, now = "2026-11-18T12:00:00Z") {
   const prefix=kind==="bed"?"bed":"wheelchair";
   const isWheelchair=kind==="wheelchair";
   const requiredAttr=isWheelchair?"zpWheelchairRequired":"zpBedRequired";
@@ -93,7 +94,8 @@ function create(kind) {
     window:{ZaPraziRuntime:{affiliateMap:{}},dispatchEvent(evt){emitted.push(evt.detail?.event);}},
     CustomEvent:class{constructor(type,opts){this.detail=opts.detail;}},
     recommendAdjustableBed,getAdjustableBedProducts,previewAdjustableBed,
-    recommendWheelchair,getWheelchairProducts,previewWheelchair
+    recommendWheelchair,getWheelchairProducts,previewWheelchair,
+    merchantOfferPresentation:(checkedAt)=>merchantOfferPresentation(checkedAt,new Date(now))
   };
   const filename="assets/js/"+kind+"-advisor.js";
   const script=fs.readFileSync(new URL("../"+filename,import.meta.url),"utf8")
@@ -103,6 +105,23 @@ function create(kind) {
 }
 
 for(const kind of ["bed","wheelchair"]){
+  test(kind+" displays stale merchant evidence only after actual fit completion",()=>{
+    const h=create(kind);
+    h.submitButton.click();
+    assert.doesNotMatch(h.preview.innerHTML,/data-zp-offer-freshness|merchant-link/);
+    for(const name of h.fitFields)
+      h.form.change(name,name==="wheelType"?"pneumatic":name==="seatWidthVariant"?"48":"yes");
+    h.submitButton.click();
+    assert.match(h.result.innerHTML,/data-zp-offer-freshness="stale"/);
+    assert.match(h.result.innerHTML,/30 dnech znovu ověřena/);
+    assert.match(h.result.innerHTML,/data-zp-.*merchant-link/);
+    const early=create(kind,"2026-10-17T12:00:00Z");
+    early.submitButton.click();
+    for(const name of early.fitFields)
+      early.form.change(name,name==="wheelType"?"pneumatic":name==="seatWidthVariant"?"48":"yes");
+    early.submitButton.click();
+    assert.doesNotMatch(early.result.innerHTML,/data-zp-offer-freshness/);
+  });
   test(kind+" first click reveals actual model, not merchant link",()=>{
     const h=create(kind);
     assert.equal(h.stage.hidden,true);

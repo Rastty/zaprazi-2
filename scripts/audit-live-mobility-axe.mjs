@@ -123,7 +123,9 @@ try {
       const supportFocus = await focusedControl();
       assert.equal(supportFocus.name, "supportNeed", "Tab did not reach support need group");
       assertVisibleFocus(supportFocus, "Support need radio");
-      await page.keyboard.press("Shift+Tab");
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
       assert.equal((await focusedControl()).name, "environment", "Shift+Tab skipped environment group");
       keyboardChecks++;
 

@@ -17,6 +17,11 @@ export function summarizeAxeRun({path, viewport, state, result}) {
   if (!/^\/[a-z0-9-]+\/$/.test(path)) throw new Error("Unsafe audit path");
   if (!["mobile", "desktop"].includes(viewport)) throw new Error("Unsafe viewport");
   if (!["entry", "incomplete", "verified"].includes(state)) throw new Error("Unsafe state");
+  return {path, viewport, state, ...summarizeAxeFindings(result)};
+}
+
+/** Safe rule counts shared by independent read-only browser audits. */
+export function summarizeAxeFindings(result) {
   if (!result || !Array.isArray(result.violations) || !Array.isArray(result.incomplete)) {
     throw new Error("Missing axe result");
   }
@@ -27,11 +32,7 @@ export function summarizeAxeRun({path, viewport, state, result}) {
     affectedNodes: Number.isSafeInteger(finding.nodeCount) && finding.nodeCount >= 0
       ? finding.nodeCount : 0
   })).sort((a, b) => a.rule.localeCompare(b.rule));
-  return {
-    path, viewport, state,
-    violations: summarized(result.violations),
-    incomplete: summarized(result.incomplete)
-  };
+  return {violations: summarized(result.violations), incomplete: summarized(result.incomplete)};
 }
 
 export function countViolations(scans) {

@@ -53,9 +53,9 @@ test("0.8.213 Chrome acceptance is exact-release, production-only and read-only"
   assert.ok(rollator.includes('id="rollator-uzke-dvere"'));
   assert.ok(hub.includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
   assert.ok(insurance.includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
-  for(const slug of ["rollator-pro-seniory","choditko-na-pojistovnu"])
-    assert.ok(sitemap.includes("'"+slug+"' => '2026-11-10T00:00:00+00:00'"));
-  assert.ok(sitemap.includes("'choditka-pro-seniory' => '2026-11-15T00:00:00+00:00'"));
+  assert.ok(sitemap.includes("'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00'"));
+  assert.ok(sitemap.includes("'choditko-na-pojistovnu' => '2026-11-16T00:00:00+00:00'"));
+  assert.ok(sitemap.includes("'choditka-pro-seniory' => '2026-11-17T00:00:00+00:00'"));
   const syntax=spawnSync(process.execPath,["--check","scripts/audit-live-rollator-doorway-213.mjs"],
     {encoding:"utf8"});
   assert.equal(syntax.status,0,syntax.stderr||"Invalid postdeploy rollator Chrome script");

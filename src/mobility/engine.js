@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_236
+// ZP_RELEASE_0_8_237
 const ENVIRONMENTS = new Set(["indoor", "outdoor", "both"]);
 const SUPPORT_NEEDS = new Set(["light", "steady", "person_assist", "unknown"]);
 const BRAKE_USE = new Set(["yes", "no", "unknown"]);

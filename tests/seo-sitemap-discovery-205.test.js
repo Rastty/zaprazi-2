@@ -46,10 +46,12 @@ test("Only materially changed canonical pages receive bounded sitemap lastmod",(
     "$r6=zaprazi_2_https_sitemap_entry($before,'taxonomy',$rent);",
     "$measured=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'co-zmerit-pred-vyberem-choditka'];",
     "$walker=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'choditka-pro-seniory'];",
+    "$insurance=(object)['post_type'=>'page','post_status'=>'publish','post_name'=>'choditko-na-pojistovnu'];",
     "$r7=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/co-zmerit-pred-vyberem-choditka/','mod'=>'2026-10-01'],'post',$measured);",
     "$r8=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/choditka-pro-seniory/','mod'=>'2026-10-01'],'post',$walker);",
+    "$r9=zaprazi_2_https_sitemap_entry(['loc'=>'https://zaprazi.cz/choditko-na-pojistovnu/','mod'=>'2026-10-01'],'post',$insurance);",
     "$dates=zaprazi_2_material_sitemap_page_dates();",
-    "echo json_encode(compact('registered','r1','r2','r3','r4','r5','r6','r7','r8','dates'));"
+    "echo json_encode(compact('registered','r1','r2','r3','r4','r5','r6','r7','r8','r9','dates'));"
   ].join("\n");
   const x=JSON.parse(execFileSync("php",["-r",code],{
     cwd:root.pathname,encoding:"utf8"
@@ -69,8 +71,9 @@ test("Only materially changed canonical pages receive bounded sitemap lastmod",(
   assert.equal(x.r4.mod,"2026-10-02T10:00:00+00:00");
   assert.equal(x.r5.mod,"2026-10-01");
   assert.equal(x.r6.mod,"2026-10-02T10:00:00+00:00");
-  assert.equal(x.r7.mod,"2026-11-08T00:00:00+00:00");
-  assert.equal(x.r8.mod,"2026-11-15T00:00:00+00:00");
+  assert.equal(x.r7.mod,"2026-11-16T00:00:00+00:00");
+  assert.equal(x.r8.mod,"2026-11-17T00:00:00+00:00");
+  assert.equal(x.r9.mod,"2026-11-16T00:00:00+00:00");
   assert.deepEqual(Object.keys(x.dates).sort(),[
     "pujceni-choditka","choditko-na-pojistovnu","koupelna-a-wc",
     "kompenzacni-pomucky-pro-seniory","co-zmerit-pred-vyberem-choditka",

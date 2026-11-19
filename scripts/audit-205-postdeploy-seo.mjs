@@ -181,6 +181,10 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
     return {dates:PREDEPLOY_220_MATERIAL_DATES,mode:"predeploy_verified_220_dates_only"};
   if(event==="pull_request"&&sourceRelease==="0.8.234"&&liveRelease==="0.8.233")
     return {dates:PREDEPLOY_233_MATERIAL_DATES,mode:"predeploy_verified_233_dates_only"};
+  // CSS-only 0.8.235 preserves all twelve material source revisions. Audit
+  // exactly the verified live predecessor; do not accept other old releases.
+  if(event==="pull_request"&&sourceRelease==="0.8.235"&&liveRelease==="0.8.234")
+    return {dates:SOURCE_DATES,mode:"predeploy_verified_234_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

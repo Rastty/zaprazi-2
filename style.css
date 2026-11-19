@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.234
+Version: 0.8.235
 Text Domain: zaprazi-2
 */
 
@@ -144,6 +144,9 @@ a{color:inherit}
 
 .zp-product-section{margin-top:28px;padding-top:22px;border-top:2px solid var(--zp-line)}
 .zp-product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+/* A single safe candidate should not be squeezed into half an empty grid.
+   Keep a readable line length; multi-candidate comparisons remain two columns. */
+.zp-product-grid > .zp-product-card:only-child{grid-column:1 / -1;width:100%;max-width:780px}
 .zp-product-card{border:1px solid var(--zp-line);border-radius:16px;padding:18px;background:var(--zp-paper)}
 .zp-product-card h4{font-size:1.15rem;margin:.2rem 0 .8rem}
 .zp-product-family{margin:0;color:var(--zp-muted);font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
@@ -371,7 +374,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_234 */
+/* ZP_RELEASE_0_8_235 */
 
 
 .zp-affiliate-policy {

@@ -1,0 +1,56 @@
+name: Bathroom axe WCAG baseline (read-only)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-bathroom-axe.mjs"
+      - "scripts/lib/axe-audit-summary.mjs"
+      - "tests/axe-audit-summary.test.js"
+      - ".github/workflows/bathroom-axe-baseline.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-bathroom-axe.mjs"
+      - "scripts/lib/axe-audit-summary.mjs"
+      - "tests/axe-audit-summary.test.js"
+      - ".github/workflows/bathroom-axe-baseline.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zaprazi-readonly-bathroom-axe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  axe-observational-baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check source and privacy-only reporting tests
+        run: |
+          node --check scripts/audit-live-bathroom-axe.mjs
+          node --test tests/axe-audit-summary.test.js
+      - name: Install isolated browser and axe runtime (no dependency manifest changes)
+        run: npm install --no-save --no-package-lock puppeteer-core@24 axe-core@4.12.1
+      - name: Inspect deployed 0.8.236 or newer Bathroom UX in real Chrome
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_LIVE_ORIGIN: https://zaprazi.cz
+          ZP_A11Y_RESULT_FILE: /tmp/zp-bathroom-axe-baseline.json
+        run: node scripts/audit-live-bathroom-axe.mjs
+      - name: Upload narrow safe WCAG rule-count baseline, not DOM or answers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zaprazi-bathroom-axe-baseline
+          path: /tmp/zp-bathroom-axe-baseline.json
+          if-no-files-found: ignore
+          retention-days: 14

@@ -87,6 +87,19 @@ test("0.8.235 visual-only PR audits exactly deployed 0.8.234",()=>{
    ["pull_request",{...live,slot_total:24}]
  ])assert.throws(()=>selectIndexWatchScope(event,"0.8.235",readiness),/INDEX_LIVE_/);
 });
+test("0.8.236 consent-only PR audits exactly deployed 0.8.235",()=>{
+ const live={release:"0.8.235",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.236",live),
+   {release:"0.8.235",mode:"predeploy_verified_235_only"});
+ assert.deepEqual(selectIndexWatchScope("schedule","0.8.236",{...live,release:"0.8.236"}),
+   {release:"0.8.236",mode:"exact_live_source"});
+ for(const [event,readiness] of [
+   ["push",live],["schedule",live],
+   ["pull_request",{...live,release:"0.8.234"}],
+   ["pull_request",{...live,integrity:"partial"}],
+   ["pull_request",{...live,configured_total:24}]
+ ])assert.throws(()=>selectIndexWatchScope(event,"0.8.236",readiness),/INDEX_LIVE_/);
+});
 test("commented or scripted fake canonical/meta tags never satisfy the real head",()=>{
  const decoys=[
    '<!-- <link rel="canonical" href="'+ORIGIN+path+'"> -->',

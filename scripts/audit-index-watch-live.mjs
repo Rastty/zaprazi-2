@@ -110,6 +110,10 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // indexed decision URLs have identical canonical, robots and content scope.
   if(event==="pull_request"&&sourceRelease==="0.8.235"&&readiness.release==="0.8.234")
     return {release:"0.8.234",mode:"predeploy_verified_234_only"};
+  // 0.8.236 changes only the opt-in GA4 consent adapter and release markers;
+  // the four watched public HTML/canonical/sitemap paths remain unchanged.
+  if(event==="pull_request"&&sourceRelease==="0.8.236"&&readiness.release==="0.8.235")
+    return {release:"0.8.235",mode:"predeploy_verified_235_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

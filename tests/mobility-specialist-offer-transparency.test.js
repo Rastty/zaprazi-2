@@ -59,7 +59,8 @@ function renderSpecialist(advisor, affiliate = true) {
     CustomEvent: class {},
     recommendMobility, getMobilityProducts, renderMobilityProductFitGate,
     installMobilityProductFitGate, getMobilityNextSteps, getMobilitySafeRecovery,
-    EVIDENCE_FRESHNESS_DAYS, evidenceFreshness
+    EVIDENCE_FRESHNESS_DAYS,
+    evidenceFreshness:(checkedAt,days)=>evidenceFreshness(checkedAt,days,new Date("2026-11-19T12:00:00Z"))
   }, { timeout: 1500, filename: `${advisor}-advisor.js` });
   assert.ok(submit.clickHandler);
   submit.clickHandler();
@@ -75,7 +76,13 @@ for (const advisor of ["indoor-walker", "rollator"]) {
     assert.match(locked, /Partnerský odkaz/);
     assert.match(locked, /rel="noopener nofollow sponsored"/);
     assert.ok(locked.includes(url), "Exact configured affiliate destination is retained");
-    assert.match(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/);
+    if (advisor === "indoor-walker") {
+      assert.doesNotMatch(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/,
+        "Rechecked WA21 must not be presented as stale in a fixed November snapshot");
+    } else {
+      assert.match(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/,
+        "Unresolved MEYRA offer must still disclose stale merchant evidence");
+    }
     assert.match(locked, /Obchod uvádí|Lékárna.cz uvádí/,
       "Important direct-payment and insurance qualification remains visible");
   });
@@ -86,6 +93,10 @@ for (const advisor of ["indoor-walker", "rollator"]) {
     assert.ok(locked);
     assert.doesNotMatch(locked, /Partnerský odkaz|rel="noopener nofollow sponsored"/);
     assert.match(locked, /Zobrazit produkt a dostupnost/);
-    assert.match(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/);
+    if (advisor === "indoor-walker") {
+      assert.doesNotMatch(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/);
+    } else {
+      assert.match(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/);
+    }
   });
 }

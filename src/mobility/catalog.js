@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_237
+// ZP_RELEASE_0_8_238
 import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const MOBILITY_PRODUCTS = Object.freeze([
   {
@@ -39,7 +39,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
         affiliateUrl: null,
         acquisitionMode: "direct_pay",
         note: "Obchod uvádí, že nespolupracuje se zdravotními pojišťovnami a nákup je plně hrazen zákazníkem.",
-        checkedAt: "2026-10-06"
+        checkedAt: "2026-11-19"
       }
     ]
   },
@@ -81,7 +81,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
         affiliateUrl: null,
         acquisitionMode: "direct_pay",
         note: "Obchod uvádí, že nespolupracuje se zdravotními pojišťovnami a nákup je plně hrazen zákazníkem.",
-        checkedAt: "2026-10-06"
+        checkedAt: "2026-11-19"
       }
     ]
   },

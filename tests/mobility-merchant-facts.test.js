@@ -13,7 +13,7 @@ test("only production-approved, exact non-affiliate SKU pages are monitored",()=
  assert.deepEqual([wa17.id,wa21.id],["besco-wa17","besco-wa21"]);
  assert.ok(wa17.url.startsWith("https://www.rehabilitacnipomucky.cz/"));
  assert.ok(wa21.url.startsWith("https://www.rehabilitacnipomucky.cz/"));
- assert.ok(monitoredOffers().every(x=>x.checkedAt==="2026-10-06"));
+ assert.ok(monitoredOffers().every(x=>x.checkedAt==="2026-11-19"));
  const products=[{
   id:"besco-wa17",productionEligible:true,identityStatus:"verified",
   facts:{weightKg:2.3},offers:[{

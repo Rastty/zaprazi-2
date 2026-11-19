@@ -24,6 +24,9 @@ on:
       - "scripts/audit-live-mobility-acquisition-184.mjs"
       - "scripts/audit-live-mobility-hub-194.mjs"
       - "scripts/audit-live-consent-footer-195.mjs"
+      - "scripts/audit-live-basic-consent-236.mjs"
+      - "scripts/lib/basic-consent-audit.mjs"
+      - "tests/basic-consent-audit.test.js"
       - "scripts/audit-live-insurance-model-identity-196.mjs"
       - "scripts/audit-live-walker-safety-197.mjs"
       - "scripts/audit-live-walker-hero-198.mjs"
@@ -127,6 +130,13 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: node scripts/audit-live-release-coherence.mjs
+      # Only after WordPress Pull + Deploy: verify the 0.8.236+ Basic Consent
+      # queue in Chrome. All off-site requests (including GA4) are aborted.
+      - name: Verify postdeploy Basic Consent Mode without sending analytics
+        if: github.event_name != 'pull_request'
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: node scripts/audit-live-basic-consent-236.mjs
       - name: Confirm deployed bed-cost calculator clears obsolete result on invalid input
         env:
           CHROME_BIN: /usr/bin/google-chrome

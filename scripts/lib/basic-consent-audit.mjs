@@ -19,6 +19,21 @@ export function safeConsentAuditFailure(error){
   return "CONSENT_STAGE_UNCLASSIFIED";
 }
 
+// Puppeteer serializes this standalone function into a fresh first-party
+// document. sessionStorage survives a reload in the same tab, so a consent
+// revocation is never overwritten by the QA fixture's initial preference.
+export function seedConsentSmokePreference(key,preference,storage=localStorage,session=sessionStorage){
+  try{
+    const marker="__zp_qa_initial_consent_seeded_v1__";
+    if(session.getItem(marker)==="1")return false;
+    if(preference==="unknown")storage.removeItem(key);
+    else if(preference==="denied"||preference==="granted")storage.setItem(key,preference);
+    else return false;
+    session.setItem(marker,"1");
+    return true;
+  }catch{return false}
+}
+
 export function verifyBasicConsentQueue(calls,expectedLocation){
   assert.ok(Array.isArray(calls)&&calls.length>=4&&calls.length<=16,
     "Unbounded or missing public consent queue");

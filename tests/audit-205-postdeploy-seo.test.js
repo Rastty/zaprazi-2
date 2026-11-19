@@ -83,6 +83,16 @@ test("Only prior four changed pages are asserted before 0.8.209 deploy; full six
   const pre235=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.235",liveRelease:"0.8.234",integrity:"ok"});
   assert.equal(pre235.mode,"predeploy_verified_234_dates_only");
   assert.equal(assertMaterialLastmod(xml,"2026-11-19",pre235.dates).lastmodsVerified,12);
+  const pre236=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.236",liveRelease:"0.8.235",integrity:"ok"});
+  assert.equal(pre236.mode,"predeploy_verified_235_dates_only");
+  assert.equal(assertMaterialLastmod(xml,"2026-11-19",pre236.dates).lastmodsVerified,12);
+  for(const wrong of [
+    {event:"push",liveRelease:"0.8.235",integrity:"ok"},
+    {event:"schedule",liveRelease:"0.8.235",integrity:"ok"},
+    {event:"pull_request",liveRelease:"0.8.234",integrity:"ok"},
+    {event:"pull_request",liveRelease:"0.8.235",integrity:"partial"}
+  ])assert.throws(()=>selectLiveSitemapScope({...wrong,sourceRelease:"0.8.236"}),
+    /SITEMAP_LIVE_(?:RELEASE_MISMATCH|INTEGRITY_FAILED)/);
   for(const wrong of [
     {event:"push",liveRelease:"0.8.234",integrity:"ok"},
     {event:"schedule",liveRelease:"0.8.234",integrity:"ok"},

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_235
+// ZP_RELEASE_0_8_236
 (() => {
   "use strict";
 
@@ -76,6 +76,18 @@
 
     gaLoaded = true;
     ensureGtag();
+
+    // Basic Consent Mode: no tag, network request or consent ping is sent
+    // before opt-in. Once granted, queue explicit defaults and the update
+    // BEFORE any GA4 config/event so BigQuery can distinguish consented
+    // events from an unknown (Unset) consent state. Advertising stays denied.
+    window.gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied"
+    });
+    window.gtag("consent", "update", { analytics_storage: "granted" });
 
     window.gtag("js", new Date());
     window.gtag("config", measurementId, {

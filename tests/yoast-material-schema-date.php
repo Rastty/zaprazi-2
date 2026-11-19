@@ -47,7 +47,7 @@ function zp_schema( $slug, $modified ) {
 }
 $dates = zaprazi_2_material_sitemap_page_dates();
 zp_assert( 12 === count( $dates ), 'The schema source must be exactly the canonical twelve-page date map' );
-foreach ( array( 'choditko-na-pojistovnu', 'rollator-pro-seniory', 'senior-nemuze-vstat-z-postele', 'otazky-pred-propustenim-z-nemocnice', 'senior-malo-pije' ) as $slug ) {
+foreach ( array( 'choditko-na-pojistovnu', 'co-zmerit-pred-vyberem-choditka', 'choditka-pro-seniory', 'rollator-pro-seniory', 'senior-nemuze-vstat-z-postele', 'otazky-pred-propustenim-z-nemocnice', 'senior-malo-pije' ) as $slug ) {
   zp_set_page( $slug );
   $input = zp_schema( $slug, '2026-10-06T20:35:01+00:00' );
   $output = zaprazi_2_yoast_material_webpage_date( $input );

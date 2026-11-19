@@ -40,11 +40,20 @@ export function materialLastmodDates(source) {
 export const SOURCE_DATES=materialLastmodDates(
   readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8")
 );
+// A candidate 0.8.237 corrects three confirmed live per-page Yoast dates.
+// Predeploy tests must compare 0.8.236 against its actual older values, not
+// confuse the candidate timestamps with what is already public.
+export const PREDEPLOY_236_MATERIAL_DATES=Object.freeze({
+  ...SOURCE_DATES,
+  "/choditko-na-pojistovnu/":"2026-11-10",
+  "/co-zmerit-pred-vyberem-choditka/":"2026-11-08",
+  "/choditka-pro-seniory/":"2026-11-15"
+});
 // The eating-refusal editorial block is new in candidate 0.8.234. A PR
 // against independently verified live 0.8.233 must not claim its new Yoast
 // date is deployed. Keep every older page in the live acceptance scope.
 const PRE_234_MATERIAL_DATES=Object.freeze(Object.fromEntries(
-  Object.entries(SOURCE_DATES).filter(([path])=>path!=="/senior-malo-pije/")
+  Object.entries(PREDEPLOY_236_MATERIAL_DATES).filter(([path])=>path!=="/senior-malo-pije/")
 ));
 // Legacy exact 0.8.208 baseline for the one historic 0.8.209 PR gate.
 // Do not extend this allowlist when later releases add new canonical pages.
@@ -66,7 +75,7 @@ export const PREDEPLOY_220_MATERIAL_DATES=Object.freeze({
 });
 export const PREDEPLOY_233_MATERIAL_DATES=PRE_234_MATERIAL_DATES;
 export const PREDEPLOY_BASELINE_DATES=Object.freeze(Object.fromEntries(
-  Object.entries(SOURCE_DATES).filter(([path])=>LEGACY_208_MATERIAL_PATHS.has(path))
+  Object.entries(PREDEPLOY_236_MATERIAL_DATES).filter(([path])=>LEGACY_208_MATERIAL_PATHS.has(path))
 ));
 const HOME_CARDS=Object.freeze([
   {heading:"Chůze a opora",path:"/co-zmerit-pred-vyberem-choditka/",word:"změřit"},
@@ -184,12 +193,17 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   // CSS-only 0.8.235 preserves all twelve material source revisions. Audit
   // exactly the verified live predecessor; do not accept other old releases.
   if(event==="pull_request"&&sourceRelease==="0.8.235"&&liveRelease==="0.8.234")
-    return {dates:SOURCE_DATES,mode:"predeploy_verified_234_dates_only"};
+    return {dates:PREDEPLOY_236_MATERIAL_DATES,mode:"predeploy_verified_234_dates_only"};
   // 0.8.236 only changes opt-in GA4 consent metadata and source integrity
   // markers, with no page/Yoast material edit. PR checks the exact observed
   // 0.8.235 predecessor without pretending that 0.8.236 is deployed.
   if(event==="pull_request"&&sourceRelease==="0.8.236"&&liveRelease==="0.8.235")
-    return {dates:SOURCE_DATES,mode:"predeploy_verified_235_dates_only"};
+    return {dates:PREDEPLOY_236_MATERIAL_DATES,mode:"predeploy_verified_235_dates_only"};
+  // 0.8.237 repairs exactly three materially edited page-level timestamps.
+  // Audit the independently verified 0.8.236 predecessor; never claim that
+  // the corrected XML/schema dates have reached WordPress before owner deploy.
+  if(event==="pull_request"&&sourceRelease==="0.8.237"&&liveRelease==="0.8.236")
+    return {dates:PREDEPLOY_236_MATERIAL_DATES,mode:"predeploy_verified_236_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

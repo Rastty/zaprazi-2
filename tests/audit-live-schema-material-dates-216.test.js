@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import {assertMaterialWebpageSchema} from "../scripts/audit-live-schema-material-dates-216.mjs";
 import {SOURCE_DATES} from "../scripts/audit-205-postdeploy-seo.mjs";
 
-const release="0.8.216",path="/choditko-na-pojistovnu/";
+// The rollator source date is unchanged by the later 0.8.237 Mobility edits;
+// retain this historical schema parser fixture without inventing old dates.
+const release="0.8.216",path="/rollator-pro-seniory/";
 const sourceDate="2026-11-10",url="https://zaprazi.cz"+path;
 const now=new Date("2026-11-11T05:00:00Z");
 function html({mod="2026-11-10T00:00:00+00:00",pub="2026-10-06T20:35:01+00:00",

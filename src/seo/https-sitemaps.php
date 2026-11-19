@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_236 */
+/* ZP_RELEASE_0_8_237 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -87,15 +87,19 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-18: existing senior hydration guide gained a distinct, source-backed
  * refusal-to-eat and safe-swallowing decision section, with two contextual
  * entries. This is a material editorial revision of that one canonical URL.
+ * 2026-11-16: #810 materially revised the insurance guide's first-screen
+ * action and #812 materially revised the walker-measurements decision flow.
+ * 2026-11-17: #814 materially revised the walker hub's first-screen guidance.
+ * These are source-backed content changes, not release or deploy timestamps.
  */
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
     'pujceni-choditka' => '2026-11-09T00:00:00+00:00',
-    'choditko-na-pojistovnu' => '2026-11-10T00:00:00+00:00',
+    'choditko-na-pojistovnu' => '2026-11-16T00:00:00+00:00',
     'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
-    'co-zmerit-pred-vyberem-choditka' => '2026-11-08T00:00:00+00:00',
-    'choditka-pro-seniory' => '2026-11-15T00:00:00+00:00',
+    'co-zmerit-pred-vyberem-choditka' => '2026-11-16T00:00:00+00:00',
+    'choditka-pro-seniory' => '2026-11-17T00:00:00+00:00',
     'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',

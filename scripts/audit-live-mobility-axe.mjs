@@ -31,6 +31,7 @@ const browser = await puppeteer.launch({executablePath: chrome, headless: true,
   args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]});
 const scans = [];
 let nonGetAttempts = 0, blockedExternal = 0, pageErrors = 0;
+let keyboardChecks = 0;
 
 try {
   for (const viewport of MOBILITY_VIEWPORTS) {
@@ -91,6 +92,43 @@ try {
         });
       const submit = () => page.$eval("#zp-mobility-submit", button => button.click());
 
+      const focusedControl = () => page.evaluate(() => {
+        const element = document.activeElement;
+        const style = getComputedStyle(element);
+        return {
+          name: element?.getAttribute("name"),
+          fitCheck: element?.hasAttribute("data-zp-mobility-fit-confirm"),
+          visible: element?.matches(":focus-visible"),
+          outlineWidth: Number.parseFloat(style.outlineWidth),
+          outlineStyle: style.outlineStyle
+        };
+      });
+      const assertVisibleFocus = (focus, description) => {
+        assert.equal(focus.visible, true, `${description} has no visible keyboard focus`);
+        assert.notEqual(focus.outlineStyle, "none", `${description} has no focus outline`);
+        assert.ok(focus.outlineWidth >= 3, `${description} focus outline is too thin`);
+        keyboardChecks++;
+      };
+
+      // Real Tab navigation, not element.focus(): one radio per native group.
+      let environmentFocus;
+      for (let step = 0; step < 70; step++) {
+        await page.keyboard.press("Tab");
+        environmentFocus = await focusedControl();
+        if (environmentFocus.name === "environment") break;
+      }
+      assert.equal(environmentFocus?.name, "environment", "Mobility radio group unreachable by Tab");
+      assertVisibleFocus(environmentFocus, "Environment radio");
+      await page.keyboard.press("Tab");
+      const supportFocus = await focusedControl();
+      assert.equal(supportFocus.name, "supportNeed", "Tab did not reach support need group");
+      assertVisibleFocus(supportFocus, "Support need radio");
+      await page.keyboard.down("Shift");
+      await page.keyboard.press("Tab");
+      await page.keyboard.up("Shift");
+      assert.equal((await focusedControl()).name, "environment", "Shift+Tab skipped environment group");
+      keyboardChecks++;
+
       await capture("entry");
       await submit();
       await capture("incomplete");
@@ -114,6 +152,33 @@ try {
       assert.ok(locked.links >= 1 && locked.allLocked, "Merchant offered before fit confirmation");
       assert.ok(locked.checks >= 3, "Missing fit confirmations");
       await capture("candidate_locked");
+
+      // The product-fit controls must be reachable without a pointer. A single
+      // Space-confirmed checkbox must never unlock the merchant link.
+      await page.$eval("#zp-mobility-submit", button => button.focus());
+      let fitFocus;
+      for (let step = 0; step < 35; step++) {
+        await page.keyboard.press("Tab");
+        fitFocus = await focusedControl();
+        if (fitFocus.fitCheck) break;
+      }
+      assert.equal(fitFocus?.fitCheck, true, "Product-fit confirmations unreachable by Tab");
+      assertVisibleFocus(fitFocus, "Product-fit confirmation");
+      await page.keyboard.press("Space");
+      const partial = await page.evaluate(() => ({
+        selected: [...document.querySelectorAll(
+          "#zp-mobility-result [data-zp-mobility-fit-confirm]")].filter(input => input.checked).length,
+        allMerchantLinksLocked: [...document.querySelectorAll(
+          "#zp-mobility-result [data-zp-merchant-link]")].every(link => Boolean(link.closest("[hidden]")))
+      }));
+      assert.deepEqual(partial, {selected: 1, allMerchantLinksLocked: true},
+        "A partial keyboard fit confirmation unlocked the merchant route");
+      keyboardChecks++;
+      await page.keyboard.press("Space");
+      assert.equal(await page.$eval(
+        "#zp-mobility-result [data-zp-mobility-fit-confirm]", input => input.checked), false,
+      "Keyboard fit confirmation could not be reset");
+      keyboardChecks++;
 
       await page.$$eval("#zp-mobility-result .zp-product-card [data-zp-mobility-fit-confirm]",
         controls => controls.forEach(control => control.click()));
@@ -152,6 +217,7 @@ const report = {
   wcagTags: AXE_TAGS,
   expectedScans: 10,
   actualScans: scans.length,
+  keyboardChecks,
   violationRuleOccurrences: countViolations(scans),
   scans,
   blockedExternalRequests: blockedExternal,
@@ -163,6 +229,7 @@ if (process.env.ZP_MOBILITY_A11Y_RESULT_FILE) {
 }
 console.log("ZP_MOBILITY_AXE_BASELINE", JSON.stringify({
   release: report.release, scans: report.actualScans,
+  keyboardChecks: report.keyboardChecks,
   violationRuleOccurrences: report.violationRuleOccurrences,
   blockedExternalRequests: report.blockedExternalRequests,
   enforce, outboundMerchantClicks: 0, submittedAnswers: 0

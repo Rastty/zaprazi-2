@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "asOf": "2026-11-14",
+  "asOf": "2026-11-15",
   "metrics": {
-    "organic_clicks_28d": 9,
-    "organic_impressions_28d": 1076
+    "organic_clicks_28d": 10,
+    "organic_impressions_28d": 1163
   },
   "metricSources": {
-    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44126542955",
-    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44126542955"
+    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44341902238",
+    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44341902238"
   },
   "nodes": {
     "safety_qa": {

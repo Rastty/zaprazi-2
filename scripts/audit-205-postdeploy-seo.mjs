@@ -185,6 +185,11 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   // exactly the verified live predecessor; do not accept other old releases.
   if(event==="pull_request"&&sourceRelease==="0.8.235"&&liveRelease==="0.8.234")
     return {dates:SOURCE_DATES,mode:"predeploy_verified_234_dates_only"};
+  // 0.8.236 only changes opt-in GA4 consent metadata and source integrity
+  // markers, with no page/Yoast material edit. PR checks the exact observed
+  // 0.8.235 predecessor without pretending that 0.8.236 is deployed.
+  if(event==="pull_request"&&sourceRelease==="0.8.236"&&liveRelease==="0.8.235")
+    return {dates:SOURCE_DATES,mode:"predeploy_verified_235_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

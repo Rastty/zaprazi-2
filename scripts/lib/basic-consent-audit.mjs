@@ -4,6 +4,21 @@
  */
 import assert from "node:assert/strict";
 
+// This whitelist is the ONLY detail allowed into public GitHub Actions logs
+// when a browser assertion fails. Never echo page bodies, raw dataLayer calls,
+// storage values, event details, URLs, exception stacks or browser requests.
+const CONSENT_SCENARIO_STAGES=new Set([
+  "setup","navigation","initial_snapshot","preconsent_silence",
+  "grant_click","grant_queue","anonymous_event","tag_request",
+  "revoke_click","revoked_snapshot","request_boundary"
+]);
+export function safeConsentAuditFailure(error){
+  const message=typeof error?.message==="string"?error.message:"";
+  const matched=/^CONSENT_SCENARIO_(unknown|denied|granted)_([a-z_]+)$/.exec(message);
+  if(matched&&CONSENT_SCENARIO_STAGES.has(matched[2]))return message;
+  return "CONSENT_STAGE_UNCLASSIFIED";
+}
+
 export function verifyBasicConsentQueue(calls,expectedLocation){
   assert.ok(Array.isArray(calls)&&calls.length>=4&&calls.length<=16,
     "Unbounded or missing public consent queue");

@@ -106,6 +106,10 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // Check precisely the live 0.8.233 predecessor until owner deploys.
   if(event==="pull_request"&&sourceRelease==="0.8.234"&&readiness.release==="0.8.233")
     return {release:"0.8.233",mode:"predeploy_verified_233_only"};
+  // 0.8.235 only changes the presentation of a sole product card. All four
+  // indexed decision URLs have identical canonical, robots and content scope.
+  if(event==="pull_request"&&sourceRelease==="0.8.235"&&readiness.release==="0.8.234")
+    return {release:"0.8.234",mode:"predeploy_verified_234_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

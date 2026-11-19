@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {verifyBasicConsentQueue} from "../scripts/lib/basic-consent-audit.mjs";
+import {verifyBasicConsentQueue,safeConsentAuditFailure} from "../scripts/lib/basic-consent-audit.mjs";
 
 const LOCATION="https://zaprazi.cz/choditka-pro-seniory/";
 function acceptedQueue(){
@@ -25,6 +25,17 @@ test("explicit basic consent precedes anonymous GA4 configuration",()=>{
   const calls=acceptedQueue();
   calls.push(["event","builder_start"]);
   assert.equal(verifyBasicConsentQueue(calls,LOCATION).anonymousEvents,1);
+});
+
+test("browser error diagnostics allow only fixed stages, never raw data",()=>{
+  assert.equal(safeConsentAuditFailure(new Error("CONSENT_SCENARIO_unknown_initial_snapshot")),
+    "CONSENT_SCENARIO_unknown_initial_snapshot");
+  assert.equal(safeConsentAuditFailure(new Error("CONSENT_SCENARIO_denied_preconsent_silence")),
+    "CONSENT_SCENARIO_denied_preconsent_silence");
+  assert.equal(safeConsentAuditFailure(new Error("CONSENT_SCENARIO_unknown_private-data")),
+    "CONSENT_STAGE_UNCLASSIFIED");
+  assert.equal(safeConsentAuditFailure(new Error("value=private answers and user URL")),
+    "CONSENT_STAGE_UNCLASSIFIED");
 });
 
 for(const [scenario,mutate] of [

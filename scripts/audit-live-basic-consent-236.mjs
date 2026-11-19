@@ -6,7 +6,7 @@
  */
 import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
-import {verifyBasicConsentQueue} from "./lib/basic-consent-audit.mjs";
+import {verifyBasicConsentQueue,safeConsentAuditFailure} from "./lib/basic-consent-audit.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const PATH="/choditka-pro-seniory/";
@@ -70,6 +70,7 @@ async function runScenario(browser,preference){
   const context=await browser.createBrowserContext();
   let externalRequestsBlocked=0,tagRequestsBlocked=0,nonGetBlocked=0;
   let result;
+  let stage="setup";
   try{
     const page=await context.newPage();
     await page.setViewport({width:390,height:844,deviceScaleFactor:1});
@@ -97,13 +98,16 @@ async function runScenario(browser,preference){
       if(request.method()!=="GET")nonGetBlocked++;
       void (allowed?request.continue():request.abort("blockedbyclient")).catch(()=>{});
     });
+    stage="navigation";
     const response=await page.goto(LOCATION,{waitUntil:"networkidle2",timeout:40000});
     assert.equal(response?.status(),200,"Consent smoke page not available");
+    stage="initial_snapshot";
     const before=await page.evaluate(collectSnapshot);
     verifyPage(before);
     assert.equal(before.stored,preference==="unknown"?null:preference);
     assert.equal(before.bannerVisible,preference==="unknown");
     if(preference!=="granted"){
+      stage="preconsent_silence";
       // An analytics event while still unknown/denied must not load Google.
       await page.evaluate(()=>window.dispatchEvent(new CustomEvent("zaprazi:analytics",{
         detail:{event:"builder_start"}
@@ -117,15 +121,18 @@ async function runScenario(browser,preference){
       result={scenario:preference,ga4Calls:0};
     }else{
       if(preference==="unknown"){
+        stage="grant_click";
         await page.click("#zp-analytics-allow");
         await page.waitForFunction(()=>window.dataLayer?.length>=4);
       }
+      stage="grant_queue";
       const allowed=await page.evaluate(collectSnapshot);
       verifyPage(allowed);
       assert.equal(allowed.stored,"granted");
       assert.equal(allowed.bannerVisible,false);
       assert.equal(allowed.tagInDOM,true,"Expected opted-in Google script element");
       verifyBasicConsentQueue(allowed.queue,LOCATION);
+      stage="anonymous_event";
       await page.evaluate(()=>{
         window.dispatchEvent(new CustomEvent("zaprazi:analytics",{
           detail:{event:"builder_start"}
@@ -137,17 +144,20 @@ async function runScenario(browser,preference){
       const measured=await page.evaluate(collectSnapshot);
       const evidence=verifyBasicConsentQueue(measured.queue,LOCATION);
       assert.equal(evidence.anonymousEvents,1,"Anonymous funnel event once per page");
+      stage="tag_request";
       for(let retry=0;retry<20&&tagRequestsBlocked===0;retry++){
         await new Promise(resolve=>setTimeout(resolve,100));
       }
       assert.ok(tagRequestsBlocked>=1,"Google tag request should be attempted only after opt-in");
       result={scenario:preference,ga4Calls:measured.queue.length};
       if(preference==="unknown"){
+        stage="revoke_click";
         await page.click("#zp-analytics-settings");
         await Promise.all([
           page.waitForNavigation({waitUntil:"networkidle2",timeout:30000}),
           page.click("#zp-analytics-deny")
         ]);
+        stage="revoked_snapshot";
         const revoked=await page.evaluate(collectSnapshot);
         verifyPage(revoked);
         assert.equal(revoked.stored,"denied");
@@ -156,8 +166,12 @@ async function runScenario(browser,preference){
         result.revocation="denied_after_reload";
       }
     }
+    stage="request_boundary";
     assert.equal(nonGetBlocked,0,"No browser write requests allowed");
     return {...result,externalRequestsSent:0,externalRequestsBlocked};
+  }catch{
+    // Fail closed with a predefined, non-sensitive stage marker only.
+    throw new Error("CONSENT_SCENARIO_"+preference+"_"+stage);
   }finally{
     await context.close();
   }
@@ -183,8 +197,8 @@ async function main(){
 }
 
 try{await main()}
-catch{
+catch(error){
   // Do not echo raw queue entries, page bodies, URLs, storage, or user values.
-  console.error("BASIC_CONSENT_POSTDEPLOY_FAILED: one or more consent, privacy or release assertions failed");
+  console.error("BASIC_CONSENT_POSTDEPLOY_FAILED "+safeConsentAuditFailure(error));
   process.exitCode=1;
 }

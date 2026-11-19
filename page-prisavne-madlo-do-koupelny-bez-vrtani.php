@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_237 */
+/* ZP_RELEASE_0_8_238 */
 /*
 Template Name: Zápraží — Madlo bez vrtání do koupelny
 */

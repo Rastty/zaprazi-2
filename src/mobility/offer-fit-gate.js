@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_237
+// ZP_RELEASE_0_8_238
 /**
  * A provisional mobility product is NOT a verified fit.
  * Render individual model-fit checks before ANY product-specific retailer CTA.
@@ -28,13 +28,13 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
     <div class="zp-mobility-fit-gate" data-zp-fit-required="${requiredKeys.join(",")}">
       <h5>Ověření konkrétního modelu před pořízením</h5>
       <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny relevantní body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
+      <p class="zp-fit-quick-guide">Neznáte ověřené rozměry? Nezaškrtávejte odhad. <a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit" target="_blank" rel="noopener">Jak změřit průchody a výšku madel (návod v novém panelu)</a>.</p>
       ${checks.map(([key, label]) => `<label><input type="checkbox" data-zp-mobility-fit-confirm="${key}"> ${label}</label>`).join("")}
       <p class="zp-fit-progress" data-zp-fit-progress role="status" aria-live="polite" aria-atomic="true">Potvrzeno 0 z ${checks.length} kontrol. Nabídka je zatím skrytá.</p>
       <p class="zp-muted-copy">Pokud cokoli nevíte nebo nevyhovuje, neotvírejte nabídku ke koupi či půjčení. Ověřte rozměry a nastavení s prodejcem nebo odbornou výdejnou.</p>
       <details class="zp-fit-help">
         <summary>Nemůžete některý bod potvrdit? Jak získat chybějící údaje</summary>
         <p>Nezaškrtávejte odhad. Změřte nejužší průchody, ověřte potřebné nastavení madel a porovnejte nosnost s dokumentací přesného modelu.</p>
-        <p><a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit" target="_blank" rel="noopener">Jak změřit prostor a připravit údaje před výběrem chodítka (otevře se v novém panelu)</a></p>
         ${options.requireBrakeFit ? '<p>U rollátoru navíc osobně ověřte brzdy a jejich zajištění; samotný katalogový popis nestačí.</p>' : ''}
         ${options.requireSeatFit ? '<p>U sedátka ověřte stabilní zabrzdění a bezpečné usedání, jinak jej nepovažujte za ověřené.</p>' : ''}
         ${options.requireTransportFit ? '<p>Při převozu v autě vyžádejte složené rozměry a hmotnost konkrétního modelu; bez nich bezpečný transport nepotvrzujte.</p>' : ''}

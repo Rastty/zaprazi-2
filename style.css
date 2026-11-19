@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.237
+Version: 0.8.238
 Text Domain: zaprazi-2
 */
 
@@ -374,7 +374,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_237 */
+/* ZP_RELEASE_0_8_238 */
 
 
 .zp-affiliate-policy {
@@ -450,6 +450,8 @@ a{color:inherit}
 .zp-fit-progress{padding:.65rem .75rem;border-radius:10px;background:var(--zp-accent-2);font-weight:750}
 .zp-mobility-fit-gate>label input{min-width:20px;min-height:20px;flex-shrink:0;margin-top:.1rem}
 .zp-mobility-fit-gate>h5{margin:0 0 .5rem;font-size:1.05rem}
+.zp-fit-quick-guide{margin:.8rem 0;padding:.7rem .85rem;border-left:4px solid var(--zp-accent);background:var(--zp-accent-2);line-height:1.5}
+.zp-fit-quick-guide .zp-text-link{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:3px}
 
 
 /* P0: provide one visible, non-commercial follow-up for a blocked Mobility decision. */

@@ -12,6 +12,12 @@ test("Family can find a real help path without unlocking a model or losing tempo
   assert.ok(html.includes('<details class="zp-fit-help">'));
   assert.ok(html.includes('<summary>Nemůžete některý bod potvrdit?'));
   assert.ok(html.includes('href="/co-zmerit-pred-vyberem-choditka/#co-zmerit"'));
+  const quick=html.indexOf('class="zp-fit-quick-guide"');
+  assert.ok(quick>0 && quick<html.indexOf('data-zp-mobility-fit-confirm='),
+    "Measurement help must be visible before the safety confirmations");
+  assert.ok(quick<html.indexOf('<details class="zp-fit-help">'),
+    "Measurement help must not be hidden inside the disclosure");
+  assert.equal((html.match(/href="\/co-zmerit-pred-vyberem-choditka\/#co-zmerit"/g)||[]).length,1);
   assert.ok(html.includes('target="_blank" rel="noopener"'));
   assert.ok(html.includes("Odkaz na nabídku zůstane uzamčený"));
   assert.ok(html.includes("Nezaškrtávejte odhad"));
@@ -107,6 +113,7 @@ test("Help never changes safety gate state: missing check locks, all checks unlo
 test("Mobile measurement-help entry stays keyboard operable, without overriding hidden product offers",()=>{
   const css=read("style.css");
   assert.match(css,/\.zp-fit-help>summary\{min-height:44px/);
+  assert.match(css,/\.zp-fit-quick-guide \.zp-text-link\{display:inline-flex;align-items:center;min-height:44px/);
   assert.match(css,/\.zp-fit-locked-offers\[hidden\]\{display:none!important\}/);
   const gate=read("src/mobility/offer-fit-gate.js");
   assert.match(gate,/role="status" aria-live="polite"/);

@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {verifyBasicConsentQueue,safeConsentAuditFailure} from "../scripts/lib/basic-consent-audit.mjs";
+import {verifyBasicConsentQueue,safeConsentAuditFailure,seedConsentSmokePreference} from "../scripts/lib/basic-consent-audit.mjs";
 
 const LOCATION="https://zaprazi.cz/choditka-pro-seniory/";
 function acceptedQueue(){
@@ -36,6 +36,30 @@ test("browser error diagnostics allow only fixed stages, never raw data",()=>{
     "CONSENT_STAGE_UNCLASSIFIED");
   assert.equal(safeConsentAuditFailure(new Error("value=private answers and user URL")),
     "CONSENT_STAGE_UNCLASSIFIED");
+});
+
+test("isolated Chrome fixture seeds consent once and preserves revocation on reload",()=>{
+  for(const preference of ["unknown","denied","granted"]){
+    const key="zaprazi_analytics_consent_v1";
+    const local=new Map([[key,"previous"]]);
+    const session=new Map();
+    const storage={getItem:k=>local.get(k)??null,setItem:(k,v)=>local.set(k,v),removeItem:k=>local.delete(k)};
+    const tabSession={getItem:k=>session.get(k)??null,setItem:(k,v)=>session.set(k,v)};
+    assert.equal(seedConsentSmokePreference(key,preference,storage,tabSession),true);
+    assert.equal(storage.getItem(key),preference==="unknown"?null:preference);
+    storage.setItem(key,"denied");
+    assert.equal(seedConsentSmokePreference(key,preference,storage,tabSession),false);
+    assert.equal(storage.getItem(key),"denied","reload must preserve the new denial");
+  }
+});
+
+test("consent fixture rejects arbitrary preferences and does not persist them",()=>{
+  const local=new Map(),session=new Map();
+  const storage={setItem:(k,v)=>local.set(k,v),removeItem:k=>local.delete(k)};
+  const tabSession={getItem:k=>session.get(k)??null,setItem:(k,v)=>session.set(k,v)};
+  assert.equal(seedConsentSmokePreference("consent","private-value",storage,tabSession),false);
+  assert.equal(local.size,0);
+  assert.equal(session.size,0);
 });
 
 for(const [scenario,mutate] of [

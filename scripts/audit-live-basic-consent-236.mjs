@@ -6,7 +6,7 @@
  */
 import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE,EXPECTED_LIVE_RELEASE} from "./lib/live-release.mjs";
-import {verifyBasicConsentQueue,safeConsentAuditFailure} from "./lib/basic-consent-audit.mjs";
+import {verifyBasicConsentQueue,safeConsentAuditFailure,seedConsentSmokePreference} from "./lib/basic-consent-audit.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const PATH="/choditka-pro-seniory/";
@@ -75,12 +75,9 @@ async function runScenario(browser,preference){
     const page=await context.newPage();
     await page.setViewport({width:390,height:844,deviceScaleFactor:1});
     await page.setBypassServiceWorker(true);
-    await page.evaluateOnNewDocument((key,value)=>{
-      try{
-        if(value==="unknown")localStorage.removeItem(key);
-        else localStorage.setItem(key,value);
-      }catch{}
-    },CONSENT_KEY,preference);
+    // Seed once per tab. The old fixture reset "unknown" on every navigation,
+    // erasing the real "denied" preference immediately after revoke + reload.
+    await page.evaluateOnNewDocument(seedConsentSmokePreference,CONSENT_KEY,preference);
     await page.setRequestInterception(true);
     page.on("request",request=>{
       let allowed=false;

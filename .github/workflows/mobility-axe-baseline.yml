@@ -1,0 +1,58 @@
+name: Mobility WCAG 2.2 axe audit (read-only)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit-live-mobility-axe.mjs"
+      - "scripts/lib/axe-audit-summary.mjs"
+      - "scripts/lib/mobility-axe-summary.mjs"
+      - "tests/mobility-axe-summary.test.js"
+      - ".github/workflows/mobility-axe-baseline.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/audit-live-mobility-axe.mjs"
+      - "scripts/lib/axe-audit-summary.mjs"
+      - "scripts/lib/mobility-axe-summary.mjs"
+      - "tests/mobility-axe-summary.test.js"
+      - ".github/workflows/mobility-axe-baseline.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zaprazi-readonly-mobility-axe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  axe-live-mobility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Check privacy-safe summaries and script syntax
+        run: |
+          node --check scripts/audit-live-mobility-axe.mjs
+          node --test tests/axe-audit-summary.test.js tests/mobility-axe-summary.test.js
+      - name: Install pinned isolated browser and axe runtime only
+        run: npm install --no-save --no-package-lock puppeteer-core@24 axe-core@4.12.1
+      - name: Audit Mobility entry, errors, locked/unlocked offer and professional-check states
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+          ZP_MOBILITY_A11Y_ENFORCE: "1"
+          ZP_MOBILITY_A11Y_RESULT_FILE: /tmp/zp-mobility-axe-baseline.json
+        run: node scripts/audit-live-mobility-axe.mjs
+      - name: Preserve only axe rule counts, never DOM or user answers
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zaprazi-mobility-axe-baseline
+          path: /tmp/zp-mobility-axe-baseline.json
+          if-no-files-found: ignore
+          retention-days: 14

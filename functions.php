@@ -122,7 +122,7 @@ function zaprazi_2_release_integrity_ok() {
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
     'src/mobility/engine.js' => '16cb1519ff996440888f0ff6b9d6f871eba0f464',
-    'src/mobility/offer-fit-gate.js' => '11ef0af096872fe05839c1d81e5b2ada577c23cc',
+    'src/mobility/offer-fit-gate.js' => '8b15200d9b969822ad2d5aba83e6391e1fdf283e',
     'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );

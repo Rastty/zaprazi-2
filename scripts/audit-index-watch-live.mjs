@@ -114,6 +114,11 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // the four watched public HTML/canonical/sitemap paths remain unchanged.
   if(event==="pull_request"&&sourceRelease==="0.8.236"&&readiness.release==="0.8.235")
     return {release:"0.8.235",mode:"predeploy_verified_235_only"};
+  // 0.8.237 changes only the curated Yoast timestamps of three already
+  // published pages. The four watched HTML canonical/robots/anchors are
+  // unchanged; audit the exact independently verified live 0.8.236 release.
+  if(event==="pull_request"&&sourceRelease==="0.8.237"&&readiness.release==="0.8.236")
+    return {release:"0.8.236",mode:"predeploy_verified_236_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

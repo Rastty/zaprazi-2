@@ -12,7 +12,8 @@ test("all three production models expose concrete, user-actionable conflicting s
 
   assert.match(wa17.specDiscrepancyNotice, /2,3 kg.*2,2 kg.*ověřte hmotnost/s);
   assert.match(wa21.specDiscrepancyNotice, /2,8 kg.*2,7 kg.*ověřte hmotnost/s);
-  assert.match(meyra.specDiscrepancyNotice, /61,5 cm.*79–97 cm.*59 cm.*79–99 cm.*ověřte přesné/s);
+  assert.match(meyra.specDiscrepancyNotice, /3061982.*61,5 cm.*79–97 cm.*10,2 kg.*Lékárna.cz.*59 cm.*79–99 cm.*11 kg.*ověřte přesné/s);
+  assert.match(meyra.specDiscrepancyNotice, /bez toho nepotvrzujte průchodnost dveřmi/i);
   assert.equal(meyra.facts.widthCm, 61.5, "Keep the current manufacturer-width value rather than silently swapping manuals");
   assert.equal(meyra.facts.heightCm, "79–97");
   assert.ok(meyra.selectionNotes.every((note) => !note.includes("přesnou hodnotu nezobrazuje")),
@@ -33,6 +34,16 @@ test("MEYRA exposes both official manual variants beside the current product pag
   assert.ok(evidence[0].url.endsWith("/navod-k-pouziti-ideal-rollator.pdf"));
   assert.ok(evidence[1].url.endsWith("/Navod-k-pouziti-rollator-3061982.pdf"));
   assert.ok(evidence.every((item) => item.url.startsWith("https://")));
+  assert.equal(evidence[2].checkedAt, "2026-11-20", "Manufacturer model page was directly rechecked");
+});
+
+test("unresolved Lékárna.cz variant stays explicitly unverified despite fresh manufacturer evidence", () => {
+  const product = byId("meyra-ideal-3061982");
+  const retailer = product.offers.find((offer) => offer.affiliateKey === "lekarna-cz:meyra-ideal-3061982");
+  assert.ok(retailer);
+  assert.equal(retailer.checkedAt, "2026-10-06", "Do not refresh the retailer's exact-variant evidence from a similar product title");
+  assert.match(retailer.note, /Lékárna.cz.*nelze uplatnit poukaz.*katalogové číslo 3061982.*rozměry se liší.*potvrďte přesnou dodávanou variantu/s);
+  assert.equal(product.facts.widthCm, 61.5, "The merchant's older width must not silently replace manufacturer evidence");
 });
 
 test("the homepage advisor shows discrepancies without a collapsed click, before model-fit offers", () => {

@@ -8,6 +8,8 @@ Pomáhat lidem řešit praktické problémy bezpečného domova cestou **problé
 
 **Stav:** funkční technický Mobility průchod; komerční validace ještě neproběhla. Dosavadní orientační odhad celkové cesty k vizi ~**35 %** je subjektivní, nikoli měřená metrika.
 
+**Rozpracovaný release 0.8.240 (GitHub, nikoli WordPress):** na homepage je nově přímo u odkazu „Spustit poradce“ v kartě „Chůze a opora“ označení pro existující anonymní `guide_advisor_click` se souhlasem. Jedná se o doplnění měřitelnosti vstupu, **ne o nový start/dokončení poradce nebo tržbu**; událost nedostává URL ani odpovědi. Ověřeno lokálními consent a release testy; produkce zůstává na 0.8.239 až do zvláštního Pull + Deploy a postdeploy QA. Priorita: nechat doběhnout CI/PR, potom ověřit skutečný 0.8.240 provoz.
+
 ## Hotovo a ověřeno
 
 - **Produkce 0.8.239:** `integrity=ok`; [postdeploy browser QA](https://github.com/Rastty/zaprazi-2/actions/runs/44706686072) SUCCESS na přesné 0.8.239 včetně **14/14 poradců**, keyboard/mobile/URL privacy a výběrových fit-gates. Samostatný `workflow_dispatch`-only Basic Consent krok není tímto PR rerunem nově dokázán; consent kód nebyl změněn.
@@ -30,5 +32,7 @@ Pomáhat lidem řešit praktické problémy bezpečného domova cestou **problé
 1. **Sledovat reakci GSC na homepage `/`:** vlastník 20. 11. ukázal způsobilý *živý test* (indexovatelná, jedna platná navigační struktura) a potvrdil, že **požádal o indexaci**. Původní inspekční stav zůstává `crawled_not_indexed`, dokud nový GSC snapshot neprokáže změnu; žádost se **neopakuje**, neznamená indexaci. Individuálně ověřit také `/choditka-pro-seniory/`, `/choditko-do-bytu-pro-seniory/` (`inspection_unavailable`) a `/sprchovaci-zidle-pro-seniory/` (excluded/other) při další návštěvě GSC; živá HTML brána u všech 5 URL na 0.8.239 prošla.
 2. **Podle page/query evidence** prověřit existující relevantní Mobility vstupní URL (nyní `/choditko-na-pojistovnu/`: jen 50 impresí, 1 klik za 28 dní do 17. 11.; záměr dotazů zatím není bezpečně dostupný) a vybrat jedinou opodstatněnou SEO/UX změnu. Nepřepisovat texty bez nového poznatku.
 3. **Doložit affiliate obchodní smyčku:** vložený produktový cíl 25/25 je nyní ověřen, ale skutečný **publisher redirect/atribuce**, přesný model/EAN (zejména rozpor retail MEYRA), privacy-safe funnel a síťový stav pending/approved zůstávají neověřeny. Windsor CJ konektor nabízí jen advertiser komise a publisher účet odmítá; nehlásit výnos ani konverzní uplift.
+
+   **Nové ověření 20. 11.:** Prometheus Core má existující `publisherCommissions` adapter a read-only report (`ops/prometheus-cj-current-website-economics-v1.mjs`), ale jeho data zatím nejsou prokazatelně svázána s konkrétní CJ `websiteId` Zápraží. Přímá CJ webová konzole zde vyžadovala nové přihlášení. Nezakládat druhý CJ reader, nepřejímat cizí site-level komise ani nevytvářet testovací kliky. Zjistit přesné vlastnictví CJ property ve schváleném Core workflow / publisher účtu; chybějící komise zůstávají UNKNOWN.
 
 **Provozní hranice:** lokální odpovědi poradce se nesmějí posílat do analytiky ani affiliate parametrů; vhodnost řešení nikdy neřadit podle provize. Rutinní změny přes dedikovanou větev → CI → PR → bezpečný merge; runtime až po odděleném WordPress Pull + Deploy a postdeploy readbacku.

@@ -51,7 +51,7 @@ Nevytváří sám nový kód, nečte aktuální GSC/GA4/affiliate účty, neslib
 
 ## Nový mezikrok: editorial → poradce (od následujícího release)
 
-U šesti stávajících rozhodovacích/obsahových URL lze s **výslovným souhlasem** zaznamenat obecnou událost `guide_advisor_click`. Počítá nejvýše jednu interakci daného typu za načtení stránky; **nejde o unikátního uživatele, skutečné zahájení ani dokončení poradce, klik na obchodníka, objednávku nebo provizi**. Vykreslená URL stránky v konfiguraci GA4 je očištěná o query/hash a událost nepřijímá parametry.
+Na šesti stávajících rozhodovacích/obsahových URL a od release 0.8.240 také u jednoho označeného odkazu z homepage do mobilitního poradce lze s **výslovným souhlasem** zaznamenat obecnou událost `guide_advisor_click`. Počítá nejvýše jednu interakci daného typu za načtení stránky; **nejde o unikátního uživatele, skutečné zahájení ani dokončení poradce, klik na obchodníka, objednávku nebo provizi**. Na homepage jde o klik do stejné stránky k `#poradce`, nikoli dokončení poradce. Vykreslená URL stránky v konfiguraci GA4 je očištěná o query/hash a událost nepřijímá parametry.
 
 Událost se vyvolá jen na ručně označeném primárním odkazu `data-zp-journey="advisor"` na **stejné HTTPS doméně**, směřujícím na existující kotvu poradce; bez obchodního odkazu, URL parametrů a interních akcí ze samotného výsledku poradce. Při odmítnutém nebo neznámém souhlasu se neodešle vůbec nic, ani zpětně po pozdějším souhlasu. Odpovědi, diagnózy, cílové URL, názvy produktů a kombinace potřeb se do analytiky neposílají.
 

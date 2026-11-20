@@ -30,6 +30,19 @@ test("Rollator 60 cm doorway answer is findable and evidence-specific", () => {
   assert.match(guide, /ROLLATOR 2, kód 3061982-R/);
   assert.match(guide, /IDEAL ROLLATOR 3061982 \(61,5 cm\)/);
   assert.match(guide, /Ani katalogových 59 cm u jiné varianty nepotvrzuje/);
+  assert.match(guide, /Rozpor také u konkrétní nabídky/);
+  assert.match(guide, /Lékárna\.cz/);
+  assert.match(guide, /79–99 cm/);
+  assert.match(guide, /kód zboží 473021/);
+  assert.match(guide, /v popisu neuvádí výrobní kód/);
+  assert.match(guide, /Přiložený návod na téže stránce přitom výslovně uvádí model 3061982, šířku 615 mm a madla 790–970 mm/);
+  assert.match(guide, /jiné rozměry než tabulka obchodu/);
+  assert.ok(guide.includes('https://lekarnacz.vshcdn.net/upload/na/vo/navod-k-pouziti-rollator-ideal-3061982-2387338.pdf'));
+  assert.match(guide, /Neberte obchodní rozměr 59 cm jako potvrzení průchodu 60cm dveřmi/);
+  assert.match(guide, /nákupní nabídka v poradci podmíněná ověřením/);
+  assert.match(guide, /Kontrola odlišné nabídky 20\. 11\. 2026/);
+  assert.doesNotMatch(guide, /href="https:\/\/www\.lekarna\.cz\//,
+    "A source disclosure must not become a direct retailer purchase bypass before model-fit checks");
   assert.ok(guide.includes("/co-zmerit-pred-vyberem-choditka/#co-zmerit"));
   assert.ok(guide.includes("/choditko-do-bytu-pro-seniory/#poradce-choditko-byt"));
   assert.ok(guide.includes('href="#poradce-rollator"'));

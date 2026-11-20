@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_241 */
+/* ZP_RELEASE_0_8_242 */
 /*
 Template Name: Zápraží — Rampa na jeden schod
 */

@@ -1,4 +1,4 @@
-name: Zápraží affiliate runtime parity (read-only)
+name: Zápraží affiliate product destination parity (read-only)
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Source-only affiliate route, network and privacy contracts
+      - name: Source-only network, exact product destination and privacy contracts
         run: node --test tests/live-affiliate-runtime-25.test.js
 
   live:
@@ -50,5 +50,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Read only 25 actual exposed routes from public WordPress
+      - name: Verify 25 embedded product targets in public runtime without affiliate requests
         run: node scripts/audit-live-affiliate-runtime-25.mjs

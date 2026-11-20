@@ -2,7 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.238' );
+  define( 'ZAPRAZI_RELEASE', '0.8.239' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +121,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '16cb1519ff996440888f0ff6b9d6f871eba0f464',
-    'src/mobility/offer-fit-gate.js' => '8b15200d9b969822ad2d5aba83e6391e1fdf283e',
+    'src/mobility/engine.js' => 'bee0d84d7b756fd90791e55238551f3be341e913',
+    'src/mobility/offer-fit-gate.js' => '605d76f12452a9eee087c2b20839cc58fc344b07',
     'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );
@@ -932,6 +932,52 @@ function zaprazi_2_is_rollator_page() {
 function zaprazi_2_is_mobility_hub_page() {
   return is_page( 'choditka-pro-seniory' );
 }
+
+/**
+ * The seven custom-rendered Mobility entry templates do not call the block
+ * renderer or the_content(). WordPress nevertheless adds its full Gutenberg
+ * stylesheet to every one of their frontend requests. Drop only that unused
+ * stylesheet, only when the exact expected template is still assigned.
+ *
+ * All normal posts, other pages, editor previews, feeds and a page switched
+ * back to the default template keep WordPress block styling. Never deregister
+ * the handle globally: plugins may depend on it elsewhere.
+ */
+function zaprazi_2_dequeue_unused_mobility_block_css() {
+  if ( is_admin() || is_preview() || is_customize_preview() || is_feed() ) {
+    return;
+  }
+
+  if ( is_front_page() ) {
+    // WordPress selects our source-bound front-page.php, which renders HTML
+    // directly rather than showing blocks from the page editor.
+    wp_dequeue_style( 'wp-block-library' );
+    return;
+  }
+
+  if ( ! is_page() ) {
+    return;
+  }
+
+  $templates = array(
+    'choditka-pro-seniory'                => 'page-choditka-pro-seniory.php',
+    'choditko-do-bytu-pro-seniory'        => 'page-choditko-do-bytu-pro-seniory.php',
+    'rollator-pro-seniory'                => 'page-rollator-pro-seniory.php',
+    'co-zmerit-pred-vyberem-choditka'     => 'page-co-zmerit-pred-vyberem-choditka.php',
+    'choditko-na-pojistovnu'             => 'page-choditko-na-pojistovnu.php',
+    'pujceni-choditka'                   => 'page-pujceni-choditka.php',
+  );
+  $page_id = get_queried_object_id();
+  $slug = get_post_field( 'post_name', $page_id );
+
+  if ( ! isset( $templates[ $slug ] ) ||
+       get_page_template_slug( $page_id ) !== $templates[ $slug ] ) {
+    return;
+  }
+
+  wp_dequeue_style( 'wp-block-library' );
+}
+add_action( 'wp_enqueue_scripts', 'zaprazi_2_dequeue_unused_mobility_block_css', 1000 );
 
 function zaprazi_2_assets() {
   $dir = get_template_directory();

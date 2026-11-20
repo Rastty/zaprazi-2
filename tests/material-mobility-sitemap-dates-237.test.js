@@ -52,7 +52,7 @@ test("old live 0.8.236 sitemap passes predecessor checks but fails new release d
   assert.equal(assertMaterialLastmod(old,"2026-11-19",PREDEPLOY_236_MATERIAL_DATES).lastmodsVerified,12);
   assert.throws(()=>assertMaterialLastmod(old,"2026-11-19",SOURCE_DATES),
     /SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
-  assert.equal(assertMaterialLastmod(xmlFor(SOURCE_DATES),"2026-11-19",SOURCE_DATES).lastmodsVerified,12);
+  assert.equal(assertMaterialLastmod(xmlFor(SOURCE_DATES),"2026-11-20",SOURCE_DATES).lastmodsVerified,12);
 });
 
 test("each corrected page has a matching bounded future-release Yoast WebPage date",()=>{

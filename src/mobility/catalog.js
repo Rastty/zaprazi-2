@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_240
+// ZP_RELEASE_0_8_241
 import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const MOBILITY_PRODUCTS = Object.freeze([
   {
@@ -143,7 +143,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       "uvedení SÚKL kódu neznamená automaticky potvrzený individuální nárok na úhradu",
       "ověřte přesnou variantu 3061982; označení 3061982-R (ROLLATOR 2) není totožný model"
     ],
-    specDiscrepancyNotice: "Pozor na různé oficiální podklady k MEYRA Ideal 3061982: aktuální stránka výrobce a novější návod uvádějí šířku 61,5 cm a nastavení madel 79–97 cm; starší návod z roku 2018 uvádí 59 cm a 79–99 cm. Před potvrzením průchodnosti a výšky ověřte přesné dodané provedení u výrobce nebo prodejce.",
+    specDiscrepancyNotice: "Pozor na rozdílné podklady k MEYRA Ideal: výrobce pro katalogové číslo 3061982 uvádí šířku 61,5 cm, madla 79–97 cm a hmotnost 10,2 kg. Nabídka Lékárna.cz označená jen jako Ideal (bez katalogového čísla 3061982) uvádí 59 cm, 79–99 cm a 11 kg; starší návod výrobce z roku 2018 rovněž uvádí 59 cm a 79–99 cm. Shoda dodávané varianty tím není potvrzena. Před koupí ověřte přesné katalogové číslo, štítek a rozměry konkrétního kusu s prodejcem; bez toho nepotvrzujte průchodnost dveřmi ani vhodnou výšku.",
     evidence: [
       {
         type: "manufacturer_manual",
@@ -158,7 +158,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
       {
         type: "manufacturer_product_page",
         url: "https://eshop.meyra.cz/product/choditka_-berle_-hole/ctyrkolove-choditko-ideal-rollator-/191",
-        checkedAt: "2026-10-06"
+        checkedAt: "2026-11-20"
       }
     ],
     offers: [
@@ -169,7 +169,7 @@ export const MOBILITY_PRODUCTS = Object.freeze([
         url: "https://www.lekarna.cz/meyra-ideal-rollator-ctyrkolove-choditko/",
         affiliateUrl: null,
         acquisitionMode: "direct_pay",
-        note: "Lékárna.cz uvádí, že u tohoto nákupu nelze uplatnit poukaz na zdravotnické pomůcky a produkt je za plnou úhradu.",
+        note: "Lékárna.cz uvádí, že u tohoto nákupu nelze uplatnit poukaz na zdravotnické pomůcky a produkt je za plnou úhradu. U nabídky není přímo uvedeno katalogové číslo 3061982 a její rozměry se liší od aktuálního listu výrobce. Před pořízením si u obchodníka potvrďte přesnou dodávanou variantu.",
         checkedAt: "2026-10-06"
       },
       {

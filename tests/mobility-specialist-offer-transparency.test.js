@@ -82,6 +82,8 @@ for (const advisor of ["indoor-walker", "rollator"]) {
     } else {
       assert.match(locked, /Nabídka nebyla v posledních 30 dnech znovu ověřena/,
         "Unresolved MEYRA offer must still disclose stale merchant evidence");
+      assert.match(locked, /katalogové číslo 3061982.*rozměry se liší.*potvrďte přesnou dodávanou variantu/s,
+        "The actual unresolved merchant model must be disclosed before the protected outbound CTA");
     }
     assert.match(locked, /Obchod uvádí|Lékárna.cz uvádí/,
       "Important direct-payment and insurance qualification remains visible");

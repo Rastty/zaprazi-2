@@ -32,6 +32,14 @@ Kanály: **AI Assistant 30 sessions / 1 active user**, Direct 17 / 5, Organic Se
 
 Vstupní URL `/` zaznamenala **44/77 sessions**. `/koupelna-a-wc` 3, `/choditko-do-bytu-pro-seniory` 2, `/pomucky-do-koupelny-na-pojistovnu` 2; zbytek rozptýlen mezi 25 dalšími položkami včetně starých článků o vodě, kanceláři a spotřebičích. Jde o **všechny GA4 kanály**, ne pouze organický segment. Vzorek je malý, nelze z něj určit účinnost SEO zásahů.
 
+### Samostatný Organic Search landing audit (20. 11. 2026)
+
+Dodatečný read-only dotaz `landing_page`, `session_default_channel_group`, `sessions` s filtrem **Organic Search** za stejných 28 dnů rozlišil **11/17 sessions na historických URL přesunutých do koše 27. 10., 4/17 na adresách mimo archiv** (`/prevoz-seniora-k-lekari`, `/pomucky-do-koupelny-na-pojistovnu`, `/senior-odmita-koupani`, `/vstavani-z-kresla-pro-seniora`) a **2/17 `(not set)`**. Součet 17 přesně odpovídá reportu po kanálech. Historický archiv tedy tvoří **64,71 % naměřených organických sessions**; to nejsou z povahy tématu vstupy do aktuální Mobility poradenské cesty. GA4 nemá přímý důkaz o vyhledávacím dotazu ani o příčině návštěvy.
+
+Pro opakování vznikl offline auditor [`scripts/organic-landing-cohorts.mjs`](../scripts/organic-landing-cohorts.mjs). Přijímá pouze agregované řádky `{landing_page, session_default_channel_group, sessions}` z výpisu GA4, porovnává je se **4 359 přesnými ID/slugy archivu** v již uložených návratových manifestech a vypíše jen součty, ne jednotlivé URL. Použití: `node scripts/organic-landing-cohorts.mjs /cesta/k/soukromemu-ga4-aggregate.json` (vstup mimo veřejný GitHub). Skript nevolá WordPress ani affiliate a nikdy sám neprohlašuje archivní manifest za důkaz živého HTTP 404. Tři namátkově kontrolované archivní vstupy 20. 11. živě vracely HTTP 404; nelze z toho odvodit HTTP stav všech historických adres. Čtyři adresy mimo archiv jsou obsahově relevantní, ale klasifikátor obecně **nepotvrzuje indexaci ani provozní dostupnost** žádné URL.
+
+Rozhodnutí: **17/28d organických sessions není 17 relevantních příležitostí k affiliate objednávce**. Nejprve zvyšovat dosah a indexaci existujících tematických rozhodovacích stránek, ne vyvozovat nízkou konverzi z historického archivu; porovnávat až další finalizovaná GSC okna po vydání 0.8.238.
+
 ## CJ — připojeno, ale nikoli čitelné provize
 
 - Windsor.ai eviduje připojený CJ účet; autentizační token se zde neukládá ani nevypisuje.

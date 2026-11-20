@@ -238,6 +238,63 @@ test("stale or future-dated aggregates never silently drive graph priority",()=>
   assert.throws(()=>planGrowth(graph,s,new Date("invalid")),/reference date/);
 });
 
+test("different GA4 and GSC observation dates are independently reported and scored",()=>{
+  const s=clone(blank);
+  s.asOf="2026-11-20";
+  s.metrics={organic_impressions_28d:200,advisor_starts_28d:30,
+    advisor_completes_28d:6};
+  s.metricSources={
+    organic_impressions_28d:"https://example.org/gsc",
+    advisor_starts_28d:"https://example.org/ga4",
+    advisor_completes_28d:"https://example.org/ga4"
+  };
+  s.metricAsOf={organic_impressions_28d:"2026-10-31",
+    advisor_starts_28d:"2026-11-20",advisor_completes_28d:"2026-11-20"};
+  const now=new Date("2026-11-20T12:00:00Z");
+  const p=planGrowth(graph,s,now,"0.8.238");
+  assert.equal(p.evidenceFreshness,"mixed");
+  assert.equal(p.metricAsOf.organic_impressions_28d,"2026-10-31");
+  assert.equal(p.metricAsOf.advisor_starts_28d,"2026-11-20");
+  assert.equal(p.metricAsOf.merchant_clicks_28d,null);
+  assert.equal(p.tasks.find(x=>x.id==="intent_evidence").score,90);
+  assert.equal(p.tasks.find(x=>x.id==="conversion_ux").score,85);
+  assert.match(renderGrowthPlan(p),/SMÍŠENÁ/);
+  assert.match(renderGrowthPlan(p),/stav k 2026-10-31/);
+
+  // A fresh GSC metric must not freshen the older GA4 events instead.
+  s.metricAsOf.organic_impressions_28d="2026-11-20";
+  s.metricAsOf.advisor_starts_28d="2026-10-31";
+  s.metricAsOf.advisor_completes_28d="2026-10-31";
+  const swapped=planGrowth(graph,s,now,"0.8.238");
+  assert.equal(swapped.tasks.find(x=>x.id==="intent_evidence").score,98);
+  assert.equal(swapped.tasks.find(x=>x.id==="conversion_ux").score,80);
+});
+
+test("per-metric observation dates reject orphan, invalid and future metadata",()=>{
+  const s=clone(blank);
+  s.asOf="2026-11-20";
+  s.metrics.advisor_starts_28d=5;
+  s.metricSources.advisor_starts_28d="https://example.org/ga4";
+  const now=new Date("2026-11-20T12:00:00Z");
+  s.metricAsOf={advisor_starts_28d:"2026-11-19"};
+  assert.equal(planGrowth(graph,s,now).metricAsOf.advisor_starts_28d,"2026-11-19");
+  for(const invalid of [null,[],"health_answer"]){
+    s.metricAsOf=invalid;
+    assert.throws(()=>planGrowth(graph,s,now),/Invalid metric observation dates/);
+  }
+  for(const invalid of ["2026-02-30","2026-11-21","2026-11-20?token=secret"]){
+    s.metricAsOf={advisor_starts_28d:invalid};
+    assert.throws(()=>planGrowth(graph,s,now),/observation date/);
+  }
+  s.metricAsOf={rawAnswers:"2026-11-20"};
+  assert.throws(()=>planGrowth(graph,s,now),/Invalid or orphan metric observation date/);
+  s.metricAsOf={organic_clicks_28d:"2026-11-20"};
+  assert.throws(()=>planGrowth(graph,s,now),/Invalid or orphan metric observation date/);
+  s.metricAsOf={advisor_starts_28d:"2026-11-19"};
+  s.asOf="2026-11-18";
+  assert.throws(()=>planGrowth(graph,s,now),/cannot exceed snapshot date/);
+});
+
 test("untrusted nested state keys never appear in public CI validation errors",()=>{
   const canary="PRIVATE_HEALTH_ANSWER_CANARY";
   const cases=[

@@ -35,15 +35,17 @@ export function planFromFinalGsc(graph,state,snapshot,runId,now=new Date()) {
   const impressions=snapshot.sitewide.impressions;
   const evidenceUrl=RUN_BASE+String(runId);
 
-  // The committed state has ONE 'asOf' for every metric. Never redate an
-  // older GA4 sample or affiliate-network report to a recent GSC snapshot:
-  // other metrics deliberately become UNKNOWN in this temporary overlay.
+  // Even when committed state has individually dated GA4/network metrics,
+  // this overlay is GSC-only: do not redate or carry unrelated measurements.
   // Workflow does not write the overlay to source control or WordPress.
   const overlay={...state,asOf:evidence.to,metrics:{
     organic_clicks_28d:clicks,organic_impressions_28d:impressions
   },metricSources:{
     organic_clicks_28d:evidenceUrl,
     organic_impressions_28d:evidenceUrl
+  },metricAsOf:{
+    organic_clicks_28d:evidence.to,
+    organic_impressions_28d:evidence.to
   }};
   const plan=planGrowth(graph,overlay,now);
   return {

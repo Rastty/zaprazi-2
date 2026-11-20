@@ -16,6 +16,9 @@ export const METRICS = [
 const STATES=new Set(["pending","in_progress","verified","paused"]);
 const cleanString=s=>String(s).replace(/[|\r\n<>]/g," ").slice(0,180);
 const percent=(a,b)=>b>0?a/b:null;
+const validISODate=value=>typeof value==="string"&&/^\d{4}-\d{2}-\d{2}$/.test(value)&&
+  !Number.isNaN(Date.parse(value+"T00:00:00Z"))&&
+  new Date(value+"T00:00:00Z").toISOString().slice(0,10)===value;
 // Evidence is stored in public Git history and rendered by CI. Do not allow
 // credentials, signed query links or fragments that can expose private data.
 function safeEvidenceUrl(value){
@@ -97,7 +100,7 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
   // State is committed to public Git history. Reject unexpected top-level
   // payloads (including accidental raw Advisor answers) before any planning.
   // Do not echo untrusted keys or values into public CI logs.
-  const allowedStateFields=new Set(["schemaVersion","asOf","metrics","metricSources","nodes"]);
+  const allowedStateFields=new Set(["schemaVersion","asOf","metrics","metricSources","metricAsOf","nodes"]);
   if(Object.keys(s).some(key=>!allowedStateFields.has(key)))
     throw new Error("Unsupported growth state field");
   // State keys are untrusted: accidental answer text may be used as a JSON key.
@@ -123,6 +126,14 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
   }
   for(const k of Object.keys(s.metricSources))
     if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k))throw new Error("Orphan metric evidence");
+  // GA4 and GSC aggregates may be captured on different days. A single
+  // snapshot date must not silently make an older metric look fresher.
+  if(s.metricAsOf!==undefined&&(!s.metricAsOf||typeof s.metricAsOf!=="object"||
+      Array.isArray(s.metricAsOf)))throw new Error("Invalid metric observation dates");
+  for(const [k,date] of Object.entries(s.metricAsOf??{})){
+    if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k)||!validISODate(date))
+      throw new Error("Invalid or orphan metric observation date");
+  }
   // Both GSC totals cover the same 28-day window. A click requires an
   // impression, so impossible aggregates must not influence the graph plan.
   // Do not apply this rule to GA4 events: consent and window boundaries differ.
@@ -162,10 +173,7 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
       if(unmet.length)throw new Error("Verified node requires verified dependencies: "+id+" -> "+unmet.join(", "));
     }
   }
-  if(s.asOf!==null&&s.asOf!==undefined&&
-      (!/^\d{4}-\d{2}-\d{2}$/.test(s.asOf)||
-       Number.isNaN(Date.parse(s.asOf+"T00:00:00Z"))||
-       new Date(s.asOf+"T00:00:00Z").toISOString().slice(0,10)!==s.asOf))
+  if(s.asOf!==null&&s.asOf!==undefined&&!validISODate(s.asOf))
     throw new Error("Invalid observation date");
   // An undated 28-day aggregate cannot be compared or used to prioritize work.
   if(Object.keys(s.metrics).length&&s.asOf==null)
@@ -179,18 +187,25 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
     year:"numeric",month:"2-digit",day:"2-digit"}).format(now);
   if(s.asOf!=null&&s.asOf>today)
     throw new Error("Observation date cannot be in the future");
-  const ageDays=s.asOf==null?null:
-    Math.round((Date.parse(today+"T00:00:00Z")-Date.parse(s.asOf+"T00:00:00Z"))/86400000);
-  const evidenceFresh=ageDays!==null&&ageDays<=14;
-  const evidenceFreshness=Object.keys(s.metrics).length===0?"unknown":
-    evidenceFresh?"fresh":"stale";
+  for(const date of Object.values(s.metricAsOf??{}))
+    if(date>today||date>s.asOf)throw new Error("Metric observation date cannot exceed snapshot date");
+  const metricDates=Object.fromEntries(Object.keys(s.metrics).map(k=>
+    [k,s.metricAsOf?.[k]??s.asOf]));
+  const metricFresh=k=>Object.hasOwn(metricDates,k)&&
+    Math.round((Date.parse(today+"T00:00:00Z")-
+      Date.parse(metricDates[k]+"T00:00:00Z"))/86400000)<=14;
+  const freshness=Object.keys(metricDates).map(metricFresh);
+  const evidenceFreshness=freshness.length===0?"unknown":
+    freshness.every(Boolean)?"fresh":freshness.some(Boolean)?"mixed":"stale";
   const m=s.metrics;
   const uplift={
-    intent_evidence:evidenceFresh&&(m.organic_impressions_28d??0)>=100?8:0,
-    affiliate_audit:evidenceFresh&&(m.merchant_clicks_28d??0)>=20&&
+    intent_evidence:metricFresh("organic_impressions_28d")&&(m.organic_impressions_28d??0)>=100?8:0,
+    affiliate_audit:metricFresh("merchant_clicks_28d")&&
+      metricFresh("approved_affiliate_commission_28d")&&(m.merchant_clicks_28d??0)>=20&&
       Object.hasOwn(m,"approved_affiliate_commission_28d")&&
       m.approved_affiliate_commission_28d===0?8:0,
-    conversion_ux:evidenceFresh&&(m.advisor_starts_28d??0)>=30&&
+    conversion_ux:metricFresh("advisor_starts_28d")&&
+      metricFresh("advisor_completes_28d")&&(m.advisor_starts_28d??0)>=30&&
       Object.hasOwn(m,"advisor_completes_28d")&&
       percent(m.advisor_completes_28d,m.advisor_starts_28d)<0.4?5:0
   };
@@ -211,31 +226,33 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
   const rank={needs_revalidation:0,in_progress:1,ready:2,waiting_dependencies:3,paused:4,verified:5};
   tasks.sort((a,b)=>rank[a.status]-rank[b.status]||b.score-a.score||a.id.localeCompare(b.id));
   return {sourceRelease,asOf:s.asOf??null,evidenceFreshness,metrics:Object.fromEntries(METRICS.map(k=>[k,m[k]??null])),
+    metricAsOf:Object.fromEntries(METRICS.map(k=>[k,metricDates[k]??null])),
     tasks,next:tasks.filter(t=>["needs_revalidation","ready","in_progress"].includes(t.status)).slice(0,3),
     limitations:[
       "Chybějící metrika je unknown, nikoli nula.",
-      "GSC, GA4 (consented sample) a affiliate network mají odlišnou atribuci; nepropojovat řádky ani nevyvozovat prodeje z kliků.",
+      "GSC, GA4 (agregáty; konektor sám nepotvrzuje stav souhlasu) a affiliate síť mají odlišnou atribuci; nepropojovat řádky ani nevyvozovat prodeje z kliků.",
       "Pravidla jsou plánovací, nikoli oprávnění měnit bezpečnostní engine, indexaci nebo produkci bez PR a smoke.",
       "Uplift skóre znamená prioritu revize, nikoliv odhad nárůstu návštěvnosti či provize.",
-      ...(evidenceFreshness==="stale"?["Doložené agregáty jsou starší než 14 dní; zůstávají viditelné, ale nesmějí zvýšit prioritu."]:[])
+      ...(["stale","mixed"].includes(evidenceFreshness)?["Starší agregáty zůstávají viditelné, ale jednotlivě nesmějí zvýšit prioritu po 14 dnech."]:[])
     ]};
 }
 export function renderGrowthPlan(p){
   const metricNames={
     organic_clicks_28d:"Organické kliky / 28 d",
     organic_impressions_28d:"Zobrazení GSC / 28 d",
-    advisor_starts_28d:"Starty poradce / 28 d (GA4 vzorek)",
-    advisor_completes_28d:"Dokončení poradce / 28 d (GA4 vzorek)",
-    merchant_clicks_28d:"Odchozí kliky / 28 d (GA4 vzorek)",
+    advisor_starts_28d:"Starty poradce / 28 d (GA4 agregát)",
+    advisor_completes_28d:"Dokončení poradce / 28 d (GA4 agregát)",
+    merchant_clicks_28d:"Odchozí kliky / 28 d (GA4 agregát)",
     approved_affiliate_commission_28d:"Schválené provize / 28 d (síť)"
   };
   return [
     "# Zápraží Growth Graph — řídicí plán",
     "Zdrojový release: "+p.sourceRelease+"; bezpečnostní schválení se nepřenáší na novou verzi.",
-    "Pozorování: "+(p.asOf??"nebylo dodáno")+"; bez výkonnostních důkazů nejsou žádné výsledky přisuzovány změnám.",
-    "Aktuálnost agregátů: "+(p.evidenceFreshness==="stale"?"ZASTARALÉ (více než 14 dní)":p.evidenceFreshness==="fresh"?"aktuální (nejvýše 14 dní)":"UNKNOWN")+".",
+    "Pozorování: "+(p.asOf??"nebylo dodáno")+" (datum souhrnu; každá metrika může mít vlastní datum); bez výkonnostních důkazů nejsou žádné výsledky přisuzovány změnám.",
+    "Aktuálnost agregátů: "+(p.evidenceFreshness==="stale"?"ZASTARALÉ (více než 14 dní)":p.evidenceFreshness==="fresh"?"aktuální (nejvýše 14 dní)":p.evidenceFreshness==="mixed"?"SMÍŠENÁ (ověřit jednotlivá data)":"UNKNOWN")+".",
     "## Skutečné agregované metriky",
-    ...Object.entries(p.metrics).map(([k,v])=>"- "+metricNames[k]+": "+(v===null?"UNKNOWN":v)),
+    ...Object.entries(p.metrics).map(([k,v])=>"- "+metricNames[k]+": "+(v===null?"UNKNOWN":v)+
+      (p.metricAsOf?.[k]?" (stav k "+p.metricAsOf[k]+")":"")),
     "## 3 další bezpečně proveditelné uzly",
     ...(p.next.length?p.next.map(t=>"- "+t.id+" (skóre "+t.score+"): "+cleanString(t.action)):["- Žádný automaticky připravený uzel; ověřit závislosti a evidence."]),
     "## Stav grafu",

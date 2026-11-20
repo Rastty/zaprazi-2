@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {
-  INDEX_WATCH_PATHS,inspectIndexabilityHtml,fetchLiveIndexability,selectIndexWatchScope
+  INDEX_WATCH_PATHS,inspectIndexabilityHtml,fetchLiveIndexability,
+  selectIndexWatchScope,assertIndexWatchSitemap
 } from "../scripts/audit-index-watch-live.mjs";
 const ORIGIN="https://zaprazi.cz";
 const path=INDEX_WATCH_PATHS[0];
@@ -13,8 +14,9 @@ const html=(p=path,extra="",body="Useful unique decision content ".repeat(20))=>
   '<meta name="zaprazi-integrity" content="ok">'+
   '<link rel="canonical" href="'+ORIGIN+p+'">'+extra+
   '</head><body><main><h1>Jak vybrat chodítko?</h1>'+body+'</main></body></html>';
-test("four exact previously excluded URLs are the sole authorized live watch",()=>{
+test("homepage and four GSC candidates are the sole authorized live watch",()=>{
  assert.deepEqual(INDEX_WATCH_PATHS,[
+   "/",
    "/choditka-pro-seniory/",
    "/choditko-do-bytu-pro-seniory/",
    "/co-zmerit-pred-vyberem-choditka/",
@@ -25,6 +27,28 @@ test("four exact previously excluded URLs are the sole authorized live watch",()
  for(const p of ["/go/merchant/","/wp-admin/","/secret-health-query/",
      "/choditka-pro-seniory/?patient_id=123","https://evil.example/"])
    assert.throws(()=>inspectIndexabilityHtml(p,html(p),headers(),"0.8.217"),/UNAUTHORIZED/);
+});
+test("homepage GSC watch requires exact page sitemap inclusion and crawl permission",()=>{
+ const good={robots_googlebot_homepage_blocked:false,
+   homepage_location:{sitemap:"/page-sitemap.xml",url:ORIGIN+"/"},
+   required_decision_path_locations:Object.fromEntries(INDEX_WATCH_PATHS.slice(1)
+     .map(p=>[p,{sitemap:"/page-sitemap.xml",url:ORIGIN+p}]))};
+ assert.doesNotThrow(()=>assertIndexWatchSitemap(good));
+ for(const bad of [
+   {...good,robots_googlebot_homepage_blocked:true},
+   {...good,robots_googlebot_homepage_blocked:undefined},
+   {...good,homepage_location:null},
+   {...good,homepage_location:{sitemap:"/post-sitemap.xml",url:ORIGIN+"/"}},
+   {...good,homepage_location:{...good.homepage_location,noncanonical:true}},
+   {...good,homepage_location:{...good.homepage_location,url:ORIGIN+"/other/"}},
+   {...good,required_decision_path_locations:{...good.required_decision_path_locations,
+     [INDEX_WATCH_PATHS[1]]:{sitemap:"/post-sitemap.xml",url:ORIGIN+INDEX_WATCH_PATHS[1]}}}
+ ])assert.throws(()=>assertIndexWatchSitemap(bad),/INDEX_LIVE_/);
+ const root="/";
+ for(const extra of ['<meta name="robots" content="noindex">',
+   '<meta name="googlebot" content="none">',
+   '<link rel="canonical" href="https://zaprazi.cz/not-home/">'])
+   assert.throws(()=>inspectIndexabilityHtml(root,html(root,extra),headers(),"0.8.217"));
 });
 test("canonical, robots and release gates are independent and fail closed",()=>{
  const variations=[

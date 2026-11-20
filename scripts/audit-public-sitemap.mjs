@@ -313,6 +313,9 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     robots_sitemaps: advertised,
     robots_wildcard_root_block: robotsHasWildcardRootBlock(robots),
     robots_googlebot_root_block: robotsHasGooglebotRootBlock(robots),
+    // A homepage-only Disallow: /$ is not a site-wide root block.
+    // Retain this separate signal for the GSC homepage watch.
+    robots_googlebot_homepage_blocked: robotsBlockedDecisionPaths(robots,["/"]).length > 0,
     robots_googlebot_blocked_decision_paths: robotsBlockedDecisionPaths(robots),
     index: { total: indexUrls.length, http: httpIndexCount, https: indexUrls.length - httpIndexCount,
       noncanonical: noncanonicalIndexCount },
@@ -326,6 +329,7 @@ export async function auditPublicSitemap(fetcher = fetch, origin = "https://zapr
     required_decision_paths_missing: requiredDecisionPaths.filter(p => !seenPages.has(p)),
     staged_decision_paths_present: stagedDecisionPaths.filter(p => seenPages.has(p)),
     staged_decision_paths_missing: stagedDecisionPaths.filter(p => !seenPages.has(p)),
+    homepage_location: seenPages.get("/") ?? null,
     required_decision_path_locations: Object.fromEntries(requiredDecisionPaths
       .filter(p => seenPages.has(p)).map(p => [p, seenPages.get(p)])),
     html_pages_indexed_by_google: "unknown"

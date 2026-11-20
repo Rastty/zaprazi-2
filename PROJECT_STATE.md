@@ -13,6 +13,7 @@ Pomáhat lidem řešit praktické problémy bezpečného domova cestou **problé
 - **Produkce 0.8.239:** `integrity=ok`; [postdeploy browser QA](https://github.com/Rastty/zaprazi-2/actions/runs/44706686072) SUCCESS na přesné 0.8.239 včetně **14/14 poradců**, keyboard/mobile/URL privacy a výběrových fit-gates. Samostatný `workflow_dispatch`-only Basic Consent krok není tímto PR rerunem nově dokázán; consent kód nebyl změněn.
 - Affiliate runtime **25/25 nakonfigurovaných slotů** (21 CJ + 4 eHub); to **neprokazuje** skutečný redirect, objednávku, atribuci nebo provizi.
 - Sedm vstupních Mobility šablon neodesílá nepotřebný core Gutenberg stylesheet, kontrolní ne-Mobility šablona jej zachovala. Dopad na reálné LCP dosud nezměřen.
+- **TURBO monitor indexovatelnosti 20. 11.:** read-only GitHub SEO gate nyní kontroluje i homepage `/` spolu se čtyřmi sledovanými URL; hlídá přesnou Yoast page-sitemap položku, samotnou homepage blokovanou v `robots.txt` pro Googlebot, HTTP 200, self-canonical, `noindex` a přesný release/integritu. **5/5 živých HTTP kontrol** prošlo na 0.8.239; tento gate **nenahrazuje GSC a nemění obsah ani WordPress produkci**.
 - Veřejný XML audit: **54 unikátních URL / 52 povinných rozhodovacích cest**, bez Googlebot blokace a s interními odkazy. [Indexační triage](docs/SEO_INDEXATION_TRIAGE_2026_11_20.md).
 - Stav 0.8.239 a GSC rizika uložen v [PR #863](https://github.com/Rastty/zaprazi-2/pull/863); `main` a `dev` synchronizované. **Žádný další WordPress deploy není kvůli dokumentaci potřeba.**
 
@@ -25,7 +26,7 @@ Pomáhat lidem řešit praktické problémy bezpečného domova cestou **problé
 ## Blokace a další priorita podle dopadu
 
 1. **Prověřit aktuální stav homepage `/` jako první**: nový GSC Inspection snapshot vrací `crawled_not_indexed`, přestože veřejná 0.8.239 vrací HTTP 200, self-canonical a `index, follow`. Dále individuálně ověřit `/choditka-pro-seniory/`, `/choditko-do-bytu-pro-seniory/` (nově `inspection_unavailable`) a `/sprchovaci-zidle-pro-seniory/` (excluded/other). Vlastník v [Google Search Console](https://search.google.com/search-console/) použije *Kontrola adresy URL → Otestovat živou adresu → Požádat o indexování* jen při přetrvávajícím vyloučení a způsobilém live testu. Žádost nic negarantuje.
-2. **Teprve podle page/query evidence** vybrat jednu existující relevantní Mobility vstupní URL pro konkrétní SEO/UX zlepšení; chránit proti kanibalizaci a opakovanému přepisování stejných textů. Neprodukovat hromadně nové články.
+2. **Podle page/query evidence** prověřit existující relevantní Mobility vstupní URL (nyní `/choditko-na-pojistovnu/`: jen 50 impresí, 1 klik za 28 dní do 17. 11.; záměr dotazů zatím není bezpečně dostupný) a vybrat jedinou opodstatněnou SEO/UX změnu. Nepřepisovat texty bez nového poznatku.
 3. **Doložit affiliate obchodní smyčku:** přesný merchant/publisher deeplink a model/EAN (zejména rozpor retail MEYRA), privacy-safe funnel a síťový stav pending/approved. Dokud není důkaz, nehlásit výnos ani konverzní uplift.
 
 **Provozní hranice:** lokální odpovědi poradce se nesmějí posílat do analytiky ani affiliate parametrů; vhodnost řešení nikdy neřadit podle provize. Rutinní změny přes dedikovanou větev → CI → PR → bezpečný merge; runtime až po odděleném WordPress Pull + Deploy a postdeploy readbacku.

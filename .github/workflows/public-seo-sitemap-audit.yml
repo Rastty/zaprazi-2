@@ -55,6 +55,6 @@ jobs:
         run: node scripts/check-acquisition-sitemap.mjs
       - name: Verify current live contextual links and evidence-backed dated sitemap entries
         run: node scripts/audit-205-postdeploy-seo.mjs
-      - name: Check live HTTP, self-canonical, index directives and sitemap on four GSC excluded pages
+      - name: Check live indexability of homepage and four GSC candidate pages
         # Only exact public URLs; rejects redirects; no indexing requests or WP writes.
         run: node scripts/audit-index-watch-live.mjs

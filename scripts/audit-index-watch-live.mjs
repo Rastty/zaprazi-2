@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /**
- * Narrow, read-only LIVE HTML/indexability gate for the four Google URL
- * Inspection excluded-version candidates recorded on 2026-11-11.
+ * Narrow, read-only LIVE HTML/indexability gate for the homepage and four
+ * Google URL Inspection candidates. Homepage was reported as
+ * crawled_not_indexed in the 2026-11-20 Core GSC capture.
  * This does NOT prove that Google will crawl, select or index a page.
  * It complements the existing sitemap audit, never requests indexing,
  * follows redirects or reads query parameters / merchant URLs.
@@ -16,6 +17,7 @@ import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
 export const INDEX_WATCH_PATHS=Object.freeze([
+  "/",
   "/choditka-pro-seniory/",
   "/choditko-do-bytu-pro-seniory/",
   "/co-zmerit-pred-vyberem-choditka/",
@@ -138,18 +140,29 @@ export async function auditIndexWatch(fetcher=fetch,release=SOURCE_THEME_RELEASE
   // exact canonical URL in page-sitemap and no known Googlebot path block.
   const sitemap=await auditPublicSitemap(fetcher);
   assertPublicSitemapHealthy(sitemap);
-  for(const path of INDEX_WATCH_PATHS){
-    if(sitemap.required_decision_path_locations?.[path]?.url!==ORIGIN+path)
-      throw Error("INDEX_LIVE_NOT_IN_PAGE_SITEMAP");
-  }
+  assertIndexWatchSitemap(sitemap);
   const scope=selectIndexWatchScope(event,release,await fetchReadiness(fetcher));
   const pages=await Promise.all(INDEX_WATCH_PATHS.map(path=>
     fetchLiveIndexability(path,fetcher,scope.release)));
-  return {status:"live_technical_checks_passed",scope:"four_fixed_google_excluded_candidates",
+  return {status:"live_technical_checks_passed",scope:"homepage_and_four_gsc_candidates",
     sourceRelease:release,liveRelease:scope.release,releaseCheck:scope.mode,
     checked:pages.length,pages,
     evidence:"public HTML + robots.txt + sitemap, not Googlebot live inspection",
     limitations:"No conclusion about Google crawl, indexing decision, SERP ranking, duplicates or traffic. No Google indexing requests or site writes."};
+}
+/** The homepage must be in Yoast's page sitemap and crawable even when
+ * a robots rule blocks only the exact root path (Disallow: /$).
+ */
+export function assertIndexWatchSitemap(sitemap){
+  if(sitemap?.robots_googlebot_homepage_blocked!==false)
+    throw Error("INDEX_LIVE_HOMEPAGE_GOOGLEBOT_BLOCKED_OR_UNKNOWN");
+  for(const path of INDEX_WATCH_PATHS){
+    const location=path==="/" ? sitemap.homepage_location :
+      sitemap.required_decision_path_locations?.[path];
+    if(location?.url!==ORIGIN+path||location.noncanonical||
+       !/^\/page-sitemap\d*\.xml$/.test(location.sitemap||""))
+      throw Error("INDEX_LIVE_NOT_IN_PAGE_SITEMAP");
+  }
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])){
   auditIndexWatch().then(r=>console.log("INDEX_WATCH_LIVE "+JSON.stringify(r)))

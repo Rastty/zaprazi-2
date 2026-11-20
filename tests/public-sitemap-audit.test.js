@@ -40,9 +40,29 @@ test("Read-only live audit inventories each sitemap and reports missing importan
   assert.deepEqual(result.staged_decision_paths_present, []);
   assert.equal(result.html_pages_indexed_by_google, "unknown");
   assert.equal(result.noncanonical_urls_count, 0);
+  assert.equal(result.homepage_location, null);
+  assert.equal(result.robots_googlebot_homepage_blocked, false);
   assert.deepEqual(requested.sort(), Object.keys(files).sort());
   assert.ok(requested.every(url => url.startsWith("https://zaprazi.cz/")),
     "Read-only fetches must not follow advertised HTTP sitemap URLs");
+});
+test("homepage sitemap location and homepage-only Googlebot block are distinguished",async()=>{
+ const files={
+  [root+"/robots.txt"]:"User-agent: Googlebot\nDisallow: /$\nSitemap: "+root+"/sitemap_index.xml",
+  [root+"/sitemap_index.xml"]:'<sitemapindex><loc>'+root+'/page-sitemap.xml</loc></sitemapindex>',
+  [root+"/page-sitemap.xml"]:'<urlset><loc>'+root+'/</loc></urlset>'
+ };
+ const report=await auditPublicSitemap(mock(files).get);
+ assert.deepEqual(report.homepage_location,{sitemap:"/page-sitemap.xml",url:root+"/"});
+ assert.equal(report.robots_googlebot_root_block,false);
+ assert.equal(report.robots_googlebot_homepage_blocked,true);
+ files[root+"/robots.txt"]="User-agent: Googlebot\nAllow: /\nSitemap: "+root+"/sitemap_index.xml";
+ const allowed=await auditPublicSitemap(mock(files).get);
+ assert.equal(allowed.robots_googlebot_homepage_blocked,false);
+ files[root+"/page-sitemap.xml"]='<urlset><loc>'+root+'/?secret=NOT_FOR_REPORT</loc></urlset>';
+ const noncanonical=await auditPublicSitemap(mock(files).get);
+ assert.equal(noncanonical.homepage_location.noncanonical,true);
+ assert.ok(!JSON.stringify(noncanonical).includes("NOT_FOR_REPORT"));
 });
 
 test("Deployed 0.8.183 guides are required, not indefinitely staged", async () => {

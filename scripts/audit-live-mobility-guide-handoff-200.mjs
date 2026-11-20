@@ -66,6 +66,16 @@ const cases=[
     label:"Začít orientačním poradcem"
   }
 ];
+// 0.8.240 adds a consent-gated measurement marker to the existing homepage
+// Mobility entry. Prove the actual published anchor still reaches the Advisor
+// without query parameters, merchant requests or consent being auto-granted.
+// Older releases must retain their original four-scenario acceptance contract.
+if(atLeast(SOURCE_THEME_RELEASE,"0.8.240"))cases.unshift({
+  from:"/",
+  selector:'main #co-resite a[data-zp-journey="advisor"][href="#poradce"]',
+  target:"/#poradce",
+  label:"Spustit poradce"
+});
 const browser=await puppeteer.launch({
   executablePath:process.env.CHROME_BIN||"/usr/bin/google-chrome",
   headless:true,args:["--no-sandbox","--disable-dev-shm-usage"]

@@ -8,7 +8,7 @@ Pomáhat lidem řešit praktické problémy bezpečného domova cestou **problé
 
 **Stav:** funkční technický Mobility průchod; komerční validace ještě neproběhla. Dosavadní orientační odhad celkové cesty k vizi ~**35 %** je subjektivní, nikoli měřená metrika.
 
-**Rozpracovaný release 0.8.240 (GitHub, nikoli WordPress):** na homepage je nově přímo u odkazu „Spustit poradce“ v kartě „Chůze a opora“ označení pro existující anonymní `guide_advisor_click` se souhlasem. Jedná se o doplnění měřitelnosti vstupu, **ne o nový start/dokončení poradce nebo tržbu**; událost nedostává URL ani odpovědi. Ověřeno lokálními consent a release testy; produkce zůstává na 0.8.239 až do zvláštního Pull + Deploy a postdeploy QA. Priorita: nechat doběhnout CI/PR, potom ověřit skutečný 0.8.240 provoz.
+**Release 0.8.240 — sloučeno, ale zatím nenasazeno:** [PR #868](https://github.com/Rastty/zaprazi-2/pull/868) prošel 4/4 head CI/legacy/predeploy kontrolami, je merged jako `5773fa1` a `main=dev`. Homepage karta „Chůze a opora → Spustit poradce“ nově označuje existující anonymní `guide_advisor_click` se souhlasem, bez URL a odpovědí. **Read-only WordPress readiness 20. 11. stále hlásí 0.8.239**, `integrity=ok`, 25/25. Před přijetím 0.8.240 musí vlastník provést **Deployer for Git → Pull + Deploy z `dev`**; následně vyžadovat přesnou verzi, integritu a full 14/14 postdeploy Chrome QA. Automatický hodinový watcher již existuje; nová read-only Chrome akceptace navíc cíleně pokryje homepage handoff po 0.8.240. Nová značka dosud nepřinesla prokázaný start, obchodní klik ani provizi.
 
 ## Hotovo a ověřeno
 

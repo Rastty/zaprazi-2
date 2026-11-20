@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "asOf": "2026-11-20",
   "metrics": {
-    "organic_clicks_28d": 10,
-    "organic_impressions_28d": 1163,
+    "organic_clicks_28d": 14,
+    "organic_impressions_28d": 1295,
     "advisor_starts_28d": 5,
     "advisor_completes_28d": 5,
     "merchant_clicks_28d": 1
@@ -16,8 +16,8 @@
     "merchant_clicks_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md"
   },
   "metricAsOf": {
-    "organic_clicks_28d": "2026-11-15",
-    "organic_impressions_28d": "2026-11-15",
+    "organic_clicks_28d": "2026-11-17",
+    "organic_impressions_28d": "2026-11-17",
     "advisor_starts_28d": "2026-11-20",
     "advisor_completes_28d": "2026-11-20",
     "merchant_clicks_28d": "2026-11-20"

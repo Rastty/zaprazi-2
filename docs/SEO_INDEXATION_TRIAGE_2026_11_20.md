@@ -2,13 +2,25 @@
 
 ## Proč teď
 
-Nejnovější dostupný finalizovaný [Prometheus Core GSC snapshot](https://github.com/Rastty/prometheus-growth-os/actions/runs/44341902238) je **19. 10. – 15. 11. 2026**: 10 kliků / 1 163 impresí v Google Search. Export artefaktu `prometheus-zaprazi-gsc-28d-sanitized` zahrnuje 15 vybraných URL Inspection výsledků: **12 indexed / 3 excluded**. Jde o omezený sledovaný vzorek, nikoli o podíl indexovaných URL celého webu. URL Inspection je snapshot Google evidence, ne živé zobrazení nově nasazeného WordPressu.
+Původní finalizovaný [Prometheus Core GSC snapshot](https://github.com/Rastty/prometheus-growth-os/actions/runs/44341902238) byl **19. 10. – 15. 11. 2026**: 10 kliků / 1 163 impresí v Google Search. Původní artefakt `prometheus-zaprazi-gsc-28d-sanitized` zahrnoval 15 vybraných URL Inspection výsledků: **12 indexed / 3 excluded**. Jde o omezený sledovaný vzorek, nikoli o podíl indexovaných URL celého webu. URL Inspection je snapshot Google evidence, ne živé zobrazení nově nasazeného WordPressu.
 
 | Přesná URL | Poslední exportovaný GSC stav | Bezprostřední další krok |
 |---|---|---|
 | `/choditka-pro-seniory/` | `discovered_not_indexed`, bez evidovaného Google crawlu | V GSC **URL Inspection → Test live URL**; jen pokud stále vyloučeno a live test je způsobilý, požádat o indexaci |
 | `/choditko-do-bytu-pro-seniory/` | `other`, bez bližšího bezpečně ověřeného důvodu | Nejprve přečíst aktuální důvod v detailu URL Inspection; neodvozovat z `other` automaticky řešení |
 | `/sprchovaci-zidle-pro-seniory/` | `discovered_not_indexed`, bez evidovaného Google crawlu | Stejný individuální URL Inspection / live test; teprve potom případná žádost |
+
+## Novější GSC běh — 20. 11. 2026, po nasazení 0.8.239
+
+Bez úprav WordPressu byl zopakován **existující read-only Core capture job** ve stejném [workflow runu, druhém pokusu](https://github.com/Rastty/prometheus-growth-os/actions/runs/44341902238): finalizovaných 28 dní **21. 10. – 17. 11.**, **14 kliků / 1 295 impresí**, `dataState=final`. Rozdíl vůči předchozímu překryvnému 28dennímu oknu **není** kauzální výsledek nového release.
+
+Aktuální URL Inspection vzorek **15 URL = 10 indexed / 2 excluded / 3 unknown**, bez běhové chyby celého exportu. Podstatné změny proti předchozí evidenci:
+
+- **Homepage `/`**: nyní `crawled_not_indexed` (Google crawl **18. 11.**, `ALLOWED`, `INDEXING_ALLOWED`, `SUCCESSFUL`, vlastní i Google canonical souhlasí). **Neznamená to prokázanou technickou blokaci ani trvalé vyloučení; aktuální stav prověřit v UI Search Console.** Veřejná 0.8.239 mezitím dává HTTP 200, `index, follow`, self-canonical a žádný `X-Robots-Tag` blok.
+- **`/sprchovaci-zidle-pro-seniory/`**: stále excluded, nyní `coverage=other`, detailní důvod nezjištěn.
+- **`/choditka-pro-seniory/`, `/choditko-do-bytu-pro-seniory/`, `/co-zmerit-pred-vyberem-choditka/`**: tentokrát `unknown`, explicitně `inspection_unavailable`. **Nepřekládat na 404, deindexaci či nulový zájem**; předchozí verdikty zůstávají historickým snímkem, ne aktuálním stavem.
+
+Nová priorita: **1. homepage `/`**, potom tři původní vyloučené Mobility/Bathroom URL. Nepřepisovat schémata, canonical ani text jen na základě jednoho proměnlivého URL Inspection výsledku.
 
 ## Aktuální veřejná technická brána
 
@@ -24,7 +36,7 @@ Nezávislý existující `node scripts/audit-public-sitemap.mjs` na produkci 0.8
 
 ## Bezpečná akce vlastníka a následné měření
 
-1. Otevřít [Google Search Console](https://search.google.com/search-console/) pro přesnou vlastnost `https://zaprazi.cz/`. Každou výše uvedenou plnou URL zkontrolovat ve vrchním poli *Kontrola adresy URL* a zapsat aktuální důvod vyloučení, Google canonical a datum crawlu.
+1. Otevřít [Google Search Console](https://search.google.com/search-console/) pro přesnou vlastnost `https://zaprazi.cz/`. **Nejprve zkontrolovat homepage `https://zaprazi.cz/`**, potom každou výše uvedenou plnou URL ve vrchním poli *Kontrola adresy URL* a zapsat aktuální důvod vyloučení, Google canonical a datum crawlu.
 2. Použít *Otestovat živou adresu URL*. Pokud je stránka způsobilá a Google ji stále neindexoval, lze zvolit *Požádat o indexování*. Dle [oficiálního návodu Googlu](https://support.google.com/webmasters/answer/9012289?hl=en) **žádost není zárukou indexace**.
 3. Po konečném 7–14denním GSC okně vyhodnotit **jednotlivé URL a jejich relevantní dotazy**, odděleně od 4 359 historických archivních URL a od Direct/AI Assistant provozu v GA4. Pokud bude důvod `Crawled - currently not indexed`, posoudit relevanci a unikátní užitek stránky před jakoukoli cílenou změnou.
 

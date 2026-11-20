@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_238 */
+/* ZP_RELEASE_0_8_239 */
 /*
 Template Name: Zápraží — Antidekubitní matrace na polohovací postel
 */

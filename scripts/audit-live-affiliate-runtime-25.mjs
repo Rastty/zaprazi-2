@@ -6,7 +6,9 @@
  *
  * Exactly two SAME-ORIGIN GET requests. NEVER follow an affiliate URL,
  * fire click events, log tracking values, or send Advisor answer data.
- * This is URL/configuration hygiene, NOT publisher attribution/checkout proof.
+ * Passively assert each encoded product destination against the source-controlled
+ * exact canonical product URL. This does NOT follow publisher redirects or
+ * prove final merchant delivery, attribution, checkout or commissions.
  */
 import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
@@ -109,6 +111,14 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
     if(!approvedHost(url.hostname,isEhub?new Set(["ehub.cz"]):CJ_HOSTS))
       fail("NETWORK_MISMATCH",key);
     if(url.href===canonical.get(key).url)fail("PLAIN_PRODUCT_NOT_AFFILIATE",key);
+    // CJ and eHub include a public encoded destination in their publisher
+    // URLs. URLSearchParams decodes that value once; demand an exact match,
+    // including host, product path, scheme and lack of query/fragment. Never
+    // print the link or any partner parameters, even on mismatch.
+    const destinationParam=isEhub?"desturl":"url";
+    const destinations=url.searchParams.getAll(destinationParam);
+    if(destinations.length!==1||destinations[0]!==canonical.get(key).url)
+      fail("EXACT_PRODUCT_DESTINATION_MISMATCH",key);
     merchantCounts[merchant]=(merchantCounts[merchant]||0)+1;
     networkCounts[isEhub?"ehub":"cj"]++;
   }
@@ -117,14 +127,16 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
   return {
     scope:"public_browser_exposed_affiliate_configuration_only",
     release:readiness.release,
-    state:"runtime_slots_present_network_hygiene_pass",
+    state:"runtime_slots_and_embedded_destinations_match_source",
     configured:entries.length,
     networkCounts,
     merchantCounts,
+    embeddedDestinationParityChecked:entries.length,
+    embeddedDestinationsMatchCanonical:true,
     attributionVerified:false,
     productDestinationVerified:false,
     publisherConversionVerified:false,
-    note:"Tracking URLs and parameters intentionally omitted. No redirect, click, sale or commission was tested."
+    note:"All 25 encoded publisher destinations equal source-controlled exact product URLs. Tracking values omitted. No redirect, final merchant landing, click, sale or commission was tested."
   };
 }
 

@@ -9,11 +9,17 @@ import {extractCanonicalTargets} from "../scripts/audit-canonical-merchant-targe
 const php=readFileSync(new URL("../functions.php",import.meta.url),"utf8");
 const targets=extractCanonicalTargets(php);
 const readiness={release:"0.8.200",integrity:"ok",configured_total:25,slot_total:25};
-const makeMap=()=>Object.fromEntries(targets.map((t,i)=>[
-  t.key,t.key.startsWith("rehavita-cz:")
-    ?"https://www.ehub.cz/s/test-"+i
-    :"https://www.dpbolvw.net/click-test-"+i
-]));
+const makeMap=()=>Object.fromEntries(targets.map((t,i)=>{
+  const ehub=t.key.startsWith("rehavita-cz:");
+  const url=new URL(ehub?"https://www.ehub.cz/s/test-"+i:
+    "https://www.dpbolvw.net/click-test-"+i);
+  if(ehub){
+    url.searchParams.set("a_aid","test-"+i);
+    url.searchParams.set("a_bid","synthetic");
+  }
+  url.searchParams.set(ehub?"desturl":"url",t.url);
+  return [t.key,url.href];
+}));
 const fixture=map=>'<!doctype html><html><h1>ZaPrazi</h1><script id="zaprazi-runtime-config-js-after">window.ZaPraziRuntime = Object.assign({}, window.ZaPraziRuntime || {}, {affiliateMap:'+JSON.stringify(map)+'});</script></html>';
 const response=(body,mime,url)=>({
   status:200,url,headers:{get:k=>k==="content-type"?mime+"; charset=UTF-8":null},
@@ -29,11 +35,13 @@ test("live source contract: all 25 affiliate slots are unique and correctly rout
   const result=classifyPublicAffiliateMap(map,targets,readiness);
   assert.deepEqual(result.networkCounts,{cj:21,ehub:4});
   assert.equal(result.configured,25);
-  assert.equal(result.state,"runtime_slots_present_network_hygiene_pass");
+  assert.equal(result.state,"runtime_slots_and_embedded_destinations_match_source");
+  assert.equal(result.embeddedDestinationParityChecked,25);
+  assert.equal(result.embeddedDestinationsMatchCanonical,true);
   assert.equal(result.attributionVerified,false);
   assert.equal(result.productDestinationVerified,false);
   assert.equal(result.publisherConversionVerified,false);
-  assert.doesNotMatch(JSON.stringify(result),/dpbolvw|ehub\.cz|click-test/);
+  assert.doesNotMatch(JSON.stringify(result),/dpbolvw|ehub\.cz|click-test|synthetic/);
 });
 
 test("read-only public QA fetches exactly two own-origin GETs and never visits affiliate/merchant hosts",async()=>{
@@ -97,6 +105,35 @@ test("fail closed on missing/extra key, swapped network and unsafe affiliate URL
   for(const m of variants)fail(()=>classifyPublicAffiliateMap(m,targets,readiness));
   fail(()=>classifyPublicAffiliateMap(makeMap(),targets,{...readiness,configured_total:24}));
   fail(()=>classifyPublicAffiliateMap(makeMap(),targets,{...readiness,integrity:"partial"}));
+});
+
+test("fail closed when any CJ or eHub publisher link points at the wrong exact product",()=>{
+  const cj=targets.filter(x=>x.merchant==="rehabilitacni-pomucky-cz");
+  const ehub=targets.filter(x=>x.merchant==="rehavita-cz");
+  const alter=(key,fn)=>{
+    const map=makeMap();
+    const url=new URL(map[key]);
+    fn(url);
+    map[key]=url.href;
+    return map;
+  };
+  const mutants=[
+    alter(cj[0].key,u=>u.searchParams.set("url",cj[1].url)),
+    alter(ehub[0].key,u=>u.searchParams.set("desturl",ehub[1].url)),
+    alter(cj[0].key,u=>u.searchParams.set("url","https://evil.example/")),
+    alter(cj[0].key,u=>u.searchParams.set("url",cj[0].url+"?health=secret")),
+    alter(cj[0].key,u=>u.searchParams.append("url",cj[0].url)),
+    alter(cj[0].key,u=>u.searchParams.delete("url")),
+    alter(ehub[0].key,u=>u.searchParams.delete("desturl")),
+    alter(ehub[0].key,u=>u.searchParams.set("desturl",ehub[0].url+"#fake"))
+  ];
+  for(const map of mutants){
+    assert.throws(()=>classifyPublicAffiliateMap(map,targets,readiness),error=>{
+      assert.match(error.message,/EXACT_PRODUCT_DESTINATION_MISMATCH/);
+      assert.doesNotMatch(error.message,/https:|secret|evil\.example|\?health=/);
+      return true;
+    });
+  }
 });
 
 test("failure paths do not echo secret URLs or tracking values in diagnostic text",()=>{

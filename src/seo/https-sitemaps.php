@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_242 */
+/* ZP_RELEASE_0_8_243 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -90,6 +90,9 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-16: #810 materially revised the insurance guide's first-screen
  * action and #812 materially revised the walker-measurements decision flow.
  * 2026-11-17: #814 materially revised the walker hub's first-screen guidance.
+ * 2026-11-20: #878 materially clarified the existing rollator guide's
+ * Lékárna.cz product-table versus retailer-attached MEYRA 3061982 manual
+ * discrepancy and the need to check the actual delivered variant before fit.
  * These are source-backed content changes, not release or deploy timestamps.
  */
 function zaprazi_2_material_sitemap_page_dates() {
@@ -100,7 +103,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-16T00:00:00+00:00',
     'choditka-pro-seniory' => '2026-11-17T00:00:00+00:00',
-    'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00',
+    'rollator-pro-seniory' => '2026-11-20T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
     'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',

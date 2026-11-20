@@ -40,11 +40,18 @@ export function materialLastmodDates(source) {
 export const SOURCE_DATES=materialLastmodDates(
   readFileSync(new URL("../src/seo/https-sitemaps.php",import.meta.url),"utf8")
 );
+// Live 0.8.242 predates this evidence-backed rollator editorial lastmod.
+// A 0.8.243 PR may inspect its verified predecessor but must never treat the
+// new material date as deployed until real WordPress Pull + Deploy occurs.
+export const PREDEPLOY_242_MATERIAL_DATES=Object.freeze({
+  ...SOURCE_DATES,
+  "/rollator-pro-seniory/":"2026-11-10"
+});
 // A candidate 0.8.237 corrects three confirmed live per-page Yoast dates.
 // Predeploy tests must compare 0.8.236 against its actual older values, not
 // confuse the candidate timestamps with what is already public.
 export const PREDEPLOY_236_MATERIAL_DATES=Object.freeze({
-  ...SOURCE_DATES,
+  ...PREDEPLOY_242_MATERIAL_DATES,
   "/choditko-na-pojistovnu/":"2026-11-10",
   "/co-zmerit-pred-vyberem-choditka/":"2026-11-08",
   "/choditka-pro-seniory/":"2026-11-15"
@@ -204,6 +211,8 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
   // the corrected XML/schema dates have reached WordPress before owner deploy.
   if(event==="pull_request"&&sourceRelease==="0.8.237"&&liveRelease==="0.8.236")
     return {dates:PREDEPLOY_236_MATERIAL_DATES,mode:"predeploy_verified_236_dates_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.243"&&liveRelease==="0.8.242")
+    return {dates:PREDEPLOY_242_MATERIAL_DATES,mode:"predeploy_verified_242_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

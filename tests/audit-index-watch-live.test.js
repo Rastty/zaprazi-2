@@ -137,6 +137,19 @@ test("0.8.237 material-date PR checks exactly deployed 0.8.236 canonical pages",
    ["pull_request",{...live,configured_total:24}]
  ])assert.throws(()=>selectIndexWatchScope(event,"0.8.237",readiness),/INDEX_LIVE_/);
 });
+test("0.8.243 rollator-only material date cannot approve an older GSC watch production",()=>{
+ const live={release:"0.8.242",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.243",live),
+   {release:"0.8.242",mode:"predeploy_verified_242_only"});
+ assert.deepEqual(selectIndexWatchScope("push","0.8.243",{...live,release:"0.8.243"}),
+   {release:"0.8.243",mode:"exact_live_source"});
+ for(const [event,readiness] of [
+   ["push",live],["schedule",live],
+   ["pull_request",{...live,release:"0.8.241"}],
+   ["pull_request",{...live,integrity:"partial"}],
+   ["pull_request",{...live,slot_total:24}]
+ ])assert.throws(()=>selectIndexWatchScope(event,"0.8.243",readiness),/INDEX_LIVE_/);
+});
 test("commented or scripted fake canonical/meta tags never satisfy the real head",()=>{
  const decoys=[
    '<!-- <link rel="canonical" href="'+ORIGIN+path+'"> -->',

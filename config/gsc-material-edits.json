@@ -2,6 +2,11 @@
   "schemaVersion": 1,
   "changes": [
     {
+      "path": "/rollator-pro-seniory/",
+      "mergedDate": "2026-11-20",
+      "pullRequest": "https://github.com/Rastty/zaprazi-2/pull/878"
+    },
+    {
       "path": "/choditka-pro-seniory/",
       "mergedDate": "2026-11-17",
       "pullRequest": "https://github.com/Rastty/zaprazi-2/pull/814"

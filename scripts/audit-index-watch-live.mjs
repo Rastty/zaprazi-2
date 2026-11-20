@@ -121,6 +121,11 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // unchanged; audit the exact independently verified live 0.8.236 release.
   if(event==="pull_request"&&sourceRelease==="0.8.237"&&readiness.release==="0.8.236")
     return {release:"0.8.236",mode:"predeploy_verified_236_only"};
+  // 0.8.243 adjusts the evidenced rollator page's Yoast material date only.
+  // None of the five fixed GSC watch paths or their canonical/robots content
+  // changes; PR audits exact 0.8.242, while push/schedule remain fail-closed.
+  if(event==="pull_request"&&sourceRelease==="0.8.243"&&readiness.release==="0.8.242")
+    return {release:"0.8.242",mode:"predeploy_verified_242_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

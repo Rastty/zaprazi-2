@@ -22,6 +22,10 @@ export const APPROVED_HOSTS=new Set([
   "tkqlhce.com","jdoqocy.com","ehub.cz"
 ]);
 const CJ_HOSTS=new Set([...APPROVED_HOSTS].filter(h=>h!=="ehub.cz"));
+// CJ links contain a publisher website ID followed by an advertiser/creative ID.
+// A mixed publisher website ID can silently send conversions to another site;
+// this guard proves consistency only, NOT ownership in the CJ publisher account.
+const CJ_CLICK_PATH=/^\/click-([1-9][0-9]{3,14})-([1-9][0-9]{3,14})$/;
 const FORBIDDEN_PARAMS=new Set([
   "answer","answers","environment","supportneed","canliftwalker",
   "handbrakes","seatneeded","tightspace","transportneed","duration",
@@ -91,6 +95,7 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
   const canonical=new Map(targets.map(t=>[t.key,t]));
   const networkCounts={cj:0,ehub:0};
   const merchantCounts={};
+  let cjWebsiteId=null;
   for(const [key,href] of entries){
     if(!canonical.has(key))fail("UNKNOWN_OR_MISSING_SLOT",key);
     if(typeof href!=="string"||href.length<14||href.length>12_000)fail("URL_LENGTH",key);
@@ -110,6 +115,13 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
     const isEhub=merchant==="rehavita-cz";
     if(!approvedHost(url.hostname,isEhub?new Set(["ehub.cz"]):CJ_HOSTS))
       fail("NETWORK_MISMATCH",key);
+    if(!isEhub){
+      const click=CJ_CLICK_PATH.exec(url.pathname);
+      if(!click)fail("CJ_CLICK_PATH_INVALID",key);
+      if(cjWebsiteId!==null&&click[1]!==cjWebsiteId)
+        fail("CJ_WEBSITE_ID_MIXED",key);
+      cjWebsiteId=click[1];
+    }
     if(url.href===canonical.get(key).url)fail("PLAIN_PRODUCT_NOT_AFFILIATE",key);
     // CJ and eHub include a public encoded destination in their publisher
     // URLs. URLSearchParams decodes that value once; demand an exact match,
@@ -133,10 +145,12 @@ export function classifyPublicAffiliateMap(map,targets,readiness){
     merchantCounts,
     embeddedDestinationParityChecked:entries.length,
     embeddedDestinationsMatchCanonical:true,
+    cjWebsiteIdConsistent:networkCounts.cj>0&&cjWebsiteId!==null,
+    cjPropertyOwnershipVerified:false,
     attributionVerified:false,
     productDestinationVerified:false,
     publisherConversionVerified:false,
-    note:"All 25 encoded publisher destinations equal source-controlled exact product URLs. Tracking values omitted. No redirect, final merchant landing, click, sale or commission was tested."
+    note:"All 25 encoded publisher destinations equal source-controlled exact product URLs. The 21 CJ links have one well-formed website ID, but CJ property ownership is unverified. Tracking values omitted. No redirect, final merchant landing, click, sale or commission was tested."
   };
 }
 

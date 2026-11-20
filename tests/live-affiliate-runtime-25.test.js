@@ -12,7 +12,7 @@ const readiness={release:"0.8.200",integrity:"ok",configured_total:25,slot_total
 const makeMap=()=>Object.fromEntries(targets.map((t,i)=>{
   const ehub=t.key.startsWith("rehavita-cz:");
   const url=new URL(ehub?"https://www.ehub.cz/s/test-"+i:
-    "https://www.dpbolvw.net/click-test-"+i);
+    "https://www.dpbolvw.net/click-1111111-"+(1000000+i));
   if(ehub){
     url.searchParams.set("a_aid","test-"+i);
     url.searchParams.set("a_bid","synthetic");
@@ -38,6 +38,8 @@ test("live source contract: all 25 affiliate slots are unique and correctly rout
   assert.equal(result.state,"runtime_slots_and_embedded_destinations_match_source");
   assert.equal(result.embeddedDestinationParityChecked,25);
   assert.equal(result.embeddedDestinationsMatchCanonical,true);
+  assert.equal(result.cjWebsiteIdConsistent,true);
+  assert.equal(result.cjPropertyOwnershipVerified,false);
   assert.equal(result.attributionVerified,false);
   assert.equal(result.productDestinationVerified,false);
   assert.equal(result.publisherConversionVerified,false);
@@ -134,6 +136,34 @@ test("fail closed when any CJ or eHub publisher link points at the wrong exact p
       return true;
     });
   }
+});
+
+test("CJ paths must have one consistent publisher website ID; no ownership claim or tracking output",()=>{
+  const cj=targets.filter(x=>!x.key.startsWith("rehavita-cz:"));
+  assert.equal(cj.length,21);
+  const changed=(suffix)=>{
+    const map=makeMap();
+    const u=new URL(map[cj[0].key]);
+    u.pathname=suffix;
+    map[cj[0].key]=u.href;
+    return map;
+  };
+  for(const [path,reason] of [
+    ["/click-2222222-1000000","CJ_WEBSITE_ID_MIXED"],
+    ["/click-1111111-0","CJ_CLICK_PATH_INVALID"],
+    ["/click-test-1000000","CJ_CLICK_PATH_INVALID"],
+    ["/click-1111111-1000000/extra","CJ_CLICK_PATH_INVALID"]
+  ]){
+    assert.throws(()=>classifyPublicAffiliateMap(changed(path),targets,readiness),error=>{
+      assert.match(error.message,new RegExp(reason));
+      assert.doesNotMatch(error.message,/2222222|1111111|https:|\?url=/);
+      return true;
+    });
+  }
+  const safe=classifyPublicAffiliateMap(makeMap(),targets,readiness);
+  assert.equal(safe.cjWebsiteIdConsistent,true);
+  assert.equal(safe.cjPropertyOwnershipVerified,false);
+  assert.doesNotMatch(JSON.stringify(safe),/1111111|click-\d+/);
 });
 
 test("failure paths do not echo secret URLs or tracking values in diagnostic text",()=>{

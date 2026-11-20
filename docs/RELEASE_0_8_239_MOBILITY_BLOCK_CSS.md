@@ -31,4 +31,13 @@ Verzování: `scripts/prepare-theme-release.mjs` vytvořil **0.8.239** s přesn�
 - Naměřit srovnatelný Lighthouse mobilní profil *před a po* na stejné sadě URL bez tvrzení zlepšení z pouhé nepřítomnosti stylesheetu. Pokles LCP je hypotéza, nikoli předem daný výsledek.
 - Pokud WordPress začne renderovat na některé cílové stránce Gutenberg nebo plugin přidá závislost na block library, vrátit selective dequeue na předchozí 0.8.238 / source-bound změnu, ne potichu upravit obsah.
 
-**Stav tohoto dokumentu:** implementace a testovací plán; žádné potvrzení nového produkčního release až do samostatného WP Deploy a readbacku.
+## Ověřená produkční akceptace — 20. 11. 2026
+
+Samostatný WordPress Pull + Deploy už proběhl. Přímý read-only readback po nasazení:
+
+- Veřejná `/wp-json/zaprazi/v1/affiliate-readiness` a čtyři různá HTML: **release 0.8.239**, `integrity=ok`, **25/25** nakonfigurovaných slotů, dvojí ověření readiness.
+- `scripts/audit-live-affiliate-runtime-25.mjs`: **PASS**, 21 CJ + 4 eHub; ověřena pouze veřejná konfigurace a bezpečnost affiliate URL, nikoli destinace po publisher přesměrování, uskutečněný klik, objednávka či provize.
+- Všech **7/7** vyjmenovaných živých URL: HTTP 200, release 0.8.239, bez `wp-block-library-css`. Kontrolní ne-Mobility `/koupelna-a-wc/`: HTTP 200, release 0.8.239, původní block stylesheet zachován.
+- [GitHub Actions run #44706686072, druhý průchod browser-qa](https://github.com/Rastty/zaprazi-2/actions/runs/44706686072): **SUCCESS** přímo proti nové produkční 0.8.239; v logu prokázáno 14/14 živých Advisorů, prázdné vstupy, mobilní popisky, klávesnice, URL privacy, fit-gates, reset zastaralých výsledků, bezpečné akviziční cesty a související Chrome scénáře. Editorial/SEO job úspěšný. Prohlížečový průchod byl zopakován jako PR job po nasazení, proto podmíněný `workflow_dispatch`-only Basic Consent audit v tomto běhu **neproběhl**; tento release consent kód neměnil. Samostatná live Chrome Consent akceptace pro 0.8.239 tím není tvrzena.
+
+**Vydání je technicky přijaté pro úzkou CSS změnu.** Bez srovnatelných mobilních LH měření a bez field dat zatím nelze potvrdit LCP ani obchodní dopad. Další akviziční priorita: [GSC indexační triage tří konkrétních URL](SEO_INDEXATION_TRIAGE_2026_11_20.md).

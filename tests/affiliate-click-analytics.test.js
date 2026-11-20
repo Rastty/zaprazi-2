@@ -4,6 +4,23 @@ import fs from "node:fs";
 import vm from "node:vm";
 
 const source = fs.readFileSync(new URL("../assets/js/analytics-consent.js", import.meta.url), "utf8");
+const home = fs.readFileSync(new URL("../front-page.php", import.meta.url), "utf8");
+
+test("the homepage Mobility action uses the same consent-gated, parameter-free Advisor handoff", () => {
+  const cards = home.split('id="co-resite"')[1]?.split('id="poradce"')[0] || "";
+  const mobility = cards.split('<h3>Chůze a opora</h3>')[1]?.split('</article>')[0] || "";
+  assert.match(mobility, /<a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce<\/a>/);
+  assert.equal((home.match(/data-zp-journey="advisor"/g) || []).length, 1,
+    "One clearly labeled entry signal, no repeated counts from other homepage links");
+  const href = mobility.match(/data-zp-journey="advisor" href="([^"]+)"/)?.[1];
+  assert.equal(href, "#poradce", "The handoff contains no query, answers or affiliate IDs");
+  const h = harness("granted");
+  h.click("guideInline", false);
+  h.click("guideInline", false);
+  assert.deepEqual(h.eventNames(), ["guide_advisor_click"]);
+  assert.ok(h.eventCalls().every(call => call.length === 2),
+    "Only the event name reaches GA4, never the source page or answers");
+});
 
 function harness(savedConsent = null) {
   const listeners = {};

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_239
+// ZP_RELEASE_0_8_240
 (() => {
   "use strict";
 
@@ -187,7 +187,7 @@
     sendEvent("next_step_click");
   });
 
-  // Anonymous editorial-to-Advisor handoff. Only explicitly marked primary
+  // Anonymous landing/editorial-to-Advisor handoff. Only explicitly marked
   // local links are eligible: no URL, title, product, diagnosis, selected
   // answers, merchant or source-page parameter ever reaches analytics.
   // Once per page view is a funnel interaction count, NOT unique people.

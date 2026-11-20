@@ -28,6 +28,22 @@ Tento dokument je **anonymní agregovaný pracovní snímek**, ne důkaz tržby 
 
 Všechny `builder_start`/`builder_complete` události připadly na **27. 10.** (2/2), **29. 10.** (1/1) a **15. 11.** (2/2). Jediný `affiliate_click` připadl na **27. 10. 2026**. Není ověřeno, zda šlo o běžné návštěvníky, interní QA nebo opakované testy.
 
+### Nový anonymní průřez funnel událostí podle kanálu (20. 11. 2026)
+
+Samostatný čtecí dotaz do stejné vlastnosti, stejného období **23. 10. – 19. 11.**, s dimenzemi `event_name` a `session_default_channel_group` a metrikou `event_count`, omezený na `builder_start`, `builder_complete`, `recommendation_view`, `product_click`, `merchant_click`, `affiliate_click` a `guide_advisor_click`, vrátil **12 agregovaných řádků**. Proti tomu nezávislý dotaz na **všechny Organic Search události** potvrdil `session_start=17`, `page_view=22`, `first_visit=15`, `user_engagement=23`, ale žádnou zaznamenanou funnel událost.
+
+| GA4 session channel | `builder_start` | `builder_complete` | `recommendation_view` | `product_click` | `merchant_click` | `affiliate_click` |
+|---|---:|---:|---:|---:|---:|---:|
+| Direct | 2 | 2 | 1 | 1 | 1 | 1 |
+| Referral | 1 | 1 | 1 | 0 | 0 | 0 |
+| AI Assistant | 2 | 2 | 1 | 0 | 0 | 0 |
+| Organic Search | 0 | 0 | 0 | 0 | 0 | 0 |
+| **Zaznamenaný součet** | **5** | **5** | **3** | **1** | **1** | **1** |
+
+`guide_advisor_click` nevrátil žádný řádek v uvedeném intervalu; nejde o důkaz nefunkčnosti novějšího kódu ani o počet unikátních lidí. **Jediný pozorovaný affiliate klik je přiřazen kanálu Direct, nikoli Organic Search.** Toto přiřazení **neprokazuje** skutečného zákazníka, stejnou relaci pro více různých událostí, nákup ani schválenou provizi. GA4 event counts nelze dělit počtem sessions jako přesný uživatelský konverzní poměr; opt-in souhlas, možné testy a GA4 reporting mohou některá pozorování vynechat či omezit. Veřejné shrnutí nezahrnuje žádná ID, odpovědi ani cesty uživatelů.
+
+**Důsledek pro Growth Graph:** Z organiky už máme malé množství vstupů, nikoli **pozorovaný organický poradce → obchodník**. Priorita je relevanci a indexovatelnost současných rozhodovacích URL měřit, teprve potom ladit konverzní hypotézy. Není podložené připisovat jediný affiliate klik SEO ani posledním vydáním.
+
 Kanály: **AI Assistant 30 sessions / 1 active user**, Direct 17 / 5, Organic Search 17 / 15, Referral 13 / 1. Unikátní uživatele nelze sčítat napříč kanály. Jediný uživatel s 30 AI Assistant relacemi je silné upozornění na možný testovací/automatizovaný provoz, **nikoli potvrzení bot provozu**.
 
 Vstupní URL `/` zaznamenala **44/77 sessions**. `/koupelna-a-wc` 3, `/choditko-do-bytu-pro-seniory` 2, `/pomucky-do-koupelny-na-pojistovnu` 2; zbytek rozptýlen mezi 25 dalšími položkami včetně starých článků o vodě, kanceláři a spotřebičích. Jde o **všechny GA4 kanály**, ne pouze organický segment. Vzorek je malý, nelze z něj určit účinnost SEO zásahů.

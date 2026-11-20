@@ -35,6 +35,9 @@ test("Rollator 60 cm doorway answer is findable and evidence-specific", () => {
   assert.match(guide, /79–99 cm/);
   assert.match(guide, /kód zboží 473021/);
   assert.match(guide, /v popisu neuvádí výrobní kód/);
+  assert.match(guide, /Přiložený návod na téže stránce přitom výslovně uvádí model 3061982, šířku 615 mm a madla 790–970 mm/);
+  assert.match(guide, /jiné rozměry než tabulka obchodu/);
+  assert.ok(guide.includes('https://lekarnacz.vshcdn.net/upload/na/vo/navod-k-pouziti-rollator-ideal-3061982-2387338.pdf'));
   assert.match(guide, /Neberte obchodní rozměr 59 cm jako potvrzení průchodu 60cm dveřmi/);
   assert.match(guide, /nákupní nabídka v poradci podmíněná ověřením/);
   assert.match(guide, /Kontrola odlišné nabídky 20\. 11\. 2026/);

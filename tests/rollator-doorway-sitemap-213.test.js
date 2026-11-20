@@ -8,10 +8,10 @@ const source=read("src/seo/https-sitemaps.php");
 const pages=["rollator-pro-seniory","choditka-pro-seniory","choditko-na-pojistovnu"];
 
 test("0.8.213 dates match three actual material mobility edits, not arbitrary pages",()=>{
-  // The rollator guide retains 0.8.213's sourced date; the other two
-  // canonical guides acquired additional material revisions in #814/#810.
+  // The rollator guide gained a later material retailer-manual clarification
+  // in #878; walker hub and insurance gained revisions in #814/#810.
   const expected={
-    "rollator-pro-seniory":"2026-11-10",
+    "rollator-pro-seniory":"2026-11-20",
     "choditka-pro-seniory":"2026-11-17",
     "choditko-na-pojistovnu":"2026-11-16"
   };
@@ -28,7 +28,7 @@ test("0.8.213 dates match three actual material mobility edits, not arbitrary pa
     ["rollator-pro-seniory","2026-10-01","https://zaprazi.cz/rollator-pro-seniory/","publish","page"],
     ["choditka-pro-seniory","2026-11-09","https://zaprazi.cz/choditka-pro-seniory/","publish","page"],
     ["choditko-na-pojistovnu","2026-11-09","https://zaprazi.cz/choditko-na-pojistovnu/","publish","page"],
-    ["rollator-pro-seniory","2026-11-11","https://zaprazi.cz/rollator-pro-seniory/","publish","page"],
+    ["rollator-pro-seniory","2026-11-20T12:00:00+00:00","https://zaprazi.cz/rollator-pro-seniory/","publish","page"],
     ["rollator-pro-seniory","2026-10-01","https://another.example/rollator-pro-seniory/","publish","page"],
     ["rollator-pro-seniory","2026-10-01","https://zaprazi.cz/rollator-pro-seniory/","draft","page"],
     ["rollator-pro-seniory","2026-10-01","https://zaprazi.cz/rollator-pro-seniory/","publish","post"],

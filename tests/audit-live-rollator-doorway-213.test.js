@@ -53,7 +53,9 @@ test("0.8.213 Chrome acceptance is exact-release, production-only and read-only"
   assert.ok(rollator.includes('id="rollator-uzke-dvere"'));
   assert.ok(hub.includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
   assert.ok(insurance.includes("/rollator-pro-seniory/#rollator-uzke-dvere"));
-  assert.ok(sitemap.includes("'rollator-pro-seniory' => '2026-11-10T00:00:00+00:00'"));
+  // 0.8.213 introduced the original 10 Nov claim; #878's substantial
+  // subsequent editorial revision now warrants its own 20 Nov sitemap date.
+  assert.ok(sitemap.includes("'rollator-pro-seniory' => '2026-11-20T00:00:00+00:00'"));
   assert.ok(sitemap.includes("'choditko-na-pojistovnu' => '2026-11-16T00:00:00+00:00'"));
   assert.ok(sitemap.includes("'choditka-pro-seniory' => '2026-11-17T00:00:00+00:00'"));
   const syntax=spawnSync(process.execPath,["--check","scripts/audit-live-rollator-doorway-213.mjs"],

@@ -39,10 +39,22 @@ test("0.8.200+ real Chrome acceptance covers four meaningful editorial-to-Adviso
   ]) assert.ok(script.includes(token),"Missing strict production check: "+token);
   assert.match(script,/if\(!atLeast\(SOURCE_THEME_RELEASE,"0\.8\.200"\)\)/);
   assert.equal((script.match(/from:"\/choditka-pro-seniory\/"/g)||[]).length,2);
-  assert.equal((script.match(/label:"/g)||[]).length,4);
+  assert.equal((script.match(/label:"/g)||[]).length,5);
   assert.doesNotMatch(script, /method:\s*["']POST["']|page\.type\(|screenshot\(|recordVideo|sendBeacon\(/);
   const syntax=spawnSync(process.execPath,["--check","scripts/audit-live-mobility-guide-handoff-200.mjs"],{encoding:"utf8"});
   assert.equal(syntax.status,0,syntax.stderr||"Chrome QA script syntax failed");
+});
+
+test("0.8.240+ Chrome acceptance includes homepage Mobility-to-Advisor handoff, without backporting the marker",()=>{
+  const script=read("scripts/audit-live-mobility-guide-handoff-200.mjs");
+  const home=read("front-page.php");
+  assert.match(script,/if\(atLeast\(SOURCE_THEME_RELEASE,"0\.8\.240"\)\)cases\.unshift\(/);
+  assert.match(script,/from:"\/",\s*selector:'main #co-resite a\[data-zp-journey="advisor"\]\[href="#poradce"\]',\s*target:"\/#poradce",\s*label:"Spustit poradce"/);
+  assert.match(home,/<a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce<\/a>/);
+  assert.match(script,/assert\.equal\(destination\.search,"","No query\/answers in destination"\)/);
+  assert.match(script,/assert\.notEqual\(granted,"granted"/);
+  assert.match(script,/assert\.equal\(analyticsAttempts,0/);
+  assert.match(script,/assert\.equal\(merchantAttempts,0/);
 });
 
 test("new production handoff acceptance does not touch theme assets or modify release",()=>{

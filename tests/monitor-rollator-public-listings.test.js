@@ -87,6 +87,7 @@ test("publisher-free public GET-only monitor never follows redirects or treats b
   assert.equal(report.checked_count,3);
   assert.equal(report.matched,3);
   assert.equal(report.needs_review,0);
+  assert.equal(report.seller_unavailable,0);
   assert.equal(report.active_product_offers_changed,0);
   assert.ok(report.results.every(x=>x.production_eligible===false));
   assert.deepEqual(seen.map(x=>x.url),records.map(x=>x.url));
@@ -169,4 +170,63 @@ test("responsive duplicate H1 names pass only for exact same SKU title, never an
       base.replace(original,original.replace(record.title,record.title+" P5559"))
     ]) assert.equal(classifyRollatorListingHtml(invalid,record).observation,"unverifiable");
   }
+});
+
+test("exact seller not-in-stock and in-transit labels are visible review blockers, never offers",()=>{
+  for(const id of ["unizdrav-p2879","unizdrav-p5559"]){
+    const r=find(id);
+    for(const label of [
+      "Zboží je na cestě",
+      "Zboží na cestě",
+      "Momentálně není skladem",
+      "Není skladem",
+      "Dočasně nedostupné",
+      "Vyprodáno"
+    ]){
+      const response=classifyRollatorListingHtml(html(r,
+        label+" 2 470 Kč Pro bližší informace kontaktujte prodejce."),r);
+      assert.equal(response.observation,"seller_displays_unavailable",label);
+      assert.equal(response.reason,"seller_product_page_unavailable_label_only");
+      const assessed=assessRollatorLifecycle(response,r);
+      assert.equal(assessed.status,"needs_review");
+      assert.equal(assessed.production_eligible,false);
+      assert.equal(assessed.expected_observation,"seller_displays_available");
+    }
+  }
+});
+
+test("contradictory labels and unrelated sidebar stock never imply availability",()=>{
+  const r=find("unizdrav-p2879");
+  for(const label of ["Zboží je na cestě", "Není skladem", "Vyprodáno"]){
+    const conflict=classifyRollatorListingHtml(html(r,
+      label+" Skladem >10ks Do košíku"),r);
+    assert.equal(conflict.observation,"unverifiable");
+    assert.equal(conflict.reason,"contradictory_seller_availability_labels");
+  }
+  const sellerUnavailable=classifyRollatorListingHtml(
+    html(r,"Zboží je na cestě. Do košíku je v doporučených položkách."),r);
+  assert.equal(sellerUnavailable.observation,"seller_displays_unavailable");
+  for(const bad of [
+    html(r,"Skladem >10ks Do košíku").replace("<h1>"+r.title+"</h1>","<h1>Jiné chodítko</h1>"),
+    html(r,"Skladem >10ks Do košíku").replace("Kód: "+r.sku,"Kód: P5559"),
+    html(r,"Zboží je na cestě").replace("Popis produktu","Neznámá hranice produktů")
+  ])assert.equal(classifyRollatorListingHtml(bad,r).observation,"unverifiable");
+});
+
+test("public readonly seller audit surfaces unavailable SKU count, not synthetic stock",async()=>{
+  const fake=async url=>{
+    const r=records.find(item=>item.url===url);
+    const body=r.id==="unizdrav-p2879"?"Zboží je na cestě":
+      r.id==="unizdrav-p3774"?retired:stock;
+    return {url,status:200,headers:{get:key=>key==="content-type"?"text/html":null},
+      text:async()=>html(r,body)};
+  };
+  const result=await auditRollatorPublicListings(fake,data);
+  assert.equal(result.seller_unavailable,1);
+  assert.equal(result.needs_review,1);
+  assert.equal(result.matched,2);
+  assert.equal(result.active_product_offers_changed,0);
+  assert.ok(result.results.every(item=>item.production_eligible===false));
+  assert.equal(result.results.find(item=>item.id==="unizdrav-p2879").observation,
+    "seller_displays_unavailable");
 });

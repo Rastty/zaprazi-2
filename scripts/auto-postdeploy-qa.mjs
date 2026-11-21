@@ -19,6 +19,8 @@ const MOBILITY_HANDOFF_RELEASE="0.8.200";
 const INSURANCE_SEARCH_RELEASE="0.8.210";
 const WALKER_HUB_PATH="/choditka-pro-seniory/";
 const INDOOR_WALKER_PATH="/choditko-do-bytu-pro-seniory/";
+const CHAIR_PATH="/vstavani-z-kresla-pro-seniora/";
+const CHAIR_HANDOFF_RELEASE="0.8.245";
 const atLeast=(version,min)=>VERSION.test(version)&&
   version.split(".").map(Number).reduce((acc,n,i)=>acc===0?
     Math.sign(n-Number(min.split(".")[i])):acc,0)>=0;
@@ -37,7 +39,7 @@ function publicSummary(status,sourceRelease,liveRelease=null){
 
 async function getPublic(url,accept,fetchImpl){
   if(url!==READINESS&&url!==ORIGIN+INSURANCE_PATH&&url!==ORIGIN+WALKER_HUB_PATH&&
-    url!==ORIGIN+INDOOR_WALKER_PATH&&
+    url!==ORIGIN+INDOOR_WALKER_PATH&&url!==ORIGIN+CHAIR_PATH&&
     !RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
     throw new Error("Unexpected public probe URL");
   const response=await fetchImpl(url,{
@@ -165,6 +167,37 @@ export function verifyMobilityGuideHandoffs({hub,indoor,insurance},expected){
   return true;
 }
 
+/** Prove the actual safe 0.8.245+ chair-to-Mobility first action, not only a version marker. */
+export function verifyChairMobilityHandoff(html,expected){
+  if(!atLeast(expected,CHAIR_HANDOFF_RELEASE))
+    throw new Error("Not a 0.8.245+ feature check");
+  if(readReleaseMarkers(html).release!==expected)
+    throw new Error("Chair guide has stale or mixed release");
+  const sections=[...String(html).matchAll(/<section\b[^>]*>/gi)].filter(m=>
+    /\bid\s*=\s*(["'])jak-postupovat-kreslo\1/i.test(m[0]));
+  if(sections.length!==1)throw new Error("Missing or duplicate chair first-action section");
+  const start=sections[0].index+sections[0][0].length;
+  const end=html.indexOf("</section>",start);
+  if(end<=start)throw new Error("Malformed chair first-action section");
+  const section=html.slice(start,end).replace(/<!--[\s\S]*?-->/g,"")
+    .replace(/<(?:script|style|noscript|template)\b[^>]*>[\s\S]*?<\/(?:script|style|noscript|template)\s*>/gi,"");
+  const plain=section.replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+  for(const phrase of [
+    "Vstávání je bezpečné, ale při následné chůzi chybí jistota?",
+    "bez fyzického přidržování bezpečně stát a chodit",
+    "Poradce nevybírá pomůcku pro zvedání z křesla",
+    "nejprve domluvte odborné posouzení"
+  ]) if(!plain.includes(phrase))throw new Error("Missing chair handoff safety explanation");
+  const anchors=[...section.matchAll(/<a\b[^>]*>/gi)].map(m=>m[0]);
+  const tracked=anchors.filter(a=>/\bdata-zp-journey\s*=\s*(["'])advisor\1/i.test(a));
+  if(tracked.length!==1||!hasExactTrackedAnchor(section,ORIGIN+"/#poradce"))
+    throw new Error("Missing or duplicate exact tracked chair Advisor link");
+  if(/\brel\s*=\s*(["'])[^"']*\bsponsored\b/i.test(tracked[0])||
+     /<form\b|data-zp-merchant-link|data-zp-offer|\?[^"']*answer=/i.test(section))
+    throw new Error("Chair first-action cannot bypass safety or merchant fit gates");
+  return true;
+}
+
 export function inspectPendingReadiness(data,expected){
   if(!data||typeof data!=="object"||Array.isArray(data)||!VERSION.test(data.release))
     return publicSummary("blocked_invalid_readiness",expected);
@@ -203,6 +236,9 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
   const indoorHtml=atLeast(expected,MOBILITY_HANDOFF_RELEASE)
     ?await (await getPublic(ORIGIN+INDOOR_WALKER_PATH,"text/html",fetchImpl)).text()
     :null;
+  const chairHtml=atLeast(expected,CHAIR_HANDOFF_RELEASE)
+    ?await (await getPublic(ORIGIN+CHAIR_PATH,"text/html",fetchImpl)).text()
+    :null;
   const after=await (await getPublic(READINESS,"application/json",fetchImpl)).json();
   try {
     const proof=verifyReleaseCoherence({before,after,pages,expected});
@@ -211,12 +247,14 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
       verifyInsuranceSearchHero(featureHtml,expected);
     if(hubHtml!==null)
       verifyMobilityGuideHandoffs({hub:hubHtml,indoor:indoorHtml,insurance:featureHtml},expected);
+    if(chairHtml!==null)verifyChairMobilityHandoff(chairHtml,expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
-      pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0),
+      pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
       ...(featureHtml!==null&&atLeast(expected,INSURANCE_SEARCH_RELEASE)?
         {insurance_search_hero:"verified"}:{}),
       ...(hubHtml!==null?{mobility_guide_handoffs:"verified"}:{}),
+      ...(chairHtml!==null?{chair_mobility_handoff:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

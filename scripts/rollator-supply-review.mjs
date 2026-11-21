@@ -62,13 +62,13 @@ const PARTNER_FALLBACKS=Object.freeze({
     maxUserWeight:[130,130],weight:[11,9.5],differs:["handle_height","depth","seat_height","weight"],
     identity:"merchant_manufacturer_exact_model_link_unproven"
   },
-  "vitea-care-mobilus-lite-vcbk222b":{
+  "vitea-care-mobilus-lite-vcbk":{
     merchantSku:"468905",ean:"5901095209031",
     merchantUrl:"https://www.lekarna.cz/vitea-care-mobilus-lite-ctyrkolove-choditko/",
-    manufacturerUrl:"https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite",
-    model:"VCBK222B",width:[67,66],height:["77–88","79.5–92"],
+    manufacturerUrl:"https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Chod%C3%ADtko_Mobilus_Lite_n%C3%A1vod_k_pou%C5%BEit%C3%AD_CZ_05-2023.pdf",
+    model:"VCBK",width:[67,66],height:["77–88","79.5–92"],
     maxUserWeight:[136,136],weight:[7.5,7.5],differs:["handle_height","width"],
-    identity:"old_merchant_dimensions_versus_current_manufacturer"
+    identity:"merchant_variant_not_bound_to_manufacturer_manual_vcbk"
   }
 });
 
@@ -109,10 +109,12 @@ export function validatePartnerRollatorFallbacks(data,liveCatalog=MOBILITY_PRODU
         row.merchant.facts.seatHeightCm===61&&row.manufacturer.facts.seatHeightCm===60,
         "MEYRA ROLLATOR 2 (-R) is not IDEAL ROLLATOR without a supplier label");
     }else{
-      must(row.historicManufacturerContext?.url===
+      must(row.manufacturer.productUrl==="https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite"&&
+        row.manufacturer.manualEdition==="2023-05"&&
+        row.historicManufacturerContext?.url===
           "https://viteacare.com/images/2020-2021_KATALOG_REHABILITACJA_EXPORT_ONLINE_.pdf?_t=1600073648"&&
         /not proof which variant ships/i.test(row.historicManufacturerContext.note),
-        "Dated VITEA manufacturer dimensions do not resolve the retailer variant");
+        "Dated VITEA VCBK manufacturer IFU dimensions do not resolve the retailer variant");
     }
     seen.add(row.id);
   }

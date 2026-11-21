@@ -184,8 +184,8 @@
       "nextAction": "Request from Lékárna.cz exact delivered manufacturer model number and current product label/manual matching SKU 468904 EAN 4041314026320; only then verify publisher deeplink and fit, never merge into existing MEYRA Ideal 3061982."
     },
     {
-      "id": "vitea-care-mobilus-lite-vcbk222b",
-      "identityStatus": "old_merchant_dimensions_versus_current_manufacturer",
+      "id": "vitea-care-mobilus-lite-vcbk",
+      "identityStatus": "merchant_variant_not_bound_to_manufacturer_manual_vcbk",
       "existingPartner": "lekarna-cz",
       "offerStatus": "HOLD",
       "merchant": {
@@ -201,15 +201,17 @@
         }
       },
       "manufacturer": {
-        "url": "https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite",
-        "model": "VCBK222B",
-        "title": "MOBILUS LITE",
+        "url": "https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Chod%C3%ADtko_Mobilus_Lite_n%C3%A1vod_k_pou%C5%BEit%C3%AD_CZ_05-2023.pdf",
+        "model": "VCBK",
+        "title": "Mobilus Lite typ VCBK – výrobní návod 05/2023",
         "facts": {
           "widthCm": 66,
           "handleHeightCm": "79.5–92",
           "weightKg": 7.5,
           "maxUserWeightKg": 136
-        }
+        },
+        "productUrl": "https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite",
+        "manualEdition": "2023-05"
       },
       "historicManufacturerContext": {
         "url": "https://viteacare.com/images/2020-2021_KATALOG_REHABILITACJA_EXPORT_ONLINE_.pdf?_t=1600073648",
@@ -223,7 +225,7 @@
       "currentInventoryVerified": false,
       "publisherDestinationVerified": false,
       "productionEligible": false,
-      "nextAction": "Confirm from Lékárna.cz exact delivered VCBK222B model revision, product label and current user manual for SKU 468905 EAN 5901095209031; do not infer 77–88 or 79.5–92 handle fit from ambiguous source dates."
+      "nextAction": "Ask Lékárna.cz whether the exact shipped SKU 468905 EAN 5901095209031 is covered by the VITEA CARE Mobilus Lite type VCBK instructions dated 05/2023, and confirm current dimensions and brakes against its label. Never infer a VCBK222B variant from a search snippet or activate an affiliate merchant CTA without exact source identity and CJ publisher link."
     }
   ]
 }

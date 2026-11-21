@@ -6,21 +6,33 @@
     "organic_impressions_28d": 1422,
     "advisor_starts_28d": 5,
     "advisor_completes_28d": 5,
-    "merchant_clicks_28d": 1
+    "merchant_clicks_28d": 1,
+    "organic_sessions_28d": 19,
+    "organic_decision_page_sessions_28d": 6,
+    "organic_retired_archive_sessions_28d": 11,
+    "organic_unassigned_sessions_28d": 2
   },
   "metricSources": {
     "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44879889507",
     "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/44879889507",
     "advisor_starts_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
     "advisor_completes_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
-    "merchant_clicks_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md"
+    "merchant_clicks_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
+    "organic_sessions_28d": "https://github.com/Rastty/zaprazi-2/issues/401",
+    "organic_decision_page_sessions_28d": "https://github.com/Rastty/zaprazi-2/issues/401",
+    "organic_retired_archive_sessions_28d": "https://github.com/Rastty/zaprazi-2/issues/401",
+    "organic_unassigned_sessions_28d": "https://github.com/Rastty/zaprazi-2/issues/401"
   },
   "metricAsOf": {
     "organic_clicks_28d": "2026-11-18",
     "organic_impressions_28d": "2026-11-18",
     "advisor_starts_28d": "2026-11-20",
     "advisor_completes_28d": "2026-11-20",
-    "merchant_clicks_28d": "2026-11-20"
+    "merchant_clicks_28d": "2026-11-20",
+    "organic_sessions_28d": "2026-11-20",
+    "organic_decision_page_sessions_28d": "2026-11-20",
+    "organic_retired_archive_sessions_28d": "2026-11-20",
+    "organic_unassigned_sessions_28d": "2026-11-20"
   },
   "nodes": {
     "safety_qa": {

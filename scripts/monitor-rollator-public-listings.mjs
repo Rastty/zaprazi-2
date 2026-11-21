@@ -44,9 +44,13 @@ export function classifyRollatorListingHtml(html,record){
   // Other recommendations may appear BEFORE the product H1 and AFTER the
   // current product's description. None of their "Skladem" labels count.
   const h1s=[...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
-  if(h1s.length!==1)
+  // Some active seller pages render the same product H1 twice (responsive
+  // variants); the retired template renders it once. Accept at most three
+  // repetitions ONLY when every heading names this exact SKU's product.
+  // Another product's H1, even on the same page, fails closed.
+  if(h1s.length<1||h1s.length>3)
     return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_count_mismatch"};
-  if(normalizeSellerHeading(h1s[0][1])!==record.title)
+  if(h1s.some(match=>normalizeSellerHeading(match[1])!==record.title))
     return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_missing"};
   const slice=html.slice(h1s[0].index+h1s[0][0].length);
   const description=slice.search(/Popis\s+produktu/i);

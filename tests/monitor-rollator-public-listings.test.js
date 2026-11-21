@@ -151,3 +151,22 @@ test("seller promotional badges are allowed only around the exact current SKU he
     ])assert.equal(classifyRollatorListingHtml(invalid,record).observation,"unverifiable");
   }
 });
+
+test("responsive duplicate H1 names pass only for exact same SKU title, never another model",()=>{
+  for(const record of records){
+    const own=record.id==="unizdrav-p3774"?retired:stock;
+    const base=html(record,own);
+    const original="<h1>"+record.title+"</h1>";
+    for(const copies of [2,3]){
+      const repeat=base.replace(original,original.repeat(copies));
+      assert.equal(classifyRollatorListingHtml(repeat,record).observation,
+        record.id==="unizdrav-p3774"?"retired":"seller_displays_available");
+    }
+    for(const invalid of [
+      base.replace(original,original.repeat(4)),
+      base.replace(original,original+"<h1>Different, unrelated SKU</h1>"),
+      base.replace(original,original+"<h1>"+record.title+" new version</h1>"),
+      base.replace(original,original.replace(record.title,record.title+" P5559"))
+    ]) assert.equal(classifyRollatorListingHtml(invalid,record).observation,"unverifiable");
+  }
+});

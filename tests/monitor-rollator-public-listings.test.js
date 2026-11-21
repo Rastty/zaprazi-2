@@ -129,3 +129,25 @@ test("a missing product-to-related-content boundary fails closed despite stock i
   assert.equal(observed.reason,"product_scope_boundary_missing");
   assert.equal(assessRollatorLifecycle(observed,r).status,"needs_review");
 });
+
+test("seller promotional badges are allowed only around the exact current SKU heading",()=>{
+  const stock="Skladem >10ks Do košíku";
+  for(const id of ["unizdrav-p2879","unizdrav-p5559"]){
+    const record=find(id),page=html(record,stock);
+    for(const badge of ["top zboží","novinka","akce","tip na dárek"]){
+      const before=page.replace("<h1>"+record.title+"</h1>",
+        "<h1><span>"+badge+"</span> "+record.title+"</h1>");
+      const after=page.replace("<h1>"+record.title+"</h1>",
+        "<h1>"+record.title+" <small>"+badge+"</small></h1>");
+      assert.equal(classifyRollatorListingHtml(before,record).observation,"seller_displays_available");
+      assert.equal(classifyRollatorListingHtml(after,record).observation,"seller_displays_available");
+    }
+    for(const invalid of [
+      page.replace(record.title,record.title+" III"),
+      page.replace(record.title,"A completely different brand rollator"),
+      page.replace(record.title,"MEGO 2 P3774"),
+      page.replace("<h1>",'<h1><span>affiliate</span>'),
+      page.replace("<h1>",'<h1><span>new product variant</span>')
+    ])assert.equal(classifyRollatorListingHtml(invalid,record).observation,"unverifiable");
+  }
+});

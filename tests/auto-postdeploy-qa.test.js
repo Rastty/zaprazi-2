@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS} from "../scripts/audit-live-release-coherence.mjs";
 import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,verifyInsuranceSearchHero,verifyMobilityGuideHandoffs,decideDispatch,
-  dispatchWhenReady} from "../scripts/auto-postdeploy-qa.mjs";
+  dispatchWhenReady,verifyChairMobilityHandoff} from "../scripts/auto-postdeploy-qa.mjs";
+import {auditLiveChairHandoff} from "../scripts/audit-live-chair-handoff-245.mjs";
 
 const origin="https://zaprazi.cz";
 const readinessUrl=origin+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -317,4 +318,97 @@ test("0.8.210 release must expose the actual new insurance search answer before 
       html("0.8.210")}),"0.8.210");
   assert.equal(broken.status,"blocked_mixed_or_incomplete_live_release");
   assert.equal(await dispatchWhenReady(broken,{}),"no_dispatch_unverified_public_release");
+});
+
+const chairPage=(release="0.8.245")=>html(release)+
+  '<section id="jak-postupovat-kreslo"><div class="zp-wrap">'+
+  '<p class="zp-section-note"><strong>Vstávání je bezpečné, ale při následné chůzi chybí jistota?</strong> '+
+  'Pokud člověk dokáže bez fyzického přidržování bezpečně stát a chodit, '+
+  '<a class="zp-text-link" data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Otevřít poradce</a>. '+
+  'Poradce nevybírá pomůcku pro zvedání z křesla. Pokud při vstávání hrozí pád, '+
+  'nejprve domluvte odborné posouzení.</p></div></section>';
+
+test("0.8.245 exact chair handoff accepts only a safe, measured first-action path",()=>{
+  const valid=chairPage();
+  assert.equal(verifyChairMobilityHandoff(valid,"0.8.245"),true);
+  assert.throws(()=>verifyChairMobilityHandoff(valid,"0.8.244"),/Not a 0.8.245/);
+  for(const sample of [
+    chairPage("0.8.244"),
+    html("0.8.245"),
+    valid.replace('data-zp-journey="advisor"','data-zp-journey="unknown"'),
+    valid.replace("https://zaprazi.cz/#poradce","https://merchant.example/#poradce"),
+    valid.replace("https://zaprazi.cz/#poradce","https://zaprazi.cz/?answer=unsafe#poradce"),
+    valid.replace("bez fyzického přidržování bezpečně stát a chodit",""),
+    valid.replace("nejprve domluvte odborné posouzení",""),
+    valid.replace("Poradce nevybírá pomůcku pro zvedání z křesla",""),
+    valid.replace('data-zp-journey="advisor"','rel="sponsored" data-zp-journey="advisor"'),
+    valid.replace("</p></div></section>","<form><input name='health'></form></p></div></section>"),
+    valid+valid,
+    valid.replace("</p></div></section>",'<a data-zp-journey="advisor" href="https://zaprazi.cz/#poradce">Duplicate</a></p></div></section>'),
+    html("0.8.245")+'<section id="jak-postupovat-kreslo"><p>Bez odkazu</p></section>'+valid
+  ]) assert.throws(()=>verifyChairMobilityHandoff(sample,"0.8.245"));
+  const outOfContext=html("0.8.245")+
+    '<section id="jak-postupovat-kreslo">Pád nejdřív řešit s odborníkem</section>'+
+    valid.replace('id="jak-postupovat-kreslo"','id="unrelated-section"');
+  assert.throws(()=>verifyChairMobilityHandoff(outOfContext,"0.8.245"));
+});
+
+test("0.8.245 monitor checks exact new chair page before automatic QA dispatch",async()=>{
+  const requests=[];
+  const fetchMock=async(url,options)=>{
+    requests.push({url,options});
+    return {status:200,url,
+      json:async()=>readiness("0.8.245"),
+      text:async()=>url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage("0.8.245"):
+        url===origin+"/choditka-pro-seniory/"?walkerHubPage("0.8.245"):
+        url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage("0.8.245"):
+        url===origin+"/vstavani-z-kresla-pro-seniora/"?chairPage():html("0.8.245")};
+  };
+  const state=await observePublicDeploy(fetchMock,"0.8.245");
+  assert.deepEqual(state,{status:"ready_for_full_qa",source_release:"0.8.245",
+    live_release:"0.8.245",pages:8,insurance_first_answer:"verified",
+    insurance_search_hero:"verified",mobility_guide_handoffs:"verified",
+    chair_mobility_handoff:"verified",affiliate_slots:25,readiness_checks:2});
+  assert.deepEqual(requests.map(r=>r.url),[
+    readinessUrl,...RELEASE_CHECK_PATHS.map(path=>origin+path),
+    origin+"/choditko-na-pojistovnu/",origin+"/choditka-pro-seniory/",
+    origin+"/choditko-do-bytu-pro-seniory/",
+    origin+"/vstavani-z-kresla-pro-seniora/",readinessUrl]);
+  assert.ok(requests.every(r=>r.options.method==="GET"&&r.options.redirect==="error"&&
+    !r.url.includes("?")));
+  const blocked=await observePublicDeploy(async(url,options)=>{
+    const response=await fetchMock(url,options);
+    if(url===origin+"/vstavani-z-kresla-pro-seniora/")
+      return {...response,text:async()=>chairPage().replace("nejprve domluvte odborné posouzení","")};
+    return response;
+  },"0.8.245");
+  assert.equal(blocked.status,"blocked_mixed_or_incomplete_live_release");
+  assert.equal(await dispatchWhenReady(blocked,{}),"no_dispatch_unverified_public_release");
+  assert.ok(!JSON.stringify(blocked).includes("odborné posouzení"));
+});
+
+test("0.8.244 live must remain pending, with no newer chair probe or fake QA pass",async()=>{
+  const calls=[];
+  const state=await observePublicDeploy(async(url,options)=>{
+    calls.push(url);
+    return {status:200,url,json:async()=>readiness("0.8.244")};
+  },"0.8.245");
+  assert.equal(state.status,"pending_wp_pull_and_deploy");
+  assert.deepEqual(calls,[readinessUrl]);
+});
+
+test("standalone chair acceptance rejects redirects, missing feature and partial release",async()=>{
+  const url=origin+"/vstavani-z-kresla-pro-seniora/";
+  const valid=await auditLiveChairHandoff(async(request,opts)=>{
+    assert.equal(request,url);assert.equal(opts.method,"GET");assert.equal(opts.redirect,"error");
+    return {status:200,url,text:async()=>chairPage()};
+  },"0.8.245");
+  assert.deepEqual(valid,{status:"verified",source_release:"0.8.245",
+    chair_mobility_handoff:"verified",wordpress_written:false});
+  for(const response of [
+    {status:302,url},
+    {status:200,url:"https://other.example/"},
+    {status:200,url,text:async()=>html("0.8.245")},
+    {status:200,url,text:async()=>chairPage("0.8.244")}
+  ]) await assert.rejects(()=>auditLiveChairHandoff(async()=>response,"0.8.245"));
 });

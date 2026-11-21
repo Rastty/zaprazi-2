@@ -151,9 +151,13 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
       if(Object.hasOwn(s.metrics,key)&&s.metrics[key]>organicTotal)
         throw new Error("GA4 organic landing cohort cannot exceed organic sessions");
     }
-    if(organicLandingKeys.every(key=>Object.hasOwn(s.metrics,key)) &&
-       organicLandingKeys.reduce((n,key)=>n+s.metrics[key],0)!==organicTotal)
-      throw new Error("GA4 organic landing cohorts must reconcile to Organic Search sessions");
+    if(organicLandingKeys.every(key=>Object.hasOwn(s.metrics,key))){
+      if(organicLandingKeys.reduce((n,key)=>n+s.metrics[key],0)!==organicTotal)
+        throw new Error("GA4 organic landing cohorts must reconcile to Organic Search sessions");
+      const dates=["organic_sessions_28d",...organicLandingKeys].map(key=>s.metricAsOf?.[key]??s.asOf);
+      if(new Set(dates).size!==1)
+        throw new Error("GA4 organic landing cohorts must use the same observation date");
+    }
   }
   // Both GSC totals cover the same 28-day window. A click requires an
   // impression, so impossible aggregates must not influence the graph plan.
@@ -289,7 +293,7 @@ export function renderGrowthPlan(p){
         (100*p.metrics.organic_decision_page_sessions_28d/p.metrics.organic_sessions_28d).toFixed(2)+
         " % ("+p.metrics.organic_decision_page_sessions_28d+" z "+p.metrics.organic_sessions_28d+").",
       "- Retired archive je členství ve starém manifestu, nikoliv ověřená živá HTTP 404; (not set) není automaticky kvalitní vstup. Vzorek je malý a GA4 omezeno souhlasem."
-    ] : ["- Podíl relevantních vstupů: UNKNOWN (chybí úplná GA4 landing-page klasifikace nebo organické relace)."]),
+    ] : ["- Podíl vstupů na rozhodovací stránky: UNKNOWN (chybí úplná GA4 landing-page klasifikace nebo organické relace)."]),
     "## 3 další bezpečně proveditelné uzly",
     ...(p.next.length?p.next.map(t=>"- "+t.id+" (skóre "+t.score+"): "+cleanString(t.action)):["- Žádný automaticky připravený uzel; ověřit závislosti a evidence."]),
     "## Stav grafu",

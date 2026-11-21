@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_244
+// ZP_RELEASE_0_8_245
 import { isVerifiedProductionProduct } from "../decision/product-identity-gate.js";
 export const WHEELCHAIR_PRODUCTS = Object.freeze([
   {

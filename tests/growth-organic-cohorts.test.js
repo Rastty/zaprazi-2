@@ -28,8 +28,19 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"needs_revalidation",
-    "GitHub source release must not inherit live 0.8.244 safety evidence");
+  // Live source equality is evidence-backed NOW: full 9/9 postdeploy Chrome
+  // 0.8.245 plus exact-release sitemap passed on 2026-11-21. A future theme
+  // change must again invalidate the old release evidence, not inherit it.
+  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.245");
+  assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
+    "https://github.com/Rastty/zaprazi-2/actions/runs/44896362946");
+  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"verified");
+  const oldProduction=clone(snapshot);
+  oldProduction.nodes.safety_qa.verifiedRelease="0.8.244";
+  oldProduction.nodes.safety_qa.evidenceUrl=
+    "https://github.com/Rastty/zaprazi-2/actions/runs/44886259216";
+  assert.equal(planGrowth(graph,oldProduction,date).tasks.find(t=>t.id==="safety_qa").status,
+    "needs_revalidation","An older approved QA must never verify new source release");
 });
 
 test("GA4 organic cohorts fail closed on more sessions than measured or non-reconciling totals",()=>{

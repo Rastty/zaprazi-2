@@ -18,13 +18,13 @@
 
 ## BLOKACE
 - **WordPress 0.8.245:** potřebný správce → Deployer for Git → `dev` Pull + Deploy; poté exact release, Chrome 14/14 a sitemap smoke. **Git merge / synchronizace `dev` není WordPress deploy.**
-- **Mobility rollátor:** MEYRA Ideal výrobce 61,5 cm vs Lékárna.cz 59 cm (neznámá dodaná varianta, HOLD; [#857](https://github.com/Rastty/zaprazi-2/issues/857)). BESCO **WA78 výrobce 110 kg vs retail 136 kg**, veřejně vyprodáno a PDF jiné značky (HOLD). Nově vytipované UNIZDRAV **P2879 a P3774** mají prodejní SKU/specifikace, ale **neověřený nezávislý návod, aktuální sklad a publisher deeplink**. Bezpečný, neaktivní přehled: `data/mobility-rollator-supply-review-20261121.json`, kontrola `scripts/rollator-supply-review.mjs`. Bez změny produktového doporučování.
+- **Mobility rollátor:** MEYRA 3061982 (výrobce 61,5 cm vs retail 59 cm, varianta UNKNOWN), BESCO WA78 (110 vs 136 kg, vyprodáno, PDF jiné značky) **HOLD**. Nově ověřená stránka UNIZDRAV **P3774 přímo uvádí „vyřazeno z nabídky“ – RETIRED**, nikoli skladem. Odlišný model **MEGO 2 P5559** je samostatný kandidát spolu s **P2879**; oba mají jen seller-listed dostupnost, ne potvrzený originální návod, sklad či publisher deeplink. [#857](https://github.com/Rastty/zaprazi-2/issues/857). Evidence `data/mobility-rollator-supply-review-20261121.json`, týdně read-only kontrola tří přesných SKU ve stávajícím merchant QA. Bez aktivace produktů.
 - **Příjem:** owner hlásí žádné provize, ale publisher-side CJ approved/pending/rejected je **UNKNOWN** (Windsor support #52449496); nevykazovat nulu ani hypotetické EPC. Nevytvářet falešný affiliate klik.
 - **SEO:** query-intent cohorty jsou malé, žádná důkazní opora pro hromadné 301/noindex/mazání ~4 359 archivu. [#401](https://github.com/Rastty/zaprazi-2/issues/401), [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA (effort × effect)
 1. **P0 produkce:** dokončit owner deploy 0.8.245 a nechat automatický monitor ověřit skutečný chair→Mobility handoff, 14 poradců a 25/25 slotů. Nové runtime změny do té doby nemergovat.
-2. **P0 monetizace:** přesný výrobní návod/štítek pro UNIZDRAV P2879/P3774, čerstvá skladovost a autorizovaný CJ/VIV publisher deeplink; potom samostatný bezpečný release rozšiřující rollátorové nabídky. WA78/MEYRA spory neodemykat.
+2. **P0 monetizace:** přesný výrobní návod/štítek pro UNIZDRAV **P2879 a P5559**, aktuální stav a autorizovaný CJ/VIV deeplink. **P3774 RETIRED**, nikdy automaticky nezaměňovat s P5559. Teprve potom samostatný bezpečný release; WA78/MEYRA zůstanou HOLD.
 3. **P0 kvalifikovaná akvizice:** sledovat rozhodovací vstupy (zatím 6/19), podložené GSC URL a bezpečnou cestu do poradce; nepřidávat duplicitní články ani další GSC integraci.
 
 **Předání:** číst aktuální branch/PR/produkci a konkrétní důkazy. Zdrojový PR, commit, predeploy QA ani dokumentace nejsou produkční nasazení.

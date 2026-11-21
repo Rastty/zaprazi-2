@@ -9,7 +9,8 @@ const ALLOWED = new Map([
   ["/rollator-pro-seniory/", ["reimbursement","rental","rollator","walker_selection"]],
   ["/choditka-pro-seniory/", ["reimbursement","rental","rollator","walker_selection"]],
   ["/co-zmerit-pred-vyberem-choditka/", ["reimbursement","rental","rollator","walker_selection"]],
-  ["/prevoz-seniora-k-lekari/", ["transport_eligibility","transport_cost","vehicle_transfer","transport_arrangement"]]
+  ["/prevoz-seniora-k-lekari/", ["transport_eligibility","transport_cost","vehicle_transfer","transport_arrangement"]],
+  ["/schody-pro-seniora-doma/", ["stair_lift","stair_ramp","stair_handrail","stairs_general"]]
 ]);
 const LABELS=Object.freeze({
   reimbursement:"Úhrada / ePoukaz",
@@ -19,7 +20,11 @@ const LABELS=Object.freeze({
   transport_eligibility:"Nárok a úhrada převozu",
   transport_cost:"Cena převozu",
   vehicle_transfer:"Nástup a přesun do vozidla",
-  transport_arrangement:"Zajištění přepravy"
+  transport_arrangement:"Zajištění přepravy",
+  stair_lift:"Schodolez / schodišťová plošina",
+  stair_ramp:"Nájezd / rampa",
+  stair_handrail:"Madlo / zábradlí",
+  stairs_general:"Schody doma — obecný postup"
 });
 const fmt=n=>new Intl.NumberFormat("cs-CZ").format(n);
 const decimal=n=>n===null?"n/a":n.toLocaleString("cs-CZ",{maximumFractionDigits:2});
@@ -44,11 +49,15 @@ export function renderSafeIntentEvidence(evidence) {
   if(!plainObject(evidence))return unavailable;
   if(!keysOnly(evidence,["status","source","pagesAttempted","pagesResponded",
     "pagesWithSafeGroups","limitations","pages"]))return unavailable;
+  // Accept both a pinned historical six-page capture and the reviewed
+  // seven-page Core contract. Unreviewed expansion stays fail-closed.
   if(evidence.source!=="page-filtered GSC query dimension, final 28 days"||
-    evidence.pagesAttempted!==6||!count(evidence.pagesResponded)||
-    evidence.pagesResponded>6||!count(evidence.pagesWithSafeGroups)||
+    ![6,7].includes(evidence.pagesAttempted)||!count(evidence.pagesResponded)||
+    evidence.pagesResponded>evidence.pagesAttempted||
+    !count(evidence.pagesWithSafeGroups)||
     evidence.pagesWithSafeGroups>evidence.pagesResponded||
-    !Array.isArray(evidence.pages)||evidence.pages.length>6)return unavailable;
+    !Array.isArray(evidence.pages)||
+    evidence.pages.length>evidence.pagesAttempted)return unavailable;
   if(!["privacy_aggregated","no_safe_groups_or_unavailable"].includes(evidence.status))
     return unavailable;
   if(evidence.status==="no_safe_groups_or_unavailable")return unavailable;
@@ -58,7 +67,9 @@ export function renderSafeIntentEvidence(evidence) {
   const rows=[],seenPages=new Set();
   for(const page of evidence.pages){
     if(!plainObject(page)||!keysOnly(page,["path","intents"])||
-      !ALLOWED.has(page.path)||seenPages.has(page.path)||
+      !ALLOWED.has(page.path)||
+      (page.path==="/schody-pro-seniora-doma/"&&evidence.pagesAttempted!==7)||
+      seenPages.has(page.path)||
       !Array.isArray(page.intents)||page.intents.length<1||
       page.intents.length>4)return unavailable;
     seenPages.add(page.path);

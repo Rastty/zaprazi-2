@@ -79,7 +79,7 @@ test("aggregate BigQuery query can distinguish guide CTA interest from actual Ad
 test("Mobility problem pages expose exactly two safe consent-gated Advisor handoffs",()=>{
   const refusal=read("page-senior-odmita-choditko.php");
   const threshold=read("page-prahy-pro-choditko-a-vozik.php");
-  const tracked=page=>[...page.matchAll(/<a\\b[^>]*data-zp-journey="advisor"[^>]*>/g)].map(m=>m[0]);
+  const tracked=page=>[...page.matchAll(/<a\b[^>]*data-zp-journey="advisor"[^>]*>/g)].map(m=>m[0]);
   const refusalCtas=tracked(refusal),thresholdCtas=tracked(threshold);
   assert.equal(refusalCtas.length,1,"Only the voluntary post-safety referral should be tracked");
   assert.equal(thresholdCtas.length,1,"Only the precise indoor-walker referral should be tracked");
@@ -93,7 +93,7 @@ test("Mobility problem pages expose exactly two safe consent-gated Advisor hando
   assert.ok(hero.indexOf('href="#mereni-prahu"')<hero.indexOf(thresholdCtas[0]),
     "Safe measurements must remain the primary first action");
   assert.match(hero,/Nejde o stavební posudek/);
-  assert.match(refusal,/ne nákup|ne nákup|neřešte.*nákup|nejdřív řešte stav/i);
+  assert.match(refusal,/ne nákup|neřešte.*nákup|nejdřív řešte stav/i);
   for(const a of [...refusalCtas,...thresholdCtas]){
     assert.doesNotMatch(a,/rel="sponsored"|data-zp-merchant-link|data-zp-affiliate-target|[?&](?:answer|diagnosis|health)=|target="_blank"/);
   }

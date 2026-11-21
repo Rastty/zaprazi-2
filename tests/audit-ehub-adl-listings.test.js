@@ -44,7 +44,7 @@ test("known product title + own seller stock label is observation only",()=>{
       .replace("<h1>"+r.title+"</h1>","<h1>Jiný produkt</h1>"),r);
     assert.equal(badH1.state,"unverifiable");
     const duplicate=classifyEhubAdlHtml(productPage(r,"Skladem Přidat do košíku")
-      .replace("<h1>"+r.title+"</h1>","<h1>"+r.title+"</h1>".repeat(2)),r);
+      .replace("<h1>"+r.title+"</h1>",("<h1>"+r.title+"</h1>").repeat(2)),r);
     assert.equal(duplicate.state,"unverifiable");
     const missingBoundary=classifyEhubAdlHtml(productPage(r,
       "Skladem Přidat do košíku").replace("<h2>Související produkty</h2>",

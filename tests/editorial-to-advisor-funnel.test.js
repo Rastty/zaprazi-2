@@ -75,3 +75,30 @@ test("aggregate BigQuery query can distinguish guide CTA interest from actual Ad
   assert.match(serialized,/zaprazi/);
   assert.doesNotMatch(serialized,/SELECT.*(?:user_pseudo_id|user_id|full_url|response_value)/i);
 });
+
+test("Mobility problem pages expose exactly two safe consent-gated Advisor handoffs",()=>{
+  const refusal=read("page-senior-odmita-choditko.php");
+  const threshold=read("page-prahy-pro-choditko-a-vozik.php");
+  const tracked=page=>[...page.matchAll(/<a\\b[^>]*data-zp-journey="advisor"[^>]*>/g)].map(m=>m[0]);
+  const refusalCtas=tracked(refusal),thresholdCtas=tracked(threshold);
+  assert.equal(refusalCtas.length,1,"Only the voluntary post-safety referral should be tracked");
+  assert.equal(thresholdCtas.length,1,"Only the precise indoor-walker referral should be tracked");
+  assert.match(refusalCtas[0],/class="zp-btn"/);
+  assert.ok(refusalCtas[0].includes("home_url( '/#poradce' )"));
+  assert.ok(refusal.indexOf("Pokud s dalším postupem souhlasí")<refusal.indexOf(refusalCtas[0]),
+    "Refusal guidance must precede the optional tracked advisor CTA");
+  const hero=threshold.slice(threshold.indexOf('<section class="zp-hero">'),threshold.indexOf("</section>"));
+  assert.ok(hero.includes(thresholdCtas[0]),"Indoor-walker entry should be visible in the hero");
+  assert.ok(thresholdCtas[0].includes("home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' )"));
+  assert.ok(hero.indexOf('href="#mereni-prahu"')<hero.indexOf(thresholdCtas[0]),
+    "Safe measurements must remain the primary first action");
+  assert.match(hero,/Nejde o stavební posudek/);
+  assert.match(refusal,/ne nákup|ne nákup|neřešte.*nákup|nejdřív řešte stav/i);
+  for(const a of [...refusalCtas,...thresholdCtas]){
+    assert.doesNotMatch(a,/rel="sponsored"|data-zp-merchant-link|data-zp-affiliate-target|[?&](?:answer|diagnosis|health)=|target="_blank"/);
+  }
+  const target=read("page-choditko-do-bytu-pro-seniory.php");
+  assert.match(target,/id="poradce-choditko-byt"/);
+  const home=read("front-page.php");
+  assert.match(home,/id="poradce"/);
+});

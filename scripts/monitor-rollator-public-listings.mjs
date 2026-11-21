@@ -24,6 +24,12 @@ export function monitoredRollatorListings(data=readData()){
     .map(item=>({id:item.id,sku:item.retailerSku,url:item.retailerUrl,
       title:SKU_TITLE[item.id],expectedLifecycle:item.lifecycleStatus}));
 }
+// Seller may mark the product heading with a reviewable, cosmetic badge.
+// Whitelist only these exact labels, never fuzzy product-name substitutions.
+const normalizeSellerHeading=raw=>cleanText(raw)
+  .replace(/^(?:(?:top zboží|novinka|akce|tip na dárek)\\s+)+/gi,"")
+  .replace(/(?:\\s+(?:top zboží|novinka|akce|tip na dárek))+$/gi,"")
+  .trim();
 const cleanText=html=>String(html)
   .replace(/<!--[^\n]*?-->/g," ")
   .replace(/<(?:script|style|noscript|template)\b[^>]*>[\s\S]*?<\/(?:script|style|noscript|template)\s*>/gi," ")
@@ -38,7 +44,9 @@ export function classifyRollatorListingHtml(html,record){
   // Other recommendations may appear BEFORE the product H1 and AFTER the
   // current product's description. None of their "Skladem" labels count.
   const h1s=[...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
-  if(h1s.length!==1||cleanText(h1s[0][1])!==record.title)
+  if(h1s.length!==1)
+    return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_count_mismatch"};
+  if(normalizeSellerHeading(h1s[0][1])!==record.title)
     return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_missing"};
   const slice=html.slice(h1s[0].index+h1s[0][0].length);
   const description=slice.search(/Popis\s+produktu/i);

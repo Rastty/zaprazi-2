@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "reviewedOn": "2026-11-21",
+  "evidenceScope": "public indexed or browser-readable merchant/manufacturer pages; cached stock and price displays are not independently current inventory or affiliate proof",
+  "productionEffect": "none",
+  "commercialMilestone": "eligible rollator offer only after same-model manufacturer/supplier facts, fresh stock, authorized exact publisher deeplink, and user-specific model-fit confirmation",
+  "candidates": [
+    {
+      "id": "besco-wa78",
+      "merchantId": "rehabilitacni-pomucky-cz",
+      "retailerSku": "WA78",
+      "retailerUrl": "https://www.rehabilitacnipomucky.cz/besco-ctyrkolove-choditko-odlehcene-skladaci/",
+      "manufacturerUrl": "https://www.bescomedical.com/455-deluxe-folding-Aluminum-Rollator.html",
+      "manufacturerModel": "BES-WA78",
+      "productType": "rollator_with_seat",
+      "merchantClaim": {
+        "widthCm": 61,
+        "maxUserWeightKg": 136,
+        "handBrakes": "two_locking",
+        "availability": "sold_out_displayed"
+      },
+      "manufacturerClaim": {
+        "maxUserWeightKg": 110
+      },
+      "productionEligible": false,
+      "publisherDeeplinkVerified": false,
+      "stockVerifiedCurrent": false,
+      "blockers": [
+        "critical_max_load_disagreement",
+        "retailer_sold_out_displayed",
+        "linked_manual_brand_disagreement",
+        "exact_publisher_deeplink_unverified"
+      ],
+      "nextEvidence": "manufacturer/distributor reconciliation of load, exact label/manual and same-CZ-SKU inventory; do not use B2B manufacturer Available as retail stock"
+    },
+    {
+      "id": "unizdrav-p2879",
+      "merchantId": "unizdrav-cz",
+      "retailerSku": "P2879",
+      "retailerUrl": "https://unizdrav.cz/zbozi/2879/pojizdne-choditko-unizdrav-modre",
+      "manufacturerUrl": null,
+      "manufacturerModel": null,
+      "productType": "rollator_with_seat",
+      "merchantClaim": {
+        "widthCm": 58,
+        "maxUserWeightKg": 110,
+        "handleHeightCm": "79.5–91",
+        "handBrakes": "service_and_parking",
+        "availability": "in_stock_displayed"
+      },
+      "manufacturerClaim": null,
+      "productionEligible": false,
+      "publisherDeeplinkVerified": false,
+      "stockVerifiedCurrent": false,
+      "blockers": [
+        "independent_model_manual_missing",
+        "same_variant_fresh_inventory_not_verified",
+        "exact_publisher_deeplink_unverified"
+      ],
+      "nextEvidence": "obtain exact P2879 label/manual and current directly observed stock, then independently verify CJ/VIV publisher-specific tracked destination without test click"
+    },
+    {
+      "id": "unizdrav-p3774",
+      "merchantId": "unizdrav-cz",
+      "retailerSku": "P3774",
+      "retailerUrl": "https://unizdrav.cz/zbozi/3774/pojizdne-choditko-s-nafukovacimi-koly-mego",
+      "manufacturerUrl": null,
+      "manufacturerModel": null,
+      "productType": "rollator_with_seat",
+      "merchantClaim": {
+        "widthCm": 63,
+        "maxUserWeightKg": 135,
+        "handleHeightCm": "82–99",
+        "handBrakes": "service_and_parking",
+        "availability": "in_stock_displayed"
+      },
+      "manufacturerClaim": null,
+      "productionEligible": false,
+      "publisherDeeplinkVerified": false,
+      "stockVerifiedCurrent": false,
+      "blockers": [
+        "independent_model_manual_missing",
+        "same_variant_fresh_inventory_not_verified",
+        "exact_publisher_deeplink_unverified"
+      ],
+      "nextEvidence": "obtain exact P3774 MEGO manual/variant, confirm brake/seat/load specs, current stock, then exact authorized publisher route without tracking click"
+    }
+  ]
+}

@@ -119,3 +119,13 @@ test("unknown state never silently becomes a safe buy/rent/affiliate CTA",()=>{
     }
   }
 });
+
+test("a missing product-to-related-content boundary fails closed despite stock in recommendations",()=>{
+  const r=find("unizdrav-p2879");
+  const malformed=html(r,"No current SKU stock")
+    .replace("Popis produktu","<div>Details moved to another template</div>");
+  const observed=classifyRollatorListingHtml(malformed,r);
+  assert.equal(observed.observation,"unverifiable");
+  assert.equal(observed.reason,"product_scope_boundary_missing");
+  assert.equal(assessRollatorLifecycle(observed,r).status,"needs_review");
+});

@@ -67,13 +67,13 @@ export function classifyRollatorListingHtml(html,record){
   // A seller can explicitly show an unavailable/arriving SKU without a cart.
   // This is an observed PAGE LABEL, not independently checked warehouse stock.
   // Look only inside the verified exact-SKU product zone above, not sidebars.
-  const unavailableLabel=/(?:zboží\\s+(?:je\\s+)?na\\s+cestě|momentálně\\s+není\\s+skladem|není\\s+skladem|dočasně\\s+nedostupné|vyprodáno)/gi;
+  const unavailableLabel=/(?:zboží\s+(?:je\s+)?na\s+cestě|momentálně\s+není\s+skladem|není\s+skladem|dočasně\s+nedostupné|vyprodáno)/gi;
   const displaysUnavailable=unavailableLabel.test(zone);
   // Remove negative phrases before looking for "Skladem"; the word in
   // "není skladem" must never be interpreted as an available item.
   const positiveZone=zone.replace(unavailableLabel," ");
-  const displaysAvailable=/\\bSkladem\\s*(?:>\\s*\\d+\\s*ks)?\\b/i.test(positiveZone)&&
-    /\\bDo košíku\\b/i.test(positiveZone);
+  const displaysAvailable=/\bSkladem\s*(?:>\s*\d+\s*ks)?\b/i.test(positiveZone)&&
+    /\bDo košíku\b/i.test(positiveZone);
   if(displaysUnavailable&&displaysAvailable)
     return {id:record.id,observation:"unverifiable",
       reason:"contradictory_seller_availability_labels"};

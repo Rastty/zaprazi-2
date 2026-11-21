@@ -48,8 +48,14 @@ test("missing cohort information is UNKNOWN, not an invented zero or engagement 
   delete incomplete.metricAsOf.organic_unassigned_sessions_28d;
   const p=planGrowth(graph,incomplete,date);
   assert.equal(p.metrics.organic_unassigned_sessions_28d,null);
-  assert.match(renderGrowthPlan(p),/Podíl relevantních vstupů: UNKNOWN/);
+  assert.match(renderGrowthPlan(p),/Podíl vstupů na rozhodovací stránky: UNKNOWN/);
   assert.doesNotMatch(renderGrowthPlan(p),/31\.58 %/);
+});
+
+test("mixed GA4 cohort observation dates cannot create a false qualification rate",()=>{
+  const bad=clone(snapshot);
+  bad.metricAsOf.organic_decision_page_sessions_28d="2026-11-19";
+  assert.throws(()=>planGrowth(graph,bad,date),/must use the same observation date/);
 });
 
 test("GA4 aggregate evidence can never contain raw search answers or signed URLs",()=>{

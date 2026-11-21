@@ -274,3 +274,44 @@ test("correct current H1 and retired product never expose unnecessary diagnostic
     assert.ok(!("heading_shape" in assessRollatorLifecycle(live,r)));
   }
 });
+
+test("live-observed extra site-shell H1 before exact SKU is not a fake product mismatch",()=>{
+  for(const r of records){
+    const own=goodBody(r);
+    const main="<h1>"+r.title+"</h1>";
+    const extra="<h1>Sitewide help header unrelated to product</h1>";
+    const page=html(r,own);
+    const shellBefore=classifyRollatorListingHtml(
+      page.replace(main,extra+main),r);
+    assert.equal(shellBefore.observation,
+      r.id==="unizdrav-p3774"?"retired":"seller_displays_available");
+    assert.equal(assessRollatorLifecycle(shellBefore,r).production_eligible,false);
+    const shellAfter=classifyRollatorListingHtml(
+      page.replace(main,main+extra),r);
+    assert.equal(shellAfter.observation,"unverifiable",
+      "Foreign heading after verified product still blocked");
+    assert.equal(shellAfter.reason,"exact_product_h1_missing");
+    const fakeSku=classifyRollatorListingHtml(
+      page.replace(main,extra+main).replace("Kód: "+r.sku,"Kód: P9999"),r);
+    assert.equal(fakeSku.observation,"unverifiable",
+      "An exact title plus another SKU is not the merchant product");
+    assert.equal(fakeSku.reason,"exact_product_sku_missing");
+    const noExact=classifyRollatorListingHtml(
+      page.replace(main,extra),r);
+    assert.equal(noExact.observation,"unverifiable");
+    const tooMany=classifyRollatorListingHtml(
+      page.replace(main,extra.repeat(4)+main),r);
+    assert.equal(tooMany.reason,"exact_product_h1_count_mismatch");
+  }
+});
+
+test("an unavailable product with a shell H1 remains unavailable, not a sale",()=>{
+  const r=find("unizdrav-p2879"),page=html(r,"Zboží je na cestě");
+  const main="<h1>"+r.title+"</h1>";
+  const observation=classifyRollatorListingHtml(page.replace(main,
+    "<h1>Sitewide helper</h1>"+main),r);
+  assert.equal(observation.observation,"seller_displays_unavailable");
+  const result=assessRollatorLifecycle(observation,r);
+  assert.equal(result.production_eligible,false);
+  assert.equal(result.status,"needs_review");
+});

@@ -60,10 +60,19 @@ export function classifyRollatorListingHtml(html,record){
   if(h1s.length<1||h1s.length>3)
     return {id:record.id,observation:"unverifiable",
       reason:"exact_product_h1_count_mismatch",heading_shape:headingShape};
-  if(headingShape.exact_h1_count!==h1s.length)
+  // Real active UNIZDRAV pages can carry one unrelated site-shell H1
+  // before the exact product heading (observed 2 total / 1 exact in
+  // read-only live audit). Only ignore an H1 BEFORE the verified product.
+  // Any foreign heading after the exact one still fails closed to avoid
+  // counting stock from other cards or product details.
+  const exactIndex=h1s.findIndex(match=>
+    normalizeSellerHeading(match[1])===record.title);
+  if(exactIndex<0||h1s.slice(exactIndex).some(match=>
+      normalizeSellerHeading(match[1])!==record.title))
     return {id:record.id,observation:"unverifiable",
       reason:"exact_product_h1_missing",heading_shape:headingShape};
-  const slice=html.slice(h1s[0].index+h1s[0][0].length);
+  const productHeading=h1s[exactIndex];
+  const slice=html.slice(productHeading.index+productHeading[0].length);
   const description=slice.search(/Popis\s+produktu/i);
   // If this product/related-items boundary is absent, fail closed rather
   // than attribute a sidebar's "Skladem" badge to the exact product.

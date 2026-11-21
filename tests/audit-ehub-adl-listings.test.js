@@ -94,9 +94,13 @@ test("audit performs 4 canonical GETs, logs only safe counters, never refreshes 
   const serialized=JSON.stringify(result);
   for(const r of records){
     assert.ok(!serialized.includes(r.url));
-    assert.ok(!serialized.includes(r.sku));
+    // The public manufacturer SKU is part of the canonical stable product
+    // id; reject separate raw seller/SKU fields instead of treating a
+    // non-secret catalog number as an affiliate tracking credential.
     assert.ok(!serialized.includes(r.title));
   }
+  assert.ok(result.results.every(row=>
+    !("sku" in row)&&!("url" in row)&&!("sellerHtml" in row)));
   assert.doesNotMatch(serialized,/affiliateUrl|Bearer|password|token=|private=/i);
   const blocked=await auditEhubAdlListings(async url=>({
     status:403,url,headers:{get:()=>null},text:async()=>{throw Error("no");}

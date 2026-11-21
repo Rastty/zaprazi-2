@@ -238,7 +238,7 @@ test("H1 failures report only bounded count-only shape, never merchant text",()=
   const extra=page.replace(exactHeading,exactHeading+"<h1>Unrelated overlay title</h1>");
   const result=classifyRollatorListingHtml(extra,r);
   assert.equal(result.observation,"unverifiable");
-  assert.equal(result.reason,"exact_product_h1_missing");
+  assert.equal(result.reason,"foreign_h1_inside_product_summary");
   assert.deepEqual(result.heading_shape,{
     h1_count_bounded:2,exact_h1_count:1,contains_expected_title_count:1
   });
@@ -290,7 +290,7 @@ test("live-observed extra site-shell H1 before exact SKU is not a fake product m
       page.replace(main,main+extra),r);
     assert.equal(shellAfter.observation,"unverifiable",
       "Foreign heading after verified product still blocked");
-    assert.equal(shellAfter.reason,"exact_product_h1_missing");
+    assert.equal(shellAfter.reason,"foreign_h1_inside_product_summary");
     const fakeSku=classifyRollatorListingHtml(
       page.replace(main,extra+main).replace("Kód: "+r.sku,"Kód: P9999"),r);
     assert.equal(fakeSku.observation,"unverifiable",
@@ -314,4 +314,36 @@ test("an unavailable product with a shell H1 remains unavailable, not a sale",()
   const result=assessRollatorLifecycle(observation,r);
   assert.equal(result.production_eligible,false);
   assert.equal(result.status,"needs_review");
+});
+
+test("extra H1 after product-description boundary cannot contaminate exact SKU stock",()=>{
+  for(const r of records){
+    const label=goodBody(r);
+    const base=html(r,label);
+    const extra=base.replace(
+      "<div>Popis produktu</div>",
+      "<div>Popis produktu</div><h1>Related other product</h1>");
+    const observation=classifyRollatorListingHtml(extra,r);
+    assert.equal(observation.observation,
+      r.id==="unizdrav-p3774"?"retired":"seller_displays_available");
+    assert.equal(assessRollatorLifecycle(observation,r).production_eligible,false);
+
+    // Nearby related-product stock must NEVER rescue an unverified primary SKU.
+    if(r.id!=="unizdrav-p3774"){
+      const unknown=html(r,"Primary SKU stock is not stated").replace(
+        "<div>Popis produktu</div>",
+        "<div>Popis produktu</div><h1>Related SKU</h1> Skladem >10ks Do košíku");
+      assert.equal(classifyRollatorListingHtml(unknown,r).observation,"unverifiable");
+    }
+  }
+});
+
+test("foreign H1 inside exact SKU summary is rejected despite a valid seller label",()=>{
+  const r=find("unizdrav-p2879");
+  const page=html(r,stock).replace("Kód: "+r.sku,
+    "<h1>Wrong product heading</h1>Kód: "+r.sku);
+  const finding=classifyRollatorListingHtml(page,r);
+  assert.equal(finding.observation,"unverifiable");
+  assert.equal(finding.reason,"foreign_h1_inside_product_summary");
+  assert.equal(assessRollatorLifecycle(finding,r).production_eligible,false);
 });

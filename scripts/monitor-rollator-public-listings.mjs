@@ -60,24 +60,29 @@ export function classifyRollatorListingHtml(html,record){
   if(h1s.length<1||h1s.length>3)
     return {id:record.id,observation:"unverifiable",
       reason:"exact_product_h1_count_mismatch",heading_shape:headingShape};
-  // Real active UNIZDRAV pages can carry one unrelated site-shell H1
-  // before the exact product heading (observed 2 total / 1 exact in
-  // read-only live audit). Only ignore an H1 BEFORE the verified product.
-  // Any foreign heading after the exact one still fails closed to avoid
-  // counting stock from other cards or product details.
+  // Two H1 headings / one exact title on both active seller pages is a
+  // documented live shape, NOT grounds to trust any other product's stock.
+  // Find the exact product title first, then validate SKU and the bounded
+  // product summary. Unrelated H1s are ignored only OUTSIDE that summary:
+  // before the exact title or after the first product-description boundary.
   const exactIndex=h1s.findIndex(match=>
     normalizeSellerHeading(match[1])===record.title);
-  if(exactIndex<0||h1s.slice(exactIndex).some(match=>
-      normalizeSellerHeading(match[1])!==record.title))
+  if(exactIndex<0)
     return {id:record.id,observation:"unverifiable",
       reason:"exact_product_h1_missing",heading_shape:headingShape};
   const productHeading=h1s[exactIndex];
-  const slice=html.slice(productHeading.index+productHeading[0].length);
+  const productHeadingEnd=productHeading.index+productHeading[0].length;
+  const slice=html.slice(productHeadingEnd);
   const description=slice.search(/Popis\s+produktu/i);
-  // If this product/related-items boundary is absent, fail closed rather
-  // than attribute a sidebar's "Skladem" badge to the exact product.
+  // If the product/related-items boundary is absent, never trust a sidebar.
   if(description===-1||description>50000)
     return {id:record.id,observation:"unverifiable",reason:"product_scope_boundary_missing"};
+  const detailBoundary=productHeadingEnd+description;
+  if(h1s.some(match=>match.index>productHeading.index&&
+      match.index<detailBoundary&&
+      normalizeSellerHeading(match[1])!==record.title))
+    return {id:record.id,observation:"unverifiable",
+      reason:"foreign_h1_inside_product_summary",heading_shape:headingShape};
   const zone=cleanText(slice.slice(0,description));
   if(!zone||zone.length>10000||
     !new RegExp("\\bKód\\s*:\\s*"+record.sku+"\\b","i").test(zone))

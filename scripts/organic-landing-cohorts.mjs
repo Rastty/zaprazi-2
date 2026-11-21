@@ -12,7 +12,7 @@
  * never equate membership with current HTTP status, indexing or irrelevance
  * of every non-archived URL.
  */
-import {readFileSync} from "node:fs";
+import {readFileSync, readdirSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 
@@ -48,6 +48,22 @@ export function loadRetiredArchiveSlugs(base = new URL("../", import.meta.url)) 
   return retired;
 }
 
+/**
+ * File-name hints only: these URLs may have a page template in Git, but that
+ * is NOT proof WordPress published the route, HTTP returned 200, Google indexed
+ * it, or an organic visitor completed a decision. Keep these separate from
+ * independently audited current decision-page sessions.
+ */
+export function loadThemeTemplateSlugs(base = new URL("../", import.meta.url)) {
+  const names = readdirSync(base, {withFileTypes: true})
+    .filter(entry => entry.isFile() &&
+      /^page-[a-z0-9]+(?:-[a-z0-9]+)*\.php$/.test(entry.name))
+    .map(entry => entry.name.slice(5, -4));
+  if (names.length < 30 || names.length > 100 || new Set(names).size !== names.length)
+    throw new Error("Incomplete or unexpected theme page-template inventory");
+  return new Set(names);
+}
+
 export function classifyLanding(landingPage, retiredSlugs) {
   if (landingPage === "(not set)") return "unassigned";
   // Path-only GA4 reports may omit the final slash. Do not accept URLs,
@@ -59,10 +75,12 @@ export function classifyLanding(landingPage, retiredSlugs) {
   return retiredSlugs.has(slug) ? "retired_archive" : "non_archive_path";
 }
 
-export function summarizeOrganicLandingRows(input, retiredSlugs) {
+export function summarizeOrganicLandingRows(input, retiredSlugs, themeSlugs = loadThemeTemplateSlugs()) {
   const rows = Array.isArray(input) ? input : input?.data;
-  if (!Array.isArray(rows) || rows.length > 10000 || !(retiredSlugs instanceof Set))
-    throw new Error("Expected bounded GA4 aggregate rows and a retired slug set");
+  if (!Array.isArray(rows) || rows.length > 10000 ||
+      !(retiredSlugs instanceof Set) || !(themeSlugs instanceof Set) ||
+      themeSlugs.size < 30 || themeSlugs.size > 100)
+    throw new Error("Expected bounded GA4 aggregate rows and audited slug sets");
   const groups = {
     retired_archive: 0,
     non_archive_path: 0,
@@ -70,6 +88,8 @@ export function summarizeOrganicLandingRows(input, retiredSlugs) {
     unclassifiable: 0
   };
   let organicRows = 0;
+  let themeTemplateCandidateSessions = 0;
+  let otherNonArchiveSessions = 0;
   for (const row of rows) {
     if (!row || typeof row !== "object" || Array.isArray(row) ||
         Object.keys(row).some(key => ![
@@ -84,6 +104,18 @@ export function summarizeOrganicLandingRows(input, retiredSlugs) {
     if (!Number.isSafeInteger(groups[group] + row.sessions))
       throw new Error("Organic session count overflow");
     groups[group] += row.sessions;
+    if (group === "non_archive_path") {
+      const slug = row.landing_page.slice(1).replace(/\/$/, "");
+      if (slug === "" || themeSlugs.has(slug)) {
+        if (!Number.isSafeInteger(themeTemplateCandidateSessions + row.sessions))
+          throw new Error("Theme candidate session count overflow");
+        themeTemplateCandidateSessions += row.sessions;
+      } else {
+        if (!Number.isSafeInteger(otherNonArchiveSessions + row.sessions))
+          throw new Error("Other non-archive session count overflow");
+        otherNonArchiveSessions += row.sessions;
+      }
+    }
     organicRows++;
   }
   const totalOrganicSessions = Object.values(groups).reduce((sum, n) => sum + n, 0);
@@ -92,9 +124,11 @@ export function summarizeOrganicLandingRows(input, retiredSlugs) {
     totalOrganicSessions,
     organicLandingRows: organicRows,
     ...groups,
+    theme_template_candidate: themeTemplateCandidateSessions,
+    other_non_archive_path: otherNonArchiveSessions,
     retiredArchiveShare: totalOrganicSessions ?
       Math.round(10000 * groups.retired_archive / totalOrganicSessions) / 100 : null,
-    warning: "Archiv = v manifestu koše z října 2026, ne důkaz aktuální HTTP 404. Ostatní adresa neznamená relevantní, indexovanou ani dostupnou stránku. GA4 nepočítá návštěvníky bez souhlasu."
+    warning: "Archiv = starý manifest, ne důkaz aktuální HTTP 404. Theme template = pouze shoda názvu PHP souboru, NE potvrzení existující živé decision page, indexace ani použitelnosti. Non-archive se dělí na theme_template_candidate + other_non_archive_path; žádná část bez nezávislé live kontroly není kvalifikovanou návštěvou. GA4 může vynechávat návštěvy bez souhlasu."
   };
 }
 

@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {
-  loadRetiredArchiveSlugs, classifyLanding, summarizeOrganicLandingRows
+  loadRetiredArchiveSlugs, loadThemeTemplateSlugs, classifyLanding, summarizeOrganicLandingRows
 } from "../scripts/organic-landing-cohorts.mjs";
 
 const retired = loadRetiredArchiveSlugs();
@@ -28,6 +28,8 @@ test("cohorts distinguish retired archive, current candidate and missing landing
   assert.equal(aggregate.totalOrganicSessions, 17);
   assert.equal(aggregate.retired_archive, 11);
   assert.equal(aggregate.non_archive_path, 4);
+  assert.equal(aggregate.theme_template_candidate, 4);
+  assert.equal(aggregate.other_non_archive_path, 0);
   assert.equal(aggregate.unassigned, 2);
   assert.equal(aggregate.retiredArchiveShare, 64.71);
   assert.doesNotMatch(JSON.stringify(aggregate), /cerpadly|choditka|Health/);
@@ -61,5 +63,26 @@ test("unknown landing and retained post do not automatically become archived", (
   ]}, retired);
   assert.equal(summary.retired_archive, 0);
   assert.equal(summary.non_archive_path, 8);
+  assert.equal(summary.theme_template_candidate, 0);
+  assert.equal(summary.other_non_archive_path, 8);
   assert.equal(summary.unassigned, 4);
+});
+
+
+test("theme-file hints are bounded and do not count unknown URLs as live decisions", () => {
+  const templates = loadThemeTemplateSlugs();
+  assert.ok(templates.has("choditka-pro-seniory"));
+  assert.ok(templates.has("schody-pro-seniora-doma"));
+  assert.ok(!templates.has("not-a-real-decision"));
+  const result = summarizeOrganicLandingRows([
+    row("/", 2), row("/choditka-pro-seniory/", 3),
+    row("/schody-pro-seniora-doma/", 4),
+    row("/not-a-real-decision/", 5), row("(not set)", 1)
+  ], retired, templates);
+  assert.equal(result.totalOrganicSessions, 15);
+  assert.equal(result.non_archive_path, 14);
+  assert.equal(result.theme_template_candidate, 9);
+  assert.equal(result.other_non_archive_path, 5);
+  assert.match(result.warning, /NE potvrzení existující živé decision page/);
+  assert.doesNotMatch(JSON.stringify(result), /not-a-real-decision|choditka-pro|schody-pro/);
 });

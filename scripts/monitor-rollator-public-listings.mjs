@@ -27,8 +27,8 @@ export function monitoredRollatorListings(data=readData()){
 // Seller may mark the product heading with a reviewable, cosmetic badge.
 // Whitelist only these exact labels, never fuzzy product-name substitutions.
 const normalizeSellerHeading=raw=>cleanText(raw)
-  .replace(/^(?:(?:top zboží|novinka|akce|tip na dárek)\\s+)+/gi,"")
-  .replace(/(?:\\s+(?:top zboží|novinka|akce|tip na dárek))+$/gi,"")
+  .replace(/^(?:(?:top zboží|novinka|akce|tip na dárek)\s+)+/gi,"")
+  .replace(/(?:\s+(?:top zboží|novinka|akce|tip na dárek))+$/gi,"")
   .trim();
 const cleanText=html=>String(html)
   .replace(/<!--[^\n]*?-->/g," ")

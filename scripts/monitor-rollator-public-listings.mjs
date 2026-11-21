@@ -64,7 +64,23 @@ export function classifyRollatorListingHtml(html,record){
     return {id:record.id,observation:"unverifiable",reason:"exact_product_sku_missing"};
   if(/zboží už bylo vyřazeno z naší nabídky/i.test(zone))
     return {id:record.id,observation:"retired",reason:"exact_sku_removed_by_merchant"};
-  if(/\bSkladem\s*(?:>\s*\d+\s*ks)?\b/i.test(zone)&&/\bDo košíku\b/i.test(zone))
+  // A seller can explicitly show an unavailable/arriving SKU without a cart.
+  // This is an observed PAGE LABEL, not independently checked warehouse stock.
+  // Look only inside the verified exact-SKU product zone above, not sidebars.
+  const unavailableLabel=/(?:zboží\\s+(?:je\\s+)?na\\s+cestě|momentálně\\s+není\\s+skladem|není\\s+skladem|dočasně\\s+nedostupné|vyprodáno)/gi;
+  const displaysUnavailable=unavailableLabel.test(zone);
+  // Remove negative phrases before looking for "Skladem"; the word in
+  // "není skladem" must never be interpreted as an available item.
+  const positiveZone=zone.replace(unavailableLabel," ");
+  const displaysAvailable=/\\bSkladem\\s*(?:>\\s*\\d+\\s*ks)?\\b/i.test(positiveZone)&&
+    /\\bDo košíku\\b/i.test(positiveZone);
+  if(displaysUnavailable&&displaysAvailable)
+    return {id:record.id,observation:"unverifiable",
+      reason:"contradictory_seller_availability_labels"};
+  if(displaysUnavailable)
+    return {id:record.id,observation:"seller_displays_unavailable",
+      reason:"seller_product_page_unavailable_label_only"};
+  if(displaysAvailable)
     return {id:record.id,observation:"seller_displays_available",
       reason:"seller_product_page_stock_label_only"};
   return {id:record.id,observation:"unverifiable",reason:"stock_or_product_state_not_confirmed"};
@@ -117,6 +133,7 @@ export async function auditRollatorPublicListings(fetchImpl=fetch,data=readData(
     checked_count:results.length,
     matched:results.filter(x=>x.status==="matched_seller_lifecycle").length,
     needs_review:results.filter(x=>x.status==="needs_review").length,
+    seller_unavailable:results.filter(x=>x.observation==="seller_displays_unavailable").length,
     active_product_offers_changed:0,
     limitations:RESTRICTION,
     results

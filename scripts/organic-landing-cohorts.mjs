@@ -57,7 +57,7 @@ export function loadRetiredArchiveSlugs(base = new URL("../", import.meta.url)) 
 export function loadThemeTemplateSlugs(base = new URL("../", import.meta.url)) {
   const names = readdirSync(base, {withFileTypes: true})
     .filter(entry => entry.isFile() &&
-      /^page-[a-z0-9]+(?:-[a-z0-9]+)*\\.php$/.test(entry.name))
+      /^page-[a-z0-9]+(?:-[a-z0-9]+)*\.php$/.test(entry.name))
     .map(entry => entry.name.slice(5, -4));
   if (names.length < 30 || names.length > 100 || new Set(names).size !== names.length)
     throw new Error("Incomplete or unexpected theme page-template inventory");
@@ -105,7 +105,7 @@ export function summarizeOrganicLandingRows(input, retiredSlugs, themeSlugs = lo
       throw new Error("Organic session count overflow");
     groups[group] += row.sessions;
     if (group === "non_archive_path") {
-      const slug = row.landing_page.slice(1).replace(/\\/$/, "");
+      const slug = row.landing_page.slice(1).replace(/\/$/, "");
       if (slug === "" || themeSlugs.has(slug)) {
         if (!Number.isSafeInteger(themeTemplateCandidateSessions + row.sessions))
           throw new Error("Theme candidate session count overflow");

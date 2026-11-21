@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {MOBILITY_PRODUCTS} from "../src/mobility/catalog.js";
-import {validateRollatorSupply,reportRollatorSupply,supplyCli} from "../scripts/rollator-supply-review.mjs";
+import {validateRollatorSupply,validatePartnerRollatorFallbacks,reportRollatorSupply,supplyCli} from "../scripts/rollator-supply-review.mjs";
 
 const data=JSON.parse(readFileSync(
   new URL("../data/mobility-rollator-supply-review-20261121.json",import.meta.url),"utf8"));
@@ -107,4 +107,97 @@ test("No unreviewed candidate, unknown blocker or unsafe replacement enters live
   live.push({...live[0],id:"unizdrav-p5559",productionEligible:true});
   assert.throws(()=>validateRollatorSupply(data,live));
   assert.doesNotMatch(JSON.stringify(reportRollatorSupply(data)),/https?:\/\/|[?]affid=|sessionId|diagnosis/i);
+});
+
+const fallbackMutate=(id,fn)=>{
+  const copy=clone(data);
+  fn(copy.partnerFallbacks.find(row=>row.id===id));
+  return copy;
+};
+
+test("two independent existing-Lékárna partner alternatives are explicitly HOLD, never active merchant offers",()=>{
+  const records=validatePartnerRollatorFallbacks(data);
+  assert.equal(records.length,2);
+  assert.deepEqual(records.map(x=>x.id),[
+    "meyra-rollator-2-3061982-r","vitea-care-mobilus-lite-vcbk"
+  ]);
+  const report=reportRollatorSupply(data);
+  assert.equal(report.approved_partner_fallbacks,2);
+  assert.equal(report.fallback_offers_activated,0);
+  assert.ok(records.every(x=>x.existingPartner==="lekarna-cz"&&
+    x.offerStatus==="HOLD"&&x.productionEligible===false&&
+    x.verifiedModelEquivalence===false&&x.currentInventoryVerified===false&&
+    x.publisherDestinationVerified===false));
+  assert.ok(records.every(x=>!MOBILITY_PRODUCTS.some(y=>y.id===x.id)));
+  assert.match(supplyCli(),/"fallback_offers_activated": 0/);
+});
+
+test("MEYRA Rollator 2 -R is not the current IDEAL rollator; retailer/manufacturer dimension split persists",()=>{
+  const id="meyra-rollator-2-3061982-r";
+  const x=data.partnerFallbacks.find(z=>z.id===id);
+  assert.equal(x.manufacturer.model,"3061982-R");
+  assert.equal(x.merchant.sku,"468904");
+  assert.equal(x.merchant.ean,"4041314026320");
+  assert.equal(x.merchant.facts.handleHeightCm,"79–99");
+  assert.equal(x.manufacturer.facts.handleHeightCm,"79–95");
+  assert.equal(x.merchant.facts.depthCm,68);
+  assert.equal(x.manufacturer.facts.depthCm,65);
+  for(const bad of [
+    fallbackMutate(id,r=>{r.manufacturer.model="3061982";}),
+    fallbackMutate(id,r=>{r.merchant.sku="473021";}),
+    fallbackMutate(id,r=>{r.merchant.ean="4041314026320x";}),
+    fallbackMutate(id,r=>{r.manufacturer.facts.handleHeightCm="79–99";}),
+    fallbackMutate(id,r=>{r.merchant.facts.seatHeightCm=60;}),
+    fallbackMutate(id,r=>{r.manufacturer.facts.weightKg=11;}),
+    fallbackMutate(id,r=>{r.verifiedModelEquivalence=true;}),
+    fallbackMutate(id,r=>{r.productionEligible=true;}),
+    fallbackMutate(id,r=>{r.publisherDestinationVerified=true;}),
+    fallbackMutate(id,r=>{r.merchant.url="https://www.lekarna.cz/another-rollator/";})
+  ])assert.throws(()=>validateRollatorSupply(bad));
+});
+
+test("VITEA current manufacturer differs from old catalogue/seller; never infer exact shipped variant",()=>{
+  const id="vitea-care-mobilus-lite-vcbk";
+  const v=data.partnerFallbacks.find(x=>x.id===id);
+  assert.equal(v.manufacturer.model,"VCBK");
+  assert.equal(v.manufacturer.manualEdition,"2023-05");
+  assert.match(v.manufacturer.url,/Chod%C3%ADtko_Mobilus_Lite_n%C3%A1vod/);
+  assert.match(v.manufacturer.productUrl,/viteacare\.com/);
+  assert.equal(v.merchant.sku,"468905");
+  assert.equal(v.merchant.ean,"5901095209031");
+  assert.equal(v.merchant.facts.widthCm,67);
+  assert.equal(v.manufacturer.facts.widthCm,66);
+  assert.equal(v.merchant.facts.handleHeightCm,"77–88");
+  assert.equal(v.manufacturer.facts.handleHeightCm,"79.5–92");
+  for(const bad of [
+    fallbackMutate(id,r=>{r.merchant.facts.widthCm=66;}),
+    fallbackMutate(id,r=>{r.manufacturer.facts.widthCm=67;}),
+    fallbackMutate(id,r=>{r.manufacturer.facts.handleHeightCm="77–88";}),
+    fallbackMutate(id,r=>{r.historicManufacturerContext.note="Same as current version";}),
+    fallbackMutate(id,r=>{r.historicManufacturerContext.url="https://example.com/file.pdf";}),
+    fallbackMutate(id,r=>{r.manufacturer.model="VCBK222B";}),
+    fallbackMutate(id,r=>{r.manufacturer.manualEdition="2020-01";}),
+    fallbackMutate(id,r=>{r.manufacturer.productUrl="https://example.com/model";}),
+    fallbackMutate(id,r=>{r.currentInventoryVerified=true;}),
+    fallbackMutate(id,r=>{r.manufacturer.url="https://wrong.example/product";}),
+    fallbackMutate(id,r=>{r.affiliateUrl="https://tracking.example/checkout";}),
+    fallbackMutate(id,r=>{r.visitorHealthAnswer="private";}),
+    fallbackMutate(id,r=>{r.publisherDestinationVerified=true;})
+  ])assert.throws(()=>validateRollatorSupply(bad));
+});
+
+test("an extra, duplicate or removed Lékárna alternative cannot slip into supply gate",()=>{
+  for(const bad of [
+    {...clone(data),partnerFallbacks:[]},
+    {...clone(data),partnerFallbacks:[...data.partnerFallbacks,data.partnerFallbacks[0]]},
+    {...clone(data),partnerFallbacks:[data.partnerFallbacks[0],data.partnerFallbacks[0]]},
+    {...clone(data),partnerFallbacks:[data.partnerFallbacks[0],{...data.partnerFallbacks[1],id:"new-unknown-model"}]},
+    fallbackMutate("vitea-care-mobilus-lite-vcbk",x=>{x.nextAction="Trust me";}),
+    fallbackMutate("meyra-rollator-2-3061982-r",x=>{x.merchant.url+="?clickid=secret";})
+  ])assert.throws(()=>validateRollatorSupply(bad));
+  const fakeCatalog=clone(MOBILITY_PRODUCTS);
+  fakeCatalog.push({...fakeCatalog[0],id:"meyra-rollator-2-3061982-r",productionEligible:true});
+  assert.throws(()=>validateRollatorSupply(data,fakeCatalog));
+  assert.doesNotMatch(JSON.stringify(reportRollatorSupply(data)),
+    /https?:\/\/|orderId|visitorHealth|token=|clickid=/i);
 });

@@ -53,6 +53,76 @@ function must(condition,message){
   if(!condition)throw new Error(message);
 }
 
+const PARTNER_FALLBACKS=Object.freeze({
+  "meyra-rollator-2-3061982-r":{
+    merchantSku:"468904",ean:"4041314026320",
+    merchantUrl:"https://www.lekarna.cz/meyra-rollator-2-ctyrkolove-choditko/",
+    manufacturerUrl:"https://www.meyra.cz/ctyrkolove-choditko-rollator2.html",
+    model:"3061982-R",width:[59,59],height:["79–99","79–95"],
+    maxUserWeight:[130,130],weight:[11,9.5],differs:["handle_height","depth","seat_height","weight"],
+    identity:"merchant_manufacturer_exact_model_link_unproven"
+  },
+  "vitea-care-mobilus-lite-vcbk":{
+    merchantSku:"468905",ean:"5901095209031",
+    merchantUrl:"https://www.lekarna.cz/vitea-care-mobilus-lite-ctyrkolove-choditko/",
+    manufacturerUrl:"https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Chod%C3%ADtko_Mobilus_Lite_n%C3%A1vod_k_pou%C5%BEit%C3%AD_CZ_05-2023.pdf",
+    model:"VCBK",width:[67,66],height:["77–88","79.5–92"],
+    maxUserWeight:[136,136],weight:[7.5,7.5],differs:["handle_height","width"],
+    identity:"merchant_variant_not_bound_to_manufacturer_manual_vcbk"
+  }
+});
+
+/** Existing already-approved merchant only; seller/manufacturer assertions stay distinct. */
+export function validatePartnerRollatorFallbacks(data,liveCatalog=MOBILITY_PRODUCTS){
+  must(Array.isArray(data?.partnerFallbacks)&&
+    data.partnerFallbacks.length===Object.keys(PARTNER_FALLBACKS).length&&
+    Array.isArray(liveCatalog),"Expected two bounded Lékárna fallback observations");
+  const seen=new Set();
+  for(const row of data.partnerFallbacks){
+    const exact=row&&PARTNER_FALLBACKS[row.id];
+    must(exact&&!seen.has(row.id)&&
+      row.existingPartner==="lekarna-cz"&&row.offerStatus==="HOLD"&&
+      row.identityStatus===exact.identity&&row.productionEligible===false&&
+      row.currentInventoryVerified===false&&row.publisherDestinationVerified===false&&
+      row.verifiedModelEquivalence===false&&
+      row.merchant?.sku===exact.merchantSku&&row.merchant.ean===exact.ean&&
+      exactHttps(row.merchant.url,exact.merchantUrl)&&
+      exactHttps(row.manufacturer?.url,exact.manufacturerUrl)&&
+      row.manufacturer.model===exact.model&&
+      row.merchant.facts?.widthCm===exact.width[0]&&
+      row.manufacturer.facts?.widthCm===exact.width[1]&&
+      row.merchant.facts?.handleHeightCm===exact.height[0]&&
+      row.manufacturer.facts?.handleHeightCm===exact.height[1]&&
+      row.merchant.facts?.maxUserWeightKg===exact.maxUserWeight[0]&&
+      row.manufacturer.facts?.maxUserWeightKg===exact.maxUserWeight[1]&&
+      row.merchant.facts?.weightKg===exact.weight[0]&&
+      row.manufacturer.facts?.weightKg===exact.weight[1]&&
+      Array.isArray(row.differs)&&
+      JSON.stringify(row.differs)===JSON.stringify(exact.differs)&&
+      typeof row.nextAction==="string"&&row.nextAction.length>90&&
+      !Object.keys(row).some(k=>FORBIDDEN_FIELDS.test(k))&&
+      !liveCatalog.some(p=>p.id===row.id),
+      "Unverified partner rollator identity, model-fit or affiliate path cannot enter catalog");
+    if(row.id==="meyra-rollator-2-3061982-r"){
+      must(row.manufacturer.model!=="3061982"&&
+        row.merchant.facts.depthCm===68&&row.manufacturer.facts.depthCm===65&&
+        row.merchant.facts.seatHeightCm===61&&row.manufacturer.facts.seatHeightCm===60,
+        "MEYRA ROLLATOR 2 (-R) is not IDEAL ROLLATOR without a supplier label");
+    }else{
+      must(row.manufacturer.productUrl==="https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite"&&
+        row.manufacturer.manualEdition==="2023-05"&&
+        row.historicManufacturerContext?.url===
+          "https://viteacare.com/images/2020-2021_KATALOG_REHABILITACJA_EXPORT_ONLINE_.pdf?_t=1600073648"&&
+        /not proof which variant ships/i.test(row.historicManufacturerContext.note),
+        "Dated VITEA VCBK manufacturer IFU dimensions do not resolve the retailer variant");
+    }
+    seen.add(row.id);
+  }
+  must(seen.size===Object.keys(PARTNER_FALLBACKS).length,
+    "Partner evidence incomplete");
+  return data.partnerFallbacks;
+}
+
 /** Never promote an out-of-stock/retired, disputed, or unknown-source SKU. */
 export function validateRollatorSupply(data,liveCatalog=MOBILITY_PRODUCTS){
   must(data?.schemaVersion===2&&data.reviewedOn==="2026-11-21"&&
@@ -60,6 +130,7 @@ export function validateRollatorSupply(data,liveCatalog=MOBILITY_PRODUCTS){
     data.candidates.length===Object.keys(EXACT).length,
     "Invalid versioned rollator evidence snapshot");
   must(Array.isArray(liveCatalog),"Invalid live catalog");
+  validatePartnerRollatorFallbacks(data,liveCatalog);
   const seen=new Set();
   for(const item of data.candidates){
     const spec=item&&EXACT[item.id];
@@ -130,6 +201,9 @@ export function reportRollatorSupply(data,liveCatalog=MOBILITY_PRODUCTS){
     retired_skus:data.candidates.filter(x=>x.lifecycleStatus==="retired").length,
     product_load_conflicts:data.candidates.filter(x=>x.lifecycleStatus==="hold_critical_conflict").length,
     active_offers_added:0,publisher_deeplinks_verified:0,physical_stock_verified:0,
+    approved_partner_fallbacks:data.partnerFallbacks.length,
+    fallback_offers_activated:0,
+    fallback_ids:data.partnerFallbacks.map(row=>row.id),
     items:data.candidates.map(item=>({id:item.id,sku:item.retailerSku,
       lifecycle:item.lifecycleStatus,availability_scope:item.merchantClaim.availability,
       production_eligible:false,blockers:[...item.blockers]})),

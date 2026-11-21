@@ -3,7 +3,7 @@
   "reviewedOn": "2026-11-21",
   "evidenceScope": "Public exact merchant product pages observed 2026-11-21. Seller-displayed stock is not confirmed inventory. P3774 was removed; P5559 is a different SKU, not equivalent.",
   "productionEffect": "none",
-  "commercialMilestone": "Candidate promotion requires current exact SKU listing, manufacturer/manual/variant evidence, authorized publisher-specific deeplink and model-specific fit confirmation; retired SKU never auto-substituted",
+  "commercialMilestone": "Verify same-variant manufacturer and merchant identity, current inventory, precise CJ publisher deeplink and individual model-fit before enabling any offer. Existing-partner alternates remain on HOLD.",
   "candidates": [
     {
       "id": "besco-wa78",
@@ -136,6 +136,94 @@
         "exact_publisher_deeplink_unverified"
       ],
       "nextEvidence": "MEGO 2 P5559 (width 62.5 cm, max user weight 135 kg, brakes per seller) is a distinct SKU from retired P3774. Get exact branded manual and variant, reconfirm seller availability, authorize exact CJ/VIV publisher link without tracked test click."
+    }
+  ],
+  "partnerFallbacks": [
+    {
+      "id": "meyra-rollator-2-3061982-r",
+      "identityStatus": "merchant_manufacturer_exact_model_link_unproven",
+      "existingPartner": "lekarna-cz",
+      "offerStatus": "HOLD",
+      "merchant": {
+        "url": "https://www.lekarna.cz/meyra-rollator-2-ctyrkolove-choditko/",
+        "sku": "468904",
+        "ean": "4041314026320",
+        "title": "MEYRA Rollator 2 čtyřkolové chodítko",
+        "facts": {
+          "widthCm": 59,
+          "handleHeightCm": "79–99",
+          "depthCm": 68,
+          "seatHeightCm": 61,
+          "weightKg": 11,
+          "maxUserWeightKg": 130
+        }
+      },
+      "manufacturer": {
+        "url": "https://www.meyra.cz/ctyrkolove-choditko-rollator2.html",
+        "model": "3061982-R",
+        "title": "ROLLATOR 2 Čtyřkolové chodítko",
+        "facts": {
+          "widthCm": 59,
+          "handleHeightCm": "79–95",
+          "depthCm": 65,
+          "seatHeightCm": 60,
+          "weightKg": 9.5,
+          "maxUserWeightKg": 130
+        }
+      },
+      "differs": [
+        "handle_height",
+        "depth",
+        "seat_height",
+        "weight"
+      ],
+      "verifiedModelEquivalence": false,
+      "currentInventoryVerified": false,
+      "publisherDestinationVerified": false,
+      "productionEligible": false,
+      "nextAction": "Request from Lékárna.cz exact delivered manufacturer model number and current product label/manual matching SKU 468904 EAN 4041314026320; only then verify publisher deeplink and fit, never merge into existing MEYRA Ideal 3061982."
+    },
+    {
+      "id": "vitea-care-mobilus-lite-vcbk222b",
+      "identityStatus": "old_merchant_dimensions_versus_current_manufacturer",
+      "existingPartner": "lekarna-cz",
+      "offerStatus": "HOLD",
+      "merchant": {
+        "url": "https://www.lekarna.cz/vitea-care-mobilus-lite-ctyrkolove-choditko/",
+        "sku": "468905",
+        "ean": "5901095209031",
+        "title": "VITEA CARE Mobilus lite čtyřkolové chodítko",
+        "facts": {
+          "widthCm": 67,
+          "handleHeightCm": "77–88",
+          "weightKg": 7.5,
+          "maxUserWeightKg": 136
+        }
+      },
+      "manufacturer": {
+        "url": "https://viteacare.com/en/our-products/rehabilitation-aid/walkers-and-rollators/mobilus-lite",
+        "model": "VCBK222B",
+        "title": "MOBILUS LITE",
+        "facts": {
+          "widthCm": 66,
+          "handleHeightCm": "79.5–92",
+          "weightKg": 7.5,
+          "maxUserWeightKg": 136
+        }
+      },
+      "historicManufacturerContext": {
+        "url": "https://viteacare.com/images/2020-2021_KATALOG_REHABILITACJA_EXPORT_ONLINE_.pdf?_t=1600073648",
+        "note": "Older 2020/2021 manufacturer catalogue lists 67 cm and 77–88 cm like merchant; current manufacturer page differs. This is not proof which variant ships."
+      },
+      "differs": [
+        "handle_height",
+        "width"
+      ],
+      "verifiedModelEquivalence": false,
+      "currentInventoryVerified": false,
+      "publisherDestinationVerified": false,
+      "productionEligible": false,
+      "nextAction": "Confirm from Lékárna.cz exact delivered VCBK222B model revision, product label and current user manual for SKU 468905 EAN 5901095209031; do not infer 77–88 or 79.5–92 handle fit from ambiguous source dates."
     }
   ]
 }

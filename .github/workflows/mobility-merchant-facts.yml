@@ -8,6 +8,11 @@ on:
       - "scripts/audit-meyra-public-identity.mjs"
       - "tests/meyra-public-identity.test.js"
       - "src/mobility/catalog.js"
+      - "data/mobility-rollator-supply-review-20261121.json"
+      - "scripts/rollator-supply-review.mjs"
+      - "scripts/monitor-rollator-public-listings.mjs"
+      - "tests/rollator-supply-review.test.js"
+      - "tests/monitor-rollator-public-listings.test.js"
   workflow_dispatch:
   schedule:
     # Once per week; not an inventory/price feed and never affiliate traffic.
@@ -31,3 +36,7 @@ jobs:
         run: node scripts/audit-mobility-merchant-facts.mjs
       - name: Check official MEYRA 3061982 against the canonical public Lékárna product page
         run: node scripts/audit-meyra-public-identity.mjs
+      - name: Verify supplier SKU lifecycle guards before public checking
+        run: node --test tests/rollator-supply-review.test.js tests/monitor-rollator-public-listings.test.js
+      - name: Check three exact public UNIZDRAV SKU pages; never affiliate clicks or WordPress writes
+        run: node scripts/monitor-rollator-public-listings.mjs

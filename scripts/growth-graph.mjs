@@ -11,6 +11,8 @@ import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 export const METRICS = [
   "organic_clicks_28d", "organic_impressions_28d", "advisor_starts_28d",
   "advisor_completes_28d", "merchant_clicks_28d",
+  "organic_sessions_28d", "organic_decision_page_sessions_28d",
+  "organic_retired_archive_sessions_28d", "organic_unassigned_sessions_28d",
   "approved_affiliate_commission_28d"
 ];
 const STATES=new Set(["pending","in_progress","verified","paused"]);
@@ -134,6 +136,25 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
     if(!METRICS.includes(k)||!Object.hasOwn(s.metrics,k)||!validISODate(date))
       throw new Error("Invalid or orphan metric observation date");
   }
+  // Qualified organic traffic is not total organic traffic. The current
+  // GA4 classification uses an exact retired-archive manifest and an audited
+  // set of live decision-page entries; anonymized (not set) is NOT an engaged
+  // session. Reconcile only when all independently sourced cohort counts exist.
+  const organicLandingKeys=[
+    "organic_decision_page_sessions_28d",
+    "organic_retired_archive_sessions_28d",
+    "organic_unassigned_sessions_28d"
+  ];
+  const organicTotal=s.metrics.organic_sessions_28d;
+  if(Object.hasOwn(s.metrics,"organic_sessions_28d")){
+    for(const key of organicLandingKeys){
+      if(Object.hasOwn(s.metrics,key)&&s.metrics[key]>organicTotal)
+        throw new Error("GA4 organic landing cohort cannot exceed organic sessions");
+    }
+    if(organicLandingKeys.every(key=>Object.hasOwn(s.metrics,key)) &&
+       organicLandingKeys.reduce((n,key)=>n+s.metrics[key],0)!==organicTotal)
+      throw new Error("GA4 organic landing cohorts must reconcile to Organic Search sessions");
+  }
   // Both GSC totals cover the same 28-day window. A click requires an
   // impression, so impossible aggregates must not influence the graph plan.
   // Do not apply this rule to GA4 events: consent and window boundaries differ.
@@ -231,6 +252,7 @@ export function planGrowth(g,s,now=new Date(),sourceRelease=SOURCE_THEME_RELEASE
     limitations:[
       "Chybějící metrika je unknown, nikoli nula.",
       "GSC, GA4 (agregáty; konektor sám nepotvrzuje stav souhlasu) a affiliate síť mají odlišnou atribuci; nepropojovat řádky ani nevyvozovat prodeje z kliků.",
+      "Nezaměňovat organické relace (včetně historického archivu) za vhodné návštěvy decision pages; klasifikace není měření skutečného zdravotního stavu ani objednávky.",
       "Pravidla jsou plánovací, nikoli oprávnění měnit bezpečnostní engine, indexaci nebo produkci bez PR a smoke.",
       "Uplift skóre znamená prioritu revize, nikoliv odhad nárůstu návštěvnosti či provize.",
       ...(["stale","mixed"].includes(evidenceFreshness)?["Starší agregáty zůstávají viditelné, ale jednotlivě nesmějí zvýšit prioritu po 14 dnech."]:[])
@@ -240,6 +262,10 @@ export function renderGrowthPlan(p){
   const metricNames={
     organic_clicks_28d:"Organické kliky / 28 d",
     organic_impressions_28d:"Zobrazení GSC / 28 d",
+    organic_sessions_28d:"Organické relace / 28 d (GA4, pozorované)",
+    organic_decision_page_sessions_28d:"Vstupy na současné decision pages / 28 d (GA4)",
+    organic_retired_archive_sessions_28d:"Vstupy na historické archivní slugs / 28 d (GA4)",
+    organic_unassigned_sessions_28d:"Neurčená vstupní stránka / 28 d (GA4)",
     advisor_starts_28d:"Starty poradce / 28 d (GA4 agregát)",
     advisor_completes_28d:"Dokončení poradce / 28 d (GA4 agregát)",
     merchant_clicks_28d:"Odchozí kliky / 28 d (GA4 agregát)",
@@ -253,6 +279,17 @@ export function renderGrowthPlan(p){
     "## Skutečné agregované metriky",
     ...Object.entries(p.metrics).map(([k,v])=>"- "+metricNames[k]+": "+(v===null?"UNKNOWN":v)+
       (p.metricAsOf?.[k]?" (stav k "+p.metricAsOf[k]+")":"")),
+    "## Kvalita organických vstupů",
+    ...([p.metrics.organic_sessions_28d,
+      p.metrics.organic_decision_page_sessions_28d,
+      p.metrics.organic_retired_archive_sessions_28d,
+      p.metrics.organic_unassigned_sessions_28d].every(Number.isSafeInteger) &&
+      p.metrics.organic_sessions_28d>0 ? [
+      "- Podíl vstupů na současné rozhodovací stránky: "+
+        (100*p.metrics.organic_decision_page_sessions_28d/p.metrics.organic_sessions_28d).toFixed(2)+
+        " % ("+p.metrics.organic_decision_page_sessions_28d+" z "+p.metrics.organic_sessions_28d+").",
+      "- Retired archive je členství ve starém manifestu, nikoliv ověřená živá HTTP 404; (not set) není automaticky kvalitní vstup. Vzorek je malý a GA4 omezeno souhlasem."
+    ] : ["- Podíl relevantních vstupů: UNKNOWN (chybí úplná GA4 landing-page klasifikace nebo organické relace)."]),
     "## 3 další bezpečně proveditelné uzly",
     ...(p.next.length?p.next.map(t=>"- "+t.id+" (skóre "+t.score+"): "+cleanString(t.action)):["- Žádný automaticky připravený uzel; ověřit závislosti a evidence."]),
     "## Stav grafu",

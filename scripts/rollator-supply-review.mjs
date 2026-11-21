@@ -1,128 +1,146 @@
 #!/usr/bin/env node
 /**
- * Read-only supplier evidence handoff for the NEXT Mobility release.
- * This is not a second recommendation engine, stock checker or affiliate
- * linker. No HTTP requests; never touches WordPress, the live catalog or
- * visitor answers. Current product suitability stays in src/mobility/engine.
+ * Read-only product lifecycle handoff for Mobility. This is NOT a second
+ * recommendation engine. Only the existing model-fit gate may unlock commerce.
+ * Zero HTTP requests, WordPress writes, affiliate redirects or visitor answers.
  */
 import {readFileSync} from "node:fs";
 import {fileURLToPath} from "node:url";
 import {resolve} from "node:path";
 import {MOBILITY_PRODUCTS} from "../src/mobility/catalog.js";
 
-const EXPECTED_IDS=new Set(["besco-wa78","unizdrav-p2879","unizdrav-p3774"]);
+const EXACT=Object.freeze({
+  "besco-wa78":{
+    merchant:"rehabilitacni-pomucky-cz",sku:"WA78",
+    url:"https://www.rehabilitacnipomucky.cz/besco-ctyrkolove-choditko-odlehcene-skladaci/",
+    lifecycle:"hold_critical_conflict",availability:"sold_out_displayed",width:61,load:136
+  },
+  "unizdrav-p2879":{
+    merchant:"unizdrav-cz",sku:"P2879",
+    url:"https://unizdrav.cz/zbozi/2879/pojizdne-choditko-unizdrav-modre",
+    lifecycle:"seller_listing_observed",availability:"in_stock_displayed",width:58,load:110,height:"79.5–91"
+  },
+  "unizdrav-p3774":{
+    merchant:"unizdrav-cz",sku:"P3774",
+    url:"https://unizdrav.cz/zbozi/3774/pojizdne-choditko-s-nafukovacimi-koly-mego",
+    lifecycle:"retired",availability:"retired_by_merchant",width:63,load:135,height:"82–99"
+  },
+  "unizdrav-p5559":{
+    merchant:"unizdrav-cz",sku:"P5559",
+    url:"https://unizdrav.cz/zbozi/5559/pojizdne-choditko-s-nafukovacimi-koly-mego-2",
+    lifecycle:"seller_listing_observed",availability:"in_stock_displayed",width:62.5,load:135,height:"80–100"
+  }
+});
 const ALLOWED_BLOCKERS=new Set([
   "critical_max_load_disagreement",
   "retailer_sold_out_displayed",
   "linked_manual_brand_disagreement",
+  "retired_by_merchant",
   "independent_model_manual_missing",
   "same_variant_fresh_inventory_not_verified",
   "exact_publisher_deeplink_unverified"
 ]);
-const URL_HOSTS=new Map([
-  ["besco-wa78","www.rehabilitacnipomucky.cz"],
-  ["unizdrav-p2879","unizdrav.cz"],
-  ["unizdrav-p3774","unizdrav.cz"]
-]);
-const EXACT_MANUFACTURER="https://www.bescomedical.com/455-deluxe-folding-Aluminum-Rollator.html";
-const PROTECTED_FIELDS=/answer|health|diagnos|visitor|client.?id|affiliate.?url|tracking.?url|commission|publisher.?id|token|password/i;
+const FORBIDDEN_FIELDS=/answer|health|diagnos|visitor|client.?id|affiliate.?url|tracking.?url|commission|publisher.?id|token|password/i;
 
-function publicUrl(value,host){
-  if(typeof value!=="string")return false;
+function exactHttps(value,allowed){
+  if(value!==allowed)return false;
   try{
-    const u=new URL(value);
-    return u.protocol==="https:"&&u.hostname===host&&u.username===""&&u.password===""&&
-      u.search===""&&u.hash===""&&u.port==="";
+    const url=new URL(value);
+    return url.protocol==="https:"&&!url.username&&!url.password&&!url.search&&!url.hash&&!url.port;
   }catch{return false;}
 }
-function positiveFinite(v){return typeof v==="number"&&Number.isFinite(v)&&v>0;}
+function must(condition,message){
+  if(!condition)throw new Error(message);
+}
 
-/** Validate bounded public evidence. A blocked seller listing is never an offer. */
+/** Never promote an out-of-stock/retired, disputed, or unknown-source SKU. */
 export function validateRollatorSupply(data,liveCatalog=MOBILITY_PRODUCTS){
-  if(!data||data.schemaVersion!==1||data.reviewedOn!=="2026-11-21"||
-    data.productionEffect!=="none"||!Array.isArray(data.candidates)||
-    data.candidates.length!==3||!Array.isArray(liveCatalog))
-    throw new Error("Invalid rollator evidence snapshot");
-  const ids=new Set();
+  must(data?.schemaVersion===2&&data.reviewedOn==="2026-11-21"&&
+    data.productionEffect==="none"&&Array.isArray(data.candidates)&&
+    data.candidates.length===Object.keys(EXACT).length,
+    "Invalid versioned rollator evidence snapshot");
+  must(Array.isArray(liveCatalog),"Invalid live catalog");
+  const seen=new Set();
   for(const item of data.candidates){
-    if(!item||typeof item!=="object"||Array.isArray(item)||
-      !EXPECTED_IDS.has(item.id)||ids.has(item.id)||
-      !URL_HOSTS.has(item.id)||item.productType!=="rollator_with_seat"||
-      item.productionEligible!==false||
-      item.publisherDeeplinkVerified!==false||
-      item.stockVerifiedCurrent!==false||
-      !publicUrl(item.retailerUrl,URL_HOSTS.get(item.id))||
-      !Array.isArray(item.blockers)||item.blockers.length<2||
-      new Set(item.blockers).size!==item.blockers.length||
-      item.blockers.some(b=>!ALLOWED_BLOCKERS.has(b))||
-      !item.blockers.includes("exact_publisher_deeplink_unverified")||
-      !item.merchantClaim||!positiveFinite(item.merchantClaim.widthCm)||
-      !positiveFinite(item.merchantClaim.maxUserWeightKg)||
-      typeof item.nextEvidence!=="string"||item.nextEvidence.length<20||
-      Object.keys(item).some(k=>PROTECTED_FIELDS.test(k)))
-      throw new Error("Rollator supply item cannot be promoted without evidence");
-    const merchant=item.id==="besco-wa78"?"rehabilitacni-pomucky-cz":"unizdrav-cz";
-    const sku=item.id==="besco-wa78"?"WA78":
-      item.id==="unizdrav-p2879"?"P2879":"P3774";
-    if(item.merchantId!==merchant||item.retailerSku!==sku||
-      !item.retailerUrl.includes(item.id==="besco-wa78"?
-        "besco-ctyrkolove-choditko-odlehcene-skladaci":item.id.slice(-4))||
-      !["two_locking","service_and_parking"].includes(item.merchantClaim.handBrakes))
-      throw new Error("Rollator evidence does not identify exact merchant/SKU");
+    const spec=item&&EXACT[item.id];
+    must(spec&&!seen.has(item.id)&&typeof item==="object"&&!Array.isArray(item),
+      "Unexpected or duplicate rollator evidence item");
+    seen.add(item.id);
+    must(item.productionEligible===false&&
+      item.publisherDeeplinkVerified===false&&item.stockVerifiedCurrent===false&&
+      item.productType==="rollator_with_seat"&&
+      item.merchantId===spec.merchant&&item.retailerSku===spec.sku&&
+      exactHttps(item.retailerUrl,spec.url)&&
+      item.lifecycleStatus===spec.lifecycle&&
+      item.merchantClaim?.availability===spec.availability&&
+      item.merchantClaim.widthCm===spec.width&&
+      item.merchantClaim.maxUserWeightKg===spec.load&&
+      Array.isArray(item.blockers)&&new Set(item.blockers).size===item.blockers.length&&
+      item.blockers.every(x=>ALLOWED_BLOCKERS.has(x))&&
+      item.blockers.includes("exact_publisher_deeplink_unverified")&&
+      typeof item.nextEvidence==="string"&&item.nextEvidence.length>=40&&
+      !Object.keys(item).some(k=>FORBIDDEN_FIELDS.test(k)),
+      "Rollator merchant identity, lifecycle or commerce gate conflict");
     if(item.id==="besco-wa78"){
-      if(item.manufacturerUrl!==EXACT_MANUFACTURER||
-        item.manufacturerModel!=="BES-WA78"||
-        !positiveFinite(item.manufacturerClaim?.maxUserWeightKg)||
-        item.manufacturerClaim.maxUserWeightKg===item.merchantClaim.maxUserWeightKg||
-        item.merchantClaim.availability!=="sold_out_displayed"||
-        !item.blockers.includes("critical_max_load_disagreement")||
-        !item.blockers.includes("retailer_sold_out_displayed")||
-        !item.blockers.includes("linked_manual_brand_disagreement"))
-        throw new Error("BESCO WA78 source/model/load/stock conflict must remain blocked");
-    }else if(item.manufacturerUrl!==null||item.manufacturerModel!==null||
-      item.manufacturerClaim!==null||
-      !item.blockers.includes("independent_model_manual_missing")||
-      !item.blockers.includes("same_variant_fresh_inventory_not_verified")||
-      item.merchantClaim.availability!=="in_stock_displayed"||
-      !/^79\.5–91$|^82–99$/.test(item.merchantClaim.handleHeightCm))
-      throw new Error("Unizdrav candidate lacks independent manufacturer identity or fresh stock proof");
-    if(liveCatalog.some(p=>p.id===item.id&&p.productionEligible))
-      throw new Error("Blocked supply candidate already enabled in production catalog");
-    ids.add(item.id);
+      must(item.manufacturerUrl==="https://www.bescomedical.com/455-deluxe-folding-Aluminum-Rollator.html"&&
+        item.manufacturerModel==="BES-WA78"&&
+        item.manufacturerClaim?.maxUserWeightKg===110&&
+        item.merchantClaim.handBrakes==="two_locking"&&
+        ["critical_max_load_disagreement","retailer_sold_out_displayed",
+          "linked_manual_brand_disagreement"].every(x=>item.blockers.includes(x)),
+        "BESCO WA78 contradictory factory load/manual/retailer evidence cannot be cleared");
+    }else{
+      must(item.manufacturerUrl===null&&item.manufacturerModel===null&&
+        item.manufacturerClaim===null&&
+        item.merchantClaim.handleHeightCm===spec.height&&
+        item.merchantClaim.handBrakes==="service_and_parking"&&
+        item.merchantObservation?.observedOn==="2026-11-21"&&
+        item.merchantObservation.url===item.retailerUrl&&
+        item.merchantObservation.kind==="public_seller_product_page"&&
+        item.blockers.includes("independent_model_manual_missing"),
+        "UNIZDRAV independent device document missing or seller SKU changed");
+      if(item.id==="unizdrav-p3774"){
+        must(item.merchantObservation.statusText.includes("vyřazeno")&&
+          item.relatedModel?.id==="unizdrav-p5559"&&
+          item.relatedModel.relation==="different_sku_not_equivalent"&&
+          item.blockers.includes("retired_by_merchant")&&
+          !item.blockers.includes("same_variant_fresh_inventory_not_verified"),
+          "Discontinued P3774 must stay retired and must not alias P5559");
+      }else{
+        must(item.merchantObservation.availabilityScope==="seller_display_only"&&
+          item.blockers.includes("same_variant_fresh_inventory_not_verified"),
+          "A public stock label is not physical inventory verification");
+      }
+    }
+    must(!liveCatalog.some(p=>p.id===item.id&&p.productionEligible),
+      "Blocked supplier candidate has entered the live production catalog");
   }
-  if(ids.size!==EXPECTED_IDS.size||
-    data.candidates.some(item=>item.id!=="besco-wa78"&&
-      liveCatalog.some(p=>p.id===item.id)))
-    throw new Error("Unreviewed candidate was added to the live recommendation catalog");
+  must(Object.keys(EXACT).every(id=>seen.has(id))&&
+    !liveCatalog.some(p=>p.id.startsWith("unizdrav-p")&&seen.has(p.id)),
+    "Supplier candidate must not be silently inserted into recommendation catalog");
   return data;
 }
 
 export function reportRollatorSupply(data,liveCatalog=MOBILITY_PRODUCTS){
   validateRollatorSupply(data,liveCatalog);
   return {
-    reviewed_on:data.reviewedOn,
-    stage:"product_supply_evidence_only",
-    total_candidates:data.candidates.length,
-    active_offers_added:0,
-    publisher_deeplinks_verified:0,
-    current_stock_verified:0,
-    candidates:data.candidates.map(item=>({
-      id:item.id,merchant:item.merchantId,sku:item.retailerSku,
-      status:"hold",blockers:[...item.blockers]
-    })),
-    limitations:[
-      "BESCO WA78: manufacturer max load conflicts with merchant data; linked Rehabiq manual and sold-out listing remain unresolved.",
-      "UNIZDRAV P2879/P3774: seller SKU and parameters are leads, not independently verified specific-device manuals or live availability.",
-      "Never generate or click affiliate URLs; require source-bound publisher-authorized deeplink and model-specific fit gate before commerce."
-    ]
+    reviewed_on:data.reviewedOn,stage:"public_supplier_evidence_only",
+    total_records:data.candidates.length,
+    current_seller_listings:data.candidates.filter(x=>x.lifecycleStatus==="seller_listing_observed").length,
+    retired_skus:data.candidates.filter(x=>x.lifecycleStatus==="retired").length,
+    product_load_conflicts:data.candidates.filter(x=>x.lifecycleStatus==="hold_critical_conflict").length,
+    active_offers_added:0,publisher_deeplinks_verified:0,physical_stock_verified:0,
+    items:data.candidates.map(item=>({id:item.id,sku:item.retailerSku,
+      lifecycle:item.lifecycleStatus,availability_scope:item.merchantClaim.availability,
+      production_eligible:false,blockers:[...item.blockers]})),
+    limitations:"P3774 retired; P5559 MEGO 2 is a distinct model, not an automatic replacement. No verified manufacturer manual, physical inventory, exact publisher URL, fit or commission."
   };
 }
-
 export function supplyCli(){
   const data=JSON.parse(readFileSync(new URL("../data/mobility-rollator-supply-review-20261121.json",import.meta.url),"utf8"));
   return JSON.stringify(reportRollatorSupply(data),null,2)+"\n";
 }
 if(process.argv[1]&&fileURLToPath(import.meta.url)===resolve(process.argv[1])){
   try{process.stdout.write(supplyCli());}
-  catch{process.stderr.write("ROLLATOR_SUPPLY_EVIDENCE_FAILED: invalid public candidate data or safety gate\n");process.exitCode=1;}
+  catch{process.stderr.write("ROLLATOR_SUPPLY_EVIDENCE_FAILED: public SKU, lifecycle or safety conflict\n");process.exitCode=1;}
 }

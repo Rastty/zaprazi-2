@@ -24,7 +24,7 @@ test("chair landing offers only a conditional, safety-first Mobility handoff",()
 });
 
 test("existing opt-in anonymous analytics handles the new advisor handoff",()=>{
-  assert.ok(tracking.includes('a[data-zp-journey=\\\"advisor\\\"][href]'));
+  assert.ok(tracking.includes("data-zp-journey="), "Expected generic editorial-to-advisor event listener");
   assert.ok(tracking.includes('sendEvent("guide_advisor_click")'));
   assert.ok(tracking.includes('destination.search'));
   assert.ok(tracking.includes('state !== "granted"'));

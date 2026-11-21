@@ -48,10 +48,21 @@ export function classifyRollatorListingHtml(html,record){
   // variants); the retired template renders it once. Accept at most three
   // repetitions ONLY when every heading names this exact SKU's product.
   // Another product's H1, even on the same page, fails closed.
+  // Count-only diagnostics let the next live run distinguish global extra
+  // headings, cosmetic labels and a genuinely changed product name. NEVER
+  // emit seller HTML, heading text, URLs, PII or health answers into CI logs.
+  const headingShape={
+    h1_count_bounded:Math.min(h1s.length,4),
+    exact_h1_count:h1s.filter(match=>normalizeSellerHeading(match[1])===record.title).length,
+    contains_expected_title_count:h1s.filter(match=>
+      normalizeSellerHeading(match[1]).includes(record.title)).length
+  };
   if(h1s.length<1||h1s.length>3)
-    return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_count_mismatch"};
-  if(h1s.some(match=>normalizeSellerHeading(match[1])!==record.title))
-    return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_missing"};
+    return {id:record.id,observation:"unverifiable",
+      reason:"exact_product_h1_count_mismatch",heading_shape:headingShape};
+  if(headingShape.exact_h1_count!==h1s.length)
+    return {id:record.id,observation:"unverifiable",
+      reason:"exact_product_h1_missing",heading_shape:headingShape};
   const slice=html.slice(h1s[0].index+h1s[0][0].length);
   const description=slice.search(/Popis\s+produktu/i);
   // If this product/related-items boundary is absent, fail closed rather
@@ -100,6 +111,8 @@ export function assessRollatorLifecycle(observation,record){
     observation:observation.observation,
     status:matched?"matched_seller_lifecycle":"needs_review",
     reason:observation.reason,
+    // Aggregate shape counters only on H1 failures; never publish source text.
+    ...(observation.heading_shape ? {heading_shape:observation.heading_shape} : {}),
     production_eligible:false,
     ...(matched?{}:{expected_observation:expected})
   };

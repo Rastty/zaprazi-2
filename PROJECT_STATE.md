@@ -27,4 +27,6 @@ Pomoci rodině od problému k bezpečnému konkrétnímu kroku: **situace → Do
 2. **P0 cesta a kvalita návštěv:** posuzovat zvlášť relevantní organické přístupy (dnes 6/19), zachovat funkční kontextové přechody do poradce a vyhodnotit srovnatelné další okno. Nekládat nízký počet eventů za UX chybu.
 3. **P1 monetizace:** doložit identitu a parametry přesné MEYRA varianty a publisher-side approved/rejected/pending provize; do té doby nepovolovat neověřené nabídky.
 
+**Kandidát 0.8.245 — připravený zdroj, NENASAZENO:** bezpečný kontextový přechod z organicky navštívené stránky `/vstavani-z-kresla-pro-seniora/` do existujícího poradce pro chůzi; odborné posouzení a fit-gates zachovány. Před merge vyžadovat latest-head zelené CI, release / legacy / mobility / Chrome predeploy kontroly; poté oddělený WordPress `dev` Pull + Deploy správcem a exact-release produkční QA. **Živá produkce zůstává 0.8.244, dokud to neprokážou postdeploy testy.**
+
 **Předávací zásada:** každý další běh nejprve čte živou produkci, nejnovější `main`/`dev`, PR a Growth Graph; dokumentuje jen nové prokázané změny. Evidence-only commit **nevyžaduje WordPress deploy**.

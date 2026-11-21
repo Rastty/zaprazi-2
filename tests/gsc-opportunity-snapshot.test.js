@@ -183,6 +183,63 @@ test("unsafe or sparse Core intent buckets can never become an editorial recomme
 });
 
 
+test("Core seven-page privacy-suppressed intent capture renders the reviewed stairs categories",()=>{
+ const data=genuineShape();
+ const evidence=safeIntents();
+ evidence.pagesAttempted=7;
+ evidence.pagesResponded=7;
+ evidence.pagesWithSafeGroups=3;
+ evidence.limitations=["Only 7 fixed canonical pages"];
+ evidence.pages.push({path:"/schody-pro-seniora-doma/",intents:[
+   {label:"stair_ramp",clicks:1,impressions:18,ctr:0.0556,position:5.3},
+   {label:"stair_handrail",clicks:0,impressions:11,ctr:0,position:7.1}
+ ]});
+ data.queryIntentEvidence=evidence;
+ const rendered=reportFromSanitizedSnapshot(data);
+ const intentSection=rendered.split("## 1c. Stránkově filtrované vyhledávací záměry")[1]
+   .split("## 1b. Všechny doložené hlavní URL")[0];
+ assert.match(intentSection,/schody-pro-seniora-doma/);
+ assert.match(intentSection,/Nájezd \/ rampa/);
+ assert.match(intentSection,/Madlo \/ zábradlí/);
+ assert.match(intentSection,/Úhrada \/ ePoukaz/);
+ assert.match(intentSection,/Nárok a úhrada převozu/);
+ assert.doesNotMatch(intentSection,/rawQueries|diagnosis|private person/);
+});
+test("seven-page reader refuses new scope, sparse groups and raw query payloads",()=>{
+ const original=safeIntents();
+ const seven=()=>({
+   ...original,pagesAttempted:7,pagesResponded:7,pagesWithSafeGroups:3,
+   pages:[...original.pages.map(p=>({path:p.path,intents:p.intents.map(x=>({...x}))})),
+     {path:"/schody-pro-seniora-doma/",intents:[
+       {label:"stairs_general",clicks:0,impressions:16,ctr:0,position:6.2}
+     ]}]
+ });
+ for(const mutate of [
+   x=>{x.pagesAttempted=8;},
+   x=>{x.pagesResponded=8;},
+   x=>{x.pages[2].path="/private-person-specific-route/";},
+   x=>{x.pages[2].intents[0].label="reimbursement";},
+   x=>{x.pages[2].intents[0].impressions=9;},
+   x=>{x.pages[2].intents[0].ctr=0.5;},
+   x=>{x.pages[2].intents[0].rawQuery="private person-specific question";},
+   x=>{x.pages.push({...x.pages[2]});}
+ ]){
+   const data=genuineShape();data.queryIntentEvidence=seven();
+   mutate(data.queryIntentEvidence);
+   const out=reportFromSanitizedSnapshot(data);
+   assert.match(out,/UNKNOWN: pro dané finální období/);
+   assert.doesNotMatch(out,/private-person-specific-route|private person-specific question/);
+ }
+ const legacy=safeIntents();
+ legacy.pages.push({path:"/schody-pro-seniora-doma/",intents:[
+   {label:"stair_ramp",clicks:0,impressions:12,ctr:0,position:5.1}
+ ]});
+ legacy.pagesWithSafeGroups=3;
+ const data=genuineShape();data.queryIntentEvidence=legacy;
+ assert.match(reportFromSanitizedSnapshot(data),/UNKNOWN: pro dané finální období/,
+   "Historical six-page evidence cannot silently contain the new page");
+});
+
 const indexPaths=[
  "/", "/choditko-na-pojistovnu/", "/pujceni-choditka/",
  "/rollator-pro-seniory/", "/choditka-pro-seniory/",

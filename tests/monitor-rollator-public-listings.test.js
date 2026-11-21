@@ -230,3 +230,47 @@ test("public readonly seller audit surfaces unavailable SKU count, not synthetic
   assert.equal(result.results.find(item=>item.id==="unizdrav-p2879").observation,
     "seller_displays_unavailable");
 });
+
+test("H1 failures report only bounded count-only shape, never merchant text",()=>{
+  const r=find("unizdrav-p2879");
+  const page=html(r,stock);
+  const exactHeading="<h1>"+r.title+"</h1>";
+  const extra=page.replace(exactHeading,exactHeading+"<h1>Unrelated overlay title</h1>");
+  const result=classifyRollatorListingHtml(extra,r);
+  assert.equal(result.observation,"unverifiable");
+  assert.equal(result.reason,"exact_product_h1_missing");
+  assert.deepEqual(result.heading_shape,{
+    h1_count_bounded:2,exact_h1_count:1,contains_expected_title_count:1
+  });
+  const banner=page.replace(exactHeading,
+    "<h1>New cosmetic label — "+r.title+"</h1>");
+  const cosmetic=classifyRollatorListingHtml(banner,r);
+  assert.equal(cosmetic.reason,"exact_product_h1_missing");
+  assert.deepEqual(cosmetic.heading_shape,{
+    h1_count_bounded:1,exact_h1_count:0,contains_expected_title_count:1
+  });
+  const unknown=classifyRollatorListingHtml(page.replace(r.title,
+    "Untrusted unrelated product"),r);
+  assert.deepEqual(unknown.heading_shape,{
+    h1_count_bounded:1,exact_h1_count:0,contains_expected_title_count:0
+  });
+  const excessive=classifyRollatorListingHtml(
+    page.replace(exactHeading,exactHeading.repeat(10)),r);
+  assert.equal(excessive.reason,"exact_product_h1_count_mismatch");
+  assert.equal(excessive.heading_shape.h1_count_bounded,4);
+  const output=assessRollatorLifecycle(result,r);
+  assert.equal(output.production_eligible,false);
+  assert.deepEqual(output.heading_shape,result.heading_shape);
+  for(const secret of [r.title,r.url,"Unrelated overlay title","New cosmetic label"]){
+    assert.ok(!JSON.stringify(output).includes(secret),
+      "Never log heading content, retailer URL or product title");
+  }
+});
+
+test("correct current H1 and retired product never expose unnecessary diagnostics",()=>{
+  for(const r of records){
+    const live=classifyRollatorListingHtml(html(r,goodBody(r)),r);
+    assert.ok(!("heading_shape" in live));
+    assert.ok(!("heading_shape" in assessRollatorLifecycle(live,r)));
+  }
+});

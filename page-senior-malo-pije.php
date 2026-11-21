@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_243 */
+/* ZP_RELEASE_0_8_244 */
 /*
 Template Name: Zápraží — Senior málo pije
 */

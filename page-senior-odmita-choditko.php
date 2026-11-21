@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_243 */
+/* ZP_RELEASE_0_8_244 */
 /*
 Template Name: Zápraží — Senior odmítá chodítko
 */
@@ -115,7 +115,7 @@ get_header();
       <h2 id="dalsi-krok-odmitani-choditka-title" class="zp-section-title">Když chce člověk najít vhodnější oporu, začněte jeho situací.</h2>
       <p>Pokud s dalším postupem souhlasí a odborník ověřil bezpečný způsob chůze, domácí poradce pomůže rozlišit prostředí a možnosti opory. <strong>Nepotvrdí zdravotní vhodnost konkrétního chodítka.</strong> Při pádech, nové nejistotě nebo nebezpečné chůzi nejdřív řešte stav s lékařem či rehabilitačním týmem, ne nákup.</p>
       <div class="zp-hero-actions">
-        <a class="zp-btn" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Probrat možnosti chůze v poradci</a>
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Probrat možnosti chůze v poradci</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Kdy pomůcku raději nejdřív půjčit</a>
       </div>
     </div>

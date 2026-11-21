@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_243 */
+/* ZP_RELEASE_0_8_244 */
 /*
 Template Name: Zápraží — Práh pro chodítko a vozík
 */
@@ -14,6 +14,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#mereni-prahu">Sedm měření před úpravou</a>
         <a class="zp-text-link" href="#reseni-prahu">Které řešení dává smysl?</a>
+        <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Chodítko doma: ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" href="#pracovni-list-prahy">Seznam pro rodinu</a>
       </div>
       <p class="zp-muted-copy">Praktická reference · zpracováno 26. 10. 2026 · bez zadávání zdravotních údajů. Nejde o stavební posudek, individuální rehabilitační doporučení ani projekt rampy.</p>

@@ -42,7 +42,11 @@ export function classifyRollatorListingHtml(html,record){
     return {id:record.id,observation:"unverifiable",reason:"exact_product_h1_missing"};
   const slice=html.slice(h1s[0].index+h1s[0][0].length);
   const description=slice.search(/Popis\s+produktu/i);
-  const zone=cleanText(description===-1?slice.slice(0,16000):slice.slice(0,description));
+  // If this product/related-items boundary is absent, fail closed rather
+  // than attribute a sidebar's "Skladem" badge to the exact product.
+  if(description===-1||description>50000)
+    return {id:record.id,observation:"unverifiable",reason:"product_scope_boundary_missing"};
+  const zone=cleanText(slice.slice(0,description));
   if(!zone||zone.length>10000||
     !new RegExp("\\bKód\\s*:\\s*"+record.sku+"\\b","i").test(zone))
     return {id:record.id,observation:"unverifiable",reason:"exact_product_sku_missing"};

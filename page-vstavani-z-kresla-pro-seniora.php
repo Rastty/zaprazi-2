@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_244 */
+/* ZP_RELEASE_0_8_245 */
 /*
 Template Name: Zápraží — Vstávání z křesla pro seniora
 */
@@ -47,6 +47,7 @@ get_header();
           <p><a class="zp-text-link" href="#porovnani-kresel">Rozdíl mezi elektrickým polohováním a funkcí zvedání</a></p>
         </article>
       </div>
+      <p class="zp-section-note"><strong>Vstávání je bezpečné, ale při následné chůzi chybí jistota?</strong> Pokud člověk dokáže bez fyzického přidržování bezpečně stát a chodit, může se zvlášť zorientovat v oporách pro chůzi: <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Otevřít Domácího poradce pro chůzi</a>. Poradce nevybírá pomůcku pro zvedání z křesla. Pokud při vstávání nebo chůzi hrozí pád, člověk potřebuje fyzické zvedání či nedokáže bezpečně stát, nejprve domluvte odborné posouzení místo online výběru chodítka.</p>
     </div>
   </section>
 

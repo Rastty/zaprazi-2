@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "reviewedOn": "2026-11-21",
-  "evidenceScope": "public indexed or browser-readable merchant/manufacturer pages; cached stock and price displays are not independently current inventory or affiliate proof",
+  "evidenceScope": "Public exact merchant product pages observed 2026-11-21. Seller-displayed stock is not confirmed inventory. P3774 was removed; P5559 is a different SKU, not equivalent.",
   "productionEffect": "none",
-  "commercialMilestone": "eligible rollator offer only after same-model manufacturer/supplier facts, fresh stock, authorized exact publisher deeplink, and user-specific model-fit confirmation",
+  "commercialMilestone": "Candidate promotion requires current exact SKU listing, manufacturer/manual/variant evidence, authorized publisher-specific deeplink and model-specific fit confirmation; retired SKU never auto-substituted",
   "candidates": [
     {
       "id": "besco-wa78",
@@ -31,7 +31,8 @@
         "linked_manual_brand_disagreement",
         "exact_publisher_deeplink_unverified"
       ],
-      "nextEvidence": "manufacturer/distributor reconciliation of load, exact label/manual and same-CZ-SKU inventory; do not use B2B manufacturer Available as retail stock"
+      "nextEvidence": "manufacturer/distributor reconciliation of load, exact label/manual and same-CZ-SKU inventory; do not use B2B manufacturer Available as retail stock",
+      "lifecycleStatus": "hold_critical_conflict"
     },
     {
       "id": "unizdrav-p2879",
@@ -57,7 +58,14 @@
         "same_variant_fresh_inventory_not_verified",
         "exact_publisher_deeplink_unverified"
       ],
-      "nextEvidence": "obtain exact P2879 label/manual and current directly observed stock, then independently verify CJ/VIV publisher-specific tracked destination without test click"
+      "nextEvidence": "Get exact P2879 manual/label, verify correct brakes and current merchant inventory, then authorized publisher exact deeplink without tracked test click",
+      "lifecycleStatus": "seller_listing_observed",
+      "merchantObservation": {
+        "observedOn": "2026-11-21",
+        "url": "https://unizdrav.cz/zbozi/2879/pojizdne-choditko-unizdrav-modre",
+        "kind": "public_seller_product_page",
+        "availabilityScope": "seller_display_only"
+      }
     },
     {
       "id": "unizdrav-p3774",
@@ -72,9 +80,53 @@
         "maxUserWeightKg": 135,
         "handleHeightCm": "82–99",
         "handBrakes": "service_and_parking",
+        "availability": "retired_by_merchant"
+      },
+      "manufacturerClaim": null,
+      "productionEligible": false,
+      "publisherDeeplinkVerified": false,
+      "stockVerifiedCurrent": false,
+      "blockers": [
+        "retired_by_merchant",
+        "independent_model_manual_missing",
+        "exact_publisher_deeplink_unverified"
+      ],
+      "nextEvidence": "Do not restore P3774 or reuse its dimensions/redirect for P5559. Public exact P3774 retailer page explicitly says removed from offer. Retain only as retired historical evidence.",
+      "lifecycleStatus": "retired",
+      "merchantObservation": {
+        "observedOn": "2026-11-21",
+        "url": "https://unizdrav.cz/zbozi/3774/pojizdne-choditko-s-nafukovacimi-koly-mego",
+        "kind": "public_seller_product_page",
+        "statusText": "toto zboží už bylo vyřazeno z naší nabídky"
+      },
+      "relatedModel": {
+        "id": "unizdrav-p5559",
+        "relation": "different_sku_not_equivalent"
+      }
+    },
+    {
+      "id": "unizdrav-p5559",
+      "merchantId": "unizdrav-cz",
+      "retailerSku": "P5559",
+      "retailerUrl": "https://unizdrav.cz/zbozi/5559/pojizdne-choditko-s-nafukovacimi-koly-mego-2",
+      "manufacturerUrl": null,
+      "manufacturerModel": null,
+      "productType": "rollator_with_seat",
+      "lifecycleStatus": "seller_listing_observed",
+      "merchantClaim": {
+        "widthCm": 62.5,
+        "maxUserWeightKg": 135,
+        "handleHeightCm": "80–100",
+        "handBrakes": "service_and_parking",
         "availability": "in_stock_displayed"
       },
       "manufacturerClaim": null,
+      "merchantObservation": {
+        "observedOn": "2026-11-21",
+        "url": "https://unizdrav.cz/zbozi/5559/pojizdne-choditko-s-nafukovacimi-koly-mego-2",
+        "kind": "public_seller_product_page",
+        "availabilityScope": "seller_display_only"
+      },
       "productionEligible": false,
       "publisherDeeplinkVerified": false,
       "stockVerifiedCurrent": false,
@@ -83,7 +135,7 @@
         "same_variant_fresh_inventory_not_verified",
         "exact_publisher_deeplink_unverified"
       ],
-      "nextEvidence": "obtain exact P3774 MEGO manual/variant, confirm brake/seat/load specs, current stock, then exact authorized publisher route without tracking click"
+      "nextEvidence": "MEGO 2 P5559 (width 62.5 cm, max user weight 135 kg, brakes per seller) is a distinct SKU from retired P3774. Get exact branded manual and variant, reconfirm seller availability, authorize exact CJ/VIV publisher link without tracked test click."
     }
   ]
 }

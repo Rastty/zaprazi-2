@@ -44,13 +44,15 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  // Production 0.8.246 has now passed the exact postdeploy 14-Advisor
-  // Chrome acceptance. The earlier 0.8.245 QA cannot certify this release.
+  // 0.8.246 was accepted independently. A newer 0.8.247 source is NOT
+  // automatically certified by that older production QA.
   assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.246");
   assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
     "https://github.com/Rastty/zaprazi-2/actions/runs/45002528029");
-  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"verified",
-    "Source and independently accepted live release must match");
+  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"needs_revalidation",
+    "New source release needs its own postdeploy production evidence");
+  assert.equal(planGrowth(graph,snapshot,date,"0.8.246").tasks.find(t=>t.id==="safety_qa").status,
+    "verified","Prior release remains independently accepted for its own source version");
   const oldProduction=clone(snapshot);
   oldProduction.nodes.safety_qa.verifiedRelease="0.8.245";
   oldProduction.nodes.safety_qa.evidenceUrl=

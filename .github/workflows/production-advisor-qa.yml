@@ -35,6 +35,9 @@ on:
       - "scripts/audit-live-walker-acquisition-202.mjs"
       - "scripts/audit-live-walker-next-step-events-203.mjs"
       - "scripts/audit-live-chair-handoff-245.mjs"
+      - "scripts/audit-live-transport-mobility-248.mjs"
+      - "tests/audit-live-transport-mobility-248.test.js"
+      - "tests/transport-mobility-journey-248.test.js"
       - "scripts/auto-postdeploy-qa.mjs"
       - "tests/auto-postdeploy-qa.test.js"
       - "tests/walker-acquisition-analytics-203.test.js"
@@ -300,6 +303,9 @@ jobs:
       - name: Verify exact live 0.8.245 chair-to-Mobility Advisor handoff and safety text
         if: github.event_name != 'pull_request'
         run: node scripts/audit-live-chair-handoff-245.mjs
+      - name: Verify 0.8.248 safe transport-to-walker and stairs-to-transport routes on actual WordPress
+        if: github.event_name != 'pull_request'
+        run: node scripts/audit-live-transport-mobility-248.mjs
 
   # Independent acceptance for the release-specific return-home UX.
   # Never test future 0.8.185 HTML against an older live release on a PR.

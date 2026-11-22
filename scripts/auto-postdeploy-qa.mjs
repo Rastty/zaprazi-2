@@ -21,6 +21,7 @@ const WALKER_HUB_PATH="/choditka-pro-seniory/";
 const INDOOR_WALKER_PATH="/choditko-do-bytu-pro-seniory/";
 const CHAIR_PATH="/vstavani-z-kresla-pro-seniora/";
 const CHAIR_HANDOFF_RELEASE="0.8.245";
+const STAIRS_ENTRY_RELEASE="0.8.246";
 const atLeast=(version,min)=>VERSION.test(version)&&
   version.split(".").map(Number).reduce((acc,n,i)=>acc===0?
     Math.sign(n-Number(min.split(".")[i])):acc,0)>=0;
@@ -198,6 +199,59 @@ export function verifyChairMobilityHandoff(html,expected){
   return true;
 }
 
+
+/**
+ * 0.8.246 changes only two existing contextual first actions. Verify the
+ * exact deployed href INSIDE the named decision card rather than merely
+ * finding a link in footer/sidebar. Core pages are already fetched by the
+ * release-coherence gate: zero extra network traffic, no affiliate requests.
+ */
+export function verifyStairsContextualJourneys(pages,expected){
+  if(!atLeast(expected,STAIRS_ENTRY_RELEASE))
+    throw new Error("Stairs proof requires source release 0.8.246+");
+  if(!Array.isArray(pages)||pages.length!==RELEASE_CHECK_PATHS.length)
+    throw new Error("Incomplete core page evidence");
+  const byPath=new Map();
+  for(const page of pages){
+    if(!page||!RELEASE_CHECK_PATHS.includes(page.path)||byPath.has(page.path))
+      throw new Error("Unexpected core page evidence");
+    byPath.set(page.path,page.html);
+  }
+  const expectedHref=ORIGIN+"/schody-pro-seniora-doma/";
+  const cases=[
+    {path:"/",heading:"Návrat z nemocnice",
+      action:"Nejdřív prověřit bezpečný přístup po schodech",
+      safety:"bez riskantního přenášení"},
+    {path:"/navrat-z-nemocnice/",heading:"1. Vstup a přesun",
+      action:"Co prověřit na schodišti před propuštěním",
+      safety:"chodítko není řešením schodiště"}
+  ];
+  for(const item of cases){
+    const html=byPath.get(item.path);
+    if(typeof html!=="string"||readReleaseMarkers(html).release!==expected)
+      throw new Error("Wrong or missing stairs journey release");
+    const cards=[...html.matchAll(/<article\b[^>]*>[\s\S]*?<\/article>/gi)].map(x=>x[0]);
+    const matches=cards.filter(card=>card.includes("<h3>"+item.heading+"</h3>"));
+    if(matches.length!==1)throw new Error("Stairs decision card missing or duplicated");
+    const card=matches[0];
+    const links=[...card.matchAll(/<a\b[^>]*>/gi)].map(x=>x[0]);
+    const exact=links.filter(tag=>
+      /\bhref\s*=\s*(["'])https:\/\/zaprazi\.cz\/schody-pro-seniora-doma\/\1/i.test(tag));
+    if(exact.length!==1||
+       card.split(expectedHref).length!==2||
+       links.some(tag=>/\/schody-pro-seniora-doma\/[?#]/i.test(tag)))
+      throw new Error("Stairs decision card lacks one exact safe canonical href");
+    const rendered=card.replace(/<!--[\s\S]*?-->/g,"")
+      .replace(/<[^>]+>/g," ").replace(/\s+/g," ").trim();
+    if(!rendered.includes(item.action)||!rendered.includes(item.safety))
+      throw new Error("Stairs context or safety copy missing");
+    if(/<form\b|data-zp-merchant-link|data-zp-affiliate-target|data-zp-offer/i.test(card)||
+       /\b(?:rel\s*=\s*["'][^"']*\bsponsored\b|target\s*=\s*["']_blank)/i.test(exact[0]))
+      throw new Error("Stairs context cannot become ungated merchant action");
+  }
+  return true;
+}
+
 export function inspectPendingReadiness(data,expected){
   if(!data||typeof data!=="object"||Array.isArray(data)||!VERSION.test(data.release))
     return publicSummary("blocked_invalid_readiness",expected);
@@ -248,6 +302,7 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
     if(hubHtml!==null)
       verifyMobilityGuideHandoffs({hub:hubHtml,indoor:indoorHtml,insurance:featureHtml},expected);
     if(chairHtml!==null)verifyChairMobilityHandoff(chairHtml,expected);
+    if(atLeast(expected,STAIRS_ENTRY_RELEASE))verifyStairsContextualJourneys(pages,expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
       pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
@@ -255,6 +310,7 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
         {insurance_search_hero:"verified"}:{}),
       ...(hubHtml!==null?{mobility_guide_handoffs:"verified"}:{}),
       ...(chairHtml!==null?{chair_mobility_handoff:"verified"}:{}),
+      ...(atLeast(expected,STAIRS_ENTRY_RELEASE)?{stairs_contextual_journeys:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

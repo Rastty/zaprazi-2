@@ -32,4 +32,4 @@
 2. **P0 kvalifikovaná akvizice:** po 12/12 ověřených historických HTTP 404 nepokračovat plošnou čistkou; zvyšovat vstupy na 53 rozhodovacích stranách a porovnávat další finalizované GSC/GA4 kohorty. Bez hromadných 301/noindex.
 3. **P1 nezávislá eHUB cesta:** [#914](https://github.com/Rastty/zaprazi-2/issues/914) ověřit přesné SKU a autorizované partner deeplinky; bez zdrojů ponechat HOLD.
 
-**Předání:** Produkčně přijato jen 0.8.246 ([QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029)). Git merge ≠ WP deploy; #922 vyžaduje novou live akceptaci.
+**Předání:** Git merge / synchronizace main/dev není WordPress deploy. Produkčně přijato jen 0.8.246 ([QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029)); #922 vyžaduje novou live akceptaci.

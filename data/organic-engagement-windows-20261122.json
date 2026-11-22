@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "source": "Windsor.ai googleanalytics4 — connected __ZAPRAZI - GA4; read-only aggregates",
+  "capturedOn": "2026-11-22",
+  "scope": "Organic Search sessions and engaged sessions; archived slug manifest vs authored templates; no individual paths",
+  "periods": [
+    {
+      "from": "2026-10-24",
+      "to": "2026-11-20",
+      "days": 28,
+      "organic": {
+        "sessions": 19,
+        "engaged": 8,
+        "cohorts": {
+          "theme": {
+            "sessions": 6,
+            "engaged": 5
+          },
+          "archive": {
+            "sessions": 11,
+            "engaged": 3
+          },
+          "unassigned": {
+            "sessions": 2,
+            "engaged": 0
+          }
+        },
+        "engines": {
+          "seznam": {
+            "sessions": 13,
+            "engaged": 6
+          },
+          "google": {
+            "sessions": 3,
+            "engaged": 2
+          },
+          "bing": {
+            "sessions": 3,
+            "engaged": 0
+          }
+        }
+      }
+    },
+    {
+      "from": "2026-10-25",
+      "to": "2026-11-20",
+      "days": 27,
+      "organic": {
+        "sessions": 18,
+        "engaged": 7,
+        "cohorts": {
+          "theme": {
+            "sessions": 6,
+            "engaged": 5
+          },
+          "archive": {
+            "sessions": 10,
+            "engaged": 2
+          },
+          "unassigned": {
+            "sessions": 2,
+            "engaged": 0
+          }
+        },
+        "engines": {
+          "seznam": {
+            "sessions": 12,
+            "engaged": 5
+          },
+          "google": {
+            "sessions": 3,
+            "engaged": 2
+          },
+          "bing": {
+            "sessions": 3,
+            "engaged": 0
+          }
+        }
+      }
+    }
+  ],
+  "limitations": "Consent-limited aggregate GA4; no visitors, click attribution, actual sale, approved commission, indexing, live URL HTTP or causal uplift."
+}

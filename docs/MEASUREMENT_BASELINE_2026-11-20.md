@@ -81,15 +81,28 @@ Rozhodnutí: **17/28d organických sessions není 17 relevantních příležitos
 
 ## Doplňkový průřez engagement (22. 11. 2026, oddělené období)
 
-Nové **pouze čtecí** dotazování stejné `__ZAPRAZI - GA4` přes Windsor.ai, pole `landing_page`, `session_default_channel_group`, `sessions`, `engaged_sessions`. Interval **25. 10. – 20. 11. 2026 (27 dní)**; NENÍ totožný s předchozím 28denním intervalem a nelze jej přímo sčítat či interpretovat jako „po nasazení 0.8.248“. Výstup 33 agregovaných řádků (všechny kanály), následující čísla filtrují jen `Organic Search` a stejný přesný manifest 4 359 vyřazených slugů. Hodnoty jsou agregáty, nikoli osoby nebo identifikovatelné relace.
+Nové **pouze čtecí** dotazování stejné `__ZAPRAZI - GA4` přes Windsor.ai, pole `landing_page`, `session_default_channel_group`, `sessions`, `engaged_sessions`. Interval **25. 10. – 20. 11. 2026 (27 dní)**; oprava chybného 28denního součtu 19 na správných **18** relací. NENÍ totožný s předchozím 28denním intervalem a nelze jej přímo sčítat či interpretovat jako „po nasazení 0.8.248“. Výstup 33 agregovaných řádků (všechny kanály), následující čísla filtrují jen `Organic Search` a stejný přesný manifest 4 359 vyřazených slugů. Hodnoty jsou agregáty, nikoli osoby nebo identifikovatelné relace.
 
 | Skupina organického vstupu | Relace | GA4 engaged sessions |
 |---|---:|---:|
 | Existující tematické cesty odpovídající šablonám | **6** | **5** |
-| Historické slugy dle archivního manifestu | **11** | **2** |
+| Historické slugy dle archivního manifestu | **10** | **2** |
 | `(not set)` | **2** | **0** |
-| **Celkem Organic Search** | **19** | **7** |
+| **Celkem Organic Search** | **18** | **7** |
 
 Definice GA4 engaged session: déle než 10 sekund, alespoň dvě zobrazení nebo key event; **není důkaz dokončeného poradce, obchodního kliku, nákupu ani schválené provize**. Výsledek je **malý, nenáhodný a consentem omezený vzorek**; neodvozovat statistickou významnost ani „zvýšení konverze“. Možné interní/testovací relace nelze na úrovni agregátů oddělit. Klasifikace tematické cesty podle `page-*.php` je pouze zdrojový kandidát; nezaručuje živou HTTP dostupnost nebo indexaci dané návštěvy. Nevyvozovat stav HTTP starého slugu z jeho členství v manifestu.
 
 Ve stejném 27denním čtení bylo pro kanál `AI Assistant` vykázáno 23 sessions / 17 engaged na `/`, ale toto **nejsou organické návštěvy a mohou zahrnovat testování agenty**. Nemíchat je s organickou akvizicí. Konkrétní příležitost: udržet a zvýšit tematické organické vstupy na 53 existujících stránkách; prioritou není optimalizace zisku dle 25/25 konfigurovaných slotů bez publisher identity. `scripts/organic-landing-cohorts.mjs` nyní při úplném výpisu s `engaged_sessions` vypíše i samostatnou anonymní engagement kohortu; dřívější soubory pouze se `sessions` zůstávají podporované s `engagement=null`. Žádná další sběrná automatizace ani WordPress změna.
+
+### Korekce časového okna GA4 — 22. 11. 2026
+
+Čtyři read-only agregace připojené GA4: zvlášť podle kanálu a podle vstupní stránky, vždy se sessions a engaged_sessions; oba dotazy pro každé přesné období. Součty obou dělení se shodly.
+
+| Období | Organic sessions | Engaged sessions | Tematické / engaged | Archiv / engaged | Neurčeno / engaged |
+|---|---:|---:|---:|---:|---:|
+| 24. 10.–20. 11. (28 dní) | **19** | **8** | 6 / 5 | 11 / 3 | 2 / 0 |
+| 25. 10.–20. 11. (27 dní) | **18** | **7** | 6 / 5 | 10 / 2 | 2 / 0 |
+
+Jediný den 24. 10. navíc odpovídá jedné engaged archivní organické relaci. Kontrola podle vyhledávače: 28 dní Seznam 13 / 6 engaged, Google 3 / 2, Bing 3 / 0; 27 dní Seznam 12 / 5, Google 3 / 2, Bing 3 / 0. [Datovaný sanitizovaný agregát](../data/organic-engagement-windows-20261122.json) neobsahuje konkrétní vstupní URL ani identifikátory.
+
+Zdroj: Windsor.ai → GA4 read-only, 22. 11. 2026. Jde o malý consentem omezený vzorek. Překrývající se intervaly nesčítat; není to důkaz tržby, konverze, Google indexace ani dopadu vydání 0.8.248. Historický slug není důkaz dnešního HTTP 404.

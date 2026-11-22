@@ -31,4 +31,4 @@
 2. **P0 obchod:** ověřit/aktivovat CJ ACTIVE property `zaprazi.cz`, porovnat PID s 21 CJ sloty; teprve potom read-only publisher provize. eHUB [#914](https://github.com/Rastty/zaprazi-2/issues/914) čeká na přesný zdroj SKU/deeplinku, bez přepisů nabídky.
 3. **P0 organická akvizice:** měřit kvalifikované Mobility vstupy v dalších finalizovaných GSC/GA4 oknech; neměnit hromadně starý archiv ani metadata bez důkazu.
 
-**Předání:** první ověř GitHub, živou produkci a vydání; evidence-only commit není další WordPress deploy. Neopakovat QA už přijaté 0.8.245 bez nového důvodu.
+**Předání:** Git merge / synchronizace main/dev není WordPress deploy. Nejdřív ověř živou verzi; po WP Pull + Deploy 0.8.246 proveď readback, 14-Advisor QA a teprve pak aktualizuj Growth Graph.

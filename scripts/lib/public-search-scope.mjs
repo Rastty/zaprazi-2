@@ -4,7 +4,7 @@
  * Legacy direct URLs and archive pages are deliberately outside this test.
  */
 export function requiresPublishedPageScope(release) {
-  const m=/^(\\d+)\\.(\\d+)\\.(\\d+)$/.exec(String(release));
+  const m=/^(\d+)\.(\d+)\.(\d+)$/.exec(String(release));
   if(!m)throw new Error("Invalid live release for search scope");
   const parts=m.slice(1).map(Number),floor=[0,8,247];
   if(parts.some(n=>!Number.isSafeInteger(n)))throw new Error("Invalid live release for search scope");
@@ -20,7 +20,7 @@ export function assertPublishedPageResults(classes) {
   for(const raw of classes){
     if(typeof raw!=="string"||raw.length>512)
       throw new Error("Invalid rendered search result class");
-    const tokens=new Set(raw.split(/\\s+/).filter(Boolean));
+    const tokens=new Set(raw.split(/\s+/).filter(Boolean));
     if(!tokens.has("type-page")||!tokens.has("status-publish")||
        tokens.has("type-post")||tokens.has("status-private")||tokens.has("status-draft"))
       throw new Error("Public search contains non-published-page result");

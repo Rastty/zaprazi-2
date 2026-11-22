@@ -56,8 +56,9 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
     "verified","Exact accepted source release is independently verified");
   assert.equal(planGrowth(graph,snapshot,date,"0.8.249").tasks.find(t=>t.id==="safety_qa").status,
     "needs_revalidation","A future release must never inherit 0.8.248 live QA");
-  assert.equal(planGrowth(graph,snapshot,date,"0.8.247").tasks.find(t=>t.id==="safety_qa").status,
-    "needs_revalidation","Older version must not claim acceptance of current live source");
+  assert.throws(()=>planGrowth(graph,snapshot,date,"0.8.247"),
+    /Safety QA cannot certify a future source release/,
+    "A newer live acceptance must not be backdated to an older source release");
   const oldProduction=clone(snapshot);
   oldProduction.nodes.safety_qa.verifiedRelease="0.8.245";
   oldProduction.nodes.safety_qa.evidenceUrl=

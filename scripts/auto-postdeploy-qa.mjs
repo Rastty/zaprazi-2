@@ -10,6 +10,7 @@ import {fileURLToPath,pathToFileURL} from "node:url";
 import {resolve} from "node:path";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers} from "./audit-live-release-coherence.mjs";
+import {verifyTransportMobility248} from "./audit-live-transport-mobility-248.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -22,6 +23,9 @@ const INDOOR_WALKER_PATH="/choditko-do-bytu-pro-seniory/";
 const CHAIR_PATH="/vstavani-z-kresla-pro-seniora/";
 const CHAIR_HANDOFF_RELEASE="0.8.245";
 const STAIRS_ENTRY_RELEASE="0.8.246";
+const TRANSPORT_MOBILITY_RELEASE="0.8.248";
+const TRANSPORT_PATH="/prevoz-seniora-k-lekari/";
+const STAIRS_PATH="/schody-pro-seniora-doma/";
 const atLeast=(version,min)=>VERSION.test(version)&&
   version.split(".").map(Number).reduce((acc,n,i)=>acc===0?
     Math.sign(n-Number(min.split(".")[i])):acc,0)>=0;
@@ -41,6 +45,7 @@ function publicSummary(status,sourceRelease,liveRelease=null){
 async function getPublic(url,accept,fetchImpl){
   if(url!==READINESS&&url!==ORIGIN+INSURANCE_PATH&&url!==ORIGIN+WALKER_HUB_PATH&&
     url!==ORIGIN+INDOOR_WALKER_PATH&&url!==ORIGIN+CHAIR_PATH&&
+    url!==ORIGIN+TRANSPORT_PATH&&url!==ORIGIN+STAIRS_PATH&&
     !RELEASE_CHECK_PATHS.some(path=>url===ORIGIN+path))
     throw new Error("Unexpected public probe URL");
   const response=await fetchImpl(url,{
@@ -293,6 +298,16 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
   const chairHtml=atLeast(expected,CHAIR_HANDOFF_RELEASE)
     ?await (await getPublic(ORIGIN+CHAIR_PATH,"text/html",fetchImpl)).text()
     :null;
+  // The 0.8.248 addition is on TWO existing pages not in RELEASE_CHECK_PATHS.
+  // Confirm the real contextual decisions before dispatching the full browser
+  // suite. Source version and a page marker alone cannot prove the handoffs.
+  // The same strict read-only verifier is reused by postdeploy Chrome QA.
+  const transportHtml=atLeast(expected,TRANSPORT_MOBILITY_RELEASE)
+    ?await (await getPublic(ORIGIN+TRANSPORT_PATH,"text/html",fetchImpl)).text()
+    :null;
+  const stairsHtml=atLeast(expected,TRANSPORT_MOBILITY_RELEASE)
+    ?await (await getPublic(ORIGIN+STAIRS_PATH,"text/html",fetchImpl)).text()
+    :null;
   const after=await (await getPublic(READINESS,"application/json",fetchImpl)).json();
   try {
     const proof=verifyReleaseCoherence({before,after,pages,expected});
@@ -303,14 +318,16 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
       verifyMobilityGuideHandoffs({hub:hubHtml,indoor:indoorHtml,insurance:featureHtml},expected);
     if(chairHtml!==null)verifyChairMobilityHandoff(chairHtml,expected);
     if(atLeast(expected,STAIRS_ENTRY_RELEASE))verifyStairsContextualJourneys(pages,expected);
+    if(transportHtml!==null)verifyTransportMobility248({transport:transportHtml,stairs:stairsHtml},expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
-      pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0),
+      pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0)+(transportHtml!==null?2:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
       ...(featureHtml!==null&&atLeast(expected,INSURANCE_SEARCH_RELEASE)?
         {insurance_search_hero:"verified"}:{}),
       ...(hubHtml!==null?{mobility_guide_handoffs:"verified"}:{}),
       ...(chairHtml!==null?{chair_mobility_handoff:"verified"}:{}),
       ...(atLeast(expected,STAIRS_ENTRY_RELEASE)?{stairs_contextual_journeys:"verified"}:{}),
+      ...(transportHtml!==null?{transport_mobility_journeys:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

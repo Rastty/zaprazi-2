@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_247 */
+/* ZP_RELEASE_0_8_248 */
 /*
 Template Name: Zápraží — Převoz seniora k lékaři
 */
@@ -21,6 +21,7 @@ get_header();
         <a class="zp-text-link" href="#otazky-pro-lekare">7 otázek před objednáním</a>
         <a class="zp-text-link" href="#kontrolni-seznam-prevoz">Kontrolní seznam pro cestu</a>
       </div>
+      <p class="zp-muted-copy zp-transport-mobility-route"><strong>Potíž je hlavně dojít bezpečně k autu nebo do ordinace?</strong> Pokud člověk zvládá samostatnou chůzi bez fyzického přidržování, můžete před cestou <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">prověřit vhodný typ opory pro chůzi</a>. <strong>Chodítko ale neřeší nemožnost bezpečně nastoupit do auta ani nejistou stabilitu.</strong> Při opakovaných pádech, potřebě fyzické pomoci či nejasné bezpečnosti chůze nejprve řešte s ošetřujícím týmem vhodný transport a odborné posouzení.</p>
       <p class="zp-muted-copy">Česká pravidla · zdravotnická doprava ověřena podle VZP a NZIP 10. 11. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
     </div>
   </section>

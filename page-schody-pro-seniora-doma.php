@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_247 */
+/* ZP_RELEASE_0_8_248 */
 /*
 Template Name: Zápraží — Schody pro seniora doma
 */
@@ -42,6 +42,7 @@ get_header();
           <h3>4. Před propuštěním z nemocnice vše domluvte</h3>
           <p>Je-li cesta domů přes schody nevyřešená, řekněte to nemocničnímu týmu ještě před propuštěním. Ověřte způsob dopravy, přenesení potřebných věcí, vstup a dostupnost péče. Výběr technického zařízení nedělejte pod časovým tlakem bez kontroly místa.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/otazky-pred-propustenim-z-nemocnice/' ) ); ?>">Na co se zeptat před propuštěním</a></p>
+          <p>Jestli schody komplikují i cestu na plánované vyšetření, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/#vyber-dopravy' ) ); ?>">prověřte bezpečný způsob dopravy k lékaři</a>. Samotné schody ani potřeba pomoci automaticky nezakládají nárok na hrazenou sanitku; o zdravotních důvodech rozhoduje lékař.</p>
         </article>
       </div>
     </div>

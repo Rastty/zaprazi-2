@@ -10,7 +10,7 @@ const row=(landing_page,sessions,engaged_sessions,channel="Organic Search")=>({
 
 test("27-day consented GA4 organic cohorts preserve counts but separate engagement",()=>{
   const rows=[
-    row("/5-beznych-problemu-s-cerpadly-a-jak-je-vyresit",9,1),
+    row("/5-beznych-problemu-s-cerpadly-a-jak-je-vyresit",8,1),
     row("/cerpadla-pro-ucinne-cerpani-vody-ze-jezer-a-rybniku",2,1),
     row("/senior-odmita-koupani",2,2),
     row("/prevoz-seniora-k-lekari",1,1),
@@ -21,8 +21,8 @@ test("27-day consented GA4 organic cohorts preserve counts but separate engageme
     row("/",23,17,"AI Assistant")
   ];
   const out=summarizeOrganicLandingRows(rows,retired,templates);
-  assert.equal(out.totalOrganicSessions,19);
-  assert.equal(out.retired_archive,11);
+  assert.equal(out.totalOrganicSessions,18);
+  assert.equal(out.retired_archive,10);
   assert.equal(out.non_archive_path,6);
   assert.equal(out.unassigned,2);
   assert.equal(out.engagement.totalOrganicEngagedSessions,7);

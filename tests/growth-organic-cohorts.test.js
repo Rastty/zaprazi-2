@@ -28,13 +28,14 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  // Live source equality is evidence-backed NOW: full 9/9 postdeploy Chrome
-  // 0.8.245 plus exact-release sitemap passed on 2026-11-21. A future theme
-  // change must again invalidate the old release evidence, not inherit it.
+  // Production 0.8.245 passed exact 9/9 Chrome QA, but this NEW source
+  // release 0.8.246 is NOT deployed. The planner must reject inheriting
+  // the older production acceptance; keep real historical evidence intact.
   assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.245");
   assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
     "https://github.com/Rastty/zaprazi-2/actions/runs/44896362946");
-  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"verified");
+  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"needs_revalidation",
+    "New source release must require its own live production acceptance");
   const oldProduction=clone(snapshot);
   oldProduction.nodes.safety_qa.verifiedRelease="0.8.244";
   oldProduction.nodes.safety_qa.evidenceUrl=

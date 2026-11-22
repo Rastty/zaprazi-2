@@ -39,9 +39,9 @@ test("retired posts, unapproved pages, spoofed classes fail closed",()=>{
 
 test("live browser QA samples real rendered cards without logging user queries",()=>{
   const src=readFileSync(new URL("../scripts/audit-live-search-guidance.mjs",import.meta.url),"utf8");
-  assert.match(src,/article\\.zp-archive-card/);
-  assert.match(src,/requiresPublishedPageScope\\(data\\.release\\)/);
-  assert.match(src,/assertPublishedPageResults\\(data\\.resultClasses\\)/);
-  assert.match(src,/await page\\.setJavaScriptEnabled\\(false\\)/);
-  assert.match(src,/req\\.method\\(\\)==="GET"/);
+  assert.match(src,/article\.zp-archive-card/);
+  assert.match(src,/requiresPublishedPageScope\(data\.release\)/);
+  assert.match(src,/assertPublishedPageResults\(data\.resultClasses\)/);
+  assert.match(src,/await page\.setJavaScriptEnabled\(false\)/);
+  assert.match(src,/req\.method\(\)==="GET"/);
 });

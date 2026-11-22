@@ -77,3 +77,19 @@ Rozhodnutí: **17/28d organických sessions není 17 relevantních příležitos
 2. **Ověřit testovací vs reálný traffic** pomocí pravidel analytiky bez ukládání uživatelských odpovědí a sledovat odděleně Organic Search → poradce → merchant klik.
 3. **Zlepšit existující Mobility vstupní URL**, až GSC query/page evidence ukáže konkrétní vstupní záměr; zatím se nenechat svést starými obsahovými URL do plošné produkce článků.
 4. U MEYRA potvrdit konkrétní variantu/EAN u obchodníka a aktuálnost nabídky, nikoli pouze parametry obecného modelu.
+
+
+## Doplňkový průřez engagement (22. 11. 2026, oddělené období)
+
+Nové **pouze čtecí** dotazování stejné `__ZAPRAZI - GA4` přes Windsor.ai, pole `landing_page`, `session_default_channel_group`, `sessions`, `engaged_sessions`. Interval **25. 10. – 20. 11. 2026 (27 dní)**; NENÍ totožný s předchozím 28denním intervalem a nelze jej přímo sčítat či interpretovat jako „po nasazení 0.8.248“. Výstup 33 agregovaných řádků (všechny kanály), následující čísla filtrují jen `Organic Search` a stejný přesný manifest 4 359 vyřazených slugů. Hodnoty jsou agregáty, nikoli osoby nebo identifikovatelné relace.
+
+| Skupina organického vstupu | Relace | GA4 engaged sessions |
+|---|---:|---:|
+| Existující tematické cesty odpovídající šablonám | **6** | **5** |
+| Historické slugy dle archivního manifestu | **11** | **2** |
+| `(not set)` | **2** | **0** |
+| **Celkem Organic Search** | **19** | **7** |
+
+Definice GA4 engaged session: déle než 10 sekund, alespoň dvě zobrazení nebo key event; **není důkaz dokončeného poradce, obchodního kliku, nákupu ani schválené provize**. Výsledek je **malý, nenáhodný a consentem omezený vzorek**; neodvozovat statistickou významnost ani „zvýšení konverze“. Možné interní/testovací relace nelze na úrovni agregátů oddělit. Klasifikace tematické cesty podle `page-*.php` je pouze zdrojový kandidát; nezaručuje živou HTTP dostupnost nebo indexaci dané návštěvy. Nevyvozovat stav HTTP starého slugu z jeho členství v manifestu.
+
+Ve stejném 27denním čtení bylo pro kanál `AI Assistant` vykázáno 23 sessions / 17 engaged na `/`, ale toto **nejsou organické návštěvy a mohou zahrnovat testování agenty**. Nemíchat je s organickou akvizicí. Konkrétní příležitost: udržet a zvýšit tematické organické vstupy na 53 existujících stránkách; prioritou není optimalizace zisku dle 25/25 konfigurovaných slotů bez publisher identity. `scripts/organic-landing-cohorts.mjs` nyní při úplném výpisu s `engaged_sessions` vypíše i samostatnou anonymní engagement kohortu; dřívější soubory pouze se `sessions` zůstávají podporované s `engagement=null`. Žádná další sběrná automatizace ani WordPress změna.

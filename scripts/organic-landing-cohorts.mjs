@@ -5,8 +5,10 @@
  * URL probing, no health answers, no user IDs and no affiliate requests.
  *
  * Usage: node scripts/organic-landing-cohorts.mjs ga4-aggregate.json
- * Input: {data:[{landing_page,session_default_channel_group,sessions}, ...]}
- * or an array of those rows. The tool emits counts ONLY, never landing paths.
+ * Input: {data:[{landing_page,session_default_channel_group,sessions,
+ *   engaged_sessions?}, ...]} or an array. Engaged sessions are accepted only
+ * when every Organic Search row has the field; partial observations fail closed.
+ * The tool emits counts ONLY, never landing paths.
  *
  * A historical trash manifest is not a live HTTP 404 check: the report must
  * never equate membership with current HTTP status, indexing or irrelevance
@@ -90,17 +92,37 @@ export function summarizeOrganicLandingRows(input, retiredSlugs, themeSlugs = lo
   let organicRows = 0;
   let themeTemplateCandidateSessions = 0;
   let otherNonArchiveSessions = 0;
+  // Optional GA4 engagedSessions measure. It is *not* an affiliate event,
+  // unique person, consent proof or source of a derived conversion rate.
+  // Refuse a partial organic sample: missing values cannot be treated as 0.
+  let engagementMode = null;
+  const engaged = {retired_archive:0,non_archive_path:0,
+    unassigned:0,unclassifiable:0};
+  let engagedTemplateCandidates=0,engagedOtherNonArchive=0;
   for (const row of rows) {
     if (!row || typeof row !== "object" || Array.isArray(row) ||
         Object.keys(row).some(key => ![
-          "landing_page", "session_default_channel_group", "sessions"
+          "landing_page", "session_default_channel_group", "sessions",
+          "engaged_sessions"
         ].includes(key)) ||
         typeof row.landing_page !== "string" ||
         typeof row.session_default_channel_group !== "string" ||
-        !Number.isSafeInteger(row.sessions) || row.sessions < 0)
-      throw new Error("Invalid aggregate row; only path, channel and sessions are allowed");
+        !Number.isSafeInteger(row.sessions) || row.sessions < 0 ||
+        (Object.hasOwn(row,"engaged_sessions") &&
+          (!Number.isSafeInteger(row.engaged_sessions) ||
+           row.engaged_sessions < 0 || row.engaged_sessions > row.sessions)))
+      throw new Error("Invalid aggregate row; only bounded session counts are allowed");
     if (row.session_default_channel_group !== "Organic Search") continue;
+    const hasEngaged=Object.hasOwn(row,"engaged_sessions");
+    if (engagementMode===null) engagementMode=hasEngaged;
+    else if (engagementMode!==hasEngaged)
+      throw new Error("Partial organic engagement observation: do not infer missing counts");
     const group = classifyLanding(row.landing_page, retiredSlugs);
+    if (engagementMode) {
+      if (!Number.isSafeInteger(engaged[group]+row.engaged_sessions))
+        throw new Error("Engaged session count overflow");
+      engaged[group]+=row.engaged_sessions;
+    }
     if (!Number.isSafeInteger(groups[group] + row.sessions))
       throw new Error("Organic session count overflow");
     groups[group] += row.sessions;
@@ -110,10 +132,20 @@ export function summarizeOrganicLandingRows(input, retiredSlugs, themeSlugs = lo
         if (!Number.isSafeInteger(themeTemplateCandidateSessions + row.sessions))
           throw new Error("Theme candidate session count overflow");
         themeTemplateCandidateSessions += row.sessions;
+        if (engagementMode) {
+          if (!Number.isSafeInteger(engagedTemplateCandidates+row.engaged_sessions))
+            throw new Error("Theme engagement overflow");
+          engagedTemplateCandidates+=row.engaged_sessions;
+        }
       } else {
         if (!Number.isSafeInteger(otherNonArchiveSessions + row.sessions))
           throw new Error("Other non-archive session count overflow");
         otherNonArchiveSessions += row.sessions;
+        if (engagementMode) {
+          if (!Number.isSafeInteger(engagedOtherNonArchive+row.engaged_sessions))
+            throw new Error("Other engagement overflow");
+          engagedOtherNonArchive+=row.engaged_sessions;
+        }
       }
     }
     organicRows++;
@@ -128,7 +160,13 @@ export function summarizeOrganicLandingRows(input, retiredSlugs, themeSlugs = lo
     other_non_archive_path: otherNonArchiveSessions,
     retiredArchiveShare: totalOrganicSessions ?
       Math.round(10000 * groups.retired_archive / totalOrganicSessions) / 100 : null,
-    warning: "Archiv = starý manifest, ne důkaz aktuální HTTP 404. Theme template = pouze shoda názvu PHP souboru, NE potvrzení existující živé decision page, indexace ani použitelnosti. Non-archive se dělí na theme_template_candidate + other_non_archive_path; žádná část bez nezávislé live kontroly není kvalifikovanou návštěvou. GA4 může vynechávat návštěvy bez souhlasu."
+    engagement: engagementMode===true ? {
+      totalOrganicEngagedSessions:Object.values(engaged).reduce((sum,n)=>sum+n,0),
+      ...engaged,
+      theme_template_candidate:engagedTemplateCandidates,
+      other_non_archive_path:engagedOtherNonArchive
+    } : null,
+    warning: "Archiv = starý manifest, ne důkaz aktuální HTTP 404. Theme template = pouze shoda názvu PHP souboru, NE potvrzení existující živé decision page, indexace ani použitelnosti. Non-archive se dělí na theme_template_candidate + other_non_archive_path; žádná část bez nezávislé live kontroly není kvalifikovanou návštěvou. GA4 může vynechávat návštěvy bez souhlasu. Engaged session (>10 s, key event nebo 2+ pageview) není objednávka, konverze ani důkaz účinku úprav; s malým vzorkem neporovnávat kauzálně."
   };
 }
 

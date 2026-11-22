@@ -1,15 +1,16 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav: 21. 11. 2026.** Pravda: GitHub `main`/`dev`, skutečný WordPress, [vize](docs/ZAPRAZI_SOURCE_OF_TRUTH.md) a [Growth Graph](config/growth-state.json). Historie vydání patří do PR/Actions.
+**Stav: 22. 11. 2026.** Pravda: GitHub `main`/`dev`, skutečný WordPress, [vize](docs/ZAPRAZI_SOURCE_OF_TRUTH.md) a [Growth Graph](config/growth-state.json). Historie vydání patří do PR/Actions.
 
 ## CÍL
 **Bezpečně a samostatně doma:** problém → Domácí poradce → bezpečný kandidátní typ → koupit / půjčit / ověřit úhradu → ověřená konkrétní nabídka. P0 Mobility. První obchodní milník = přiřaditelná **schválená affiliate objednávka**; stále NEOVĚŘENA. Bez diagnóz, zdravotních odpovědí v analytice a řazení podle provize.
 
 ## HOTOVO
+- **Release [#916](https://github.com/Rastty/zaprazi-2/pull/916) `0.8.246` — GIT HOTOVO, WP NENASAZENO:** existující schodišťový návod propojen z homepage i plánu návratu domů. Směr ze [skutečného GSC](https://github.com/Rastty/prometheus-growth-os/actions/runs/44879889507): 44 impresí / 0 kliků, pozice 5,05 (malý vzorek). Všechny release markery a kritické blob piny aktualizovány; PR CI, bezpečnost a přednasazovací Chrome PASS. Žádné tvrzení o SEO růstu.
 - **eHUB mimo CJ [#913](https://github.com/Rastty/zaprazi-2/pull/913):** [read-only audit 4 RehaVita URL](https://github.com/Rastty/zaprazi-2/actions/runs/44938273027) = 4× `product_card_boundary_not_found`. Neznamená vyprodáno; nabídky, `checkedAt` a WP beze změny.
 - **CJ publisher identity [Core #2435](https://github.com/Rastty/prometheus-growth-os/pull/2435):** autorizovaný read-only [CJ audit #44937340398](https://github.com/Rastty/prometheus-growth-os/actions/runs/44937340398) vrátil `PROPERTY_NOT_CONFIRMED` pro `zaprazi.cz`. Z připojeného účtu není doložena ACTIVE webová vlastnost; historická platnost odkazů ani provize tím nejsou vyvráceny.
 - **P0 obchodní identita [#908–910](https://github.com/Rastty/zaprazi-2/pull/910):** 2× H1 na aktivních UNIZDRAV detailech vyřešeno pouze mimo přesný SKU souhrn. Skutečný [postmerge GET audit](https://github.com/Rastty/zaprazi-2/actions/runs/44904016222) **3/3 lifecycle match**: P2879 a P5559 prodejce označuje dostupné, P3774 vyřazené; **0 nových aktivovaných nabídek**. Jde jen o štítek prodejce, nikoli ověřený sklad; přesný výrobní návod a publisher deeplink pořád chybí. MEYRA rozpor trvá. WordPress 0.8.245 beze změny.
-- **Dřívější evidence:** [SKU štítky #907](https://github.com/Rastty/zaprazi-2/pull/907), [GA4 organické kohorty #906](https://github.com/Rastty/zaprazi-2/pull/906); žádná změna obchodních či poradenských pravidel.
+- **Předchozí evidence:** [#907](https://github.com/Rastty/zaprazi-2/pull/907) SKU, [#906](https://github.com/Rastty/zaprazi-2/pull/906) GA4 kohorty.
 - Poslední přijaté produkční vydání **0.8.245** (WordPress nasazen, skutečný readback a kompletní postdeploy). [Chrome QA 9/9 PASS](https://github.com/Rastty/zaprazi-2/actions/runs/44896362946), [SEO/sitemap PASS](https://github.com/Rastty/zaprazi-2/actions/runs/44896362924). **14 poradců** a **25/25 affiliate pozic** (21 CJ + 4 eHub); konfigurace **není důkaz nákupu ani provize**.
 - **Přechod z chair guide do Mobility** [#895](https://github.com/Rastty/zaprazi-2/pull/895) je živý, [QA #44896362946](https://github.com/Rastty/zaprazi-2/actions/runs/44896362946) PASS, regresní ochrana [#898](https://github.com/Rastty/zaprazi-2/pull/898).
 - [#897](https://github.com/Rastty/zaprazi-2/pull/897) rozlišuje relevantní organické vstupy od historického archivu. Hotové jsou kontextové handoffy z `/senior-odmita-choditko/`, `/prahy-pro-choditko-a-vozik/` a existující Core GSC intent sběr 7/7 URL ([#888](https://github.com/Rastty/zaprazi-2/pull/888)); neopakovat.
@@ -26,8 +27,8 @@
 - **SEO:** malé anonymizované GSC intent skupiny; žádný důkaz pro hromadné 301, noindex či mazání ~4 359 starých URL. [#401](https://github.com/Rastty/zaprazi-2/issues/401), [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA (effort × effect)
-1. **P0 obchod:** ověřit/aktivovat CJ ACTIVE property `zaprazi.cz`, porovnat PID s 21 CJ sloty; pak read-only publisher provize a výrobní varianty. Affiliate URL bez důkazu neměnit.
-2. **P0 organická akvizice:** zvýšit kvalifikované vstupy na hotové Mobility decision URL a měřit srovnatelné GSC/GA4 kohorty. Opravit jen prokázaný intent/technický problém; nepublikovat generický duplicity.
-3. **P0 eHUB alternativa:** [#914](https://github.com/Rastty/zaprazi-2/issues/914) ověřit publisher SKU/deeplink; bez zdrojů nepřepisovat nabídky, pokračovat v akvizici.
+1. **Nasadit připravené 0.8.246:** pouze přes schválený WordPress Deployer for Git **Pull + Deploy** z `dev`; po nasazení readback `release=0.8.246`, `integrity=ok`, 25/25 slotů, ověřit obě živé schodišťové cesty a 14-Advisor Chrome QA. Do té doby je produkční pravda 0.8.245.
+2. **P0 obchod:** ověřit/aktivovat CJ ACTIVE property `zaprazi.cz`, porovnat PID s 21 CJ sloty; teprve potom read-only publisher provize. eHUB [#914](https://github.com/Rastty/zaprazi-2/issues/914) čeká na přesný zdroj SKU/deeplinku, bez přepisů nabídky.
+3. **P0 organická akvizice:** měřit kvalifikované Mobility vstupy v dalších finalizovaných GSC/GA4 oknech; neměnit hromadně starý archiv ani metadata bez důkazu.
 
 **Předání:** první ověř GitHub, živou produkci a vydání; evidence-only commit není další WordPress deploy. Neopakovat QA už přijaté 0.8.245 bez nového důvodu.

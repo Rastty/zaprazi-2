@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_246
+// ZP_RELEASE_0_8_247
 // Browser-only arithmetic. It cannot certify suitability or safe passage.
 function compareDoorwayWidths({clearWidth,chairWidth}){
  const parse=value=>{

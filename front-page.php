@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_246 */ get_header(); ?>
+/* ZP_RELEASE_0_8_247 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">

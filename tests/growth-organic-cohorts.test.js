@@ -7,7 +7,7 @@ const read=p=>JSON.parse(readFileSync(new URL("../"+p,import.meta.url),"utf8"));
 const graph=read("config/growth-graph.json");
 const snapshot=read("config/growth-state.json");
 const clone=x=>JSON.parse(JSON.stringify(x));
-const date=new Date("2026-11-21T12:00:00Z");
+const date=new Date("2026-11-22T12:00:00Z");
 
 test("real, dated GA4 organic cohort evidence is not counted as 19 decision visits",()=>{
   const p=planGrowth(graph,snapshot,date);
@@ -28,18 +28,17 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  // Production 0.8.245 passed exact 9/9 Chrome QA, but this NEW source
-  // release 0.8.246 is NOT deployed. The planner must reject inheriting
-  // the older production acceptance; keep real historical evidence intact.
-  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.245");
+  // Production 0.8.246 has now passed the exact postdeploy 14-Advisor
+  // Chrome acceptance. The earlier 0.8.245 QA cannot certify this release.
+  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.246");
   assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
-    "https://github.com/Rastty/zaprazi-2/actions/runs/44896362946");
-  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"needs_revalidation",
-    "New source release must require its own live production acceptance");
+    "https://github.com/Rastty/zaprazi-2/actions/runs/45002528029");
+  assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,"verified",
+    "Source and independently accepted live release must match");
   const oldProduction=clone(snapshot);
-  oldProduction.nodes.safety_qa.verifiedRelease="0.8.244";
+  oldProduction.nodes.safety_qa.verifiedRelease="0.8.245";
   oldProduction.nodes.safety_qa.evidenceUrl=
-    "https://github.com/Rastty/zaprazi-2/actions/runs/44886259216";
+    "https://github.com/Rastty/zaprazi-2/actions/runs/44896362946";
   assert.equal(planGrowth(graph,oldProduction,date).tasks.find(t=>t.id==="safety_qa").status,
     "needs_revalidation","An older approved QA must never verify new source release");
 });

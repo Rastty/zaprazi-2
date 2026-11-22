@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "observedOn": "2026-11-22",
+  "sourceUrl": "https://www.rehavita.cz/pomucky-pro-sobestacnost/",
+  "observationMethod": "independent_public_web_rendered_category_and_four_exact_product_pages; NOT authenticated eHUB publisher API or GitHub runner HTTP",
+  "scope": "Category listing grouped exact merchant product name, matching public seller SKU, canonical detail link, and seller-displayed stock label. Product detail pages verified names, but did not expose these exact SKU codes.",
+  "items": [
+    {
+      "candidateId": "rehavita-upcup-15-050101",
+      "sellerSku": "15-050101",
+      "sellerProductUrl": "https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/",
+      "sellerLabel": "Skladem"
+    },
+    {
+      "candidateId": "rehavita-beat-it-15-050102",
+      "sellerSku": "15-050102",
+      "sellerProductUrl": "https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/",
+      "sellerLabel": "Skladem"
+    },
+    {
+      "candidateId": "rehavita-theomatik-15-050103",
+      "sellerSku": "15-050103",
+      "sellerProductUrl": "https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/",
+      "sellerLabel": "Skladem"
+    },
+    {
+      "candidateId": "rehavita-open-it-15-050105",
+      "sellerSku": "15-050105",
+      "sellerProductUrl": "https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/",
+      "sellerLabel": "Skladem"
+    }
+  ],
+  "conclusions": {
+    "exactSellerCategoryCardMatches": 4,
+    "sellerDeclaredAvailableLabels": 4,
+    "exactManufacturerVariantVerification": "UNKNOWN",
+    "physicalWarehouseStock": "UNKNOWN",
+    "authorizedPublisherDeeplinkDestination": "UNKNOWN",
+    "affiliateAttribution": "UNKNOWN",
+    "approvedCommission": "UNKNOWN"
+  },
+  "nonActions": {
+    "refreshRuntimeCheckedAt": false,
+    "changeAffiliateDestination": false,
+    "enableOrReorderOffers": false,
+    "changeMedicalOrProductFit": false,
+    "wordpressWrites": 0,
+    "affiliateClickRequests": 0
+  },
+  "limitations": "This is a dated independent public observation, not a persistent inventory guarantee. The existing CI category and product audits returned HTTP 403 in another client context; do not replace their fail-closed results or mark automated verification PASS. No publisher account verification."
+}

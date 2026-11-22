@@ -44,18 +44,20 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  // 0.8.247 is verified only by its exact independent postdeploy
-  // acceptance. A future source version must remain blocked until rechecked.
-  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.247");
+  // 0.8.248 is verified only by its exact independent postdeploy acceptance.
+  // Future or older source versions must never inherit the current QA.
+  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.248");
   assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
-    "https://github.com/Rastty/zaprazi-2/actions/runs/45008893699");
+    "https://github.com/Rastty/zaprazi-2/actions/runs/45048858868");
   assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,
-    p.sourceRelease==="0.8.247"?"verified":"needs_revalidation",
+    p.sourceRelease==="0.8.248"?"verified":"needs_revalidation",
     "Production acceptance is version-scoped");
-  assert.equal(planGrowth(graph,snapshot,date,"0.8.247").tasks.find(t=>t.id==="safety_qa").status,
-    "verified","Exact accepted source release is independently verified");
   assert.equal(planGrowth(graph,snapshot,date,"0.8.248").tasks.find(t=>t.id==="safety_qa").status,
-    "needs_revalidation","A future release must never inherit 0.8.247 live QA");
+    "verified","Exact accepted source release is independently verified");
+  assert.equal(planGrowth(graph,snapshot,date,"0.8.249").tasks.find(t=>t.id==="safety_qa").status,
+    "needs_revalidation","A future release must never inherit 0.8.248 live QA");
+  assert.equal(planGrowth(graph,snapshot,date,"0.8.247").tasks.find(t=>t.id==="safety_qa").status,
+    "needs_revalidation","Older version must not claim acceptance of current live source");
   const oldProduction=clone(snapshot);
   oldProduction.nodes.safety_qa.verifiedRelease="0.8.245";
   oldProduction.nodes.safety_qa.evidenceUrl=

@@ -8,6 +8,8 @@ on:
       - "src/adl/engine.js"
       - "scripts/audit-ehub-adl-listings.mjs"
       - "tests/audit-ehub-adl-listings.test.js"
+      - "scripts/audit-ehub-adl-category.mjs"
+      - "tests/audit-ehub-adl-category.test.js"
   workflow_dispatch:
 
 permissions:
@@ -25,6 +27,8 @@ jobs:
         with:
           node-version: 20
       - name: Validate four existing product and read-only merchant contracts
-        run: node --test tests/audit-ehub-adl-listings.test.js
+        run: node --test tests/audit-ehub-adl-listings.test.js tests/audit-ehub-adl-category.test.js
       - name: Observe four public eHUB seller listings without affiliate requests
         run: node scripts/audit-ehub-adl-listings.mjs
+      - name: Observe exact seller SKU in single public self-care category
+        run: node scripts/audit-ehub-adl-category.mjs

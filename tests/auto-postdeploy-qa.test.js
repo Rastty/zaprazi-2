@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {SOURCE_THEME_RELEASE} from "../scripts/lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS} from "../scripts/audit-live-release-coherence.mjs";
 import {inspectPendingReadiness,observePublicDeploy,verifyInsuranceFirstAnswer,verifyInsuranceSearchHero,verifyMobilityGuideHandoffs,decideDispatch,
-  dispatchWhenReady,verifyChairMobilityHandoff} from "../scripts/auto-postdeploy-qa.mjs";
+  dispatchWhenReady,verifyChairMobilityHandoff,verifyStairsContextualJourneys} from "../scripts/auto-postdeploy-qa.mjs";
 import {auditLiveChairHandoff} from "../scripts/audit-live-chair-handoff-245.mjs";
 
 const origin="https://zaprazi.cz";
@@ -411,4 +411,103 @@ test("standalone chair acceptance rejects redirects, missing feature and partial
     {status:200,url,text:async()=>html("0.8.245")},
     {status:200,url,text:async()=>chairPage("0.8.244")}
   ]) await assert.rejects(()=>auditLiveChairHandoff(async()=>response,"0.8.245"));
+});
+
+
+const stairsHome=(release="0.8.246")=>html(release)+
+  '<main><div class="zp-decision-grid">'+
+  '<article class="zp-decision-card"><h3>Chůze a opora</h3>'+
+    '<a href="https://zaprazi.cz/navrat-z-nemocnice/">Připravit návrat</a></article>'+
+  '<article class="zp-decision-card"><h3>Návrat z nemocnice</h3>'+
+    '<p>Jsou překážkou schody do domu nebo do bytu? '+
+    '<a class="zp-text-link" href="https://zaprazi.cz/schody-pro-seniora-doma/">'+
+    'Nejdřív prověřit bezpečný přístup po schodech</a> — bez riskantního přenášení.</p>'+
+  '</article></div></main>';
+const stairsReturn=(release="0.8.246")=>html(release)+
+  '<main><div class="zp-decision-grid">'+
+  '<article class="zp-decision-card"><h3>1. Vstup a přesun</h3>'+
+    '<p>Cestu od auta blokují schody? '+
+    '<a class="zp-text-link" href="https://zaprazi.cz/schody-pro-seniora-doma/">'+
+    'Co prověřit na schodišti před propuštěním</a>. '+
+    'Pokud není vstup bezpečný, mluvte s nemocničním týmem; '+
+    'chodítko není řešením schodiště.</p></article>'+
+  '<article class="zp-decision-card"><h3>2. WC a postel</h3>'+
+    '<p>První noc doma.</p></article></div></main>';
+const stairsPages=(home=stairsHome(),returning=stairsReturn(),release="0.8.246")=>
+  RELEASE_CHECK_PATHS.map(path=>({
+    path,html:path==="/"?home:path==="/navrat-z-nemocnice/"?returning:html(release)
+  }));
+
+test("0.8.246 stairs proof requires both exact links inside their own safe decision cards",()=>{
+  const valid=stairsPages();
+  assert.equal(verifyStairsContextualJourneys(valid,"0.8.246"),true);
+  assert.throws(()=>verifyStairsContextualJourneys(valid,"0.8.245"));
+  const replaced=(home,returning)=>stairsPages(home,returning);
+  for(const altered of [
+    replaced(stairsHome().replace("schody-pro-seniora-doma/","jinam/"),stairsReturn()),
+    replaced(stairsHome(),stairsReturn().replace("schody-pro-seniora-doma/","jinam/")),
+    replaced(stairsHome().replace("bez riskantního přenášení","kupte ihned"),stairsReturn()),
+    replaced(stairsHome(),stairsReturn().replace("chodítko není řešením schodiště","")),
+    replaced(stairsHome().replace('href="https://zaprazi.cz/schody-pro-seniora-doma/"',
+      'href="https://zaprazi.cz/schody-pro-seniora-doma/?diagnosis=private"'),stairsReturn()),
+    replaced(stairsHome().replace("Nejdřív prověřit bezpečný přístup po schodech",""),
+      stairsReturn()),
+    replaced(stairsHome(),stairsReturn().replace(
+      'href="https://zaprazi.cz/schody-pro-seniora-doma/"',
+      'href="https://other.example/unsafe"')),
+    replaced(stairsHome().replace('<h3>Návrat z nemocnice</h3>',
+      '<h3>Nezařazený článek</h3>'),stairsReturn()),
+    replaced(stairsHome().replace('<h3>Návrat z nemocnice</h3>',
+      '<h3>Návrat z nemocnice</h3><form><input name="health"></form>'),stairsReturn()),
+    replaced(stairsHome().replace('<a class="zp-text-link"',
+      '<a rel="sponsored" class="zp-text-link"'),stairsReturn()),
+    replaced(stairsHome().replace("</article></div></main>",
+      '</article><article class="zp-decision-card"><h3>Návrat z nemocnice</h3><p>dup</p></article></div></main>'),
+      stairsReturn()),
+    replaced(stairsHome("0.8.245"),stairsReturn()),
+    replaced(stairsHome(),stairsReturn("0.8.245")),
+    replaced(stairsHome().replace('<a class="zp-text-link" href=',
+      '<a data-zp-affiliate-target="1" class="zp-text-link" href='),stairsReturn()),
+  ]) assert.throws(()=>verifyStairsContextualJourneys(altered,"0.8.246"));
+  assert.throws(()=>verifyStairsContextualJourneys(stairsPages().slice(0,3),"0.8.246"));
+});
+
+test("0.8.246 monitor reuses four canonical GET pages, fails closed before auto QA dispatch",async()=>{
+  const calls=[];
+  const fetchMock=async (url,opts)=>{
+    calls.push({url,opts});
+    return {status:200,url,json:async()=>readiness("0.8.246"),
+      text:async()=>url===origin+"/"?stairsHome():
+        url===origin+"/navrat-z-nemocnice/"?stairsReturn():
+        url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage("0.8.246"):
+        url===origin+"/choditka-pro-seniory/"?walkerHubPage("0.8.246"):
+        url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage("0.8.246"):
+        url===origin+"/vstavani-z-kresla-pro-seniora/"?chairPage("0.8.246"):
+        html("0.8.246")};
+  };
+  const ready=await observePublicDeploy(fetchMock,"0.8.246");
+  assert.equal(ready.status,"ready_for_full_qa");
+  assert.equal(ready.stairs_contextual_journeys,"verified");
+  assert.equal(ready.chair_mobility_handoff,"verified");
+  assert.equal(ready.pages,8,"No new source fetch: reuses homepage and return page");
+  assert.equal(calls.length,2+RELEASE_CHECK_PATHS.length+4);
+  assert.ok(calls.every(({url,opts})=>url.startsWith(origin)&&
+    !url.includes("?")&&opts.method==="GET"&&opts.redirect==="error"));
+  const bad=await observePublicDeploy(async(url,opts)=>{
+    const r=await fetchMock(url,opts);
+    if(url===origin+"/navrat-z-nemocnice/")
+      return {...r,text:async()=>stairsReturn().replace(
+        "chodítko není řešením schodiště","")};
+    return r;
+  },"0.8.246");
+  assert.equal(bad.status,"blocked_mixed_or_incomplete_live_release");
+  assert.equal(await dispatchWhenReady(bad,{}),"no_dispatch_unverified_public_release");
+  assert.ok(!JSON.stringify(bad).includes("schodiště"));
+  const pendingCalls=[];
+  const pending=await observePublicDeploy(async(url)=>{
+    pendingCalls.push(url);
+    return {status:200,url,json:async()=>readiness("0.8.245")};
+  },"0.8.246");
+  assert.equal(pending.status,"pending_wp_pull_and_deploy");
+  assert.deepEqual(pendingCalls,[readinessUrl]);
 });

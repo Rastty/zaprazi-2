@@ -6,6 +6,7 @@
 **Bezpečně a samostatně doma:** problém → Domácí poradce → bezpečný kandidátní typ → koupit / půjčit / ověřit úhradu → ověřená konkrétní nabídka. P0 Mobility. První obchodní milník = přiřaditelná **schválená affiliate objednávka**; stále NEOVĚŘENA. Bez diagnóz, zdravotních odpovědí v analytice a řazení podle provize.
 
 ## HOTOVO
+- **#922 / 0.8.247 — release kandidát, NENASAZENO:** hlavní veřejné hledání omezeno na publikované stránky; historické přímé URL/404, bezpečnost a soukromí beze změn. 100 markerů a kritické hashe upraveny. CI + predeploy před merge; poté WP Pull + Deploy a nové live QA. Žádný doložený uplift.
 - **Release [#916](https://github.com/Rastty/zaprazi-2/pull/916) `0.8.246` — NASAZENO a QA PASS:** schodišťový návod nově z homepage a návratu z nemocnice. [Monitor #45002451021](https://github.com/Rastty/zaprazi-2/actions/runs/45002451021) ověřil obě přesné cesty, release, 25 slotů; [kompletní postdeploy QA #45002528029](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029) PASS. Bez prokázaného SEO upliftu; [#918](https://github.com/Rastty/zaprazi-2/pull/918) chrání oba vstupy.
 - **eHUB mimo CJ [#913](https://github.com/Rastty/zaprazi-2/pull/913):** [read-only audit 4 RehaVita URL](https://github.com/Rastty/zaprazi-2/actions/runs/44938273027) = 4× `product_card_boundary_not_found`. Neznamená vyprodáno; nabídky, `checkedAt` a WP beze změny.
 - **CJ publisher identity [Core #2435](https://github.com/Rastty/prometheus-growth-os/pull/2435):** autorizovaný read-only [CJ audit #44937340398](https://github.com/Rastty/prometheus-growth-os/actions/runs/44937340398) vrátil `PROPERTY_NOT_CONFIRMED` pro `zaprazi.cz`. Z připojeného účtu není doložena ACTIVE webová vlastnost; historická platnost odkazů ani provize tím nejsou vyvráceny.
@@ -31,4 +32,4 @@
 2. **P0 kvalifikovaná akvizice:** po 12/12 ověřených historických HTTP 404 nepokračovat plošnou čistkou; zvyšovat vstupy na 53 rozhodovacích stranách a porovnávat další finalizované GSC/GA4 kohorty. Bez hromadných 301/noindex.
 3. **P1 nezávislá eHUB cesta:** [#914](https://github.com/Rastty/zaprazi-2/issues/914) ověřit přesné SKU a autorizované partner deeplinky; bez zdrojů ponechat HOLD.
 
-**Předání:** Git merge / synchronizace main/dev není WordPress deploy; aktuální 0.8.246 však má nezávisle doloženou [produkční QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029). Další vydání opět vyžaduje nový live důkaz, nikoli převzetí staré akceptace.
+**Předání:** Produkčně přijato jen 0.8.246 ([QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029)). Git merge ≠ WP deploy; #922 vyžaduje novou live akceptaci.

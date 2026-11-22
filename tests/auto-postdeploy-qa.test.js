@@ -511,3 +511,82 @@ test("0.8.246 monitor reuses four canonical GET pages, fails closed before auto 
   assert.equal(pending.status,"pending_wp_pull_and_deploy");
   assert.deepEqual(pendingCalls,[readinessUrl]);
 });
+
+
+// The 0.8.248 two-guide safety proof is an additional release-gated action,
+// not a separate crawler, WordPress deploy, or merchant click path.
+const transport248=(release="0.8.248")=>html(release)+
+  '<section class="zp-hero"><div class="zp-wrap">'+
+  '<p class="zp-muted-copy zp-transport-mobility-route">'+
+  'Potíž je hlavně dojít bezpečně k autu nebo do ordinace? '+
+  'Prověřit chůzi bez fyzického přidržování. '+
+  '<a class="zp-text-link" href="https://zaprazi.cz/choditka-pro-seniory/#vyber-typu">'+
+  'Vybrat vhodný typ opory</a>. '+
+  'Chodítko ale neřeší nemožnost bezpečně nastoupit do auta. '+
+  'Při pádu doporučíme odborné posouzení.</p></div></section>';
+const stairs248=(release="0.8.248")=>html(release)+
+  '<main><section class="zp-section"><article class="zp-decision-card">'+
+  '<h3>4. Před propuštěním z nemocnice vše domluvte</h3>'+
+  '<p>Pokud schody komplikují i cestu na plánované vyšetření, '+
+  '<a class="zp-text-link" href="https://zaprazi.cz/prevoz-seniora-k-lekari/#vyber-dopravy">'+
+  'prověřte bezpečný způsob dopravy k lékaři</a>. '+
+  'Schody automaticky nezakládají nárok na hrazenou sanitku; rozhoduje lékař.</p>'+
+  '</article></section></main>';
+
+test("0.8.248 monitor checks exactly two additional safe pages before dispatch",async()=>{
+  const requested=[];
+  const valid=async(url,options)=>{
+    requested.push({url,options});
+    const page=url===origin+"/"?stairsHome("0.8.248"):
+      url===origin+"/navrat-z-nemocnice/"?stairsReturn("0.8.248"):
+      url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage("0.8.248"):
+      url===origin+"/choditka-pro-seniory/"?walkerHubPage("0.8.248"):
+      url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage("0.8.248"):
+      url===origin+"/vstavani-z-kresla-pro-seniora/"?chairPage("0.8.248"):
+      url===origin+"/prevoz-seniora-k-lekari/"?transport248():
+      url===origin+"/schody-pro-seniora-doma/"?stairs248():
+      html("0.8.248");
+    return {status:200,url,
+      json:async()=>readiness("0.8.248"),text:async()=>page};
+  };
+  const ready=await observePublicDeploy(valid,"0.8.248");
+  assert.equal(ready.status,"ready_for_full_qa");
+  assert.equal(ready.transport_mobility_journeys,"verified");
+  assert.equal(ready.stairs_contextual_journeys,"verified");
+  assert.equal(ready.pages,10);
+  assert.equal(requested.length,2+RELEASE_CHECK_PATHS.length+4+2);
+  assert.deepEqual(requested.slice(-3).map(x=>x.url),[
+    origin+"/prevoz-seniora-k-lekari/",
+    origin+"/schody-pro-seniora-doma/",
+    readinessUrl
+  ]);
+  assert.ok(requested.every(x=>x.options.method==="GET"&&x.options.redirect==="error"&&
+    !x.url.includes("?")&&x.url.startsWith(origin)));
+  assert.equal(await dispatchWhenReady(ready,{}).catch(e=>"needs_real_actions_credentials"),
+    "needs_real_actions_credentials");
+
+  for(const broken of [
+    {url:origin+"/prevoz-seniora-k-lekari/",alter:html("0.8.248")},
+    {url:origin+"/schody-pro-seniora-doma/",alter:stairs248().replace("rozhoduje lékař","")},
+    {url:origin+"/prevoz-seniora-k-lekari/",alter:transport248().replace(
+      "/choditka-pro-seniory/#vyber-typu","/shop/?answers=private")},
+    {url:origin+"/schody-pro-seniora-doma/",alter:stairs248("0.8.247")},
+  ]){
+    const result=await observePublicDeploy(async(url,opt)=>{
+      const original=await valid(url,opt);
+      return url===broken.url?{...original,text:async()=>broken.alter}:original;
+    },"0.8.248");
+    assert.equal(result.status,"blocked_mixed_or_incomplete_live_release");
+    assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
+    assert.ok(!JSON.stringify(result).includes("private"));
+  }
+});
+test("0.8.247 live remains deployment-pending and new 0.8.248 pages are never probed",async()=>{
+  const calls=[];
+  const result=await observePublicDeploy(async(url,options)=>{
+    calls.push(url);
+    return {status:200,url,json:async()=>readiness("0.8.247")};
+  },"0.8.248");
+  assert.equal(result.status,"pending_wp_pull_and_deploy");
+  assert.deepEqual(calls,[readinessUrl]);
+});

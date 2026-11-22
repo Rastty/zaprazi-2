@@ -1,6 +1,20 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Front-end site search only: avoid returning the retired mixed-topic blog.
+ * This does not change historical URLs, archives, direct links or admin queries.
+ */
+function zaprazi_2_scope_public_search_to_pages( $query ) {
+  if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+    return;
+  }
+  $query->set( 'post_type', 'page' );
+  $query->set( 'post_status', 'publish' );
+}
+add_action( 'pre_get_posts', 'zaprazi_2_scope_public_search_to_pages', 10, 1 );
+
+
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
   define( 'ZAPRAZI_RELEASE', '0.8.246' );
 }

@@ -1,6 +1,6 @@
 # Seznam / IndexNow — Zápraží 0.8.248: evidence-first release gate
 
-**Stav 22. 11. 2026: PŘIPRAVENÝ GUARD, NIC NEODESLÁNO.** Změna je pouze zdrojový Node.js nástroj a offline testy; žádná nová verze WordPress tématu, přepisy URL, affiliate kliky ani reklamní kampaň.
+**Stav 22. 11. 2026: 0.8.248 ŽIVĚ OVĚŘENO, INDEXNOW STÁLE HOLD — chybí potvrzený domain-root TXT klíč, nic neodesláno.** Změna je pouze zdrojový Node.js nástroj a offline testy; žádná nová verze WordPress tématu, přepisy URL, affiliate kliky ani reklamní kampaň.
 
 ## Obchodní důvod a mez důkazů
 
@@ -18,7 +18,7 @@ Release `0.8.248` nově upravuje pouze dvě obsahové cesty:
 
 ## Tvrdé brány před jediným POST
 
-1. Zdrojová verze musí být **přesně 0.8.248**; `config/growth-state.json.nodes.safety_qa` musí mít nezávisle ověřenou **stejnou** verzi a důkaz GitHub Actions. Dnes je správně `verifiedRelease=0.8.247`, tedy **blokováno**.
+1. Zdrojová verze musí být **přesně 0.8.248**; `config/growth-state.json.nodes.safety_qa` musí mít nezávisle ověřenou **stejnou** verzi a důkaz GitHub Actions. [Nezávislá Chrome QA 9/9 PASS (22. 11. 17:26 UTC)](https://github.com/Rastty/zaprazi-2/actions/runs/45048858868) nyní opravňuje `verifiedRelease=0.8.248` v [Growth Graph](../config/growth-state.json). Tento gate je splněn, nenahrazuje root TXT proof.
 2. Veřejný WordPress readiness z `/wp-json/zaprazi/v1/affiliate-readiness` musí potvrdit `release=0.8.248`, `integrity=ok`, `25/25` nakonfigurovaných pozic. Neznamená to nákup ani partner atribuční úspěch.
 3. Vlastnický IndexNow klíč **musí být přímo v root webu** jako `https://zaprazi.cz/{key}.txt`, veřejný HTTP 200 bez redirectu, s přesným textovým obsahem. Nestačí `/wp-content/themes/.../{key}.txt`: [Seznam výslovně omezuje rozsah ověření](https://o-seznam.cz/napoveda/vyhledavani/seznambot/protokol-indexnow/) na adresář souboru a jeho podadresáře; tamní klíč neprokáže oprávnění pro kořenové stránky. **Root klíč zatím NENÍ zdokumentovaně nasazen**; neobcházet přes query, theme asset ani jinou doménu. Není to neveřejné heslo, ale ověřovací text vlastníka webu.
 4. Nově načtené HTML obou přesných kanonických stránek musí projít **stejnou** [bezpečnostní kontrolou](../scripts/audit-live-transport-mobility-248.mjs) jako postdeploy QA; absence obou handoffů, chybné release značky nebo obchodní bypass znemožní POST.
@@ -28,7 +28,8 @@ Release `0.8.248` nově upravuje pouze dvě obsahové cesty:
 
 ```sh
 node scripts/seznam-indexnow-248.mjs --dry-run
-# Aktuálně: pending_independent_wp_release_qa, 0 HTTP requestů, 0 POST.
+# Po přijetí QA v Growth Graph: eligible_for_live_preflight; 0 HTTP requestů, 0 POST.
+# Není to potvrzení root TXT klíče ani povolení k submitu.
 
 # Až poté, co se nezávisle potvrdí produkční 0.8.248,
 # bude v root skutečně publikovaný exact TXT klíč a nástroj
@@ -39,4 +40,4 @@ ZP_INDEXNOW_KEY="<public-domain-root-key>" node scripts/seznam-indexnow-248.mjs 
 
 Skript **nikdy nevypisuje hodnotu klíče, obsah API odpovědi ani případné nebezpečné URL**. Neodesílá žádný zdravotní profil, odpovědi poradce, merchant/CJ/eHUB redirect a nečte WordPress admin. `--dry-run` je plně offline; `--probe` provede maximálně čtyři bezpečné GET na vlastní doméně; `--submit` teprve při všech PASS přidá jeden POST vyhledávači. Dva odlišné důkazy budou `IndexNow notice accepted` a teprve pozdější skutečný index/click, pokud se objeví; neslučovat.
 
-**Současný zásah vlastníka:** nejprve již čekající WordPress Deployer `dev` Pull + Deploy vydání 0.8.248 a nezávislá QA. Samostatná aktivace ověřovacího TXT souboru v root bude potřeba až pro samotný IndexNow experiment; tento PR ji nevytváří.
+**Současná jediná root-proof blokace:** vydání 0.8.248 již na WordPressu funguje a nezávisle prošlo QA. Pro podmíněný IndexNow experiment je nadále třeba do domain root umístit a ověřit veřejný TXT klíč `https://zaprazi.cz/{key}.txt` (ne do adresáře tématu), poté nejdříve `--probe` a teprve po PASS explicitní jednorázové `--submit`. Tento PR klíč nevytváří, na Seznam nic neposílá.

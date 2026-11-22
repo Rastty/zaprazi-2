@@ -17,7 +17,7 @@
 
 ## OVĚŘENO
 - **Produkce 0.8.246:** [read-only monitor](https://github.com/Rastty/zaprazi-2/actions/runs/45002451021) vrátil `live_release=0.8.246`, obě nové schodišťové cesty `verified`, 25/25 slotů, dva readbacky bez rozporu; [postdeploy Chrome + SEO QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029) PASS, [CI + preflight](https://github.com/Rastty/zaprazi-2/actions/runs/45002455306) PASS. Growth Graph nyní dokládá správnou přijatou verzi.
-- **GSC 28 dní:** [finální zdroj](https://github.com/Rastty/prometheus-growth-os/actions/runs/44879889507): 16 kliků / 1 422 zobrazení, schody 44/0; URL Inspection 12/15 indexed, homepage crawled-not-indexed (20. 11.), 7/7 intent URL bez bezpečně publikovatelných dotazů. Malý vzorek; žádný potvrzený růst.
+- **GSC 23. 10.–19. 11. 2026:** [živý Core běh](https://github.com/Rastty/prometheus-growth-os/actions/runs/45004223794): 16 kliků / 1 529 impresí; 101 URL mimo 53 hlavních = 1 030 impresí / 6 kliků. Z toho **57 shod s historicky vyřazeným manifestem** = 779/4, dalších 44 = 251/2; [Core #2468](https://github.com/Rastty/prometheus-growth-os/pull/2468). Za 90 dní 75 historických shod = 1 036/8, dalších 99 = 512/5. Historická shoda ≠ dnešní HTTP 404, indexace, bezcenný obsah ani povolení pro 301/noindex. URL Inspection 12/15 indexed; homepage crawled-not-indexed i přes povolené procházení a přítomnost v sitemapě. Dotazové skupiny 0/7; žádný doložený růst.
 - [GA4 24. 10.–20. 11.](https://github.com/Rastty/zaprazi-2/issues/401#issuecomment-7059084220): **19 organických relací = 6 relevantních decision / 11 historický archiv / 2 neurčeno**, relevantní podíl 31,58 %. V omezeném GA4 vzorku bez doložené organické poradenské či merchant události. GA4 session ≠ GSC click ≠ affiliate objednávka; archivní slug ≠ nezávislé živé HTTP 404.
 
 ## BLOKACE
@@ -28,7 +28,7 @@
 
 ## DALŠÍ PRIORITA (effort × effect)
 1. **P0 první provize:** v CJ ověřit/aktivovat ACTIVE property `zaprazi.cz`, shodu PID s 21 sloty a až pak read-only approved/pending/rejected publisher provize; bez náhradních URL a umělých prodejů.
-2. **P0 kvalifikovaná organická akvizice:** po nasazení 0.8.246 sledovat finalizované GSC/GA4 kohorty pro schodiště/Mobility; 44/0 není potvrzené CTR selhání. Neprovádět hromadné 301/noindex historických článků bez důkazu.
+2. **P0 kvalifikovaná akvizice:** nejdřív zjistit aktuální stav historických URL (omezená read-only kontrola) a posílit vstupy na 53 rozhodovacích stranách podle dalších finálních GSC/GA4 dat. Žádné hromadné 301/noindex podle GSC shody.
 3. **P1 nezávislá eHUB cesta:** [#914](https://github.com/Rastty/zaprazi-2/issues/914) ověřit přesné SKU a autorizované partner deeplinky; bez zdrojů ponechat HOLD.
 
 **Předání:** Git merge / synchronizace main/dev není WordPress deploy; aktuální 0.8.246 však má nezávisle doloženou [produkční QA](https://github.com/Rastty/zaprazi-2/actions/runs/45002528029). Další vydání opět vyžaduje nový live důkaz, nikoli převzetí staré akceptace.

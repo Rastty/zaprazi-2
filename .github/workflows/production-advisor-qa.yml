@@ -70,6 +70,8 @@ on:
       - "assets/js/shower-chair-advisor.js"
       - "assets/js/bath-transfer-advisor.js"
       - "scripts/audit-live-search-guidance.mjs"
+      - "scripts/lib/public-search-scope.mjs"
+      - "tests/public-search-scope-live.test.js"
       - "scripts/audit-live-editorial-seo.mjs"
       - "scripts/audit-live-sukl-handoff-189.mjs"
       - "scripts/audit-live-indoor-walker-doorway-190.mjs"

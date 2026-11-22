@@ -13,7 +13,9 @@ test("public main search uses published decision Pages only",()=>{
   assert.ok(handler.includes("$query->is_search()"),"Only site search may be filtered");
   assert.ok(handler.includes("$query->set( 'post_type', 'page' )"));
   assert.ok(handler.includes("$query->set( 'post_status', 'publish' )"));
-  assert.doesNotMatch(handler,/wp_redirect|wp_delete_post|wp_trash_post|query_vars|set\\( 's'/);
+  for(const forbidden of ["wp_redirect","wp_delete_post","wp_trash_post","query_vars","$query->set( 's'"]) {
+    assert.ok(!handler.includes(forbidden),"Unexpected search mutation: "+forbidden);
+  }
   assert.ok(php.includes("add_action( 'pre_get_posts', 'zaprazi_2_scope_public_search_to_pages', 10, 1 )"));
 });
 

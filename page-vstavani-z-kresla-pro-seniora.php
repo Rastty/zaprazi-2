@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_247 */
+/* ZP_RELEASE_0_8_248 */
 /*
 Template Name: Zápraží — Vstávání z křesla pro seniora
 */

@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_246
+// ZP_RELEASE_0_8_247
 // Local-only optional cost worksheet. No prices, health data or analytics are sent or stored.
 function compareBedCosts({months,monthlyRent,rentalExtras,purchaseTotal}) {
   const whole=(value,min,max)=>{

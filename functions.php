@@ -1,8 +1,22 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Front-end site search only: avoid returning the retired mixed-topic blog.
+ * This does not change historical URLs, archives, direct links or admin queries.
+ */
+function zaprazi_2_scope_public_search_to_pages( $query ) {
+  if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+    return;
+  }
+  $query->set( 'post_type', 'page' );
+  $query->set( 'post_status', 'publish' );
+}
+add_action( 'pre_get_posts', 'zaprazi_2_scope_public_search_to_pages', 10, 1 );
+
+
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.246' );
+  define( 'ZAPRAZI_RELEASE', '0.8.247' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -121,8 +135,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => 'f911473e89c2c590b9fb67f422f8308a006fdacb',
-    'src/mobility/offer-fit-gate.js' => '0369e4777924fd7952d44c4d17e88711af182fcc',
+    'src/mobility/engine.js' => '968377a81218dcf90eb8ffc41cd8b72facac81b9',
+    'src/mobility/offer-fit-gate.js' => '2a5e59b1fe32293df17d944ef5226eca4a4d8278',
     'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
   ) );
   $files = array_merge( $files, array_keys( $critical_git_blobs ) );

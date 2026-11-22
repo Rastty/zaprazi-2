@@ -9,6 +9,22 @@ const snapshot=read("config/growth-state.json");
 const clone=x=>JSON.parse(JSON.stringify(x));
 const date=new Date("2026-11-22T12:00:00Z");
 
+test("newest finalized 28-day GSC sitewide snapshot retains exact source and date",()=>{
+  const p=planGrowth(graph,snapshot,date);
+  assert.equal(p.metrics.organic_clicks_28d,16);
+  assert.equal(p.metrics.organic_impressions_28d,1529);
+  for(const key of ["organic_clicks_28d","organic_impressions_28d"]){
+    assert.equal(p.metricAsOf[key],"2026-11-19");
+    assert.equal(snapshot.metricSources[key],
+      "https://github.com/Rastty/prometheus-growth-os/actions/runs/45004223794");
+  }
+  // GSC pages and GA4 Organic Search sessions have different reporting
+  // universes; no retired-archive inference from sitewide totals.
+  assert.equal(p.metrics.organic_sessions_28d,19);
+  assert.equal(p.metrics.organic_decision_page_sessions_28d,6);
+  assert.equal(p.metrics.approved_affiliate_commission_28d,null);
+});
+
 test("real, dated GA4 organic cohort evidence is not counted as 19 decision visits",()=>{
   const p=planGrowth(graph,snapshot,date);
   assert.equal(p.metrics.organic_sessions_28d,19);

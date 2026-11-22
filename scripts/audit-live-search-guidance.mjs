@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import puppeteer from "puppeteer-core";
 import { EXPECTED_LIVE_RELEASE } from "./lib/live-release.mjs";
+import { requiresPublishedPageScope, assertPublishedPageResults } from "./lib/public-search-scope.mjs";
 
 const origin="https://zaprazi.cz";
 const checks=[
@@ -114,6 +115,8 @@ try{
           oldExists:!!old,
           oldAfterGuidance:!guided||!old||Boolean(guided.compareDocumentPosition(old)&Node.DOCUMENT_POSITION_FOLLOWING),
           oldCount:old?.querySelectorAll(".zp-archive-card").length||0,
+          resultClasses:old?[...old.querySelectorAll("article.zp-archive-card")].map(
+            article=>article.getAttribute("class")||""):[],
           pagination:!!main?.querySelector(".zp-pagination"),
           wronglyClaimsNoResults:!!guided&&!!main?.querySelector(".zp-system-empty")&&
             main.querySelector(".zp-system-empty").textContent.includes("Pro tento dotaz jsme nic nenašli.")
@@ -151,7 +154,14 @@ try{
       }
       assert.equal(data.wronglyClaimsNoResults,false,
         "A contextual match must not simultaneously claim nothing was found: "+check.query);
-      assert.equal(data.oldAfterGuidance,true,"Old search results must remain below guidance");
+      assert.equal(data.oldAfterGuidance,true,"Search results must remain below guidance");
+      // This check is gated on the actual deployed release, not the next
+      // Git source version. A predeploy PR can still read older 0.8.246 live.
+      if (requiresPublishedPageScope(data.release)) {
+        assert.equal(data.resultClasses.length,data.oldCount,
+          "Search result DOM must consist of actual archive cards");
+        assertPublishedPageResults(data.resultClasses);
+      }
       // After retiring 4,359 unrelated legacy posts, empty archive results are intentional.
       // Never require the old off-topic search hits to remain merely for QA compatibility.
       if(check.expectNoLegacy)assert.equal(data.oldCount,0,

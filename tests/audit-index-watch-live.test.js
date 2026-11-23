@@ -67,6 +67,23 @@ test("canonical, robots and release gates are independent and fail closed",()=>{
  }
  const withHeader=headers();withHeader.set("x-robots-tag","googlebot: noindex");
  assert.throws(()=>inspectIndexabilityHtml(path,html(path),withHeader,"0.8.217"),/NOINDEX/);
+ // Bingbot and Googlebot-News restrictions do not block Googlebot's web index.
+ for(const value of [
+   "bingbot: noindex",
+   "googlebot-news: noindex",
+   "bingbot: noindex, googlebot: index",
+   "googlebot: index, bingbot: noindex"
+ ]){
+   const scoped=headers();scoped.set("x-robots-tag",value);
+   assert.equal(inspectIndexabilityHtml(path,html(path),scoped,"0.8.217").explicitNoindex,false,
+     "Scoped crawler header must not cause false Googlebot alarm");
+ }
+ for(const value of ["noindex","none","googlebot: noindex",
+   "bingbot: index, googlebot: noindex"]){
+   const blocked=headers();blocked.set("x-robots-tag",value);
+   assert.throws(()=>inspectIndexabilityHtml(path,html(path),blocked,"0.8.217"),/NOINDEX/,
+     "Googlebot noindex must remain a hard failure");
+ }
  const good=inspectIndexabilityHtml(path,
    html(path,'<meta name="robots" content="index, follow">'),headers(),"0.8.217");
  assert.equal(good.explicitNoindex,false);

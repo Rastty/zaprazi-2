@@ -13,6 +13,7 @@ import {auditPublicSitemap,assertPublicSitemapHealthy}
   from "./audit-public-sitemap.mjs";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {fetchPublicWithNetworkRetry} from "./lib/public-readonly-retry.mjs";
+import {googlebotBlockedByXRobotsTag} from "./lib/editorial-seo-rules.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -66,7 +67,7 @@ export function inspectIndexabilityHtml(path,html,headers,release=SOURCE_THEME_R
     .map(x=>x.attrs.content);
   if(robots.some(x=>typeof x!=="string"||
       /(?:^|[,;\s])(?:noindex|none)(?:$|[,;\s])/i.test(x))||
-      /(?:^|[,;\s])(?:noindex|none)(?:$|[,;\s])/i.test(headers.get("x-robots-tag")||""))
+      googlebotBlockedByXRobotsTag(headers.get("x-robots-tag")))
     throw Error("INDEX_LIVE_NOINDEX_DETECTED");
   const releaseTag=meta(tags,"zaprazi-release");
   const integrity=meta(tags,"zaprazi-integrity");

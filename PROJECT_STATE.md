@@ -1,11 +1,12 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav: 22. 11. 2026, po nezávislé postdeploy QA 17:26 UTC.** Pravda: GitHub `main`/`dev`, skutečný WordPress, [vize](docs/ZAPRAZI_SOURCE_OF_TRUTH.md) a [Growth Graph](config/growth-state.json). Historie vydání patří do PR/Actions.
+**Stav: 23. 11. 2026, zdrojová SEO oprava po CI; poslední WordPress postdeploy QA 22. 11. 17:26 UTC.** Pravda: GitHub `main`/`dev`, skutečný WordPress, [vize](docs/ZAPRAZI_SOURCE_OF_TRUTH.md) a [Growth Graph](config/growth-state.json). Historie vydání patří do PR/Actions.
 
 ## CÍL
 **Bezpečně a samostatně doma:** problém → Domácí poradce → bezpečný kandidátní typ → koupit / půjčit / ověřit úhradu → ověřená konkrétní nabídka. P0 Mobility. První obchodní milník = přiřaditelná **schválená affiliate objednávka**; stále NEOVĚŘENA. Bez diagnóz, zdravotních odpovědí v analytice a řazení podle provize.
 
 ## HOTOVO
+- **23. 11. — GitHub-only SEO monitor [#934](https://github.com/Rastty/zaprazi-2/pull/934):** sdílený parser a 8 testů odlišují Googlebot `noindex` od omezení jiných botů. [CI PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45226214968), [Public SEO Sitemap PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45226215085). **Bez změny WordPress runtime**, produkce 0.8.248; přínos SEO pozic/indexace neověřen.
 - **Release 0.8.248 — NASAZENO a nezávisle QA PASS:** [#927](https://github.com/Rastty/zaprazi-2/pull/927) bezpečné přechody převoz → Mobilita a schody → převoz; [read-only postdeploy monitor](https://github.com/Rastty/zaprazi-2/actions/runs/45048828873) našel přesně live release a obě cesty; [Production Advisor Browser QA 9/9 úloh PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45048858868) potvrzuje reálný Chrome, obě cesty, bezpečnost a privátní chování. Samostatný WPVibe readback 22. 11. potvrdil aktivní téma 0.8.248, `integrity=ok`, 25/25 slotů; GitHub `main=dev` při přijetí runtime na `ed59d70`. Technická akceptace není důkaz SEO/komerčního upliftu.
 - **eHUB veřejná seller evidence 22. 11.:** 4/4 [RehaVita kategorie](https://www.rehavita.cz/pomucky-pro-sobestacnost/) u přesných dosavadních produktů uvádí odpovídající prodejní kódy 15-050101/102/103/105, detailní URL a stav „Skladem“. [Datovaný nezávislý readback](data/ehub-adl-seller-observation-20261122.json) nahrazuje pouze dřívější *neznámou veřejnou seller kartu*, nikoli 403 v GitHub runneru, fyzický sklad, výrobní variantu ani autorizované eHUB deeplinky. Žádný runtime `checkedAt` nebo CTA nebyl změněn.
 - **Seznam IndexNow HOLD (root klíč):** [preflight](docs/SEZNAM_INDEXNOW_RELEASE_248.md) pro přesně 2 URL 0.8.248 připraven; release a Chrome QA nyní ověřeny, ale chybí prokázaný veřejný TXT klíč přímo v domain root. Žádný POST/indexace nedoloženy.

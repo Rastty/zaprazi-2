@@ -84,6 +84,10 @@ Target WCAG 2.2 AA:
 - simple Czech,
 - no meaning conveyed only by color.
 
+## Deployment channel — owner override 2026-11-23
+
+**Never call WPVibe for Zápraží**, including readback, diagnostics, publishing or quota resets. Use GitHub PR/CI, synchronized `main`/`dev`, the existing WordPress Deployer for Git Pull + Deploy process and direct read-only public HTTPS/GitHub Actions production checks. The owner's separate administrator Pull + Deploy remains necessary for theme runtime changes unless an independently verified, authorized deployment path is established; never present Git merge as live deployment.
+
 ## Development workflow
 
 1. Inspect current `main` and open PRs.

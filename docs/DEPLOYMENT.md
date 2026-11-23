@@ -6,7 +6,8 @@
 
 - `main` je stabilní větev; `dev` musí být po releasu synchronizovaná se stejným commitem.
 - WordPress přebírá **kořen repozitáře**, nikoliv vnořenou složku. V kořeni jsou `style.css`, `functions.php`, `header.php`, `footer.php` a ostatní WordPress šablony.
-- **Deployer for Git** je primární Pull + Deploy mechanismus; WPVibe slouží nanejvýš k diagnostice a readback, nikoli jako nutná podmínka vydání.
+- **Deployer for Git** je jediná již ověřená cesta pro WordPress Pull + Deploy (větev `dev`); GitHub merge sám o sobě nenahrává soubory do produkce.
+- **Pokyn vlastníka 23. 11. 2026:** WPVibe nepoužívat vůbec, ani pro diagnostiku, čtení stavu, publikaci nebo deploy. Produkci ověřovat přímo přes veřejné HTTPS endpointy a stávající read-only GitHub Actions; limity WPVibe nejsou blokací práce. Bez samostatně ověřeného a autorizovaného přístupu k Deployer for Git neslibovat automatický WordPress deploy.
 - Ke dni 12. 10. 2026 GitHub API vrací repozitář jako **public**. Staré tvrzení „repo je private, free Deployer potřebuje Pro“ už neplatí pro aktuálně ověřený stav. Při budoucí změně viditelnosti znovu ověřit licenční podmínky pluginu.
 - Neukládat GitHub tokeny, WordPress přístupové údaje ani affiliate partnerské URL obsahující tajné parametry do veřejného repozitáře.
 

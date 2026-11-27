@@ -130,6 +130,8 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // Check only exact accepted production in PRs; never substitute for deployment.
   if(event==="pull_request"&&sourceRelease==="0.8.250"&&readiness.release==="0.8.249")
     return {release:"0.8.249",mode:"predeploy_verified_249_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.251"&&readiness.release==="0.8.250")
+    return {release:"0.8.250",mode:"predeploy_verified_250_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

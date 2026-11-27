@@ -10,6 +10,9 @@ on:
       - "tests/audit-ehub-adl-listings.test.js"
       - "scripts/audit-ehub-adl-category.mjs"
       - "tests/audit-ehub-adl-category.test.js"
+      - "scripts/audit-ehub-adl-manufacturer-refs.mjs"
+      - "tests/audit-ehub-adl-manufacturer-refs.test.js"
+      - "data/ehub-adl-manufacturer-observation-20261127.json"
   workflow_dispatch:
 
 permissions:
@@ -27,8 +30,11 @@ jobs:
         with:
           node-version: 20
       - name: Validate four existing product and read-only merchant contracts
-        run: node --test tests/audit-ehub-adl-listings.test.js tests/audit-ehub-adl-category.test.js
+        run: node --test tests/audit-ehub-adl-listings.test.js tests/audit-ehub-adl-category.test.js tests/audit-ehub-adl-manufacturer-refs.test.js
       - name: Observe four public eHUB seller listings without affiliate requests
         run: node scripts/audit-ehub-adl-listings.mjs
       - name: Observe exact seller SKU in single public self-care category
         run: node scripts/audit-ehub-adl-category.mjs
+
+      - name: Observe exact manufacturer reference codes on four official product pages
+        run: node scripts/audit-ehub-adl-manufacturer-refs.mjs

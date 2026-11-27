@@ -18,7 +18,7 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 
 ## BLOKACE
 - CJ: nepotvrzená ACTIVE publisher property `zaprazi.cz` a PID/21 deeplinků; schválené/pending/rejected provize UNKNOWN. [#857](https://github.com/Rastty/zaprazi-2/issues/857).
-- eHUB: 4 veřejné seller SKU karty ověřeny, ale publisher deeplinky, přesné varianty a sklady ne. [#914](https://github.com/Rastty/zaprazi-2/issues/914). Bez odemykání CTA.
+- eHUB: [27. 11. runner](https://github.com/Rastty/zaprazi-2/actions/runs/46027220415) 4/4 přesné seller karty se skladovým štítkem; nově 4/4 shodné kódy s oficiálními výrobními stránkami MVS (3 single REF, Open-It má 2 REF a prodejce uvádí 15-050105 Ice Blue). Viz `data/ehub-adl-manufacturer-observation-20261127.json`. Skutečně dodaný kus, fyzický sklad, publisher deeplinky a provize stále UNKNOWN. [Veřejný program eHUB](https://ehub.cz/18119967-rehavita-cz) nabízí doménový tracking při registraci domény; aktuální registrace a sazba tohoto publisheru neověřeny. [#914](https://github.com/Rastty/zaprazi-2/issues/914). Bez odemykání CTA.
 - **Windsor.ai 27. 11.: nové čtení GA4/CJ zamítnuto:** tarif Free 1 účet, připojeno 5; neodpojovat jiné weby naslepo. Potřebná změna tarifu nebo přímý read-only export z GA4/CJ.
 - **Git merge / synchronizace není WordPress deploy**; existující autorizovaná cesta je pouze majitelův Deployer for Git. WPVibe nepoužívat.
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).

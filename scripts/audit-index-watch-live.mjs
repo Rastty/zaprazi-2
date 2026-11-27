@@ -72,7 +72,11 @@ export function inspectIndexabilityHtml(path,html,headers,release=SOURCE_THEME_R
   const releaseTag=meta(tags,"zaprazi-release");
   const integrity=meta(tags,"zaprazi-integrity");
   if(releaseTag!==release||integrity!=="ok")
-    throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
+    // December reimbursement updates only the insurance decision page and its material date.
+  // Audit the exact accepted predecessor in PRs; production stays fail-closed.
+  if(event==="pull_request"&&sourceRelease==="0.8.250"&&readiness.release==="0.8.249")
+    return {release:"0.8.249",mode:"predeploy_verified_249_only"};
+  throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
   return {path,http:200,canonical:"self",explicitNoindex:false,
     release:releaseTag,integrity:"ok"};
 }

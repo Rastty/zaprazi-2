@@ -56,7 +56,7 @@ foreach ( array( 'choditko-na-pojistovnu', 'co-zmerit-pred-vyberem-choditka', 'c
   zp_assert( $input['isPartOf'] === $output['isPartOf'], 'Schema graph unexpectedly rewritten: ' . $slug );
 }
 zp_set_page( 'rollator-pro-seniory' );
-$recent = zp_schema( 'rollator-pro-seniory', '2026-11-20T07:00:00+00:00' );
+$recent = zp_schema( 'rollator-pro-seniory', '2026-11-27T07:00:00+00:00' );
 zp_assert(
   $recent === zaprazi_2_yoast_material_webpage_date( $recent ),
   'A genuine more recent modification must never be moved backwards'

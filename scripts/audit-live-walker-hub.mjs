@@ -54,6 +54,11 @@ async function inspect(path){
         text:n.textContent?.trim()||"",
         links:[...n.querySelectorAll('a[href]')].map(a=>a.href)
       })),
+      winter:[...document.querySelectorAll("main #rollator-v-zime")].map(s=>({
+        text:s.textContent||"",links:[...s.querySelectorAll("a[href]")].map(a=>a.href),
+        cards:s.querySelectorAll(".zp-decision-card").length,
+        unsafe:s.querySelectorAll("form,input,button,[data-zp-merchant-link],[data-zp-offer],a[rel~=sponsored]").length
+      })),
       text:document.querySelector("main")?.textContent||""
     }));
     assert.equal(data.release,version,"Page has a stale release "+path);
@@ -91,11 +96,31 @@ try{
       a.text.includes("Zpět na srovnání typů chodítek")),
       "Missing reciprocal comparison link: "+name);
   }
+  const [major,minor,patch]=version.split(".").map(Number);
+  const winterRequired=major>0||minor>8||(minor===8&&patch>=251);
+  if(winterRequired){
+    assert.equal(outdoor.winter.length,1,"Winter guide missing or duplicate");
+    const winter=outdoor.winter[0];
+    assert.equal(winter.cards,3,"Winter decision cases incomplete");
+    assert.equal(winter.unsafe,0,"Winter guide cannot bypass fit gates");
+    assert.match(winter.text,/Na náledí nebo zasněžené neudržované cestě raději cestu odložte/);
+    assert.match(winter.text,/nezaručují bezpečnost na ledu/);
+    assert.match(winter.text,/Výsledek není potvrzením bezpečné chůze na náledí/);
+    assert.deepEqual(winter.links.sort(),[
+      origin+"/prevoz-seniora-k-lekari/",origin+paths.outdoor+"#bezpecne-pouziti-rollatoru",
+      origin+"/obuv-pro-seniory/",endpoints.outdoor,
+      "https://www.uhd.nhs.uk/services/elderly-care/falls-prevention",
+      "https://oxfordhealth.nhs.uk/falls/guidance/weather-safety/",
+      "https://www.uhmb.nhs.uk/news-and-events/latest-news/stay-steady-winter-simple-steps-prevent-falls"
+    ].sort(),"Winter links must remain safe and exact");
+    assert.ok(outdoor.anchors.some(a=>a.href===origin+paths.outdoor+"#rollator-v-zime"));
+  }
   const measure=await inspect(paths.measuring);
   assert.ok(measure.ids.includes("co-zmerit"),"Measurement anchor absent");
   console.log("LIVE_WALKER_HUB",JSON.stringify({
     release:version,integrity:readiness.integrity,affiliate_slots:readiness.configured_total,
     pages:results,safe_advisor_paths:[endpoints.indoor,endpoints.outdoor],
-    measurements:endpoints.measuring,return_links:2,invalid_merchant_redirects:0
+    measurements:endpoints.measuring,return_links:2,invalid_merchant_redirects:0,
+    winter_guide:winterRequired?"verified":"not_required_before_251"
   }));
 }finally{await browser.close();}

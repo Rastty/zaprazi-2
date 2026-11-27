@@ -165,6 +165,40 @@ export function requireAcceptedRelease(readiness, eventName) {
   }
 }
 
+// Check the public 0.8.249 hero itself, not just its version marker.
+export function assertLiveHomeAdvisorEntry(html, expected) {
+  const doc = String(html).replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<(script|style|template|noscript)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, "");
+  const head = doc.split(/<\/head\s*>/i)[0];
+  const metas = [...head.matchAll(/<meta\b[^>]*>/gi)].map(m=>m[0]);
+  for (const [name,value] of [["zaprazi-release",expected],["zaprazi-integrity","ok"]]) {
+    const found = metas.filter(tag=>htmlAttribute(tag,"name")===name);
+    assert.equal(found.length,1,"Missing or duplicate homepage "+name);
+    assert.equal(htmlAttribute(found[0],"content"),value,"Stale or partial homepage "+name);
+  }
+  const heroes = [...doc.matchAll(/<section\b([^>]*)>([\s\S]*?)<\/section>/gi)]
+    .filter(m=> (htmlAttribute(m[1],"class")??"").split(/\s+/).includes("zp-home-hero"));
+  assert.equal(heroes.length,1,"Expected one homepage hero");
+  const hero=heroes[0][2];
+  const actions=hero.match(/<div\b[^>]*class=["'][^"']*\bzp-hero-actions\b[^"']*["'][^>]*>([\s\S]*?)<\/div>/i)?.[1];
+  assert.ok(actions,"Missing hero actions");
+  assert.doesNotMatch(actions,/<form\b|data-zp-merchant-link|data-zp-affiliate-target|\bhidden\b/i);
+  const links=[...actions.matchAll(/<a\b[^>]*>/gi)].map(m=>m[0]);
+  assert.equal(links.length,3,"Exactly three public hero actions required");
+  assert.deepEqual(links.map(tag=>htmlAttribute(tag,"href")),[
+    origin+"/senior-spadl-doma/#prvni-krok-pad",origin+"/navrat-z-nemocnice/","#poradce"
+  ],"Homepage actions must retain urgent, return and direct Advisor routes");
+  assert.equal(htmlAttribute(links[2],"data-zp-journey"),"advisor","Missing anonymous Advisor handoff marker");
+  assert.ok(links.every(tag=>!/(?:^|\s)sponsored(?:\s|$)/i.test(htmlAttribute(tag,"rel")??"")),"Unexpected commercial shortcut");
+  const targets=[...doc.matchAll(/<[a-z][\w:-]*\b[^>]*>/gi)].map(m=>m[0])
+    .filter(tag=>htmlAttribute(tag,"id")==="poradce");
+  assert.equal(targets.length,1,"Missing or duplicate advisor anchor");
+  assert.equal(htmlAttribute(targets[0],"tabindex"),"-1","Advisor target must be focusable");
+  assert.ok(isExactAnchor(doc,"zp-mobility-advisor"),"Missing existing Mobility advisor");
+  assert.ok(isExactAnchor(doc,"co-resite"),"Other home situations must remain reachable");
+  return {release:expected,integrity:"ok",hero_actions:3,advisor_handoff:"verified"};
+}
+
 export async function verifyLiveReleaseAndGuides() {
   const readiness = checkReadiness(JSON.parse(await getText(origin+"/wp-json/zaprazi/v1/affiliate-readiness")));
   const report = { checked_at: new Date().toISOString(), site: origin, ...readiness,
@@ -175,6 +209,11 @@ export async function verifyLiveReleaseAndGuides() {
     console.log("ZP_PRODUCTION_ACCEPTANCE",JSON.stringify(report));
     requireAcceptedRelease(readiness, process.env.GITHUB_EVENT_NAME);
     return report;
+  }
+  // Do not accept the new runtime on release metadata alone.
+  const [major,minor,patch]=readiness.expected.split(".").map(Number);
+  if(major>0||minor>8||minor===8&&patch>=249) {
+    report.home_advisor_entry=assertLiveHomeAdvisorEntry(await getText(origin+"/"),readiness.expected);
   }
   const guides = [
     {path:"/senior-nemuze-vstat-z-postele/",anchor:"presun-z-postele-na-vozik",phrase:"Nezvládám zvedání seniora"},

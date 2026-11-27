@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import {isExactAnchor,checkReadiness,requireAcceptedRelease,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases,getPage} from "../scripts/verify-live-release-and-guides.mjs";
+import {isExactAnchor,checkReadiness,requireAcceptedRelease,assertGuidance,assertPrimaryGuidance,assertNoGuidance,liveSearchCases,assertLiveEditorialSeo,liveEditorialSeoCases,getPage,assertLiveHomeAdvisorEntry} from "../scripts/verify-live-release-and-guides.mjs";
 const ready={release:"0.8.182",integrity:"ok",configured_total:25,slot_total:25};
 
 test("production readback retries only transient network errors without changing its exact-host and no-redirect contract", async()=>{
@@ -131,4 +131,29 @@ test("pending production release may be reported in a predeploy PR but never pas
  for(const event of ["schedule","workflow_dispatch","push","pull_request",undefined]){
    assert.doesNotThrow(()=>requireAcceptedRelease(matched,event));
  }
+});
+
+
+test("0.8.249 live homepage must prove exact version, three safe actions and the actual focusable Advisor handoff",()=>{
+ const valid='<html><head><meta name="zaprazi-release" content="0.8.249"><meta name="zaprazi-integrity" content="ok"></head><body>'+
+ '<section class="zp-hero zp-home-hero"><div class="zp-hero-actions">'+
+ '<a href="https://zaprazi.cz/senior-spadl-doma/#prvni-krok-pad">Pád</a>'+
+ '<a href="https://zaprazi.cz/navrat-z-nemocnice/">Návrat</a>'+
+ '<a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Poradce</a></div></section>'+
+ '<section id="co-resite"></section><section id="poradce" tabindex="-1"><div id="zp-mobility-advisor"></div></section></body></html>';
+ assert.deepEqual(assertLiveHomeAdvisorEntry(valid,"0.8.249"),{
+  release:"0.8.249",integrity:"ok",hero_actions:3,advisor_handoff:"verified"
+ });
+ for(const bad of [
+  valid.replace("0.8.249","0.8.248"),
+  valid.replace('content="ok"','content="partial"'),
+  valid.replace('href="#poradce"','href="#co-resite"'),
+  valid.replace('data-zp-journey="advisor"','data-zp-journey="other"'),
+  valid.replace('href="#poradce"','href="/?answer=x#poradce"'),
+  valid.replace('tabindex="-1"','tabindex="0"'),
+  valid.replace('<section id="poradce"','<section data-id="poradce"'),
+  valid.replace('<div id="zp-mobility-advisor"></div>','<!-- <div id="zp-mobility-advisor"></div> -->'),
+  valid.replace('<a href="https://zaprazi.cz/navrat-z-nemocnice/">Návrat</a>','<a href="https://zaprazi.cz/navrat-z-nemocnice/" rel="sponsored">Návrat</a>'),
+  valid.replace('</a></div></section>','</a><a href="#co-resite">Fourth</a></div></section>')
+ ]) assert.throws(()=>assertLiveHomeAdvisorEntry(bad,"0.8.249"));
 });

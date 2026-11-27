@@ -1,18 +1,18 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav 27. 11. 2026: WordPress 0.8.249 LIVE — nezávislý public smoke PASS. Poslední plně přijaté vydání po 14-advisor Chrome QA zůstává 0.8.248 do dokončení exact 0.8.249 postdeploy QA.**
+**Stav 27. 11. 2026: WordPress 0.8.249 LIVE a ACCEPTED — nezávislý public smoke i kompletní Chrome QA 14 poradců PASS.**
 
 ## CÍL
 Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit / půjčit / prověřit úhradu → bezpečný další krok. Obchodní milník = připsaná **schválená affiliate provize** (stále UNKNOWN).
 
 ## HOTOVO / PŘIPRAVENO
-- Poslední přijaté produkční vydání **0.8.248**: [Chrome QA 9/9 PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45048858868); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
+- Poslední přijaté produkční vydání **0.8.249**: [Chrome QA PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
 - 27. 11.: [Independent Production Acceptance PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46015196089), [affiliate parity PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46005771626).
-- **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Majitel provedl Pull + Deploy; [nezávislá exact 0.8.249 acceptance](https://github.com/Rastty/zaprazi-2/actions/runs/46019498998) potvrzuje release, integrity=ok, 25/25 a skutečný nový homepage CTA. [#938](https://github.com/Rastty/zaprazi-2/pull/938) přidal tento trvalý veřejný feature gate; zbývá kompletní postdeploy Chrome QA.
+- **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Majitel provedl Pull + Deploy; [nezávislá exact 0.8.249 acceptance](https://github.com/Rastty/zaprazi-2/actions/runs/46019498998) potvrzuje release, integrity=ok, 25/25 a skutečný nový homepage CTA. [#938](https://github.com/Rastty/zaprazi-2/pull/938) přidal tento trvalý veřejný feature gate; [#939](https://github.com/Rastty/zaprazi-2/pull/939) zapojil stejný gate do automatiky bez dodatečných GET; plný [Chrome QA](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104) přímo na 0.8.249 PASS (14 live Advisor forms, release coherence 4 pages/2 readiness checks).
 
 ## OVĚŘENO
 - 23. 11. bot-scoped Googlebot SEO parser + 8 testů [#934](https://github.com/Rastty/zaprazi-2/pull/934); bez WordPress runtime změn.
-- Starší GSC 23. 10.–19. 11.: 16 kliků / 1 529 impresí. **GA4 27d 25. 10.–20. 11.:** 18 Organic sessions / 7 engaged; GA4 28d 24. 10.–20. 11.: 19 / 8. Pět zahájení, pět dokončení poradce a jeden merchant click bez Organic atribuce. Uplift ani příjem **neověřeny**. [Evidence](docs/MEASUREMENT_BASELINE_2026-11-20.md).
+- **GSC final 28d 28. 10.–24. 11.: 22 kliků / 1 896 impresí** ([Core snapshot 27. 11.](https://github.com/Rastty/prometheus-growth-os/actions/runs/45954642166), 29/53 sledovaných URL; 7/7 page-filtered queries odpovědělo, 0 bezpečných skupin). Starší překrývající se okno: 16 / 1 529; nejde o kauzální uplift. Index Inspection: 12/15 indexovaných, homepage crawled-not-indexed (crawl 20. 11. před 0.8.249), bytové chodítko a sprchovací židle discovered-not-indexed bez prvního crawl; všechny tři sitemap reported. Dopravní návod 149 impresí/4 kliky, ePoukaz 58/1, schody 55/1; bez nového safe query intent žádný přepis. **GA4 27d 25. 10.–20. 11.:** 18 Organic sessions / 7 engaged; GA4 28d 24. 10.–20. 11.: 19 / 8. Pět zahájení, pět dokončení poradce a jeden merchant click bez Organic atribuce. Uplift ani příjem **neověřeny**. [Evidence](docs/MEASUREMENT_BASELINE_2026-11-20.md).
 
 ## BLOKACE
 - CJ: nepotvrzená ACTIVE publisher property `zaprazi.cz` a PID/21 deeplinků; schválené/pending/rejected provize UNKNOWN. [#857](https://github.com/Rastty/zaprazi-2/issues/857).
@@ -22,6 +22,6 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Dokončit exact 0.8.249 postdeploy Chrome QA všech 14 poradců na potvrzeném live release. Pull + Deploy již proveden a veřejný feature gate PASS; není třeba opakovat. Teprve po plném QA posunout safety_qa.verifiedRelease.
+1. Prověřit live crawlable odkazy a sitemap pro bytové chodítko (discovered-not-indexed), případný prokazatelný discovery gap opravit. Homepage vyčkat na crawl po 0.8.249; žádné spekulativní přepisy ani automatické index requests.
 2. V CJ aktivovat/ověřit property a PID, získat read-only publisher provizní evidenci; výsledek odlišit od readiness.
 3. Po obnovení analytiky porovnat kvalifikované organické vstupy → consented `guide_advisor_click` → `builder_start` → merchant klik, bez odvozování objednávek z kliků.

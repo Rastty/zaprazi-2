@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_248 */ get_header(); ?>
+/* ZP_RELEASE_0_8_249 */ get_header(); ?>
 <main id="main-content" tabindex="-1">
   <section class="zp-hero zp-illustrated-hero zp-home-hero">
     <div class="zp-wrap zp-hero-layout">
@@ -9,6 +9,7 @@
       <p class="zp-lead">Senior spadl, vrací se z nemocnice nebo potřebuje bezpečnější pohyb doma? Začněte tím, co se právě děje. Pomůžeme najít praktický další krok, vhodný typ řešení a možnosti jeho pořízení — bez zbytečných nákupů.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Senior spadl: co dělat teď</a>
+        <a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce pro chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a>
         <a class="zp-text-link" href="#co-resite">Vybrat pomůcku podle situace</a>
       </div>
@@ -37,7 +38,7 @@
     </div>
   </section>
 
-  <section id="poradce" class="zp-wrap zp-advisor-section">
+  <section id="poradce" class="zp-wrap zp-advisor-section" tabindex="-1">
     <div class="zp-panel">
       <p class="zp-kicker">Domácí poradce · Mobilita</p>
       <h2>Co potřebujete vyřešit při chůzi?</h2>

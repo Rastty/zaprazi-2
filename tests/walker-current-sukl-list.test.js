@@ -37,15 +37,21 @@ test("November 5005963 amount is verified in final SÚKL PDF, not a generic publ
   assert.match(november,/Úhrada není automatický nárok/);
 });
 
-test("December expires the November amount and points to the current official index",()=>{
+test("December activates only its own verified record; January fails closed",()=>{
   const december=renderAt("2026-12-01");
   const january=renderAt("2027-01-05");
-  for(const html of [december,january]){
+  assert.match(december,/Prosinec 2026: úhrada 3 408 Kč/);
+  assert.match(december,/Úhrada v aktuálním prosincovém seznamu/);
+  assert.match(december,/ZPSCAU_20261201\.pdf/);
+  assert.match(december,/sukl343339\/2026/);
+  assert.match(december,/strana 11 z 92/);
+  assert.doesNotMatch(december,/Úhrada v aktuálním listopadovém seznamu/);
+  for(const html of [january]){
     assert.doesNotMatch(html,/Úhrada v aktuálním listopadovém seznamu/);
     assert.doesNotMatch(html,/Listopad 2026: úhrada 3 408 Kč/);
-    assert.match(html,/Historická úhrada v listopadovém seznamu/);
+    assert.match(html,/Historická úhrada v prosincovém seznamu/);
     assert.match(html,/Poslední ověřený záznam už není aktuální/);
-    assert.match(html,/Po 30\. 11\. 2026 ji nepovažujte za současný údaj/);
+    assert.match(html,/Po 31\. 12\. 2026 ji nepovažujte za současný údaj/);
     assert.match(html,/úřední desku SÚKL — Seznamy ZP/);
     assert.match(html,/href="https:\/\/eud\.sukl\.gov\.cz\/pub\/deska\/40000001\/athena\/\?kategorie_id=11"/);
     assert.doesNotMatch(html,/Listopad 2026 — konkrétní řádek ověřen 10\. 11\./);
@@ -62,4 +68,12 @@ test("new source handoff never invents individual reimbursement or bypasses the 
     assert.match(html,/neprokazuje individuální nárok, konečný doplatek ani vhodnost/);
     assert.doesNotMatch(html,/data-zp-merchant-link|data-zp-offer|localStorage|sessionStorage|<form\b/i);
   }
+});
+
+test("published December PDF does not make December current during November",()=>{
+ const html=renderAt("2026-11-30");
+ assert.match(html,/Úhrada v aktuálním listopadovém seznamu/);
+ assert.match(html,/platnost nezačíná před 1. prosincem/);
+ assert.match(html,/ZPSCAU_20261201\.pdf/);
+ assert.doesNotMatch(html,/Úhrada v aktuálním prosincovém seznamu|Prosinec 2026: úhrada/);
 });

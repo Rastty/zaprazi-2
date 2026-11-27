@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_249 */
+/* ZP_RELEASE_0_8_250 */
 /*
 Template Name: Zápraží — Projde invalidní vozík dveřmi
 */

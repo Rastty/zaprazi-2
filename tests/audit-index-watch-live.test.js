@@ -204,3 +204,11 @@ test("source is a read-only audit with no GSC credentials, writes or merchant na
   /oauth2.googleapis.com/,/searchconsole.googleapis.com/,/sendBeacon/,/axios/])
   assert.doesNotMatch(source,pattern);
 });
+
+test("0.8.250 PR checks exact accepted 0.8.249 production, never substitutes for deployment",()=>{
+ const live={release:"0.8.249",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.250",live),{release:"0.8.249",mode:"predeploy_verified_249_only"});
+ assert.deepEqual(selectIndexWatchScope("push","0.8.250",{...live,release:"0.8.250"}),{release:"0.8.250",mode:"exact_live_source"});
+ for(const [event,readiness] of [["push",live],["schedule",live],["pull_request",{...live,release:"0.8.248"}],["pull_request",{...live,integrity:"partial"}],["pull_request",{...live,configured_total:24}]])
+   assert.throws(()=>selectIndexWatchScope(event,"0.8.250",readiness),/INDEX_LIVE_/);
+});

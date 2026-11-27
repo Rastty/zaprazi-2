@@ -92,7 +92,29 @@ export function assertMonthlySuklEvidence(html,pragueDate,release=SOURCE_THEME_R
   if(pragueDate<"2026-11-01")return assertExpiredSuklEvidence(html,pragueDate);
 
   const rendered=clean(html);
+  const decemberRelease=major>0||minor>8||(minor===8&&patch>=250);
+  if(decemberRelease && pragueDate>="2026-12-01"){
+    assert.doesNotMatch(rendered,/Úhrada v aktuálním listopadovém seznamu|<h2>\s*Listopad 2026: úhrada/i,"November no longer current");
+    if(pragueDate<="2026-12-31"){
+      assert.match(rendered,/<h2>\s*Prosinec 2026: úhrada 3\s*408 Kč\./i,"Current December headline missing");
+      assert.match(rendered,/IDEAL ROLLATOR 3061982,\s*kód 5005963/i,"December model and code missing");
+      assert.match(rendered,/Úhrada v aktuálním prosincovém seznamu/i,"December month label missing");
+      assert.match(rendered,/sukl343339\/2026/i,"Exact December notice missing");
+      assert.ok(rendered.includes("https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf"),"Exact December official PDF missing");
+      return {status:"december_record_verified_current_month"};
+    }
+    assert.match(rendered,/<h2>\s*Poslední ověřený záznam už není aktuální\./i,"Expired December stale headline missing");
+    assert.match(rendered,/class=["']zp-stale-evidence["']/i,"Expired December warning missing");
+    assert.match(rendered,/Historická úhrada v prosincovém seznamu/i,"December historical label missing");
+    assert.doesNotMatch(rendered,/Úhrada v aktuálním prosincovém seznamu|<h2>\s*Prosinec 2026: úhrada/i,"December amount still current");
+    return {status:"december_record_expired_fail_closed"};
+  }
   if(pragueDate<="2026-11-30"){
+    if(decemberRelease && pragueDate>="2026-11-27"){
+      assert.doesNotMatch(rendered,/Úhrada v aktuálním prosincovém seznamu|<h2>\s*Prosinec 2026: úhrada/i,"December cannot start before December");
+      assert.match(rendered,/platnost nezačíná před 1\. prosincem/i,"Future record needs clear effective date");
+      assert.ok(rendered.includes("https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf"),"Missing published December PDF");
+    }
     assert.match(rendered,/<h2>\s*Listopad 2026: úhrada 3\s*408 Kč\./i,
       "Current verified November SÚKL headline missing");
     assert.match(rendered,/IDEAL ROLLATOR 3061982,\s*kód 5005963/i,

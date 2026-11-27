@@ -28,7 +28,7 @@ test("old live sitemap is valid only as a predeploy predecessor",()=>{
   assert.equal(assertMaterialLastmod(old,"2026-11-20",PREDEPLOY_242_MATERIAL_DATES).lastmodsVerified,12);
   assert.throws(()=>assertMaterialLastmod(old,"2026-11-20",SOURCE_DATES),
     /SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
-  assert.equal(assertMaterialLastmod(updated,"2026-11-20",SOURCE_DATES).lastmodsVerified,12);
+  assert.equal(assertMaterialLastmod(updated,"2026-11-27",SOURCE_DATES).lastmodsVerified,12);
   assert.throws(()=>assertMaterialLastmod(updated,"2026-11-19",SOURCE_DATES),
     /SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
 });

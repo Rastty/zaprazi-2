@@ -89,7 +89,7 @@ test("fresh rental evidence keeps exact pricing available", () => {
   assert.equal(rentals[0].displayPricing.perMonthKc, 360);
 });
 
-test("November SÚKL row becomes usable only after verified date and expires on 1 December",()=>{
+test("November SÚKL row becomes usable only after verified date and is superseded by a separately verified December record",()=>{
   const beforeCheck=getReimbursementGuidance(
     ["meyra-ideal-3061982"],new Date("2026-11-09T12:00:00Z")
   )[0];
@@ -111,10 +111,22 @@ test("November SÚKL row becomes usable only after verified date and expires on 
   assert.equal(lastDay.freshnessStatus,"fresh");
   assert.equal(lastDay.displayAmountKc,3408);
 
-  const expired=getReimbursementGuidance(
+  const december=getReimbursementGuidance(
     ["meyra-ideal-3061982"],new Date("2026-12-01T00:00:00Z")
   )[0];
-  assert.equal(expired.freshnessStatus,"stale");
-  assert.equal(expired.displayAmountKc,null);
-  assert.match(expired.displayMessage,/už není platný pro aktuální měsíc/i);
+  assert.equal(december.freshnessStatus,"fresh");
+  assert.equal(december.displayAmountKc,3408);
+  assert.equal(december.officialVerification.validFor,"2026-12");
+  assert.equal(december.officialVerification.copayKc,null);
+  assert.match(december.officialVerification.sourceUrl,/ZPSCAU_20261201\.pdf$/);
+});
+
+test("December verified evidence uses Prague midnight and never extends into January",()=>{
+ const get=d=>getReimbursementGuidance(["meyra-ideal-3061982"],new Date(d))[0];
+ assert.equal(get("2026-11-30T22:59:59Z").officialVerification.validFor,"2026-11");
+ assert.equal(get("2026-11-30T23:00:00Z").officialVerification.validFor,"2026-12");
+ assert.equal(get("2026-12-31T22:59:59Z").displayAmountKc,3408);
+ assert.equal(get("2026-12-31T23:00:00Z").displayAmountKc,null);
+ assert.equal(get("2026-12-31T23:00:00Z").freshnessStatus,"stale");
+ assert.equal(get("invalid").displayAmountKc,null);
 });

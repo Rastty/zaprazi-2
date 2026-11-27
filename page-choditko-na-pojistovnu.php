@@ -1,12 +1,14 @@
 <?php
-/* ZP_RELEASE_0_8_249 */
+/* ZP_RELEASE_0_8_250 */
 /*
 Template Name: Zápraží — Chodítko na pojišťovnu
 */
 $zp_sukl_today = current_time( 'Y-m-d' );
 $zp_sukl_october_current = $zp_sukl_today >= '2026-10-01' && $zp_sukl_today <= '2026-10-31';
 $zp_sukl_november_active = $zp_sukl_today >= '2026-11-01' && $zp_sukl_today <= '2026-11-30';
-$zp_sukl_is_current = $zp_sukl_october_current || $zp_sukl_november_active;
+$zp_sukl_december_active = $zp_sukl_today >= '2026-12-01' && $zp_sukl_today <= '2026-12-31';
+$zp_sukl_december_published = $zp_sukl_today >= '2026-11-27';
+$zp_sukl_is_current = $zp_sukl_october_current || $zp_sukl_november_active || $zp_sukl_december_active;
 
 get_header();
 ?>
@@ -99,7 +101,10 @@ get_header();
       </article>
       <article class="zp-card">
         <p class="zp-kicker">Ověřený příklad</p>
-        <?php if ( $zp_sukl_november_active ) : ?>
+        <?php if ( $zp_sukl_december_active ) : ?>
+          <h2>Prosinec 2026: úhrada 3 408 Kč.</h2>
+          <p>Finální prosincový seznam SÚKL uvádí u <strong>IDEAL ROLLATOR 3061982, kód 5005963</strong>, úhradu <strong>3 408 Kč</strong> pro prosinec 2026. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Přesný řádek a oficiální PDF</a>. Nejde o záruku nároku, nulového doplatku ani možnosti zpětného proplacení.</p>
+        <?php elseif ( $zp_sukl_november_active ) : ?>
           <h2>Listopad 2026: úhrada 3 408 Kč.</h2>
           <p>Oficiální listopadový seznam SÚKL uvádí u <strong>IDEAL ROLLATOR 3061982, kód 5005963</strong>, úhradu <strong>3 408 Kč</strong> pro listopad 2026. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Přesný řádek a oficiální PDF</a>. Nejde o záruku nároku, nulového doplatku ani možnosti zpětného proplacení.</p>
         <?php elseif ( $zp_sukl_october_current ) : ?>
@@ -107,7 +112,7 @@ get_header();
           <p>Oficiální říjnový seznam SÚKL uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč. Tento záznam platil pro říjen 2026.</p>
         <?php else : ?>
           <h2>Poslední ověřený záznam už není aktuální.</h2>
-          <p>Zápraží má ověřenou listopadovou úhradu 3 408 Kč u kódu 5005963. <strong>Po 30. 11. 2026 ji nepovažujte za současný údaj</strong> — pro další měsíc je nutné ověřit nový seznam SÚKL a přesný model u výdejce.</p>
+          <p>Zápraží má ověřenou úhradu 3 408 Kč u kódu 5005963 pro listopad i prosinec 2026. <strong>Po 31. 12. 2026 ji nepovažujte za současný údaj</strong> — pro další měsíc je nutné ověřit nový seznam SÚKL a přesný model u výdejce.</p>
           <p><a class="zp-text-link" href="#zp-overit-mesicni-seznam">Otevřít aktuální seznam a postup ověření</a>.</p>
         <?php endif; ?>
       </article>
@@ -218,18 +223,22 @@ get_header();
       <div>
         <p class="zp-kicker">Konkrétní příklad</p>
         <h2 class="zp-section-title">MEYRA Ideal Rollator 3061982.</h2>
+        <?php if ( $zp_sukl_december_published && $zp_sukl_today >= '2026-12-01' ) : ?>
+        <p>V oficiálním finálním seznamu SÚKL platném od <strong>1. 12. 2026</strong> jsme ověřili konkrétní řádek <strong>IDEAL ROLLATOR 3061982, kód 5005963</strong> s úhradou 3 408 Kč (strana 11 z 92). Není tím potvrzen individuální nárok ani doplatek.</p>
+        <?php else : ?>
         <p>V oficiálním finálním seznamu SÚKL platném od <strong>1. 11. 2026</strong> jsme ověřili konkrétní řádek <strong>IDEAL ROLLATOR 3061982, kód 5005963</strong> s úhradou 3 408 Kč (strana 10 z 92). Není tím potvrzen individuální nárok ani doplatek.</p>
+        <?php endif; ?>
         <?php if ( ! $zp_sukl_is_current ) : ?>
-          <p class="zp-stale-evidence"><strong>Pozor:</strong> ověřená listopadová částka už není aktuální pro dnešní měsíc. <a href="#zp-overit-mesicni-seznam">Ověřit platný seznam SÚKL a kód 5005963</a> před předpisem či výdejem.</p>
+          <p class="zp-stale-evidence"><strong>Pozor:</strong> ověřená prosincová částka už není aktuální pro dnešní měsíc. <a href="#zp-overit-mesicni-seznam">Ověřit platný seznam SÚKL a kód 5005963</a> před předpisem či výdejem.</p>
         <?php endif; ?>
 
         <div class="zp-resource-facts">
           <div><span>Kód SÚKL</span><strong>5005963</strong></div>
           <div><span>Kód zobrazovaný výrobcem</span><strong>07-5005963</strong></div>
-          <div><span><?php echo $zp_sukl_november_active ? 'Úhrada v aktuálním listopadovém seznamu' : ( $zp_sukl_october_current ? 'Úhrada v aktuálním říjnovém seznamu' : 'Historická úhrada v listopadovém seznamu' ); ?></span><strong>3 408 Kč</strong></div>
+          <div><span><?php echo $zp_sukl_december_active ? 'Úhrada v aktuálním prosincovém seznamu' : ( $zp_sukl_november_active ? 'Úhrada v aktuálním listopadovém seznamu' : ( $zp_sukl_october_current ? 'Úhrada v aktuálním říjnovém seznamu' : 'Historická úhrada v prosincovém seznamu' ) ); ?></span><strong>3 408 Kč</strong></div>
           <div><span>Úhradová skupina</span><strong>07.03.02.03</strong></div>
           <div><span>Interval v záznamu</span><strong>60 měsíců</strong></div>
-          <div><span>Platnost uvedeného měsíčního záznamu</span><strong><?php echo $zp_sukl_october_current ? 'do 31. 10. 2026' : 'do 30. 11. 2026'; ?></strong></div>
+          <div><span>Platnost uvedeného měsíčního záznamu</span><strong><?php echo $zp_sukl_october_current ? 'do 31. 10. 2026' : ( $zp_sukl_november_active ? 'do 30. 11. 2026' : 'do 31. 12. 2026' ); ?></strong></div>
         </div>
 
         <div class="zp-card" role="note" aria-labelledby="zp-identita-choditka-nadpis">
@@ -298,7 +307,7 @@ get_header();
       </details>
       <details>
         <summary>Je listopadová úhrada 3 408 Kč automatickým nárokem bez doplatku?</summary>
-        <p>Ne. SÚKL v oficiálním listopadovém seznamu uvádí u IDEAL ROLLATOR 3061982, kód 5005963, úhradu 3 408 Kč. To ale nepotvrzuje individuální nárok ani konečný doplatek, možnost uplatnit ePoukaz u libovolného e-shopu nebo zaměnitelnost podobně pojmenovaných modelů. Po 30. 11. 2026 už jde o historický údaj. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit přesný řádek a aktuální podmínky</a>.</p>
+        <p>Ne. SÚKL v oficiálním listopadovém seznamu uvádí u IDEAL ROLLATOR 3061982, kód 5005963, úhradu 3 408 Kč. To ale nepotvrzuje individuální nárok ani konečný doplatek, možnost uplatnit ePoukaz u libovolného e-shopu nebo zaměnitelnost podobně pojmenovaných modelů. Listopadový záznam po 30. 11. 2026 už není aktuální; případný prosincový údaj vyžaduje samostatný finální seznam. <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit přesný řádek a aktuální podmínky</a>.</p>
       </details>
     </div>
   </section>
@@ -312,15 +321,22 @@ get_header();
         <article id="zp-overit-mesicni-seznam">
           <h3>Jak ověřit aktuální měsíční seznam úhrad ZP</h3>
           <p>Na úřední desce SÚKL otevřete <strong>Seznamy ZP</strong> a vyberte seznam hrazených prostředků na poukaz platný pro daný měsíc (nikoli seznam léků ani návrh seznamu). V dokumentu vyhledejte <strong>kód 5005963</strong> a znovu prověřte identitu výrobku, podmínky a výši úhrady s oprávněným výdejcem. Částka v seznamu neprokazuje individuální nárok, konečný doplatek ani vhodnost pro člověka.</p>
-          <?php if ( $zp_sukl_november_active ) : ?>
+          <?php if ( $zp_sukl_december_active ) : ?>
+            <p><strong>Prosinec 2026 — konkrétní řádek ověřen 27. 11.:</strong> finální seznam SÚKL platný k 1. 12. 2026 (č. j. sukl343339/2026), strana 11 z 92, uvádí <strong>5005963 · IDEAL ROLLATOR 3061982 · úhrada 3 408 Kč</strong>. Další podmínky, konečný doplatek, přesný vydávaný model a individuální předpis potvrzuje lékař a oprávněný výdejce.</p>
+            <a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf" target="_blank" rel="noopener noreferrer">Otevřít oficiální PDF SÚKL (strana 11)</a>
+            <a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA" target="_blank" rel="noopener noreferrer">Oznámení na úřední desce</a>
+          <?php elseif ( $zp_sukl_november_active ) : ?>
             <p><strong>Listopad 2026 — konkrétní řádek ověřen 10. 11.:</strong> finální seznam SÚKL platný k 1. 11. 2026 (č. j. sukl313250/2026), strana 10 z 92, uvádí <strong>5005963 · IDEAL ROLLATOR 3061982 · úhrada 3 408 Kč</strong>. Další podmínky, konečný doplatek, přesný vydávaný model a individuální předpis potvrzuje lékař a oprávněný výdejce.</p>
             <a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA/26D0TU21@SUKLAA/ZPSCAU_20261101.pdf" target="_blank" rel="noopener noreferrer">Otevřít oficiální PDF SÚKL (strana 10)</a>
             <a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA" target="_blank" rel="noopener noreferrer">Oznámení na úřední desce</a>
           <?php else : ?>
-            <p>Vybírejte seznam podle měsíce, ve kterém ověřujete úhradu. Listopadový záznam z roku 2026 se nesmí vydávat za aktuální úhradu jiného měsíce.</p>
+            <p>Vybírejte seznam podle měsíce, ve kterém ověřujete úhradu. Záznam z listopadu ani prosince 2026 se nesmí vydávat za aktuální úhradu jiného měsíce.</p>
+          <?php endif; ?>
+          <?php if ( $zp_sukl_december_published && $zp_sukl_november_active ) : ?>
+            <p><strong>Pro výdej od 1. 12. 2026:</strong> SÚKL již zveřejnil finální prosincový seznam, jehož platnost nezačíná před 1. prosincem. <a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf" target="_blank" rel="noopener noreferrer">Prosincový PDF (strana 11)</a>. Dnešní úhradu ověřujte podle listopadového seznamu.</p>
           <?php endif; ?>
           <p><a class="zp-text-link" href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/?kategorie_id=11" target="_blank" rel="noopener noreferrer">Otevřít úřední desku SÚKL — Seznamy ZP</a></p>
-          <p class="zp-muted-copy">Ověřeno 10. 11. 2026: zveřejnění i přesný položkový záznam 5005963 v oficiálním listopadovém PDF. Nenahrazuje rozhodnutí o individuálním nároku.</p>
+          <p class="zp-muted-copy">Ověřeno 10. 11. 2026: zveřejnění i přesný položkový záznam 5005963 v oficiálním listopadovém PDF. <?php if ( $zp_sukl_december_published ) : ?>Prosincový řádek ověřen 27. 11. 2026. <?php endif; ?>Nenahrazuje rozhodnutí o individuálním nároku.</p>
         </article>
         <article>
           <h3>SÚKL: povinný ePoukaz od 1. 1. 2026</h3>
@@ -347,6 +363,13 @@ get_header();
           <p>Oficiální řádek 5005963 · IDEAL ROLLATOR 3061982 · úhrada 3 408 Kč, ověřeno 10. 11. 2026. Platnost částky je omezená na listopad, individuální doplatek není potvrzen.</p>
           <a href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA/26D0TU21@SUKLAA/ZPSCAU_20261101.pdf" target="_blank" rel="noopener noreferrer">Otevřít oficiální PDF (strana 10)</a>
         </article>
+        <?php if ( $zp_sukl_december_published ) : ?>
+        <article>
+          <h3>SÚKL: prosincový seznam cen a úhrad ZP k 1. 12. 2026</h3>
+          <p>Oficiální řádek 5005963 · IDEAL ROLLATOR 3061982 · úhrada 3 408 Kč, ověřeno 27. 11. 2026. Platí pouze v prosinci 2026; individuální nárok ani doplatek nejsou potvrzeny.</p>
+          <a href="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf" target="_blank" rel="noopener noreferrer">Otevřít oficiální PDF (strana 11)</a>
+        </article>
+        <?php endif; ?>
       </div>
 
       <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka vysvětluje postup a ověřené veřejné údaje. Nejde o diagnózu, preskripci ani potvrzení individuálního nároku na úhradu.</p>

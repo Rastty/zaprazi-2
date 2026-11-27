@@ -24,11 +24,14 @@ assert.equal(EXPECTED_LIVE_RELEASE,SOURCE_THEME_RELEASE,"Exact current release r
 const ORIGIN="https://zaprazi.cz";
 const PATH="/choditko-na-pojistovnu/";
 const pdf="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA/26D0TU21@SUKLAA/ZPSCAU_20261101.pdf";
+const decemberPdf="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf";
 const officialIndex="https://eud.sukl.gov.cz/pub/deska/40000001/athena/?kategorie_id=11";
 const todayParts=Object.fromEntries(new Intl.DateTimeFormat("en-GB",{
   timeZone:"Europe/Prague",year:"numeric",month:"2-digit",day:"2-digit"
 }).formatToParts(new Date()).map(({type,value})=>[type,value]));
 const today=[todayParts.year,todayParts.month,todayParts.day].join("-");
+const decemberRelease=atLeast(SOURCE_THEME_RELEASE,"0.8.250");
+const decemberActive=decemberRelease&&today>="2026-12-01"&&today<="2026-12-31";
 const novemberActive=today>="2026-11-01"&&today<="2026-11-30";
 const puppeteer=(await import("puppeteer-core")).default;
 const browser=await puppeteer.launch({
@@ -91,7 +94,20 @@ try{
     assert.equal(observed.noForm,true);
     assert.ok(observed.archiveLinks.includes(pdf),"Exact verified final PDF must be linked as evidence");
     assert.ok(observed.sourceLinks.includes(officialIndex),"Current-month lookup must remain possible");
-    if(novemberActive){
+    if(decemberActive){
+      assert.match(observed.currentSummary,/Prosinec 2026: úhrada 3 408 Kč/);
+      assert.match(observed.factText,/Úhrada v aktuálním prosincovém seznamu/);
+      assert.match(observed.sourceText,/5005963\s*·\s*IDEAL ROLLATOR 3061982\s*·\s*úhrada 3 408 Kč/);
+      assert.match(observed.sourceText,/sukl343339\/2026/);
+      assert.ok(observed.sourceLinks.includes(decemberPdf));
+      assert.ok(observed.archiveLinks.includes(decemberPdf));
+      assert.doesNotMatch(observed.factText,/Úhrada v aktuálním listopadovém seznamu/);
+    }else if(novemberActive){
+      if(decemberRelease&&today>="2026-11-27"){
+        assert.ok(observed.sourceLinks.includes(decemberPdf));
+        assert.match(observed.sourceText,/platnost nezačíná před 1\. prosincem/);
+        assert.doesNotMatch(observed.currentSummary,/Prosinec 2026: úhrada/);
+      }
       assert.match(observed.currentSummary,/Listopad 2026: úhrada 3 408 Kč/);
       assert.match(observed.factText,/Úhrada v aktuálním listopadovém seznamu/);
       assert.match(observed.sourceText,/5005963\s*·\s*IDEAL ROLLATOR 3061982\s*·\s*úhrada 3 408 Kč/);
@@ -102,10 +118,11 @@ try{
       assert.doesNotMatch(observed.currentSummary,/Listopad 2026: úhrada 3 408 Kč/);
       assert.doesNotMatch(observed.factText,/Úhrada v aktuálním listopadovém seznamu/);
       assert.match(observed.currentSummary,/Poslední ověřený záznam už není aktuální/);
-      assert.match(observed.factText,/Historická úhrada v listopadovém seznamu/);
+      assert.match(observed.factText,decemberRelease?/Historická úhrada v prosincovém seznamu/:/Historická úhrada v listopadovém seznamu/);
+      assert.doesNotMatch(observed.factText,/Úhrada v aktuálním prosincovém seznamu/);
     }
     console.log("SUKL_NOVEMBER_215_CHROME_PASS "+JSON.stringify({
-      release:SOURCE_THEME_RELEASE,path:PATH,novemberActive,
+      release:SOURCE_THEME_RELEASE,path:PATH,novemberActive,decemberActive,
       officialPdfLinked:true,zeroCopayNotAssumed:true,thirdPartyRequestsSent:0,
       merchantClicks:0,formsSubmitted:0
     }));

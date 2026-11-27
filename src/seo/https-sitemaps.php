@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_249 */
+/* ZP_RELEASE_0_8_250 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -98,7 +98,7 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
 function zaprazi_2_material_sitemap_page_dates() {
   return array(
     'pujceni-choditka' => '2026-11-09T00:00:00+00:00',
-    'choditko-na-pojistovnu' => '2026-11-16T00:00:00+00:00',
+    'choditko-na-pojistovnu' => '2026-11-27T00:00:00+00:00',
     'koupelna-a-wc' => '2026-11-09T00:00:00+00:00',
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-16T00:00:00+00:00',

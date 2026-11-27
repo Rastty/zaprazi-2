@@ -139,3 +139,18 @@ test("0.8.214 and earlier still require October historical warning in November",
   assert.throws(()=>assertMonthlySuklEvidence(novemberRow,"2026-11-10","0.8.214"),
     /stale headline/);
 });
+
+
+test("0.8.250 monthly acceptance distinguishes publication, December and January",()=>{
+ const pdf="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf";
+ const future=novemberRow+'<p>platnost nezačíná před 1. prosincem</p><a href="'+pdf+'">PDF</a>';
+ assert.equal(assertMonthlySuklEvidence(future,"2026-11-30","0.8.250").status,"november_record_verified_current_month");
+ const dec=novemberRow.replace("Listopad 2026","Prosinec 2026").replace("listopadovém","prosincovém")+
+   '<p>sukl343339/2026</p><a href="'+pdf+'">PDF</a>';
+ assert.equal(assertMonthlySuklEvidence(dec,"2026-12-01","0.8.250").status,"december_record_verified_current_month");
+ assert.throws(()=>assertMonthlySuklEvidence(dec,"2026-11-30","0.8.250"));
+ assert.throws(()=>assertMonthlySuklEvidence(dec,"2027-01-01","0.8.250"));
+ assert.throws(()=>assertMonthlySuklEvidence(dec.replace(pdf,"https://example.org/"),"2026-12-31","0.8.250"));
+ const expired=novemberHistorical.replace("listopadovém","prosincovém");
+ assert.equal(assertMonthlySuklEvidence(expired,"2027-01-01","0.8.250").status,"december_record_expired_fail_closed");
+});

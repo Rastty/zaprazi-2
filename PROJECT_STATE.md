@@ -1,14 +1,14 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav 27. 11. 2026: WordPress 0.8.249 LIVE — nezávislý public smoke PASS. Poslední plně přijaté vydání po 14-advisor Chrome QA zůstává 0.8.248 do dokončení exact 0.8.249 postdeploy QA.**
+**Stav 27. 11. 2026: WordPress 0.8.249 LIVE a ACCEPTED — nezávislý public smoke i kompletní Chrome QA 14 poradců PASS.**
 
 ## CÍL
 Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit / půjčit / prověřit úhradu → bezpečný další krok. Obchodní milník = připsaná **schválená affiliate provize** (stále UNKNOWN).
 
 ## HOTOVO / PŘIPRAVENO
-- Poslední přijaté produkční vydání **0.8.248**: [Chrome QA 9/9 PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45048858868); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
+- Poslední přijaté produkční vydání **0.8.249**: [Chrome QA PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
 - 27. 11.: [Independent Production Acceptance PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46015196089), [affiliate parity PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46005771626).
-- **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Majitel provedl Pull + Deploy; [nezávislá exact 0.8.249 acceptance](https://github.com/Rastty/zaprazi-2/actions/runs/46019498998) potvrzuje release, integrity=ok, 25/25 a skutečný nový homepage CTA. [#938](https://github.com/Rastty/zaprazi-2/pull/938) přidal tento trvalý veřejný feature gate; zbývá kompletní postdeploy Chrome QA.
+- **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Majitel provedl Pull + Deploy; [nezávislá exact 0.8.249 acceptance](https://github.com/Rastty/zaprazi-2/actions/runs/46019498998) potvrzuje release, integrity=ok, 25/25 a skutečný nový homepage CTA. [#938](https://github.com/Rastty/zaprazi-2/pull/938) přidal tento trvalý veřejný feature gate; [#939](https://github.com/Rastty/zaprazi-2/pull/939) zapojil stejný gate do automatiky bez dodatečných GET; plný [Chrome QA](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104) přímo na 0.8.249 PASS (14 live Advisor forms, release coherence 4 pages/2 readiness checks).
 
 ## OVĚŘENO
 - 23. 11. bot-scoped Googlebot SEO parser + 8 testů [#934](https://github.com/Rastty/zaprazi-2/pull/934); bez WordPress runtime změn.
@@ -22,6 +22,6 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Dokončit exact 0.8.249 postdeploy Chrome QA všech 14 poradců na potvrzeném live release. Pull + Deploy již proveden a veřejný feature gate PASS; není třeba opakovat. Teprve po plném QA posunout safety_qa.verifiedRelease.
+1. Získat čerstvé GSC query×page důkazy z existujícího Core reportu a zvolit relevantní organický vstup do Mobility; nepublikovat obecné duplicitní články.
 2. V CJ aktivovat/ověřit property a PID, získat read-only publisher provizní evidenci; výsledek odlišit od readiness.
 3. Po obnovení analytiky porovnat kvalifikované organické vstupy → consented `guide_advisor_click` → `builder_start` → merchant klik, bez odvozování objednávek z kliků.

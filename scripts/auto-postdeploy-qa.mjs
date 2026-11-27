@@ -12,6 +12,7 @@ import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers} from "./audit-live-release-coherence.mjs";
 import {verifyTransportMobility248} from "./audit-live-transport-mobility-248.mjs";
 import {assertLiveHomeAdvisorEntry} from "./verify-live-release-and-guides.mjs";
+import {assertMonthlySuklEvidence} from "./audit-live-mobility-acquisition-184.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -26,6 +27,8 @@ const CHAIR_HANDOFF_RELEASE="0.8.245";
 const STAIRS_ENTRY_RELEASE="0.8.246";
 const TRANSPORT_MOBILITY_RELEASE="0.8.248";
 const HOME_ADVISOR_ENTRY_RELEASE="0.8.249";
+const DECEMBER_SUKL_RELEASE="0.8.250";
+const pragueDay=now=>new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Prague",year:"numeric",month:"2-digit",day:"2-digit"}).format(now);
 const TRANSPORT_PATH="/prevoz-seniora-k-lekari/";
 const STAIRS_PATH="/schody-pro-seniora-doma/";
 const atLeast=(version,min)=>VERSION.test(version)&&
@@ -275,7 +278,7 @@ export function inspectPendingReadiness(data,expected){
   return publicSummary("ready_for_full_qa_probe",expected,live);
 }
 
-export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_RELEASE){
+export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_RELEASE,clock=()=>new Date()){
   if(typeof expected!=="string"||!VERSION.test(expected))
     throw new Error("Invalid source release");
   const before=await (await getPublic(READINESS,"application/json",fetchImpl)).json();
@@ -288,6 +291,8 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
   }
   // Exact 0.8.199 rollout: verify the actual newly published ePoukaz
   // feature, not just generic version metadata on unrelated pages.
+  // A probe that spans local midnight must not accept a cached prior-month claim.
+  const monthlyDay=atLeast(expected,DECEMBER_SUKL_RELEASE)?pragueDay(clock()):null;
   const featureHtml=atLeast(expected,INSURANCE_FIRST_RELEASE)
     ?await (await getPublic(ORIGIN+INSURANCE_PATH,"text/html",fetchImpl)).text()
     :null;
@@ -323,6 +328,11 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
     if(transportHtml!==null)verifyTransportMobility248({transport:transportHtml,stairs:stairsHtml},expected);
     if(atLeast(expected,HOME_ADVISOR_ENTRY_RELEASE))
       assertLiveHomeAdvisorEntry(pages.find(page=>page.path==="/")?.html,expected);
+    let monthlyEvidence=null;
+    if(monthlyDay!==null){
+      if(monthlyDay!==pragueDay(clock()))throw Error("SUKL_CALENDAR_CHANGED_DURING_PROBE");
+      monthlyEvidence=assertMonthlySuklEvidence(featureHtml,monthlyDay,expected).status;
+    }
     return {...publicSummary("ready_for_full_qa",expected,expected),
       pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0)+(transportHtml!==null?2:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
@@ -333,6 +343,7 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
       ...(atLeast(expected,STAIRS_ENTRY_RELEASE)?{stairs_contextual_journeys:"verified"}:{}),
       ...(transportHtml!==null?{transport_mobility_journeys:"verified"}:{}),
       ...(atLeast(expected,HOME_ADVISOR_ENTRY_RELEASE)?{home_advisor_entry:"verified"}:{}),
+      ...(monthlyEvidence!==null?{sukl_monthly_evidence:monthlyEvidence}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

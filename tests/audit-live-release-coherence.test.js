@@ -11,7 +11,7 @@ const html=(release="0.8.185",integrity="ok")=>
   '"></head><body></body></html>';
 const readiness=(release="0.8.185")=>({
   release,integrity:"ok",slot_total:25,configured_total:25,
-  groups:{mobility:{total:3,configured:3,missing:[]}}
+  groups:{mobility:{total:3,configured:3,missing:[]},other:{total:22,configured:22,missing:[]}}
 });
 const snapshot=()=>({
   before:readiness(),after:readiness(),expected:"0.8.185",
@@ -102,4 +102,24 @@ test("preflight fails immediately on HTTP 503; retry cannot hide a bad server st
   });
   await assert.rejects(auditLiveReleaseCoherence(),/HTTP status is not 200/);
   assert.equal(requests,1);
+});
+
+test("rejects nominal 25/25 when group counts do not reconcile",()=>{
+  const invalid=[
+    {},
+    {mobility:{total:3,configured:3,missing:[]}},
+    {mobility:{total:26,configured:26,missing:[]}},
+    {mobility:{total:25,configured:25,missing:[]},empty:{total:0,configured:0,missing:[]}},
+    {mobility:{total:25.5,configured:25.5,missing:[]}},
+    {mobility:{total:"25",configured:"25",missing:[]}},
+    {mobility:{total:-1,configured:-1,missing:[]},other:{total:26,configured:26,missing:[]}},
+    {mobility:{total:25,configured:25,missing:[]},broken:{}}
+  ];
+  for(const groups of invalid){
+    for(const phase of ["before","after"]){
+      const s=snapshot();
+      s[phase].groups=groups;
+      assert.throws(()=>verifyReleaseCoherence(s),/group/);
+    }
+  }
 });

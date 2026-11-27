@@ -9,7 +9,7 @@
 import {fileURLToPath,pathToFileURL} from "node:url";
 import {resolve} from "node:path";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
-import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers} from "./audit-live-release-coherence.mjs";
+import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers,hasConsistentAffiliateGroups} from "./audit-live-release-coherence.mjs";
 import {verifyTransportMobility248} from "./audit-live-transport-mobility-248.mjs";
 import {assertLiveHomeAdvisorEntry} from "./verify-live-release-and-guides.mjs";
 import {assertMonthlySuklEvidence} from "./audit-live-mobility-acquisition-184.mjs";
@@ -266,11 +266,7 @@ export function inspectPendingReadiness(data,expected){
   if(!data||typeof data!=="object"||Array.isArray(data)||!VERSION.test(data.release))
     return publicSummary("blocked_invalid_readiness",expected);
   const live=data.release;
-  const groups=data.groups;
-  const validGroups=groups&&typeof groups==="object"&&!Array.isArray(groups)&&
-    Object.keys(groups).length>0&&Object.values(groups).every(group=>
-      group&&Number.isSafeInteger(group.total)&&group.total>=0&&
-      group.configured===group.total&&Array.isArray(group.missing)&&group.missing.length===0);
+  const validGroups=hasConsistentAffiliateGroups(data);
   if(data.integrity!=="ok"||data.slot_total!==25||
     data.configured_total!==25||!validGroups)
     return publicSummary("blocked_incomplete_live_integrity",expected,live);

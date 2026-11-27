@@ -685,3 +685,19 @@ test("0.8.250 monitor verifies actual monthly reimbursement and rejects stale or
  const midnight=await observePublicDeploy(probe(nov),release,()=>new Date(moments.shift()));
  assert.equal(midnight.status,"blocked_mixed_or_incomplete_live_release");
 });
+
+test("25/25 headline cannot trigger QA if affiliate group totals are inconsistent",async()=>{
+  for(const groups of [{},{mobility:{total:3,configured:3,missing:[]}},
+    {mobility:{total:26,configured:26,missing:[]}},
+    {mobility:{total:25,configured:25,missing:[]},empty:{total:0,configured:0,missing:[]}}]){
+    let calls=0;
+    const result=await observePublicDeploy(async url=>{
+      calls++;
+      assert.equal(url,readinessUrl);
+      return {status:200,url,json:async()=>({...readiness("0.8.199"),groups})};
+    },"0.8.199");
+    assert.equal(result.status,"blocked_incomplete_live_integrity");
+    assert.equal(calls,1);
+    assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
+  }
+});

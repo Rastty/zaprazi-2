@@ -13,7 +13,7 @@ Bezpečně a samostatně doma: problém → poradce → řešení → koupit / p
 
 ## OVĚŘENO
 - **GSC final 28d 28. 10.–24. 11.: 22 kliků / 1 896 impresí** ([Core snapshot](https://github.com/Rastty/prometheus-growth-os/actions/runs/45954642166), 29/53 URL, 0 nových bezpečných query skupin). Starší překrývající se okno 16/1 529, ne kauzální uplift. Index Inspection 12/15; homepage crawled-not-indexed (crawl 20. 11.), bytové chodítko a sprchovací židle discovered-not-indexed, 3/3 sitemap reported; obě URL již mají 9 dalších interních zdrojů a self-canonical. Dopravní návod 149/4, ePoukaz 58/1, schody 55/1.
-- **GA4 28d 24. 10.–20. 11.:** 19 Organic sessions / 8 engaged; 5 startů, 5 dokončení a 1 merchant click bez Organic atribuce. [Měřicí baseline](docs/MEASUREMENT_BASELINE_2026-11-20.md). Uplift i příjem neověřeny.
+- **GA4 27d 25. 10.–20. 11.:** 18 Organic sessions / 7 engaged; **GA4 28d 24. 10.–20. 11.:** 19 Organic sessions / 8 engaged; 5 startů, 5 dokončení a 1 merchant click bez Organic atribuce. [Měřicí baseline](docs/MEASUREMENT_BASELINE_2026-11-20.md). Uplift i příjem neověřeny.
 
 ## BLOKACE
 - CJ: nepotvrzená ACTIVE property `zaprazi.cz` a PID/21 deeplinků; provize UNKNOWN. [#857](https://github.com/Rastty/zaprazi-2/issues/857). Dr.Max WA17 shodné EAN, Mediskont 100 WHD variantní rozpor; [kandidáti HOLD](https://github.com/Rastty/zaprazi-2/issues/857#issuecomment-7225291402).

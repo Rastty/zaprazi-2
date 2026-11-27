@@ -44,19 +44,19 @@ test("real, dated GA4 organic cohort evidence is not counted as 19 decision visi
   assert.match(rendered,/Retired archive je členství ve starém manifestu/);
   assert.match(rendered,/GSC, GA4/);
   assert.equal(p.metrics.approved_affiliate_commission_28d,null);
-  // 0.8.249 is verified only by its exact independent postdeploy acceptance.
+  // 0.8.250 is verified only by its exact independent postdeploy acceptance.
   // Future or older source versions must never inherit the current QA.
-  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.249");
+  assert.equal(snapshot.nodes.safety_qa.verifiedRelease,"0.8.250");
   assert.equal(snapshot.nodes.safety_qa.evidenceUrl,
-    "https://github.com/Rastty/zaprazi-2/actions/runs/46020012104");
+    "https://github.com/Rastty/zaprazi-2/actions/runs/46051479218");
   assert.equal(p.tasks.find(t=>t.id==="safety_qa").status,
-    p.sourceRelease==="0.8.249"?"verified":"needs_revalidation",
+    p.sourceRelease==="0.8.250"?"verified":"needs_revalidation",
     "Production acceptance is version-scoped");
-  assert.equal(planGrowth(graph,snapshot,date,"0.8.249").tasks.find(t=>t.id==="safety_qa").status,
-    "verified","Exact accepted source release is independently verified");
   assert.equal(planGrowth(graph,snapshot,date,"0.8.250").tasks.find(t=>t.id==="safety_qa").status,
-    "needs_revalidation","A future release must never inherit 0.8.249 live QA");
-  assert.throws(()=>planGrowth(graph,snapshot,date,"0.8.248"),
+    "verified","Exact accepted source release is independently verified");
+  assert.equal(planGrowth(graph,snapshot,date,"0.8.251").tasks.find(t=>t.id==="safety_qa").status,
+    "needs_revalidation","A future release must never inherit 0.8.250 live QA");
+  assert.throws(()=>planGrowth(graph,snapshot,date,"0.8.249"),
     /Safety QA cannot certify a future source release/,
     "A newer live acceptance must not be backdated to an older source release");
   const oldProduction=clone(snapshot);

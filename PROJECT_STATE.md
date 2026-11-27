@@ -23,7 +23,7 @@ Bezpečně a samostatně doma: problém → poradce → řešení → koupit / p
 - Nedoložené hromadné 301/noindex/mazání 4 359 historických URL HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Majitel: WP Deployer for Git → dev → Pull + Deploy 0.8.250. Poté exact release + 14 poradců; prosincová platnost nesmí začít před 1. 12. Bez dalších spekulativních přepisů či index requests.
+1. Majitel: WP Deployer for Git → dev → Pull + Deploy 0.8.250. Poté exact release + 14 poradců; prosincová platnost nesmí začít před 1. 12. Bez dalších spekulativních přepisů či index requests. [#948](https://github.com/Rastty/zaprazi-2/issues/948) připravuje read-only DFG canary preflight; nový deploy transport neautorizován, bez volání endpointu.
 2. Aktivovat/ověřit CJ property/PID a eHUB doménu, získat autorizovanou provizní evidenci; readiness není provize.
 3. Paralelní kandidát [NOANO #946](https://github.com/Rastty/zaprazi-2/issues/946): veřejná odměňovaná spolupráce pro poskytovatele sociálních služeb; způsobilost Zápraží a podmínky UNKNOWN. Poptávka připravena, neodeslána. Pilot jen stávající `/pujceni-choditka/` po schválení a release acceptance, bez zdravotních dat a bez nových slotů. Přednost CJ/eHUB.
 4. Po obnovení analytiky měřit kvalifikované organické vstupy → consented guide_advisor_click → builder_start → merchant klik → skutečné schválené provize.

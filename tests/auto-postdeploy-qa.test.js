@@ -590,3 +590,41 @@ test("0.8.247 live remains deployment-pending and new 0.8.248 pages are never pr
   assert.equal(result.status,"pending_wp_pull_and_deploy");
   assert.deepEqual(calls,[readinessUrl]);
 });
+
+
+test("0.8.249 auto-postdeploy gate checks the actual homepage handoff without extra GETs",async()=>{
+ const release="0.8.249";
+ const hero='<section class="zp-hero zp-home-hero"><div class="zp-hero-actions">'+
+ '<a href="https://zaprazi.cz/senior-spadl-doma/#prvni-krok-pad">Pád</a>'+
+ '<a href="https://zaprazi.cz/navrat-z-nemocnice/">Návrat</a>'+
+ '<a data-zp-journey="advisor" href="#poradce">Poradce</a></div></section>'+
+ '<section id="co-resite"></section><section id="poradce" tabindex="-1"><div id="zp-mobility-advisor"></div></section>';
+ const home=stairsHome(release).replace("<main>","<main>"+hero);
+ const calls=[];
+ const probe=async(url,options)=>{
+   calls.push({url,options});
+   const page=url===origin+"/"?home:
+     url===origin+"/navrat-z-nemocnice/"?stairsReturn(release):
+     url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage(release):
+     url===origin+"/choditka-pro-seniory/"?walkerHubPage(release):
+     url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage(release):
+     url===origin+"/vstavani-z-kresla-pro-seniora/"?chairPage(release):
+     url===origin+"/prevoz-seniora-k-lekari/"?transport248(release):
+     url===origin+"/schody-pro-seniora-doma/"?stairs248(release):html(release);
+   return {status:200,url,json:async()=>readiness(release),text:async()=>page};
+ };
+ const verified=await observePublicDeploy(probe,release);
+ assert.equal(verified.status,"ready_for_full_qa");
+ assert.equal(verified.home_advisor_entry,"verified");
+ assert.equal(verified.pages,10);
+ assert.equal(calls.length,2+RELEASE_CHECK_PATHS.length+6);
+ assert.ok(calls.every(({url,options})=>url.startsWith(origin)&&!url.includes("?")&&options.method==="GET"&&options.redirect==="error"));
+ for(const bad of [home.replace('href="#poradce"','href="#co-resite"'),home.replace('tabindex="-1"','tabindex="0"'),stairsHome(release)]){
+   const result=await observePublicDeploy(async(url,options)=>{
+     const response=await probe(url,options);
+     return url===origin+"/"?{...response,text:async()=>bad}:response;
+   },release);
+   assert.equal(result.status,"blocked_mixed_or_incomplete_live_release");
+   assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
+ }
+});

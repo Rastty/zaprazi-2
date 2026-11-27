@@ -11,6 +11,7 @@ import {resolve} from "node:path";
 import {SOURCE_THEME_RELEASE} from "./lib/live-release.mjs";
 import {RELEASE_CHECK_PATHS,verifyReleaseCoherence,readReleaseMarkers} from "./audit-live-release-coherence.mjs";
 import {verifyTransportMobility248} from "./audit-live-transport-mobility-248.mjs";
+import {assertLiveHomeAdvisorEntry} from "./verify-live-release-and-guides.mjs";
 
 const ORIGIN="https://zaprazi.cz";
 const READINESS=ORIGIN+"/wp-json/zaprazi/v1/affiliate-readiness";
@@ -24,6 +25,7 @@ const CHAIR_PATH="/vstavani-z-kresla-pro-seniora/";
 const CHAIR_HANDOFF_RELEASE="0.8.245";
 const STAIRS_ENTRY_RELEASE="0.8.246";
 const TRANSPORT_MOBILITY_RELEASE="0.8.248";
+const HOME_ADVISOR_ENTRY_RELEASE="0.8.249";
 const TRANSPORT_PATH="/prevoz-seniora-k-lekari/";
 const STAIRS_PATH="/schody-pro-seniora-doma/";
 const atLeast=(version,min)=>VERSION.test(version)&&
@@ -319,6 +321,8 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
     if(chairHtml!==null)verifyChairMobilityHandoff(chairHtml,expected);
     if(atLeast(expected,STAIRS_ENTRY_RELEASE))verifyStairsContextualJourneys(pages,expected);
     if(transportHtml!==null)verifyTransportMobility248({transport:transportHtml,stairs:stairsHtml},expected);
+    if(atLeast(expected,HOME_ADVISOR_ENTRY_RELEASE))
+      assertLiveHomeAdvisorEntry(pages.find(page=>page.path==="/")?.html,expected);
     return {...publicSummary("ready_for_full_qa",expected,expected),
       pages:proof.pages+(featureHtml!==null?1:0)+(hubHtml!==null?2:0)+(chairHtml!==null?1:0)+(transportHtml!==null?2:0),
       ...(featureHtml!==null?{insurance_first_answer:"verified"}:{}),
@@ -328,6 +332,7 @@ export async function observePublicDeploy(fetchImpl=fetch,expected=SOURCE_THEME_
       ...(chairHtml!==null?{chair_mobility_handoff:"verified"}:{}),
       ...(atLeast(expected,STAIRS_ENTRY_RELEASE)?{stairs_contextual_journeys:"verified"}:{}),
       ...(transportHtml!==null?{transport_mobility_journeys:"verified"}:{}),
+      ...(atLeast(expected,HOME_ADVISOR_ENTRY_RELEASE)?{home_advisor_entry:"verified"}:{}),
       affiliate_slots:proof.affiliate_slots,readiness_checks:proof.readiness_checks};
   }catch {
     // Never echo HTML, HTTP query strings, WordPress responses, or user data.

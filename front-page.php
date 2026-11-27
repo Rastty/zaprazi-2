@@ -9,9 +9,8 @@
       <p class="zp-lead">Senior spadl, vrací se z nemocnice nebo potřebuje bezpečnější pohyb doma? Začněte tím, co se právě děje. Pomůžeme najít praktický další krok, vhodný typ řešení a možnosti jeho pořízení — bez zbytečných nákupů.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/senior-spadl-doma/#prvni-krok-pad' ) ); ?>">Senior spadl: co dělat teď</a>
-        <a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce pro chůzi</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/navrat-z-nemocnice/' ) ); ?>">Návrat z nemocnice</a>
-        <a class="zp-text-link" href="#co-resite">Vybrat pomůcku podle situace</a>
+        <a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce pro chůzi</a>
       </div>
       </div>
       <figure class="zp-hero-art">

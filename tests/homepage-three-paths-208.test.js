@@ -8,20 +8,21 @@ const stylesheet = read("style.css");
 const version = stylesheet.match(/^Version:\s*(\d+\.\d+\.\d+)\s*$/m)?.[1];
 const hero = home.split('<section class="zp-hero zp-illustrated-hero zp-home-hero">')[1]?.split("</section>")[0] ?? "";
 
-test("Homepage first-screen offers three practical situations without extra decisions", () => {
+test("Homepage first-screen offers emergency, return and direct Mobility advisor without extra decisions", () => {
   assert.ok(version, "Theme version is required");
   assert.ok(home.includes("ZP_RELEASE_" + version.replaceAll(".", "_")),
     "Homepage release marker must match the current theme version");
   assert.equal(hero.split("<a ").length - 1, 3, "Exactly three direct hero actions");
   assert.ok(hero.includes("home_url( '/senior-spadl-doma/#prvni-krok-pad' )"));
   assert.ok(hero.includes("home_url( '/navrat-z-nemocnice/' )"));
-  assert.ok(hero.includes('href="#co-resite"'));
+  assert.ok(hero.includes('data-zp-journey="advisor" href="#poradce"'));
   assert.ok(hero.indexOf("Senior spadl: co dělat teď") < hero.indexOf("Návrat z nemocnice"));
-  assert.ok(hero.indexOf("Návrat z nemocnice") < hero.indexOf("Vybrat pomůcku podle situace"));
+  assert.ok(hero.indexOf("Návrat z nemocnice") < hero.indexOf("Spustit poradce pro chůzi"));
 });
 
 test("Full homepage, trusted advice and private gated Mobility advisor remain", () => {
   assert.ok(home.indexOf('id="co-resite"') < home.indexOf('id="poradce"'));
+  assert.equal((hero.match(/data-zp-journey="advisor"/g)||[]).length, 1, "Exactly one hero Advisor handoff");
   assert.ok(home.includes('href="#poradce"'), "Existing Mobility entry retained inside the choice section");
   for (const path of [
     "/choditka-pro-seniory/", "/koupelna-a-wc/", "/polohovaci-postel/",

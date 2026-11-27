@@ -10,8 +10,10 @@ test("the homepage Mobility action uses the same consent-gated, parameter-free A
   const cards = home.split('id="co-resite"')[1]?.split('id="poradce"')[0] || "";
   const mobility = cards.split('<h3>Chůze a opora</h3>')[1]?.split('</article>')[0] || "";
   assert.match(mobility, /<a class="zp-text-link" data-zp-journey="advisor" href="#poradce">Spustit poradce<\/a>/);
-  assert.equal((home.match(/data-zp-journey="advisor"/g) || []).length, 1,
-    "One clearly labeled entry signal, no repeated counts from other homepage links");
+  const hero = home.split('<section class="zp-hero zp-illustrated-hero zp-home-hero">')[1]?.split("</section>")[0] || "";
+  assert.match(hero, /data-zp-journey="advisor" href="#poradce">Spustit poradce pro chůzi/);
+  assert.equal((home.match(/data-zp-journey="advisor"/g) || []).length, 2,
+    "Exactly two intentional entry locations (hero and Mobility card), deduplicated by consent adapter");
   const href = mobility.match(/data-zp-journey="advisor" href="([^"]+)"/)?.[1];
   assert.equal(href, "#poradce", "The handoff contains no query, answers or affiliate IDs");
   const h = harness("granted");

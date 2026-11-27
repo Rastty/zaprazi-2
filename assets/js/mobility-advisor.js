@@ -212,7 +212,7 @@ if (form && result && submitButton && errorBox) {
         <p class="zp-muted-copy">Nejde o potvrzení individuální zdravotní vhodnosti. Shortlist vychází z praktických odpovědí a ověřených technických údajů.</p>
         <div class="zp-product-grid">
           ${products.map((product) => `
-            <article class="zp-product-card">
+            <article class="zp-product-card zp-mobility-product-card">
               <p class="zp-product-family">${escapeHtml(familyLabel(product.solutionFamily))}</p>
               <h4>${escapeHtml(product.name)}</h4>
               <ul class="zp-facts">${productFacts(product)}</ul>

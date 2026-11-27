@@ -26,6 +26,7 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
   const requiredKeys = checks.map(([key]) => key);
   return `
     <div class="zp-mobility-fit-gate" data-zp-fit-required="${requiredKeys.join(",")}">
+      <p class="zp-fit-stage">Krok 1 ze 2 · ověření modelu</p>
       <h5>Ověření konkrétního modelu před pořízením</h5>
       <p>Výše uvedené parametry platí pro zobrazený výrobek. Potvrďte všechny relevantní body teprve po jejich porovnání s reálnými potřebami člověka a prostředím.</p>
       <p class="zp-fit-quick-guide">Neznáte ověřené rozměry? Nezaškrtávejte odhad. <a class="zp-text-link" href="/co-zmerit-pred-vyberem-choditka/#co-zmerit" target="_blank" rel="noopener">Jak změřit průchody a výšku madel (návod v novém panelu)</a>.</p>
@@ -40,7 +41,7 @@ export function renderMobilityProductFitGate(offersHtml, options = {}) {
         ${options.requireTransportFit ? '<p>Při převozu v autě vyžádejte složené rozměry a hmotnost konkrétního modelu; bez nich bezpečný transport nepotvrzujte.</p>' : ''}
         <p>Pokud potřebné údaje nejsou dostupné, požádejte prodejce nebo odbornou výdejnu o ověření. <strong>Odkaz na nabídku zůstane uzamčený, dokud nejsou splněné všechny kontroly.</strong></p>
       </details>
-      <div class="zp-fit-locked-offers" hidden>${offersHtml}</div>
+      <div class="zp-fit-locked-offers" hidden><div class="zp-fit-offer-heading"><p class="zp-fit-stage">Krok 2 ze 2 · možnosti pořízení</p><h5>Nabídky pro tento model</h5><p>Ověřte cenu, dostupnost a přesné provedení přímo u poskytovatele. Pokud zvažujete úhradu pojišťovnou, nejprve prověřte ePoukaz.</p></div>${offersHtml}</div>
     </div>`;
 }
 

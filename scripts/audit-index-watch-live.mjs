@@ -72,11 +72,7 @@ export function inspectIndexabilityHtml(path,html,headers,release=SOURCE_THEME_R
   const releaseTag=meta(tags,"zaprazi-release");
   const integrity=meta(tags,"zaprazi-integrity");
   if(releaseTag!==release||integrity!=="ok")
-    // December reimbursement updates only the insurance decision page and its material date.
-  // Audit the exact accepted predecessor in PRs; production stays fail-closed.
-  if(event==="pull_request"&&sourceRelease==="0.8.250"&&readiness.release==="0.8.249")
-    return {release:"0.8.249",mode:"predeploy_verified_249_only"};
-  throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
+    throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
   return {path,http:200,canonical:"self",explicitNoindex:false,
     release:releaseTag,integrity:"ok"};
 }
@@ -131,6 +127,9 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
   // changes; PR audits exact 0.8.242, while push/schedule remain fail-closed.
   if(event==="pull_request"&&sourceRelease==="0.8.243"&&readiness.release==="0.8.242")
     return {release:"0.8.242",mode:"predeploy_verified_242_only"};
+  // Check only exact accepted production in PRs; never substitute for deployment.
+  if(event==="pull_request"&&sourceRelease==="0.8.250"&&readiness.release==="0.8.249")
+    return {release:"0.8.249",mode:"predeploy_verified_249_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

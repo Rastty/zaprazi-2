@@ -13,7 +13,7 @@ test("0.8.213 dates match three actual material mobility edits, not arbitrary pa
   const expected={
     "rollator-pro-seniory":"2026-11-20",
     "choditka-pro-seniory":"2026-11-17",
-    "choditko-na-pojistovnu":"2026-11-16"
+    "choditko-na-pojistovnu":"2026-11-27"
   };
   for(const slug of pages)
     assert.ok(source.includes("\x27"+slug+"\x27 => \x27"+

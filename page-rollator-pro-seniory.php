@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_250 */
+/* ZP_RELEASE_0_8_251 */
 /*
 Template Name: Zápraží — Rollátor pro seniory
 */
@@ -12,7 +12,7 @@ get_header();
       <h1>Rollátor pro seniory: kdy dává smysl čtyřkolové chodítko s brzdami?</h1>
       <p class="zp-lead">Rollátor dává smysl jen tehdy, když člověk bezpečně zvládá ruční brzdy. Vedle šířky a výšky řešte také sedátko, skládání, nosnost a prostor pro bezpečné otáčení.</p>
       <a class="zp-btn" data-zp-journey="advisor" href="#poradce-rollator">Spustit poradce</a>
-      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#rollator-uzke-dvere">Projde rollátor dveřmi 60 cm?</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
+      <p class="zp-muted-copy"><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Co změřit a ověřit před výběrem rollátoru</a> · <a class="zp-text-link" href="#rollator-uzke-dvere">Projde rollátor dveřmi 60 cm?</a> · <a class="zp-text-link" href="#rollator-v-zime">Rollátor v zimě</a> · <a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Co ověřit před výběrem</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Zpět na srovnání typů chodítek</a></p>
     </div>
   </section>
 
@@ -57,6 +57,33 @@ get_header();
       </div>
 
       <section id="zp-rollator-result" class="zp-result" aria-live="polite" tabindex="-1" hidden></section>
+    </div>
+  </section>
+
+  <section id="rollator-v-zime" class="zp-section zp-section-soft" aria-labelledby="rollator-v-zime-nadpis" data-zp-winter-guide="winter-mobility">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Zimní cesta · Rozhodnutí před odchodem</p>
+      <h2 id="rollator-v-zime-nadpis" class="zp-section-title">Rollátor v zimě: je bezpečné vyrazit na chodník?</h2>
+      <p><strong>Na náledí nebo zasněžené neudržované cestě raději cestu odložte nebo zajistěte jiný způsob dopravy.</strong> Čtyři kola, ruční brzdy ani obuv s dobrou přilnavostí nezaručují bezpečnost na ledu. Předem zkontrolujte skutečný povrch celé trasy, včetně vstupu do domu, obrubníků a návratu domů. Nezkoušejte kompenzovat kluzký povrch silnějším brzděním.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Led, neodklizený sníh nebo nejistý povrch</h3>
+          <p>Neplánujte zkoušku rollátoru na kluzké cestě. Pokud lze, odložte cestu a požádejte o nákup, vyzvednutí léků nebo odstranění sněhu a ledu. Je-li cesta k lékaři nutná, domluvte vhodný způsob dopravy předem.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/prevoz-seniora-k-lekari/' ) ); ?>">Možnosti dopravy k lékaři</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Odklizená rovná cesta bez náledí</h3>
+          <p>Naplánujte trasu za denního světla s možností návratu. Použijte pouze pomůcku, kterou již umíte bezpečně ovládat a jejíž návod daný povrch dovoluje. Zkontrolujte kola, brzdy a zajištění konstrukce. Pokud si nejste jistí, využijte pomoc a posouzení odborníka.</p>
+          <p><a class="zp-text-link" href="#bezpecne-pouziti-rollatoru">Čtyři kontroly rollátoru podle návodu</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Dobré obutí nenahradí bezpečnou trasu</h3>
+          <p>Volte dobře padnoucí uzavřenou obuv, která drží na noze, má pevné zapínání a dobrou přilnavost. Nepředpokládejte, že každý široký model na suchý zip je vhodný do sněhu nebo na led. Ověřte použití a podrážku u konkrétního výrobce.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/obuv-pro-seniory/' ) ); ?>">Jak ověřit správné obutí</a></p>
+        </article>
+      </div>
+      <p>Řešíte nový typ opory pro běžnou chůzi na vhodném povrchu? <a class="zp-text-link" href="#poradce-rollator">Prověřte ovládání brzd v poradci</a>. Výsledek není potvrzením bezpečné chůze na náledí ani individuálního zdravotního stavu.</p>
+      <p class="zp-muted-copy">Obecná prevence pádů, zdroje zkontrolovány 27. 11. 2026: <a class="zp-text-link" href="https://www.uhd.nhs.uk/services/elderly-care/falls-prevention" target="_blank" rel="noopener">University Hospitals Dorset — prevence pádů</a>; <a class="zp-text-link" href="https://oxfordhealth.nhs.uk/falls/guidance/weather-safety/" target="_blank" rel="noopener">Oxford Health NHS — bezpečnost v zimním počasí</a>; <a class="zp-text-link" href="https://www.uhmb.nhs.uk/news-and-events/latest-news/stay-steady-winter-simple-steps-prevent-falls" target="_blank" rel="noopener">University Hospitals of Morecambe Bay — zimní prevence pádů</a>. Pro konkrétní pomůcku platí aktuální návod výrobce a individuální posouzení.</p>
     </div>
   </section>
 

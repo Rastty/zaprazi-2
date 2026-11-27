@@ -13,7 +13,7 @@ const xml='<urlset>'+Object.entries(SOURCE_DATES).map(([path,date])=>
 // Historical predeploy fixtures must retain the independently accepted 0.8.242
 // rollator date even when the candidate source adds a genuine later revision.
 const legacyXml=xml.replace('<loc>https://zaprazi.cz/choditko-na-pojistovnu/</loc><lastmod>2026-11-27','<loc>https://zaprazi.cz/choditko-na-pojistovnu/</loc><lastmod>2026-11-16').replace(
-  '<loc>https://zaprazi.cz/rollator-pro-seniory/</loc><lastmod>2026-11-20',
+  '<loc>https://zaprazi.cz/rollator-pro-seniory/</loc><lastmod>2026-11-27',
   '<loc>https://zaprazi.cz/rollator-pro-seniory/</loc><lastmod>2026-11-10');
 test("Exact visible homepage decision cards link to matching useful guides",()=>{
   const v=assertHomepageCards(html);
@@ -174,7 +174,7 @@ test("all 12 source material lastmods are captured; no hardcoded ten-page blind 
   assert.equal(Object.keys(SOURCE_DATES).length,12);
   assert.equal(SOURCE_DATES["/senior-malo-pije/"],"2026-11-18");
   assert.equal(SOURCE_DATES["/choditko-na-pojistovnu/"],"2026-11-27");
-  assert.equal(SOURCE_DATES["/rollator-pro-seniory/"],"2026-11-20");
+  assert.equal(SOURCE_DATES["/rollator-pro-seniory/"],"2026-11-27");
   assert.equal(SOURCE_DATES["/choditka-pro-seniory/"],"2026-11-17");
   assert.equal(SOURCE_DATES["/jak-vybrat-pecovatelskou-sluzbu/"],"2026-11-10");
   assert.equal(SOURCE_DATES["/navrat-z-nemocnice/"],"2026-11-10");
@@ -194,7 +194,7 @@ test("all 12 source material lastmods are captured; no hardcoded ten-page blind 
     "'pujceni-choditka' => '2026-11-09T00:00:00+00:00',"
   )),/SITEMAP_MATERIAL_DATE_DUPLICATE/);
   assert.throws(()=>materialLastmodDates(source.replace(
-    "'rollator-pro-seniory' => '2026-11-20T00:00:00+00:00',",
+    "'rollator-pro-seniory' => '2026-11-27T00:00:00+00:00',",
     "'rollator-pro-seniory' => '2026-13-10T00:00:00+00:00',"
   )),/SITEMAP_MATERIAL_DATE_INVALID/);
 });

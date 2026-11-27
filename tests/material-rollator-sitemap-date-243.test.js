@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import {
-  SOURCE_DATES,PREDEPLOY_242_MATERIAL_DATES,
+  SOURCE_DATES,PREDEPLOY_242_MATERIAL_DATES,PREDEPLOY_250_MATERIAL_DATES,
   assertMaterialLastmod,selectLiveSitemapScope
 } from "../scripts/audit-205-postdeploy-seo.mjs";
 
@@ -13,12 +13,13 @@ const xmlFor=dates=>"<urlset>"+Object.entries(dates).map(([slug,date])=>
   "T00:00:00+00:00</lastmod></url>").join("")+"</urlset>";
 
 test("20 November rollator date is tied to merged substantive editorial evidence",()=>{
-  assert.equal(SOURCE_DATES[path],"2026-11-20");
+  assert.equal(PREDEPLOY_250_MATERIAL_DATES[path],"2026-11-20");
+  assert.equal(SOURCE_DATES[path],"2026-11-27");
   assert.equal(PREDEPLOY_242_MATERIAL_DATES[path],"2026-11-10");
   assert.deepEqual(Object.keys(SOURCE_DATES),Object.keys(PREDEPLOY_242_MATERIAL_DATES));
   assert.deepEqual(edits.changes.filter(change=>change.path===path),[{
-    path,mergedDate:"2026-11-20",
-    pullRequest:"https://github.com/Rastty/zaprazi-2/pull/878"
+    path,mergedDate:"2026-11-27",
+    pullRequest:"https://github.com/Rastty/zaprazi-2/pull/952"
   }]);
 });
 
@@ -45,4 +46,13 @@ test("0.8.243 accepts exactly 0.8.242 in PR before deploy, never as production",
   assert.deepEqual(selectLiveSitemapScope({event:"push",sourceRelease:"0.8.243",
     liveRelease:"0.8.243",integrity:"ok"}),
     {dates:SOURCE_DATES,mode:"postdeploy_exact_release"});
+});
+
+test("winter candidate may inspect exact 0.8.250 predecessor only in PR",()=>{
+  const pre=selectLiveSitemapScope({event:"pull_request",sourceRelease:"0.8.251",liveRelease:"0.8.250",integrity:"ok"});
+  assert.deepEqual(pre.dates,PREDEPLOY_250_MATERIAL_DATES);
+  assert.equal(pre.mode,"predeploy_verified_250_dates_only");
+  assert.equal(assertMaterialLastmod(xmlFor(PREDEPLOY_250_MATERIAL_DATES),"2026-11-27",PREDEPLOY_250_MATERIAL_DATES).lastmodsVerified,12);
+  assert.throws(()=>assertMaterialLastmod(xmlFor(PREDEPLOY_250_MATERIAL_DATES),"2026-11-27",SOURCE_DATES),/SITEMAP_LASTMOD_OUTSIDE_MATERIAL_WINDOW/);
+  assert.throws(()=>selectLiveSitemapScope({event:"push",sourceRelease:"0.8.251",liveRelease:"0.8.250",integrity:"ok"}),/SITEMAP_LIVE_RELEASE_MISMATCH/);
 });

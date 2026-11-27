@@ -212,3 +212,10 @@ test("0.8.250 PR checks exact accepted 0.8.249 production, never substitutes for
  for(const [event,readiness] of [["push",live],["schedule",live],["pull_request",{...live,release:"0.8.248"}],["pull_request",{...live,integrity:"partial"}],["pull_request",{...live,configured_total:24}]])
    assert.throws(()=>selectIndexWatchScope(event,"0.8.250",readiness),/INDEX_LIVE_/);
 });
+
+test("winter candidate permits only the independently accepted 0.8.250 predecessor in PR",()=>{
+ const live={release:"0.8.250",integrity:"ok",configured_total:25,slot_total:25};
+ assert.deepEqual(selectIndexWatchScope("pull_request","0.8.251",live),{release:"0.8.250",mode:"predeploy_verified_250_only"});
+ assert.deepEqual(selectIndexWatchScope("push","0.8.251",{...live,release:"0.8.251"}),{release:"0.8.251",mode:"exact_live_source"});
+ for(const [event,row] of [["push",live],["schedule",live],["pull_request",{...live,release:"0.8.249"}],["pull_request",{...live,integrity:"partial"}]])assert.throws(()=>selectIndexWatchScope(event,"0.8.251",row),/INDEX_LIVE_/);
+});

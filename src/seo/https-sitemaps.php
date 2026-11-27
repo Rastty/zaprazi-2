@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_250 */
+/* ZP_RELEASE_0_8_251 */
 if ( ! defined( 'ABSPATH' ) ) {
   exit;
 }
@@ -93,6 +93,7 @@ add_filter( 'wpseo_sitemap_index_links', 'zaprazi_2_https_sitemap_index_links', 
  * 2026-11-20: #878 materially clarified the existing rollator guide's
  * Lékárna.cz product-table versus retailer-attached MEYRA 3061982 manual
  * discrepancy and the need to check the actual delivered variant before fit.
+ * 2026-11-27: winter rollator decision guide (ice/snow, transport, footwear).
  * These are source-backed content changes, not release or deploy timestamps.
  */
 function zaprazi_2_material_sitemap_page_dates() {
@@ -103,7 +104,7 @@ function zaprazi_2_material_sitemap_page_dates() {
     'kompenzacni-pomucky-pro-seniory' => '2026-11-09T00:00:00+00:00',
     'co-zmerit-pred-vyberem-choditka' => '2026-11-16T00:00:00+00:00',
     'choditka-pro-seniory' => '2026-11-17T00:00:00+00:00',
-    'rollator-pro-seniory' => '2026-11-20T00:00:00+00:00',
+    'rollator-pro-seniory' => '2026-11-27T00:00:00+00:00',
     'senior-nemuze-vstat-z-postele' => '2026-11-09T00:00:00+00:00',
     'jak-vybrat-pecovatelskou-sluzbu' => '2026-11-10T00:00:00+00:00',
     'navrat-z-nemocnice' => '2026-11-10T00:00:00+00:00',

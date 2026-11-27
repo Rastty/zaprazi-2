@@ -1,0 +1,87 @@
+name: Zápraží DFG candidate preflight (read-only)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/dfg-canary-readonly.yml"
+  workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: "Exact synchronized main/dev commit SHA"
+        required: true
+        type: string
+      expected_release:
+        description: "Exact source theme version"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zaprazi-dfg-readonly-candidate
+  cancel-in-progress: false
+
+jobs:
+  read-only-candidate:
+    # On a PR, test the existing merged gate using the immutable BASE checkout.
+    # No PR code, fork, write token, deploy secret, or deploy environment.
+    if: github.repository == 'Rastty/zaprazi-2' && ((github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.base_ref == 'main') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run existing offline regression cases
+        run: node --test tests/dfg-canary-preflight.test.js
+      - name: Verify exact candidate and current public predecessor
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.base.sha || inputs.expected_sha }}
+          EXPECTED_RELEASE: ${{ inputs.expected_release }}
+        run: |
+          set -eu
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            EXPECTED_RELEASE="$(node --input-type=module -e 'import {SOURCE_THEME_RELEASE} from "./scripts/lib/live-release.mjs"; console.log(SOURCE_THEME_RELEASE)')"
+          fi
+          export EXPECTED_SHA EXPECTED_RELEASE
+          node --input-type=module <<'JS'
+          import {readFileSync} from "node:fs";
+          import {inspectDfgCanary} from "./scripts/dfg-canary-preflight.mjs";
+          import {runDeployPreflight} from "./scripts/check-deploy-ref-sync.mjs";
+          import {observePublicDeploy} from "./scripts/auto-postdeploy-qa.mjs";
+          try {
+            const graph=JSON.parse(readFileSync("config/growth-state.json","utf8"));
+            if(graph.nodes?.safety_qa?.status!=="verified"||!graph.nodes.safety_qa.evidenceUrl)throw Error();
+            const expectedSha=process.env.EXPECTED_SHA, expectedRelease=process.env.EXPECTED_RELEASE;
+            const candidate=await inspectDfgCanary({expectedSha,expectedRelease,
+              acceptedRelease:graph.nodes.safety_qa.verifiedRelease});
+            console.log("ZP_DFG_CANARY_PREFLIGHT",JSON.stringify(candidate));
+            if(candidate.status==="candidate_readonly_preflight_passed"){
+              // Candidate only, no deployment.
+            }else if(candidate.status==="target_already_live_requires_acceptance_no_redeploy"){
+              // This is a safe observation outcome, NEVER permission to redeploy.
+              const target=await observePublicDeploy(fetch,expectedRelease);
+              const refs=runDeployPreflight();
+              if(target.status!=="ready_for_full_qa"||target.live_release!==expectedRelease||
+                target.source_release!==expectedRelease||target.affiliate_slots!==25||
+                target.readiness_checks!==2||refs.commit!==expectedSha)throw Error();
+              console.log("ZP_DFG_EXACT_LIVE_OBSERVED",JSON.stringify({
+                ...target,source_commit:expectedSha,wordpress_written:false,
+                production_action_authorized:false,full_production_qa_passed:false
+              }));
+            }else throw Error();
+          }catch{
+            console.error("DFG_READONLY_CANDIDATE_BLOCKED");
+            process.exitCode=1;
+          }
+          JS
+      - name: State the scope of the result
+        if: always()
+        run: |
+          echo "Read-only candidate preflight only. No deploy request, credential check, authorization, or production acceptance."

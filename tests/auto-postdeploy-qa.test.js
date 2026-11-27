@@ -628,3 +628,60 @@ test("0.8.249 auto-postdeploy gate checks the actual homepage handoff without ex
    assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
  }
 });
+
+
+test("0.8.250 monitor verifies actual monthly reimbursement and rejects stale or premature current claims",async()=>{
+ const release="0.8.250",pdf="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf";
+ const hero='<section class="zp-hero zp-home-hero"><div class="zp-hero-actions">'+
+ '<a href="https://zaprazi.cz/senior-spadl-doma/#prvni-krok-pad">Pád</a>'+
+ '<a href="https://zaprazi.cz/navrat-z-nemocnice/">Návrat</a>'+
+ '<a data-zp-journey="advisor" href="#poradce">Poradce</a></div></section>'+
+ '<section id="co-resite"></section><section id="poradce" tabindex="-1"><div id="zp-mobility-advisor"></div></section>';
+ const home=stairsHome(release).replace("<main>","<main>"+hero);
+ const nov='<h2>Listopad 2026: úhrada 3 408 Kč.</h2><p>IDEAL ROLLATOR 3061982, kód 5005963</p>'+
+ '<p>Úhrada v aktuálním listopadovém seznamu</p><p>platnost nezačíná před 1. prosincem</p><a href="'+pdf+'">PDF</a>';
+ const dec='<h2>Prosinec 2026: úhrada 3 408 Kč.</h2><p>IDEAL ROLLATOR 3061982, kód 5005963</p>'+
+ '<p>Úhrada v aktuálním prosincovém seznamu</p><p>sukl343339/2026</p><a href="'+pdf+'">PDF</a>';
+ const jan='<h2>Poslední ověřený záznam už není aktuální.</h2><p class="zp-stale-evidence">Historická úhrada v prosincovém seznamu</p>';
+ const calls=[];
+ const probe=monthly=>async(url,options)=>{
+   calls.push({url,options});
+   const page=url===origin+"/"?home:
+     url===origin+"/navrat-z-nemocnice/"?stairsReturn(release):
+     url===origin+"/choditko-na-pojistovnu/"?insuranceSearchPage(release)+monthly:
+     url===origin+"/choditka-pro-seniory/"?walkerHubPage(release):
+     url===origin+"/choditko-do-bytu-pro-seniory/"?indoorPage(release):
+     url===origin+"/vstavani-z-kresla-pro-seniora/"?chairPage(release):
+     url===origin+"/prevoz-seniora-k-lekari/"?transport248(release):
+     url===origin+"/schody-pro-seniora-doma/"?stairs248(release):html(release);
+   return {status:200,url,json:async()=>readiness(release),text:async()=>page};
+ };
+ const clock=iso=>()=>new Date(iso);
+ for(const [fixture,date,status] of [
+  [nov,"2026-11-30T22:59:59Z","november_record_verified_current_month"],
+  [dec,"2026-11-30T23:00:00Z","december_record_verified_current_month"],
+  [dec,"2026-12-31T22:59:59Z","december_record_verified_current_month"],
+  [jan,"2026-12-31T23:00:00Z","december_record_expired_fail_closed"]
+ ]){
+   calls.length=0;
+   const result=await observePublicDeploy(probe(fixture),release,clock(date));
+   assert.equal(result.status,"ready_for_full_qa");
+   assert.equal(result.sukl_monthly_evidence,status);
+   assert.equal(calls.length,2+RELEASE_CHECK_PATHS.length+6);
+   assert.ok(calls.every(({url,options})=>url.startsWith(origin)&&!url.includes("?")&&options.method==="GET"&&options.redirect==="error"));
+ }
+ for(const [fixture,date] of [
+   [dec,"2026-11-30T22:59:59Z"],[nov,"2026-11-30T23:00:00Z"],[dec,"2026-12-31T23:00:00Z"],
+   [nov.replace(pdf,"https://wrong.example/"),"2026-11-30T12:00:00Z"],
+   [dec.replace("sukl343339/2026","unknown"),"2026-12-01T10:00:00Z"],
+   ["<!--"+dec+"-->","2026-12-01T10:00:00Z"],[jan+dec,"2027-01-01T10:00:00Z"]
+ ]){
+   const result=await observePublicDeploy(probe(fixture),release,clock(date));
+   assert.equal(result.status,"blocked_mixed_or_incomplete_live_release");
+   assert.equal(await dispatchWhenReady(result,{}),"no_dispatch_unverified_public_release");
+   assert.equal(result.sukl_monthly_evidence,undefined);
+ }
+ const moments=["2026-11-30T22:59:59Z","2026-11-30T23:00:00Z"];
+ const midnight=await observePublicDeploy(probe(nov),release,()=>new Date(moments.shift()));
+ assert.equal(midnight.status,"blocked_mixed_or_incomplete_live_release");
+});

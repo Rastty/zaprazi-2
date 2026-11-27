@@ -196,6 +196,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Kdy dává smysl půjčení a co stojí</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak ověřit možnost úhrady od pojišťovny</a>
       </nav>
+      <p class="zp-muted-copy">Máte aktuální nabídky na již ověřený typ pomůcky? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Porovnejte náklady koupě a pronájmu včetně poplatků a kauce</a>. Výpočet nenahrazuje ověření možnosti úhrady.</p>
       <p class="zp-disclaimer">Informace o půjčení a úhradě nenahrazují ověření bezpečného typu, rozměrů a způsobu používání. Samotný odkaz není doporučením konkrétního výrobku ani potvrzením nároku na úhradu.</p>
     </div>
   </section>

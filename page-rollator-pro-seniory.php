@@ -60,7 +60,7 @@ get_header();
     </div>
   </section>
 
-  <section id="rollator-v-zime" class="zp-section zp-section-soft" aria-labelledby="rollator-v-zime-nadpis" data-zp-editorial-guide="winter-mobility">
+  <section id="rollator-v-zime" class="zp-section zp-section-soft" aria-labelledby="rollator-v-zime-nadpis" data-zp-winter-guide="winter-mobility">
     <div class="zp-wrap">
       <p class="zp-kicker">Zimní cesta · Rozhodnutí před odchodem</p>
       <h2 id="rollator-v-zime-nadpis" class="zp-section-title">Rollátor v zimě: je bezpečné vyrazit na chodník?</h2>

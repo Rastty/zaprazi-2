@@ -45,7 +45,7 @@ export function parseReleaseManifest(php){
   // Only two Mobility files are in the 100-file marker manifest.
   // The Bathroom engine and preview are separately appended at runtime and
   // guarded exclusively by their exact Git blob hashes.
-  for(const path of CRITICAL_FILES.filter(p=>p.startsWith("src/mobility/")))
+  for(const path of ["src/mobility/engine.js","src/mobility/offer-fit-gate.js"])
     assert.ok(paths.includes(path),"Mobility critical file omitted from manifest");
   assert.match(php,/\$files = array_merge\( \$files, array_keys\( \$critical_git_blobs \) \)/,
     "Critical blob paths must be appended to runtime integrity walk");

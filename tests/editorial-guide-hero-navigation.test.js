@@ -21,8 +21,10 @@ test("every safety guide is accessible directly from its existing Advisor hero",
     const header=source.slice(source.indexOf('<section class="zp-hero">'),
       source.indexOf("</section>",source.indexOf('<section class="zp-hero">')));
     assert.ok(header.includes('href="#'+id+'"'),"Safety entry not in hero "+path);
-    assert.equal((source.match(new RegExp('href="#'+id+'"','g'))||[]).length,1,
-      "Hero guide entry duplicated "+path);
+    assert.equal((source.match(new RegExp('href="#'+id+'"','g'))||[]).length,
+      path==="page-rollator-pro-seniory.php"?2:1,
+      "Exactly one hero safety entry plus one contextual winter entry on rollator "+path);
+    assert.equal((header.match(new RegExp('href="#'+id+'"','g'))||[]).length,1);
     assert.equal((source.match(new RegExp('id="'+id+'"','g'))||[]).length,1,
       "Guide target missing or duplicated "+path);
     assert.ok(source.indexOf('id="'+id+'"')>source.indexOf('zp-advisor-form'),

@@ -124,6 +124,7 @@ if (form && result && submitButton && errorBox) {
     if (!offers.length) return "";
 
     return `
+      <div class="zp-fit-offer-heading"><p class="zp-fit-stage">Krok 2 ze 2 · možnosti pořízení</p><h5>Nabídky pro tento model</h5><p>Ověřte cenu, dostupnost a přesné provedení u poskytovatele. Pokud zvažujete úhradu pojišťovnou, nejprve prověřte ePoukaz.</p></div>
       <div class="zp-offers">
         ${offers.map((rawOffer) => {
           const offer = resolveOffer(rawOffer);
@@ -223,6 +224,7 @@ if (form && result && submitButton && errorBox) {
               </details>
               ${renderSources(product.evidence, product.offers?.map(offer => offer.url) || [])}
               ${product.facts.suklCode ? `<p class="zp-sukl">Kód ZP: <strong>${escapeHtml(product.facts.suklCode)}</strong>. Aktuální oficiální úhradu a podmínky zobrazujeme níže, pokud máme platný měsíční záznam SÚKL.</p>` : ""}
+              <p class="zp-fit-stage">Krok 1 ze 2 · ověření modelu</p>
               ${renderMobilityProductFitGate(renderOffers(product.offers) + renderRentalOffers(product.id, duration), { ...fitOptions, requireBrakeFit: product.solutionFamily === "rollator" })}
             </article>
           `).join("")}

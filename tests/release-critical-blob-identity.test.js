@@ -9,7 +9,8 @@ const EXPECTED=[
   "src/bathroom/preview.js",
   "src/mobility/engine.js",
   "src/mobility/offer-fit-gate.js",
-  "src/evidence/freshness.js"
+  "src/evidence/freshness.js",
+  "src/mobility/acquisition.js"
 ];
 
 test("release integrity pins the exact Git blobs for all critical decision files",()=>{

@@ -39,7 +39,7 @@ test("official November PDF, row and 30 November expiry are consistent in source
   assert.match(source,/validFor: "2026-11"/);
   assert.match(source,/validThrough: "2026-11-30"/);
   assert.match(source,/copayKc: null/);
-  assert.match(template,/Historická úhrada v listopadovém seznamu/);
+  assert.match(template,/Historická úhrada v prosincovém seznamu/);
   assert.match(template,/Poslední ověřený záznam už není aktuální/);
   assert.ok(template.includes("Úhrada není automatický nárok"));
   assert.doesNotMatch(template,/doplatek 0 Kč|bez doplatku zaručeno|nárok garantován/i);

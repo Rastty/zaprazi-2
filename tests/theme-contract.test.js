@@ -177,8 +177,8 @@ test("insurance resource page fails closed after the verified SÚKL month expire
   assert.match(page, /current_time\( 'Y-m-d' \)/);
   assert.match(page, /\$zp_sukl_is_current/);
   assert.match(page, /Poslední ověřený záznam už není aktuální/);
-  assert.match(page, /Po 30\. 11\. 2026 ji nepovažujte za současný údaj/);
-  assert.match(page, /Historická úhrada v listopadovém seznamu/);
+  assert.match(page, /Po 31\. 12\. 2026 ji nepovažujte za současný údaj/);
+  assert.match(page, /Historická úhrada v prosincovém seznamu/);
 });
 
 

@@ -1,6 +1,6 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav 27. 11. 2026: WordPress 0.8.248 je poslední ověřený live release. 0.8.249 je pouze GIT RELEASE KANDIDÁT; NENASAZENO.**
+**Stav 27. 11. 2026: WordPress 0.8.248 je poslední ověřený live release. GitHub main=dev=`33230365` obsahuje 0.8.249; WordPress Pull + Deploy PRO 0.8.249 NEOVĚŘEN.**
 
 ## CÍL
 Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit / půjčit / prověřit úhradu → bezpečný další krok. Obchodní milník = připsaná **schválená affiliate provize** (stále UNKNOWN).
@@ -8,7 +8,7 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 ## HOTOVO / PŘIPRAVENO
 - Poslední přijaté produkční vydání **0.8.248**: [Chrome QA 9/9 PASS](https://github.com/Rastty/zaprazi-2/actions/runs/45048858868); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
 - 27. 11.: [Independent Production Acceptance PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46015196089), [affiliate parity PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46005771626).
-- **Release kandidát 0.8.249:** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. Po CI musí následovat merge main, fast-forward dev, majitelův Deployer Pull + Deploy a exact-release QA.
+- **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Zbývá majitelův Deployer Pull + Deploy a exact-release produkční QA.
 
 ## OVĚŘENO
 - 23. 11. bot-scoped Googlebot SEO parser + 8 testů [#934](https://github.com/Rastty/zaprazi-2/pull/934); bez WordPress runtime změn.
@@ -22,6 +22,6 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Uzavřít CI/release 0.8.249, samostatný Pull + Deploy, exact live integrity a 14-advisor Chrome QA.
+1. Provést samostatný WordPress Pull + Deploy z větve `dev` (`0.8.249`), pak exact live integrity (`ok`, 25/25) a všech 14 poradců Chrome QA. Bez potvrzení NEVYDÁVAT za live.
 2. V CJ aktivovat/ověřit property a PID, získat read-only publisher provizní evidenci; výsledek odlišit od readiness.
 3. Po obnovení analytiky porovnat kvalifikované organické vstupy → consented `guide_advisor_click` → `builder_start` → merchant klik, bez odvozování objednávek z kliků.

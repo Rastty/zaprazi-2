@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "observedOn": "2026-11-27",
+  "method": "public manufacturer product pages + independent seller category reading + existing GitHub seller category evidence; no authenticated publisher data",
+  "sellerCategoryUrl": "https://www.rehavita.cz/pomucky-pro-sobestacnost/",
+  "sellerRunnerEvidence": "https://github.com/Rastty/zaprazi-2/actions/runs/46027220415",
+  "items": [
+    {
+      "candidateId": "rehavita-upcup-15-050101",
+      "sellerSku": "15-050101",
+      "manufacturerName": "UpCup",
+      "manufacturerRefs": [
+        "15-050101"
+      ],
+      "manufacturerUrl": "https://mvs-in-motion.com/products/product/upcup/",
+      "sellerUrl": "https://www.rehavita.cz/upcup-pomucka-pro-snadne-piti/",
+      "scope": "single_listed_ref_matches_seller_sku"
+    },
+    {
+      "candidateId": "rehavita-beat-it-15-050102",
+      "sellerSku": "15-050102",
+      "manufacturerName": "Beat It!",
+      "manufacturerRefs": [
+        "15-050102"
+      ],
+      "manufacturerUrl": "https://mvs-in-motion.com/products/product/beat-it/",
+      "sellerUrl": "https://www.rehavita.cz/beat-it-drzak-pro-stabilizaci-nadob-moves/",
+      "scope": "single_listed_ref_matches_seller_sku"
+    },
+    {
+      "candidateId": "rehavita-theomatik-15-050103",
+      "sellerSku": "15-050103",
+      "manufacturerName": "Theomatik®",
+      "manufacturerRefs": [
+        "15-050103"
+      ],
+      "manufacturerUrl": "https://mvs-in-motion.com/products/product/theomatik/",
+      "sellerUrl": "https://www.rehavita.cz/theomatik-multifunkcni-jidelni-podnos-pro-obsluhu-jednou-rukou-moves/",
+      "scope": "single_listed_ref_matches_seller_sku"
+    },
+    {
+      "candidateId": "rehavita-open-it-15-050105",
+      "sellerSku": "15-050105",
+      "manufacturerName": "Open-It",
+      "manufacturerRefs": [
+        "15-050104",
+        "15-050105"
+      ],
+      "manufacturerUrl": "https://mvs-in-motion.com/products/product/open-it/",
+      "sellerUrl": "https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/",
+      "scope": "multi_ref_family_contains_exact_seller_sku"
+    }
+  ],
+  "openItVariant": {
+    "sellerObserved": "Ice Blue",
+    "matchingRef": "15-050105",
+    "otherRef": "15-050104",
+    "sellerEvidence": "https://www.rehavita.cz/mvs-open-it-multifunkcni-oteviraci-pomucka-5-v-1/",
+    "independentColorCodeEvidence": "https://disertecsa.com/producto/open-it-abridor-multiusos/",
+    "limit": "Manufacturer lists both refs; reseller names Ice Blue and matching code. No delivered unit or physical stock proof."
+  },
+  "program": {
+    "sourceUrl": "https://ehub.cz/18119967-rehavita-cz",
+    "publicDefaultPpsPercent": 7,
+    "publicCashbackCouponAggregatorPpsPercent": 2,
+    "publicAttributionDays": 14,
+    "publicDomainTrackingAdvertised": true,
+    "domainRegistrationRequired": true,
+    "actualPublisherApproval": "UNKNOWN",
+    "actualDomainRegistration": "UNKNOWN",
+    "actualPublisherRate": "UNKNOWN",
+    "actualDeeplinks": "UNKNOWN",
+    "approvedCommission": "UNKNOWN"
+  },
+  "conclusions": {
+    "manufacturerRefMatchesSellerCode": 4,
+    "singleRefProductPages": 3,
+    "multiRefProductPages": 1,
+    "actualDeliveredVariant": "UNKNOWN",
+    "physicalStock": "UNKNOWN",
+    "publisherDeeplink": "UNKNOWN",
+    "approvedCommission": "UNKNOWN"
+  },
+  "nonActions": {
+    "runtimeChanged": false,
+    "offerDatesRefreshed": false,
+    "affiliateClicks": 0,
+    "wordpressWrites": 0,
+    "externalWrites": 0,
+    "privacyChanges": false
+  }
+}

@@ -1,6 +1,6 @@
 # Zápraží 2.0 — PROJECT_STATE
 
-**Stav 27. 11. 2026: WordPress 0.8.249 LIVE a ACCEPTED — nezávislý public smoke i kompletní Chrome QA 14 poradců PASS.**
+**Stav 27. 11. 2026: WordPress 0.8.249 LIVE a ACCEPTED; kandidát 0.8.250 obsahuje nově doložený prosincový řádek SÚKL, není nasazen.**
 
 ## CÍL
 Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit / půjčit / prověřit úhradu → bezpečný další krok. Obchodní milník = připsaná **schválená affiliate provize** (stále UNKNOWN).
@@ -9,6 +9,8 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Poslední přijaté produkční vydání **0.8.249**: [Chrome QA PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104); 14 poradců, 25/25 nakonfigurovaných affiliate slotů, bezpečnost a privacy. **25/25 affiliate pozic není důkaz nákupu ani provize.**
 - 27. 11.: [Independent Production Acceptance PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46015196089), [affiliate parity PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46005771626).
 - **GitHub MERGED 0.8.249 — [PR #936](https://github.com/Rastty/zaprazi-2/pull/936):** homepage hero nahrazuje třetí nepřímou volbu přímým odkazem na `#poradce` s existujícím consent-safe `guide_advisor_click`; krizový CTA a ostatní situace zůstávají. Cíl focusovatelný, 100/100 integritních markerů a kritické SHA připraveny, nový test. Žádná nová diagnóza, produkt či merchant URL. PR testy 1 360/1 360 PASS, predeploy browser-qa PASS, SEO PASS, main=dev v přesném squash commitu `33230365`; [release ref preflight PASS](https://github.com/Rastty/zaprazi-2/actions/runs/46018169428). Majitel provedl Pull + Deploy; [nezávislá exact 0.8.249 acceptance](https://github.com/Rastty/zaprazi-2/actions/runs/46019498998) potvrzuje release, integrity=ok, 25/25 a skutečný nový homepage CTA. [#938](https://github.com/Rastty/zaprazi-2/pull/938) přidal tento trvalý veřejný feature gate; [#939](https://github.com/Rastty/zaprazi-2/pull/939) zapojil stejný gate do automatiky bez dodatečných GET; plný [Chrome QA](https://github.com/Rastty/zaprazi-2/actions/runs/46020012104) přímo na 0.8.249 PASS (14 live Advisor forms, release coherence 4 pages/2 readiness checks).
+
+- **Připraveno 0.8.250:** finální seznam SÚKL zveřejněn 24. 11. (č. j. sukl343339/2026), [PDF, strana 11](https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf), kód 5005963 / IDEAL ROLLATOR 3061982 / úhrada 3 408 Kč pouze 1.–31. 12. 2026. Listopad zůstává aktivní do pražské půlnoci; lednový záznam neznámý. Žádné tvrzení o individuálním nároku/doplatku ani změna affiliate linků. Přesný blob acquisition.js přidán do integrity; před deploy nutné CI + legacy + predeploy.
 
 ## OVĚŘENO
 - 23. 11. bot-scoped Googlebot SEO parser + 8 testů [#934](https://github.com/Rastty/zaprazi-2/pull/934); bez WordPress runtime změn.
@@ -22,6 +24,6 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Prověřit live crawlable odkazy a sitemap pro bytové chodítko (discovered-not-indexed), případný prokazatelný discovery gap opravit. Homepage vyčkat na crawl po 0.8.249; žádné spekulativní přepisy ani automatické index requests.
+1. Po zelených kontrolách vydat 0.8.250 a ověřit přesný release + 14 poradců; prosincová platnost nesmí začít před 1. 12. Discovery audit 27. 11.: oba neindexované produkty mají 9 dalších interních zdrojů, sitemap a self canonical. Žádné další spekulativní přepisy ani index requests.
 2. V CJ aktivovat/ověřit property a PID, získat read-only publisher provizní evidenci; výsledek odlišit od readiness.
 3. Po obnovení analytiky porovnat kvalifikované organické vstupy → consented `guide_advisor_click` → `builder_start` → merchant klik, bez odvozování objednávek z kliků.

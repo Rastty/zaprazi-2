@@ -44,3 +44,13 @@ test("official November PDF, row and 30 November expiry are consistent in source
   assert.ok(template.includes("Úhrada není automatický nárok"));
   assert.doesNotMatch(template,/doplatek 0 Kč|bez doplatku zaručeno|nárok garantován/i);
 });
+
+test("December source and validity are independently linked in page, Advisor and browser witness",()=>{
+ const dec="https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf";
+ for(const body of [script,template,source])assert.ok(body.includes(dec));
+ assert.match(source,/validFor: "2026-12"/);
+ assert.match(source,/validThrough: "2026-12-31"/);
+ assert.match(template,/strana 11 z 92/);
+ assert.match(script,/decemberActive/);
+ assert.match(template,/sukl343339\/2026/);
+});

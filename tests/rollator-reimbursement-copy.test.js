@@ -31,7 +31,8 @@ test("November official row is shown only while valid and never promises a final
   assert.ok(verified.officialVerification.sourceUrl.endsWith("ZPSCAU_20261101.pdf"));
   assert.equal(verified.officialVerification.copayKc,null);
   assert.equal(verified.displayAmountKc,3408);
-  assert.equal(december.displayAmountKc,null);
-  assert.equal(december.freshnessStatus,"stale");
-  assert.match(december.displayMessage,/už není platný/);
+  assert.equal(december.displayAmountKc,3408);
+  assert.equal(december.freshnessStatus,"fresh");
+  assert.equal(december.officialVerification.copayKc,null);
+  assert.equal(december.officialVerification.validFor,"2026-12");
 });

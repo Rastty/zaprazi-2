@@ -3,6 +3,35 @@ import { EVIDENCE_FRESHNESS_DAYS, evidenceFreshness } from "../evidence/freshnes
 const OFFICIAL_SUKL_LISTS_URL = "https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/";
 const OFFICIAL_SUKL_NOVEMBER_2026_PDF = "https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01973@SUKLAA/26D0TU21@SUKLAA/ZPSCAU_20261101.pdf";
 
+const OFFICIAL_SUKL_DECEMBER_2026_PDF = "https://eud.sukl.gov.cz/pub/deska/40000001/athena/26V01BJW@SUKLAA/26D0VOL8@SUKLAA/ZPSCAU_20261201.pdf";
+const DECEMBER_2026 = Object.freeze({
+  checkedAt: "2026-11-27",
+  sourceUrl: OFFICIAL_SUKL_DECEMBER_2026_PDF,
+  officialVerification: Object.freeze({
+    status: "verified_current_month",
+    sourceUrl: OFFICIAL_SUKL_DECEMBER_2026_PDF,
+    listsUrl: OFFICIAL_SUKL_LISTS_URL,
+    suklCode: "5005963",
+    reimbursementGroup: "07.03.02.03",
+    amountKc: 3408,
+    copayKc: null,
+    validFor: "2026-12",
+    validThrough: "2026-12-31",
+    intervalMonths: 60,
+    prescriberCodes: ["GER", "ORP", "NEU", "ORT", "PRL", "REH", "CHI", "REV"]
+  }),
+  userMessage: "Oficiální finální Seznam ZP SÚKL k 1. 12. 2026 (strana 11, kód 5005963) uvádí pro IDEAL ROLLATOR 3061982 úhradu 3 408 Kč platnou pro prosinec 2026. Individuální nárok ani konečný doplatek tím nejsou potvrzeny; před pořízením je stále potřeba splnit aktuální podmínky a správný postup ePoukazu."
+});
+
+function pragueDay(now) {
+  const instant = now instanceof Date ? now : new Date(now);
+  if (!Number.isFinite(instant.getTime())) return null;
+  const parts = Object.fromEntries(new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Prague", year: "numeric", month: "2-digit", day: "2-digit"
+  }).formatToParts(instant).map(({type,value}) => [type,value]));
+  return parts.year+"-"+parts.month+"-"+parts.day;
+}
+
 export const MOBILITY_ACQUISITION = Object.freeze({
   "meyra-ideal-3061982": {
     reimbursement: {
@@ -74,13 +103,19 @@ export function getReimbursementGuidance(productIds = [], now = new Date()) {
   return getAcquisitionEvidence(productIds)
     .filter((item) => item.evidence.reimbursement)
     .map((item) => {
-      const reimbursement = item.evidence.reimbursement;
-      const freshness = evidenceFreshness(
-        reimbursement.checkedAt,
-        EVIDENCE_FRESHNESS_DAYS.reimbursementClaim,
-        now,
-        reimbursement.officialVerification.validThrough
-      );
+      const day = pragueDay(now);
+      const base = item.evidence.reimbursement;
+      // Keep November authoritative until the Prague calendar reaches December.
+      // The final December list was published before its effective month.
+      const reimbursement = item.productId === "meyra-ideal-3061982" && day && day >= "2026-12-01"
+        ? { ...base, ...DECEMBER_2026 } : base;
+      const official = reimbursement.officialVerification;
+      const ageWindow = Math.max(EVIDENCE_FRESHNESS_DAYS.reimbursementClaim,
+        (Date.parse(official.validThrough) - Date.parse(reimbursement.checkedAt)) / 86400000);
+      const freshness = evidenceFreshness(reimbursement.checkedAt, ageWindow,
+        day ? new Date(day+"T00:00:00Z") : new Date(NaN), official.validThrough);
+      if (freshness.status === "fresh" && day?.slice(0,7) !== official.validFor)
+        freshness.status = "stale";
 
       return {
         productId: item.productId,

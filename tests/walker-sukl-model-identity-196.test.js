@@ -39,8 +39,8 @@ test("October, November and December amount labels preserve model identity and m
   assert.match(november,/Úhrada v aktuálním listopadovém seznamu/);
   assert.match(november,/Listopad 2026: úhrada 3 408 Kč/);
   assert.match(november,/ZPSCAU_20261101\.pdf/);
-  assert.match(december,/Historická úhrada v listopadovém seznamu/);
-  assert.match(december,/Poslední ověřený záznam už není aktuální/);
+  assert.match(december,/Úhrada v aktuálním prosincovém seznamu/);
+  assert.match(december,/Prosinec 2026: úhrada 3 408 Kč/);
   assert.doesNotMatch(december,/Úhrada v aktuálním listopadovém seznamu/);
   for(const html of [october,november,december]){
     assert.match(html,/neprokazuje individuální nárok/);

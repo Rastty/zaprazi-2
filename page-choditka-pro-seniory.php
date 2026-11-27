@@ -193,6 +193,7 @@ get_header();
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">Půjčení chodítka: ceny a kauce</a></p>
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/pujceni-choditka/#rozpocet-pujceni-choditka' ) ); ?>">Spočítat půjčovné na 1, 3 nebo 6 měsíců</a></p>
           <p>Orientační výpočet neobsahuje kauci, dopravu ani potvrzení vhodnosti pomůcky.</p>
+          <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Porovnat celkovou cenu koupě a půjčení včetně kauce</a></p>
         </article>
         <article>
           <h3>Pojišťovna</h3>

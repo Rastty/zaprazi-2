@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "asOf": "2026-11-27",
   "metrics": {
-    "organic_clicks_28d": 16,
-    "organic_impressions_28d": 1529,
+    "organic_clicks_28d": 22,
+    "organic_impressions_28d": 1896,
     "advisor_starts_28d": 5,
     "advisor_completes_28d": 5,
     "merchant_clicks_28d": 1,
@@ -13,8 +13,8 @@
     "organic_unassigned_sessions_28d": 2
   },
   "metricSources": {
-    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/45004223794",
-    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/45004223794",
+    "organic_clicks_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/45954642166",
+    "organic_impressions_28d": "https://github.com/Rastty/prometheus-growth-os/actions/runs/45954642166",
     "advisor_starts_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
     "advisor_completes_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
     "merchant_clicks_28d": "https://github.com/Rastty/zaprazi-2/blob/main/docs/MEASUREMENT_BASELINE_2026-11-20.md",
@@ -24,8 +24,8 @@
     "organic_unassigned_sessions_28d": "https://github.com/Rastty/zaprazi-2/issues/401"
   },
   "metricAsOf": {
-    "organic_clicks_28d": "2026-11-19",
-    "organic_impressions_28d": "2026-11-19",
+    "organic_clicks_28d": "2026-11-24",
+    "organic_impressions_28d": "2026-11-24",
     "advisor_starts_28d": "2026-11-20",
     "advisor_completes_28d": "2026-11-20",
     "merchant_clicks_28d": "2026-11-20",

@@ -12,7 +12,7 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 
 ## OVĚŘENO
 - 23. 11. bot-scoped Googlebot SEO parser + 8 testů [#934](https://github.com/Rastty/zaprazi-2/pull/934); bez WordPress runtime změn.
-- Starší GSC 23. 10.–19. 11.: 16 kliků / 1 529 impresí. **GA4 27d 25. 10.–20. 11.:** 18 Organic sessions / 7 engaged; GA4 28d 24. 10.–20. 11.: 19 / 8. Pět zahájení, pět dokončení poradce a jeden merchant click bez Organic atribuce. Uplift ani příjem **neověřeny**. [Evidence](docs/MEASUREMENT_BASELINE_2026-11-20.md).
+- **GSC final 28d 28. 10.–24. 11.: 22 kliků / 1 896 impresí** ([Core snapshot 27. 11.](https://github.com/Rastty/prometheus-growth-os/actions/runs/45954642166), 29/53 sledovaných URL; 7/7 page-filtered queries odpovědělo, 0 bezpečných skupin). Starší překrývající se okno: 16 / 1 529; nejde o kauzální uplift. Index Inspection: 12/15 indexovaných, homepage crawled-not-indexed (crawl 20. 11. před 0.8.249), bytové chodítko a sprchovací židle discovered-not-indexed bez prvního crawl; všechny tři sitemap reported. Dopravní návod 149 impresí/4 kliky, ePoukaz 58/1, schody 55/1; bez nového safe query intent žádný přepis. **GA4 27d 25. 10.–20. 11.:** 18 Organic sessions / 7 engaged; GA4 28d 24. 10.–20. 11.: 19 / 8. Pět zahájení, pět dokončení poradce a jeden merchant click bez Organic atribuce. Uplift ani příjem **neověřeny**. [Evidence](docs/MEASUREMENT_BASELINE_2026-11-20.md).
 
 ## BLOKACE
 - CJ: nepotvrzená ACTIVE publisher property `zaprazi.cz` a PID/21 deeplinků; schválené/pending/rejected provize UNKNOWN. [#857](https://github.com/Rastty/zaprazi-2/issues/857).
@@ -22,6 +22,6 @@ Bezpečně a samostatně doma: problém → poradce → typ řešení → koupit
 - Nedoložené hromadné 301/noindex/mazání historických 4 359 URL zůstává HOLD [#461](https://github.com/Rastty/zaprazi-2/issues/461).
 
 ## DALŠÍ PRIORITA
-1. Získat čerstvé GSC query×page důkazy z existujícího Core reportu a zvolit relevantní organický vstup do Mobility; nepublikovat obecné duplicitní články.
+1. Prověřit live crawlable odkazy a sitemap pro bytové chodítko (discovered-not-indexed), případný prokazatelný discovery gap opravit. Homepage vyčkat na crawl po 0.8.249; žádné spekulativní přepisy ani automatické index requests.
 2. V CJ aktivovat/ověřit property a PID, získat read-only publisher provizní evidenci; výsledek odlišit od readiness.
 3. Po obnovení analytiky porovnat kvalifikované organické vstupy → consented `guide_advisor_click` → `builder_start` → merchant klik, bez odvozování objednávek z kliků.

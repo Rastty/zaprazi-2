@@ -38,6 +38,28 @@ export function readReleaseMarkers(html){
   return {release,integrity};
 }
 
+// The REST producer totals every declared group's keys. A headline count
+// alone is insufficient proof when groups are absent or internally inconsistent.
+export function hasConsistentAffiliateGroups(data){
+  if(!data||!Number.isSafeInteger(data.slot_total)||data.slot_total<=0||
+      data.configured_total!==data.slot_total||
+      !data.groups||typeof data.groups!=="object"||Array.isArray(data.groups))
+    return false;
+  const groups=Object.values(data.groups);
+  if(!groups.length)return false;
+  let total=0;
+  for(const group of groups){
+    if(!group||typeof group!=="object"||Array.isArray(group)||
+        !Number.isSafeInteger(group.total)||group.total<=0||
+        group.configured!==group.total||
+        !Array.isArray(group.missing)||group.missing.length)
+      return false;
+    total+=group.total;
+    if(!Number.isSafeInteger(total)||total>data.slot_total)return false;
+  }
+  return total===data.slot_total;
+}
+
 function verifyReadiness(data,expected){
   if(!data||typeof data!=="object"||Array.isArray(data))
     fail("Invalid readiness response");
@@ -46,13 +68,8 @@ function verifyReadiness(data,expected){
   if(!Number.isSafeInteger(data.slot_total)||data.slot_total<25||
       data.configured_total!==data.slot_total)
     fail("Affiliate readiness slots are incomplete");
-  if(!data.groups||typeof data.groups!=="object"||Array.isArray(data.groups))
-    fail("Readiness groups are missing");
-  for(const group of Object.values(data.groups)){
-    if(!group||group.configured!==group.total||
-        !Array.isArray(group.missing)||group.missing.length)
-      fail("Affiliate readiness group is incomplete");
-  }
+  if(!hasConsistentAffiliateGroups(data))
+    fail("Affiliate readiness group totals are incomplete or inconsistent");
 }
 
 export function verifyReleaseCoherence({before,after,pages,expected}){

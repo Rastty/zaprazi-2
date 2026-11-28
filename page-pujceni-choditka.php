@@ -22,6 +22,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">Porovnat typy chodítek</a>
         <a class="zp-text-link" href="#jak-pujcit-choditko">Jak postupovat při půjčení chodítka</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 9. 11. 2026)</a>
+        <a class="zp-text-link" href="#pujcovny-choditek-podle-mesta">Půjčovny podle města</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#porovnani-koupe-a-pujceni">Porovnat koupi a půjčení</a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
@@ -214,6 +215,75 @@ get_header();
           <p>U některých zdravotnických prostředků může být správná cesta přes ePoukaz. Nekupujte pomůcku předem s představou, že ji pojišťovna zpětně proplatí.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Jak funguje chodítko na pojišťovnu</a></p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pujcovny-choditek-podle-mesta" class="zp-section" aria-labelledby="zp-regional-rentals-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Kde půjčit · místní možnosti</p>
+      <h2 id="zp-regional-rentals-title" class="zp-section-title">Kde si půjčit chodítko nebo rollátor v ČR?</h2>
+      <p class="zp-guide-quick-answer"><strong>Začněte v místě bydliště:</strong> kromě komerčních půjčoven mají chodítka v nabídce také některé charity a sociální poradny. Místní výpůjčka může ušetřit cestu a usnadnit vrácení. Nejprve ověřte bezpečný typ pomůcky, pak kontaktujte konkrétní poskytovatele.</p>
+      <p>Přehled níže je výběr veřejně doložených služeb, nikoli úplný seznam všech půjčoven nebo žebříček podle ceny. Informace z webů poskytovatelů zkontrolovány 28. 11. 2026. Uvedené částky zachycují zveřejněné sazby k tomuto datu, nikoli aktuální rezervaci; sklad, konečnou cenu, podmínky pro klienty a provoz ověřte před cestou.</p>
+      <div class="zp-rental-grid">
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Praha</p>
+          <h3>Půjčovna Javor</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Kloubové a podpažní chodítko, rollátor.</p>
+          <p>Veřejný ceník uvádí rollátor za 10 Kč/den nebo 300 Kč/měsíc. Přesný kus, kauci a termín potvrďte přímo.</p>
+          <a class="zp-link-btn" href="https://www.pujcovna-javor.cz/cenik/" target="_blank" rel="noopener noreferrer">Otevřít ceník a kontakt</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Brno</p>
+          <h3>Diecézní charita Brno</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Nízká, vysoká, pultová a venkovní chodítka.</p>
+          <p>Žižkova 3. Převzetí i vrácení domluvte předem. Poskytovatel zveřejňuje katalog a ceník.</p>
+          <a class="zp-link-btn" href="https://brno.charita.cz/nase-sluzby/pujcovna-kompenzacnich-pomucek/" target="_blank" rel="noopener noreferrer">Ověřit dostupnost v Brně</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Ostrava</p>
+          <h3>Charita Ostrava</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Pevná, pojízdná a vysoká chodítka.</p>
+          <p>Charvátská 785/8, Výškovice. Web uvádí pevná za 3 Kč/den a pojízdná za 6 Kč/den; návštěvu si domluvte.</p>
+          <a class="zp-link-btn" href="https://poradna.ostrava.charita.cz/pujcovna/" target="_blank" rel="noopener noreferrer">Otevřít podmínky a kontakt</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Plzeňský kraj</p>
+          <h3>Centrum pro zdravotně postižené</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Pevná, pojízdná chodítka a rollátory.</p>
+          <p>Dočasné výpůjčky pro klienty služby. Zveřejněná sazba rollátoru je 7 Kč/den a vratná záloha 500 Kč; ověřte podmínky přijetí.</p>
+          <a class="zp-link-btn" href="https://czppk.cz/nase-sluzby/poradenstvi/pujcovna/" target="_blank" rel="noopener noreferrer">Ověřit možnosti zapůjčení</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Zlín</p>
+          <h3>Charita Zlín</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Krokovací, nízká, tříkolová a vysoká chodítka.</p>
+          <p>Zálešná I/4057. Smlouva, vratná kauce, předání s proškolením; možnost dovozu a odvozu dle domluvy.</p>
+          <a class="zp-link-btn" href="https://www.zlin.charita.cz/odkazy/kompenzacni-pomucky-vypujcka/" target="_blank" rel="noopener noreferrer">Otevřít nabídku Charity Zlín</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Olomouc</p>
+          <h3>Trend vozíčkářů</h3>
+          <p><strong>Co uvádí v nabídce:</strong> Chodítka v půjčovně odborné poradny.</p>
+          <p>Lužická 101/7. Smlouva o nájmu; zveřejněný ceník od 1. 1. 2026. Potvrďte konkrétní model a možnost prodloužení.</p>
+          <a class="zp-link-btn" href="https://www.trendvozickaru.cz/socialni-sluzby/pujcovna-kompenzacnich-pomucek" target="_blank" rel="noopener noreferrer">Otevřít ceník a podmínky</a>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Odkazy vedou přímo na poskytovatele, bez affiliate provize. V Olomouci Charita na svém webu k 28. 11. 2026 uváděla <a class="zp-text-link" href="https://www.olomouc.charita.cz/nase-sluzby/seniori-a-pecujici/pujcovna-kompenzacnich-pomucek/" target="_blank" rel="noopener noreferrer">dočasné uzavření půjčovny</a>; před návštěvou zkontrolujte aktuální oznámení.</p>
+      <h3>Potřebujete chodítko rychle po propuštění z nemocnice?</h3>
+      <p>Nečekejte až na den návratu domů. Zeptejte se ošetřujícího týmu, jaký typ opory je potřeba a zda je pomůcka součástí plánovaného výdeje. Půjčovně pak sdělte typ a požadovaný termín; neobjednávejte jinou konstrukci jen proto, že je dostupná dříve. Domluvte předání s návodem a možnost kontroly ovládání.</p>
+      <h3>Jak porovnat dvě půjčovny ve vašem okolí?</h3>
+      <ol class="zp-guide-steps">
+        <li>Zjistěte, zda mají shodný typ a přesně identifikovaný model s potřebnými rozměry.</li>
+        <li>Vyžádejte si celkovou cenu za stejný počet dní nebo měsíců, včetně dopravy, minimálního účtování a nevratných poplatků.</li>
+        <li>Vratnou kauci držte samostatně; není automaticky konečným nákladem.</li>
+        <li>Potvrďte termín vrácení, podmínky prodloužení a postup při technické závadě nebo změně potřeby.</li>
+      </ol>
+      <p><strong>Nenašli jste své město?</strong> Zkuste se obrátit na místní Charitu, sociální odbor obce nebo odbornou poradnu pro osoby se zdravotním postižením. Hledejte spojení „půjčovna kompenzačních pomůcek + město“ a ověřte nabídku přímo na stránce provozovatele.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#porovnani-koupe-a-pujceni">Porovnat úplné náklady</a>
+        <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit dotazy pro půjčovnu</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#choditko-z-bazaru' ) ); ?>">Zvážit bezpečně prověřený použitý kus</a>
       </div>
     </div>
   </section>

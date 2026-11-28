@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_254
+// ZP_RELEASE_0_8_255
 /**
  * Shared acquisition guidance for the main Bathroom Advisor and five focused
  * Bathroom/WC Advisors. Recommendation data is deterministic engine output.
@@ -32,4 +32,45 @@ export function renderBathroomAcquisition(items = [], escapeHtml) {
     return `<article><h4>${escapeHtml(item.label)}</h4><p>${escapeHtml(item.reason)}</p>${rental}${reimbursement}</article>`;
   }).join("");
   return `<section class="zp-acquisition-summary"><h3>Jak pomůcku získat</h3><div>${rows}</div></section>`;
+}
+
+
+// Fixed first-party editorial destinations, selected only from the actual
+// candidate products. No query parameters, answers or new offer events.
+const COMPARISON_GUIDES = Object.freeze({
+  "unizdrav-p2062": [
+    ["/sprchovaci-zidle-pro-seniory/#srovnani-sprchovacich-zidli", "Porovnat rozměry tří sprchovacích židlí"],
+    ["/sprchovaci-zidle-pro-seniory/#pujceni-sprchovaci-zidle", "Ceny a podmínky čtyř půjčoven"]
+  ],
+  "unizdrav-p2868": [
+    ["/nastavec-na-wc-pro-seniory/#srovnani-nastavcu-na-wc", "Porovnat výšky a uchycení čtyř nástavců"]
+  ],
+  "besco-bs15": [
+    ["/nastavec-na-wc-pro-seniory/#srovnani-nastavcu-na-wc", "Porovnat výšky a uchycení čtyř nástavců"]
+  ],
+  "unizdrav-p2807": [
+    ["/toaletni-zidle-pro-seniory/#srovnani-toaletnich-zidli", "Porovnat čtyři toaletní židle a jejich obsluhu"],
+    ["/toaletni-zidle-pro-seniory/#nahradni-nadoba-toaletni-zidle", "Jak ověřit správnou náhradní nádobu"]
+  ],
+  "dma-eh-cmda": [
+    ["/toaletni-zidle-pro-seniory/#srovnani-toaletnich-zidli", "Porovnat čtyři toaletní židle a jejich obsluhu"],
+    ["/toaletni-zidle-pro-seniory/#nahradni-nadoba-toaletni-zidle", "Jak ověřit správnou náhradní nádobu"]
+  ]
+});
+
+export function renderBathroomComparisonLinks(outcome, products) {
+  if (outcome?.status !== "candidate" || !Array.isArray(products)) return "";
+  const links = new Map();
+  for (const product of products) {
+    if (!product || !Object.hasOwn(COMPARISON_GUIDES, product.id)) continue;
+    for (const [url, label] of COMPARISON_GUIDES[product.id]) links.set(url, label);
+  }
+  if (!links.size) return "";
+  // URL and label are from the fixed map, never from product input.
+  return `<section class="zp-acquisition-summary" aria-label="Porovnání před nákupem">
+    <h3>Ještě než objednáte: porovnejte rozměry a způsob pořízení</h3>
+    <p>V průvodcích jsou i jiné katalogové modely. Nejsou automaticky ověřené pro vaše podmínky; každý potřebuje vlastní kontrolu vhodnosti.</p>
+    <ul>${[...links].map(([url,label])=>`<li><a class="zp-text-link" href="${url}" target="_blank" rel="noopener noreferrer">${label} (nová karta)</a></li>`).join("")}</ul>
+    <p class="zp-muted-copy">Odpovědi zůstanou v původní kartě poradce. Odkazy nevedou na obchodníky.</p>
+  </section>`;
 }

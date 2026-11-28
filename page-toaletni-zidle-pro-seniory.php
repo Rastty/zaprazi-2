@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_254 */
+/* ZP_RELEASE_0_8_255 */
 /*
 Template Name: Zápraží — Toaletní židle pro seniory
 */
@@ -16,6 +16,7 @@ get_header();
         <a class="zp-btn" href="#poradce-toaletni-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#kontrola-toaletni-zidle">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="#srovnani-toaletnich-zidli">Srovnat 4 modely toaletních židlí</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">Toaletní židle vedle postele: 7 měření</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#kontrolni-list-koupelna' ) ); ?>">Kontrolní list měření</a>
       </div>
@@ -105,6 +106,81 @@ get_header();
           <p>Pokud člověk běžně potřebuje fyzické zvedání nebo výrazné jištění druhou osobou, jednoduchý online shortlist není bezpečný základ pro výběr konkrétní židle.</p>
         </article>
       </div>
+    </div>
+  </section>
+
+  <section id="srovnani-toaletnich-zidli" class="zp-section" aria-labelledby="zp-commode-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Čtyři konkrétní modely · rozměry a obsluha</p>
+      <h2 id="zp-commode-comparison-title" class="zp-section-title">Toaletní židle vedle postele, skládací nebo 4v1: srovnání rozměrů</h2>
+      <p class="zp-guide-quick-answer"><strong>Vedle postele rozhoduje také způsob vyjmutí nádoby a prostor kolem područek.</strong> Židle se může do ložnice geometricky vejít, ale nesmí zablokovat bezpečný přístup ani obsluhu toalety. Porovnejte přesný typ, nikoli pouze šířku sedu.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2807</h3>
+          <p class="zp-walker-compare-model">Statická, nastavitelná</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>60 × 60 cm</dd></div><div><dt>Sedák (š × h)</dt><dd>44 × 44 cm</dd></div><div><dt>Výška sedu</dt><dd>36–60 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>8,5 kg</dd></div></dl>
+          <p>Nádoba se vyjímá shora; ověřte, zda lze sedátko pohodlně obsloužit, aniž je židle obsazená.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2807/toaletni-zidle-vyskove-nastavitelna-unizdrav" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>DMA EH-CMDA</h3>
+          <p class="zp-walker-compare-model">4v1, bez opěradla</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>51 × 40 cm</dd></div><div><dt>Sedák (š × h)</dt><dd>50 × 40 cm</dd></div><div><dt>Výška sedu</dt><dd>39–54 cm</dd></div><div><dt>Nosnost</dt><dd>150 kg</dd></div><div><dt>Hmotnost</dt><dd>3 kg</dd></div></dl>
+          <p>Odnímatelná madla, použití také ve sprše a nad WC podle návodu. Nezaměňujte s variantou s opěradlem.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/eh-cmda_z35658/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>DMA 3515</h3>
+          <p class="zp-walker-compare-model">Skládací, sklopné područky</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>55 × 56 cm</dd></div><div><dt>Sedák (š × h)</dt><dd>46 × 45 cm</dd></div><div><dt>Výška sedu</dt><dd>47 cm</dd></div><div><dt>Nosnost</dt><dd>110 kg</dd></div><div><dt>Hmotnost</dt><dd>9,5 kg</dd></div></dl>
+          <p>Pevná výška sedu; nádoba se vysouvá dozadu. Potřebuje volné místo za rámem.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/3515_z124/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>DMA 3514</h3>
+          <p class="zp-walker-compare-model">Užší sed, pevné područky</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>56 × 46–48 cm</dd></div><div><dt>Sedák (š × h)</dt><dd>40 × 42 cm</dd></div><div><dt>Výška sedu</dt><dd>46–51 cm</dd></div><div><dt>Nosnost</dt><dd>120 kg</dd></div><div><dt>Hmotnost</dt><dd>8,5 kg</dd></div></dl>
+          <p>Nádoba přístupná zezadu nebo shora. Užší sed neznamená nejužší celou židli.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/3514_z638/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Veřejné katalogové údaje načtené 28. 11. 2026; některé kopie jsou starší. Nejde o aktuální cenové nabídky, potvrzení skladu, úhrady ani pořadí podle kvality. P2807 a EH-CMDA jsou stávající kandidáti poradce, 3515 a 3514 pouze srovnávací příklady. Odkazy jsou zdroje údajů bez affiliate provize.</p>
+      <h3>Proč užší křeslo nemusí zabrat méně místa?</h3>
+      <p>DMA 3514 má sed široký 40 cm, ale celá konstrukce je široká 56 cm. Skládací 3515 má sed 46 cm, celkovou šířku 55 cm. Pokud máte mezi postelí a skříní volných 60 cm, geometricky zbývají u 3514 jen 4 cm a u 3515 jen 5 cm celkem. Nejde o dostatečný prostor pro přesun; tento příklad pouze ukazuje, proč je nutné měřit celý rám i skutečný prostor pro člověka. Za židlí 3515 navíc musí zbýt místo k vysunutí nádoby podle návodu.</p>
+      <h3 id="nahradni-nadoba-toaletni-zidle">Náhradní nádoba do toaletní židle: pozor na rozdílné kódy</h3>
+      <p>Potřebujete vyměnit prasklou nádobu nebo pořídit druhou? Nestačí porovnat průměr. Rozhoduje také tvar okraje, uložení a způsob vyjmutí. U dvou podobných křesel z katalogu DMA jsou uvedeny různé náhradní díly:</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h4>ACC/5R — pro DMA 3515</h4>
+          <dl><div><dt>Vnější průměr</dt><dd>29 cm</dd></div><div><dt>Vnitřní průměr</dt><dd>25 cm</dd></div><div><dt>Výška</dt><dd>16 cm</dd></div></dl>
+          <p>Ve výčtu kompatibilních křesel je 3515. Nádoba se u tohoto křesla vysouvá dozadu.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/acc-5r_z657/" target="_blank" rel="noopener noreferrer">Katalog náhradní nádoby ACC/5R</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h4>ACC/5A — pro DMA 3514</h4>
+          <dl><div><dt>Vnější průměr</dt><dd>30 cm</dd></div><div><dt>Vnitřní průměr</dt><dd>25,5 cm</dd></div><div><dt>Výška</dt><dd>16,5 cm</dd></div></dl>
+          <p>Mezi podporovanými modely je 3514. Jeho nádobu lze vyjmout dozadu nebo nahoru.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/acc-5a_z655/" target="_blank" rel="noopener noreferrer">Katalog náhradní nádoby ACC/5A</a></p>
+        </article>
+      </div>
+      <p>Rozdíl v průměru je pouhý centimetr. Přesto bez potvrzení dodavatele nepovažujte nádoby za vzájemně zaměnitelné. U jiných modelů (včetně P2807 a EH-CMDA) si vyžádejte jejich vlastní objednací kód.</p>
+      <h3>Kolik může stát nákup a pozdější výměna?</h3>
+      <p>V katalogu UNIZDRAV byla 28. 11. 2026 u P2807 zobrazena cena 1 915 Kč. DMA ve stejný den u obou výše uvedených náhradních nádob uvádělo 500 Kč za kus. Jde o časově označené příklady různých výrobků, nikoli nabídku kompletu ani tvrzení, že náhradní nádoby DMA pasují k P2807. U nového i použitého křesla se ptejte, zda je nádoba s víkem součástí balení, kolik stojí správný náhradní díl a jaká je aktuální dostupnost včetně dopravy.</p>
+      <p class="zp-muted-copy">Ceny načtené z veřejných katalogů 28. 11. 2026, pouze historický orientační příklad. Ověřte aktuální nabídku u dodavatele. Nákupní odkazy v poradci se nadále zobrazují až po kontrole vhodnosti konkrétního výrobku.</p>
+      <h3>Čtyři otázky, které rozhodují o každodenní obsluze</h3>
+      <ul class="zp-checklist">
+        <li><strong>Nádoba:</strong> vytahuje se shora, zezadu nebo jiným směrem? Ověřte prostor a bezpečný způsob obsluhy neobsazené židle.</li>
+        <li><strong>Opěrky:</strong> jsou pevné, sklopné, odnímatelné, nebo chybějí? Nezaměňujte konstrukci určenou pro jiný způsob přesunu.</li>
+        <li><strong>Skladování:</strong> pokud se rám skládá, zjistěte jeho rozměr ve složeném stavu a jak se podle návodu zajistí před použitím. Skládací židle se nerozkládá při přesunu člověka.</li>
+        <li><strong>Příslušenství:</strong> potvrďte, která nádoba, víko a sedák jsou v balení, jaké náhradní díly jsou dostupné a jak se čistí jednotlivé části podle výrobce.</li>
+      </ul>
+      <p>Pokud je jedna židle určená také do sprchy a nad WC, prověřte samostatně každé prostředí. Menší půdorys ani vyšší katalogová nosnost neřeší nejistý přesun. Při zvažování úhrady nejdřív ověřte přesný prostředek a podmínky výdeje, neplaťte předem s očekáváním zpětného proplacení.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poradce-toaletni-zidle">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-vedle-postele/#sedm-kontrol-zidle-postel' ) ); ?>">Změřit prostor vedle postele</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit možnosti úhrady</a>
+      </div>
+      <p class="zp-disclaimer">Pokud člověk potřebuje fyzické zvedání či jištění, nemá ověřený stabilní sed nebo bezpečný přesun, musí vhodný postup posoudit odborník. Srovnání není povolení k přesunu ani automatické doporučení výrobku.</p>
     </div>
   </section>
 

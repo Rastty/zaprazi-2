@@ -1,7 +1,8 @@
-// ZP_RELEASE_0_8_254
+// ZP_RELEASE_0_8_255
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { canLinkEvidence } from "../../src/decision/evidence-links.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
+import { renderBathroomComparisonLinks } from "../../src/bathroom/acquisition-view.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { previewBathroomCandidates } from "../../src/bathroom/preview.js";
 import { resetBathroomLoadFitOnBathVariantChange } from "../../src/bathroom/variant-fit.js";
@@ -513,6 +514,7 @@ if (form && result && submitButton && errorBox) {
       ${recommendations}
       ${renderProducts(products)}
       ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
+      ${renderBathroomComparisonLinks(output, products)}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
       ${renderBlockedGuide(output.status)}
       ${renderMissingAnswerAction(output.missing?.[0])}

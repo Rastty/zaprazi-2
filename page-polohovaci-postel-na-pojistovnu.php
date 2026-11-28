@@ -103,6 +103,17 @@ get_header();
       <p class="zp-kicker">Praktická pomůcka · Bez odesílání údajů</p>
       <h2 id="zp-bed-cost-title" class="zp-section-title">Půjčení, nebo koupě polohovací postele? Spočítejte obě nabídky.</h2>
       <p>Zadejte částky z <strong>vlastních ověřených nabídek</strong> na srovnatelně vhodnou postel. Nepředvyplňujeme ceny půjčoven ani e-shopů: k měsíční sazbě mohou patřit doprava, montáž, vyzvednutí, matrace či jiné služby. Výpočet je jen orientační finanční porovnání, nikoli doporučení vhodnosti lůžka.</p>
+      <div class="zp-resource-callout">
+        <h3>Modelový rozpočet: když nevíte, zda bude postel potřeba půl roku, nebo dva roky</h3>
+        <p>Nejde o ceník. Příklad pracuje s hypotetickými nabídkami na stejně vhodnou postel: nájem 900 Kč měsíčně, celkové nevratné poplatky 1 500 Kč, vratná kauce 2 000 Kč a koupě kompletní sestavy za 25 000 Kč.</p>
+        <div class="zp-decision-grid">
+          <article class="zp-decision-card"><h4>6 měsíců</h4><p><strong>Půjčení 6 900 Kč</strong> oproti nákupu 25 000 Kč. Kauce navíc může být dočasně vázána.</p></article>
+          <article class="zp-decision-card"><h4>12 měsíců</h4><p><strong>Půjčení 12 300 Kč</strong> oproti nákupu 25 000 Kč.</p></article>
+          <article class="zp-decision-card"><h4>24 měsíců</h4><p><strong>Půjčení 23 100 Kč</strong> oproti nákupu 25 000 Kč.</p></article>
+        </div>
+        <p>V příkladu se při 27 celých měsících nájem s poplatky dostane na 25 800 Kč. Přesná hranice se změní s reálnou nabídkou; nepočítáme servis ani případnou zbytkovou hodnotu zakoupené postele. Pokud je bezpečnost či kompatibilita rozdílná, cenové porovnání není vhodné.</p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#srovnani-polohovacich-posteli' ) ); ?>">Srovnání tří konkrétních postelí, jejich cen a výbavy</a>. Z něj si vyberte parametry k ověření, nikoli automaticky model ke koupi.</p>
+      </div>
       <form id="zp-bed-cost-comparison" class="zp-rental-budget" hidden>
         <div class="zp-rental-budget-fields">
           <label for="zp-bed-cost-months"><strong>Jak dlouhé období porovnáváte? (měsíce)</strong>

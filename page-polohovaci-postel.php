@@ -3,6 +3,9 @@
 /*
 Template Name: Zápraží — Polohovací postel
 */
+// Retail snapshot follows the existing 30-day offer freshness policy.
+$zp_bed_catalog_date = current_time( 'Y-m-d' );
+$zp_bed_catalog_prices_fresh = $zp_bed_catalog_date >= '2026-11-28' && $zp_bed_catalog_date <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -134,7 +137,11 @@ get_header();
         <article class="zp-walker-compare-card">
           <h3>CLASSIC P2777</h3>
           <p class="zp-walker-compare-model">Standardní domácí elektrické polohování</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
           <p><strong>20 441 Kč</strong> · katalogová cena samotného lůžka</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
           <dl>
             <div><dt>Vnější půdorys</dt><dd>102,5 × 212 cm</dd></div>
             <div><dt>Lehací plocha</dt><dd>90 × 200 cm</dd></div>
@@ -150,7 +157,11 @@ get_header();
         <article class="zp-walker-compare-card">
           <h3>Hospital P4707</h3>
           <p class="zp-walker-compare-model">Robustní rám, centrální brzda</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
           <p><strong>35 039 Kč</strong> · při načtení katalogu uvedeno „zboží je na cestě“</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
           <dl>
             <div><dt>Vnější půdorys</dt><dd>105 × 214 cm</dd></div>
             <div><dt>Lehací plocha</dt><dd>90 × 196 cm</dd></div>
@@ -166,7 +177,11 @@ get_header();
         <article class="zp-walker-compare-card">
           <h3>Multibed P4044</h3>
           <p class="zp-walker-compare-model">Specializované funkce péče na lůžku</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
           <p><strong>33 390 Kč</strong> · včetně uvedené matrace</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
           <dl>
             <div><dt>Vnější půdorys</dt><dd>96 × 212 cm</dd></div>
             <div><dt>Lehací plocha</dt><dd>90 × 200 cm</dd></div>
@@ -251,7 +266,11 @@ get_header();
       </details>
       <details>
         <summary>Kolik stojí elektrická polohovací postel pro seniora?</summary>
-        <p>Ve třech veřejných katalogových příkladech načtených 28. 11. 2026 byly uvedeny ceny 20 441 Kč, 35 039 Kč a 33 390 Kč. Některé modely nemají matraci v ceně. <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Porovnejte přesné modely a vybavení</a>; skutečnou celkovou cenu včetně dopravy a montáže si nechte potvrdit.</p>
+        <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
+          <p>Ve třech veřejných katalogových příkladech načtených 28. 11. 2026 byly uvedeny ceny 20 441 Kč, 35 039 Kč a 33 390 Kč. Některé modely nemají matraci v ceně. <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Porovnejte přesné modely a vybavení</a>; skutečnou celkovou cenu včetně dopravy a montáže si nechte potvrdit.</p>
+        <?php else : ?>
+          <p>Starší cenové údaje zde již nezobrazujeme. <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Porovnejte přesné modely a vybavení</a> a ověřte aktuální nabídky, matraci, dopravu a montáž přímo u prodejce.</p>
+        <?php endif; ?>
       </details>
       <details>
         <summary>Je vždy potřeba elektrická polohovací postel?</summary>

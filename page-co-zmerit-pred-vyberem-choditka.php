@@ -15,6 +15,7 @@ get_header();
         <div class="zp-hero-actions">
           <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
           <a class="zp-text-link" href="#poptavka-choditka">Připravit poptávku přesného modelu</a>
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#choditko-z-bazaru' ) ); ?>">Kontrola použitého chodítka</a>
           <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nevím, jaký typ: otevřít poradce</a>
         </div>
         <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>

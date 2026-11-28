@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-sprchovaci-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#bezpecne-sprchovani-v-sede">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="#srovnani-sprchovacich-zidli">Srovnat 3 modely židlí</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha' ) ); ?>">Změřit sprchový kout pro židli</a>
       </div>
     </div>
@@ -97,6 +98,50 @@ get_header();
       <h2 class="zp-section-title">UNIZDRAV P2062 — sprchovací židle s ručkami.</h2>
       <p>Ověřený model má výškově nastavitelné sedadlo, boční opory, celkovou šířku 55 cm, hloubku 48 cm, sedák 40 × 33 cm a nosnost 136 kg. Konkrétní produkt se zobrazí až po splnění podmínek v poradci.</p>
       <p class="zp-muted-copy">Produktová stránka byla znovu kontrolována 7. 10. 2026. Dostupnost konkrétní nabídky se může změnit.</p>
+    </div>
+  </section>
+
+  <section id="srovnani-sprchovacich-zidli" class="zp-section" aria-labelledby="zp-shower-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Produktové srovnání · skutečné rozměry</p>
+      <h2 id="zp-shower-comparison-title" class="zp-section-title">Sprchovací židle s madly, nastavitelná nebo skládací? Porovnejte tři modely.</h2>
+      <p class="zp-guide-quick-answer"><strong>Nejmenší židle není automaticky nejlepší.</strong> Rozhoduje prostor pro bezpečný vstup, usednutí a vstávání, potřebná opora, správná výška sedu a nosnost. Následující rozměry jsou katalogové údaje přesných modelů, nikoli doporučení podle zdravotního stavu.</p>
+      <div class="zp-walker-compare-grid" aria-labelledby="zp-shower-comparison-title">
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2062</h3>
+          <p class="zp-walker-compare-model">S opěradlem a područkami</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>55 × 48 cm</dd></div><div><dt>Výška sedu</dt><dd>38–50,5 cm</dd></div><div><dt>Sedák</dt><dd>40 × 33 cm</dd></div><div><dt>Nosnost</dt><dd>136 kg</dd></div><div><dt>Hmotnost</dt><dd>3,1 kg</dd></div></dl>
+          <p>Boční opory a opěradlo jsou součástí tohoto modelu. Je to stávající kandidát poradce; konkrétní použití vyžaduje kontrolu rozměrů, přesunu a podkladu.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P4947</h3>
+          <p class="zp-walker-compare-model">Výškově nastavitelná s opěradlem</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>50,5 × 44 cm</dd></div><div><dt>Výška sedu</dt><dd>35–45 cm</dd></div><div><dt>Sedák</dt><dd>50 × 30 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>2,5 kg</dd></div></dl>
+          <p>Katalog uvádí nižší výšku sedu a menší celkovou šířku než u P2062. Nižší sed ani opěradlo neřeší samo o sobě obtížné vstávání. Funkci opor ověřte v návodu.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P4948</h3>
+          <p class="zp-walker-compare-model">Skládací konstrukce</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>48,5 × 38 cm</dd></div><div><dt>Výška sedu</dt><dd>48 cm</dd></div><div><dt>Sedák</dt><dd>48,5 × 29 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>3 kg</dd></div></dl>
+          <p>Úspornější půdorys v rozloženém stavu; katalog uvádí pevnou výšku sedu 48 cm. Před použitím ověřte způsob zajištění konstrukce a prostor pro všechny opěrné body. Dostupnost ověřte zvlášť.</p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Technické podklady načtené 28. 11. 2026 z katalogu UNIZDRAV: <a class="zp-text-link" href="https://unizdrav.cz/zbozi/2062/sprchovaci-zidle-s-ruckami" target="_blank" rel="noopener noreferrer">P2062</a> · <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4947/sprchovaci-zidle-unizdrav" target="_blank" rel="noopener noreferrer">P4947</a> · <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4948/skladaci-zidle-do-sprchy-unizdrav" target="_blank" rel="noopener noreferrer">P4948</a>. Starší kopie katalogu nejsou důkaz aktuální ceny, skladu nebo konkrétní dodávky. Odkazy jsou zdroje údajů bez affiliate provize. Modely P4947 a P4948 jsou pouze srovnávací příklady, nejsou přidané mezi ověřené nákupní kandidáty poradce.</p>
+      <h3>Jak velký rozdíl udělá skládací konstrukce v malém koutě?</h3>
+      <p>V modelovém prostoru s rovnou využitelnou plochou 60 × 60 cm zabírá P2062 katalogově 55 × 48 cm: geometrický rozdíl je jen 5 cm na šířku a 12 cm do hloubky. P4948 zabírá 48,5 × 38 cm, rozdíl je 11,5 cm a 22 cm. Ani druhá hodnota neprokazuje bezpečné použití. Prostor pro chodidla, dveře, pohyb těla a skutečnou polohu nohou židle se musí posoudit samostatně.</p>
+      <h3>Kdy pozastavit porovnávání ceny?</h3>
+      <ul class="zp-checklist">
+        <li><strong>Opory:</strong> pokud člověk potřebuje oporu rukama při přesunu, nepovažujte výrobek bez potvrzené funkce madel za rovnocenný.</li>
+        <li><strong>Výška:</strong> pokud nelze ověřit bezpečné vstávání a oporu chodidel, nevybírejte jen vyšší sedák.</li>
+        <li><strong>Rozměry:</strong> katalogový sedák není celý půdorys. Například P4003 uvádí sedák 50 × 30 cm, ale v načteném technickém přehledu není celková šířka a hloubka. Před srovnáním je vyžádejte. <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4003/sprchovaci-zidle-3-v-1" target="_blank" rel="noopener noreferrer">Zdroj P4003</a>.</li>
+        <li><strong>Sklad a předání:</strong> potvrďte přesný kód, aktuální dostupnost, návod, cenu včetně dopravy a podmínky vrácení. Skládací model neznamená automaticky skladovou dostupnost.</li>
+      </ul>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poradce-sprchovaci-zidle">Ověřit bezpečný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Změřit malý sprchový kout</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit úhradu před nákupem</a>
+      </div>
+      <p class="zp-disclaimer">Při potřebě fyzického zvedání, nestabilním podkladu nebo nejasném bezpečném přesunu se obraťte na odborníka. Srovnání není potvrzení vhodnosti a neodemyká žádnou obchodní nabídku.</p>
     </div>
   </section>
 

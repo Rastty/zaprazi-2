@@ -23,6 +23,26 @@ if(form&&result&&submit&&errors){
   });
 
   installMobilityProductFitGate(result);
+  const progress=document.querySelector("#zp-rollator-progress");
+  const journey=document.querySelector("#zp-rollator-advisor .zp-mobility-journey");
+  const updateJourney=(step=1)=>{
+    if(journey) journey.querySelectorAll("[data-zp-mobility-journey]").forEach(item=>{
+      if(Number(item.dataset.zpMobilityJourney)===step) item.setAttribute("aria-current","step");
+      else item.removeAttribute("aria-current");
+    });
+    if(!progress) return;
+    const groups=requiredGroups();
+    const answered=groups.filter(group=>val(group.dataset.zpRollRequired)).length;
+    const msg=step===1?`Povinné otázky: ${answered} z ${groups.length} zodpovězeno. Odpověď není potvrzením vhodnosti.`:"Výsledek je níže. Změnou odpovědí se předchozí nabídka zruší.";
+    if(progress.textContent!==msg) progress.textContent=msg;
+    progress.hidden=false;
+  };
+  if(journey) result.addEventListener("change",event=>{
+    if(!event.target?.matches?.("[data-zp-mobility-fit-confirm]")) return;
+    const gate=event.target.closest(".zp-mobility-fit-gate");
+    const offers=gate?.querySelector(".zp-fit-locked-offers");
+    updateJourney(offers&&!offers.hidden?3:2);
+  });
 
   // Hide model-specific questions outside the stable-support branch.
   // Old model answers must never be reused after the situation changes.
@@ -63,12 +83,14 @@ if(form&&result&&submit&&errors){
     else errors.textContent=remaining.length===1
       ?"Doplňte prosím zvýrazněnou otázku."
       :`Doplňte prosím ${remaining.length} zvýrazněné otázky.`;
+    updateJourney(1);
     if(!builderStarted){builderStarted=true;track("builder_start");}
   });
   const val=(n,f=null)=>form.querySelector(`input[name="${n}"]:checked`)?.value??f;
   // Required questions must be visible, marked and keyboard-focusable on error.
   const requiredGroups=()=>[...form.querySelectorAll("[data-zp-roll-required]")]
     .filter(group=>!group.hidden&&!group.closest("[hidden]"));
+  updateJourney(1);
   const validate=()=>{
     const missing=[];
     requiredGroups().forEach(group=>{
@@ -136,7 +158,7 @@ if(form&&result&&submit&&errors){
       ? '<section class="zp-acquisition-summary"><h3>Jak rollátor získat</h3><p>Než výrobek koupíte, porovnejte také půjčení a možnost úhrady.</p><div>' + next.items.map(item => '<article><h4>' + esc(item.label) + '</h4><p>' + esc(item.reason) + '</p><a class="zp-link-btn" href="' + esc(item.href) + '">' + esc(item.action) + '</a></article>').join("") + '</div></section>'
       : '<section class="zp-acquisition-summary"><h3>Jak bezpečně pokračovat</h3><p>' + esc(blockedReason) + '</p><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi</button></section>';
     const candidateEdit = out.status==="candidate" ? '<p class="zp-result-edit"><button type="button" class="zp-link-btn" data-zp-edit-answers="1">Upravit odpovědi a přepočítat výsledek</button></p>' : "";
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${safeRecoveryMarkup}${nextMarkup}${candidateEdit}`;
+    result.innerHTML=`<p class="zp-result-status">${out.status==="candidate"?"2. Konkrétní model k ověření":"Další bezpečný krok"}</p><h2>${esc(out.headline)}</h2><div class="zp-advisor-next"><strong>Co udělat dál</strong><p>${esc(out.nextStep)}</p></div>${products.length?`<div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}${freeGuide}${safeRecoveryMarkup}${nextMarkup}${candidateEdit}`;
     result.querySelector("[data-zp-edit-answers]")?.addEventListener("click", () => {
       form.scrollIntoView({ block: "start" });
       const questionName=out.status==="candidate"?"supportNeed":val("supportNeed")==="steady"?"handBrakes":"supportNeed";
@@ -147,6 +169,6 @@ if(form&&result&&submit&&errors){
     result.querySelectorAll("[data-zp-rollator-merchant-link]").forEach((link)=>link.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     track("builder_complete");
     if(out.status==="candidate"&&products.length) track("recommendation_view");
-    result.hidden=false;result.focus();
+    result.hidden=false;updateJourney(out.status==="candidate"&&products.length?2:1);result.focus();
   });
 }

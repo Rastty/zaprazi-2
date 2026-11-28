@@ -744,3 +744,11 @@ a{color:inherit}
 .zp-advisor-result-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--zp-line)}
 .zp-advisor-result-actions .zp-advisor-back{margin-top:0;flex:1 1 200px}
 @media(max-width:540px){.zp-advisor-result-actions{display:grid;grid-template-columns:1fr}}
+
+/* Mobility specialists: clear next action and comfortable fit controls. */
+.zp-mobility-journey>p{margin:12px 0 0;font-size:.95rem;line-height:1.55;color:var(--zp-ink)}
+:is(#zp-indoor-walker-result,#zp-rollator-result) .zp-advisor-next{padding:14px 16px;border-radius:12px;border-left:4px solid var(--zp-accent);background:var(--zp-accent-2)}
+.zp-mobility-product-card .zp-mobility-fit-gate>label{min-height:48px;padding:12px;border:1px solid var(--zp-line);background:#fff}
+.zp-mobility-product-card .zp-mobility-fit-gate>label:has(input:checked){background:var(--zp-accent-2)}
+.zp-mobility-product-card .zp-mobility-fit-gate>label:focus-within{outline:3px solid var(--zp-accent);outline-offset:3px}
+.zp-mobility-product-card .zp-mobility-fit-gate>label input{accent-color:var(--zp-accent);width:22px;height:22px}

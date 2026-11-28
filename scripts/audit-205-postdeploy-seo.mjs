@@ -233,6 +233,8 @@ export function selectLiveSitemapScope({event,sourceRelease=SOURCE_THEME_RELEASE
     return {dates:SOURCE_DATES,mode:"predeploy_verified_253_dates_only"};
   if(event==="pull_request"&&sourceRelease==="0.8.255"&&liveRelease==="0.8.254")
     return {dates:SOURCE_DATES,mode:"predeploy_verified_254_dates_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.256"&&liveRelease==="0.8.255")
+    return {dates:SOURCE_DATES,mode:"predeploy_verified_255_dates_only"};
   throw Error("SITEMAP_LIVE_RELEASE_MISMATCH");
 }
 async function fetchPublic(path,accept="text/html,application/xml,text/xml") {

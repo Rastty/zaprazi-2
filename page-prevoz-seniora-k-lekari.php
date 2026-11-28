@@ -15,7 +15,7 @@ get_header();
       <p class="zp-kicker">Zápraží · Doprava k lékaři · Plán pro rodinu</p>
       <h1>Jak zajistit převoz seniora k lékaři? Kdy je sanita hrazená a co když nezvládá auto?</h1>
       <p class="zp-lead">Máte termín vyšetření, ale maminka nebo tatínek neujde cestu na zastávku, nezvládne schody, potřebuje invalidní vozík nebo se nedokáže bezpečně přesunout na sedadlo auta? <strong>Nejdřív rozlište zdravotní transport, běžnou dopravu s pomocí a akutní situaci.</strong> Nemusíte hned kupovat pomůcku ani objednávat drahý převoz naslepo.</p>
-      <p class="zp-muted-copy" id="rychla-odpoved-prevoz"><strong>Rychlá odpověď:</strong> Zdravotní pojišťovna může hradit plánovanou sanitní dopravu k lékaři, jen když zdravotní stav neumožňuje běžnou cestu a lékař vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. Samotný věk, chybějící auto nebo špatné spojení nárok nezakládají. Cestu tam a případnou cestu zpět posuzují lékaři samostatně; <a class="zp-text-link" href="#kdo-vystavuje-prikaz">podívejte se, kdo příkaz vystavuje</a>. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Oficiální podmínky VZP</a>.</p>
+      <p class="zp-guide-quick-answer" id="rychla-odpoved-prevoz"><strong>Rychlá odpověď:</strong> Zdravotní pojišťovna může hradit plánovanou sanitní dopravu k lékaři, jen když zdravotní stav neumožňuje běžnou cestu a lékař vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. Samotný věk, chybějící auto nebo špatné spojení nárok nezakládají. Cestu tam a případnou cestu zpět posuzují lékaři samostatně; <a class="zp-text-link" href="#kdo-vystavuje-prikaz">podívejte se, kdo příkaz vystavuje</a>. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Oficiální podmínky VZP</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-dopravy">Najít správný postup podle situace</a>
         <a class="zp-text-link" href="#otazky-pro-lekare">7 otázek před objednáním</a>
@@ -26,6 +26,24 @@ get_header();
       <p class="zp-muted-copy">Česká pravidla · zdravotnická doprava ověřena podle VZP a NZIP 10. 11. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
     </div>
   </section>
+
+  <nav class="zp-guide-jump" aria-label="Převoz k lékaři: v tomto průvodci">
+    <div class="zp-wrap">
+      <div class="zp-guide-jump-inner">
+        <p class="zp-guide-jump-label">V tomto průvodci</p>
+        <ol class="zp-guide-jump-list">
+          <li><a href="#urgentni-situace-prevoz">Kdy volat 155</a></li>
+          <li><a href="#vyber-dopravy">Výběr dopravy</a></li>
+          <li><a href="#senior-taxi-k-lekari">Senior Taxi a úhrada</a></li>
+          <li><a href="#kdo-vystavuje-prikaz">Příkaz tam i zpět</a></li>
+          <li><a href="#vozik-a-schody">Vozík a schody</a></li>
+          <li><a href="#otazky-pro-lekare">7 otázek pro lékaře</a></li>
+          <li><a href="#kontrolni-seznam-prevoz">Seznam před cestou</a></li>
+          <li><a href="#faq-prevoz">Časté otázky</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
 
   <section id="urgentni-situace-prevoz" class="zp-section">
     <div class="zp-wrap">

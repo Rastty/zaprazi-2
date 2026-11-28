@@ -48,6 +48,22 @@ get_header();
     </div>
   </section>
 
+  <nav class="zp-guide-jump" aria-label="Chodítko na pojišťovnu: v tomto průvodci">
+    <div class="zp-wrap">
+      <div class="zp-guide-jump-inner">
+        <p class="zp-guide-jump-label">V tomto průvodci</p>
+        <ol class="zp-guide-jump-list">
+          <li><a href="#rychla-cesta-na-epoukaz">Postup před nákupem</a></li>
+          <li><a href="#priprava-pro-lekare">Otázky pro lékaře</a></li>
+          <li><a href="#postup">Předpis a výdej</a></li>
+          <li><a href="#kdyz-cekate-na-epoukaz">Dočasné řešení</a></li>
+          <li><a href="#vyzvednuti-epoukazu">Vyzvednutí a platnost</a></li>
+          <li><a href="#zp-overit-mesicni-seznam">Platný seznam SÚKL</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
+
   <section id="rychla-cesta-na-epoukaz" class="zp-section zp-section-soft" aria-labelledby="rychla-cesta-na-epoukaz-nadpis">
     <div class="zp-wrap">
       <p class="zp-kicker">Odpověď bez dlouhého hledání</p>

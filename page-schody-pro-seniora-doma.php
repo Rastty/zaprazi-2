@@ -17,9 +17,26 @@ get_header();
         <a class="zp-text-link" href="#srovnani-pomucek-na-schody">Porovnat sedačku, plošinu a schodolez</a>
         <a class="zp-text-link" href="#prispevek-schody">Ověřit možnost příspěvku</a>
       </div>
+      <p class="zp-guide-quick-answer"><strong>Rychlá odpověď:</strong> Při nejistém pohybu nejdřív zajistěte bezpečný přístup. Pro pravidelnou cestu mezi patry se podle možností přesednutí a stavebních podmínek prověřuje sedačka či plošina; mobilní schodolez vyžaduje ověřenou obsluhu. <a class="zp-text-link" href="#srovnani-pomucek-na-schody">Porovnat řešení</a>.</p>
       <p class="zp-muted-copy">Praktický návod pro rodiny · 22. 10. 2026 · bez dotazníku, diagnózy, ukládání údajů či prodejních nabídek.</p>
     </div>
   </section>
+
+  <nav class="zp-guide-jump" aria-label="Schody doma: v tomto průvodci">
+    <div class="zp-wrap">
+      <div class="zp-guide-jump-inner">
+        <p class="zp-guide-jump-label">V tomto průvodci</p>
+        <ol class="zp-guide-jump-list">
+          <li><a href="#plan-schody">Bezpečný první krok</a></li>
+          <li><a href="#situace-schody">Řešení podle překážky</a></li>
+          <li><a href="#srovnani-pomucek-na-schody">Sedačka, plošina, schodolez</a></li>
+          <li><a href="#co-zmerit-schody">Podklady pro zaměření</a></li>
+          <li><a href="#prispevek-schody">Cena a příspěvek</a></li>
+          <li><a href="#zdroje-schody">Oficiální a technické zdroje</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
 
   <section id="plan-schody" class="zp-section">
     <div class="zp-wrap">

@@ -268,14 +268,16 @@ get_header();
         <li><strong>Skládání a sedátko:</strong> úplnost a správné zajištění pojistek, upevnění sedátka a stav příslušenství. Sedátko není automaticky určeno k převozu osoby.</li>
         <li><strong>Hygiena a předání:</strong> způsob vyčištění podle výrobce, dokumentace oprav, dostupnost náhradních dílů a možnost odborného nastavení. Pouhé umytí neřeší mechanické závady.</li>
       </ol>
+      <p><strong>Příklad konkrétního výrobce:</strong> návod pro MEYRA Ideal 3061982 doporučuje odbornou prohlídku po šesti měsících používání a opravy svěřit prodejci. U bazarového kusu s neznámou historií proto nejdřív řešte kontrolu a potřebné opravy, nikoli datum další běžné prohlídky. Pro jiné modely se řiďte jejich vlastním návodem.</p>
       <h3>Jak spočítat, zda bazarové chodítko skutečně ušetří peníze?</h3>
       <div class="zp-system-empty">
         <p><strong>Celková cena použitého kusu</strong> = kupní cena + doprava + odborná prohlídka a nastavení + potvrzené náklady na potřebné díly a opravy.</p>
+        <p><strong>Modelový výpočet (vymyšlené částky, nikoli ceník):</strong> použitý kus za 1 500 Kč, doprava 300 Kč, prohlídka 500 Kč a potvrzené díly 400 Kč znamenají celkem 2 700 Kč. Při úplné nabídce nového kusu za 3 400 Kč by rozdíl činil 700 Kč. Pokud by servis zjistil další nutnou opravu za více než 700 Kč, cenová výhoda by zmizela. Podmínkou obou variant je vhodný typ a bezpečný technický stav.</p>
         <p>Porovnejte ji s úplnou cenou nového kusu a pronájmu na stejnou očekávanou dobu. Je-li potřebná oprava nebo její cena neznámá, berte výpočet jako neúplný, nikoli jako potvrzenou úsporu.</p>
         <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#poptavka-choditka' ) ); ?>">Připravit poptávku přesného modelu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Ověřit cestu přes pojišťovnu</a>.</p>
       </div>
       <p class="zp-disclaimer">Při opakovaných pádech, potřebě fyzické pomoci či nejistém ovládání brzd nezkoušejte chodítko z bazaru samostatně. Ani bezvadný technický stav neznamená individuální vhodnost. Přednost má odborný výběr.</p>
-      <p class="zp-muted-copy">Podklady ověřeny 28. 11. 2026: <a class="zp-text-link" href="https://www.worcsacute.nhs.uk/leaflets/safety-information-for-patients-using-a-walking-aid/" target="_blank" rel="noopener noreferrer">Worcestershire Acute Hospitals NHS Trust — kontrola opotřebení a poškození pomůcek</a>; <a class="zp-text-link" href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/Navod-k-pouziti-rollator-3061982.pdf" target="_blank" rel="noopener noreferrer">MEYRA 3061982, návod verze 02/2018 — údržba, spoje, brzdy a odborný servis</a>. Vždy platí návod skutečného modelu, nikoli podobného výrobku.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 28. 11. 2026: <a class="zp-text-link" href="https://www.worcsacute.nhs.uk/leaflets/safety-information-for-patients-using-a-walking-aid/" target="_blank" rel="noopener noreferrer">Worcestershire Acute Hospitals NHS Trust — kontrola opotřebení a poškození pomůcek</a>; <a class="zp-text-link" href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/navod-k-pouziti-ideal-rollator.pdf" target="_blank" rel="noopener noreferrer">MEYRA 3061982, návod, str. 10–11 — údržba a opravy</a>. Vždy platí návod skutečného modelu, nikoli podobného výrobku.</p>
     </div>
   </section>
 

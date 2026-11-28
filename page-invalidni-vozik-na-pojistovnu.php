@@ -3,6 +3,8 @@
 /*
 Template Name: Zápraží — Invalidní vozík na pojišťovnu
 */
+$zp_wc_rental_today = current_time( 'Y-m-d' );
+$zp_wc_rental_prices_fresh = $zp_wc_rental_today >= '2026-11-28' && $zp_wc_rental_today <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -14,6 +16,8 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="<?php echo esc_url( home_url( '/invalidni-vozik/#poradce-vozik' ) ); ?>">Nejdřív vybrat vhodný typ vozíku</a>
         <a class="zp-text-link" href="#rychle-rozhodnuti">Pojišťovna vs. půjčení vs. koupě</a>
+        <a class="zp-text-link" href="#pujcovny-invalidnich-voziku">Půjčovny a ceny</a>
+        <a class="zp-text-link" href="#naklady-vozik">Porovnat náklady</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/kompenzacni-pomucky-pro-seniory/#pojistovna' ) ); ?>">Všechny pomůcky na pojišťovnu</a>
       </div>
     </div>
@@ -24,7 +28,7 @@ get_header();
       <article class="zp-card">
         <p class="zp-kicker">Dočasná potřeba</p>
         <h2>Nejdřív prověřit půjčovnu.</h2>
-        <p>Mechanický invalidní vozík lze v aktuálních charitních půjčovnách najít zhruba kolem 300–420 Kč za měsíc podle lokality a konkrétního ceníku.</p>
+        <p>Mechanický vozík lze zapůjčit na přechodnou dobu. Porovnejte místní sazbu, dopravu, vratnou kauci a přesné provedení dostupného vozíku.</p>
       </article>
       <article class="zp-card">
         <p class="zp-kicker">Dlouhodobá potřeba</p>
@@ -92,36 +96,55 @@ get_header();
     </div>
   </section>
 
-  <section class="zp-section">
+  <section id="pujcovny-invalidnich-voziku" class="zp-section">
     <div class="zp-wrap">
-      <p class="zp-kicker">Aktuální příklady půjčení</p>
+      <p class="zp-kicker">Regionální půjčovny · datované příklady</p>
       <h2 class="zp-section-title">Kolik stojí půjčení mechanického invalidního vozíku?</h2>
-      <p>Jde o konkrétní veřejné ceníky ověřené 7. 10. 2026. Nejsou to celostátní ceny a dostupnost se může měnit.</p>
+      <p>Podklady načteny 28. 11. 2026; veřejné ceníky mohou být starší. Telefonicky ověřte, zda stále platí, dostupnost konkrétního vozíku i kompletní podmínky. Částky skryjeme po 30 dnech bez nového ověření.</p>
 
       <div class="zp-decision-grid">
         <article class="zp-decision-card">
-          <h3>Charita sv. Martina</h3>
-          <p><strong>300 Kč / měsíc</strong> za mechanický invalidní vozík.</p>
-          <p>Půjčovna nabízí krátkodobé i dlouhodobé zapůjčení; u ostatních pomůcek uvádí dopravu 10 Kč/km.</p>
-          <a class="zp-text-link" href="https://www.svmartin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-a-zdravotnickych-pomucek/" target="_blank" rel="noopener">Ověřit aktuální ceník</a>
+          <h3>Charita sv. Martina · Malá Morávka</h3>
+          <?php if ( $zp_wc_rental_prices_fresh ) : ?><p><strong>300 Kč / měsíc</strong> za mechanický vozík; polohovatelný 400 Kč / měsíc. Ostatní pomůcky: doprava 10 Kč/km.</p><?php else : ?><p>Cenu, typ a dopravu ověřte v ceníku.</p><?php endif; ?>
+          <p>Krátkodobé i dlouhodobé půjčení. Rezervace a dotazy: <a href="tel:+420734264332">734 264 332</a>.</p>
+          <a class="zp-text-link" href="https://www.svmartin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-a-zdravotnickych-pomucek/" target="_blank" rel="noopener noreferrer">Ceník a kontakt</a>
         </article>
-
         <article class="zp-decision-card">
           <h3>Charita Odry</h3>
-          <p><strong>360 Kč</strong> za mechanický invalidní vozík podle aktuálního veřejného ceníku půjčovny.</p>
-          <p>Před cestou je rozumné ověřit dostupnost konkrétního kusu a jeho rozměry.</p>
-          <a class="zp-text-link" href="https://odry.charita.cz/pujcovna-pomucek-2/" target="_blank" rel="noopener">Ověřit aktuální ceník</a>
+          <p>Krátké i dlouhé zápůjčky, podle veřejné stránky bez zálohy. Neúplný měsíc účtuje poměrně podle dnů; konkrétní tarif potvrďte předem.</p>
+          <p>Hranická 162/36, objednávky v pracovní dny: <a href="tel:+420736152805">736 152 805</a>.</p>
+          <a class="zp-text-link" href="https://odry.charita.cz/pujcovna-pomucek-2/" target="_blank" rel="noopener noreferrer">Kontakt a rezervace</a>
         </article>
-
         <article class="zp-decision-card">
-          <h3>Charita Veselí nad Moravou</h3>
-          <p><strong>420 Kč / měsíc</strong> za mechanický invalidní vozík.</p>
-          <p>Veřejný katalog uvádí také denní a zálohové podmínky; vždy ověřte aktuální dostupnost.</p>
-          <a class="zp-text-link" href="https://www.veselinm.charita.cz/nase-sluzby/regionalni-pujcovna-kompenzacnich-a-rehabilitacnich-pomucek/cenik-rehabilitacnich-a-kompenzacnich-pomucek/" target="_blank" rel="noopener">Ověřit aktuální ceník</a>
+          <h3>Charita Jablunkov</h3>
+          <?php if ( $zp_wc_rental_prices_fresh ) : ?><p><strong>180 Kč / měsíc</strong> pro ostatní zájemce; 150 Kč pro klienty pečovatelské služby. Vratná kauce 500 Kč; dovoz a odvoz 20 Kč/km (tam i zpět).</p><?php else : ?><p>Sazbu, kauci a dopravu ověřte před rezervací.</p><?php endif; ?>
+          <p>Půjčovna rozlišuje sazby podle části měsíce. Domluvte termín na <a href="tel:+420728422437">728 422 437</a>.</p>
+          <a class="zp-text-link" href="https://jablunkov.charita.cz/nase-sluzby/pujcovna-kompenzacnich-pomucek/" target="_blank" rel="noopener noreferrer">Ceník a podmínky</a>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Charita Bohumín</h3>
+          <?php if ( $zp_wc_rental_prices_fresh ) : ?><p><strong>20 Kč / den</strong> (600 Kč za 30 dnů) a vratná záloha 500 Kč podle ceníku účinného od 1. 10. 2025.</p><?php else : ?><p>Ověřte aktuální denní tarif, kauci a dopravu.</p><?php endif; ?>
+          <p>Půjčovna ve Starém Bohumíně, Slezská 295. Kontakt <a href="tel:+420734746591">734 746 591</a>. Zeptejte se na konkrétní dostupný typ a velikost.</p>
+          <a class="zp-text-link" href="https://bohumin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-pomucek/dalsi-informace-o-sluzbe/" target="_blank" rel="noopener noreferrer">Ceník a podmínky</a>
         </article>
       </div>
 
       <p class="zp-disclaimer"><strong>Nejdůležitější:</strong> půjčený vozík musí sedět stejně jako koupený. Před převzetím ověřte šířku sedu, celkovou šířku, nosnost, stupačky, brzdy a způsob přesunu na vozík.</p>
+    </div>
+  </section>
+
+  <section id="naklady-vozik" class="zp-section zp-section-soft" aria-labelledby="zp-wheelchair-cost-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Modelový rozpočet · srovnatelná vhodnost</p>
+      <h2 id="zp-wheelchair-cost-title" class="zp-section-title">Kdy se vyplatí vozík půjčit a kdy koupit?</h2>
+      <p>Porovnejte nájem a nákup pouze pro srovnatelně vhodný vozík. Příklad je výpočet, nikoli nabídka půjčovny: 350 Kč měsíčně, celkové nevratné poplatky 500 Kč, vratná kauce 500 Kč, nákup vhodné kompletní sestavy 5 000 Kč.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h3>3 měsíce</h3><p><strong>Půjčení 1 550 Kč</strong> oproti nákupu 5 000 Kč.</p></article>
+        <article class="zp-decision-card"><h3>6 měsíců</h3><p><strong>Půjčení 2 600 Kč</strong> oproti nákupu 5 000 Kč.</p></article>
+        <article class="zp-decision-card"><h3>12 měsíců</h3><p><strong>Půjčení 4 700 Kč</strong> oproti nákupu 5 000 Kč.</p></article>
+      </div>
+      <p>Ve 13. měsíci by v tomto příkladu nájem s poplatky činil 5 050 Kč. Kauce není zahrnuta do konečných nákladů, pokud bude plně vrácena. Výpočet nepočítá servis, zbytkovou hodnotu ani případnou úhradu pojišťovnou. U elektrického vozíku se navíc ptejte na baterii, nabíječku, servis a dopravu.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik/#srovnani-invalidnich-voziku' ) ); ?>">Porovnat tři konkrétní vozíky a jejich technické parametry</a>. Bez ověření sedu, nosnosti, bezpečného přesunu a způsobu ovládání není levnější řešení automaticky vhodné.</p>
     </div>
   </section>
 
@@ -167,7 +190,8 @@ get_header();
       </details>
       <details>
         <summary>Kolik stojí půjčení mechanického invalidního vozíku?</summary>
-        <p>Ve veřejných cenících ověřených 7. 10. 2026 jsme našli například 300 Kč, 360 Kč nebo 420 Kč za měsíc. Ceny, zálohy a dostupnost se liší podle půjčovny.</p>
+        <?php if ( $zp_wc_rental_prices_fresh ) : ?><p>V datovaných příkladech je sazba 180 Kč nebo 300 Kč za měsíc a 20 Kč za den. Nejde o celostátní rozpětí. Předem ověřte kauci, dopravu, typ a dostupnost.</p><?php else : ?><p>Ověřte aktuální ceníky, vratnou kauci a dopravu; starší ceny již nezobrazujeme.</p><?php endif; ?>
+        <p><a class="zp-text-link" href="#pujcovny-invalidnich-voziku">Přejít na kontakty půjčoven</a>.</p>
       </details>
       <details>
         <summary>Je elektrický vozík na pojišťovnu složitější?</summary>
@@ -188,8 +212,7 @@ get_header();
         <article><h3>VZP — získání invalidního vozíku</h3><p>Postup, indikační rámec a časté chyby v žádostech.</p><a href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/ziskani-invalidniho-voziku-a-mozne-chyby-pri-zpracovani-zadosti-o-nej" target="_blank" rel="noopener">Otevřít zdroj VZP</a></article>
         <article><h3>VZP — časté nedostatky žádostí</h3><p>Včetně požadavků u elektrických vozíků a zaměřovacího protokolu.</p><a href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/nejcastejsi-nedostatky-zadosti-o-uhradu-zdravotnickych-prostredku-pro-zajisteni-pohybu-pacienta" target="_blank" rel="noopener">Otevřít zdroj VZP</a></article>
         <article><h3>SÚKL — měsíční Seznam ZP</h3><p>Autoritativní seznam konkrétních prostředků, cen, výší a podmínek úhrady.</p><a href="https://sukl.gov.cz/prumysl/zdravotnicke-prostredky/kategorizace-a-uhradova-regulace/seznamy-zdravotnickych-prostredku/" target="_blank" rel="noopener">Otevřít zdroj SÚKL</a></article>
-        <article><h3>Charita sv. Martina</h3><p>Veřejný ceník půjčovny: mechanický invalidní vozík 300 Kč/měsíc.</p><a href="https://www.svmartin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-a-zdravotnickych-pomucek/" target="_blank" rel="noopener">Otevřít ceník</a></article>
-        <article><h3>Charita Odry</h3><p>Veřejný ceník půjčovny: mechanický invalidní vozík 360 Kč.</p><a href="https://odry.charita.cz/pujcovna-pomucek-2/" target="_blank" rel="noopener">Otevřít ceník</a></article>
+        <article><h3>Regionální půjčovny</h3><p>Čtyři kontakty a zdroje poskytovatelů jsou uvedeny přímo u datovaných příkladů.</p><a href="#pujcovny-invalidnich-voziku">Ceníky a kontakty</a></article>
       </div>
       <p class="zp-disclaimer"><strong>Hranice Zápraží:</strong> tato stránka nevydává lékařské doporučení a nepotvrzuje individuální nárok na úhradu. Pomáhá oddělit správný typ vozíku a správnou cestu pořízení.</p>
     </div>

@@ -22,7 +22,8 @@ test("mattress format, dimensions, examples and worksheets answer practical sear
  assert.equal((section("priklady-matrace-postel").match(/class="zp-decision-card"/g)||[]).length,2);
  assert.equal((section("pracovni-list-matrace").match(/<li>/g)||[]).length,7);
  const faqs=section("faq-antidekubitni-matrace");
- assert.equal((faqs.match(/<details>/g)||[]).length,7);
+ assert.equal((faqs.match(/<details>/g)||[]).length,8);
+ assert.match(faqs,/Kolik stojí antidekubitní matrace s kompresorem a její pronájem/);
  for(const p of ["Musí mít antidekubitní matrace kompresor","90 × 200 cm","Pomůže antidekubitní matrace sama","pojišťovna"])assert.ok(faqs.includes(p),p);
  assert.match(page,/19 cm/);
  assert.equal((page.match(/<h1\b/g)||[]).length,1);

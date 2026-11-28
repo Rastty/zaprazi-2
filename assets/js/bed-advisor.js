@@ -36,6 +36,10 @@ if (form && result && submitButton && errorBox && candidateNote) {
   const preview = document.querySelector("#zp-bed-preview");
   const fitStage = document.querySelector("#zp-bed-fit-stage");
   let previewReady = false;
+  const needsStage = document.querySelector("#zp-bed-needs-stage");
+  const steps = document.querySelector("#zp-bed-steps");
+  const backButton = document.querySelector("#zp-bed-back");
+  const progress = document.querySelector("#zp-bed-progress");
   const fitFields = ["loadFit","spaceFit","userCapacityVerified"];
   if (preview && fitStage) {
     for (const name of fitFields) {
@@ -154,12 +158,53 @@ if (form && result && submitButton && errorBox && candidateNote) {
     </article>
   `;
 
-  const displayBlocked = (outcome) => {
+  // Presentation only: the existing decision engine still checks all real answers.
+  const syncJourney = (step = previewReady ? 2 : 1) => {
+    if (needsStage) needsStage.hidden = previewReady;
+    if (steps) {
+      steps.hidden = false;
+      steps.querySelectorAll("[data-zp-journey-step]").forEach((item) => {
+        if (Number(item.dataset.zpJourneyStep) === step) item.setAttribute("aria-current", "step");
+        else item.removeAttribute("aria-current");
+      });
+    }
+    if (backButton) backButton.hidden = !previewReady;
+    if (progress) {
+      const groups = visibleRequiredGroups();
+      const answered = groups.filter(group => checkedValue(group.dataset.zpBedRequired)).length;
+      const message = step === 3 ? "Výsledek je zobrazen níže. Změna odpovědí jej zruší."
+        : (step === 2 ? "Technické kontroly: " : "Úvodní otázky: ") + answered + " z " + groups.length + " zodpovězeno. Odpověď není potvrzením vhodnosti.";
+      if (progress.textContent !== message) progress.textContent = message;
+      progress.hidden = false;
+    }
+  };
+
+  const resetPreview = () => {
+    previewReady = false;
+    preview.hidden = true;
+    preview.innerHTML = "";
+    fitStage.hidden = true;
+    result.hidden = true;
+    result.innerHTML = "";
+    submitButton.textContent = "1. Ukázat možný výrobek";
+    fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    for (const name of fitFields) {
+      const group = form.querySelector(`[data-zp-product-fit][data-zp-bed-required="${name}"]`);
+      group?.classList.remove("is-error");
+      group?.removeAttribute("aria-invalid");
+    }
+    errorBox.hidden = true;
+    errorBox.textContent = "";
+    syncJourney(1);
+  };
+
+    const displayBlocked = (outcome) => {
     previewReady = false;
     preview.hidden = true;
     fitStage.hidden = true;
     result.innerHTML = `<h2>${escapeHtml(outcome.headline)}</h2><p>${escapeHtml(outcome.nextStep)}</p><p class="zp-disclaimer">V této situaci nedoporučujeme konkrétní výrobek bez dalšího ověření.</p>`;
     result.hidden = false;
+    syncJourney(3);
     result.focus();
   };
 
@@ -192,16 +237,14 @@ if (form && result && submitButton && errorBox && candidateNote) {
   };
 
   updateCandidateNote();
+  syncJourney(1);
+  backButton?.addEventListener("click", () => {
+    resetPreview();
+    needsStage?.focus();
+  });
 
   form.addEventListener("change", (event) => {
-    if (previewReady && !event.target?.closest?.("#zp-bed-fit-stage")) {
-      previewReady = false;
-      preview.hidden = true;
-      fitStage.hidden = true;
-      result.hidden = true;
-      submitButton.textContent = "1. Ukázat možný výrobek";
-      fitStage.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
-    }
+    if (previewReady && !event.target?.closest?.("#zp-bed-fit-stage")) resetPreview();
     if (event.target?.name === "primaryNeed") updateCandidateNote();
 
     const group = event.target?.closest?.("[data-zp-bed-required]");
@@ -210,6 +253,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
       group.removeAttribute("aria-invalid");
     }
 
+    syncJourney();
     if (!builderStarted) {
       builderStarted = true;
       track("builder_start");
@@ -246,6 +290,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
       fitStage.hidden = false;
       result.hidden = true;
       submitButton.textContent = "2. Vyhodnotit parametry";
+      syncJourney(2);
       preview.focus();
       return;
     }
@@ -268,8 +313,9 @@ if (form && result && submitButton && errorBox && candidateNote) {
     if (output.recommendations.length) track("recommendation_view");
 
     result.innerHTML = `
+      <p class="zp-result-status">3. Výsledek podle vašich odpovědí</p>
       <h2>${escapeHtml(output.headline)}</h2>
-      <p>${escapeHtml(output.nextStep)}</p>
+      <div class="zp-advisor-next"><strong>Co udělat dál</strong><p>${escapeHtml(output.nextStep)}</p></div>
       ${recommendations}
       ${renderProducts(products)}
       ${output.status === "candidate" ? renderAcquisition(output.acquisition) : ""}
@@ -290,6 +336,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
     });
 
     result.hidden = false;
+    syncJourney(3);
     result.focus();
   });
 }

@@ -31,7 +31,17 @@ get_header();
       <h2>Kdo bude vozík běžně pohánět?</h2>
       <p>Ptáme se jen na praktické používání. Nepotřebujeme jméno, diagnózu ani přesnou hmotnost člověka.</p>
 
-      <div id="zp-wheelchair-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-wheelchair-privacy">
+      <div id="zp-wheelchair-advisor" class="zp-advisor-form zp-guided-advisor" role="form" aria-describedby="zp-wheelchair-privacy">
+        <nav id="zp-wheelchair-steps" class="zp-advisor-steps" aria-label="Průběh poradce" hidden>
+          <ol>
+            <li data-zp-journey-step="1" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li>
+            <li data-zp-journey-step="2"><span>2</span><strong>Ověření parametrů</strong></li>
+            <li data-zp-journey-step="3"><span>3</span><strong>Výsledek</strong></li>
+          </ol>
+          <button type="button" class="zp-advisor-back" id="zp-wheelchair-back" aria-controls="zp-wheelchair-needs-stage" hidden>← Upravit úvodní odpovědi</button>
+        </nav>
+        <div id="zp-wheelchair-needs-stage" class="zp-advisor-needs-stage" tabindex="-1">
+          <p class="zp-advisor-stage-intro"><strong>Nejdřív vyberte způsob používání.</strong> Pokud si nejste jistí, zvolte „Nevím“. Podle odpovědí ukážeme další bezpečný krok.</p>
         <fieldset class="zp-fieldset" data-zp-wheelchair-required="propulsion">
           <legend>Kdo bude vozík běžně pohánět?</legend>
           <label class="zp-choice"><input type="radio" name="propulsion" value="companion" required><span><strong>Hlavně doprovodná osoba</strong><small>Uživatel bude většinou převážen.</small></span></label>
@@ -135,13 +145,17 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        </div>
         <section id="zp-wheelchair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-wheelchair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-wheelchair-fit-title" hidden>
           <h3 id="zp-wheelchair-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
           <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
         </section>
         <div id="zp-wheelchair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-wheelchair-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <p id="zp-wheelchair-progress" class="zp-advisor-progress" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <button class="zp-btn zp-submit" type="button" id="zp-wheelchair-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p id="zp-wheelchair-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do URL a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

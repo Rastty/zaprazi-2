@@ -32,7 +32,17 @@ get_header();
       <h2>Co má nová postel hlavně vyřešit?</h2>
       <p>Odpovědi zůstávají jen v prohlížeči. Nepotřebujeme jméno, diagnózu ani přesnou hmotnost.</p>
 
-      <div id="zp-bed-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-bed-privacy">
+      <div id="zp-bed-advisor" class="zp-advisor-form zp-guided-advisor" role="form" aria-describedby="zp-bed-privacy">
+        <nav id="zp-bed-steps" class="zp-advisor-steps" aria-label="Průběh poradce" hidden>
+          <ol>
+            <li data-zp-journey-step="1" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li>
+            <li data-zp-journey-step="2"><span>2</span><strong>Ověření parametrů</strong></li>
+            <li data-zp-journey-step="3"><span>3</span><strong>Výsledek</strong></li>
+          </ol>
+          <button type="button" class="zp-advisor-back" id="zp-bed-back" aria-controls="zp-bed-needs-stage" hidden>← Upravit úvodní odpovědi</button>
+        </nav>
+        <div id="zp-bed-needs-stage" class="zp-advisor-needs-stage" tabindex="-1">
+          <p class="zp-advisor-stage-intro"><strong>Nejdřív vyberte způsob používání.</strong> Pokud si nejste jistí, zvolte „Nevím“. Podle odpovědí ukážeme další bezpečný krok.</p>
         <fieldset class="zp-fieldset" data-zp-bed-required="primaryNeed">
           <legend>Jaká je hlavní praktická potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="home_positioning" required><span><strong>Běžné elektrické polohování doma</strong><small>Potřebujeme nastavit výšku, záda a nohy a zachovat co největší samostatnost.</small></span></label>
@@ -84,13 +94,17 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        </div>
         <section id="zp-bed-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bed-fit-title" hidden>
           <h3 id="zp-bed-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
           <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
         </section>
         <div id="zp-bed-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <p id="zp-bed-progress" class="zp-advisor-progress" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p id="zp-bed-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do URL a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

@@ -79,3 +79,60 @@ if (ownQuoteForm) {
     );
   });
 }
+
+
+// Compare actual user-confirmed quotes, even after published tariff expiry.
+// No network or storage; no personal details; never select a medical aid by price.
+const costComparison = document.querySelector("#zp-walker-cost-comparison");
+if (costComparison) {
+  const fields = ["buy-total","rent-month","cost-months","rent-fees","rent-deposit"]
+    .map(key => costComparison.querySelector("#zp-walker-"+key));
+  const result = costComparison.querySelector("#zp-walker-cost-result");
+  const currency = amount => new Intl.NumberFormat("cs-CZ",{
+    style:"currency",currency:"CZK",maximumFractionDigits:0
+  }).format(amount);
+  const hint = message => result.replaceChildren(document.createTextNode(message));
+  const render = () => {
+    const raw = fields.map(field => String(field.value).trim());
+    const [buy,monthly,months,fees,deposit] = raw.map(Number);
+    const valid = raw.every(s => /^\d{1,7}$/.test(s))
+      && [buy,monthly,months,fees,deposit].every(Number.isSafeInteger)
+      && buy>=1 && buy<=1000000 && monthly>=1 && monthly<=100000
+      && months>=1 && months<=36 && fees>=0 && fees<=1000000
+      && deposit>=0 && deposit<=1000000;
+    if (!valid) {
+      hint("Vyplňte všechny částky v celých korunách a dobu 1–36 měsíců. Nulu u poplatků či kauce zadejte pouze tehdy, pokud ji máte potvrzenou.");
+      return;
+    }
+    const rent = monthly*months+fees;
+    const gross = rent+deposit;
+    const breakEven = Math.max(1,Math.ceil((buy-fees)/monthly));
+    const delta = Math.abs(buy-rent);
+    const heading = document.createElement("strong");
+    heading.textContent = rent===buy ? "Za zvolenou dobu vycházejí náklady stejně."
+      : (rent<buy?"Půjčení":"Koupě")+" vychází o "+currency(delta)+" levněji.";
+    const rows = document.createElement("dl");
+    for (const [label,amount] of [
+      ["Koupě celkem",buy],["Pronájem po plném vrácení kauce",rent],
+      ["Pronájem včetně dočasně vázané kauce",gross],["Samostatná vratná kauce",deposit]
+    ]) {
+      const row=document.createElement("div");
+      const term=document.createElement("dt"); term.textContent=label;
+      const value=document.createElement("dd"); value.textContent=currency(amount);
+      row.append(term,value); rows.append(row);
+    }
+    const note = document.createElement("p");
+    note.textContent = breakEven<=36
+      ? "Od "+breakEven+". celého měsíce je při stejné sazbě a poplatcích koupě stejně drahá nebo levnější než pronájem."
+      : "Při zadané sazbě a poplatcích nastává vyrovnání nákladů až po 36 měsících.";
+    const caveat = document.createElement("p");
+    caveat.textContent = "Jde pouze o porovnání nákladů při plném vrácení kauce, nikoli nabídku nebo doporučení konkrétní pomůcky. Ověřte splatnost jednotlivých částek a případný odlišný dlouhodobý tarif.";
+    result.replaceChildren(heading,rows,note,caveat);
+  };
+  if(fields.every(Boolean)&&result){
+    costComparison.hidden=false;
+    hint("Zadejte potvrzené ceny obou možností.");
+    for(const field of fields) field.addEventListener("input",()=>hint("Údaje se změnily. Pro nový výsledek stiskněte Porovnat náklady."));
+    costComparison.addEventListener("submit",event=>{event.preventDefault();render();});
+  }
+}

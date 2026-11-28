@@ -23,6 +23,7 @@ get_header();
         <a class="zp-text-link" href="#jak-pujcit-choditko">Jak postupovat při půjčení chodítka</a>
         <a class="zp-text-link" href="#ceny">Příklady cen (ověřeno 9. 11. 2026)</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
+        <a class="zp-text-link" href="#porovnani-koupe-a-pujceni">Porovnat koupi a půjčení</a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
         <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu</button>
       </div>
@@ -166,6 +167,32 @@ get_header();
         <p class="zp-muted-copy">Výpočet <strong>nezahrnuje kauci, dopravu, vratné poplatky ani minimální účtování</strong>. U více měsíců může mít půjčovna jiný dlouhodobý tarif; skutečnou konečnou cenu, dostupnost a podmínky vrácení si vždy potvrďte přímo u ní. Výpočet neposuzuje zdravotní vhodnost pomůcky.</p>
       </div>
       <p class="zp-muted-copy">Sazby ověřené 9. 11. 2026: <a href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">RehaKomp</a> a <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">MEYRA</a>. Násobek měsíční sazby je pouze orientační; půjčovna může uplatnit minimální účtování, individuální dlouhodobé podmínky či dopravu. Kauce je samostatný dočasný výdaj, nikoliv automaticky cena pronájmu. Před objednáním ověřte aktuální termín, model a konečnou částku u poskytovatele.</p>
+    </div>
+  </section>
+
+  <section id="porovnani-koupe-a-pujceni" class="zp-section zp-section-soft" aria-labelledby="zp-walker-cost-heading">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Vlastní nabídky · skutečné náklady</p>
+      <h2 id="zp-walker-cost-heading" class="zp-section-title">Koupit, nebo půjčit? Porovnejte celkový rozpočet.</h2>
+      <p>Máte dvě aktuální cenové nabídky na již bezpečně ověřenou, srovnatelnou pomůcku? Zjistěte, jak se liší náklady za stejnou dobu a kolik peněz budete potřebovat včetně vratné kauce. Částky nezískáváme z ceníku ani je nikam neodesíláme.</p>
+      <form id="zp-walker-cost-comparison" class="zp-rental-budget" aria-labelledby="zp-walker-cost-heading" hidden>
+        <div class="zp-rental-budget-fields">
+          <label for="zp-walker-buy-total"><strong>Celková cena koupě (Kč)</strong><input id="zp-walker-buy-total" type="number" inputmode="numeric" min="1" max="1000000" step="1" required placeholder="Včetně dopravy"></label>
+          <label for="zp-walker-rent-month"><strong>Půjčovné za měsíc (Kč)</strong><input id="zp-walker-rent-month" type="number" inputmode="numeric" min="1" max="100000" step="1" required></label>
+          <label for="zp-walker-cost-months"><strong>Kolik celých měsíců?</strong><input id="zp-walker-cost-months" type="number" inputmode="numeric" min="1" max="36" step="1" required value="3"></label>
+          <label for="zp-walker-rent-fees"><strong>Nevratné poplatky za pronájem celkem (Kč)</strong><input id="zp-walker-rent-fees" type="number" inputmode="numeric" min="0" max="1000000" step="1" required placeholder="0, jen pokud bez poplatků"><small>Doprava tam i zpět a ostatní nevratné poplatky za celé období.</small></label>
+          <label for="zp-walker-rent-deposit"><strong>Vratná kauce (Kč)</strong><input id="zp-walker-rent-deposit" type="number" inputmode="numeric" min="0" max="1000000" step="1" required placeholder="0, jen pokud bez kauce"></label>
+        </div>
+        <button type="submit" class="zp-btn">Porovnat náklady</button>
+        <div id="zp-walker-cost-result" class="zp-rental-budget-result" role="status" aria-live="polite" aria-atomic="true"></div>
+      </form>
+      <noscript><p class="zp-disclaimer">Bez JavaScriptu vynásobte měsíční sazbu počtem měsíců a přičtěte všechny nevratné poplatky. Vratnou kauci držte odděleně: zvyšuje potřebnou hotovost, ale při plném vrácení není nákladem.</p></noscript>
+      <p class="zp-muted-copy"><strong>Co výpočet předpokládá:</strong> stejnou měsíční sazbu po celou dobu, celou vratnou kauci zpět a všechny nevratné poplatky zahrnuté v zadání. Nezapočítává budoucí servis, prodej použité pomůcky, slevy ani případnou úhradu pojišťovnou. Pokud se podmínky liší, vyžádejte si celkovou nabídku. Levnější možnost nemusí být vhodnější ani bezpečnější.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Prověřit typ pomůcky před koupí</a>
+        <a class="zp-text-link" href="#zp-otazky-pujcovna">Ověřit podmínky půjčovny</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Nejdřív prověřit ePoukaz</a>
+      </div>
     </div>
   </section>
 

@@ -67,3 +67,36 @@ test("planner is usable with mobile width and keeps the original rental and insu
   assert.match(page,/id="ceny"/);
   assert.match(page,/type="submit" class="zp-btn">Spočítat orientační půjčovné/);
 });
+
+
+test("buy versus rent separates refundable deposit and clears stale comparison",()=>{
+  const keys=["buy-total","rent-month","cost-months","rent-fees","rent-deposit"];
+  const events={};
+  const fields=Object.fromEntries(keys.map((key,i)=>["#zp-walker-"+key,{
+    value:["2400","500","3","200","1000"][i],
+    addEventListener:(event,fn)=>{events[key+"."+event]=fn;}
+  }]));
+  const element=()=>({textContent:"",children:[],append(...nodes){this.children.push(...nodes)},replaceChildren(...nodes){this.children=nodes}});
+  const result=element();fields["#zp-walker-cost-result"]=result;
+  const form={hidden:true,querySelector:key=>fields[key],addEventListener:(event,fn)=>{events[event]=fn}};
+  vm.runInNewContext(read("assets/js/walker-rental-budget.js"),{Intl,Number,document:{
+    querySelector:key=>key==="#zp-walker-cost-comparison"?form:null,
+    createElement:element,createTextNode:textContent=>({textContent})
+  }});
+  const plain=node=>[node.textContent,...(node.children||[]).map(plain)].join(" ");
+  const compact=()=>plain(result).replace(/\s/g,"");
+  assert.equal(form.hidden,false);
+  let prevented=false;
+  events.submit({preventDefault:()=>{prevented=true}});
+  assert.equal(prevented,true);
+  for(const amount of ["700Kč","2400Kč","1700Kč","2700Kč","1000Kč"])assert.ok(compact().includes(amount),amount);
+  assert.match(plain(result),/Od 5\. celého měsíce/);
+  fields["#zp-walker-cost-months"].value="6";
+  events["cost-months.input"]();
+  assert.doesNotMatch(plain(result),/levněji/);
+  events.submit({preventDefault(){}});
+  assert.match(plain(result),/Koupě vychází/);
+  fields["#zp-walker-rent-fees"].value="";
+  events.submit({preventDefault(){}});
+  assert.match(plain(result),/Vyplňte všechny částky/);
+});

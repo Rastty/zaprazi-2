@@ -138,6 +138,8 @@ export function selectIndexWatchScope(event,sourceRelease,readiness){
     return {release:"0.8.252",mode:"predeploy_verified_252_only"};
   if(event==="pull_request"&&sourceRelease==="0.8.254"&&readiness.release==="0.8.253")
     return {release:"0.8.253",mode:"predeploy_verified_253_only"};
+  if(event==="pull_request"&&sourceRelease==="0.8.255"&&readiness.release==="0.8.254")
+    return {release:"0.8.254",mode:"predeploy_verified_254_only"};
   throw Error("INDEX_LIVE_RELEASE_INTEGRITY_MISMATCH");
 }
 async function fetchReadiness(fetcher){

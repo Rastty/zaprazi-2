@@ -1489,8 +1489,9 @@ test("Wheelchair high-intent acquisition page separates insurer rental and retai
   assert.match(page, /většina vozíků může zůstat majetkem pojišťovny/i);
   assert.match(page, /zaměřovací protokol/i);
   assert.match(page, /300 Kč \/ měsíc/);
-  assert.match(page, /360 Kč/);
-  assert.match(page, /420 Kč \/ měsíc/);
+  assert.match(page, /180 Kč \/ měsíc/);
+  assert.match(page, /20 Kč \/ den/);
+  assert.match(page, /\$zp_wc_rental_prices_fresh/);
   assert.match(page, /nepotvrzuje individuální nárok/i);
   assert.match(page, /Seznam zdravotnických prostředků hrazených na základě předepsání na poukaz/);
   assert.match(page, /\/invalidni-vozik\/#poradce-vozik/);

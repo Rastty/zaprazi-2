@@ -16,7 +16,7 @@ add_action( 'pre_get_posts', 'zaprazi_2_scope_public_search_to_pages', 10, 1 );
 
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.254' );
+  define( 'ZAPRAZI_RELEASE', '0.8.255' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -135,8 +135,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '4822bc509591236ffa44deb6cf066980d1e957cf',
-    'src/mobility/offer-fit-gate.js' => 'eee307844fb2d03f43a060a366d966d27794269d',
+    'src/mobility/engine.js' => '47b0677940cfb6734244e7f0656345b5f1cb9a84',
+    'src/mobility/offer-fit-gate.js' => 'ee336de609846fec65ada2580c150dacaa06ec37',
     'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
     'src/mobility/acquisition.js' => '0da64640a60178a862e8b5087aa91ffc293bde6f',
   ) );
@@ -1697,7 +1697,7 @@ function zaprazi_2_resource_faq_schema() {
       ),
       array(
         'question' => 'Kolik stojí půjčení mechanického invalidního vozíku?',
-        'answer'   => 'Ve veřejných cenících ověřených 7. 10. 2026 jsme našli například 300 Kč, 360 Kč nebo 420 Kč za měsíc. Ceny, zálohy a dostupnost se liší podle půjčovny.',
+        'answer'   => 'Cena půjčení se liší podle lokality, typu vozíku a délky nájmu. Předem ověřte aktuální sazbu, kauci, dopravu a dostupnost.',
       ),
       array(
         'question' => 'Je elektrický vozík na pojišťovnu složitější?',
@@ -3023,6 +3023,11 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_bed_page() ) return 'Polohovací postel pro seniory: 3 modely a ceny | Zápraží';
+  if ( zaprazi_2_is_wheelchair_page() ) return 'Invalidní vozík pro seniory: 3 modely a ceny | Zápraží';
+  if ( zaprazi_2_is_shower_chair_page() ) return 'Sprchovací židle pro seniory: 3 modely a půjčovny | Zápraží';
+  if ( zaprazi_2_is_toilet_riser_page() ) return 'Nástavec na WC pro seniory: 4 modely a výška | Zápraží';
+  if ( zaprazi_2_is_toilet_chair_page() ) return 'Toaletní židle pro seniory: srovnání 4 modelů | Zápraží';
   if ( zaprazi_2_is_low_fluid_intake_page() ) return 'Senior málo pije: 7 kroků, rizika a pomůcky | Zápraží';
   if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior odmítá koupání: jak pomoci bez nátlaku | Zápraží';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
@@ -3086,8 +3091,13 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_bed_page() ) return 'Srovnejte 3 elektrické polohovací postele: rozměry, výšku, nosnost, matraci a náklady. Praktický poradce, kontrola montáže a možnosti pořízení.';
+  if ( zaprazi_2_is_wheelchair_page() ) return 'Mechanický nebo elektrický invalidní vozík? Srovnejte 3 modely, šířku, nosnost, hmotnost, průchod dveřmi a náklady. Ověřte vhodný typ v poradci.';
+  if ( zaprazi_2_is_shower_chair_page() ) return 'Sprchovací židle pro seniory: porovnejte rozměry, výšku sedu a nosnost 3 modelů, ceny 4 půjčoven a ověřte vhodný typ v praktickém poradci.';
+  if ( zaprazi_2_is_toilet_riser_page() ) return 'Nástavec na WC 5, 10, 11,5 nebo 15 cm? Srovnejte 4 modely, nosnost, uchycení a madla. Ověřte kompatibilitu mísy a výslednou výšku sedu.';
+  if ( zaprazi_2_is_toilet_chair_page() ) return 'Porovnejte 4 toaletní židle pro seniory: statickou, skládací a 4v1. Rozměry, nosnost, náhradní nádoby a bezpečný výběr židle vedle postele.';
   // Exact, already-live editorial routes: distinct search intent, no personal claims.
-  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy požádat lékaře o zdravotnickou dopravu, kdy zvolit auto a co ověřit u vozíku, schodů i zpáteční cesty.';
+  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy požádat lékaře o zdravotnickou dopravu, ceny Senior Taxi v 6 lokalitách a jak řešit vozík, schody a návrat.';
   if ( is_page( 'senior-nestihne-dojit-na-wc' ) ) return 'Senior nestíhá dojít na WC? Rozlište náhlé nucení, dlouhou cestu a obtížné vstávání. Sedm kontrol doma, varovné příznaky a bezpečné další kroky.';
   if ( is_page( 'prispevek-na-peci-pro-seniora' ) ) return 'Příspěvek na péči pro seniora: kde podat žádost, jak připravit přílohy a sociální šetření, kdy řešit změnu dávky a jak zajistit pomoc už dnes.';
   if ( is_page( 'jak-vybrat-pecovatelskou-sluzbu' ) ) return 'Jak vybrat pečovatelskou službu: ověřte registr MPSV, dostupnost v obci, skutečnou kapacitu, cenu a smlouvu. Sedm kroků a osm otázek pro rodinu.';
@@ -3144,11 +3154,11 @@ function zaprazi_2_resource_description( $description ) {
   }
 
   if ( zaprazi_2_is_bed_acquisition_page() ) {
-    return 'Polohovací postel 2026: jak funguje pojišťovna a cirkulace, kolik stojí aktuální půjčovny a kdy dává smysl přímý nákup.';
+    return 'Polohovací postel na pojišťovnu: předpis, schválení, cirkulace, půjčovny a kalkulačka nákladů. Porovnejte půjčení na 6, 12 nebo 24 měsíců s koupí.';
   }
 
   if ( zaprazi_2_is_wheelchair_acquisition_page() ) {
-    return 'Invalidní vozík 2026: jak funguje pojišťovna a cirkulace, aktuální příklady půjčovného a kdy dává smysl přímý nákup.';
+    return 'Invalidní vozík na pojišťovnu: předpis a schválení, čtyři půjčovny s kontakty, vratná kauce a příklad nákladů na 3, 6 či 12 měsíců.';
   }
 
   return $description;

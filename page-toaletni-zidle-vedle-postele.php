@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_254 */
+/* ZP_RELEASE_0_8_255 */
 /*
 Template Name: Zápraží — Toaletní židle vedle postele
 */
@@ -126,6 +126,7 @@ get_header();
         </article>
       </div>
       <h3>Porovnání dvou možných židlí bez falešného doporučení</h3>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/toaletni-zidle-pro-seniory/#srovnani-toaletnich-zidli' ) ); ?>">Čtyři skutečné modely: rozměry, područky a směr vyjmutí nádoby</a>. Katalogová šířka není potvrzením bezpečného přesunu ani obsluhy v ložnici.</p>
       <ul class="zp-checklist">
         <li><strong>Model A / B:</strong> celková šířka a hloubka včetně podpěr: ______ / ______.</li>
         <li><strong>Model A / B:</strong> výška sedu, opěry a dovolený způsob přesunu: ______ / ______.</li>

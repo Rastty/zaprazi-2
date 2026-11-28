@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_254 */
+/* ZP_RELEASE_0_8_255 */
 /*
 Template Name: Zápraží — Invalidní vozík na pojišťovnu
 */
@@ -190,6 +190,7 @@ get_header();
       </details>
       <details>
         <summary>Kolik stojí půjčení mechanického invalidního vozíku?</summary>
+        <p>Cena půjčení se liší podle lokality, typu vozíku a délky nájmu. Předem ověřte aktuální sazbu, kauci, dopravu a dostupnost.</p>
         <?php if ( $zp_wc_rental_prices_fresh ) : ?><p>V datovaných příkladech je sazba 180 Kč nebo 300 Kč za měsíc a 20 Kč za den. Nejde o celostátní rozpětí. Předem ověřte kauci, dopravu, typ a dostupnost.</p><?php else : ?><p>Ověřte aktuální ceníky, vratnou kauci a dopravu; starší ceny již nezobrazujeme.</p><?php endif; ?>
         <p><a class="zp-text-link" href="#pujcovny-invalidnich-voziku">Přejít na kontakty půjčoven</a>.</p>
       </details>

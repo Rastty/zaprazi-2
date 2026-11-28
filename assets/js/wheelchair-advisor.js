@@ -243,11 +243,34 @@ if (form && result && submitButton && errorBox && candidateNote) {
     syncJourney(1);
   };
 
-    const displayBlocked = (outcome) => {
+    const renderResultActions = (canEditFit) => `
+    <div class="zp-advisor-result-actions" aria-label="Upravit výsledek">
+      ${canEditFit ? '<button type="button" class="zp-advisor-back" data-zp-result-edit="fit" aria-controls="zp-wheelchair-fit-stage">Upravit technické kontroly</button>' : ""}
+      <button type="button" class="zp-advisor-back" data-zp-result-edit="needs" aria-controls="zp-wheelchair-needs-stage">Změnit úvodní odpovědi</button>
+    </div>`;
+
+  const wireResultActions = () => {
+    result.querySelectorAll("[data-zp-result-edit]").forEach(button => {
+      button.addEventListener("click", () => {
+        if (button.dataset.zpResultEdit === "fit" && previewReady) {
+          result.hidden = true;
+          result.innerHTML = "";
+          syncJourney(2);
+          fitStage.focus();
+        } else {
+          resetPreview();
+          needsStage?.focus();
+        }
+      });
+    });
+  };
+
+  const displayBlocked = (outcome) => {
     previewReady = false;
     preview.hidden = true;
     fitStage.hidden = true;
-    result.innerHTML = `<h2>${escapeHtml(outcome.headline)}</h2><p>${escapeHtml(outcome.nextStep)}</p><p class="zp-disclaimer">V této situaci nedoporučujeme konkrétní výrobek bez dalšího ověření.</p>`;
+    result.innerHTML = `<h2>${escapeHtml(outcome.headline)}</h2><p>${escapeHtml(outcome.nextStep)}</p><p class="zp-disclaimer">V této situaci nedoporučujeme konkrétní výrobek bez dalšího ověření.</p>${renderResultActions(false)}`;
+    wireResultActions();
     result.hidden = false;
     syncJourney(3);
     result.focus();
@@ -395,6 +418,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
           <p><a class="zp-text-link" href="/invalidni-vozik/#srovnani-invalidnich-voziku" target="_blank" rel="noopener noreferrer">Srovnání tří konkrétních vozíků</a> · <a class="zp-text-link" href="/invalidni-vozik-na-pojistovnu/#pujcovny-invalidnich-voziku" target="_blank" rel="noopener noreferrer">Půjčovny, kontakty a náklady</a></p>
         </section>` : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
+      ${renderResultActions(true)}
     `;
 
     result.querySelectorAll("[data-zp-wheelchair-merchant-link]").forEach((link) => {
@@ -404,6 +428,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
       }, { once: true });
     });
 
+    wireResultActions();
     result.hidden = false;
     syncJourney(3);
     result.focus();

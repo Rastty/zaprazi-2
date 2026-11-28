@@ -739,3 +739,8 @@ a{color:inherit}
 :is(#zp-bed-result,#zp-wheelchair-result) .zp-offer .zp-link-btn{display:flex;justify-content:center;text-align:center;width:100%;min-height:52px;background:var(--zp-accent);color:#fff;white-space:normal;line-height:1.4}
 :is(#zp-bed-result,#zp-wheelchair-result) .zp-offer .zp-link-btn:focus-visible{outline:3px solid var(--zp-ink);outline-offset:3px}
 @media(max-width:540px){.zp-advisor-steps{padding:10px}.zp-advisor-steps ol{gap:5px}.zp-advisor-steps li{font-size:.8rem;padding:8px 4px}.zp-advisor-steps li[aria-current="step"]{padding:7px 3px}.zp-advisor-back{width:100%}:is(#zp-bed-preview,#zp-bed-result,#zp-wheelchair-preview,#zp-wheelchair-result) .zp-facts{grid-template-columns:minmax(0,1fr)}}
+
+/* Keep editing controls available at the final decision, not only above the form. */
+.zp-advisor-result-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--zp-line)}
+.zp-advisor-result-actions .zp-advisor-back{margin-top:0;flex:1 1 200px}
+@media(max-width:540px){.zp-advisor-result-actions{display:grid;grid-template-columns:1fr}}

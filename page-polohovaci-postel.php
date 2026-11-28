@@ -96,7 +96,7 @@ get_header();
 
         </div>
         <section id="zp-bed-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
-        <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bed-fit-title" hidden>
+        <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" tabindex="-1" aria-labelledby="zp-bed-fit-title" hidden>
           <h3 id="zp-bed-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
           <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
         </section>

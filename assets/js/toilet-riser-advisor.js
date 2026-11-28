@@ -2,6 +2,7 @@
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
 import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
+import { renderBathroomComparisonLinks } from "../../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../../src/bathroom/measurement-next-step.js";
 import { installBathroomMicroStaging } from "../../src/bathroom/micro-staging.js";
 import { renderBathroomOfferFreshness } from "../../src/bathroom/source-transparency.js";
@@ -141,6 +142,7 @@ if (form && result && submitButton && errorBox) {
       ${renderBathroomMeasurementNextStep(output, "toilet")}
       ${output.recommendations.map((item) => `<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${escapeHtml(item.reason)}</p></section>`).join("")}
       ${renderBathroomAcquisition(output.status === "candidate" ? output.acquisition : [], escapeHtml)}
+      ${renderBathroomComparisonLinks(output, products)}
       ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;

@@ -3,6 +3,9 @@
 /*
 Template Name: Zápraží — Invalidní vozík
 */
+// Dated editorial price observations; expire after the existing 30-day offer window.
+$zp_wc_today = current_time( 'Y-m-d' );
+$zp_wc_prices_fresh = $zp_wc_today >= '2026-11-28' && $zp_wc_today <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -14,6 +17,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="#poradce-vozik">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
+        <a class="zp-text-link" href="#srovnani-invalidnich-voziku">Srovnat 3 modely a ceny</a>
         <a class="zp-text-link" href="#bezpecne-pouzivani-voziku">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Změřit dveře pro invalidní vozík</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-do-auta/#rozhodnuti-vozik-auto' ) ); ?>">Vozík do kufru auta: co před koupí změřit</a>
@@ -173,6 +177,96 @@ get_header();
     </div>
   </section>
 
+  <section id="srovnani-invalidnich-voziku" class="zp-section zp-section-soft" aria-labelledby="zp-wheelchair-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Tři konkrétní modely · čtyři rozměrové příklady</p>
+      <h2 id="zp-wheelchair-comparison-title" class="zp-section-title">Mechanický nebo elektrický invalidní vozík: srovnání rozměrů, hmotnosti a ceny</h2>
+      <p class="zp-guide-quick-answer"><strong>Šířka sedu, celková šířka a hmotnost rozhodují o různých věcech.</strong> Vhodnost sedu pro člověka ověřte samostatně; průchod dveřmi změřte na skutečné trase a způsob přepravy konzultujte s dodavatelem. U elektrického vozíku přidejte bezpečné ovládání, nabíjení a odborné posouzení trasy.</p>
+      <p>Tři modely jednoho dodavatele představují odlišné konstrukce. Nejde o žebříček trhu, test v terénu ani doporučení konkrétnímu člověku. Technické parametry a cenový snímek veřejných katalogů byly ověřeny 28. 11. 2026.</p>
+      <div class="zp-walker-compare-grid">
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV Basic P4384</h3>
+          <p class="zp-walker-compare-model">Základní skládací mechanický vozík</p>
+          <?php if ( $zp_wc_prices_fresh ) : ?><p><strong>3 610 Kč</strong> · pozorovaná katalogová cena</p><?php else : ?><p>Cenu ověřte v katalogu.</p><?php endif; ?>
+          <dl>
+            <div><dt>Šířka sedu</dt><dd>48 cm</dd></div>
+            <div><dt>Celková šířka</dt><dd>65 cm</dd></div>
+            <div><dt>Výška sedu</dt><dd>43 cm</dd></div>
+            <div><dt>Nosnost</dt><dd>100 kg</dd></div>
+            <div><dt>Hmotnost</dt><dd>18,4 kg</dd></div>
+            <div><dt>Složené rozměry (d × š × v)</dt><dd>100 × 40 × 89,5 cm</dd></div>
+          </dl>
+          <p>Ocelový rám, pevné bočnice a parkovací brzda. Nezaměňujte parkovací brzdu za brzdu pro doprovod při jízdě; funkčnost a potřebnou výbavu potvrďte předem.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/4384/invalidni-vozik-unizdrav-basic" target="_blank" rel="noopener noreferrer">Zdroj technických údajů P4384</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV odlehčený P3641</h3>
+          <p class="zp-walker-compare-model">Ruční pohon nebo doprovod, čtyři konfigurace</p>
+          <?php if ( $zp_wc_prices_fresh ) : ?><p><strong>Od 7 205 Kč</strong> · cenu potvrďte pro konkrétní provedení</p><?php else : ?><p>Cenu ověřte pro konkrétní provedení v katalogu.</p><?php endif; ?>
+          <dl>
+            <div><dt>Šířka sedu</dt><dd>48 / 51 cm</dd></div>
+            <div><dt>Celková šířka</dt><dd>68 / 70 cm</dd></div>
+            <div><dt>Výška sedu</dt><dd>50 cm</dd></div>
+            <div><dt>Nosnost podle kol</dt><dd>125 kg nafukovací / 136 kg bezdušová</dd></div>
+            <div><dt>Hmotnost podle sedu</dt><dd>17 / 17,5 kg</dd></div>
+            <div><dt>Složené rozměry dle katalogu</dt><dd>30 × 80 × 83 cm</dd></div>
+          </dl>
+          <p>Má hnací obruče, samostatné parkovací brzdy a brzdy doprovodu. Zádová opěrka je sklopná, zadní kola rychloupínací. Zkontrolujte přesnou kombinaci sedu a kol, nikoliv pouze obecný název výrobku.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/3641/invalidni-vozik-odlehceny-s-brzdami-pro-doprovod" target="_blank" rel="noopener noreferrer">Zdroj variant P3641</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV elektrický P2961</h3>
+          <p class="zp-walker-compare-model">Joystickový pohon, sed 46 cm</p>
+          <?php if ( $zp_wc_prices_fresh ) : ?><p><strong>48 440 Kč</strong> · katalogová cena; ověřte dopravu a služby</p><?php else : ?><p>Cenu a možnosti dopravy ověřte v katalogu.</p><?php endif; ?>
+          <dl>
+            <div><dt>Šířka / hloubka sedu</dt><dd>46 / 40 cm</dd></div>
+            <div><dt>Celková šířka / délka</dt><dd>63 / 115 cm</dd></div>
+            <div><dt>Výška sedu</dt><dd>50 cm</dd></div>
+            <div><dt>Nosnost</dt><dd>135 kg</dd></div>
+            <div><dt>Hmotnost bez / s baterií</dt><dd>38 / 62 kg</dd></div>
+            <div><dt>Šířka ve složeném stavu</dt><dd>42 cm</dd></div>
+            <div><dt>Poloměr otáčení</dt><dd>86,5 cm</dd></div>
+            <div><dt>Katalogový dojezd</dt><dd>32 km</dd></div>
+          </dl>
+          <p>Údaj o dojezdu není zárukou použitelné vzdálenosti. Záleží na zatížení, baterii, povrchu a trase. Bez ověření joysticku, prostoru, nabíjení a bezpečných přesunů není vhodné rozhodovat podle ceny ani šířky.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2961/elektricky-invalidni-vozik-46-cm" target="_blank" rel="noopener noreferrer">Zdroj technických údajů P2961</a></p>
+        </article>
+      </div>
+      <p class="zp-disclaimer">Ceny jsou pozorováním z uvedeného dne, nikoli garantovanou nabídkou ani informací o individuální úhradě. Po 30 dnech je skryjeme. Odkazy na katalogy dokládají zdroj, nejsou doporučením k nákupu bez ověření. Nákupní cesta v poradci zachovává všechny kontroly vhodnosti.</p>
+
+      <h3>Vozík do dveří širokých 70 cm: proč katalogový rozměr nestačí</h3>
+      <p>Představte si rovný průchod s naměřenou volnou šířkou přesně 70 cm. Od šířky průchodu odečtěte největší vnější šířku vozíku. Zbytek je součet prostoru na obou stranách, ne potvrzená bezpečná vůle.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h4>Basic, 65 cm</h4><p><strong>5 cm rozdíl.</strong> Při ideálním vystředění 2,5 cm na každé straně; skutečný průjezd není ověřen.</p></article>
+        <article class="zp-decision-card"><h4>P3641, 68 / 70 cm</h4><p><strong>2 / 0 cm rozdíl.</strong> Varianta 51 cm sedu se do takového průchodu bez rezervy nevejde prakticky bezpečně.</p></article>
+        <article class="zp-decision-card"><h4>P2961, 63 cm</h4><p><strong>7 cm rozdíl.</strong> Menší šířka rámu neřeší delší vozík ani prostor při zatáčení.</p></article>
+      </div>
+      <p>Do výsledku vstupují zárubně, kliky, vyčnívající části, poloha rukou při pohonu i nájezd pod úhlem. Změřte i okolní prostor, ne pouze dveřní křídlo. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/projede-invalidni-vozik-dvermi/#mereni-pruchodu' ) ); ?>">Použijte měření dveří a vlastní kontrolu průchodu</a>.</p>
+
+      <h3>Jak porovnat skládací invalidní vozík do auta</h3>
+      <p>Skládací konstrukce neznamená automaticky snadné zvedání. U odlehčeného P3641 je rozdíl proti Basic pouze 0,9–1,4 kg; větší praktický rozdíl může být ve sklopení opěrky a rozměrech při složení. P2961 má s baterií 62 kg, tedy přibližně troj- až čtyřnásobek hmotnosti uvedených mechanických modelů.</p>
+      <p>Dodavatel musí potvrdit, které součásti lze bezpečně odejmout pro přepravu a jaká je hmotnost jednotlivých částí. Ověřte nosnost nakládacího zařízení, výšku nakládací hrany, nejmenší rozměr otvoru kufru a možnost bezpečného upevnění. Nepovažujte běžný skládací vozík automaticky za schválené sedadlo pro přepravu osoby ve vozidle. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-do-auta/#rozhodnuti-vozik-auto' ) ); ?>">Průvodce přepravou vozíku v autě</a>.</p>
+
+      <h3>Co znamená nosnost 125 nebo 136 kg u stejného vozíku?</h3>
+      <p>U P3641 jsou šířka sedu a typ kol dvě samostatné volby. Pro konkrétní nabídku si nechte potvrdit obě, a také skutečný limit z dokumentace. Hmotnost uživatele neposílejte do internetového poradce. Při nejistotě ohledně vhodnosti sedu nebo potřeby posturální opory je namístě osobní odborné posouzení, nikoli výběr podle většího čísla nosnosti.</p>
+      <div class="zp-resource-callout">
+        <h3>Osm otázek pro výdejnu nebo půjčovnu před převzetím</h3>
+        <ol class="zp-guide-steps">
+          <li>Jaký přesný model, šířku sedu, hloubku a typ kol dostanu?</li>
+          <li>Jaká je povolená hmotnost uživatele podle dokumentace konkrétní varianty?</li>
+          <li>Jaká je největší vnější šířka včetně obručí a dalších částí?</li>
+          <li>Jak je vyřešena parkovací brzda a případná provozní brzda doprovodu?</li>
+          <li>Jaké jsou rozměry a hmotnost pro transport podle návodu?</li>
+          <li>Je možné odborně vyzkoušet sed, přesun a skutečnou trasu?</li>
+          <li>Kolik bude stát kompletní vhodná sestava, doprava a případný servis či baterie?</li>
+          <li>Jaké jsou podmínky zapůjčení, vrácení a řešení poruchy?</li>
+        </ol>
+        <p>Pokud je potřeba dočasná, nejprve porovnejte místní půjčovnu. Při dlouhodobé potřebě prověřte i předpis a individuální podmínky úhrady. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/invalidni-vozik-na-pojistovnu/' ) ); ?>">Půjčení, pojišťovna a přímý nákup</a>.</p>
+      </div>
+      <p><a class="zp-btn" href="#poradce-vozik">Prověřit vhodný typ v poradci</a></p>
+    </div>
+  </section>
+
   <section id="bezpecne-pouzivani-voziku" class="zp-section" data-zp-editorial-guide="wheelchair">
     <div class="zp-wrap">
       <p class="zp-kicker">Praktická kontrola před výběrem</p>
@@ -214,6 +308,15 @@ get_header();
       <details>
         <summary>Jak vybrat invalidní vozík pro seniora?</summary>
         <p>Začněte tím, kdo bude vozík běžně pohánět. Potom ověřte šířku sedu, celkovou šířku v nejužších průchodech a technickou nosnost; u elektrického vozíku navíc bezpečné ovládání joysticku a místo pro nabíjení.</p>
+      </details>
+      <details>
+        <summary>Kolik stojí mechanický a elektrický invalidní vozík?</summary>
+        <?php if ( $zp_wc_prices_fresh ) : ?>
+          <p>V příkladech z 28. 11. 2026 stál základní mechanický model 3 610 Kč, odlehčený od 7 205 Kč a elektrický model 48 440 Kč. Ceny platí pouze jako datované pozorování; nejde o celé cenové rozpětí trhu.</p>
+        <?php else : ?>
+          <p>Ceny se liší podle typu, sedu, kol, baterie a služeb. Starší cenový snímek už nezobrazujeme.</p>
+        <?php endif; ?>
+        <p><a class="zp-text-link" href="#srovnani-invalidnich-voziku">Srovnejte přesné modely a výbavu</a> a ověřte aktuální nabídku. Cena sama nerozhoduje o vhodnosti.</p>
       </details>
       <details>
         <summary>Je lepší mechanický, nebo elektrický invalidní vozík?</summary>

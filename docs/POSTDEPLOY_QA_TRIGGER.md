@@ -491,3 +491,8 @@ This documented change requests a **fresh complete read-only postdeploy QA** aft
 
 - [Read-only exact public probe](https://github.com/Rastty/zaprazi-2/actions/runs/46051217987) at 18:40 UTC: canonical main=dev `8e2bb59c2d2f6089bc76e95b05ecdcf51a9b4088`, source/live 0.8.250, 10 coherent pages, 25/25 configured slots, two readiness checks and November SÚKL evidence correctly current. No deploy request or WP write.
 - This main push requests the established full non-PR Chrome and public SEO sitemap QA on the same resulting commit. Retain accepted graph 0.8.249 until complete exact-release results pass. December amount must not appear before Prague December 1. No redeploy, no change to the theme, no revenue claim.
+
+## 2026-11-28 — 0.8.252 exact live potvrzen; závěrečná akceptace
+
+- [Veřejný sitemap/index probe](https://github.com/Rastty/zaprazi-2/actions/runs/46126417530), job `140933635246`, 09:24 UTC: source/live 0.8.252, integrity ok, 12 material lastmods a pět technických URL; nový kalkulátor koupě/pronájmu na veřejném `/pujceni-choditka/`. Runtime release commit `321c45276588193da26186a6cc4d1f3eb8ba3352`, main=dev před tímto handoffem.
+- Existující read-only Chrome/sitemap trigger: žádné nové testy, WordPress zápisy ani redeploy. Dokud nejsou úplné výsledky dostupné, neměnit safety_qa.verifiedRelease ani nemergovat další runtime kandidát #958. Žádné tvrzení o provizích nebo indexaci.

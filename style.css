@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.252
+Version: 0.8.254
 Text Domain: zaprazi-2
 */
 
@@ -332,6 +332,7 @@ a{color:inherit}
 .zp-rental-card dl>div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-top:1px solid var(--zp-line)}
 .zp-rental-card dt{color:var(--zp-muted)}
 .zp-rental-card dd{margin:0;text-align:right;font-weight:800}
+.zp-rental-grid-two{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:900px){.zp-rental-grid{grid-template-columns:1fr}}
 
 @media(max-width:980px){
@@ -374,7 +375,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_252 */
+/* ZP_RELEASE_0_8_254 */
 
 
 .zp-affiliate-policy {
@@ -700,3 +701,7 @@ a{color:inherit}
 .zp-walker-compare-card .zp-link-btn{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;width:100%;margin-top:auto;background:var(--zp-accent);color:#fff;border-radius:10px;line-height:1.4}
 .zp-walker-compare-card .zp-link-btn:focus-visible{outline:3px solid var(--zp-ink);outline-offset:3px}
 @media(max-width:850px){.zp-walker-compare-grid{grid-template-columns:minmax(0,1fr)}.zp-walker-compare-card{padding:18px}}
+
+/* Two exact catalogue variants, same established comparison card layout. */
+.zp-walker-compare-grid-two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:850px){.zp-walker-compare-grid-two{grid-template-columns:minmax(0,1fr)}}

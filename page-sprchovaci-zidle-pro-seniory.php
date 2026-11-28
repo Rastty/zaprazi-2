@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_252 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Sprchovací židle pro seniory
 */
@@ -152,7 +152,7 @@ get_header();
       <h2 id="zp-shower-rental-title" class="zp-section-title">Kde půjčit sprchovací židli a kolik stojí pronájem?</h2>
       <p class="zp-guide-quick-answer"><strong>Půjčovna může být vhodná pro dočasnou potřebu nebo při čekání na dlouhodobé řešení.</strong> Nejdřív si ale ujasněte potřebnou konstrukci a bezpečný přesun. Sprchová stolička, židle s opěradlem a područkami a sprchovací vozík nejsou zaměnitelné.</p>
       <p>Čtyři příklady veřejných ceníků načtené 28. 11. 2026. Nejde o ceny stejného výrobku, žebříček ani potvrzení skladu. Před rezervací zkontrolujte aktuální sazbu, podmínky služby a technický stav přesného kusu.</p>
-      <div class="zp-rental-grid">
+      <div class="zp-rental-grid zp-rental-grid-two">
         <article class="zp-rental-card">
           <p class="zp-acquisition-label">Praha a Brno · doprava po ČR</p>
           <h3>RehaKomp</h3>

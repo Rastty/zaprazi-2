@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_252 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Nástavec na WC pro seniory
 */
@@ -138,29 +138,29 @@ get_header();
       <p class="zp-kicker">Produktové srovnání · přesný model a uchycení</p>
       <h2 id="zp-riser-comparison-title" class="zp-section-title">Čtyři konkrétní nástavce na WC: 5, 10, 11,5 a 15 cm</h2>
       <p class="zp-guide-quick-answer"><strong>Porovnejte výšku, nosnost, způsob fixace a prostor kolem mísy, nikoli jen cenu.</strong> Pokud potřebujete madla, nesrovnávejte jednoduchý nástavec bez opor jako plnohodnotnou alternativu. Katalogové údaje neprokazují vhodnost pro konkrétního člověka.</p>
-      <div class="zp-grid">
-        <article class="zp-card">
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
           <h3>Ashby Easyfit 63122</h3>
           <p><strong>5 cm · bez madel</strong></p>
           <dl><div><dt>Zvýšení</dt><dd>5 cm</dd></div><div><dt>Nosnost</dt><dd>190 kg</dd></div><div><dt>Vnější rozměry</dt><dd>38 × 39 cm</dd></div><div><dt>Otvor</dt><dd>21 × 25 cm</dd></div></dl>
           <p>Dva nastavitelné fixační šrouby (30–36 cm).</p>
           <p><a class="zp-text-link" href="https://www.dmapraha.cz/ashby-easyfit-63122_z36752/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
         </article>
-        <article class="zp-card">
+        <article class="zp-walker-compare-card">
           <h3>A&E 575 B/DELUXE</h3>
           <p><strong>10 cm · s poklopem</strong></p>
           <dl><div><dt>Zvýšení</dt><dd>10 cm</dd></div><div><dt>Nosnost</dt><dd>190 kg</dd></div><div><dt>Vnější rozměry</dt><dd>Vyžádat</dd></div><div><dt>Otvor</dt><dd>Vyžádat</dd></div></dl>
           <p>Dva fixační šrouby, bez madel.</p>
           <p><a class="zp-text-link" href="https://www.dmapraha.cz/575-b-deluxe_z36831/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
         </article>
-        <article class="zp-card">
+        <article class="zp-walker-compare-card">
           <h3>BESCO BES-BS15</h3>
           <p><strong>11,5 cm · odnímatelná madla</strong></p>
           <dl><div><dt>Zvýšení</dt><dd>11,5 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Vnější rozměry</dt><dd>Vyžádat včetně madel</dd></div><div><dt>Otvor</dt><dd>Vyžádat</dd></div></dl>
           <p>Šnekový šroub a zajišťovací deska; EAN 6975196415218.</p>
           <p><a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
         </article>
-        <article class="zp-card">
+        <article class="zp-walker-compare-card">
           <h3>UNIZDRAV P2868</h3>
           <p><strong>15 cm · s poklopem</strong></p>
           <dl><div><dt>Zvýšení</dt><dd>15 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Vnější rozměry</dt><dd>36 × 40 cm</dd></div><div><dt>Otvor</dt><dd>21 × 26 cm</dd></div></dl>

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_252 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Chodítka pro seniory
 */
@@ -205,6 +205,7 @@ get_header();
           <p>Nejdřív musí sedět typ a rozměry. Teprve potom porovnávejte konkrétní nabídky obchodníků.</p>
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nejdřív ověřit vhodný typ v poradci</a></p>
           <p><a class="zp-text-link zp-text-link-light" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#co-zmerit' ) ); ?>">Připravit měření před výběrem modelu</a></p>
+          <p><a class="zp-text-link zp-text-link-light" href="#choditko-z-bazaru">Zvažujete chodítko z bazaru? Co prověřit</a></p>
         </article>
         <article>
           <h3>Půjčit</h3>
@@ -231,6 +232,52 @@ get_header();
         </ol>
         <p>Pokud bezpečný typ, ovládání nebo potřebné rozměry ještě nejsou jasné, nejdřív dokončete <a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">poradce pro chůzi</a> a podle výsledku zajistěte odborné ověření. Není nutné nic koupit hned.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="choditko-z-bazaru" class="zp-section zp-section-soft" aria-labelledby="zp-used-walker-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Levnější pořízení · použité a nové pomůcky</p>
+      <h2 id="zp-used-walker-title" class="zp-section-title">Chodítko pro seniory z bazaru: kdy se vyplatí a co zkontrolovat?</h2>
+      <p class="zp-guide-quick-answer"><strong>Rychlá odpověď:</strong> Použité chodítko může snížit pořizovací cenu, ale má smysl pouze tehdy, když lze potvrdit přesný typ, rozměry, stav a bezpečné ovládání. U neznámé historie nebo závady požádejte o odbornou kontrolu ještě před použitím. Nízká cena nenahradí bezpečnost.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Použité chodítko od soukromé osoby</h3>
+          <p>Nechte si poslat fotografii typového štítku, stáří a popis oprav. Ptejte se na původ pomůcky, servis a důvod prodeje. Počítejte s tím, že podmínky vrácení a odpovědnosti za vady se mohou lišit od nákupu u obchodníka.</p>
+          <p><strong>Před platbou:</strong> domluvte osobní prohlídku nebo kontrolu odborníkem; nenechte se tlačit do koupě neověřeného kusu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Odborně zkontrolované použité chodítko</h3>
+          <p>Pokud je v nabídce servisované či repasované chodítko, požadujte popis skutečně provedených kontrol a oprav, přesnou identifikaci modelu, návod a podmínky následného servisu. Samotné označení „repasované“ není důkazem technické způsobilosti.</p>
+          <p><strong>Před platbou:</strong> nechte si potvrdit, kdo odpovídá za prohlídku a jak se řeší případná závada.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Nové chodítko nebo krátkodobý pronájem</h3>
+          <p>Jestliže je cena odborné kontroly, dílů a dopravy příliš vysoká nebo pomůcku potřebujete jen přechodně, porovnejte novou nabídku a půjčovnu. Pokud připadá v úvahu ePoukaz, nejdřív řešte předpis a výdej.</p>
+          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Porovnat celkové náklady</a></p>
+        </article>
+      </div>
+      <h3>Kontrolní seznam: sedm věcí před koupí použitého chodítka</h3>
+      <p>Seznam slouží k přípravě dotazů pro prodejce a servis, nikoli k domácímu potvrzení bezpečnosti nebo k návodu na opravu.</p>
+      <ol class="zp-guide-steps">
+        <li><strong>Identita:</strong> přesný model a výrobní štítek, návod odpovídající variantě, nosnost a rozsah nastavení. Neznámá nosnost je důvod výběr pozastavit.</li>
+        <li><strong>Rám a spoje:</strong> deformace, praskliny, neobvyklé vůle, neoriginální úpravy nebo poškození po pádu. Při podezření na poškození nepoužívat.</li>
+        <li><strong>Madla a nastavení:</strong> pevné uchycení a nepoškozené aretační prvky, ověření vhodné výšky.</li>
+        <li><strong>Opěrné koncovky a kola:</strong> opotřebení, prasklá guma nebo uvolněné části musí vyřešit odborný servis podle návodu.</li>
+        <li><strong>Brzdy rollátoru:</strong> servis má prověřit funkci běžného brzdění i parkovacího zajištění. Nejisté brzdy znamenají pomůcku nepoužívat.</li>
+        <li><strong>Skládání a sedátko:</strong> úplnost a správné zajištění pojistek, upevnění sedátka a stav příslušenství. Sedátko není automaticky určeno k převozu osoby.</li>
+        <li><strong>Hygiena a předání:</strong> způsob vyčištění podle výrobce, dokumentace oprav, dostupnost náhradních dílů a možnost odborného nastavení. Pouhé umytí neřeší mechanické závady.</li>
+      </ol>
+      <p><strong>Příklad konkrétního výrobce:</strong> návod pro MEYRA Ideal 3061982 doporučuje odbornou prohlídku po šesti měsících používání a opravy svěřit prodejci. U bazarového kusu s neznámou historií proto nejdřív řešte kontrolu a potřebné opravy, nikoli datum další běžné prohlídky. Pro jiné modely se řiďte jejich vlastním návodem.</p>
+      <h3>Jak spočítat, zda bazarové chodítko skutečně ušetří peníze?</h3>
+      <div class="zp-system-empty">
+        <p><strong>Celková cena použitého kusu</strong> = kupní cena + doprava + odborná prohlídka a nastavení + potvrzené náklady na potřebné díly a opravy.</p>
+        <p><strong>Modelový výpočet (vymyšlené částky, nikoli ceník):</strong> použitý kus za 1 500 Kč, doprava 300 Kč, prohlídka 500 Kč a potvrzené díly 400 Kč znamenají celkem 2 700 Kč. Při úplné nabídce nového kusu za 3 400 Kč by rozdíl činil 700 Kč. Pokud by servis zjistil další nutnou opravu za více než 700 Kč, cenová výhoda by zmizela. Podmínkou obou variant je vhodný typ a bezpečný technický stav.</p>
+        <p>Porovnejte ji s úplnou cenou nového kusu a pronájmu na stejnou očekávanou dobu. Je-li potřebná oprava nebo její cena neznámá, berte výpočet jako neúplný, nikoli jako potvrzenou úsporu.</p>
+        <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#poptavka-choditka' ) ); ?>">Připravit poptávku přesného modelu</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Ověřit cestu přes pojišťovnu</a>.</p>
+      </div>
+      <p class="zp-disclaimer">Při opakovaných pádech, potřebě fyzické pomoci či nejistém ovládání brzd nezkoušejte chodítko z bazaru samostatně. Ani bezvadný technický stav neznamená individuální vhodnost. Přednost má odborný výběr.</p>
+      <p class="zp-muted-copy">Podklady ověřeny 28. 11. 2026: <a class="zp-text-link" href="https://www.worcsacute.nhs.uk/leaflets/safety-information-for-patients-using-a-walking-aid/" target="_blank" rel="noopener noreferrer">Worcestershire Acute Hospitals NHS Trust — kontrola opotřebení a poškození pomůcek</a>; <a class="zp-text-link" href="https://www.meyra.cz/upload/files/produkty/Hole-berle-choditka/navod-k-pouziti-ideal-rollator.pdf" target="_blank" rel="noopener noreferrer">MEYRA 3061982, návod, str. 10–11 — údržba a opravy</a>. Vždy platí návod skutečného modelu, nikoli podobného výrobku.</p>
     </div>
   </section>
 

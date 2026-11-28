@@ -1357,7 +1357,7 @@ function zaprazi_2_wpseo_description( $description ) {
     return 'Jak vybrat elektrickou polohovací postel pro seniora podle účelu, přesunu, nosnosti a prostoru. Půjčení, koupě a pojišťovna zůstávají oddělené cesty.';
   }
   if ( zaprazi_2_is_pressure_relief_mattress_page() ) {
-    return 'Antidekubitní matrace na polohovací postel: pěnová či s kompresorem, kompatibilita roštu a zábran, osm kontrol, pracovní list a bezpečný postup.';
+    return 'Antidekubitní matrace na polohovací postel: 3 modely, pěna a kompresor, rozměry, zatížení, kompatibilita zábran, pronájem a kontrolní seznam.';
   }
   if ( zaprazi_2_is_one_step_ramp_page() ) {
     return 'Jak vybrat nájezdovou rampu na jeden schod: výška překážky, délka, sklon, nosnost, bezpečné podesty a měření pro vozík i chodítko.';

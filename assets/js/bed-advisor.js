@@ -277,7 +277,7 @@ if (form && result && submitButton && errorBox && candidateNote) {
         <section class="zp-acquisition-summary" aria-label="Porovnání před pořízením postele">
           <h3>Porovnejte celou sestavu před rozhodnutím</h3>
           <p>Rozměry rámu, matrace, doprava a montáž mohou změnit výslednou cenu. Porovnání není potvrzením vhodnosti jiného modelu.</p>
-          <p><a class="zp-text-link" href="/polohovaci-postel/#srovnani-polohovacich-posteli" target="_blank" rel="noopener noreferrer">Srovnání tří konkrétních postelí</a> · <a class="zp-text-link" href="/polohovaci-postel-na-pojistovnu/#porovnani-pujceni-postele" target="_blank" rel="noopener noreferrer">Spočítat půjčení proti koupi</a></p>
+          <p><a class="zp-text-link" href="/polohovaci-postel/#srovnani-polohovacich-posteli" target="_blank" rel="noopener noreferrer">Srovnání tří konkrétních postelí</a> · <a class="zp-text-link" href="/polohovaci-postel-na-pojistovnu/#porovnani-pujceni-postele" target="_blank" rel="noopener noreferrer">Spočítat půjčení proti koupi</a> · <a class="zp-text-link" href="/antidekubitni-matrace-na-polohovaci-postel/#rozmery-kompatibilita-matrace" target="_blank" rel="noopener noreferrer">Ověřit kompatibilitu matrace a zábran</a></p>
         </section>` : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;

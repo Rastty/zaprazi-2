@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_251 */
+/* ZP_RELEASE_0_8_252 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */
@@ -14,6 +14,7 @@ get_header();
         <p class="zp-lead">Vezměte metr a projděte sedm kontrol doma — od šířky dveří po brzdy a nosnost. <strong>Samotné rozměry ale nepotvrdí, že člověk s pomůckou bezpečně chodí.</strong></p>
         <div class="zp-hero-actions">
           <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
+          <a class="zp-text-link" href="#poptavka-choditka">Připravit poptávku přesného modelu</a>
           <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nevím, jaký typ: otevřít poradce</a>
         </div>
         <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
@@ -123,6 +124,38 @@ get_header();
           <p>Nevybírejte podle značky. Začněte zjištěním, jakou oporu člověk potřebuje, a při fyzické asistenci proberte bezpečný postup s odborníkem.</p>
           <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Projít hlavní poradce pro chůzi</a></p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="poptavka-choditka" class="zp-section" aria-labelledby="zp-walker-quote-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Před objednáním · potvrzení přesné varianty</p>
+      <h2 id="zp-walker-quote-title" class="zp-section-title">Co si nechat potvrdit od prodejce nebo půjčovny?</h2>
+      <p>Máte již odborně ověřený typ opory a vybrali jste kandidátní model? Než zaplatíte, požádejte o údaje k přesnému kusu. Podobný název výrobku ani fotografie nezaručují shodné rozměry.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Přesná varianta a návod</h3>
+          <p>Výrobce, model, objednací kód, aktuální návod a potvrzení, že nabídka patří právě k této variantě. U rozporu v rozměrech vyžádejte potvrzení před objednáním.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Parametry k ověření</h3>
+          <p>Celková šířka a hloubka rozloženého rámu, rozsah výšky madel, nosnost a případně sedátko, brzdy, složené rozměry a hmotnost. Porovnejte je s vlastní trasou a s doporučením odborníka.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Skutečné náklady a dostupnost</h3>
+          <p>U koupě si nechte potvrdit cenu včetně dopravy, možnost vyzkoušení a podmínky vrácení. U půjčení sazbu, dobu, kauci, jednorázové poplatky, předání a podmínky vrácení kauce.</p>
+        </article>
+      </div>
+      <div class="zp-decision-card">
+        <h3>Vzor zprávy k opsání nebo zkopírování</h3>
+        <p>Dobrý den, prosím o potvrzení přesného objednacího kódu chodítka a odkaz na návod k nabízené variantě. Potřebuji ověřit celkové rozměry rozloženého modelu, rozsah výšky madel a nosnost. Prosím také o aktuální celkovou cenu, dostupnost a podmínky vyzkoušení nebo vrácení. Pokud nabízíte půjčení, prosím o sazbu, kauci a všechny jednorázové poplatky. Děkuji.</p>
+        <p class="zp-muted-copy">Text si upravte mimo web. Zápraží jej nikam neodesílá. Do běžné poptávky nezadávejte diagnózu ani osobní údaje člověka, pro kterého pomůcku vybíráte.</p>
+      </div>
+      <p class="zp-disclaimer">Potvrzené rozměry ani cena samy o sobě nepotvrzují bezpečnou chůzi. Pokud není vhodný typ či způsob používání jistý, nejprve jej ověřte s odborníkem. Pokud zvažujete ePoukaz, řešte jej před soukromým nákupem.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Prověřit typ opory v poradci</a>
+        <a class="zp-text-link" href="#co-po-mereni">Vybrat způsob pořízení</a>
       </div>
     </div>
   </section>

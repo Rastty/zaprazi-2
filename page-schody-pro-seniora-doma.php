@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_251 */
+/* ZP_RELEASE_0_8_252 */
 /*
 Template Name: Zápraží — Schody pro seniora doma
 */
@@ -14,11 +14,29 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#plan-schody">Začít bezpečným plánem</a>
         <a class="zp-text-link" href="#co-zmerit-schody">Sedm kontrol před objednávkou</a>
+        <a class="zp-text-link" href="#srovnani-pomucek-na-schody">Porovnat sedačku, plošinu a schodolez</a>
         <a class="zp-text-link" href="#prispevek-schody">Ověřit možnost příspěvku</a>
       </div>
+      <p class="zp-guide-quick-answer"><strong>Rychlá odpověď:</strong> Při nejistém pohybu nejdřív zajistěte bezpečný přístup. Pro pravidelnou cestu mezi patry se podle možností přesednutí a stavebních podmínek prověřuje sedačka či plošina; mobilní schodolez vyžaduje ověřenou obsluhu. <a class="zp-text-link" href="#srovnani-pomucek-na-schody">Porovnat řešení</a>.</p>
       <p class="zp-muted-copy">Praktický návod pro rodiny · 22. 10. 2026 · bez dotazníku, diagnózy, ukládání údajů či prodejních nabídek.</p>
     </div>
   </section>
+
+  <nav class="zp-guide-jump" aria-label="Schody doma: v tomto průvodci">
+    <div class="zp-wrap">
+      <div class="zp-guide-jump-inner">
+        <p class="zp-guide-jump-label">V tomto průvodci</p>
+        <ol class="zp-guide-jump-list">
+          <li><a href="#plan-schody">Bezpečný první krok</a></li>
+          <li><a href="#situace-schody">Řešení podle překážky</a></li>
+          <li><a href="#srovnani-pomucek-na-schody">Sedačka, plošina, schodolez</a></li>
+          <li><a href="#co-zmerit-schody">Podklady pro zaměření</a></li>
+          <li><a href="#prispevek-schody">Cena a příspěvek</a></li>
+          <li><a href="#zdroje-schody">Oficiální a technické zdroje</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
 
   <section id="plan-schody" class="zp-section">
     <div class="zp-wrap">
@@ -78,6 +96,51 @@ get_header();
     </div>
   </section>
 
+  <section id="srovnani-pomucek-na-schody" class="zp-section" aria-labelledby="zp-stairs-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Rozhodnutí před objednávkou</p>
+      <h2 id="zp-stairs-comparison-title" class="zp-section-title">Schodolez, schodišťová sedačka nebo plošina? Praktické srovnání.</h2>
+      <p>Nejlepší řešení není nutně nejlevnější ani nejmenší. Záleží na tom, zda potřebujete překonat schody denně, zda je možné bezpečně přesednout a zda bude vždy k dispozici proškolená obsluha. Následující přehled slouží k přípravě odborné konzultace, nikoli k výběru zařízení bez zaměření.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Schodišťová sedačka na kolejnici</h3>
+          <p><strong>Kdy zvažovat:</strong> opakovaná cesta mezi podlažími, pokud je možné bezpečné přesednutí a používání ovládání.</p>
+          <p><strong>Co může rozhodnout:</strong> rovná nebo zatáčející trasa, prostor pro nástup a výstup, volný průchod ostatních osob a kotvení. Pokud je nutná opora i v horním podlaží, vyřešte také její dostupnost po vystoupení.</p>
+          <p><strong>Co není vyřešeno:</strong> přeprava člověka přímo na vozíku. Samotná montáž nenahradí bezpečný přesun na sedadlo.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Šikmá nebo svislá zvedací plošina</h3>
+          <p><strong>Kdy zvažovat:</strong> pokud člověk potřebuje zůstat na kompatibilním vozíku nebo je vhodná jiná bezbariérová cesta mezi úrovněmi.</p>
+          <p><strong>Co může rozhodnout:</strong> rozměry a celková hmotnost vozíku s uživatelem, místo pro nájezd a výjezd, stavební podmínky, přístup ostatních a ovládání.</p>
+          <p><strong>Co není vyřešeno:</strong> samostatnost nelze předpokládat. Potřebná obsluha, ochranné prvky a podmínky provozu se ověřují u konkrétního návrhu.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Mobilní schodolez s obsluhou</h3>
+          <p><strong>Kdy zvažovat:</strong> při přechodné potřebě nebo tam, kde pevná instalace zatím není možná a je zajištěna vhodná obsluha.</p>
+          <p><strong>Co může rozhodnout:</strong> provedení schodiště, kompatibilita vozíku nebo integrovaného sedadla, potřebná nosnost, prostor na podestách a dostupnost proškolené osoby při každé cestě.</p>
+          <p><strong>Co není vyřešeno:</strong> bez obsluhy nemusí být přístup do domu vůbec možný. Předem vyzkoušejte přesný typ s odborníkem, nikoli improvizovaně s rodinou.</p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Technická orientace: <a class="zp-text-link" href="https://www.altech.cz/poptavka-a-poradenstvi/casto-kladene-dotazy/" target="_blank" rel="noopener noreferrer">ALTECH – rozdíly mezi typy zařízení</a> a <a class="zp-text-link" href="https://www.altech.cz/blog/lze-namontovat-schodistovou-sedacku-i-na-uzke-a-strme-schody/" target="_blank" rel="noopener noreferrer">zaměření úzkého a členitého schodiště</a> (kontrola 28. 11. 2026). Jde o informace dodavatele, nikoli nezávislé srovnávací zkoušky nebo doporučení značky.</p>
+      <h3>Kolik stojí schodišťová sedačka a co musí zahrnovat nabídka?</h3>
+      <p>Cenu bez znalosti trasy, zařízení a instalace nelze spolehlivě určit. Nesrovnávejte cenu samotného zařízení s cenou kompletního řešení. Požádejte o položkovou nabídku, ve které bude uvedeno:</p>
+      <ul class="zp-guide-steps">
+        <li>Zařízení, kolejnice nebo konstrukce a přesné označení nabízeného provedení.</li>
+        <li>Doprava, montáž, případná stavební příprava a elektrické napájení.</li>
+        <li>Zaškolení, předání dokumentace a bezpečný postup při poruše.</li>
+        <li>Záruka, pravidelná údržba, výjezd servisu a podmínky pozdější demontáže.</li>
+      </ul>
+      <p>U použité sedačky ověřte, zda ji lze vůbec upravit pro nové schodiště a zda dodavatel zajistí montáž, kontrolu a servis. Nižší pořizovací cena sama o sobě neznamená nižší celkové náklady.</p>
+      <h3>Jak porovnat dvě nabídky na stejné schodiště</h3>
+      <p>Sepište pro oba dodavatele stejný rozsah: odkud kam musí zařízení přepravovat, jak se řeší nástup a výstup, zda musí zůstat volná cesta ostatním obyvatelům a jaké požadavky jsou nutné pro konkrétního uživatele. U každé nabídky pak porovnejte cenu celého řešení, dobu instalace, povinnosti vlastníka domu a dostupnost servisu. Požádejte o technický návrh, nikoli pouze o katalogovou fotografii.</p>
+      <p class="zp-disclaimer">Pokud dosud není zajištěn bezpečný vstup do bytu, domluvte dočasný postup s odborníky. Nákup na dálku, neověřené kotvení nebo přenášení člověka po schodech není bezpečná náhrada.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#co-zmerit-schody">Připravit podklady pro zaměření</a>
+        <a class="zp-text-link" href="#prispevek-schody">Ověřit financování před objednáním</a>
+      </div>
+    </div>
+  </section>
+
   <section id="co-zmerit-schody" class="zp-section">
     <div class="zp-wrap">
       <p class="zp-kicker">Kontrolní seznam pro technika a rodinu</p>
@@ -116,6 +179,19 @@ get_header();
           <p><a class="zp-text-link" href="https://mpsv.gov.cz/prispevek-na-zvlastni-pomucku" target="_blank" rel="noopener noreferrer">MPSV: příspěvek na zvláštní pomůcku</a> · <a class="zp-text-link" href="https://www.ipzs.gov.cz/pomucka-kdy-mohu-ziskat" target="_blank" rel="noopener noreferrer">IPZS: podmínky posuzování</a></p>
         </article>
       </div>
+    </div>
+      <div class="zp-wrap">
+      <h3>Jak požádat o příspěvek na schodišťovou sedačku nebo plošinu</h3>
+      <p>Podle Úřadu práce je příspěvek určen lidem splňujícím zákonné podmínky zdravotního postižení. Samotný věk nebo obtížné schody k přiznání nestačí. Před závaznou objednávkou si u příslušného pracoviště vyjasněte uznatelné řešení i potřebné podklady.</p>
+      <ol class="zp-guide-steps">
+        <li>Proberte bezpečný typ zařízení s odborníkem a nechte zaměřit schodiště.</li>
+        <li>Pro sedačku či šikmou nebo svislou plošinu připravte nejméně dva návrhy odstranění bariéry s cenou.</li>
+        <li>Pokud nejste vlastníkem nemovitosti, připravte pro instalaci a provoz potřebný souhlas vlastníka nebo odpovídající rozhodnutí soudu.</li>
+        <li>Podejte žádost na Úřadu práce podle pokynů oficiálního formuláře. Podklady o zdravotním stavu či příjmech řešte pouze s příslušnými institucemi.</li>
+        <li>Nechte si vysvětlit rozhodnutí, vlastní spoluúčast, lhůty a povinnosti při pozdější změně používání zařízení.</li>
+      </ol>
+      <p>U pomůcek nad 10 000 Kč Úřad práce uvádí standardní spoluúčast 10 %; při nedostatku prostředků může být nižší, nejméně 1 000 Kč. Výsledná částka závisí na rozhodnutí, uznané ceně a zákonných limitech. Nejde o garanci, že stát zaplatí 90 % libovolné nabídky.</p>
+      <p><a class="zp-text-link" href="https://mpsv.gov.cz/zadost-o-prispevek-na-zvlastni-pomucku" target="_blank" rel="noopener noreferrer">Oficiální žádost a seznam příloh</a> · <a class="zp-text-link" href="https://mpsv.gov.cz/up-cz/prispevek-na-zvlastni-pomucku" target="_blank" rel="noopener noreferrer">Podmínky, výše a povinnosti podle Úřadu práce</a> (ověřeno 28. 11. 2026). Zápraží neposuzuje individuální nárok.</p>
     </div>
   </section>
 

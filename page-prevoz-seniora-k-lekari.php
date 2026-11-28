@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_251 */
+/* ZP_RELEASE_0_8_252 */
 /*
 Template Name: Zápraží — Převoz seniora k lékaři
 */
@@ -15,16 +15,35 @@ get_header();
       <p class="zp-kicker">Zápraží · Doprava k lékaři · Plán pro rodinu</p>
       <h1>Jak zajistit převoz seniora k lékaři? Kdy je sanita hrazená a co když nezvládá auto?</h1>
       <p class="zp-lead">Máte termín vyšetření, ale maminka nebo tatínek neujde cestu na zastávku, nezvládne schody, potřebuje invalidní vozík nebo se nedokáže bezpečně přesunout na sedadlo auta? <strong>Nejdřív rozlište zdravotní transport, běžnou dopravu s pomocí a akutní situaci.</strong> Nemusíte hned kupovat pomůcku ani objednávat drahý převoz naslepo.</p>
-      <p class="zp-muted-copy" id="rychla-odpoved-prevoz"><strong>Rychlá odpověď:</strong> Zdravotní pojišťovna může hradit plánovanou sanitní dopravu k lékaři, jen když zdravotní stav neumožňuje běžnou cestu a lékař vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. Samotný věk, chybějící auto nebo špatné spojení nárok nezakládají. Cestu tam a případnou cestu zpět posuzují lékaři samostatně; <a class="zp-text-link" href="#kdo-vystavuje-prikaz">podívejte se, kdo příkaz vystavuje</a>. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Oficiální podmínky VZP</a>.</p>
+      <p class="zp-guide-quick-answer" id="rychla-odpoved-prevoz"><strong>Rychlá odpověď:</strong> Zdravotní pojišťovna může hradit plánovanou sanitní dopravu k lékaři, jen když zdravotní stav neumožňuje běžnou cestu a lékař vystaví <strong>Příkaz ke zdravotnímu transportu</strong>. Samotný věk, chybějící auto nebo špatné spojení nárok nezakládají. Cestu tam a případnou cestu zpět posuzují lékaři samostatně; <a class="zp-text-link" href="#kdo-vystavuje-prikaz">podívejte se, kdo příkaz vystavuje</a>. <a class="zp-text-link" href="https://www.vzp.cz/o-nas/nejcasteji-resite/otazka/mam-narok-na-proplaceni-dopravy-k-lekari" target="_blank" rel="noopener noreferrer">Oficiální podmínky VZP</a>.</p>
       <div class="zp-hero-actions">
         <a class="zp-btn" href="#vyber-dopravy">Najít správný postup podle situace</a>
         <a class="zp-text-link" href="#otazky-pro-lekare">7 otázek před objednáním</a>
+        <a class="zp-text-link" href="#senior-taxi-k-lekari">Senior Taxi: cena a úhrada</a>
         <a class="zp-text-link" href="#kontrolni-seznam-prevoz">Kontrolní seznam pro cestu</a>
       </div>
       <p class="zp-muted-copy zp-transport-mobility-route"><strong>Potíž je hlavně dojít bezpečně k autu nebo do ordinace?</strong> Pokud člověk zvládá samostatnou chůzi bez fyzického přidržování, můžete před cestou <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#vyber-typu' ) ); ?>">prověřit vhodný typ opory pro chůzi</a>. <strong>Chodítko ale neřeší nemožnost bezpečně nastoupit do auta ani nejistou stabilitu.</strong> Při opakovaných pádech, potřebě fyzické pomoci či nejasné bezpečnosti chůze nejprve řešte s ošetřujícím týmem vhodný transport a odborné posouzení.</p>
       <p class="zp-muted-copy">Česká pravidla · zdravotnická doprava ověřena podle VZP a NZIP 10. 11. 2026 · bez ukládání zdravotních údajů · článek nenahrazuje posouzení lékařem.</p>
     </div>
   </section>
+
+  <nav class="zp-guide-jump" aria-label="Převoz k lékaři: v tomto průvodci">
+    <div class="zp-wrap">
+      <div class="zp-guide-jump-inner">
+        <p class="zp-guide-jump-label">V tomto průvodci</p>
+        <ol class="zp-guide-jump-list">
+          <li><a href="#urgentni-situace-prevoz">Kdy volat 155</a></li>
+          <li><a href="#vyber-dopravy">Výběr dopravy</a></li>
+          <li><a href="#senior-taxi-k-lekari">Senior Taxi a úhrada</a></li>
+          <li><a href="#kdo-vystavuje-prikaz">Příkaz tam i zpět</a></li>
+          <li><a href="#vozik-a-schody">Vozík a schody</a></li>
+          <li><a href="#otazky-pro-lekare">7 otázek pro lékaře</a></li>
+          <li><a href="#kontrolni-seznam-prevoz">Seznam před cestou</a></li>
+          <li><a href="#faq-prevoz">Časté otázky</a></li>
+        </ol>
+      </div>
+    </div>
+  </nav>
 
   <section id="urgentni-situace-prevoz" class="zp-section">
     <div class="zp-wrap">
@@ -86,6 +105,46 @@ get_header();
         </article>
       </div>
       <p class="zp-section-note"><strong>Co když lékař zdravotní transport neindikuje?</strong> Můžete se po domluvě s dopravcem informovat o placené zdravotnické přepravě nebo místní dopravní a asistenční službě. Před objednáním ověřte, zda opravdu zvládá konkrétní přesun, schody, vozík a případnou asistenci. Neprezentujeme placenou službu jako automaticky hrazenou.</p>
+    </div>
+  </section>
+
+  <section id="senior-taxi-k-lekari" class="zp-section" aria-labelledby="zp-senior-taxi-heading">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Když rodina nemůže odvézt · ceny a podmínky</p>
+      <h2 id="zp-senior-taxi-heading" class="zp-section-title">Senior taxi, běžné taxi nebo sanita: kdy kterou dopravu objednat?</h2>
+      <p>Nejdřív si ujasněte, zda člověk zvládne bezpečně cestovat na sedadle běžného auta. Pokud ano, může pomoci obecní Senior Taxi nebo běžná taxislužba. Jestliže je nutná zdravotnická pomoc při cestě či přesunu, řešte s lékařem zdravotnický transport. Samotné označení služby „pro seniory“ bezpečnou manipulaci nezaručuje.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>Obecní Senior Taxi</h3>
+          <p>Obec může přispívat na místní jízdy oprávněných obyvatel. Zjistěte, zda je nutná registrace, jaká je územní působnost, kolik jízd je povoleno a zda služba přijímá skládací vozík nebo chodítko. Nejde automaticky o úhradu ze zdravotního pojištění.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Běžné taxi</h3>
+          <p>Vhodnou možností může být pouze tehdy, když člověk bezpečně zvládá cestu běžným autem. Předem ověřte typ vozu, prostor pro pomůcky, možnosti doprovodu a celkovou cenu. Nepředpokládejte, že řidič poskytuje odbornou asistenci.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>Plánovaná zdravotnická doprava</h3>
+          <p>Při zdravotně odůvodněné potřebě je nutné posouzení lékařem. U placené zdravotnické přepravy bez hrazené indikace si nejprve potvrďte dostupnost, rozsah pomoci a cenu. Při akutním ohrožení volejte 155, nikoli taxi.</p>
+        </article>
+      </div>
+      <h3>Proplatí pojišťovna taxi k lékaři?</h3>
+      <p>VZP vysvětluje, že taxislužba může splnit podmínku přepravy vozidlem řízeným jinou osobou než pacientem. Neznamená to však proplacení účtenky za libovolné taxi. Musí existovat zdravotní důvod pro hrazený transport, lékař musí zvolenou dopravu schválit před jízdou a vystavit příslušné vyúčtování. Pojišťovna vychází z uznatelné vzdálenosti s pacientem a platné sazby, nikoli automaticky z ceny taxíku. Před objednáním ověřte postup u vlastní pojišťovny.</p>
+      <ol class="zp-guide-steps">
+        <li>Nechte lékaře předem posoudit zdravotní důvod a bezpečnost přepravy.</li>
+        <li>Pokud schválí tento způsob dopravy, vyžádejte si tiskopis vyúčtování cestovních náhrad (VZP 39/2020).</li>
+        <li>Na vyšetření si nechte potvrdit návštěvu; ověřte zvlášť, zda je odůvodněná i cesta zpět.</li>
+        <li>Podle pokynů vlastní pojišťovny předložte vyplněný doklad. Samotná účtenka za taxi nestačí k doložení zdravotní indikace.</li>
+      </ol>
+      <p class="zp-muted-copy">Podklady ověřeny 28. 11. 2026: <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/prispevek-na-dopravu-taxi-sluzbou" target="_blank" rel="noopener noreferrer">VZP – doprava taxi</a> a <a class="zp-text-link" href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/vyuctovani-nahrady-cestovnich-nakladu-soukromym-vozidlem" target="_blank" rel="noopener noreferrer">VZP – vyúčtování cestovních nákladů</a>. Podmínky se vztahují na zdravotně indikovanou dopravu, nikoli automaticky na všechny seniory či všechny jízdy.</p>
+      <h3>Kolik stojí Senior Taxi? Podmínky se liší podle obce.</h3>
+      <p>Například Zlín má vlastní pravidla registrace, územní omezení a měsíční počet jízd. Praha 6 používá roční limit a vymezená cílová místa. Neexistuje tedy jedna celostátní cena či stejná věková hranice. Tyto příklady nejsou seznam dopravců dostupných v celé republice.</p>
+      <p><a class="zp-text-link" href="https://www.zlin.eu/seniortaxi" target="_blank" rel="noopener noreferrer">Aktuální podmínky města Zlín</a> · <a class="zp-text-link" href="https://www.praha6.cz/potrebuji-vyresit/senior-taxi_67106.html" target="_blank" rel="noopener noreferrer">Aktuální podmínky Praha 6</a>. Obecní stránky ověřeny 28. 11. 2026; před jízdou ověřte aktuální tarif a dostupnost ve své obci.</p>
+      <div class="zp-decision-card">
+        <h3>Jak najít službu a porovnat skutečnou cenu tam i zpět</h3>
+        <p>Začněte na webu své obce nebo u jejího sociálního odboru. Při telefonátu si nechte potvrdit cenu odvozu, návratu, případného čekání či nového přistavení, doprovodu a přepravy pomůcky. Zeptejte se i na storno a co se stane, pokud vyšetření skončí později.</p>
+        <p><strong>Příklad poptávky:</strong> Potřebujeme plánovaný odvoz k lékaři a zpět. Je možné převézt složené chodítko, jaký typ pomoci poskytujete při nástupu a kolik stojí obě jízdy, pokud se čas návratu změní? Odbornou pomoc při přesunu a vhodnost vozidla je třeba potvrdit samostatně.</p>
+        <p>Pokud člověk nedokáže bezpečně přesednout nebo potřebuje odbornou manipulaci, nepovažujte levnější nabídku za vhodnou náhradu zdravotnického transportu. Ujasněte si nejprve <a class="zp-text-link" href="#vozik-a-schody">potřeby při přesunu, schody a přepravu vozíku</a>.</p>
+      </div>
     </div>
   </section>
 
@@ -180,6 +239,7 @@ get_header();
       <details><summary>Kdo vystaví příkaz na cestu zpět?</summary><p>Posuzuje to lékař, který poskytl zdravotní péči. Příkaz na cestu tam automaticky nezaručuje zpáteční jízdu; nezapomeňte ji předem domluvit.</p></details>
       <details><summary>Proplatí pojišťovna cestu vlastním autem?</summary><p>Jde to pouze při splnění pravidel pro zdravotně indikovanou dopravu a po předchozím schválení lékařem. Výše náhrady se mění; ověřte aktuální sazbu, doklady a dopravní podmínky u své pojišťovny.</p></details>
       <details><summary>Co když člověk potřebuje jen pomoc po schodech?</summary><p>Samotné schody automaticky nezakládají nárok na zdravotnický transport. Nejdřív ověřte individuální bezpečnost, možnost přesunu, vhodnou pomoc a podmínky konkrétní dopravní služby. Nezkoušejte člověka snášet silou bez zaškolení.</p></details>
+      <details><summary>Může pojišťovna přispět na taxi k lékaři?</summary><p>Za určitých podmínek ano: lékař musí předem schválit zdravotně indikovanou cestu vozidlem řízeným jinou osobou. Náhrada se řídí pravidly pojišťovny a uznatelnou vzdáleností, nikoli automaticky cenou taxi. <a class="zp-text-link" href="#senior-taxi-k-lekari">Podrobný postup a rozdíl oproti Senior Taxi.</a></p></details>
       <details><summary>Je zdravotnická dopravní služba totéž co záchranka?</summary><p>Ne. Plánovaná přeprava k vyšetření má jiné účely a indikaci než linka 155. Záchranku volejte při akutním ohrožení, nikoli jako bezplatnou dopravu k běžné kontrole.</p></details>
     </div>
   </section>

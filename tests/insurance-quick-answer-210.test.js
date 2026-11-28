@@ -17,9 +17,11 @@ test("Insurance search landing answers before a user needs to read the full guid
   assert.match(html,/Pokud člověk padá, potřebuje fyzickou pomoc nebo nedokáže bezpečně brzdit/);
 });
 
-test("Both official SÚKL FAQ links use the verified working URL",()=>{
+test("Original SÚKL FAQ and verified dispensary FAQ use exact official URLs",()=>{
   const expected="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/";
   const links=[...html.matchAll(/href="(https:\/\/sukl\.gov\.cz\/faq\/[^"]+)"/g)].map(m=>m[1]);
-  assert.ok(links.length>=2);
-  assert.ok(links.every(link=>link===expected));
+  const dispensary="https://sukl.gov.cz/faq/ovlivni-povinny-epoukaz-svobodny-vyber-vydejny-pacientem/";
+  assert.ok(links.filter(link=>link===expected).length>=2);
+  assert.equal(links.filter(link=>link===dispensary).length,1);
+  assert.ok(links.every(link=>link===expected||link===dispensary));
 });

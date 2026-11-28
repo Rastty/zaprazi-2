@@ -25,6 +25,7 @@ get_header();
         <a class="zp-text-link" href="#pujcovny-choditek-podle-mesta">Půjčovny podle města</a>
         <a class="zp-text-link" href="#rozpocet-pujceni-choditka"><?php echo $zp_rental_is_fresh ? 'Spočítat orientační půjčovné' : 'Proč nyní nelze přepočítat starší ceny'; ?></a>
         <a class="zp-text-link" href="#porovnani-koupe-a-pujceni">Porovnat koupi a půjčení</a>
+        <a class="zp-text-link" href="#pujcovne-a-epoukaz">Kdy se vrací půjčovné</a>
         <a class="zp-text-link" href="#zp-otazky-pujcovna">Připravit telefonát do půjčovny</a>
         <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro půjčovnu</button>
       </div>
@@ -168,6 +169,43 @@ get_header();
         <p class="zp-muted-copy">Výpočet <strong>nezahrnuje kauci, dopravu, vratné poplatky ani minimální účtování</strong>. U více měsíců může mít půjčovna jiný dlouhodobý tarif; skutečnou konečnou cenu, dostupnost a podmínky vrácení si vždy potvrďte přímo u ní. Výpočet neposuzuje zdravotní vhodnost pomůcky.</p>
       </div>
       <p class="zp-muted-copy">Sazby ověřené 9. 11. 2026: <a href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener">RehaKomp</a> a <a href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener">MEYRA</a>. Násobek měsíční sazby je pouze orientační; půjčovna může uplatnit minimální účtování, individuální dlouhodobé podmínky či dopravu. Kauce je samostatný dočasný výdaj, nikoliv automaticky cena pronájmu. Před objednáním ověřte aktuální termín, model a konečnou částku u poskytovatele.</p>
+    </div>
+  </section>
+
+  <section id="pujcovne-a-epoukaz" class="zp-section" aria-labelledby="zp-rent-to-buy-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Půjčení před nákupem · konkrétní podmínky</p>
+      <h2 id="zp-rent-to-buy-title" class="zp-section-title">Vrátí půjčovna půjčovné, když chodítko později koupíte nebo získáte na ePoukaz?</h2>
+      <p class="zp-guide-quick-answer"><strong>U některých půjčoven ano, ale není to obecný nárok.</strong> Rozlišujte obchodní podmínky konkrétního poskytovatele a úhradu zdravotní pojišťovny. Před podpisem smlouvy si případné započtení půjčovného nechte potvrdit písemně.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Půjčení a následná koupě u MEYRA</h3>
+          <p>V ceníku platném od 1. 1. 2026 MEYRA uvádí možnost odečíst cenu pronájmu při následném nákupu pomůcky od její prodejní ceny. Potvrďte, že se tato podmínka vztahuje právě na zvolený model, délku půjčení a plánovaný nákup.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Půjčení a následný výdej na poukaz</h3>
+          <p>Podle téhož ceníku může MEYRA při dodání poukazu schváleného pojišťovnou na vlastní novou či repasovanou pomůcku vrátit u chodítka půjčovné nejvýše za jeden měsíc. Podmínky konkrétního výdeje a výši vrácené částky potvrďte předem. Nejde o proplacení účtenky pojišťovnou.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Přímý nákup bez poukazu</h3>
+          <p>VZP vysvětluje, že soukromě zaplacené chodítko nelze dodatečně uhradit přímo pacientovi ani s následným doporučením lékaře. Chcete-li prověřit úhradu, nejprve řešte předpis a výdej. Nespoléhejte na budoucí vrácení peněz, pokud nemáte potvrzené podmínky.</p>
+        </article>
+      </div>
+      <h3>Kolik peněz budete potřebovat při převzetí?</h3>
+      <div class="zp-system-empty">
+        <p><strong>Příklad podle ceníku MEYRA zobrazeného 28. 11. 2026:</strong> týdenní pronájem kategorie chodítek 250 Kč, měsíční 600 Kč a hotovostní vratná kauce 1 000 Kč. Při platbě za měsíc a složení kauce jde o počáteční výdaj 1 600 Kč. Při plném vrácení kauce zůstane náklad 600 Kč před případným započtením půjčovného, cestovními náklady či dalšími poplatky.</p>
+        <p>Poskytovatel uvádí, že chodítka nedováží; počítejte tedy s vlastní cestou nebo sjednanou alternativou. Podle jeho ceníku se při znečištění či poškození mohou náklady odečíst z kauce. Skutečné podmínky a cenu si nechte potvrdit přímo před objednáním.</p>
+      </div>
+      <h3>Co si nechat potvrdit před podpisem smlouvy</h3>
+      <ol class="zp-guide-steps">
+        <li>Je možné započíst půjčovné právě u mého bezpečně vybraného typu a modelu?</li>
+        <li>Jaký je časový limit, jaké doklady potřebuji a co platí při odlišném modelu?</li>
+        <li>Jaká část půjčovného bude případně započtena nebo vrácena a jak se vypořádá kauce?</li>
+        <li>Co se stane, když se schválení či výdej poukazu opozdí, nebo se vhodný typ změní?</li>
+      </ol>
+      <p><strong>Dokud není vrácení půjčovného písemně potvrzené, počítejte s celou cenou pronájmu.</strong> Neodkládejte odborné posouzení ani neměňte typ pomůcky kvůli slevě.</p>
+      <p class="zp-muted-copy">Podklady zobrazené 28. 11. 2026: <a class="zp-text-link" href="https://www.meyra.cz/cenik-meyra.html" target="_blank" rel="noopener noreferrer">ceník a podmínky MEYRA (platnost od 1. 1. 2026, změna cen vyhrazena)</a> a <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener noreferrer">VZP — pravidla úhrady předem zakoupeného chodítka</a>. Zápraží nepotvrzuje individuální nárok, dostupnost ani závaznou cenu.</p>
+      <p><a class="zp-text-link" href="#porovnani-koupe-a-pujceni">Spočítat náklady bez předpokládané slevy</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/#kdyz-cekate-na-epoukaz' ) ); ?>">Postup při čekání na ePoukaz</a></p>
     </div>
   </section>
 
@@ -351,7 +389,7 @@ get_header();
       </details>
       <details>
         <summary>Mohu si půjčit chodítko, než vyřídím ePoukaz?</summary>
-        <p>Ano, půjčení může sloužit jako dočasná cesta. Podmínky konkrétní půjčovny a případný vztah půjčovného k následnému nákupu nebo výdeji se ale liší.</p>
+        <p>Ano, půjčení může sloužit jako dočasná cesta. Podmínky konkrétní půjčovny a případný vztah půjčovného k následnému nákupu nebo výdeji se ale liší. <a href="#pujcovne-a-epoukaz">Příklad podmínek vrácení půjčovného u MEYRA</a>.</p>
       </details>
     </div>
   </section>

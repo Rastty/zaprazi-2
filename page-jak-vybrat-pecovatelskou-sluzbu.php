@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_255 */
+/* ZP_RELEASE_0_8_256 */
 /*
 Template Name: Zápraží — Jak vybrat pečovatelskou službu
 */

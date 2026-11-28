@@ -16,7 +16,7 @@ add_action( 'pre_get_posts', 'zaprazi_2_scope_public_search_to_pages', 10, 1 );
 
 
 if ( ! defined( 'ZAPRAZI_RELEASE' ) ) {
-  define( 'ZAPRAZI_RELEASE', '0.8.253' );
+  define( 'ZAPRAZI_RELEASE', '0.8.254' );
 }
 
 function zaprazi_2_release_integrity_ok() {
@@ -135,8 +135,8 @@ function zaprazi_2_release_integrity_ok() {
   // reviewed Git blobs. Release markers alone cannot distinguish an older
   // file left behind by a partial deploy of the same theme version.
   $critical_git_blobs = array_merge( $bathroom_git_blobs, array(
-    'src/mobility/engine.js' => '57c96e95363a63abf052455f91d121aba4ea8dec',
-    'src/mobility/offer-fit-gate.js' => 'bce78cfcad1ff24336b8877f97cf01b2dd1c2f13',
+    'src/mobility/engine.js' => '4822bc509591236ffa44deb6cf066980d1e957cf',
+    'src/mobility/offer-fit-gate.js' => 'eee307844fb2d03f43a060a366d966d27794269d',
     'src/evidence/freshness.js' => '74e1de204923df377c765f2e694c6783bfb2b3ff',
     'src/mobility/acquisition.js' => '0da64640a60178a862e8b5087aa91ffc293bde6f',
   ) );
@@ -3031,7 +3031,7 @@ function zaprazi_2_resource_title( $title ) {
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
   if ( zaprazi_2_is_senior_sos_page() ) return 'Senior žije sám: SOS tlačítko, hodinky či tísňová péče | Zápraží';
   if ( zaprazi_2_is_senior_car_access_page() ) return 'Nastupování seniora do auta: bezpečné pomůcky | Zápraží';
-  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy je sanitka hrazená? | Zápraží';
+  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: sanita a Senior Taxi | Zápraží';
   if ( zaprazi_2_is_bedbound_hygiene_page() ) return 'Hygiena ležícího seniora doma: praktický postup | Zápraží';
   if ( zaprazi_2_is_dressing_without_bending_page() ) return 'Ponožky a kalhoty bez ohýbání: pomůcky | Zápraží';
   if ( zaprazi_2_is_bed_hair_washing_page() ) return 'Mytí vlasů na lůžku: bezpečný postup a pomůcky | Zápraží';
@@ -3093,7 +3093,7 @@ function zaprazi_2_resource_description( $description ) {
   if ( zaprazi_2_is_toilet_riser_page() ) return 'Nástavec na WC 5, 10, 11,5 nebo 15 cm? Srovnejte 4 modely, nosnost, uchycení a madla. Ověřte kompatibilitu mísy a výslednou výšku sedu.';
   if ( zaprazi_2_is_toilet_chair_page() ) return 'Porovnejte 4 toaletní židle pro seniory: statickou, skládací a 4v1. Rozměry, nosnost, náhradní nádoby a bezpečný výběr židle vedle postele.';
   // Exact, already-live editorial routes: distinct search intent, no personal claims.
-  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy požádat lékaře o zdravotnickou dopravu, kdy zvolit auto a co ověřit u vozíku, schodů i zpáteční cesty.';
+  if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Kdy je převoz seniora k lékaři hrazený? Porovnejte ceny Senior Taxi v 6 lokalitách, zjistěte, jak rezervovat jízdu a řešit vozík či schody.';
   if ( is_page( 'senior-nestihne-dojit-na-wc' ) ) return 'Senior nestíhá dojít na WC? Rozlište náhlé nucení, dlouhou cestu a obtížné vstávání. Sedm kontrol doma, varovné příznaky a bezpečné další kroky.';
   if ( is_page( 'prispevek-na-peci-pro-seniora' ) ) return 'Příspěvek na péči pro seniora: kde podat žádost, jak připravit přílohy a sociální šetření, kdy řešit změnu dávky a jak zajistit pomoc už dnes.';
   if ( is_page( 'jak-vybrat-pecovatelskou-sluzbu' ) ) return 'Jak vybrat pečovatelskou službu: ověřte registr MPSV, dostupnost v obci, skutečnou kapacitu, cenu a smlouvu. Sedm kroků a osm otázek pro rodinu.';

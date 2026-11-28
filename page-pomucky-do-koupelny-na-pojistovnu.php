@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_253 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Pomůcky do koupelny na pojišťovnu
 */
@@ -164,6 +164,7 @@ get_header();
       <details>
         <summary>Hradí pojišťovna sprchovací nebo toaletní židli?</summary>
         <p>Některé zdravotnické prostředky tohoto typu mohou být hrazené při splnění indikačních a úhradových podmínek. VZP tuto skupinu aktuálně popisuje, ale konkrétní výrobek musí být ověřen v aktuálním seznamu SÚKL a předpis podléhá schválení pojišťovny.</p>
+              <p>Pokud potřebujete vhodnou židli dočasně, <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/#pujceni-sprchovaci-zidle' ) ); ?>">porovnejte ceny a podmínky půjčoven</a>. Samotné půjčení nezakládá nárok na úhradu.</p>
       </details>
       <details>
         <summary>Mohu si koupit pomůcku a potom požádat pojišťovnu o proplacení?</summary>

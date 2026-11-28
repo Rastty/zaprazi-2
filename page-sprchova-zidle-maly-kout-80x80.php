@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_253 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Sprchová židle do malého koutu
 */
@@ -119,6 +119,7 @@ get_header();
         </article>
       </div>
       <h3>Jednoduché srovnání dvou modelů</h3>
+      <p>Neznáte konkrétní rozměry? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/#srovnani-sprchovacich-zidli' ) ); ?>">Porovnat tři katalogové modely včetně skládací židle</a>. Katalogová šířka ani hloubka samy nepotvrzují bezpečný přesun.</p>
       <p>Do poznámek si pro každý model zapište následující čtyři věci. Prázdné nebo nedoložené údaje nejsou „splněno“.</p>
       <ul class="zp-checklist">
         <li><strong>Model A / B:</strong> celkový půdorys včetně noh a požadovaný povrch: ______ / ______.</li>

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_253 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Převoz seniora k lékaři
 */
@@ -35,6 +35,7 @@ get_header();
           <li><a href="#urgentni-situace-prevoz">Kdy volat 155</a></li>
           <li><a href="#vyber-dopravy">Výběr dopravy</a></li>
           <li><a href="#senior-taxi-k-lekari">Senior Taxi a úhrada</a></li>
+          <li><a href="#ceny-senior-taxi">Ceny a rezervace v šesti lokalitách</a></li>
           <li><a href="#kdo-vystavuje-prikaz">Příkaz tam i zpět</a></li>
           <li><a href="#vozik-a-schody">Vozík a schody</a></li>
           <li><a href="#otazky-pro-lekare">7 otázek pro lékaře</a></li>
@@ -137,8 +138,48 @@ get_header();
       </ol>
       <p class="zp-muted-copy">Podklady ověřeny 28. 11. 2026: <a class="zp-text-link" href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/prispevek-na-dopravu-taxi-sluzbou" target="_blank" rel="noopener noreferrer">VZP – doprava taxi</a> a <a class="zp-text-link" href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/vyuctovani-nahrady-cestovnich-nakladu-soukromym-vozidlem" target="_blank" rel="noopener noreferrer">VZP – vyúčtování cestovních nákladů</a>. Podmínky se vztahují na zdravotně indikovanou dopravu, nikoli automaticky na všechny seniory či všechny jízdy.</p>
       <h3>Kolik stojí Senior Taxi? Podmínky se liší podle obce.</h3>
-      <p>Například Zlín má vlastní pravidla registrace, územní omezení a měsíční počet jízd. Praha 6 používá roční limit a vymezená cílová místa. Neexistuje tedy jedna celostátní cena či stejná věková hranice. Tyto příklady nejsou seznam dopravců dostupných v celé republice.</p>
-      <p><a class="zp-text-link" href="https://www.zlin.eu/seniortaxi" target="_blank" rel="noopener noreferrer">Aktuální podmínky města Zlín</a> · <a class="zp-text-link" href="https://www.praha6.cz/potrebuji-vyresit/senior-taxi_67106.html" target="_blank" rel="noopener noreferrer">Aktuální podmínky Praha 6</a>. Obecní stránky ověřeny 28. 11. 2026; před jízdou ověřte aktuální tarif a dostupnost ve své obci.</p>
+      <p>Neexistuje jednotná cena Senior Taxi ani celostátní věková hranice. Následující příklady vycházejí z veřejných informací pěti samospráv a jednoho městského dopravního podniku, ověřených 28. 11. 2026. Uvedené částky jsou zveřejněné tarify, nikoli nabídka Zápraží ani potvrzení dostupnosti vozu.</p>
+      <div id="ceny-senior-taxi" class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h4>Zlín — 40 Kč za jeden směr</h4>
+          <p><strong>Tam a zpět: 80 Kč</strong> při dvou jízdách za tento tarif. Základní limit je čtyři jednosměrné jízdy měsíčně; od 1. 6. 2026 město nabízí možnost získat bonusové jízdy při objednání nejméně dvou cest přes aplikaci GoStar.</p>
+          <p>Pro osoby s trvalým bydlištěm ve Zlíně ve věku 75+ nebo držitele ZTP či ZTP/P. Je nutný průkaz Senior Taxi. Telefonická objednávka nejméně 24 hodin předem na <a href="tel:+420770130333">770 130 333</a>; jeden doprovod zdarma. Služba jezdí i o víkendech, v omezených hodinách. Řidič může pomoci se složením vozíku, nezajišťuje však přenášení člověka do auta.</p>
+          <p><a class="zp-text-link" href="https://www.zlin.eu/seniortaxi" target="_blank" rel="noopener noreferrer">Zlín: registrace, objednání a pravidla</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h4>Praha 6 — 50 Kč za jeden směr</h4>
+          <p><strong>Tam a zpět: 100 Kč.</strong> Roční limit je 50 jízd, při registraci během roku může být poměrný. Služba je pro oprávněné obyvatele Prahy 6 starší 75 let nebo s průkazem ZTP či ZTP/P; platí územní výjimky.</p>
+          <p>Po registraci lze objednat jízdu na vymezená místa v pracovní dny. Doprovod je zdarma, vozidlo může přepravit chodítko nebo skládací vozík. Městská část doporučuje objednávat až 14 dní předem. Informace k registraci: <a href="tel:+420220189645">220 189 645</a>; kontakt na dispečink dostanete s průkazem.</p>
+          <p><a class="zp-text-link" href="https://www.praha6.cz/potrebuji-vyresit/senior-taxi_67106.html" target="_blank" rel="noopener noreferrer">Praha 6: průkaz, cílová místa a dispečink</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h4>Brno-sever — 50 Kč za jeden směr</h4>
+          <p><strong>Tam a zpět: 100 Kč.</strong> Podle podmínek účinných od 1. 9. 2026 je limit 24 jednosměrných jízd za kalendářní rok. Platí pro obyvatele Brna-severu od 70 let, případně od 65 let s průkazem ZTP nebo ZTP/P.</p>
+          <p>Jízdy směřují z trvalého bydliště do ordinací či zdravotnických středisek na území Brna a zpět. Je nutná registrace; dispečink <a href="tel:+420732622833">732 622 833</a> přijímá objednávky v pracovní dny. Návrat domlouvejte po vyšetření. Starší podmínky na stejné stránce nepovažujte za aktuální limit.</p>
+          <p><a class="zp-text-link" href="https://www.sever.brno.cz/w/senior-taxi-brno-sever" target="_blank" rel="noopener noreferrer">Brno-sever: cena a podmínky od září 2026</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h4>Plzeň — Senior Expres od 50 Kč</h4>
+          <p><strong>Tam a zpět: 100 Kč při dvou jízdách s možností spolujízdy, 200 Kč při dvou samostatných jízdách.</strong> Město uvádí 50 Kč za základní jízdu a 100 Kč za jízdu bez spolujízdy po Plzni.</p>
+          <p>Pro obyvatele Plzně starší 70 let nebo držitele ZTP či ZTP/P. Vyžaduje se registrace u provozovatele; pomoc s registrací poskytuje provozovatel na <a href="tel:+420731815972">731 815 972</a> ve všední dny 7–15 hodin. Pokud potřebujete pevný čas nebo zvláštní asistenci, potvrďte ji předem.</p>
+          <p><a class="zp-text-link" href="https://plzen.eu/socialni-sluzby/senior-expres/" target="_blank" rel="noopener noreferrer">Plzeň: ceník a registrace Senior Expres</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h4>Ostrava-Jih — 25 Kč za jeden směr</h4>
+          <p><strong>Tam a zpět: 50 Kč</strong> včetně nejvýše jednoho doprovázejícího. Měsíční limit jsou čtyři jednosměrné jízdy. Určeno obyvatelům obvodu od 77 let; cestovat lze na území celé Ostravy.</p>
+          <p>Nejprve si vyřiďte průkaz na úřadě Ostrava-Jih. Objednání v pracovní dny na <a href="tel:+420770130770">770 130 770</a>. Dopravce podle radnice nabízí pomoc při nástupu a výstupu; její rozsah a možnost přepravy konkrétního vozíku potvrďte předem.</p>
+          <p><a class="zp-text-link" href="https://ovajih.ostrava.cz/cs/obcan/senior-expres-jih" target="_blank" rel="noopener noreferrer">Ostrava-Jih: průkaz a podmínky Senior Expres</a></p>
+        </article>
+        <article class="zp-decision-card">
+          <h4>České Budějovice — 60 Kč za jeden směr</h4>
+          <p><strong>Tam a zpět: 120 Kč za seniora, 180 Kč s běžným doprovodem.</strong> Doprovod platí 30 Kč za směr, u cestujícího s průkazem ZTP/P je zdarma.</p>
+          <p>Pro obyvatele města s trvalým pobytem starší 65 let nebo držitele ZTP či ZTP/P. Jízdu rezervujte na <a href="tel:+420731604499">731 604 499</a> nejméně 24 hodin předem, maximálně 30 dní dopředu. Návrat se objednává zvlášť. Vozík je nutné nahlásit předem a musí být skládací pro uložení do zavazadlového prostoru.</p>
+          <p><a class="zp-text-link" href="https://www.dpmcb.cz/dalsi-sluzby/senior-taxi.html" target="_blank" rel="noopener noreferrer">Dopravní podnik: tarif, objednávka a přepravní podmínky</a></p>
+        </article>
+      </div>
+      <p class="zp-section-note">Příklady nejsou celostátní ceník. Dvě samostatné jízdy obvykle znamenají čerpání dvou jízd z limitu. Uvedené součty jsou jednoduché výpočty z publikovaných jednosměrných tarifů, bez dalších případných služeb; skutečnou cenu a podmínky ověřte před rezervací. Při změně tarifu má přednost aktuální informace samosprávy.</p>
+      <h3>Co když senior potřebuje dopravu každý týden?</h3>
+      <p>Počítejte nejdřív s počtem návštěv, nikoli jen s cenou jedné jízdy. Například při čtyřech návštěvách za měsíc potřebujete osm jednosměrných jízd. Základní zlínský limit čtyř jízd pokryje dvě návštěvy tam i zpět. Zbylé cesty plánujte zvlášť. Nepředpokládejte, že se nevyužité jízdy převádějí nebo že dostanete výjimku. Pokud dopravní služba není ve vaší obci dostupná, ptejte se sociálního odboru na místní možnosti nebo na <a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vybrat-pecovatelskou-sluzbu/' ) ); ?>">pečovatelskou službu a rozsah doprovodu</a>. Ne každá sociální služba zajišťuje odvoz.</p>
       <div class="zp-decision-card">
         <h3>Jak najít službu a porovnat skutečnou cenu tam i zpět</h3>
         <p>Začněte na webu své obce nebo u jejího sociálního odboru. Při telefonátu si nechte potvrdit cenu odvozu, návratu, případného čekání či nového přistavení, doprovodu a přepravy pomůcky. Zeptejte se i na storno a co se stane, pokud vyšetření skončí později.</p>
@@ -234,6 +275,7 @@ get_header();
     <div class="zp-wrap zp-faq">
       <p class="zp-kicker">Časté otázky</p>
       <h2 class="zp-section-title">Na co se rodiny nejčastěji ptají?</h2>
+      <details><summary>Kolik stojí Senior Taxi k lékaři a zpět?</summary><p>Cenu stanovuje konkrétní obec nebo provozovatel. V příkladech ověřených 28. 11. 2026 vychází dvě standardní jízdy ve Zlíně na 80 Kč a v Praze 6 na 100 Kč. Nejde o celostátní sazbu. <a class="zp-text-link" href="#ceny-senior-taxi">Srovnání šesti místních tarifů a podmínek</a> pomůže zjistit, co je třeba ověřit před rezervací.</p></details>
       <details><summary>Stačí vysoký věk, aby byl převoz sanitkou zdarma?</summary><p>Ne. Rozhodují prokazatelné zdravotní důvody a aktuální posouzení lékaře; samotný věk, osamělost nebo špatné dopravní spojení nárok nezakládají.</p></details>
       <details><summary>Můžeme objednat běžnou sanitku a předpokládat, že odveze i invalidní vozík?</summary><p>Ne. O přepravě vozíku se musí dopravce výslovně informovat. NZIP upozorňuje, že sanitní přepravce nemusí převážet kompenzační pomůcku, pokud na ni není vozidlo vybavené. U zdravotně indikované přepravy osob převážně na vozíku existují zvláštní podmínky pro upraveného dopravce.</p></details>
       <details><summary>Kdo vystaví příkaz na cestu zpět?</summary><p>Posuzuje to lékař, který poskytl zdravotní péči. Příkaz na cestu tam automaticky nezaručuje zpáteční jízdu; nezapomeňte ji předem domluvit.</p></details>
@@ -254,7 +296,7 @@ get_header();
         <li><a class="zp-text-link" href="https://www.vzp.cz/poskytovatele/informace-pro-praxi/poradna/preprava-pacienta-vozidlem-zdravotnicke-dopravni-sluzby" target="_blank" rel="noopener noreferrer">VZP — Přeprava pacienta vozidlem zdravotnické dopravní služby</a> — vystavení příkazu, zdravotní důvody, předání a posádka.</li>
         <li><a class="zp-text-link" href="https://www.nzip.cz/clanek/1072-zakladni-informace-k-cerpani-zdravotni-pece" target="_blank" rel="noopener noreferrer">NZIP — Základní informace k čerpání zdravotní péče</a> — kdy volat 155 a rozdíl mezi akutní a plánovanou dopravou.</li>
       </ul>
-      <p class="zp-muted-copy">Redakční kontrola 28. 10. 2026. Jde o obecnou orientaci v českém zdravotním systému, nikoliv o individuální lékařské nebo právní posouzení nároku. Externí odborná revize Zápraží není doložená. Před rozhodnutím o přepravě ověřte aktuální podmínky u svého lékaře, pojišťovny a dopravce.</p>
+      <p class="zp-muted-copy">Redakční kontrola dopravních tarifů 28. 11. 2026; podklady ke zdravotnické dopravě mají vlastní data ověření. Jde o obecnou orientaci v českém zdravotním systému, nikoliv o individuální lékařské nebo právní posouzení nároku. Externí odborná revize Zápraží není doložená. Před rozhodnutím o přepravě ověřte aktuální podmínky u svého lékaře, pojišťovny a dopravce.</p>
       <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/jak-vznika-doporuceni/' ) ); ?>">Jak Zápraží vytváří a omezuje doporučení</a></p>
     </div>
   </section>

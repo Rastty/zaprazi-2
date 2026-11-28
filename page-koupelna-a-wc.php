@@ -31,6 +31,13 @@ get_header();
       <p>Odpovědi zůstávají pouze v prohlížeči. Nepotřebujeme jméno, diagnózu ani přesnou hmotnost člověka.</p>
 
       <div id="zp-bathroom-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-bathroom-privacy">
+        <nav id="zp-bathroom-steps" class="zp-advisor-steps zp-mobility-journey" aria-label="Průběh poradce" hidden>
+          <ol><li data-zp-journey-step="1" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li><li data-zp-journey-step="2"><span>2</span><strong>Kontrola modelu</strong></li><li data-zp-journey-step="3"><span>3</span><strong>Výsledek a další krok</strong></li></ol>
+        </nav>
+        <details id="zp-bathroom-needs-stage" class="zp-bath-needs-stage" open>
+          <summary>1. Vaše potřeby a způsob přesunu</summary>
+          <div class="zp-bath-needs-fields">
+            <p class="zp-advisor-stage-intro">Vyberte skutečnou situaci. Pokud si nejste jistí, odpovězte „Nevím“.</p>
         <fieldset class="zp-fieldset" data-zp-bath-required="primaryNeed">
           <legend>Co potřebujete hlavně vyřešit?</legend>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="raise_toilet" required><span><strong>WC je příliš nízké</strong><small>Člověk se na běžné WC dostane, ale nízký sed ztěžuje sedání nebo vstávání.</small></span></label>
@@ -129,6 +136,8 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+          </div>
+        </details>
         <section id="zp-bathroom-preview" class="zp-result zp-bathroom-preview" aria-live="polite" tabindex="-1" hidden></section>
         <section id="zp-bathroom-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bathroom-fit-title" hidden>
           <h3 id="zp-bathroom-fit-title">2. Ověřte parametry zobrazené pomůcky</h3>
@@ -136,7 +145,10 @@ get_header();
           <p>Teď už znáte konkrétní výrobek, jeho maximální nosnost a rozměry. Porovnejte je s realitou doma. Pokud si nejste jistí, zvolte <strong>Nevím</strong> – takový výrobek neoznačíme za ověřený.</p>
         </section>
         <div id="zp-bathroom-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bathroom-submit">1. Ukázat možná řešení</button>
+        <div class="zp-advisor-action">
+          <p id="zp-bathroom-progress" class="zp-advisor-progress" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <button class="zp-btn zp-submit" type="button" id="zp-bathroom-submit">1. Ukázat možná řešení</button>
+        </div>
         <p id="zp-bathroom-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do adresy stránky a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 

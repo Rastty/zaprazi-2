@@ -5,7 +5,7 @@ import vm from "node:vm";
 
 import { recommendBathroom } from "../src/bathroom/engine.js";
 import { getBathroomProducts } from "../src/bathroom/catalog.js";
-import { renderBathroomAcquisition } from "../src/bathroom/acquisition-view.js";
+import { renderBathroomAcquisition, renderBathroomComparisonLinks } from "../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../src/bathroom/measurement-next-step.js";
 import { renderBathroomProductEvidence, renderBathroomOfferFreshness } from "../src/bathroom/source-transparency.js";
 import { formatBathroomFacts } from "../src/bathroom/product-facts-display.js";
@@ -79,7 +79,7 @@ function runFinalStep(kind, choices, hiddenNames = []) {
       dispatchEvent(event) { events.push(event.detail.event); }
     },
     CustomEvent: class { constructor(_type, init) { this.detail = init.detail; } },
-    recommendBathroom, getBathroomProducts, renderBathroomAcquisition,
+    recommendBathroom, getBathroomProducts, renderBathroomAcquisition, renderBathroomComparisonLinks,
     formatBathroomFacts, renderBathroomMeasurementNextStep, renderBathroomProductEvidence, renderBathroomOfferFreshness,
     installBathroomMicroStaging() { return true; }
   }, { filename, timeout: 1500 });

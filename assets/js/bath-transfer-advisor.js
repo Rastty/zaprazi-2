@@ -1,7 +1,7 @@
 // ZP_RELEASE_0_8_256
 import { recommendBathroom } from "../../src/bathroom/engine.js";
 import { getBathroomProducts } from "../../src/bathroom/catalog.js";
-import { renderBathroomAcquisition } from "../../src/bathroom/acquisition-view.js";
+import { renderBathroomAcquisition, renderBathroomComparisonLinks } from "../../src/bathroom/acquisition-view.js";
 import { renderBathroomMeasurementNextStep } from "../../src/bathroom/measurement-next-step.js";
 import { formatBathroomFacts } from "../../src/bathroom/product-facts-display.js";
 import { renderBathroomProductEvidence, renderBathroomOfferFreshness } from "../../src/bathroom/source-transparency.js";
@@ -95,7 +95,7 @@ if(form&&result&&submit&&errors){
     const products=getBathroomProducts(ids);
     if(!["needs_more_info","invalid_input","no_safe_fit"].includes(out.status)) track("builder_complete");
     if(products.length) track("recommendation_view");
-    result.innerHTML=`<h2>${esc(out.headline)}</h2><p>${esc(out.nextStep)}</p>${renderBathroomMeasurementNextStep(out,"bath")}${out.recommendations.map(item=>`<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${esc(item.reason)}</p></section>`).join("")}${renderBathroomAcquisition(out.status==="candidate"?out.acquisition:[],esc)}${products.length?`<section class="zp-product-section"><div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div></section>`:""}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
+    result.innerHTML=`<p class="zp-result-status">3. Výsledek podle vašich odpovědí</p><h2>${esc(out.headline)}</h2><div class="zp-advisor-next"><strong>Co udělat dál</strong><p>${esc(out.nextStep)}</p></div>${renderBathroomMeasurementNextStep(out,"bath")}${out.recommendations.map(item=>`<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${esc(item.reason)}</p></section>`).join("")}${products.length?`<section class="zp-product-section"><div class="zp-product-grid">${products.map(p=>render(p,out.status==="candidate")).join("")}</div></section>`:""}${renderBathroomAcquisition(out.status==="candidate"?out.acquisition:[],esc)}${renderBathroomComparisonLinks(out,products)}${out.disclaimer?`<p class="zp-disclaimer">${esc(out.disclaimer)}</p>`:""}`;
     result.querySelectorAll("[data-zp-bath-merchant-link]").forEach(a=>a.addEventListener("click",()=>{track("product_click");track("merchant_click");},{once:true}));
     result.hidden=false;result.focus();
   });

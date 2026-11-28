@@ -29,6 +29,10 @@ get_header();
       <p>Neptáme se na diagnózu. Rozhodujeme podle přesunu, stability podkladu, prostoru, nosnosti a délky používání.</p>
 
       <div id="zp-shower-chair-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-shower-chair-privacy">
+        <details id="zp-shower-chair-needs-stage" class="zp-bath-needs-stage" open>
+          <summary>1. Vaše potřeby a způsob přesunu</summary>
+          <div class="zp-bath-needs-fields">
+            <p class="zp-advisor-stage-intro">Vyberte skutečnou situaci. Pokud si nejste jistí, odpovězte „Nevím“.</p>
         <fieldset class="zp-fieldset" data-zp-shower-required="transferAbility">
           <legend>Jak člověk přesedá na židli?</legend>
           <label class="zp-choice"><input type="radio" name="transferAbility" value="independent" required><span><strong>Samostatně</strong><small>Bez fyzické pomoci druhé osoby.</small></span></label>
@@ -65,6 +69,8 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+          </div>
+        </details>
         <section id="zp-shower-chair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-shower-chair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-shower-chair-fit-title" hidden>
           <h3 id="zp-shower-chair-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
@@ -72,7 +78,9 @@ get_header();
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-shower-chair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-shower-chair-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <button class="zp-btn zp-submit" type="button" id="zp-shower-chair-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p id="zp-shower-chair-privacy" class="zp-privacy-note">Odpovědi zůstávají v prohlížeči. Do affiliate ani analytiky neposíláme kombinaci odpovědí.</p>
       </div>
 

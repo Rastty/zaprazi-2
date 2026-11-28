@@ -30,6 +30,10 @@ get_header();
       <p>Neptáme se na diagnózu. Rozhodujeme podle způsobu použití, přesunu, prostoru, stabilního podkladu a nosnosti.</p>
 
       <div id="zp-toilet-chair-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-toilet-chair-privacy">
+        <details id="zp-toilet-chair-needs-stage" class="zp-bath-needs-stage" open>
+          <summary>1. Vaše potřeby a způsob přesunu</summary>
+          <div class="zp-bath-needs-fields">
+            <p class="zp-advisor-stage-intro">Vyberte skutečnou situaci. Pokud si nejste jistí, odpovězte „Nevím“.</p>
         <fieldset class="zp-fieldset" data-zp-chair-required="chairMode">
           <legend>Jaký je hlavní účel?</legend>
           <label class="zp-choice"><input type="radio" name="chairMode" value="nearby" required><span><strong>Samostatná toaletní židle poblíž lůžka nebo místnosti</strong><small>Hlavně zkrátit obtížnou cestu na běžné WC.</small></span></label>
@@ -72,6 +76,8 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+          </div>
+        </details>
         <section id="zp-toilet-chair-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-toilet-chair-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-toilet-chair-fit-title" hidden>
           <h3 id="zp-toilet-chair-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
@@ -79,7 +85,9 @@ get_header();
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-toilet-chair-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-toilet-chair-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <button class="zp-btn zp-submit" type="button" id="zp-toilet-chair-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p id="zp-toilet-chair-privacy" class="zp-privacy-note">Odpovědi zůstávají v prohlížeči. Do affiliate ani analytiky neposíláme kombinaci odpovědí.</p>
       </div>
 

@@ -3023,6 +3023,9 @@ function zaprazi_2_is_wheelchair_acquisition_page() {
 }
 
 function zaprazi_2_resource_title( $title ) {
+  if ( zaprazi_2_is_shower_chair_page() ) return 'Sprchovací židle pro seniory: 3 modely a půjčovny | Zápraží';
+  if ( zaprazi_2_is_toilet_riser_page() ) return 'Nástavec na WC pro seniory: 4 modely a výška | Zápraží';
+  if ( zaprazi_2_is_toilet_chair_page() ) return 'Toaletní židle pro seniory: srovnání 4 modelů | Zápraží';
   if ( zaprazi_2_is_low_fluid_intake_page() ) return 'Senior málo pije: 7 kroků, rizika a pomůcky | Zápraží';
   if ( zaprazi_2_is_hygiene_reluctance_page() ) return 'Senior odmítá koupání: jak pomoci bez nátlaku | Zápraží';
   if ( zaprazi_2_is_walker_reluctance_page() ) return 'Senior odmítá chodítko: co dělat bez nátlaku | Zápraží';
@@ -3086,6 +3089,9 @@ add_filter( 'pre_get_document_title', 'zaprazi_2_resource_title', 30 );
 add_filter( 'wpseo_title', 'zaprazi_2_resource_title', 30 );
 
 function zaprazi_2_resource_description( $description ) {
+  if ( zaprazi_2_is_shower_chair_page() ) return 'Sprchovací židle pro seniory: porovnejte rozměry, výšku sedu a nosnost 3 modelů, ceny 4 půjčoven a ověřte vhodný typ v praktickém poradci.';
+  if ( zaprazi_2_is_toilet_riser_page() ) return 'Nástavec na WC 5, 10, 11,5 nebo 15 cm? Srovnejte 4 modely, nosnost, uchycení a madla. Ověřte kompatibilitu mísy a výslednou výšku sedu.';
+  if ( zaprazi_2_is_toilet_chair_page() ) return 'Porovnejte 4 toaletní židle pro seniory: statickou, skládací a 4v1. Rozměry, nosnost, náhradní nádoby a bezpečný výběr židle vedle postele.';
   // Exact, already-live editorial routes: distinct search intent, no personal claims.
   if ( is_page( 'prevoz-seniora-k-lekari' ) ) return 'Převoz seniora k lékaři: kdy požádat lékaře o zdravotnickou dopravu, kdy zvolit auto a co ověřit u vozíku, schodů i zpáteční cesty.';
   if ( is_page( 'senior-nestihne-dojit-na-wc' ) ) return 'Senior nestíhá dojít na WC? Rozlište náhlé nucení, dlouhou cestu a obtížné vstávání. Sedm kontrol doma, varovné příznaky a bezpečné další kroky.';

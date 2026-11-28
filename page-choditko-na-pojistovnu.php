@@ -37,6 +37,7 @@ get_header();
           <a class="zp-text-link" href="#priprava-pro-lekare">Co říct lékaři a výdejně</a>
           <button type="button" class="zp-link-btn zp-paper-print-button" data-zp-paper-print hidden>Vytisknout otázky pro lékaře a výdejnu</button>
           <a class="zp-text-link" href="#postup">Jak postupovat s ePoukazem</a>
+          <a class="zp-text-link" href="#vyzvednuti-epoukazu">Vyzvednutí bez telefonu, platnost a čekání</a>
           <?php if ( ! $zp_sukl_is_current ) : ?>
             <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Kde ověřit platný seznam SÚKL</a>
           <?php endif; ?>
@@ -280,6 +281,46 @@ get_header();
           <h3>Výdej a prodej nejsou totéž</h3>
           <p>To, že je výrobek na e-shopu, neznamená, že přes tento e-shop lze čerpat úhradu. Vždy ověřte konkrétního výdejce a jeho postup.</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="vyzvednuti-epoukazu" class="zp-section" aria-labelledby="zp-vydej-epoukaz-heading">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Po vystavení poukazu · praktické překážky</p>
+      <h2 id="zp-vydej-epoukaz-heading" class="zp-section-title">Jak vyzvednout chodítko na ePoukaz, když senior nemá chytrý telefon?</h2>
+      <p>Chytrý telefon ani účet v aplikaci nejsou podmínkou. Po vystavení ePoukazu si zvolte způsob předání jeho identifikátoru, který vám vyhovuje. Před návštěvou výdejny ověřte dostupnost předepsaného prostředku a podmínky výdeje.</p>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card">
+          <h3>1. Papírová průvodka nebo SMS</h3>
+          <p>Pokud senior nepoužívá internet, požádejte předepisujícího o vytištěnou průvodku. Je to záznam identifikátoru elektronického poukazu, nikoli návrat ke starému listinnému předpisu. Další možností je SMS, e-mail či aplikace eRecept.</p>
+          <p><a class="zp-text-link" href="https://epreskripce.gov.cz/faq/4-jakym-zpusobem-je-mozne-predat-identifikator-pacientovi/" target="_blank" rel="noopener noreferrer">Oficiální možnosti předání identifikátoru</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>2. Vyzvednutí chodítka rodinným příslušníkem</h3>
+          <p>SÚKL uvádí možnost pověřit blízkého člověka vyzvednutím pomůcky. S výdejnou si předem potvrďte požadované doklady, postup zastoupení, případný doplatek a to, zda je nutné osobní vyzkoušení nebo nastavení. Identifikátor sdílejte pouze s pověřenou osobou a oprávněným zdravotníkem či výdejcem, nikoli na veřejném webu.</p>
+          <p><a class="zp-text-link" href="https://sukl.gov.cz/media/tiskove-zpravy/poukaz-na-zdravotnicke-prostredky-od-1-ledna-2026-uz-jen-elektronicky/" target="_blank" rel="noopener noreferrer">SÚKL: elektronický poukaz a pomoc blízkých</a>.</p>
+        </article>
+        <article class="zp-decision-card">
+          <h3>3. Kde lze ePoukaz uplatnit?</h3>
+          <p>Kontaktujte výdejnu nebo lékárnu se smlouvou s pojišťovnou pacienta a přístupem k systému ePoukaz. Ptejte se na konkrétní model, nikoli pouze na to, zda výdejna přijímá poukazy obecně. Ověřte možnost vyzkoušení a případného zaškolení.</p>
+          <p><a class="zp-text-link" href="https://sukl.gov.cz/faq/ovlivni-povinny-epoukaz-svobodny-vyber-vydejny-pacientem/" target="_blank" rel="noopener noreferrer">SÚKL: výběr oprávněné výdejny</a>.</p>
+        </article>
+      </div>
+      <h3>Co když výdejna nemá chodítko skladem a ePoukaz brzy vyprší?</h3>
+      <p>Rozlišujte datum, do kdy musíte poukaz uplatnit, a den, kdy pomůcku skutečně dostanete. Podle ePreskripce může výdejna při včasném uplatnění přepnout poukaz do stavu přípravy. V takovém případě může výdej proběhnout i po původním datu platnosti. Pouhé telefonické zjištění dostupnosti však není potvrzením, že byl tento krok zaznamenán.</p>
+      <ol class="zp-guide-steps">
+        <li>Zkontrolujte skutečné datum platnosti svého ePoukazu; obvyklá lhůta je 30 dnů, předepisující může určit delší dobu nejvýše jeden rok.</li>
+        <li>Zeptejte se výdejny, zda jej lze včas uplatnit a zda je příprava zaznamenána v systému.</li>
+        <li>Pokud ještě probíhá požadované schválení pojišťovnou, stav přípravy nelze nastavit. Obraťte se na předepisujícího včas; prodloužení je možné jen u stále platného poukazu v přípustném stavu.</li>
+        <li>Pokud se bezpečný pohyb doma nedá odložit, řešte s odborníkem dočasný postup a případně <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/' ) ); ?>">půjčení vhodného chodítka</a>.</li>
+      </ol>
+      <p class="zp-muted-copy">Oficiální ePreskripce, ověřeno 28. 11. 2026: <a class="zp-text-link" href="https://epreskripce.gov.cz/faq/14-jaky-je-rozdil-a-souvislost-mezi-pojmy-datum-vystaveni-datum-platnosti-datum-uplatneni-datum-vydeje/" target="_blank" rel="noopener noreferrer">rozdíl mezi uplatněním a výdejem</a>, <a class="zp-text-link" href="https://epreskripce.gov.cz/faq/7-jak-zabranit-tomu-aby-nedoslo-z-duvodu-cekani-na-dodani-zdravotnickeho-prostredku-k-expiraci-epoukazu/" target="_blank" rel="noopener noreferrer">čekání na dodání</a> a <a class="zp-text-link" href="https://epreskripce.gov.cz/faq/30-jakou-je-mozne-nastavit-platnost-epoukazu-a-kdo-ji-muze-prodlouzit/" target="_blank" rel="noopener noreferrer">podmínky prodloužení</a>. Platí pro postup ePoukazu, nikoli jako individuální potvrzení úhrady.</p>
+      <h3>Může výdejna chodítko doručit domů?</h3>
+      <p>Zásilkový výdej může být za zákonných podmínek možný, ale není automaticky dostupný pro každý prostředek. U konkrétního výdejce se nejdřív informujte, zda smí danou pomůcku takto vydat, jak zajistí správné nastavení a předání návodu. Pokud potřebujete osobní nácvik, samotná zásilka jej nenahradí.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#poptavka-choditka' ) ); ?>">Připravit otázky k přesnému modelu</a>
+        <a class="zp-text-link" href="#zp-overit-mesicni-seznam">Ověřit aktuální úhradu</a>
       </div>
     </div>
   </section>

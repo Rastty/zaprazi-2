@@ -72,7 +72,7 @@ async function observe(page, spec) {
         .includes("Partnerský odkaz")),
       suitabilityPolicy: Boolean(offer?.querySelector(".zp-affiliate-policy")?.textContent
         .includes("neřídí výší provize")),
-      merchantNote: Boolean(offer?.querySelector("p")?.textContent
+      merchantNote: Boolean(offer?.querySelector(".zp-offer > p")?.textContent
         .match(/(?:plně hrazen|úhrad|pojišťovn)/i)),
       staleWarning: Boolean(offer?.querySelector(".zp-stale-evidence")?.textContent
         .includes("Nabídka nebyla v posledních 30 dnech znovu ověřena")),

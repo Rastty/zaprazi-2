@@ -496,3 +496,9 @@ This documented change requests a **fresh complete read-only postdeploy QA** aft
 
 - [Veřejný sitemap/index probe](https://github.com/Rastty/zaprazi-2/actions/runs/46126417530), job `140933635246`, 09:24 UTC: source/live 0.8.252, integrity ok, 12 material lastmods a pět technických URL; nový kalkulátor koupě/pronájmu na veřejném `/pujceni-choditka/`. Runtime release commit `321c45276588193da26186a6cc4d1f3eb8ba3352`, main=dev před tímto handoffem.
 - Existující read-only Chrome/sitemap trigger: žádné nové testy, WordPress zápisy ani redeploy. Dokud nejsou úplné výsledky dostupné, neměnit safety_qa.verifiedRelease ani nemergovat další runtime kandidát #958. Žádné tvrzení o provizích nebo indexaci.
+
+## 2026-11-28 — cílená oprava dvou zastaralých selektorů akceptace
+
+- [Produkční Chrome #46130492797](https://github.com/Rastty/zaprazi-2/actions/runs/46130492797): 8/9 jobs PASS, 14 živých formulářů a 3 Mobility modely PASS; specialist job selhal na `indoor: purchase/insurer note missing`, protože první odstavec nyní označuje krok 2, zatímco skutečná obchodní poznámka je `.zp-offer > p`. Kontrola zůstává povinná.
+- [Monitor #46131302828](https://github.com/Rastty/zaprazi-2/actions/runs/46131302828): fail-closed; stará FAQ allowlist odmítá nový přesný oficiální odkaz na výběr výdejny, který již zdrojový test 0.8.252 výslovně vyžaduje. Oprava zachovává minimálně dva původní odkazy, právě jeden nový od 0.8.252 a odmítá jiné URL. Neprohlašujeme plnou akceptaci bez nového běhu.
+- Theme runtime beze změny. Tento push spouští existující produkční Chrome/sitemap akceptaci, bez WP deploye. #958 (0.8.253) již má všech pět PR workflow PASS, čeká na úplnou 0.8.252 akceptaci.

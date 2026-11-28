@@ -268,6 +268,12 @@ const insuranceSearchPage=(release="0.8.210")=>
 test("0.8.210 exact live hero must answer the insurance query with safe next steps",async()=>{
   const good=insuranceSearchPage();
   assert.equal(verifyInsuranceSearchHero(good,"0.8.210"),true);
+  const faq="https://sukl.gov.cz/faq/ovlivni-povinny-epoukaz-svobodny-vyber-vydejny-pacientem/";
+  const current=insuranceSearchPage("0.8.252")+`<a href="${faq}">Výdejna</a>`;
+  assert.equal(verifyInsuranceSearchHero(current,"0.8.252"),true);
+  assert.throws(()=>verifyInsuranceSearchHero(insuranceSearchPage("0.8.252"),"0.8.252"));
+  assert.throws(()=>verifyInsuranceSearchHero(current.replace(faq,faq+"jiny"),"0.8.252"));
+  assert.throws(()=>verifyInsuranceSearchHero(current+`<a href="${faq}">Duplicate</a>`,"0.8.252"));
   const repeated=good.replace(
     '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p></section>',
     '<a href="#zp-overit-mesicni-seznam">Platná úhrada</a></p>'+

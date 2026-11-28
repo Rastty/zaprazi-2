@@ -27,6 +27,10 @@ get_header();
       <p>Neptáme se na diagnózu. Rozhodujeme podle samostatnosti přesunu, nosnosti a přesných rozměrů vany a prostoru kolem ní.</p>
 
       <div id="zp-bath-transfer-advisor" class="zp-advisor-form" role="form">
+        <details id="zp-bath-transfer-needs-stage" class="zp-bath-needs-stage" open>
+          <summary>1. Vaše potřeby a způsob přesunu</summary>
+          <div class="zp-bath-needs-fields">
+            <p class="zp-advisor-stage-intro">Vyberte skutečnou situaci. Pokud si nejste jistí, odpovězte „Nevím“.</p>
         <fieldset class="zp-fieldset" data-zp-bath-required="transferAbility">
           <legend>Jak člověk přesedá?</legend>
           <label class="zp-choice"><input type="radio" name="transferAbility" value="independent" required><span><strong>Samostatně</strong></span></label>
@@ -70,6 +74,8 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+          </div>
+        </details>
         <section id="zp-bath-transfer-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
         <section id="zp-bath-transfer-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bath-transfer-fit-title" hidden>
           <h3 id="zp-bath-transfer-fit-title">2. Ověřte nosnost a rozměry konkrétní pomůcky</h3>
@@ -77,7 +83,9 @@ get_header();
           <p>V předchozím kroku jste viděli model i technické údaje. Teď ověřte, zda vyhovují člověku a prostředí doma. Při nejistotě vyberte <strong>Nevím</strong>.</p>
         </section>
         <div id="zp-bath-transfer-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bath-transfer-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <button class="zp-btn zp-submit" type="button" id="zp-bath-transfer-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p class="zp-privacy-note">Odpovědi zůstávají v prohlížeči. Do affiliate ani analytiky neposíláme kombinaci odpovědí.</p>
       </div>
 

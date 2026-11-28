@@ -20,6 +20,8 @@ export function installBathroomMicroStaging({
   if (!preview || !fitStage) return false;
   let previewReady = false;
   let firstStepAttempted = false;
+  const needsStage = document.querySelector("#zp-" + key + "-needs-stage");
+  const setNeedsOpen = open => { if (needsStage) needsStage.open = open; };
 
   // All links are fixed editorial destinations, never constructed from answers.
   // The user may need these checklists even when we have no safe product match.
@@ -47,10 +49,11 @@ export function installBathroomMicroStaging({
     progress.className = "zp-micro-progress";
     progress.setAttribute("aria-label", "Postup poradcem");
     progress.innerHTML = `
-    <p class="zp-micro-progress__kicker">Dva kroky k bezpečnějšímu rozhodnutí</p>
+    <p class="zp-micro-progress__kicker">Tři kroky k bezpečnějšímu rozhodnutí</p>
     <ol class="zp-micro-progress__steps" aria-label="Fáze výběru">
-      <li data-zp-progress-phase="situation" aria-current="step"><span>1</span><strong>Co člověk potřebuje</strong></li>
-      <li data-zp-progress-phase="fit"><span>2</span><strong>Pasuje konkrétní pomůcka?</strong></li>
+      <li data-zp-progress-phase="situation" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li>
+      <li data-zp-progress-phase="fit"><span>2</span><strong>Kontrola modelu</strong></li>
+      <li data-zp-progress-phase="finished"><span>3</span><strong>Výsledek a další krok</strong></li>
     </ol>
     <p class="zp-micro-progress__count" data-zp-progress-label>Začněte popisem situace.</p>
     <div class="zp-micro-progress__bar" role="progressbar" aria-label="Vyplněné povinné otázky této fáze" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -84,7 +87,7 @@ export function installBathroomMicroStaging({
   const updateProgress = (phase = previewReady ? "fit" : "situation") => {
     // Do not alter or block fit-gate behavior in limited DOM test/fallback hosts.
     if (!progressBar) return;
-    const required = phase === "finished" ? [] : phaseRequiredGroups(phase);
+    const required = ["finished","paused"].includes(phase) ? [] : phaseRequiredGroups(phase);
     const answered = required.filter(group => !!group.querySelector('input[type="radio"]:checked')).length;
     const percent = phase === "finished" ? 100 : required.length ? Math.round(100 * answered / required.length) : 0;
     progressBar.setAttribute("aria-valuenow", String(percent));
@@ -103,11 +106,11 @@ export function installBathroomMicroStaging({
         ? "Porovnejte fakta u uvedeného modelu se skutečným prostorem a nosností. Nevím je bezpečná odpověď."
         : "Rozhodujeme podle situace a způsobu přesunu, ne podle diagnózy. Nevím je platná odpověď.";
     phaseItems.forEach(item => {
-      const current = item.getAttribute("data-zp-progress-phase") === (phase === "finished" ? "fit" : phase);
-      if (current && phase !== "finished") item.setAttribute("aria-current", "step");
+      const current = item.getAttribute("data-zp-progress-phase") === (phase === "paused" ? "finished" : phase);
+      if (current) item.setAttribute("aria-current", "step");
       else item.removeAttribute("aria-current");
       item.classList.toggle("is-current", current);
-      item.classList.toggle("is-complete", phase === "finished" ||
+      item.classList.toggle("is-complete", (phase === "finished" && !current) ||
         ((phase === "fit" || phase === "paused") && item.getAttribute("data-zp-progress-phase") === "situation"));
     });
   };
@@ -209,6 +212,7 @@ export function installBathroomMicroStaging({
       const button = event.target?.closest?.("[data-zp-bath-edit]");
       if (!button || !result.contains?.(button)) return;
       const fit = button.dataset.zpBathEdit === "fit" && !fitStage.hidden;
+      if (!fit) setNeedsOpen(true);
       const group = fit
         ? [...fitGroups.values()].find(item => !item.hidden && !item.closest("[hidden]"))
         : initialRequiredGroups()[0];
@@ -226,6 +230,7 @@ export function installBathroomMicroStaging({
 
   const block = outcome => {
     previewReady = false;
+    setNeedsOpen(true);
     preview.hidden = true;
     fitStage.hidden = true;
     result.innerHTML = '<p class="zp-result-status">Nejdřív bezpečný další krok</p><h2>' +
@@ -247,9 +252,12 @@ export function installBathroomMicroStaging({
 
   const reset = () => {
     previewReady = false;
+    setNeedsOpen(true);
     preview.hidden = true;
+    preview.innerHTML = "";
     fitStage.hidden = true;
     result.hidden = true;
+    result.innerHTML = "";
     submit.textContent = "1. Ukázat možný výrobek";
     firstStepAttempted = false;
     form.querySelectorAll("[" + requiredAttr + "]").forEach(group => {
@@ -308,6 +316,7 @@ export function installBathroomMicroStaging({
     firstStepAttempted = true;
     const missing = updateInitialErrors();
     if (missing.length) {
+      setNeedsOpen(true);
       missing[0].setAttribute("tabindex", "-1");
       missing[0].focus();
       return;
@@ -329,7 +338,7 @@ export function installBathroomMicroStaging({
       return;
     }
     const primary = new Set(p.productCandidateIds);
-    preview.innerHTML = '<p class="zp-result-status">1. Orientační výběr – vhodnost neověřena</p>' +
+    preview.innerHTML = '<p class="zp-result-status">2. Orientační výběr – vhodnost neověřena</p>' +
       '<h2>Konkrétní pomůcka a její parametry</h2>' +
       '<p>Teprve teď porovnejte nosnost a rozměry s reálnou situací.</p>' +
       '<div class="zp-product-grid">' +
@@ -346,6 +355,7 @@ export function installBathroomMicroStaging({
     updateProgress("fit");
     preview.hidden = false;
     fitStage.hidden = false;
+    setNeedsOpen(false);
     result.hidden = true;
     submit.textContent = "2. Vyhodnotit parametry";
     preview.focus();

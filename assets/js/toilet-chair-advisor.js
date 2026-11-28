@@ -140,13 +140,14 @@ if (form && result && submitButton && errorBox) {
     if (products.length) track("recommendation_view");
 
     result.innerHTML = `
+      <p class="zp-result-status">3. Výsledek podle vašich odpovědí</p>
       <h2>${escapeHtml(output.headline)}</h2>
-      <p>${escapeHtml(output.nextStep)}</p>
+      <div class="zp-advisor-next"><strong>Co udělat dál</strong><p>${escapeHtml(output.nextStep)}</p></div>
       ${renderBathroomMeasurementNextStep(output, "toilet")}
       ${output.recommendations.map((item) => `<section class="zp-why-recommendation"><h3>Proč právě toto řešení?</h3><p>${escapeHtml(item.reason)}</p></section>`).join("")}
+      ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}
       ${renderBathroomAcquisition(output.status === "candidate" ? output.acquisition : [], escapeHtml)}
       ${renderBathroomComparisonLinks(output, products)}
-      ${products.length ? `<section class="zp-product-section"><h3>Ověřený výrobek k porovnání</h3><div class="zp-product-grid">${products.map((product) => renderProduct(product, allowOffer)).join("")}</div></section>` : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

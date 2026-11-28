@@ -752,3 +752,25 @@ a{color:inherit}
 .zp-mobility-product-card .zp-mobility-fit-gate>label:has(input:checked){background:var(--zp-accent-2)}
 .zp-mobility-product-card .zp-mobility-fit-gate>label:focus-within{outline:3px solid var(--zp-accent);outline-offset:3px}
 .zp-mobility-product-card .zp-mobility-fit-gate>label input{accent-color:var(--zp-accent);width:22px;height:22px}
+
+/* Bathroom specialists: one shared visual language, no new offer logic. */
+.zp-bath-needs-stage{min-width:0;border:1px solid var(--zp-line);border-radius:16px;background:var(--zp-paper);overflow:hidden}
+.zp-bath-needs-stage>summary{min-height:52px;padding:14px 18px;font-size:1.04rem;font-weight:800;color:var(--zp-accent);cursor:pointer}
+.zp-bath-needs-stage>summary:hover{background:var(--zp-accent-2)}
+.zp-bath-needs-stage>summary:focus-visible{outline:3px solid var(--zp-accent);outline-offset:-4px}
+.zp-bath-needs-stage[open]>summary{border-bottom:1px solid var(--zp-line)}
+.zp-bath-needs-fields{display:grid;gap:14px;padding:clamp(12px,2.4vw,20px)}
+.zp-bath-needs-fields>.zp-fieldset,.zp-bathroom-fit-stage>.zp-fieldset{min-width:0}
+.zp-bath-needs-fields .zp-choice,.zp-bathroom-fit-stage .zp-choice{min-height:48px;line-height:1.5}
+.zp-bath-needs-fields .zp-choice input,.zp-bathroom-fit-stage .zp-choice input{width:1.4rem;height:1.4rem;accent-color:var(--zp-accent)}
+.zp-bath-needs-fields .zp-choice:focus-within,.zp-bathroom-fit-stage .zp-choice:focus-within{outline:3px solid var(--zp-accent);outline-offset:2px}
+.zp-micro-progress__steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+.zp-micro-progress__steps li{flex-direction:column;text-align:center;gap:6px;min-height:76px}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result) .zp-advisor-next{padding:14px 16px;border-radius:12px;border-left:4px solid var(--zp-accent);background:var(--zp-accent-2)}
+:is(#zp-shower-chair-preview,#zp-toilet-riser-preview,#zp-toilet-support-preview,#zp-bath-transfer-preview,#zp-toilet-chair-preview){margin:0;padding:clamp(14px,2.8vw,22px)}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result,#zp-shower-chair-preview,#zp-toilet-riser-preview,#zp-toilet-support-preview,#zp-bath-transfer-preview,#zp-toilet-chair-preview) .zp-product-card{min-width:0;border-top:4px solid var(--zp-accent);padding:clamp(14px,2.5vw,22px)}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result,#zp-shower-chair-preview,#zp-toilet-riser-preview,#zp-toilet-support-preview,#zp-bath-transfer-preview,#zp-toilet-chair-preview) .zp-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;list-style:none;padding:0}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result,#zp-shower-chair-preview,#zp-toilet-riser-preview,#zp-toilet-support-preview,#zp-bath-transfer-preview,#zp-toilet-chair-preview) .zp-facts li{padding:10px;background:var(--zp-accent-2);border-radius:9px;overflow-wrap:anywhere;line-height:1.5}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result) .zp-offer .zp-link-btn{display:flex;justify-content:center;text-align:center;width:100%;min-height:52px;background:var(--zp-accent);color:#fff;white-space:normal;line-height:1.4}
+:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result) .zp-offer .zp-link-btn:focus-visible{outline:3px solid var(--zp-ink);outline-offset:3px}
+@media(max-width:540px){.zp-micro-progress__steps{gap:5px}.zp-micro-progress__steps li{padding:8px 4px;min-height:75px}.zp-micro-progress__steps strong{font-size:.78rem}.zp-bath-needs-stage>summary{padding:12px}:is(#zp-shower-chair-result,#zp-toilet-riser-result,#zp-toilet-support-result,#zp-bath-transfer-result,#zp-toilet-chair-result,#zp-shower-chair-preview,#zp-toilet-riser-preview,#zp-toilet-support-preview,#zp-bath-transfer-preview,#zp-toilet-chair-preview) .zp-facts{grid-template-columns:minmax(0,1fr)}}

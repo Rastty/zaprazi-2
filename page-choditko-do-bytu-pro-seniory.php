@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_255 */
+/* ZP_RELEASE_0_8_256 */
 /*
 Template Name: Zápraží — Chodítko do bytu pro seniory
 */
@@ -22,7 +22,15 @@ get_header();
       <h2>Zvládne člověk při každém kroku chodítko lehce nadzvednout?</h2>
       <p>Neptáme se na diagnózu. Rozhodujeme podle potřebné opory, manipulace, průchodů a délky používání.</p>
 
-      <div id="zp-indoor-walker-advisor" class="zp-advisor-form" role="form">
+      <div id="zp-indoor-walker-advisor" class="zp-advisor-form zp-guided-advisor" role="form">
+        <nav class="zp-advisor-steps zp-mobility-journey" aria-label="Jak poradce funguje">
+          <ol>
+            <li data-zp-mobility-journey="1" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li>
+            <li data-zp-mobility-journey="2"><span>2</span><strong>Kontrola modelu</strong></li>
+            <li data-zp-mobility-journey="3"><span>3</span><strong>Možnosti pořízení</strong></li>
+          </ol>
+          <p>Nejdřív odpovědi, potom konkrétní parametry. Nabídka se zpřístupní až po ověření všech potřebných kontrol.</p>
+        </nav>
         <fieldset class="zp-fieldset" data-zp-indoor-required="supportNeed">
           <legend>Jak velkou oporu při chůzi potřebuje?</legend>
           <label class="zp-choice"><input type="radio" name="supportNeed" value="steady" required><span><strong>Stabilní oporu při většině kroků</strong></span></label>
@@ -58,7 +66,10 @@ get_header();
         </fieldset>
 
         <div id="zp-indoor-walker-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-indoor-walker-submit">Zjistit vhodný další krok</button>
+        <div class="zp-advisor-action">
+          <p id="zp-indoor-walker-progress" class="zp-advisor-progress" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <button class="zp-btn zp-submit" type="button" id="zp-indoor-walker-submit">Zjistit vhodný další krok</button>
+        </div>
         <p class="zp-privacy-note">Odpovědi zůstávají v prohlížeči a nejsou součástí adresy stránky.</p>
       </div>
 

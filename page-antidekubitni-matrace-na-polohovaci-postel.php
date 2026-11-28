@@ -1,8 +1,12 @@
 <?php
-/* ZP_RELEASE_0_8_255 */
+/* ZP_RELEASE_0_8_256 */
 /*
 Template Name: Zápraží — Antidekubitní matrace na polohovací postel
 */
+$zp_mattress_today = current_time( 'Y-m-d' );
+// Cached retail snapshot retrieved on 28 Nov; allow a conservative 29-day window from 27 Nov.
+$zp_mattress_retail_fresh = $zp_mattress_today >= '2026-11-28' && $zp_mattress_today <= '2026-12-27';
+$zp_mattress_rental_fresh = $zp_mattress_today >= '2026-11-28' && $zp_mattress_today <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -14,10 +18,11 @@ get_header();
       <div class="zp-hero-actions">
       <a class="zp-btn" href="#rozhodnuti-antidekubitni-matrace">Jaký další krok je bezpečný?</a>
       <a class="zp-text-link" href="#typy-antidekubitnich-matraci">Srovnat druhy matrací</a>
+      <a class="zp-text-link" href="#srovnani-matraci">3 modely a pronájem</a>
       <a class="zp-text-link" href="#rozmery-kompatibilita-matrace">Osm kontrol před koupí</a>
       <a class="zp-text-link" href="#pracovni-list-matrace">Pracovní list</a>
     </div>
-    <p class="zp-muted-copy">Praktický průvodce · 26. 10. 2026 · Nejde o diagnózu, klinické posouzení rizika dekubitů ani individuální léčebný plán.</p>
+    <p class="zp-muted-copy">Praktický průvodce · katalogové podklady doplněny 28. 11. 2026 · Nejde o diagnózu, klinické posouzení rizika dekubitů ani individuální léčebný plán.</p>
   </div></section>
 
   <section id="rozhodnuti-antidekubitni-matrace" class="zp-section zp-section-soft" aria-labelledby="rozhodnuti-antidekubitni-nadpis"><div class="zp-wrap">
@@ -69,6 +74,80 @@ get_header();
       </article>
     </div>
     <p><strong>Co říkají odborné podklady:</strong> klinické doporučení NICE počítá u rizikových lidí s kvalitním tlak redistribuujícím pěnovým povrchem a v některých situacích zvažuje dynamický systém. Novější mezinárodní doporučení řeší také mobilitu, stav kůže, mikroklima a kompatibilitu celé sestavy. Tyto zásady nejsou návod k určení diagnózy na dálku.</p>
+  </div></section>
+
+  <section id="srovnani-matraci" class="zp-section zp-section-soft" aria-labelledby="srovnani-matraci-nadpis"><div class="zp-wrap">
+    <p class="zp-kicker">Konkrétní modely · technické srovnání po odborném výběru typu</p>
+    <h2 id="srovnani-matraci-nadpis" class="zp-section-title">Antidekubitní matrace 90 × 200 cm: tři odlišné konstrukce a možnost pronájmu</h2>
+    <p>Nejde o žebříček ani o návod k určení rizika dekubitů. Příklady ukazují, proč je potřeba znát skutečnou výšku, rozsah zatížení a konstrukci, i když se všechny výrobky nabízejí pro podobně velké lůžko. Nejprve musí odborník určit vhodný druh povrchu; poté se s dodavatelem ověřuje konkrétní sestava.</p>
+    <p>Katalogové podklady načteny 28. 11. 2026. U pěnového modelu a nízké vzduchové podložky jsou dostupné starší snímky stránek, proto jejich cenu a dostupnost neuvádíme jako aktuální. Technické hodnoty před objednáním potvrďte podle dokumentace konkrétního výrobku.</p>
+    <div class="zp-walker-compare-grid">
+      <article class="zp-walker-compare-card">
+        <h3>SYST'AM STANDARD P111M</h3>
+        <p class="zp-walker-compare-model">Pěnová matrace bez elektrického kompresoru</p>
+        <dl>
+          <div><dt>Určený rozměr roštu</dt><dd>90 × 200 cm</dd></div>
+          <div><dt>Skutečný rozměr matrace</dt><dd>86 × 198 × 14 cm</dd></div>
+          <div><dt>Efektivní rozsah zatížení</dt><dd>35–130 kg</dd></div>
+          <div><dt>Hmotnost matrace</dt><dd>11 kg</dd></div>
+          <div><dt>Materiál</dt><dd>Prořezávaná PUR pěna, 40 kg/m³</dd></div>
+          <div><dt>Polohovací rošt</dt><dd>Dodavatel uvádí vhodnost k polohování</dd></div>
+        </dl>
+        <p>Rozměr roštu není totožný s fyzickým rozměrem matrace. U konkrétní postele proto ověřte bezpečnost mezer, výšku zábran a kompatibilitu. Cenu potvrďte u dodavatele.</p>
+        <p><a class="zp-text-link" href="https://www.dmapraha.cz/standard-p111m_z274/" target="_blank" rel="noopener noreferrer">Katalog P111M a návod výrobce</a></p>
+      </article>
+      <article class="zp-walker-compare-card">
+        <h3>UNIZDRAV P4840</h3>
+        <p class="zp-walker-compare-model">Nízká vzduchová podložka se základní matrací</p>
+        <dl>
+          <div><dt>Rozměr po nafouknutí</dt><dd>90 × 200 × 7 cm</dd></div>
+          <div><dt>Provozní rozsah zatížení</dt><dd>35–135 kg</dd></div>
+          <div><dt>Konstrukce</dt><dd>130 vzduchových buněk</dd></div>
+          <div><dt>Materiál</dt><dd>PVC</dd></div>
+          <div><dt>Obsah balení</dt><dd>Podložka, kompresor, sada na opravu</dd></div>
+          <div><dt>Spodní vrstva</dt><dd>Podle dodavatele základní matrace</dd></div>
+        </dl>
+        <p>Nejde o automatickou náhradu původní matrace. Dodavatel ji popisuje pro použití při nízkém riziku; vhodnost určuje zdravotník. Zkontrolujte také omezení hygienického použití jedním člověkem. Cenu ověřte v aktuální nabídce.</p>
+        <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/4840/antidekubitni-matrace-s-kompresorem-unizdrav" target="_blank" rel="noopener noreferrer">Katalog P4840 a požadavky na spodní vrstvu</a></p>
+      </article>
+      <article class="zp-walker-compare-card">
+        <h3>FOFO HF 6008</h3>
+        <p class="zp-walker-compare-model">Vysoký aktivní vzduchový systém s alarmem</p>
+        <?php if ( $zp_mattress_retail_fresh ) : ?><p><strong>11 680 Kč</strong> · katalogový snímek načtený 28. 11. 2026</p><?php else : ?><p>Cenu ověřte v aktuálním katalogu.</p><?php endif; ?>
+        <dl>
+          <div><dt>Rozměr matrace</dt><dd>90 × 200 × 20,3 cm</dd></div>
+          <div><dt>Efektivní rozsah zatížení</dt><dd>40–140 kg</dd></div>
+          <div><dt>Komory</dt><dd>19, z toho 3 statické pod hlavou</dd></div>
+          <div><dt>Upozornění</dt><dd>Alarm při kritickém poklesu tlaku</dd></div>
+          <div><dt>Příkon kompresoru</dt><dd>7 W</dd></div>
+          <div><dt>Potah</dt><dd>Snímatelný, omyvatelný</dd></div>
+        </dl>
+        <p>Dodavatel uvádí použití při vysokém až velmi vysokém riziku. Neodvozujte vhodnost z tohoto popisu bez zdravotníka. U vysoké matrace nechte posoudit zejména bezpečnost zábran, přesuny a postup při poruše.</p>
+        <p><a class="zp-text-link" href="https://www.dmapraha.cz/hf-6008_z35653/" target="_blank" rel="noopener noreferrer">Katalog HF 6008 a dokumentace</a></p>
+      </article>
+    </div>
+    <p class="zp-disclaimer">Katalogové údaje neznamenají potvrzenou klinickou vhodnost ani individuální úhradu. Cena je datované pozorování, nikoli nabídka Zápraží; po uplynutí intervalu se skryje. Nezaručujeme dostupnost. Odkazy jsou zdrojové, nikoli individuální nákupní doporučení.</p>
+    <h3>Proč stejný rozměr 90 × 200 cm neznamená zaměnitelnost?</h3>
+    <p>P111M je vysoká 14 cm. Kdyby měla být na takovou matraci přidána podložka P4840 s nominální výškou 7 cm, jednoduchý součet je 21 cm. Nejde ale o doporučenou kombinaci. Chybí potvrzení vrstvení a zábran; skutečná výška se mění se zatížením. HF 6008 má samostatně nominálních 20,3 cm. Čísla ilustrují nutnost posoudit celou sestavu, nikoli určit přípustnou výšku zábrany.</p>
+    <p>Podobně není limit 140 kg automaticky důkazem vhodnosti pro každého s nižší hmotností. U aktivních systémů je významná i spodní mez zatížení, nastavení podle návodu a individuální klinické doporučení. Zeptejte se rovněž, zda konkrétní rošt, rám, bočnice a způsob vstávání vyhovují kombinaci. <a class="zp-text-link" href="#rozmery-kompatibilita-matrace">Projít osm technických kontrol</a>.</p>
+    <h3>Vyměnit pouze poškozenou podložku, nebo celý systém?</h3>
+    <p>Pokud máte kompresor z dřívějška, nestačí objednat libovolnou vzduchovou podložku podobné velikosti. Například starší katalog UNIZDRAV P1421 popisuje samostatný náhradní díl bez kompresoru s rozsahem 30–110 kg a rozměrem 200 × 88 cm. To není stejný rozsah jako P4840. Kompatibilita P1421 s P4840 není doložena; oba kódy jsou zde pouze příklady rozdílných výrobků.</p>
+    <p>Uveďte dodavateli přesný model a výrobní označení kompresoru, požadujte písemné potvrzení vhodné náhrady a postupu při poruše. Nepřipojujte neověřenou podložku a nepoužívejte opravu jako náhradu odborného posouzení. <a class="zp-text-link" href="https://unizdrav.cz/zbozi/1421/nahradni-antidekubitni-matrace-ke-kompresoru" target="_blank" rel="noopener noreferrer">Starší katalog P1421 – příklad samostatného dílu</a>.</p>
+    <div class="zp-resource-callout" id="pujceni-antidekubitni-matrace">
+      <h3>Půjčení antidekubitní matrace s kompresorem: konkrétní příklad</h3>
+      <p>DMA Praha zveřejňuje pronájem modelu PA 1500 (90 × 200 × 15 cm, katalogová nosnost 140 kg). Nejde o stejný model jako HF 6008 ani P4840. Odbornou vhodnost, potřebnou spodní vrstvu a kompatibilitu lůžka ověřte před rezervací.</p>
+      <?php if ( $zp_mattress_rental_fresh ) : ?>
+        <p>Ve veřejném ceníku načteném 28. 11. 2026 je uvedeno <strong>450 Kč za dva týdny, 600 Kč za měsíc a vratná kauce 1 500 Kč</strong>. Minimální doba zápůjčky jsou dva týdny.</p>
+        <div class="zp-decision-grid">
+          <article class="zp-decision-card"><h4>1 měsíc</h4><p>600 Kč nájem; 2 100 Kč včetně kauce, bez dalších služeb.</p></article>
+          <article class="zp-decision-card"><h4>3 měsíce</h4><p>1 800 Kč nájem; 3 300 Kč celkové výdaje před vrácením kauce, bez dalších služeb.</p></article>
+          <article class="zp-decision-card"><h4>6 měsíců</h4><p>3 600 Kč nájem; 5 100 Kč celkové výdaje před vrácením kauce, bez dalších služeb.</p></article>
+        </div>
+        <p>Jde o prostý model součtu měsíčních sazeb, ne potvrzenou nabídku. Dopravu, hygienickou přípravu, servis a platné podmínky vrácení potvrďte s půjčovnou. Pokud je kauce vrácena v plné výši, není konečným nákladem.</p>
+      <?php else : ?><p>Starší cenový snímek již nezobrazujeme. Ověřte aktuální sazbu, kauci, minimální délku pronájmu a související poplatky.</p><?php endif; ?>
+      <p><a class="zp-text-link" href="https://www.dmapraha.cz/pa-1500_z930/" target="_blank" rel="noopener noreferrer">Ceník půjčovny PA 1500 a kontakt</a> · <a href="tel:+420800700955">800 700 955</a>. Zeptejte se na podmínky hygieny, dostupnost, potřebnou spodní matraci, dopravu a postup při závadě.</p>
+    </div>
+    <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel/#srovnani-polohovacich-posteli' ) ); ?>">Srovnání polohovacích postelí</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/#porovnani-pujceni-postele' ) ); ?>">Spočítat náklady celého lůžka</a></p>
   </div></section>
 
   <section id="rozmery-kompatibilita-matrace" class="zp-section zp-section-soft" aria-labelledby="rozmery-matrace-nadpis"><div class="zp-wrap">
@@ -126,6 +205,7 @@ get_header();
     <details><summary>Je rozměr 90 × 200 cm vhodný na každou polohovací postel?</summary><p>Ne. Ověřte vnitřní rozměr lůžka, toleranci a především výrobcem schválenou sestavu. Chybná výška nebo mezery u zábran mohou představovat riziko.</p></details>
     <details><summary>Pomůže antidekubitní matrace sama předejít proleženinám?</summary><p>Žádná matrace nenahrazuje odborné hodnocení, sledování kůže, péči o vlhkost či individuální plán změn polohy. Povrch je pouze jedna část celkového preventivního nebo léčebného postupu.</p></details>
     <details><summary>Co když člověk už má proleženinu?</summary><p>Kontaktujte ošetřující zdravotnický tým. Nákupní článek není dostatečný podklad pro rozhodnutí, jaký tlak redistribuující povrch nebo další léčbu potřebuje.</p></details>
+    <details><summary>Kolik stojí antidekubitní matrace s kompresorem a její pronájem?</summary><p>Cenu srovnávejte pouze u odborně vhodných systémů včetně potřebné podkladové vrstvy, potahu, servisu a dopravy. <a class="zp-text-link" href="#srovnani-matraci">Srovnání konkrétních konstrukcí</a> a <a class="zp-text-link" href="#pujceni-antidekubitni-matrace">datovaný příklad pronájmu</a> pomohou připravit dotazy na dodavatele.</p></details>
     <details><summary>Má smysl pronájem antidekubitní matrace před nákupem?</summary><p>U dočasné potřeby může být vhodné ověřit dostupnost vhodné varianty v půjčovně. Nejprve však zajistěte odborné doporučení, hygienu, servis, kompatibilitu se zapůjčenou postelí a podmínky vrácení. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/' ) ); ?>">Půjčení lůžka a úhrada jsou odlišné cesty</a>.</p></details>
     <details><summary>Zaplatí antidekubitní matraci pojišťovna?</summary><p>Úhrada závisí na aktuální úhradové kategorii, konkrétním zdravotnickém prostředku, indikaci, předpisu a případném schválení. Nepředpokládejte proplacení již zakoupeného výrobku. Ověřte platná pravidla u předepisujícího a pojišťovny, včetně ePoukazu od roku 2026.</p></details>
   </div></section>

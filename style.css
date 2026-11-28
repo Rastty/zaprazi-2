@@ -3,7 +3,7 @@ Theme Name: ZaPrazi 2.0 RC
 Theme URI: https://zaprazi.cz/
 Author: ZaPrazi
 Description: Decision engine pro bezpečný a samostatný život doma.
-Version: 0.8.255
+Version: 0.8.256
 Text Domain: zaprazi-2
 */
 
@@ -375,7 +375,7 @@ a{color:inherit}
 .zp-reimbursement-evidence dd{margin:0;text-align:right;font-weight:800}
 @media(max-width:560px){.zp-reimbursement-evidence dl>div{display:block}.zp-reimbursement-evidence dd{text-align:left;margin-top:2px}}
 
-/* ZP_RELEASE_0_8_255 */
+/* ZP_RELEASE_0_8_256 */
 
 
 .zp-affiliate-policy {
@@ -705,3 +705,50 @@ a{color:inherit}
 /* Two exact catalogue variants, same established comparison card layout. */
 .zp-walker-compare-grid-two{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:850px){.zp-walker-compare-grid-two{grid-template-columns:minmax(0,1fr)}}
+
+/* Bed/wheelchair guided stages: compact mobile-first flow, shared site palette. */
+.zp-guided-advisor{gap:16px}
+.zp-advisor-steps{padding:14px;background:var(--zp-paper);border:1px solid var(--zp-line);border-radius:16px}
+.zp-advisor-steps ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.zp-advisor-steps li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-width:0;padding:10px 6px;border:1px solid var(--zp-line);border-radius:10px;color:var(--zp-muted);font-size:.92rem;line-height:1.35}
+.zp-advisor-steps li span{display:grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:var(--zp-accent-2);color:var(--zp-ink);font-weight:800}
+.zp-advisor-steps li[aria-current="step"]{border:2px solid var(--zp-accent);padding:9px 5px;background:var(--zp-accent-2);color:var(--zp-ink)}
+.zp-advisor-steps li[aria-current="step"] span{background:var(--zp-accent);color:#fff}
+.zp-advisor-back{font:inherit;font-weight:750;color:var(--zp-accent);background:var(--zp-paper);border:1px solid var(--zp-accent);border-radius:10px;min-height:48px;padding:10px 14px;margin-top:12px;cursor:pointer}
+.zp-advisor-back:hover{background:var(--zp-accent-2)}
+.zp-advisor-back:focus-visible,.zp-guided-advisor .zp-choice:focus-within{outline:3px solid var(--zp-accent);outline-offset:3px}
+.zp-advisor-needs-stage,#zp-bed-fit-stage,#zp-wheelchair-fit-stage{display:grid;gap:16px;min-width:0}
+.zp-advisor-stage-intro{margin:0;color:var(--zp-ink);line-height:1.6}
+.zp-guided-advisor .zp-fieldset{min-width:0;padding:clamp(12px,2.4vw,20px)}
+.zp-guided-advisor .zp-choice{min-height:48px;align-items:flex-start;padding:12px;border:1px solid transparent;line-height:1.5}
+.zp-guided-advisor .zp-choice span{min-width:0;overflow-wrap:anywhere}
+.zp-guided-advisor .zp-choice strong{font-size:1.04rem}
+.zp-guided-advisor .zp-choice small{font-size:.94rem}
+.zp-guided-advisor .zp-choice input{accent-color:var(--zp-accent);width:1.4rem;height:1.4rem}
+.zp-advisor-action{display:grid;gap:8px;padding:14px;background:var(--zp-accent-2);border:1px solid var(--zp-line);border-radius:14px}
+.zp-advisor-progress{margin:0;line-height:1.5;color:var(--zp-ink);font-size:.95rem;font-weight:650}
+.zp-advisor-action .zp-submit{width:100%;min-height:52px;justify-content:center;text-align:center;white-space:normal;line-height:1.4}
+#zp-bed-preview,#zp-wheelchair-preview{margin:0;padding:clamp(14px,2.8vw,22px)}
+#zp-bed-fit-stage,#zp-wheelchair-fit-stage{padding:clamp(12px,2.5vw,20px);background:var(--zp-accent-2);border:1px solid var(--zp-accent);border-radius:16px}
+#zp-bed-fit-stage>h3,#zp-wheelchair-fit-stage>h3,#zp-bed-fit-stage>p,#zp-wheelchair-fit-stage>p{margin:0}
+#zp-bed-result .zp-advisor-next,#zp-wheelchair-result .zp-advisor-next{padding:14px 16px;border-radius:12px;border-left:4px solid var(--zp-accent);background:var(--zp-accent-2)}
+.zp-advisor-next p{margin:5px 0 0}
+:is(#zp-bed-preview,#zp-bed-result,#zp-wheelchair-preview,#zp-wheelchair-result) .zp-product-card{min-width:0;padding:clamp(14px,2.5vw,22px);border-top:4px solid var(--zp-accent)}
+:is(#zp-bed-preview,#zp-bed-result,#zp-wheelchair-preview,#zp-wheelchair-result) .zp-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;list-style:none;padding:0}
+:is(#zp-bed-preview,#zp-bed-result,#zp-wheelchair-preview,#zp-wheelchair-result) .zp-facts li{padding:10px;background:var(--zp-accent-2);border-radius:9px;overflow-wrap:anywhere;line-height:1.5}
+:is(#zp-bed-result,#zp-wheelchair-result) .zp-offer .zp-link-btn{display:flex;justify-content:center;text-align:center;width:100%;min-height:52px;background:var(--zp-accent);color:#fff;white-space:normal;line-height:1.4}
+:is(#zp-bed-result,#zp-wheelchair-result) .zp-offer .zp-link-btn:focus-visible{outline:3px solid var(--zp-ink);outline-offset:3px}
+@media(max-width:540px){.zp-advisor-steps{padding:10px}.zp-advisor-steps ol{gap:5px}.zp-advisor-steps li{font-size:.8rem;padding:8px 4px}.zp-advisor-steps li[aria-current="step"]{padding:7px 3px}.zp-advisor-back{width:100%}:is(#zp-bed-preview,#zp-bed-result,#zp-wheelchair-preview,#zp-wheelchair-result) .zp-facts{grid-template-columns:minmax(0,1fr)}}
+
+/* Keep editing controls available at the final decision, not only above the form. */
+.zp-advisor-result-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid var(--zp-line)}
+.zp-advisor-result-actions .zp-advisor-back{margin-top:0;flex:1 1 200px}
+@media(max-width:540px){.zp-advisor-result-actions{display:grid;grid-template-columns:1fr}}
+
+/* Mobility specialists: clear next action and comfortable fit controls. */
+.zp-mobility-journey>p{margin:12px 0 0;font-size:.95rem;line-height:1.55;color:var(--zp-ink)}
+:is(#zp-indoor-walker-result,#zp-rollator-result) .zp-advisor-next{padding:14px 16px;border-radius:12px;border-left:4px solid var(--zp-accent);background:var(--zp-accent-2)}
+.zp-mobility-product-card .zp-mobility-fit-gate>label{min-height:48px;padding:12px;border:1px solid var(--zp-line);background:#fff}
+.zp-mobility-product-card .zp-mobility-fit-gate>label:has(input:checked){background:var(--zp-accent-2)}
+.zp-mobility-product-card .zp-mobility-fit-gate>label:focus-within{outline:3px solid var(--zp-accent);outline-offset:3px}
+.zp-mobility-product-card .zp-mobility-fit-gate>label input{accent-color:var(--zp-accent);width:22px;height:22px}

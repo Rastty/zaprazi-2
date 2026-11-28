@@ -1012,6 +1012,11 @@ try {
       assert.ok(await count(page,result+' [data-zp-bed-merchant-link]')>0,
         "Explicit verified patient capacity must enable eligible bed offer: "+branch.need);
       await assertAffiliateOffers(page,result+' [data-zp-bed-merchant-link]');
+      if (await count(page,"#zp-bed-back")) {
+        assert.equal(await visible(page,"#zp-bed-back"),true,"Guided bed step must expose edit control");
+        await click(page,"#zp-bed-back");
+        assert.equal(await visible(page,"#zp-bed-needs-stage"),true);
+      }
       await choose(page,"primaryNeed","home_positioning");
       assert.equal(await visible(page,result),false,"Changed bed branch must clear stale purchase links");
       await checkNoMerchant(page,result);
@@ -1063,6 +1068,11 @@ try {
     await click(page,"#zp-wheelchair-submit");
     assert.match(await page.$eval(result,el=>el.textContent),/bezdušová kola – 136 kg/);
     await assertAffiliateOffers(page,result+' [data-zp-wheelchair-merchant-link]');
+    if (await count(page,"#zp-wheelchair-back")) {
+      assert.equal(await visible(page,"#zp-wheelchair-back"),true,"Guided wheelchair step must expose edit control");
+      await click(page,"#zp-wheelchair-back");
+      assert.equal(await visible(page,"#zp-wheelchair-needs-stage"),true);
+    }
     await choose(page,"propulsion","companion");
     await checkNoMerchant(page,result);
     await click(page,"#zp-wheelchair-submit");

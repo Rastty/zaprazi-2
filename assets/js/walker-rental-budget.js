@@ -1,4 +1,4 @@
-// ZP_RELEASE_0_8_255
+// ZP_RELEASE_0_8_256
 // Voluntary, local arithmetic only: no network, cookies, storage or telemetry.
 // The server suppresses this calculator when its underlying rental evidence is stale.
 const form = document.querySelector("#zp-walker-rental-budget");

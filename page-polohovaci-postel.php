@@ -1,8 +1,11 @@
 <?php
-/* ZP_RELEASE_0_8_255 */
+/* ZP_RELEASE_0_8_256 */
 /*
 Template Name: Zápraží — Polohovací postel
 */
+// Retail snapshot follows the existing 30-day offer freshness policy.
+$zp_bed_catalog_date = current_time( 'Y-m-d' );
+$zp_bed_catalog_prices_fresh = $zp_bed_catalog_date >= '2026-11-28' && $zp_bed_catalog_date <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -16,6 +19,7 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="#poradce-postel">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Zpět na hlavní stránku</a>
+        <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Srovnat 3 modely a ceny</a>
         <a class="zp-text-link" href="#kontrola-polohovaci-postele">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli' ) ); ?>">Člověk nemůže vstát z postele – typy pomůcek</a>
       </div>
@@ -28,7 +32,17 @@ get_header();
       <h2>Co má nová postel hlavně vyřešit?</h2>
       <p>Odpovědi zůstávají jen v prohlížeči. Nepotřebujeme jméno, diagnózu ani přesnou hmotnost.</p>
 
-      <div id="zp-bed-advisor" class="zp-advisor-form" role="form" aria-describedby="zp-bed-privacy">
+      <div id="zp-bed-advisor" class="zp-advisor-form zp-guided-advisor" role="form" aria-describedby="zp-bed-privacy">
+        <nav id="zp-bed-steps" class="zp-advisor-steps" aria-label="Průběh poradce" hidden>
+          <ol>
+            <li data-zp-journey-step="1" aria-current="step"><span>1</span><strong>Vaše potřeby</strong></li>
+            <li data-zp-journey-step="2"><span>2</span><strong>Ověření parametrů</strong></li>
+            <li data-zp-journey-step="3"><span>3</span><strong>Výsledek</strong></li>
+          </ol>
+          <button type="button" class="zp-advisor-back" id="zp-bed-back" aria-controls="zp-bed-needs-stage" hidden>← Upravit úvodní odpovědi</button>
+        </nav>
+        <div id="zp-bed-needs-stage" class="zp-advisor-needs-stage" tabindex="-1">
+          <p class="zp-advisor-stage-intro"><strong>Nejdřív vyberte způsob používání.</strong> Pokud si nejste jistí, zvolte „Nevím“. Podle odpovědí ukážeme další bezpečný krok.</p>
         <fieldset class="zp-fieldset" data-zp-bed-required="primaryNeed">
           <legend>Jaká je hlavní praktická potřeba?</legend>
           <label class="zp-choice"><input type="radio" name="primaryNeed" value="home_positioning" required><span><strong>Běžné elektrické polohování doma</strong><small>Potřebujeme nastavit výšku, záda a nohy a zachovat co největší samostatnost.</small></span></label>
@@ -80,13 +94,17 @@ get_header();
           <label class="zp-choice"><input type="radio" name="duration" value="unknown" checked><span><strong>Nevím</strong></span></label>
         </fieldset>
 
+        </div>
         <section id="zp-bed-preview" class="zp-result" tabindex="-1" aria-live="polite" hidden></section>
-        <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" aria-labelledby="zp-bed-fit-title" hidden>
+        <section id="zp-bed-fit-stage" class="zp-bathroom-fit-stage" tabindex="-1" aria-labelledby="zp-bed-fit-title" hidden>
           <h3 id="zp-bed-fit-title">2. Ověřte parametry konkrétního výrobku</h3>
           <p>Teď už znáte přesný model a jeho technické údaje. Porovnejte je s potřebami člověka a podmínkami doma. Pokud si nejste jistí, odpovězte <strong>Nevím</strong> – nákupní doporučení se nezobrazí.</p>
         </section>
         <div id="zp-bed-errors" class="zp-advisor-errors" role="alert" aria-live="assertive" hidden></div>
-        <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">1. Ukázat možný výrobek</button>
+        <div class="zp-advisor-action">
+          <p id="zp-bed-progress" class="zp-advisor-progress" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+          <button class="zp-btn zp-submit" type="button" id="zp-bed-submit">1. Ukázat možný výrobek</button>
+        </div>
         <p id="zp-bed-privacy" class="zp-privacy-note">Odpovědi se neodesílají na server, neukládají se do URL a affiliate systém nedostává kombinaci odpovědí.</p>
       </div>
 
@@ -120,6 +138,100 @@ get_header();
         <article><h3>Prověřit pojišťovnu</h3><p>VZP popisuje předpis, schválení pojišťovnou a také režim cirkulace, kdy může být lůžko pojištěnci zapůjčeno.</p></article>
         <article><h3>Koupit</h3><p>Dává smysl hlavně tam, kde je potřeba dlouhodobá a konkrétní model odpovídá prostoru, nosnosti i praktické péči.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="srovnani-polohovacich-posteli" class="zp-section zp-section-soft" aria-labelledby="zp-bed-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Tři konkrétní modely · domácí péče</p>
+      <h2 id="zp-bed-comparison-title" class="zp-section-title">Elektrická polohovací postel: srovnání CLASSIC, Hospital a Multibed</h2>
+      <p class="zp-guide-quick-answer"><strong>Nejlevnější ani nejužší postel nemusí být ta vhodná.</strong> Porovnejte rozměr celého rámu, výšku lehací plochy, dovolenou hmotnost uživatele a to, zda je v ceně matrace. U člověka, který potřebuje pomoc při přesunu nebo složitější péči, začněte odborným posouzením.</p>
+      <p>Jde o tři přesně identifikované modely jednoho dodavatele, nikoli žebříček celého trhu. Katalogové údaje a ceny byly načteny 28. 11. 2026; cena ani dostupnost nejsou garantované a celkové náklady se mohou lišit.</p>
+      <div class="zp-walker-compare-grid">
+        <article class="zp-walker-compare-card">
+          <h3>CLASSIC P2777</h3>
+          <p class="zp-walker-compare-model">Standardní domácí elektrické polohování</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
+          <p><strong>20 441 Kč</strong> · katalogová cena samotného lůžka</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
+          <dl>
+            <div><dt>Vnější půdorys</dt><dd>102,5 × 212 cm</dd></div>
+            <div><dt>Lehací plocha</dt><dd>90 × 200 cm</dd></div>
+            <div><dt>Výška lehací plochy</dt><dd>38,6–80,6 cm</dd></div>
+            <div><dt>Max. hmotnost uživatele</dt><dd>178 kg</dd></div>
+            <div><dt>Pracovní zatížení</dt><dd>215 kg</dd></div>
+            <div><dt>Hmotnost lůžka</dt><dd>77 kg</dd></div>
+            <div><dt>Matrace</dt><dd>Není zahrnuta</dd></div>
+          </dl>
+          <p>Užitečný srovnávací bod pro běžné nastavení výšky a polohy doma. Do rozpočtu přidejte kompatibilní matraci a potvrďte rozsah dodávky.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2777/elektricka-polohovaci-postel-classic" target="_blank" rel="noopener noreferrer">Katalog P2777 a technické údaje</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>Hospital P4707</h3>
+          <p class="zp-walker-compare-model">Robustní rám, centrální brzda</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
+          <p><strong>35 039 Kč</strong> · při načtení katalogu uvedeno „zboží je na cestě“</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
+          <dl>
+            <div><dt>Vnější půdorys</dt><dd>105 × 214 cm</dd></div>
+            <div><dt>Lehací plocha</dt><dd>90 × 196 cm</dd></div>
+            <div><dt>Výška lehací plochy</dt><dd>40–70 cm</dd></div>
+            <div><dt>Max. hmotnost uživatele</dt><dd>Nutno potvrdit</dd></div>
+            <div><dt>Katalogová nosnost</dt><dd>250 kg (neurčená kategorie)</dd></div>
+            <div><dt>Čistá hmotnost lůžka</dt><dd>110 kg</dd></div>
+            <div><dt>Matrace</dt><dd>Není zahrnuta</dd></div>
+          </dl>
+          <p>Ověřte zejména délku kompatibilní matrace, dopravu těžkého rámu a skutečný limit hmotnosti člověka. Vyšší katalogová nosnost není automaticky povolenou hmotností uživatele.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/4707/elektricka-polohovaci-postel-hospital" target="_blank" rel="noopener noreferrer">Katalog P4707 a technické údaje</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>Multibed P4044</h3>
+          <p class="zp-walker-compare-model">Specializované funkce péče na lůžku</p>
+          <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
+          <p><strong>33 390 Kč</strong> · včetně uvedené matrace</p>
+          <?php else : ?>
+          <p><strong>Cenu a dostupnost ověřte v katalogu.</strong> Cenový snímek již není aktuální.</p>
+          <?php endif; ?>
+          <dl>
+            <div><dt>Vnější půdorys</dt><dd>96 × 212 cm</dd></div>
+            <div><dt>Lehací plocha</dt><dd>90 × 200 cm</dd></div>
+            <div><dt>Výška lehací plochy</dt><dd>50–70 cm</dd></div>
+            <div><dt>Max. hmotnost uživatele</dt><dd>Nutno potvrdit</dd></div>
+            <div><dt>Katalogová nosnost</dt><dd>260 kg (neurčená kategorie)</dd></div>
+            <div><dt>Hmotnost s doplňky</dt><dd>104 kg</dd></div>
+            <div><dt>Matrace</dt><dd>90 × 200 × 8 cm</dd></div>
+          </dl>
+          <p>Obsahuje funkci bočního otáčení a toaletní otvor. Jejich praktickou vhodnost a bezpečné použití musí potvrdit odborník. Nejde o univerzální náhradu jiné péče.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/4044/elektricka-polohovaci-postel-s-matraci-multibed" target="_blank" rel="noopener noreferrer">Katalog P4044 a technické údaje</a></p>
+        </article>
+      </div>
+      <p class="zp-disclaimer">Ceny zachycují veřejné katalogy k uvedenému datu; mohou se změnit a nezahrnují automaticky všechny služby. Nejsou tvrzením o úhradě pojišťovnou ani potvrzením skladem. Katalogové odkazy slouží jako zdroje údajů. Nákupní cesta v poradci zůstává podmíněna bezpečnostními a produktovými kontrolami.</p>
+      <h3>Jak porovnat výšku postele, když se člověku obtížně vstává?</h3>
+      <p>Rozsah nastavení lehací plochy není totéž jako výsledná výška sedu na okraji matrace. Záleží na tloušťce a stlačení matrace, způsobu přesunu a schopnostech člověka. CLASSIC má v katalogu spodní mez 38,6 cm, Multibed 50 cm. Rozdíl 11,4 cm je významný pro technické porovnání, nikoli důkaz, že jeden model je pro konkrétního člověka vhodnější.</p>
+      <p>Předem odborně ověřte bezpečný rozsah výšky a způsob vstávání. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-nemuze-vstat-z-postele/#pomucky-k-posteli' ) ); ?>">Co řešit, pokud člověk nedokáže vstát z postele</a>.</p>
+      <h3>Vejde se postel dveřmi a do malé ložnice?</h3>
+      <p>Všechny tři modely mají lehací plochu širokou 90 cm, ale vnější šířka se liší. Pokud máte mezi nábytkem volných 110 cm, po vložení rámu CLASSIC zbude souhrnně jen 7,5 cm a u Hospital 5 cm. To není prostor pro bezpečnou obsluhu, pouze rozdíl rozměrů. Změřte i místo pro nohy, pečující osobu a případnou další pomůcku.</p>
+      <p>Rám může přijet v rozloženém stavu. Z katalogu P2777 vyplývá balík lůžka 107 × 34 × 179 cm, u P4707 210 × 100 × 43 cm a u P4044 203 × 97 × 34 cm. Skutečnou orientaci balení, hmotnost při přenášení, zatáčky a výtah musí posoudit dopravce. Rozměr dveří není jediným omezením; nic nedemontujte nad rámec pokynů dodavatele.</p>
+      <h3>Co objednat společně s postelí a co nechat potvrdit?</h3>
+      <p>Do nabídky nechte rozepsat kompatibilní matraci, případné zábrany, další potřebné příslušenství, dopravu, výnos, montáž, zaučení, podmínky servisu a případný odvoz při ukončení péče. Nepřidávejte univerzální zábrany nebo silnější matraci bez posouzení celé sestavy. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#rozmery-kompatibilita-matrace' ) ); ?>">Kontrola kompatibility matrace a postele</a>. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/antidekubitni-matrace-na-polohovaci-postel/#srovnani-matraci' ) ); ?>">Tři konstrukce matrací a možnost pronájmu</a>.</p>
+      <div class="zp-resource-callout">
+        <h3>Poptávka dodavateli: sedm údajů, které si připravte</h3>
+        <ol class="zp-guide-steps">
+          <li>Přesný kód modelu a maximální dovolená hmotnost uživatele podle návodu.</li>
+          <li>Kompatibilní rozměr a tloušťka matrace včetně schválených zábran.</li>
+          <li>Výsledná výška sedu při vhodné sestavě a možnosti odborného nácviku.</li>
+          <li>Celkový půdorys a potvrzená trasa dopravy do konkrétního pokoje.</li>
+          <li>Celková cena s výnosem, montáží a vším nezbytným příslušenstvím.</li>
+          <li>Skutečná dostupnost, způsob předání a termín vhodný pro rodinu.</li>
+          <li>Servisní kontakt, postup při poruše, dostupnost náhradních dílů a podmínky vrácení.</li>
+        </ol>
+        <p>Podle odpovědí porovnejte jen stejně vhodné a kompletní sestavy. Je-li potřebná postel na omezenou dobu nebo čekáte na rozhodnutí pojišťovny, zvažte i <a class="zp-text-link" href="<?php echo esc_url( home_url( '/polohovaci-postel-na-pojistovnu/#porovnani-pujceni-postele' ) ); ?>">výpočet ceny půjčení oproti koupi</a>.</p>
+      </div>
+      <p><a class="zp-btn" href="#poradce-postel">Prověřit typ postele v poradci</a></p>
     </div>
   </section>
 
@@ -165,6 +277,14 @@ get_header();
       <details>
         <summary>Jak vybrat polohovací postel pro seniora?</summary>
         <p>Začněte tím, co má postel doma prakticky vyřešit: běžné elektrické polohování, snazší přístup pečující osoby, vyšší nosnost nebo náročnější péči na lůžku. Potom ověřte způsob přesunu, nosnost, prostor a teprve nakonec způsob pořízení.</p>
+      </details>
+      <details>
+        <summary>Kolik stojí elektrická polohovací postel pro seniora?</summary>
+        <?php if ( $zp_bed_catalog_prices_fresh ) : ?>
+          <p>Ve třech veřejných katalogových příkladech načtených 28. 11. 2026 byly uvedeny ceny 20 441 Kč, 35 039 Kč a 33 390 Kč. Některé modely nemají matraci v ceně. <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Porovnejte přesné modely a vybavení</a>; skutečnou celkovou cenu včetně dopravy a montáže si nechte potvrdit.</p>
+        <?php else : ?>
+          <p>Starší cenové údaje zde již nezobrazujeme. <a class="zp-text-link" href="#srovnani-polohovacich-posteli">Porovnejte přesné modely a vybavení</a> a ověřte aktuální nabídky, matraci, dopravu a montáž přímo u prodejce.</p>
+        <?php endif; ?>
       </details>
       <details>
         <summary>Je vždy potřeba elektrická polohovací postel?</summary>

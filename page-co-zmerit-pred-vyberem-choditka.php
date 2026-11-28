@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_252 */
+/* ZP_RELEASE_0_8_253 */
 /*
 Template Name: Zápraží — Co změřit před výběrem chodítka
 */
@@ -15,6 +15,8 @@ get_header();
         <div class="zp-hero-actions">
           <a class="zp-btn" href="#co-zmerit">Projít 7 kroků</a>
           <a class="zp-text-link" href="#poptavka-choditka">Připravit poptávku přesného modelu</a>
+          <a class="zp-text-link" href="#porovnani-nabidek-choditka">Porovnat úplné ceny nabídek</a>
+          <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#choditko-z-bazaru' ) ); ?>">Kontrola použitého chodítka</a>
           <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Nevím, jaký typ: otevřít poradce</a>
         </div>
         <p class="zp-muted-copy">Praktická příprava pro rodinu · zpracováno 9. 10. 2026 · bez ukládání rozměrů či osobních údajů.</p>
@@ -156,6 +158,58 @@ get_header();
       <div class="zp-hero-actions">
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Prověřit typ opory v poradci</a>
         <a class="zp-text-link" href="#co-po-mereni">Vybrat způsob pořízení</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="porovnani-nabidek-choditka" class="zp-section" aria-labelledby="zp-offer-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Nákupní rozhodnutí · dvě nabídky stejného modelu</p>
+      <h2 id="zp-offer-comparison-title" class="zp-section-title">Jak porovnat ceny chodítek a rollátorů, aby levnější nabídka nebyla dražší?</h2>
+      <p class="zp-guide-quick-answer"><strong>Nejdřív porovnávejte shodné výrobky.</strong> Stejný název nestačí: ověřte výrobce, přesné katalogové číslo a dodávané rozměry. Pokud se liší identita nebo potřebný parametr, srovnání cen odložte. Teprve poté přičtěte dopravu, sjednané nastavení a další nevratné náklady.</p>
+      <h3 id="zp-besco-ean">Skutečný příklad: BESCO WA17 a rozdílné EAN v obchodech</h3>
+      <p>U čtyřbodového chodítka BESCO WA17 uvádí specializovaný obchod EAN <strong>6975196416086</strong>. U Dr. Max se ve veřejně dostupných produktových podkladech objevují dva podobné názvy, ale rozdílné EAN. Rozdíl je podstatný, i když je text popisu podobný.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h4>Shodné EAN v katalogu</h4>
+          <dl><div><dt>WA17</dt><dd>6975196416086</dd></div><div><dt>Dr. Max – jedna položka</dt><dd>6975196416086</dd></div></dl>
+          <p>Shoda EAN je užitečné vodítko pro porovnání, nikoli potvrzení skutečné dodávky, skladu ani všech potřebných rozměrů.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h4>Odlišné EAN v katalogu</h4>
+          <dl><div><dt>WA17</dt><dd>6975196416086</dd></div><div><dt>Dr. Max – jiná položka</dt><dd>8594180685031</dd></div></dl>
+          <p>Tuto položku nepovažujte bez dalšího potvrzení za shodnou variantu. Samotný název ani stejná fotografie rozdíl neřeší.</p>
+        </article>
+      </div>
+      <p><strong>Pozor také na počet obchodníků:</strong> RehabilitačníPomůcky.cz a Rehasport.cz na svých firemních stránkách uvádějí stejného provozovatele Health Brands s.r.o. Dvě domény tedy samy o sobě neznamenají dva nezávislé dodavatele. Porovnejte podmínky konkrétního prodejce uvedeného ve smlouvě, cenu dopravy a servis.</p>
+      <p class="zp-muted-copy">Veřejné katalogové podklady načtené 28. 11. 2026; některé kopie produktových stránek jsou starší, proto z nich nepřebíráme aktuální ceny ani sklad. Identita provozovatele: <a class="zp-text-link" href="https://www.rehasport.cz/o-spolecnosti/" target="_blank" rel="noopener noreferrer">Rehasport — o společnosti</a> a <a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/kontakty/" target="_blank" rel="noopener noreferrer">RehabilitačníPomůcky.cz — kontakty</a>. Zjištěné EAN použijte jako otázku pro prodejce, nikoli jako automatický výběr výrobku.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit typ opory a parametry WA17 v poradci</a></p>
+      <h3 id="zp-model-quote-example">Dvě modelové nabídky: stejný výrobek, odlišná konečná cena</h3>
+      <p>Částky níže jsou vymyšlené pro vysvětlení postupu, nikoli nabídky konkrétních obchodů. Příklad předpokládá, že obě nabídky mají písemně potvrzený stejný model a stejné potřebné příslušenství.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two" aria-labelledby="zp-model-quote-example">
+        <article class="zp-walker-compare-card">
+          <h3>Nabídka A</h3>
+          <dl><div><dt>Pomůcka</dt><dd>2 790 Kč</dd></div><div><dt>Doprava</dt><dd>190 Kč</dd></div><div><dt>Sjednané nastavení</dt><dd>350 Kč</dd></div><div><dt>Celkem</dt><dd>3 330 Kč</dd></div></dl>
+          <p>Nižší cena v katalogu, ale další sjednané služby zvyšují konečný výdaj.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>Nabídka B</h3>
+          <dl><div><dt>Pomůcka</dt><dd>3 190 Kč</dd></div><div><dt>Doprava</dt><dd>V ceně</dd></div><div><dt>Sjednané nastavení</dt><dd>V ceně</dd></div><div><dt>Celkem</dt><dd>3 190 Kč</dd></div></dl>
+          <p>Vyšší katalogová cena, ale v tomto modelovém příkladu o 140 Kč nižší celkový výdaj.</p>
+        </article>
+      </div>
+      <h3>Co si ještě ověřit, než vyberete prodejce</h3>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h4>Dostupnost a předání</h4><p>Je potvrzen termín dodání přesně objednané varianty? Je pomůcka sestavená? Kdo zajistí bezpečné nastavení a vysvětlení návodu? Pokud služby nejsou v ceně, vyžádejte si jejich cenu.</p></article>
+        <article class="zp-decision-card"><h4>Vyzkoušení a vrácení</h4><p>Předem zjistěte podmínky vrácení daného zboží a náklady na dopravu zpět. Nezaměňujte možnost vrácení s bezplatnou zkušební výpůjčkou nebo automatickým právem na vrácení v každé situaci.</p></article>
+        <article class="zp-decision-card"><h4>Servis a náhradní díly</h4><p>Vyžádejte si kontakt na servis pro přesný model, informaci o dostupnosti vhodných koncovek či brzdových dílů a podmínkách reklamace. Neplánujte neodborné zásahy do konstrukce.</p></article>
+      </div>
+      <p><strong>Pozor na konkrétní záměny:</strong> u WA17 a WA21 rozhoduje nejen šířka, ale i odlišný způsob posouvání rámu. MEYRA 3061982 a 3061982-R jsou samostatné katalogové položky. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditka-pro-seniory/#srovnani-choditek' ) ); ?>">Porovnat typy a konkrétní modely</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-uzke-dvere' ) ); ?>">Ověřit rozdílné šířky MEYRA</a>.</p>
+      <p class="zp-disclaimer">Pokud si nejste jistí typem opory, bezpečným ovládáním nebo rozměry, nelze výběr potvrdit cenovým srovnáním. Při zvažování úhrady z pojištění nejprve prověřte ePoukaz a správný výdej, nekupujte předem s očekáváním proplacení.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poptavka-choditka">Připravit dotaz na přesný model</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Porovnat nákup s pronájmem</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-na-pojistovnu/' ) ); ?>">Prověřit ePoukaz před nákupem</a>
       </div>
     </div>
   </section>

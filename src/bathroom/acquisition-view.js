@@ -31,7 +31,7 @@ export function renderBathroomAcquisition(items = [], escapeHtml) {
     const reimbursement = item.id === "check_reimbursement_alternative" ? reimbursementLinks : "";
     return `<article><h4>${escapeHtml(item.label)}</h4><p>${escapeHtml(item.reason)}</p>${rental}${reimbursement}</article>`;
   }).join("");
-  return `<section class="zp-acquisition-summary"><h3>Jak pomůcku získat</h3><div>${rows}</div></section>`;
+  return `<section class="zp-acquisition-summary"><h3>Jak pomůcku získat</h3><p>Než se rozhodnete pro nákup, porovnejte další možnosti pro stejný bezpečný typ pomůcky. Úhrada ani dostupnost nejsou potvrzené automaticky.</p><div class="zp-acquisition-options">${rows}</div></section>`;
 }
 
 

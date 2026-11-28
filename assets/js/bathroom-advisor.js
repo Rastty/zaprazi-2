@@ -41,6 +41,10 @@ if (form && result && submitButton && errorBox) {
   const preview = document.querySelector("#zp-bathroom-preview");
   const fitStage = document.querySelector("#zp-bathroom-fit-stage");
   let previewReady = false;
+  const needsStage = document.querySelector("#zp-bathroom-needs-stage");
+  const steps = document.querySelector("#zp-bathroom-steps");
+  const progress = document.querySelector("#zp-bathroom-progress");
+  const setNeedsOpen = open => { if (needsStage) needsStage.open = open; };
 
   // Move only model-dependent questions behind the product preview.
   // Questions about practical transfer, floor stability and fixing conditions
@@ -87,6 +91,11 @@ if (form && result && submitButton && errorBox) {
       f.totalWidthCm ? `celková šířka: ${f.totalWidthCm} cm` : null,
       f.depthCm ? `hloubka: ${f.depthCm} cm` : null,
       f.totalDepthCm ? `celková hloubka: ${f.totalDepthCm} cm` : null,
+      f.totalHeightCm ? `celková výška: ${f.totalHeightCm} cm` : null,
+      f.totalCm ? `celkové rozměry: ${f.totalCm} cm` : null,
+      f.wallDistanceCm ? `vzdálenost od stěny: ${f.wallDistanceCm} cm` : null,
+      f.fixingHoleSpacingCm ? `rozteč montážních otvorů: ${f.fixingHoleSpacingCm} cm` : null,
+      f.suppliedFixingScrews ? `dodané šrouby: ${f.suppliedFixingScrews} ks` : null,
       f.heightCm ? `výška: ${f.heightCm} cm` : null,
       f.seatHeightCm ? `výška sedu: ${f.seatHeightCm} cm` : null,
       f.seatWidthCm ? `šířka sedu: ${f.seatWidthCm} cm` : null,
@@ -100,7 +109,7 @@ if (form && result && submitButton && errorBox) {
       f.lengthsCm ? `délky: ${f.lengthsCm.join(" / ")} cm` : null
     ].filter(Boolean);
 
-    return facts.map((fact) => `<li>${escapeHtml(fact)}</li>`).join("");
+    return facts.map((fact) => `<li>${escapeHtml(fact.replace(/(\d)\.(\d)/g, "$1,$2"))}</li>`).join("");
   };
 
   const resolveOffer = (offer) => {
@@ -285,6 +294,7 @@ if (form && result && submitButton && errorBox) {
             .find(item => item && !item.hidden && !item.closest("[hidden]"))
         : form.querySelector('[data-zp-bath-required="primaryNeed"]');
     if (!group || group.hidden || group.closest("[hidden]")) return;
+    if (!editingFit && (!directName || !fitNames.includes(directName))) setNeedsOpen(true);
     form.scrollIntoView({ block: "start" });
     const target = group.querySelector('input[type="radio"]:checked') ||
       group.querySelector('input[type="radio"]');
@@ -318,6 +328,7 @@ if (form && result && submitButton && errorBox) {
 
   const showBlockedPreview = (outcome) => {
     previewReady = false;
+    setNeedsOpen(true);
     if (preview) preview.hidden = true;
     if (fitStage) fitStage.hidden = true;
     result.innerHTML = `
@@ -330,6 +341,7 @@ if (form && result && submitButton && errorBox) {
       ${renderEditButtons(false)}
     `;
     result.hidden = false;
+    syncJourney(3);
     result.focus();
   };
 
@@ -337,6 +349,24 @@ if (form && result && submitButton && errorBox) {
   const visibleRequiredGroups = () =>
     [...form.querySelectorAll("[data-zp-bath-required]")]
       .filter((fieldset) => !fieldset.hidden && !fieldset.closest('[hidden]'));
+
+  const syncJourney = (step = previewReady ? 2 : 1) => {
+    if (steps) {
+      steps.hidden = false;
+      steps.querySelectorAll("[data-zp-journey-step]").forEach(item => {
+        if (Number(item.dataset.zpJourneyStep) === step) item.setAttribute("aria-current", "step");
+        else item.removeAttribute("aria-current");
+      });
+    }
+    if (progress) {
+      const groups = visibleRequiredGroups().filter(group => step === 1 || fitNames.includes(group.dataset.zpBathRequired));
+      const answered = groups.filter(group => checkedValue(group.dataset.zpBathRequired)).length;
+      const msg = step === 3 ? "Výsledek je níže. Změna odpovědí jej zruší."
+        : (step === 2 ? "Technické kontroly: " : "Povinné otázky: ") + answered + " z " + groups.length + " zodpovězeno. Odpověď není potvrzením vhodnosti.";
+      if (progress.textContent !== msg) progress.textContent = msg;
+      progress.hidden = false;
+    }
+  };
 
   const validate = () => {
     const missing = visibleRequiredGroups().filter((fieldset) => {
@@ -365,6 +395,7 @@ if (form && result && submitButton && errorBox) {
       ? "Doplňte prosím zvýrazněnou otázku."
       : `Doplňte prosím ${missing.length} zvýrazněné otázky.`;
     errorBox.hidden = false;
+    if (!fitNames.includes(missing[0].dataset.zpBathRequired)) setNeedsOpen(true);
     missing[0].setAttribute("tabindex", "-1");
     missing[0].focus();
     return false;
@@ -404,12 +435,15 @@ if (form && result && submitButton && errorBox) {
   };
 
   updateConditionalQuestions();
+  syncJourney(1);
 
   form.addEventListener("change", (event) => {
     if (previewReady && !event.target?.closest?.("#zp-bathroom-fit-stage")) {
       // A first-stage answer changed: prior preview and product checks are stale.
       previewReady = false;
+      setNeedsOpen(true);
       preview.hidden = true;
+      preview.innerHTML = "";
       fitStage.hidden = true;
       result.hidden = true;
       submitButton.textContent = "1. Ukázat možná řešení";
@@ -433,6 +467,7 @@ if (form && result && submitButton && errorBox) {
       }
     }
 
+    syncJourney();
     if (!builderStarted) {
       builderStarted = true;
       track("builder_start");
@@ -469,7 +504,7 @@ if (form && result && submitButton && errorBox) {
 
       const primaryIds = new Set(previewOutcome.productCandidateIds);
       preview.innerHTML = `
-        <p class="zp-result-status">1. Orientační výběr – není potvrzená vhodnost</p>
+        <p class="zp-result-status">2. Orientační výběr – není potvrzená vhodnost</p>
         <h2>${escapeHtml(previewOutcome.headline)}</h2>
         <p>${escapeHtml(previewOutcome.nextStep)}</p>
         <div class="zp-product-grid">${products.map(p => renderPreviewProduct(p, !primaryIds.has(p.id))).join("")}</div>
@@ -481,6 +516,8 @@ if (form && result && submitButton && errorBox) {
       preview.hidden = false;
       result.hidden = true;
       submitButton.textContent = "2. Vyhodnotit ověření a pokračovat";
+      setNeedsOpen(false);
+      syncJourney(2);
       preview.focus();
       return;
     }
@@ -510,9 +547,9 @@ if (form && result && submitButton && errorBox) {
     result.innerHTML = `
       ${statusLabel(output.status) ? `<p class="zp-result-status">${escapeHtml(statusLabel(output.status))}</p>` : ""}
       <h2>${escapeHtml(output.headline)}</h2>
-      <p>${escapeHtml(output.nextStep)}</p>
-      ${recommendations}
+      <div class="zp-advisor-next"><strong>Co udělat dál</strong><p>${escapeHtml(output.nextStep)}</p></div>
       ${renderProducts(products)}
+      ${recommendations}
       ${output.status === "candidate" ? renderBathroomAcquisition(output.acquisition, escapeHtml) : ""}
       ${renderBathroomComparisonLinks(output, products)}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
@@ -529,6 +566,7 @@ if (form && result && submitButton && errorBox) {
     });
 
     result.hidden = false;
+    syncJourney(3);
     result.focus();
   });
 }

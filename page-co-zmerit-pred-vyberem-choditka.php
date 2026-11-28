@@ -167,6 +167,23 @@ get_header();
       <p class="zp-kicker">Nákupní rozhodnutí · dvě nabídky stejného modelu</p>
       <h2 id="zp-offer-comparison-title" class="zp-section-title">Jak porovnat ceny chodítek a rollátorů, aby levnější nabídka nebyla dražší?</h2>
       <p class="zp-guide-quick-answer"><strong>Nejdřív porovnávejte shodné výrobky.</strong> Stejný název nestačí: ověřte výrobce, přesné katalogové číslo a dodávané rozměry. Pokud se liší identita nebo potřebný parametr, srovnání cen odložte. Teprve poté přičtěte dopravu, sjednané nastavení a další nevratné náklady.</p>
+      <h3 id="zp-besco-ean">Skutečný příklad: BESCO WA17 a rozdílné EAN v obchodech</h3>
+      <p>U čtyřbodového chodítka BESCO WA17 uvádí specializovaný obchod EAN <strong>6975196416086</strong>. U Dr. Max se ve veřejně dostupných produktových podkladech objevují dva podobné názvy, ale rozdílné EAN. Rozdíl je podstatný, i když je text popisu podobný.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h4>Shodné EAN v katalogu</h4>
+          <dl><div><dt>WA17</dt><dd>6975196416086</dd></div><div><dt>Dr. Max – jedna položka</dt><dd>6975196416086</dd></div></dl>
+          <p>Shoda EAN je užitečné vodítko pro porovnání, nikoli potvrzení skutečné dodávky, skladu ani všech potřebných rozměrů.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h4>Odlišné EAN v katalogu</h4>
+          <dl><div><dt>WA17</dt><dd>6975196416086</dd></div><div><dt>Dr. Max – jiná položka</dt><dd>8594180685031</dd></div></dl>
+          <p>Tuto položku nepovažujte bez dalšího potvrzení za shodnou variantu. Samotný název ani stejná fotografie rozdíl neřeší.</p>
+        </article>
+      </div>
+      <p><strong>Pozor také na počet obchodníků:</strong> RehabilitačníPomůcky.cz a Rehasport.cz na svých firemních stránkách uvádějí stejného provozovatele Health Brands s.r.o. Dvě domény tedy samy o sobě neznamenají dva nezávislé dodavatele. Porovnejte podmínky konkrétního prodejce uvedeného ve smlouvě, cenu dopravy a servis.</p>
+      <p class="zp-muted-copy">Veřejné katalogové podklady načtené 28. 11. 2026; některé kopie produktových stránek jsou starší, proto z nich nepřebíráme aktuální ceny ani sklad. Identita provozovatele: <a class="zp-text-link" href="https://www.rehasport.cz/o-spolecnosti/" target="_blank" rel="noopener noreferrer">Rehasport — o společnosti</a> a <a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/kontakty/" target="_blank" rel="noopener noreferrer">RehabilitačníPomůcky.cz — kontakty</a>. Zjištěné EAN použijte jako otázku pro prodejce, nikoli jako automatický výběr výrobku.</p>
+      <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit typ opory a parametry WA17 v poradci</a></p>
       <h3 id="zp-model-quote-example">Dvě modelové nabídky: stejný výrobek, odlišná konečná cena</h3>
       <p>Částky níže jsou vymyšlené pro vysvětlení postupu, nikoli nabídky konkrétních obchodů. Příklad předpokládá, že obě nabídky mají písemně potvrzený stejný model a stejné potřebné příslušenství.</p>
       <div class="zp-walker-compare-grid zp-walker-compare-grid-two" aria-labelledby="zp-model-quote-example">

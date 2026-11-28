@@ -232,7 +232,7 @@ get_header();
         </article>
       </div>
       <p class="zp-muted-copy">Máte aktuální nabídky na již ověřený typ pomůcky? <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Porovnejte náklady koupě a pronájmu včetně poplatků a kauce</a>. Výpočet nenahrazuje ověření možnosti úhrady.</p>
-      <p>U některých poskytovatelů existují samostatné obchodní podmínky započtení či vrácení půjčovného při následném výdeji. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#pujcovne-a-epoukaz' ) ); ?>">Konkrétní příklad MEYRA a otázky před uzavřením smlouvy</a>. Nejde o zpětnou úhradu pojišťovnou.</p>
+      <p>U některých poskytovatelů existují samostatné obchodní podmínky započtení či vrácení půjčovného při následném výdeji. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#pujcovne-a-epoukaz' ) ); ?>">Podmínky MEYRA a otázky před uzavřením smlouvy</a>. Nejde o zpětnou úhradu pojišťovnou.</p>
       <p class="zp-disclaimer"><strong>Pozor na dvojí platbu:</strong> předem zakoupené chodítko nelze automaticky zpětně proplatit pojišťovnou. Půjčení a výdej na ePoukaz mají odlišné podmínky. <a href="https://www.vzp.cz/o-nas/tiskove-centrum/otazky-tydne/proplaceni-choditka" target="_blank" rel="noopener">Ověřit pravidlo zpětného proplacení u VZP</a>.</p>
     </div>
   </section>

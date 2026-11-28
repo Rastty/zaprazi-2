@@ -96,7 +96,7 @@ test("specialist walker acquisition links remain informational and cannot bypass
     assert.match(match[1], /není doporučením konkrétního výrobku/);
     assert.doesNotMatch(match[1], /data-zp-merchant-link|affiliateKey|onclick=|target="_blank"|https?:\/\//);
     assert.equal((match[1].match(/home_url\(/g)||[]).length,2);
-    const advisor = html.indexOf("class=\"zp-advisor-form\"");
+    const advisor = html.search(/class="zp-advisor-form(?:\s+[^"]*)?"/);
     const guide = html.indexOf("data-zp-editorial-guide=");
     const acquire = html.indexOf("data-zp-context-links=");
     assert.ok(advisor > 0 && guide > advisor && acquire > guide,

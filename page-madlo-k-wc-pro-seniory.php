@@ -3,6 +3,8 @@
 /*
 Template Name: Zápraží — Madlo k WC pro seniory
 */
+$zp_support_price_date = current_time( 'Y-m-d' );
+$zp_support_prices_fresh = $zp_support_price_date >= '2026-11-28' && $zp_support_price_date <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -18,6 +20,7 @@ get_header();
         <a class="zp-text-link" href="#kontrola-opory-u-wc">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-na-sadrokarton-u-wc/#kontroly-madla-sadrokarton' ) ); ?>">Madlo do sádrokartonu: co před montáží ověřit</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit místo a podklad pro oporu</a>
+        <a class="zp-text-link" href="#srovnani-madel-a-opor">Srovnat 2 modely a ceny</a>
       </div>
       <p class="zp-muted-copy">Pokud se potíže objevují hlavně při noční cestě z postele na WC, samotná pomůcka nemusí stačit. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/nocni-cesta-z-postele-na-wc/' ) ); ?>">Projít celou noční trasu a kontrolní seznam</a>.</p>
     </div>
@@ -98,6 +101,38 @@ get_header();
         <article class="zp-decision-card"><h3>Pevné madlo do zdi</h3><p>UNIZDRAV P2131 je pevné protiskluzové madlo v délkách 30, 40 a 45 cm. Samotná deklarovaná nosnost výrobku ale neříká nic o nosnosti konkrétní montáže.</p></article>
         <article class="zp-decision-card"><h3>Toaletní opora</h3><p>UNIZDRAV P2015 je výškově i šířkově nastavitelný rám. Hodí se tam, kde potřebujete oporu na obou stranách a nechcete být závislí na neověřeném kotvení do stěny.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="srovnani-madel-a-opor" class="zp-section" aria-labelledby="srovnani-opor-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Konkrétní modely · dvě různé konstrukce</p>
+      <h2 id="srovnani-opor-nadpis" class="zp-section-title">Madlo k WC vs. toaletní opora: rozměry, nosnost a náklady pořízení</h2>
+      <p>Pevné madlo vyžaduje bezpečné ukotvení, zatímco rámová opora vyžaduje kompatibilní mísu a dostatek volného prostoru. Následující příklady nejsou pořadím nejlepších výrobků. Oba modely patří do již ověřeného shortlistu poradce; vhodnost konkrétní sestavy se musí prověřit zvlášť.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2131</h3><p class="zp-walker-compare-model">Pevné plastové protiskluzové madlo</p>
+          <?php if ( $zp_support_prices_fresh ) : ?><p><strong>343–449 Kč</strong> · rozmezí tří zobrazených variant v katalogu 28. 11. 2026; bez instalace.</p><?php else : ?><p>Aktuální cenu a variantu ověřte v katalogu.</p><?php endif; ?>
+          <dl><div><dt>Délky</dt><dd>30 / 40 / 45 cm</dd></div><div><dt>Odstup od stěny</dt><dd>5,5 cm</dd></div><div><dt>Nosnost výrobku</dt><dd>100 kg</dd></div><div><dt>Hmotnost podle délky</dt><dd>0,4 / 0,5 / 0,55 kg</dd></div><div><dt>Dodané šrouby</dt><dd>6 ks</dd></div><div><dt>Konstrukce</dt><dd>Pevná nástěnná</dd></div></dl>
+          <p>Dodané šrouby nejsou důkaz kompatibility s vaší stěnou. Podklad, upevnění, polohu a očekávaný způsob zatěžování musí posoudit kompetentní montážník. Nevybírejte délku pouze podle ceny.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2131/protiskluzove-madlo-do-koupelny-a-toalety-od-30-do-45-cm" target="_blank" rel="noopener noreferrer">Katalog P2131, varianty a podklady</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2015</h3><p class="zp-walker-compare-model">Nastavitelná rámová toaletní opora</p>
+          <?php if ( $zp_support_prices_fresh ) : ?><p><strong>1 123 Kč</strong> · katalogová cena 28. 11. 2026; bez případné montáže a dopravy.</p><?php else : ?><p>Aktuální cenu ověřte v katalogu.</p><?php endif; ?>
+          <dl><div><dt>Celková šířka</dt><dd>53–63 cm</dd></div><div><dt>Hloubka</dt><dd>47 cm</dd></div><div><dt>Výška</dt><dd>64–74 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Rozteč upevnění</dt><dd>14,4 cm</dd></div><div><dt>Materiál</dt><dd>Hliník</dd></div></dl>
+          <p>Rozsah šířky rámu není rozsahem šířky WC mísy. Ověřte způsob uchycení v návodu, polohu přívodů, přístup k nádržce i dostatek místa pro chodidla. Rám nesmí být nestabilní.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2015/toaletni-opora" target="_blank" rel="noopener noreferrer">Katalog P2015 a přesné upevnění</a></p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Podklady z katalogových stránek načtené 28. 11. 2026. Ceny představují časově omezený snímek, nikoli nabídku Zápraží, potvrzenou dostupnost ani hrazenou cenu. Po uplynutí kontrolního intervalu se skryjí. Zdrojové odkazy nejsou partnerské nákupní výzvy.</p>
+      <h3>Modelová koupelna: mezi stěnou a skříňkou je 58 cm</h3>
+      <p>Pokud je nejmenší skutečná volná šířka 58 cm, rám nastavený na 53 cm by měl čistě geometricky celkový rozdíl 5 cm; při nastavení 63 cm by naopak chybělo 5 cm. Tato čísla nejsou bezpečnostní rezervou ani potvrzením, že se člověk může mezi rámem a stěnou pohybovat. Zkontrolujte skutečné umístění mísy, vhodné upevnění, přístup, pohyb paží a nohou a možnost bezpečného přesunu. U pevného madla je rozhodující jiné měření: poloha dosažitelného úchopu a skutečný nosný podklad.</p>
+      <h3>Kolik stojí celé řešení, nikoli jen samotné madlo?</h3>
+      <p>Vyžádejte cenu konkrétní délky madla, vhodného montážního materiálu a práce. Například pokud máte hypotetickou nabídku na pomůcku za 400 Kč a instalaci včetně spojovacího materiálu za 1 200 Kč, celkem jde o 1 600 Kč. Je to výhradně příklad součtu, ne zjištěná cena montáže. U rámové opory porovnejte cenu dodávky, případné sestavení a kontrolu uchycení. Levnější výrobek nemusí znamenat levnější bezpečnou sestavu.</p>
+      <h3>Co přesně říci prodejci nebo montážníkovi</h3>
+      <ul class="zp-checklist"><li>Uveďte kód a délku madla nebo kód rámu, ne pouze obecný název výrobku.</li><li>U rámu si vyžádejte potvrzení způsobu připevnění k vaší míse a potřebného prostoru.</li><li>U madla nechte určit vhodný podklad a upevnění; fotografie obkladu sama nestačí.</li><li>Ověřte celkovou cenu, dodání, návod a podmínky výměny či vrácení.</li><li>Pokud je způsob přesunu nejistý, nejprve domluvte odborné posouzení.</li></ul>
+      <p><a class="zp-btn" href="#poradce-opora-wc">Ověřit konkrétní řešení v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit možnosti úhrady</a></p>
     </div>
   </section>
 

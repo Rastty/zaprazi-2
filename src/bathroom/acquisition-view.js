@@ -38,6 +38,18 @@ export function renderBathroomAcquisition(items = [], escapeHtml) {
 // Fixed first-party editorial destinations, selected only from the actual
 // candidate products. No query parameters, answers or new offer events.
 const COMPARISON_GUIDES = Object.freeze({
+  "unizdrav-p2131": [
+    ["/madlo-k-wc-pro-seniory/#srovnani-madel-a-opor", "Rozměry, ceny a instalace madel a opor"]
+  ],
+  "unizdrav-p2015": [
+    ["/madlo-k-wc-pro-seniory/#srovnani-madel-a-opor", "Rozměry, ceny a instalace madel a opor"]
+  ],
+  "besco-bs008": [
+    ["/sedatko-do-vany-pro-seniory/#srovnani-sedatek-do-vany", "Rozměry sedátek do vany a příklady měření"]
+  ],
+  "unizdrav-p2203": [
+    ["/sedatko-do-vany-pro-seniory/#srovnani-sedatek-do-vany", "Rozměry sedátek do vany a příklady měření"]
+  ],
   "unizdrav-p2062": [
     ["/sprchovaci-zidle-pro-seniory/#srovnani-sprchovacich-zidli", "Porovnat rozměry tří sprchovacích židlí"],
     ["/sprchovaci-zidle-pro-seniory/#pujceni-sprchovaci-zidle", "Ceny a podmínky čtyř půjčoven"]

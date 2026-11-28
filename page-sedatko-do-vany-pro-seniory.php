@@ -3,6 +3,8 @@
 /*
 Template Name: Zápraží — Sedátko do vany pro seniory
 */
+$zp_bath_seat_price_date = current_time( 'Y-m-d' );
+$zp_bath_seat_prices_fresh = $zp_bath_seat_price_date >= '2026-11-28' && $zp_bath_seat_price_date <= '2026-12-28';
 get_header();
 ?>
 <main id="main-content" tabindex="-1">
@@ -16,6 +18,7 @@ get_header();
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchovaci-zidle-pro-seniory/' ) ); ?>">Řeším sprchový kout</a>
         <a class="zp-text-link" href="#kontrola-presunu-do-vany">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana' ) ); ?>">Změřit vanu a okolí</a>
+        <a class="zp-text-link" href="#srovnani-sedatek-do-vany">Srovnat 2 konstrukce a rozměry</a>
       </div>
     </div>
   </section>
@@ -101,6 +104,41 @@ get_header();
         <article class="zp-decision-card"><h3>Sedačka přes okraj vany</h3><p>BESCO BS008 má sedací plochu 69 × 31 cm a je určená pro vnitřní šířku vany 41–65 cm. Musí jít pevně zajistit bez posunu.</p></article>
         <article class="zp-decision-card"><h3>Transferová židle přes vanu</h3><p>UNIZDRAV P2203 má celkový půdorys 81 × 61 cm; jedna strana konstrukce stojí ve vaně a druhá na podlaze mimo vanu. Potřebuje tedy výrazně víc místa.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section id="srovnani-sedatek-do-vany" class="zp-section" aria-labelledby="srovnani-vana-nadpis">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Srovnání konkrétních konstrukcí</p>
+      <h2 id="srovnani-vana-nadpis" class="zp-section-title">Sedátko na okraj vany vs. transferová lavice: dva modely, rozměry a cena</h2>
+      <p>Oba příklady jsou součástí výběru Zápraží, ale nejsou vzájemně zaměnitelné. U první konstrukce se ověřuje tvar a vnitřní šířka vany a pevné uchycení. U druhé se navíc ověřuje místo pro rám, stabilní uložení nohou uvnitř i mimo vanu a bezpečný přesun.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h3>BESCO BES-BS008</h3><p class="zp-walker-compare-model">Sedačka na okraj vany s madlem</p>
+          <p>Cenu ověřte u prodejce. Dostupný katalogový snímek je starší.</p>
+          <dl><div><dt>Vnitřní šířka vany</dt><dd>41–65 cm</dd></div><div><dt>Rozměr sedátka</dt><dd>69 × 31 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>1,69 kg</dd></div><div><dt>Materiál</dt><dd>PP</dd></div><div><dt>Upevnění</dt><dd>4 nastavitelné rozpěrné nožičky</dd></div></dl>
+          <p>Rozměr 69 cm je šířka sedačky, ne požadovaná vnitřní šířka vany. U van s atypickým okrajem nebo tvarováním vyžádejte potvrzení kompatibility. Nepoužívejte nepevné uchycení.</p>
+          <p><a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/besco-sedacka-na-vanu-s-madlem/" target="_blank" rel="noopener noreferrer">Katalog BES-BS008 a návod</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2203</h3><p class="zp-walker-compare-model">Transferová židle přes vanu</p>
+          <?php if ( $zp_bath_seat_prices_fresh ) : ?><p><strong>2 118 Kč</strong> · katalogová cena 28. 11. 2026, bez dopravy a dalších služeb.</p><?php else : ?><p>Cenu ověřte v aktuálním katalogu.</p><?php endif; ?>
+          <dl><div><dt>Celkový půdorys</dt><dd>81 × 61 cm</dd></div><div><dt>Celková výška</dt><dd>81,5–91,5 cm</dd></div><div><dt>Výška sedu</dt><dd>45,5–56 cm</dd></div><div><dt>Rozměr sedáku</dt><dd>68 × 41 cm</dd></div><div><dt>Nosnost</dt><dd>110 kg</dd></div><div><dt>Hmotnost</dt><dd>4,4 kg</dd></div></dl>
+          <p>Část konstrukce stojí ve vaně a část na podlaze. Samotné celkové rozměry neukazují, kolik centimetrů bude konstrukce vyčnívat mimo vaši vanu. Rozložení nohou a stabilitu ověřte podle návodu a skutečného místa.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2203/sprchovaci-zidle-do-vany" target="_blank" rel="noopener noreferrer">Katalog P2203 a technické podklady</a></p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Technické podklady načtené 28. 11. 2026, BS008 ze staršího snímku. U P2203 se datovaná cena po uplynutí kontrolního intervalu skryje. Nejde o potvrzenou dostupnost, hrazenou cenu ani individuální doporučení.</p>
+      <h3>Jak interpretovat vnitřní šířku vany 40, 55 nebo 66 cm?</h3>
+      <div class="zp-decision-grid">
+        <article class="zp-decision-card"><h4>40 cm</h4><p>O 1 cm méně než spodní hranice deklarovaného rozsahu BS008. Nepovažujte výrobek za kompatibilní. Zeptejte se na vhodnou jinou konstrukci.</p></article>
+        <article class="zp-decision-card"><h4>55 cm</h4><p>Číslo je uvnitř rozsahu 41–65 cm, ale samo nepotvrzuje uchycení. Ověřte tvar a stabilitu okrajů, výšku sedu, nosnost a způsob přesunu.</p></article>
+        <article class="zp-decision-card"><h4>66 cm</h4><p>O 1 cm více než horní hranice. Nepokoušejte se rozsah obejít jiným dotažením. P2203 může být další konstrukce k odbornému ověření, nikoli automatická náhrada.</p></article>
+      </div>
+      <h3>Co se ptát při půjčení nebo koupi sedátka do vany</h3>
+      <p>U dočasného řešení si vyžádejte nabídku půjčovny na přesný typ, dobu výpůjčky, kauci, způsob hygienické přípravy a případnou dopravu. U hypotetické sazby 200 Kč za měsíc, jednorázového nevratného poplatku 150 Kč a vratné kauce 500 Kč by tři měsíce znamenaly 750 Kč konečný náklad při plném vrácení kauce a 1 250 Kč dočasný výdaj. Nejde o skutečný ceník ani srovnání s konkrétním modelem. Pokud se potřeba prodlužuje, znovu posuďte vhodnost i celkové náklady.</p>
+      <p>Před objednáním si potvrďte, zda konstrukce pasuje ke konkrétní vaně, jak se kontroluje její správné uchycení a zda je možné ji vrátit při nekompatibilitě. U nejistého či asistovaného přesunu se nejdřív poraďte s odborníkem; jiná velikost sedátka tento problém sama neřeší.</p>
+      <p><a class="zp-btn" href="#poradce-sedatko-vana">Ověřit vhodný typ v poradci</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-vana' ) ); ?>">Připravit rozměry vany</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit úhradu</a></p>
     </div>
   </section>
 

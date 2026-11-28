@@ -342,6 +342,12 @@ if (form && result && submitButton && errorBox && candidateNote) {
       ${recommendations}
       ${renderProducts(products, output.recommendations)}
       ${output.acquisition?.length ? renderAcquisition(output.acquisition) : ""}
+      ${output.status === "candidate" && products.length ? `
+        <section class="zp-acquisition-summary" aria-label="Porovnání před pořízením vozíku">
+          <h3>Srovnejte kompletní řešení před rozhodnutím</h3>
+          <p>Rozměry, přesná varianta a způsob přepravy jsou stejně důležité jako cena. Jiný model vyžaduje nové ověření vhodnosti.</p>
+          <p><a class="zp-text-link" href="/invalidni-vozik/#srovnani-invalidnich-voziku" target="_blank" rel="noopener noreferrer">Srovnání tří konkrétních vozíků</a> · <a class="zp-text-link" href="/invalidni-vozik-na-pojistovnu/#pujcovny-invalidnich-voziku" target="_blank" rel="noopener noreferrer">Půjčovny, kontakty a náklady</a></p>
+        </section>` : ""}
       ${output.disclaimer ? `<p class="zp-disclaimer">${escapeHtml(output.disclaimer)}</p>` : ""}
     `;
 

@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_253 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Nástavec na WC pro seniory
 */
@@ -15,6 +15,7 @@ get_header();
         <a class="zp-btn" href="#poradce-nastavec-wc">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#vyska-nastavce-5-10-15">Nástavec 5, 10 nebo 15 cm: jakou výšku?</a>
+        <a class="zp-text-link" href="#srovnani-nastavcu-na-wc">Porovnat čtyři modely</a>
         <a class="zp-text-link" href="#kontrola-nastavce-na-wc">Co ověřit před výběrem</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit WC před nákupem nástavce</a>
       </div>
@@ -129,6 +130,63 @@ get_header();
 
       <p><a class="zp-link-btn" href="#poradce-nastavec-wc">Ověřit vhodnost v bezpečném poradci nástavce na WC</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Měřicí postup pro celé WC a okolí</a> · <a class="zp-text-link" href="<?php echo esc_url( home_url( '/madlo-k-wc-pro-seniory/#poradce-opora-wc' ) ); ?>">Kdy je potřeba spíše opora rukou</a></p>
       <p class="zp-muted-copy">Technický příklad a bezpečnost montáže: <a href="https://www.dmapraha.cz/data/files/manual/ROMA_Navod_496x%2C497x_NastavecWC_cs.pdf" target="_blank" rel="noopener noreferrer">Roma Medical / DMA Praha — návod k řadě nástavců 5, 10 a 15 cm (PDF)</a>. Uvedené výšky a technické parametry se týkají konkrétní výrobní řady, ne všech nástavců na trhu. Vždy platí návod přesného zakoupeného modelu. Text není nezávisle odborně revidován a není náhradou individuálního doporučení.</p>
+    </div>
+  </section>
+
+  <section id="srovnani-nastavcu-na-wc" class="zp-section" aria-labelledby="zp-riser-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Produktové srovnání · přesný model a uchycení</p>
+      <h2 id="zp-riser-comparison-title" class="zp-section-title">Čtyři konkrétní nástavce na WC: 5, 10, 11,5 a 15 cm</h2>
+      <p class="zp-guide-quick-answer"><strong>Porovnejte výšku, nosnost, způsob fixace a prostor kolem mísy, nikoli jen cenu.</strong> Pokud potřebujete madla, nesrovnávejte jednoduchý nástavec bez opor jako plnohodnotnou alternativu. Katalogové údaje neprokazují vhodnost pro konkrétního člověka.</p>
+      <div class="zp-walker-compare-grid zp-walker-compare-grid-two">
+        <article class="zp-walker-compare-card">
+          <h3>Ashby Easyfit 63122</h3>
+          <p><strong>5 cm · bez madel</strong></p>
+          <dl><div><dt>Zvýšení</dt><dd>5 cm</dd></div><div><dt>Nosnost</dt><dd>190 kg</dd></div><div><dt>Vnější rozměry</dt><dd>38 × 39 cm</dd></div><div><dt>Otvor</dt><dd>21 × 25 cm</dd></div></dl>
+          <p>Dva nastavitelné fixační šrouby (30–36 cm).</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/ashby-easyfit-63122_z36752/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>A&E 575 B/DELUXE</h3>
+          <p><strong>10 cm · s poklopem</strong></p>
+          <dl><div><dt>Zvýšení</dt><dd>10 cm</dd></div><div><dt>Nosnost</dt><dd>190 kg</dd></div><div><dt>Vnější rozměry</dt><dd>Vyžádat</dd></div><div><dt>Otvor</dt><dd>Vyžádat</dd></div></dl>
+          <p>Dva fixační šrouby, bez madel.</p>
+          <p><a class="zp-text-link" href="https://www.dmapraha.cz/575-b-deluxe_z36831/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>BESCO BES-BS15</h3>
+          <p><strong>11,5 cm · odnímatelná madla</strong></p>
+          <dl><div><dt>Zvýšení</dt><dd>11,5 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Vnější rozměry</dt><dd>Vyžádat včetně madel</dd></div><div><dt>Otvor</dt><dd>Vyžádat</dd></div></dl>
+          <p>Šnekový šroub a zajišťovací deska; EAN 6975196415218.</p>
+          <p><a class="zp-text-link" href="https://www.rehabilitacnipomucky.cz/besco-nastavec-na-wc-s-odnimatelnymi-madly/" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2868</h3>
+          <p><strong>15 cm · s poklopem</strong></p>
+          <dl><div><dt>Zvýšení</dt><dd>15 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Vnější rozměry</dt><dd>36 × 40 cm</dd></div><div><dt>Otvor</dt><dd>21 × 26 cm</dd></div></dl>
+          <p>Boční fixační šrouby, bez madel.</p>
+          <p><a class="zp-text-link" href="https://unizdrav.cz/zbozi/2868/zvysovac-wc-s-priklopem-unizdrav-15-cm" target="_blank" rel="noopener noreferrer">Zdroj technických údajů</a></p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Katalogové podklady načtené 28. 11. 2026. U chybějících rozměrů záměrně uvádíme „Vyžádat“. Cena, sklad a individuální úhrada nejsou tímto potvrzené. Ashby a A&amp;E jsou srovnávací příklady, nikoli noví kandidáti poradce. Odkazy vedou na zdroje údajů bez affiliate provize.</p>
+      <h3>Proč se nástavec nemusí vejít na závěsné nebo hranaté WC?</h3>
+      <p>Označení „univerzální“ není záruka shody. U konkrétní mísy záleží na tvaru horního okraje, skutečné šířce, místě pro fixační části a přístupu ke šroubům. U nástavce s madly navíc zkontrolujte volný prostor mezi WC, stěnou, skříňkou nebo topením. Vnější rozměry samotného nástavce nemusí popisovat šířku včetně opor. Neodhadujte je z fotografie.</p>
+      <h3>Jak porovnat výslednou výšku bez dvojího započítání prkénka?</h3>
+      <p>Ilustrační příklad: okraj keramické mísy je 40 cm nad podlahou, současný sed s prkénkem má 43 cm. Pokud se nástavec podle návodu montuje místo prkénka a skutečné zvýšení od okraje mísy činí 5 cm, výsledný sed je přibližně 45 cm, nikoli 48 cm. U varianty se zvýšením 10 cm od stejné základny vychází 50 cm. Skutečnou výšku vždy potvrďte podle montážního návodu a přeměřte po instalaci; nejde o doporučenou výšku.</p>
+      <h3>Čtyři otázky pro prodejce před objednáním</h3>
+      <ul class="zp-checklist">
+        <li>Jaký je přesný objednací kód, návod a povolený tvar a rozsah rozměrů mísy?</li>
+        <li>Musí se původní prkénko demontovat a od které plochy se měří výsledné zvýšení?</li>
+        <li>Jaké jsou celkové rozměry s madly, prostor nutný k montáži a limit zatížení přesného modelu?</li>
+        <li>Jaké jsou podmínky vrácení hygienického výrobku, pokud po kontrole bez použití zjistíte nekompatibilitu?</li>
+      </ul>
+      <p>Podmínky vrácení si vyjasněte před rozbalením a použitím. Pokud potřebujete úhradu, nejprve prověřte přesný kód prostředku a aktuální předpis; katalogové označení ani podobný výrobek úhradu nezaručují.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poradce-nastavec-wc">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-wc' ) ); ?>">Změřit WC a okolí</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit úhradu před nákupem</a>
+      </div>
+      <p class="zp-disclaimer">Pokud není možné bezpečné sednutí a vstávání bez fyzické pomoci, správné upevnění nebo stabilní opora chodidel, nepokračujte k výběru konkrétního výrobku. Potřebný způsob přesunu musí posoudit odborník.</p>
     </div>
   </section>
 

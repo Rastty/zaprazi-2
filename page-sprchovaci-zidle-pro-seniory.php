@@ -1,5 +1,5 @@
 <?php
-/* ZP_RELEASE_0_8_253 */
+/* ZP_RELEASE_0_8_254 */
 /*
 Template Name: Zápraží — Sprchovací židle pro seniory
 */
@@ -15,6 +15,8 @@ get_header();
         <a class="zp-btn" href="#poradce-sprchovaci-zidle">Spustit poradce</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Jak funguje pojišťovna</a>
         <a class="zp-text-link" href="#bezpecne-sprchovani-v-sede">Co ověřit před výběrem</a>
+        <a class="zp-text-link" href="#srovnani-sprchovacich-zidli">Srovnat 3 modely židlí</a>
+        <a class="zp-text-link" href="#pujceni-sprchovaci-zidle">Ceny a půjčovny sprchovacích židlí</a>
         <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-v-koupelne-pred-vyberem-pomucky/#mereni-sprcha' ) ); ?>">Změřit sprchový kout pro židli</a>
       </div>
     </div>
@@ -100,6 +102,106 @@ get_header();
     </div>
   </section>
 
+  <section id="srovnani-sprchovacich-zidli" class="zp-section" aria-labelledby="zp-shower-comparison-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Produktové srovnání · skutečné rozměry</p>
+      <h2 id="zp-shower-comparison-title" class="zp-section-title">Sprchovací židle s madly, nastavitelná nebo skládací? Porovnejte tři modely.</h2>
+      <p class="zp-guide-quick-answer"><strong>Nejmenší židle není automaticky nejlepší.</strong> Rozhoduje prostor pro bezpečný vstup, usednutí a vstávání, potřebná opora, správná výška sedu a nosnost. Následující rozměry jsou katalogové údaje přesných modelů, nikoli doporučení podle zdravotního stavu.</p>
+      <div class="zp-walker-compare-grid" aria-labelledby="zp-shower-comparison-title">
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P2062</h3>
+          <p class="zp-walker-compare-model">S opěradlem a područkami</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>55 × 48 cm</dd></div><div><dt>Výška sedu</dt><dd>38–50,5 cm</dd></div><div><dt>Sedák</dt><dd>40 × 33 cm</dd></div><div><dt>Nosnost</dt><dd>136 kg</dd></div><div><dt>Hmotnost</dt><dd>3,1 kg</dd></div></dl>
+          <p>Boční opory a opěradlo jsou součástí tohoto modelu. Je to stávající kandidát poradce; konkrétní použití vyžaduje kontrolu rozměrů, přesunu a podkladu.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P4947</h3>
+          <p class="zp-walker-compare-model">Výškově nastavitelná s opěradlem</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>50,5 × 44 cm</dd></div><div><dt>Výška sedu</dt><dd>35–45 cm</dd></div><div><dt>Sedák</dt><dd>50 × 30 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>2,5 kg</dd></div></dl>
+          <p>Katalog uvádí nižší výšku sedu a menší celkovou šířku než u P2062. Nižší sed ani opěradlo neřeší samo o sobě obtížné vstávání. Funkci opor ověřte v návodu.</p>
+        </article>
+        <article class="zp-walker-compare-card">
+          <h3>UNIZDRAV P4948</h3>
+          <p class="zp-walker-compare-model">Skládací konstrukce</p>
+          <dl><div><dt>Půdorys (š × h)</dt><dd>48,5 × 38 cm</dd></div><div><dt>Výška sedu</dt><dd>48 cm</dd></div><div><dt>Sedák</dt><dd>48,5 × 29 cm</dd></div><div><dt>Nosnost</dt><dd>100 kg</dd></div><div><dt>Hmotnost</dt><dd>3 kg</dd></div></dl>
+          <p>Úspornější půdorys v rozloženém stavu; katalog uvádí pevnou výšku sedu 48 cm. Před použitím ověřte způsob zajištění konstrukce a prostor pro všechny opěrné body. Dostupnost ověřte zvlášť.</p>
+        </article>
+      </div>
+      <p class="zp-muted-copy">Technické podklady načtené 28. 11. 2026 z katalogu UNIZDRAV: <a class="zp-text-link" href="https://unizdrav.cz/zbozi/2062/sprchovaci-zidle-s-ruckami" target="_blank" rel="noopener noreferrer">P2062</a> · <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4947/sprchovaci-zidle-unizdrav" target="_blank" rel="noopener noreferrer">P4947</a> · <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4948/skladaci-zidle-do-sprchy-unizdrav" target="_blank" rel="noopener noreferrer">P4948</a>. Starší kopie katalogu nejsou důkaz aktuální ceny, skladu nebo konkrétní dodávky. Odkazy jsou zdroje údajů bez affiliate provize. Modely P4947 a P4948 jsou pouze srovnávací příklady, nejsou přidané mezi ověřené nákupní kandidáty poradce.</p>
+      <h3>Jak velký rozdíl udělá skládací konstrukce v malém koutě?</h3>
+      <p>V modelovém prostoru s rovnou využitelnou plochou 60 × 60 cm zabírá P2062 katalogově 55 × 48 cm: geometrický rozdíl je jen 5 cm na šířku a 12 cm do hloubky. P4948 zabírá 48,5 × 38 cm, rozdíl je 11,5 cm a 22 cm. Ani druhá hodnota neprokazuje bezpečné použití. Prostor pro chodidla, dveře, pohyb těla a skutečnou polohu nohou židle se musí posoudit samostatně.</p>
+      <h3>Kdy pozastavit porovnávání ceny?</h3>
+      <ul class="zp-checklist">
+        <li><strong>Opory:</strong> pokud člověk potřebuje oporu rukama při přesunu, nepovažujte výrobek bez potvrzené funkce madel za rovnocenný.</li>
+        <li><strong>Výška:</strong> pokud nelze ověřit bezpečné vstávání a oporu chodidel, nevybírejte jen vyšší sedák.</li>
+        <li><strong>Rozměry:</strong> katalogový sedák není celý půdorys. Například P4003 uvádí sedák 50 × 30 cm, ale v načteném technickém přehledu není celková šířka a hloubka. Před srovnáním je vyžádejte. <a class="zp-text-link" href="https://unizdrav.cz/zbozi/4003/sprchovaci-zidle-3-v-1" target="_blank" rel="noopener noreferrer">Zdroj P4003</a>.</li>
+        <li><strong>Sklad a předání:</strong> potvrďte přesný kód, aktuální dostupnost, návod, cenu včetně dopravy a podmínky vrácení. Skládací model neznamená automaticky skladovou dostupnost.</li>
+      </ul>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poradce-sprchovaci-zidle">Ověřit bezpečný typ v poradci</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/sprchova-zidle-maly-kout-80x80/#sedm-mereni-sprchy' ) ); ?>">Změřit malý sprchový kout</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit úhradu před nákupem</a>
+      </div>
+      <p class="zp-disclaimer">Při potřebě fyzického zvedání, nestabilním podkladu nebo nejasném bezpečném přesunu se obraťte na odborníka. Srovnání není potvrzení vhodnosti a neodemyká žádnou obchodní nabídku.</p>
+    </div>
+  </section>
+
+  <section id="pujceni-sprchovaci-zidle" class="zp-section zp-section-soft" aria-labelledby="zp-shower-rental-title">
+    <div class="zp-wrap">
+      <p class="zp-kicker">Koupě nebo půjčení · praktický rozpočet</p>
+      <h2 id="zp-shower-rental-title" class="zp-section-title">Kde půjčit sprchovací židli a kolik stojí pronájem?</h2>
+      <p class="zp-guide-quick-answer"><strong>Půjčovna může být vhodná pro dočasnou potřebu nebo při čekání na dlouhodobé řešení.</strong> Nejdřív si ale ujasněte potřebnou konstrukci a bezpečný přesun. Sprchová stolička, židle s opěradlem a područkami a sprchovací vozík nejsou zaměnitelné.</p>
+      <p>Čtyři příklady veřejných ceníků načtené 28. 11. 2026. Nejde o ceny stejného výrobku, žebříček ani potvrzení skladu. Před rezervací zkontrolujte aktuální sazbu, podmínky služby a technický stav přesného kusu.</p>
+      <div class="zp-rental-grid zp-rental-grid-two">
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Praha a Brno · doprava po ČR</p>
+          <h3>RehaKomp</h3>
+          <p><strong>Nastavitelná sedačka: 8 Kč/den nebo 240 Kč/měsíc. S opěradlem: 12 Kč/den nebo 360 Kč/měsíc.</strong></p>
+          <p>Osobní odběr v Praze a Brně; web uvádí dopravu po ČR. Zjistěte úplnou cenu a přesný model.</p>
+          <a class="zp-link-btn" href="https://www.rehakomp.cz/content/18-cenik-pronajmu-pomucek" target="_blank" rel="noopener noreferrer">Ceník a podmínky půjčovny</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Ostrava-Výškovice</p>
+          <h3>Charita Ostrava</h3>
+          <p><strong>Sprchovací židle: 5 Kč/den.</strong></p>
+          <p>Výdej a vrácení v provozní době, smlouva po předložení občanského průkazu. Ceník a aktuální dostupnost ověřte před cestou.</p>
+          <a class="zp-link-btn" href="https://poradna.ostrava.charita.cz/pujcovna/" target="_blank" rel="noopener noreferrer">Ceník a podmínky půjčovny</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Starý Bohumín</p>
+          <h3>Charita Bohumín</h3>
+          <p><strong>Kategorie sedátko do vany / židlička do sprchy: 5 Kč/den, vratná záloha 200 Kč.</strong></p>
+          <p>Ceník platný od 1. 10. 2025. Smlouva, kauce v hotovosti; ověřte aktuální sazbu a skutečnou konstrukci pomůcky.</p>
+          <a class="zp-link-btn" href="https://bohumin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-pomucek/dalsi-informace-o-sluzbe/" target="_blank" rel="noopener noreferrer">Ceník a podmínky půjčovny</a>
+        </article>
+        <article class="zp-rental-card">
+          <p class="zp-acquisition-label">Malá Morávka</p>
+          <h3>Charita sv. Martina</h3>
+          <p><strong>Sedačka do sprchy: 120 Kč/měsíc.</strong></p>
+          <p>Poskytovatel uvádí krátkodobé i dlouhodobé půjčení. Doprava ostatních pomůcek podle ceníku 10 Kč/km; potvrďte účtovanou trasu.</p>
+          <a class="zp-link-btn" href="https://www.svmartin.charita.cz/jak-pomahame/pujcovna-kompenzacnich-a-zdravotnickych-pomucek/" target="_blank" rel="noopener noreferrer">Ceník a podmínky půjčovny</a>
+        </article>
+      </div>
+      <h3>Kolik zaplatíte za 30 dní?</h3>
+      <p>Modelový přepočet zveřejněného ceníku Charity Bohumín: 30 × 5 Kč = <strong>150 Kč za nájem</strong>. K tomu 200 Kč vratná záloha, tedy celkem 350 Kč uhrazených během výpůjčky před vrácením kauce, bez dopravy a dalších poplatků. Po plném vrácení zálohy zůstává náklad 150 Kč. Podle provozního řádu se kauce platí při podpisu a půjčovné se vyúčtovává měsíčně zpětně. Nejde tedy o tvrzení, že celých 350 Kč musíte zaplatit při převzetí.</p>
+      <p>U dlouhodobého používání si vyžádejte cenu vhodné nové židle a celkové náklady pronájmu. Při srovnání stejného období přičtěte dopravu oběma směry, nevratné poplatky a potvrzené služby; kauci uvádějte odděleně. Zohledněte možnost prodloužení či výměny, pokud se potřebný typ změní.</p>
+      <h3>Co si potvrdit s půjčovnou před převzetím</h3>
+      <ul class="zp-checklist">
+        <li>Přesné označení modelu, účel, celkový půdorys, výšku sedu, nosnost a potřebné opory.</li>
+        <li>Úplnost a stav koncovek, rámu, zajištění skládání či výškového nastavení podle návodu; jak se řeší závada.</li>
+        <li>Jak je pomůcka vyčištěná, zda dostanete návod a vysvětlení bezpečného nastavení.</li>
+        <li>Datum převzetí a vrácení, podmínky prodloužení, celkovou cenu, vratnou kauci a dopravu.</li>
+      </ul>
+      <p>Pokud se člověk bezpečně nepřesune bez fyzické pomoci, nejdřív řešte postup s odborníkem. Půjčená židle neřeší nebezpečný vstup do koutu ani automaticky nezakládá nárok na úhradu pojišťovnou.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#poradce-sprchovaci-zidle">Ověřit vhodný typ v poradci</a>
+        <a class="zp-text-link" href="#srovnani-sprchovacich-zidli">Porovnat konkrétní rozměry</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pomucky-do-koupelny-na-pojistovnu/' ) ); ?>">Prověřit možnosti úhrady</a>
+      </div>
+      <p class="zp-muted-copy">Odkazy vedou přímo na veřejné ceníky poskytovatelů bez affiliate provize. Pokud potřebujete jiný typ pomůcky, požádejte místní půjčovnu o přesné parametry; cenu uvedené kategorie nepřenášejte automaticky na jiné modely.</p>
+    </div>
+  </section>
+
   <section class="zp-section zp-section-soft">
     <div class="zp-wrap">
       <p class="zp-kicker">Pojišťovna</p>
@@ -169,6 +271,10 @@ get_header();
       <details>
         <summary>Kdy online poradce konkrétní židli nedoporučí?</summary>
         <p>Když je potřeba fyzické zvedání nebo výrazné jištění druhou osobou, není potvrzen stabilní podklad, prostor nebo nosnost. V takovém případě je nejdřív potřeba bezpečný způsob přesunu a vhodný typ pomůcky.</p>
+      </details>
+      <details>
+        <summary>Dá se sprchovací židle půjčit jen na několik týdnů?</summary>
+        <p>Ano, některé půjčovny nabízejí denní sazbu nebo krátkodobý pronájem. Podmínky se liší; <a href="#pujceni-sprchovaci-zidle">porovnejte příklady veřejných ceníků</a> a ověřte přesný typ, dostupnost, kauci a cenu dopravy.</p>
       </details>
       <details>
         <summary>Hradí sprchovací židli zdravotní pojišťovna?</summary>

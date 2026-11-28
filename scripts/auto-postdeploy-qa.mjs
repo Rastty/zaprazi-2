@@ -140,7 +140,11 @@ export function verifyInsuranceSearchHero(html,expected){
   }
   const good="https://sukl.gov.cz/faq/jaka-jsou-pravidla-pro-predepisovani-a-vydej-zdravotnickych-prostredku-od-1-1-2026/";
   const officialFaqs=[...String(html).matchAll(/href=["'](https:\/\/sukl\.gov\.cz\/faq\/[^"']+)["']/gi)].map(m=>m[1]);
-  if(officialFaqs.length<2||officialFaqs.some(url=>url!==good))
+  const dispensary="https://sukl.gov.cz/faq/ovlivni-povinny-epoukaz-svobodny-vyber-vydejny-pacientem/";
+  const allowed=atLeast(expected,"0.8.252")?[good,dispensary]:[good];
+  if(officialFaqs.filter(url=>url===good).length<2||
+     (atLeast(expected,"0.8.252")&&officialFaqs.filter(url=>url===dispensary).length!==1)||
+     officialFaqs.some(url=>!allowed.includes(url)))
     throw new Error("Missing or inconsistent official FAQ source");
   if(/<form\b|data-zp-offer|data-zp-merchant-link|affiliateMap/i.test(hero))
     throw new Error("Search-first hero must never bypass the Advisor");

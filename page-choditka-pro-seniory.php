@@ -17,7 +17,7 @@ get_header();
         <a class="zp-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/#poradce' ) ); ?>">Ověřit vhodný typ v poradci</a>
         <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Hlavně doma: poradce pro chodítko</a>
         <a class="zp-text-link" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Venku: poradce pro rollátor a brzdy</a>
-        <a class="zp-text-link" href="#vyber-typu">Porovnat typy chodítek</a>
+        <a class="zp-text-link" href="#srovnani-choditek">Porovnat typy a rozměry chodítek</a>
       </div>
       <p class="zp-muted-copy zp-walker-hub-related">Člověk nechce chodítko používat? Nejdřív se pokuste pochopit proč. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/senior-odmita-choditko/#proc-senior-odmita' ) ); ?>">Citlivý postup pro rodinu bez nátlaku</a>.</p>
       <p class="zp-muted-copy">Nejste si jistí rozdílem mezi <a class="zp-text-link" href="#hul-nebo-choditko">holí, berlí a chodítkem</a>? Před výběrem si připravte <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/' ) ); ?>">Sedm měření a tiskový seznam před výběrem</a> a prověřte, zda pomůcku <a class="zp-text-link" href="#jak-ziskat-choditko">koupit, půjčit, nebo řešit pojišťovnu</a>.</p>
@@ -110,27 +110,45 @@ get_header();
     </div>
   </section>
 
-  <section class="zp-section zp-section-soft">
+  <section id="srovnani-choditek" class="zp-section zp-section-soft" aria-labelledby="zp-walker-compare-title">
     <div class="zp-wrap">
-      <p class="zp-kicker">Rozdíly</p>
-      <h2 class="zp-section-title">Tři běžné typy chodítek.</h2>
-      <div class="zp-decision-grid">
-        <article class="zp-decision-card">
+      <p class="zp-kicker">Srovnání tří typů · technické údaje</p>
+      <h2 id="zp-walker-compare-title" class="zp-section-title">Čtyřbodové, dvoukolové nebo čtyřkolové chodítko: hlavní rozdíly</h2>
+      <p>Neexistuje jedno nejlepší chodítko pro všechny seniory. Porovnejte způsob ovládání a rozměry konkrétních příkladů. Šířka sama neurčuje bezpečný průchod, nosnost sama nepotvrzuje vhodnost pomůcky a uvedené příklady nejsou žebříčkem produktů.</p>
+      <div class="zp-walker-compare-grid">
+        <article class="zp-walker-compare-card">
+          <p class="zp-kicker">01 · Pevný rám</p>
           <h3>Čtyřbodové chodítko</h3>
-          <p>Čtyři pevné opěrné body dávají stabilní základ. Při kroku se celé chodítko lehce nadzvedne a posune dopředu.</p>
-          <p><strong>Ověřený příklad:</strong> BESCO WA17 — šířka 59 cm, hmotnost 2,3 kg, nosnost 110 kg.</p>
+          <p class="zp-walker-compare-model">Příklad: BESCO WA17</p>
+          <dl><div><dt>Šířka příkladu</dt><dd>59 cm</dd></div><div><dt>Hmotnost</dt><dd>2,3 kg</dd></div><div><dt>Nosnost</dt><dd>110 kg</dd></div></dl>
+          <p><strong>Způsob pohybu:</strong> rám se při kroku nadzvedne a posune. Čtyři pevné opěrné body tvoří stabilní základ.</p>
+          <p><strong>Co prověřit:</strong> schopnost rám opakovaně posouvat, potřebnou oporu a prostor v bytě.</p>
+          <a class="zp-link-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit pevné chodítko</a>
         </article>
-        <article class="zp-decision-card">
+        <article class="zp-walker-compare-card">
+          <p class="zp-kicker">02 · Přední kolečka</p>
           <h3>Dvoukolové chodítko</h3>
-          <p>Dvě přední kolečka umožní konstrukci posouvat bez zvedání celého rámu. Zadní nohy zůstávají opěrné.</p>
-          <p><strong>Ověřený příklad:</strong> BESCO WA21 — šířka 60 cm, hmotnost 2,8 kg, nosnost 110 kg.</p>
+          <p class="zp-walker-compare-model">Příklad: BESCO WA21</p>
+          <dl><div><dt>Šířka příkladu</dt><dd>60 cm</dd></div><div><dt>Hmotnost</dt><dd>2,8 kg</dd></div><div><dt>Nosnost</dt><dd>110 kg</dd></div></dl>
+          <p><strong>Způsob pohybu:</strong> dvě přední kolečka umožňují posouvat rám bez zvedání celé konstrukce. Zadní nohy zůstávají opěrné.</p>
+          <p><strong>Co prověřit:</strong> bezpečné ovládání, stav zadních opěr, povrch a skutečný průchod.</p>
+          <a class="zp-link-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/choditko-do-bytu-pro-seniory/#poradce-choditko-byt' ) ); ?>">Prověřit dvoukolové chodítko</a>
         </article>
-        <article class="zp-decision-card">
+        <article class="zp-walker-compare-card">
+          <p class="zp-kicker">03 · Čtyři kola a brzdy</p>
           <h3>Čtyřkolový rollátor</h3>
-          <p>Je určený pro plynulejší pohyb po kolečkách. Typicky má ruční brzdy a často i sedátko pro odpočinek.</p>
-          <p><strong>Ověřený příklad:</strong> MEYRA Ideal 3061982 — šířka 61,5 cm, nosnost 130 kg.</p>
-          <p><a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-uzke-dvere' ) ); ?>">Projde rollátor 60cm dveřmi? Zkontrolovat rozdílné údaje výrobce</a></p>
+          <p class="zp-walker-compare-model">Příklad: MEYRA Ideal 3061982</p>
+          <dl><div><dt>Šířka příkladu</dt><dd>61,5 cm</dd></div><div><dt>Hmotnost</dt><dd>Ověřit variantu</dd></div><div><dt>Nosnost</dt><dd>130 kg</dd></div></dl>
+          <p><strong>Způsob pohybu:</strong> plynulejší pohyb po kolečkách. Typicky ruční brzdy a často sedátko.</p>
+          <p><strong>Co prověřit:</strong> ruční i parkovací brzdy, bezpečné usedání, šířku, otočení a skutečný povrch trasy.</p>
+          <a class="zp-link-btn" data-zp-journey="advisor" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#poradce-rollator' ) ); ?>">Prověřit rollátor a brzdy</a>
         </article>
+      </div>
+      <p class="zp-muted-copy">Rozměry patří výhradně uvedeným příkladům, nikoli všem chodítkům stejného typu. U MEYRA se veřejné údaje pro různé varianty a revize liší; <a class="zp-text-link" href="<?php echo esc_url( home_url( '/rollator-pro-seniory/#rollator-uzke-dvere' ) ); ?>">ověřte rozdílné šířky a 60cm dveře</a>. <a class="zp-text-link" href="<?php echo esc_url( home_url( '/co-zmerit-pred-vyberem-choditka/#poptavka-choditka' ) ); ?>">Vyžádejte si přesné označení a rozměry před objednáním</a>.</p>
+      <p class="zp-disclaimer">Pokud člověk při chůzi potřebuje fyzickou pomoc, opakovaně padá nebo neovládá pomůcku bezpečně, výběr konkrétního výrobku musí předcházet odborné posouzení. Ani technické srovnání, ani poradce nepotvrzuje individuální vhodnost.</p>
+      <div class="zp-hero-actions">
+        <a class="zp-btn" href="#jak-ziskat-choditko">Porovnat nákup, půjčení a úhradu</a>
+        <a class="zp-text-link" href="<?php echo esc_url( home_url( '/pujceni-choditka/#porovnani-koupe-a-pujceni' ) ); ?>">Spočítat celkové náklady</a>
       </div>
     </div>
   </section>

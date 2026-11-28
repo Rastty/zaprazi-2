@@ -54,7 +54,7 @@ get_header();
         <p class="zp-guide-jump-label">V tomto průvodci</p>
         <ol class="zp-guide-jump-list">
           <li><a href="#rychla-cesta-na-epoukaz">Postup před nákupem</a></li>
-          <li><a href="#priprava-pro-lekare">Otázky pro lékaře</a></li>
+          <li><a href="#priprava-pro-lekare-nadpis">Otázky pro lékaře</a></li>
           <li><a href="#postup">Předpis a výdej</a></li>
           <li><a href="#kdyz-cekate-na-epoukaz">Dočasné řešení</a></li>
           <li><a href="#vyzvednuti-epoukazu">Vyzvednutí a platnost</a></li>
